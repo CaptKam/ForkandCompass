@@ -66,7 +66,7 @@ export default function CountryDetailScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, 16) + (Platform.OS === "web" ? 100 : 40) }}
+        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 100 }}
       >
         {/* Hero */}
         <View style={styles.heroContainer}>

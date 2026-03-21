@@ -64,7 +64,7 @@ export default function RecipeDetailScreen() {
       <StatusBar style="light" />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, 16) + (Platform.OS === "web" ? 100 : 80) }}
+        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 100 }}
       >
         {/* Hero */}
         <View style={styles.heroContainer}>
