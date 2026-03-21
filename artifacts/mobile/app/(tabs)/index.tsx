@@ -263,14 +263,18 @@ export default function DiscoverScreen() {
                   onPress={() => { haptic(); setActiveIndex(idx); }}
                   style={styles.destItem}
                 >
-                  <View style={[styles.destCircle, isActive && styles.destCircleActive]}>
-                    <Image
-                      source={{ uri: ONBOARDING_IMAGES[country.id] || country.image }}
-                      style={styles.destCircleImg}
-                      contentFit="cover"
-                    />
-                    <View style={styles.destFlagBadge}>
-                      <Text style={styles.destFlagEmoji}>{country.flag}</Text>
+                  {/* Outer ring — handles the active border without clipping */}
+                  <View style={[styles.destRing, isActive && styles.destRingActive]}>
+                    {/* Inner circle — clips the image to a circle */}
+                    <View style={styles.destCircle}>
+                      <Image
+                        source={{ uri: ONBOARDING_IMAGES[country.id] || country.image }}
+                        style={styles.destCircleImg}
+                        contentFit="cover"
+                      />
+                      <View style={styles.destFlagBadge}>
+                        <Text style={styles.destFlagEmoji}>{country.flag}</Text>
+                      </View>
                     </View>
                   </View>
                   <Text style={[styles.destLabel, isActive && styles.destLabelActive]} numberOfLines={1}>
@@ -595,16 +599,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 6,
   },
+  destRing: {
+    width: 94,
+    height: 94,
+    borderRadius: 47,
+    borderWidth: 2.5,
+    borderColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  destRingActive: {
+    borderColor: Colors.light.primary,
+  },
   destCircle: {
     width: 88,
     height: 88,
     borderRadius: 44,
-    borderWidth: 2.5,
-    borderColor: "transparent",
     overflow: "hidden",
-  },
-  destCircleActive: {
-    borderColor: Colors.light.primary,
   },
   destCircleImg: {
     width: 88,
