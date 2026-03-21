@@ -116,7 +116,10 @@ export default function RegionMenuScreen() {
                   <Pressable
                     key={recipe.id}
                     style={({ pressed }) => [styles.card, pressed && { opacity: 0.88 }]}
-                    onPress={() => toggleSelect(recipe.id)}
+                    onPress={() => {
+                      haptic();
+                      router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } });
+                    }}
                   >
                     <View style={[styles.cardImageWrap, isSelected && styles.cardImageSelected]}>
                       <Image
@@ -125,11 +128,21 @@ export default function RegionMenuScreen() {
                         contentFit="cover"
                         transition={reducedMotion ? 0 : 300}
                       />
-                      {isSelected && (
-                        <View style={styles.checkBadge}>
+                      {/* Checkmark select button — always visible in top-right corner */}
+                      <Pressable
+                        onPress={(e) => {
+                          e.stopPropagation?.();
+                          toggleSelect(recipe.id);
+                        }}
+                        hitSlop={8}
+                        style={[styles.checkBadge, isSelected && styles.checkBadgeSelected]}
+                      >
+                        {isSelected ? (
                           <Ionicons name="checkmark" size={14} color="#fff" />
-                        </View>
-                      )}
+                        ) : (
+                          <Ionicons name="add" size={14} color={Colors.light.primary} />
+                        )}
+                      </Pressable>
                     </View>
                     <View style={styles.cardMeta}>
                       <Text style={styles.cardName} numberOfLines={2}>{recipe.name}</Text>
@@ -285,17 +298,23 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 12,
     right: 12,
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: Colors.light.primary,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "rgba(254,249,243,0.92)",
+    borderWidth: 1.5,
+    borderColor: Colors.light.primary,
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.12,
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 3,
+  },
+  checkBadgeSelected: {
+    backgroundColor: Colors.light.primary,
+    borderColor: Colors.light.primary,
   },
   cardMeta: {
     marginTop: 14,
