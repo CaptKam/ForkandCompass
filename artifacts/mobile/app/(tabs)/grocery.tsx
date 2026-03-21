@@ -1,11 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
-import React, { useMemo } from "react";
+import { router } from "expo-router";
+import React, { useMemo, useState } from "react";
 import {
   Alert,
   FlatList,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -13,6 +15,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
+import InventoryPanel from "@/components/InventoryPanel";
 import { useApp } from "@/contexts/AppContext";
 import type { GroceryItem } from "@/constants/data";
 
@@ -40,9 +43,12 @@ interface CategoryGroup {
   items: GroceryItem[];
 }
 
+type GroceryTab = "list" | "kitchen";
+
 export default function GroceryScreen() {
   const insets = useSafeAreaInsets();
-  const { groceryItems, toggleGroceryItem, removeGroceryItem, clearGrocery } = useApp();
+  const { groceryItems, toggleGroceryItem, removeGroceryItem, clearGrocery, inventoryItems } = useApp();
+  const [activeTab, setActiveTab] = useState<GroceryTab>("list");
 
   const checkedCount = groceryItems.filter((i) => i.checked).length;
 
@@ -94,15 +100,61 @@ export default function GroceryScreen() {
   return (
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
-        <Text style={styles.headerTitle}>Grocery List</Text>
-        {groceryItems.length > 0 && (
-          <Pressable onPress={handleClear}>
-            <Text style={styles.clearAllText}>Clear All</Text>
-          </Pressable>
-        )}
+        <Text style={styles.headerTitle}>Grocery</Text>
+        <Pressable
+          style={styles.scanHeaderButton}
+          onPress={() => {
+            if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            router.push("/kitchen-scanner");
+          }}
+        >
+          <Ionicons name="scan" size={16} color={Colors.light.primary} />
+        </Pressable>
       </View>
 
-      {groceryItems.length === 0 ? (
+      {/* Tab switcher */}
+      <View style={styles.tabBar}>
+        <Pressable
+          style={[styles.tab, activeTab === "list" && styles.tabActive]}
+          onPress={() => setActiveTab("list")}
+        >
+          <Ionicons
+            name="list-outline"
+            size={16}
+            color={activeTab === "list" ? Colors.light.primary : Colors.light.secondary}
+          />
+          <Text style={[styles.tabText, activeTab === "list" && styles.tabTextActive]}>
+            Shopping List
+          </Text>
+        </Pressable>
+        <Pressable
+          style={[styles.tab, activeTab === "kitchen" && styles.tabActive]}
+          onPress={() => setActiveTab("kitchen")}
+        >
+          <Ionicons
+            name="home-outline"
+            size={16}
+            color={activeTab === "kitchen" ? Colors.light.primary : Colors.light.secondary}
+          />
+          <Text style={[styles.tabText, activeTab === "kitchen" && styles.tabTextActive]}>
+            My Kitchen
+          </Text>
+          {inventoryItems.length > 0 && (
+            <View style={styles.tabBadge}>
+              <Text style={styles.tabBadgeText}>{inventoryItems.length}</Text>
+            </View>
+          )}
+        </Pressable>
+      </View>
+
+      {activeTab === "kitchen" ? (
+        <ScrollView
+          contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 100 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <InventoryPanel />
+        </ScrollView>
+      ) : groceryItems.length === 0 ? (
         <View style={styles.emptyState}>
           <View style={styles.emptyIconContainer}>
             <Ionicons name="basket-outline" size={48} color={Colors.light.outlineVariant} />
@@ -204,6 +256,63 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: Colors.light.onSurface,
     letterSpacing: -0.5,
+  },
+  scanHeaderButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  // Tab bar
+  tabBar: {
+    flexDirection: "row",
+    marginHorizontal: 24,
+    marginBottom: 16,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 12,
+    padding: 3,
+  },
+  tab: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  tabActive: {
+    backgroundColor: Colors.light.surface,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  tabText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.secondary,
+  },
+  tabTextActive: {
+    color: Colors.light.primary,
+    fontFamily: "Inter_600SemiBold",
+  },
+  tabBadge: {
+    backgroundColor: Colors.light.primary,
+    borderRadius: 8,
+    minWidth: 18,
+    height: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 5,
+  },
+  tabBadgeText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 10,
+    color: "#FFFFFF",
   },
   clearAllText: {
     fontFamily: "Inter_500Medium",
