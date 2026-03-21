@@ -13,11 +13,32 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { useApp } from "@/contexts/AppContext";
+import { COUNTRIES } from "@/constants/data";
+import { useApp, type CookingLevel, type AppearanceMode } from "@/contexts/AppContext";
+
+const COOKING_LEVELS: { key: CookingLevel; label: string; description: string }[] = [
+  { key: "beginner", label: "Just learning", description: "Detailed step-by-step guidance" },
+  { key: "intermediate", label: "I've got this", description: "Standard professional recipes" },
+  { key: "advanced", label: "Culinary Pro", description: "Complex techniques & timing" },
+];
+
+const APPEARANCE_MODES: { key: AppearanceMode; label: string }[] = [
+  { key: "system", label: "System" },
+  { key: "light", label: "Light" },
+  { key: "dark", label: "Dark" },
+];
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
-  const { clearGrocery, setHasSeenWelcome } = useApp();
+  const {
+    clearGrocery,
+    setHasSeenWelcome,
+    cookingLevel,
+    setCookingLevel,
+    appearanceMode,
+    setAppearanceMode,
+    selectedCountryIds,
+  } = useApp();
 
   const handleReset = () => {
     if (Platform.OS === "web") {
@@ -42,13 +63,12 @@ export default function SettingsScreen() {
     );
   };
 
+  const bucketListCountries = COUNTRIES.filter((c) => selectedCountryIds.includes(c.id));
+
   return (
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
-        <View>
-          <Text style={styles.headerLabel}>Preferences</Text>
-          <Text style={styles.headerTitle}>Settings</Text>
-        </View>
+        <Text style={styles.headerTitle}>Settings</Text>
       </View>
 
       <ScrollView
@@ -56,41 +76,102 @@ export default function SettingsScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
+        {/* Cooking Level */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Cooking Level</Text>
+          <View style={styles.card}>
+            {COOKING_LEVELS.map((level, index) => {
+              const isSelected = cookingLevel === level.key;
+              const isLast = index === COOKING_LEVELS.length - 1;
+              return (
+                <Pressable
+                  key={level.key}
+                  onPress={() => {
+                    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    setCookingLevel(level.key);
+                  }}
+                  style={[
+                    styles.levelRow,
+                    !isLast && styles.levelRowBorder,
+                    isSelected && styles.levelRowSelected,
+                  ]}
+                >
+                  <Text style={[styles.levelLabel, isSelected && styles.levelLabelSelected]}>
+                    {level.label}
+                  </Text>
+                  <View style={[styles.radio, isSelected && styles.radioSelected]}>
+                    {isSelected && <View style={styles.radioInner} />}
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+
+        {/* Bucket List */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Your Bucket List</Text>
+          <View style={styles.card}>
+            <View style={styles.bucketFlagsRow}>
+              {bucketListCountries.length > 0 ? (
+                bucketListCountries.map((c) => (
+                  <Text key={c.id} style={styles.bucketFlag}>{c.flag}</Text>
+                ))
+              ) : (
+                <Text style={styles.bucketEmpty}>No countries selected yet</Text>
+              )}
+            </View>
+            <Pressable style={styles.editCountriesRow}>
+              <Text style={styles.editCountriesText}>Edit countries</Text>
+              <Ionicons name="chevron-forward" size={18} color={Colors.light.secondary} />
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Appearance */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Appearance</Text>
+          <View style={styles.appearanceToggle}>
+            {APPEARANCE_MODES.map((mode) => {
+              const isActive = appearanceMode === mode.key;
+              return (
+                <Pressable
+                  key={mode.key}
+                  onPress={() => {
+                    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    setAppearanceMode(mode.key);
+                  }}
+                  style={[styles.appearanceButton, isActive && styles.appearanceButtonActive]}
+                >
+                  <Text style={[styles.appearanceText, isActive && styles.appearanceTextActive]}>
+                    {mode.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+
+        {/* About */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>About</Text>
           <View style={styles.card}>
-            <View style={styles.aboutRow}>
-              <Text style={styles.aboutLabel}>App</Text>
-              <Text style={styles.aboutValue}>The Culinary Editorial</Text>
+            <View style={[styles.aboutRow, styles.aboutRowBorder]}>
+              <Text style={styles.aboutLabel}>Privacy Policy</Text>
+              <Ionicons name="open-outline" size={16} color={Colors.light.secondary} />
+            </View>
+            <View style={[styles.aboutRow, styles.aboutRowBorder]}>
+              <Text style={styles.aboutLabel}>Terms of Service</Text>
+              <Ionicons name="open-outline" size={16} color={Colors.light.secondary} />
             </View>
             <View style={styles.aboutRow}>
-              <Text style={styles.aboutLabel}>Version</Text>
-              <Text style={styles.aboutValue}>1.0.0</Text>
+              <Text style={styles.aboutLabelDim}>Version</Text>
+              <Text style={styles.aboutLabelDim}>1.0</Text>
             </View>
           </View>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>General</Text>
-          <View style={styles.card}>
-            <SettingsRow
-              icon="notifications-outline"
-              label="Notifications"
-              value="Off"
-            />
-            <SettingsRow
-              icon="language-outline"
-              label="Language"
-              value="English"
-            />
-            <SettingsRow
-              icon="moon-outline"
-              label="Appearance"
-              value="Light"
-            />
-          </View>
-        </View>
-
+        {/* Reset */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Data</Text>
           <Pressable
@@ -104,41 +185,8 @@ export default function SettingsScreen() {
             <Text style={styles.resetText}>Reset All Data</Text>
           </Pressable>
         </View>
-
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            Made with care for food lovers everywhere.
-          </Text>
-        </View>
       </ScrollView>
     </View>
-  );
-}
-
-function SettingsRow({
-  icon,
-  label,
-  value,
-}: {
-  icon: string;
-  label: string;
-  value: string;
-}) {
-  return (
-    <Pressable style={styles.settingsRow}>
-      <View style={styles.settingsRowLeft}>
-        <Ionicons
-          name={icon as any}
-          size={20}
-          color={Colors.light.secondary}
-        />
-        <Text style={styles.settingsLabel}>{label}</Text>
-      </View>
-      <View style={styles.settingsRowRight}>
-        <Text style={styles.settingsValue}>{value}</Text>
-        <Ionicons name="chevron-forward" size={16} color={Colors.light.outlineVariant} />
-      </View>
-    </Pressable>
   );
 }
 
@@ -151,28 +199,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 16,
   },
-  headerLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: Colors.light.primary,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-  },
   headerTitle: {
-    fontFamily: "NotoSerif_600SemiBold",
+    fontFamily: "NotoSerif_700Bold",
     fontSize: 28,
     color: Colors.light.onSurface,
     letterSpacing: -0.5,
   },
   section: {
     paddingHorizontal: 24,
-    marginBottom: 24,
+    marginBottom: 28,
   },
   sectionTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
+    fontSize: 12,
     color: Colors.light.secondary,
-    letterSpacing: 1,
+    letterSpacing: 1.5,
     textTransform: "uppercase",
     marginBottom: 12,
   },
@@ -181,6 +222,108 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     overflow: "hidden",
   },
+  // Cooking Level
+  levelRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  levelRowBorder: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(222,193,179,0.1)",
+  },
+  levelRowSelected: {
+    backgroundColor: "rgba(236,231,226,0.5)",
+  },
+  levelLabel: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+  },
+  levelLabelSelected: {
+    fontFamily: "Inter_600SemiBold",
+    color: Colors.light.primary,
+  },
+  radio: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "rgba(222,193,179,0.3)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  radioSelected: {
+    borderColor: Colors.light.primary,
+  },
+  radioInner: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: Colors.light.primary,
+  },
+  // Bucket List
+  bucketFlagsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  bucketFlag: {
+    fontSize: 24,
+  },
+  bucketEmpty: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.secondary,
+  },
+  editCountriesRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "rgba(222,193,179,0.1)",
+  },
+  editCountriesText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+  },
+  // Appearance
+  appearanceToggle: {
+    flexDirection: "row",
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 18,
+    padding: 4,
+  },
+  appearanceButton: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 14,
+    alignItems: "center",
+  },
+  appearanceButtonActive: {
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  appearanceText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: "rgba(29,27,24,0.6)",
+  },
+  appearanceTextActive: {
+    color: Colors.light.primary,
+  },
+  // About
   aboutRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -188,43 +331,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
   },
+  aboutRowBorder: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(222,193,179,0.1)",
+  },
   aboutLabel: {
     fontFamily: "Inter_400Regular",
     fontSize: 15,
     color: Colors.light.onSurface,
   },
-  aboutValue: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 15,
-    color: Colors.light.secondary,
-  },
-  settingsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-  },
-  settingsRowLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  settingsRowRight: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  settingsLabel: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 15,
-    color: Colors.light.onSurface,
-  },
-  settingsValue: {
+  aboutLabelDim: {
     fontFamily: "Inter_400Regular",
     fontSize: 15,
     color: Colors.light.secondary,
   },
+  // Reset
   resetButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -238,16 +359,5 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 15,
     color: Colors.light.error,
-  },
-  footer: {
-    paddingHorizontal: 24,
-    paddingVertical: 32,
-    alignItems: "center",
-  },
-  footerText: {
-    fontFamily: "NotoSerif_400Regular_Italic",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    textAlign: "center",
   },
 });
