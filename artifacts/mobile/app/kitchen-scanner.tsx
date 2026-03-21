@@ -181,7 +181,7 @@ export default function KitchenScannerScreen() {
       setAiProcessing(true);
       const photo = await cameraRef.current.takePictureAsync({
         base64: true,
-        quality: 0.4, // Lower quality = smaller payload, faster upload
+        quality: 0.7, // Enough quality to read product labels
         skipProcessing: true,
       });
 
@@ -206,7 +206,7 @@ export default function KitchenScannerScreen() {
   // Frame capture — AI detection or mock fallback
   useEffect(() => {
     if (scanning && speed !== "too_fast") {
-      if (useAI && Platform.OS !== "web") {
+      if (useAI) {
         // AI mode: capture real camera frames every 4s (slower to avoid API rate limits)
         scanInterval.current = setInterval(() => {
           setFrameCount((prev) => {
