@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "cwk93_mrlkw_ZEWyXdz8j"
+uri = "file://THE_CULINARY_EDITORIAL_SPEC.md"
+type = "text"
+title = "The Culinary Editorial — Full Project Spec"
