@@ -4,8 +4,11 @@ import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   Platform,
   Pressable,
   ScrollView,
@@ -13,6 +16,7 @@ import {
   Text,
   View,
 } from "react-native";
+
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
@@ -20,6 +24,8 @@ import { COUNTRIES, ONBOARDING_IMAGES, getCountryLocations, type Country } from 
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 // ─── Static editorial blurbs per country ─────────────────────────────────────
 
@@ -172,17 +178,28 @@ export default function DiscoverScreen() {
   const { countries } = useCountries();
   const reducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
+  const heroScrollRef = useRef<ScrollView>(null);
 
   const activeCountry = countries[activeIndex] ?? countries[0];
   const editorial = buildDiscoverData(activeCountry);
-  const heroImage = ONBOARDING_IMAGES[activeCountry.id] || activeCountry.heroImage || activeCountry.image;
-  const blurb = EDITORIAL_BLURBS[activeCountry.id] || activeCountry.description;
   const saved = isCountrySaved(activeCountry.id);
   const topPadding = Platform.OS === "web" ? 67 : insets.top;
 
   const haptic = (style: "light" | "medium" = "light") => {
     if (Platform.OS !== "web") {
       Haptics.impactAsync(style === "medium" ? Haptics.ImpactFeedbackStyle.Medium : Haptics.ImpactFeedbackStyle.Light);
+    }
+  };
+
+  const scrollHeroTo = (idx: number) => {
+    heroScrollRef.current?.scrollTo({ x: idx * SCREEN_WIDTH, animated: true });
+  };
+
+  const onHeroScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const idx = Math.round(e.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+    if (idx !== activeIndex && idx >= 0 && idx < countries.length) {
+      haptic();
+      setActiveIndex(idx);
     }
   };
 
@@ -194,23 +211,9 @@ export default function DiscoverScreen() {
         contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 100 }}
       >
 
-        {/* ── Hero ─────────────────────────────────────────────────── */}
-        <View style={styles.hero}>
-          <Image source={{ uri: heroImage }} style={StyleSheet.absoluteFill} contentFit="cover" transition={reducedMotion ? 0 : 400} />
-          <LinearGradient
-            colors={["rgba(0,0,0,0.78)", "rgba(0,0,0,0.38)", "transparent"]}
-            start={{ x: 0, y: 0.5 }}
-            end={{ x: 1, y: 0.5 }}
-            style={StyleSheet.absoluteFill}
-          />
-          <LinearGradient
-            colors={["rgba(0,0,0,0.4)", "transparent"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            style={[StyleSheet.absoluteFill, { height: 120 }]}
-          />
-
-          {/* Header */}
+        {/* ── Hero carousel ─────────────────────────────────────── */}
+        <View style={styles.heroWrap}>
+          {/* Shared top header sits above the scroll so it doesn't move */}
           <View style={[styles.heroHeader, { paddingTop: Platform.OS === "web" ? 50 : topPadding + 8 }]}>
             <Pressable onPress={() => haptic()} hitSlop={12}>
               <Ionicons name="menu" size={26} color="#FFFFFF" />
@@ -223,25 +226,71 @@ export default function DiscoverScreen() {
             </Pressable>
           </View>
 
-          {/* Left-aligned hero content */}
-          <View style={styles.heroContent}>
-            <Text style={styles.heroFlag}>{activeCountry.flag}</Text>
-            <Text style={styles.heroTitle}>{activeCountry.name}</Text>
-            <Text style={styles.heroBlurb}>{blurb}</Text>
-            <View style={styles.heroActions}>
+          {/* Paginated horizontal scroll */}
+          <ScrollView
+            ref={heroScrollRef}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={onHeroScroll}
+            scrollEventThrottle={16}
+            contentOffset={{ x: activeIndex * SCREEN_WIDTH, y: 0 }}
+            style={styles.heroScroll}
+          >
+            {countries.map((country, idx) => {
+              const img = ONBOARDING_IMAGES[country.id] || country.heroImage || country.image;
+              const blurb = EDITORIAL_BLURBS[country.id] || country.description;
+              const isSaved = isCountrySaved(country.id);
+              return (
+                <View key={country.id} style={styles.heroSlide}>
+                  <Image source={{ uri: img }} style={StyleSheet.absoluteFill} contentFit="cover" transition={reducedMotion ? 0 : 400} />
+                  <LinearGradient
+                    colors={["rgba(0,0,0,0.78)", "rgba(0,0,0,0.38)", "transparent"]}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    style={StyleSheet.absoluteFill}
+                  />
+                  <LinearGradient
+                    colors={["rgba(0,0,0,0.4)", "transparent"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                    style={[StyleSheet.absoluteFill, { height: 120 }]}
+                  />
+                  <View style={styles.heroContent}>
+                    <Text style={styles.heroFlag}>{country.flag}</Text>
+                    <Text style={styles.heroTitle}>{country.name}</Text>
+                    <Text style={styles.heroBlurb}>{blurb}</Text>
+                    <View style={styles.heroActions}>
+                      <Pressable
+                        onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: country.id } }); }}
+                        style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
+                      >
+                        <Text style={styles.letsGoText}>Let's Go</Text>
+                      </Pressable>
+                      <Pressable
+                        onPress={() => { haptic(); toggleSavedCountry(country.id); }}
+                        style={({ pressed }) => [styles.bookmarkButton, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
+                      >
+                        <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
+                      </Pressable>
+                    </View>
+                  </View>
+                </View>
+              );
+            })}
+          </ScrollView>
+
+          {/* Pagination dots */}
+          <View style={styles.heroDots}>
+            {countries.map((_, idx) => (
               <Pressable
-                onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
-                style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
+                key={idx}
+                onPress={() => { haptic(); setActiveIndex(idx); scrollHeroTo(idx); }}
+                hitSlop={8}
               >
-                <Text style={styles.letsGoText}>Let's Go</Text>
+                <View style={[styles.heroDot, idx === activeIndex && styles.heroDotActive]} />
               </Pressable>
-              <Pressable
-                onPress={() => { haptic(); toggleSavedCountry(activeCountry.id); }}
-                style={({ pressed }) => [styles.bookmarkButton, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
-              >
-                <Ionicons name={saved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
-              </Pressable>
-            </View>
+            ))}
           </View>
         </View>
 
@@ -260,7 +309,7 @@ export default function DiscoverScreen() {
               return (
                 <Pressable
                   key={country.id}
-                  onPress={() => { haptic(); setActiveIndex(idx); }}
+                  onPress={() => { haptic(); setActiveIndex(idx); scrollHeroTo(idx); }}
                   style={styles.destItem}
                 >
                   {/* Outer ring — handles the active border without clipping */}
@@ -482,12 +531,46 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.surface,
   },
 
-  // Hero
-  hero: {
+  // Hero carousel
+  heroWrap: {
     height: 560,
     backgroundColor: "#000",
+    overflow: "hidden",
+  },
+  heroScroll: {
+    flex: 1,
+  },
+  heroSlide: {
+    width: SCREEN_WIDTH,
+    height: 560,
+  },
+  heroDots: {
+    position: "absolute",
+    bottom: 20,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 8,
+  },
+  heroDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  heroDotActive: {
+    width: 22,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.light.primary,
   },
   heroHeader: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
