@@ -26,23 +26,22 @@ import {
   type ScannerSpeed,
 } from "@/constants/inventory";
 import { useApp } from "@/contexts/AppContext";
+import { detectItemsWithVision, isVisionAvailable } from "@/services/visionService";
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get("window");
 
-// Mock detection engine — simulates AI item recognition
-// In production this would call a vision API with captured frames
+// Fallback mock detection when no AI API key is configured
 function simulateDetection(zone: ScanZone, frameIndex: number): DetectedItem[] {
   const zoneItems = COMMON_KITCHEN_ITEMS.filter((i) => i.zone === zone);
   if (zoneItems.length === 0) return [];
 
-  // Progressively "discover" items as user scans
   const discoveryRate = Math.min(frameIndex * 2, zoneItems.length);
   const discovered: DetectedItem[] = [];
 
   for (let i = 0; i < discoveryRate; i++) {
     const item = zoneItems[i];
     const brandIdx = Math.floor(Math.random() * Math.max(1, item.brands.length));
-    const confidence = 0.72 + Math.random() * 0.26; // 0.72 - 0.98
+    const confidence = 0.72 + Math.random() * 0.26;
 
     discovered.push({
       label: item.name,
@@ -61,6 +60,9 @@ function simulateDetection(zone: ScanZone, frameIndex: number): DetectedItem[] {
   return discovered;
 }
 
+// Whether we have a real AI backend available
+const AI_ENABLED = isVisionAvailable();
+
 export default function KitchenScannerScreen() {
   const insets = useSafeAreaInsets();
   const { addInventoryItems } = useApp();
@@ -75,6 +77,11 @@ export default function KitchenScannerScreen() {
   const [frameCount, setFrameCount] = useState(0);
   const [scanProgress, setScanProgress] = useState(0);
   const [showSpeedWarning, setShowSpeedWarning] = useState(false);
+
+  // Camera ref for capturing frames
+  const cameraRef = useRef<CameraView>(null);
+  const [useAI, setUseAI] = useState(AI_ENABLED);
+  const [aiProcessing, setAiProcessing] = useState(false);
 
   // Animation refs
   const scanLineAnim = useRef(new Animated.Value(0)).current;
@@ -185,49 +192,93 @@ export default function KitchenScannerScreen() {
     }
   }, [scanning, pulseAnim]);
 
-  // Frame capture simulation (mock detection every 1.5s)
+  /** Merge new detections into existing list, keeping highest confidence per label */
+  const mergeDetections = useCallback((newItems: DetectedItem[]) => {
+    setDetectedItems((existing) => {
+      const merged = [...existing];
+      for (const item of newItems) {
+        const idx = merged.findIndex(
+          (e) => e.label.toLowerCase() === item.label.toLowerCase(),
+        );
+        if (idx >= 0) {
+          if (item.confidence > merged[idx].confidence) {
+            merged[idx] = item;
+          }
+        } else {
+          merged.push(item);
+        }
+      }
+      return merged;
+    });
+  }, []);
+
+  /** Capture a frame from the camera and run AI detection */
+  const captureAndDetect = useCallback(async () => {
+    if (!cameraRef.current || aiProcessing) return;
+
+    try {
+      setAiProcessing(true);
+      const photo = await cameraRef.current.takePictureAsync({
+        base64: true,
+        quality: 0.4, // Lower quality = smaller payload, faster upload
+        skipProcessing: true,
+      });
+
+      if (photo?.base64) {
+        const aiItems = await detectItemsWithVision(photo.base64, selectedZone);
+        if (aiItems && aiItems.length > 0) {
+          mergeDetections(aiItems);
+          if (Platform.OS !== "web") {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }
+        }
+      }
+    } catch (error) {
+      console.warn("[Scanner] AI frame capture failed:", error);
+    } finally {
+      setAiProcessing(false);
+    }
+  }, [selectedZone, aiProcessing, mergeDetections]);
+
+  // Frame capture — AI detection or mock fallback
   useEffect(() => {
     if (scanning && speed !== "too_fast") {
-      scanInterval.current = setInterval(() => {
-        setFrameCount((prev) => {
-          const next = prev + 1;
-          const newItems = simulateDetection(selectedZone, next);
+      if (useAI && Platform.OS !== "web") {
+        // AI mode: capture real camera frames every 4s (slower to avoid API rate limits)
+        scanInterval.current = setInterval(() => {
+          setFrameCount((prev) => {
+            const next = prev + 1;
+            const zoneTotal = COMMON_KITCHEN_ITEMS.filter((i) => i.zone === selectedZone).length;
+            setScanProgress((p) => Math.min(1, Math.max(p, next / Math.max(zoneTotal / 2, 5))));
+            return next;
+          });
+          captureAndDetect();
+        }, 4000);
+      } else {
+        // Mock mode: simulated detection every 1.5s
+        scanInterval.current = setInterval(() => {
+          setFrameCount((prev) => {
+            const next = prev + 1;
+            const newItems = simulateDetection(selectedZone, next);
+            mergeDetections(newItems);
 
-          setDetectedItems((existing) => {
-            // Merge: keep highest confidence per item name
-            const merged = [...existing];
-            for (const item of newItems) {
-              const idx = merged.findIndex(
-                (e) => e.label.toLowerCase() === item.label.toLowerCase()
-              );
-              if (idx >= 0) {
-                if (item.confidence > merged[idx].confidence) {
-                  merged[idx] = item;
-                }
-              } else {
-                merged.push(item);
-              }
-            }
-            return merged;
+            const zoneTotal = COMMON_KITCHEN_ITEMS.filter((i) => i.zone === selectedZone).length;
+            setScanProgress(Math.min(1, next / Math.max(zoneTotal / 2, 5)));
+
+            return next;
           });
 
-          // Progress based on items found vs total in zone
-          const zoneTotal = COMMON_KITCHEN_ITEMS.filter((i) => i.zone === selectedZone).length;
-          setScanProgress(Math.min(1, next / Math.max(zoneTotal / 2, 5)));
-
-          return next;
-        });
-
-        if (Platform.OS !== "web") {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }
-      }, 1500);
+          if (Platform.OS !== "web") {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }
+        }, 1500);
+      }
     }
 
     return () => {
       if (scanInterval.current) clearInterval(scanInterval.current);
     };
-  }, [scanning, speed, selectedZone]);
+  }, [scanning, speed, selectedZone, useAI, captureAndDetect, mergeDetections]);
 
   // Progress bar animation
   useEffect(() => {
@@ -331,7 +382,7 @@ export default function KitchenScannerScreen() {
           <Text style={styles.heroEmoji}>{"\u{1F4F7}"}</Text>
           <Text style={styles.heroTitle}>Scan What You Have</Text>
           <Text style={styles.heroSubtitle}>
-            Walk slowly around your kitchen. We'll detect brands, quantities, and build your
+            Walk slowly around your kitchen. {useAI ? "Claude AI" : "Our scanner"} will detect brands, quantities, and build your
             inventory in real-time.
           </Text>
         </View>
@@ -410,7 +461,7 @@ export default function KitchenScannerScreen() {
       <View style={styles.scannerContainer}>
         {/* Camera view */}
         {Platform.OS !== "web" && permission?.granted ? (
-          <CameraView style={StyleSheet.absoluteFill} facing="back" />
+          <CameraView ref={cameraRef} style={StyleSheet.absoluteFill} facing="back" />
         ) : (
           <View style={[StyleSheet.absoluteFill, styles.mockCamera]}>
             <Text style={styles.mockCameraText}>
@@ -490,9 +541,16 @@ export default function KitchenScannerScreen() {
             </Text>
           </View>
 
-          <View style={styles.scannerLiveBadge}>
-            <View style={styles.liveDot} />
-            <Text style={styles.liveText}>LIVE</Text>
+          <View style={styles.scannerBadges}>
+            {useAI && (
+              <View style={[styles.scannerLiveBadge, styles.aiBadge]}>
+                <Text style={styles.liveText}>{aiProcessing ? "AI..." : "AI"}</Text>
+              </View>
+            )}
+            <View style={styles.scannerLiveBadge}>
+              <View style={styles.liveDot} />
+              <Text style={styles.liveText}>LIVE</Text>
+            </View>
           </View>
         </View>
 
@@ -988,6 +1046,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "rgba(255,255,255,0.7)",
   },
+  scannerBadges: {
+    alignItems: "flex-end",
+    gap: 4,
+  },
   scannerLiveBadge: {
     flexDirection: "row",
     alignItems: "center",
@@ -996,6 +1058,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 10,
     paddingVertical: 5,
+  },
+  aiBadge: {
+    backgroundColor: "rgba(99,102,241,0.9)",
   },
   liveDot: {
     width: 6,
