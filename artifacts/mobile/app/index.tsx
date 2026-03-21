@@ -14,6 +14,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
+import { useThemeColors } from "@/hooks/useThemeColors";
 import { WELCOME_HERO_IMAGE } from "@/constants/data";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -21,6 +22,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function WelcomeScreen() {
   const { hasSeenWelcome, hasCompletedOnboarding, setHasSeenWelcome } = useApp();
+  const colors = useThemeColors();
   const insets = useSafeAreaInsets();
 
   React.useEffect(() => {
@@ -39,7 +41,7 @@ export default function WelcomeScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.onSurface }]}>
       <StatusBar style="light" />
       <Image
         source={{ uri: WELCOME_HERO_IMAGE }}
@@ -70,11 +72,12 @@ export default function WelcomeScreen() {
             onPress={handleStart}
             style={({ pressed }) => [
               styles.button,
+              { backgroundColor: colors.primary },
               pressed && styles.buttonPressed,
             ]}
           >
-            <Text style={styles.buttonText}>Start Your Journey</Text>
-            <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
+            <Text style={[styles.buttonText, { color: colors.onPrimary }]}>Start Your Journey</Text>
+            <Ionicons name="arrow-forward" size={20} color={colors.onPrimary} />
           </Pressable>
         </View>
       </View>
@@ -85,7 +88,6 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1D1B18",
   },
   content: {
     flex: 1,
@@ -112,7 +114,6 @@ const styles = StyleSheet.create({
     maxWidth: 320,
   },
   button: {
-    backgroundColor: "#9A4100",
     paddingVertical: 16,
     paddingHorizontal: 28,
     borderRadius: 24,
@@ -128,6 +129,5 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
   },
 });
