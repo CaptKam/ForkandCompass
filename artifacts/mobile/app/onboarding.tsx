@@ -16,9 +16,9 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import Colors from "@/constants/colors";
 import { COUNTRIES, ONBOARDING_IMAGES } from "@/constants/data";
 import { useApp } from "@/contexts/AppContext";
+import { useThemeColors } from "@/hooks/useThemeColors";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_GAP = 16;
@@ -27,6 +27,8 @@ const CARD_WIDTH = (SCREEN_WIDTH - 48 - CARD_GAP) / 2;
 export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
   const { selectedCountryIds, toggleCountrySelection, setHasCompletedOnboarding } = useApp();
+  const colors = useThemeColors();
+  const isDark = colors.background === "#121110";
 
   const handleStart = () => {
     if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -35,8 +37,8 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="dark" />
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
+      <StatusBar style={isDark ? "light" : "dark"} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[
@@ -45,8 +47,8 @@ export default function OnboardingScreen() {
         ]}
       >
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>Where do you{"\n"}want to go?</Text>
-          <Text style={styles.subtitle}>Pick the countries on your bucket list</Text>
+          <Text style={[styles.title, { color: colors.onSurface }]}>Where do you{"\n"}want to go?</Text>
+          <Text style={[styles.subtitle, { color: colors.secondary }]}>Pick the countries on your bucket list</Text>
         </View>
 
         <View style={styles.grid}>
@@ -62,7 +64,8 @@ export default function OnboardingScreen() {
                 }}
                 style={({ pressed }) => [
                   styles.card,
-                  isSelected && styles.cardSelected,
+                  { backgroundColor: colors.surfaceContainerHigh },
+                  isSelected && [styles.cardSelected, { borderColor: colors.primary }],
                   pressed && { transform: [{ scale: 0.95 }] },
                 ]}
               >
@@ -82,8 +85,8 @@ export default function OnboardingScreen() {
                   </Text>
                 </View>
                 {isSelected && (
-                  <View style={styles.checkBadge}>
-                    <Ionicons name="checkmark" size={14} color="#FFFFFF" />
+                  <View style={[styles.checkBadge, { backgroundColor: colors.primary }]}>
+                    <Ionicons name="checkmark" size={14} color={colors.onPrimary} />
                   </View>
                 )}
               </Pressable>
@@ -92,15 +95,26 @@ export default function OnboardingScreen() {
         </View>
       </ScrollView>
 
-      <View style={[styles.bottomBar, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
+      <View
+        style={[
+          styles.bottomBar,
+          {
+            paddingBottom: Math.max(insets.bottom, 16) + 8,
+            backgroundColor: isDark
+              ? "rgba(18,17,16,0.8)"
+              : "rgba(254,249,243,0.8)",
+          },
+        ]}
+      >
         <Pressable
           onPress={handleStart}
           style={({ pressed }) => [
             styles.startButton,
+            { backgroundColor: colors.primary },
             pressed && { transform: [{ scale: 0.97 }], opacity: 0.9 },
           ]}
         >
-          <Text style={styles.startButtonText}>Start Exploring</Text>
+          <Text style={[styles.startButtonText, { color: colors.onPrimary }]}>Start Exploring</Text>
         </Pressable>
       </View>
     </View>
@@ -110,7 +124,6 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.light.surface,
   },
   scrollContent: {
     paddingHorizontal: 24,
@@ -123,7 +136,6 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 28,
-    color: Colors.light.onSurface,
     textAlign: "center",
     letterSpacing: -0.5,
     lineHeight: 36,
@@ -131,7 +143,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: Colors.light.secondary,
     marginTop: 8,
     textAlign: "center",
   },
@@ -145,11 +156,9 @@ const styles = StyleSheet.create({
     aspectRatio: 4 / 5,
     borderRadius: 16,
     overflow: "hidden",
-    backgroundColor: Colors.light.surfaceContainerHigh,
   },
   cardSelected: {
     borderWidth: 3,
-    borderColor: Colors.light.primary,
   },
   cardImage: {
     width: "100%",
@@ -177,7 +186,6 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     borderRadius: 13,
-    backgroundColor: Colors.light.primary,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -188,11 +196,10 @@ const styles = StyleSheet.create({
     right: 0,
     paddingHorizontal: 24,
     paddingTop: 16,
-    backgroundColor: "rgba(254,249,243,0.8)",
+    // @ts-expect-error backdropFilter is web-only
     backdropFilter: "blur(20px)",
   },
   startButton: {
-    backgroundColor: Colors.light.primary,
     paddingVertical: 16,
     borderRadius: 24,
     alignItems: "center",
@@ -201,6 +208,5 @@ const styles = StyleSheet.create({
   startButtonText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
   },
 });

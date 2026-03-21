@@ -5,10 +5,10 @@ import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
 import { SymbolView } from "expo-symbols";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
-import { Platform, StyleSheet, View, useColorScheme } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import Colors from "@/constants/colors";
+import { useThemeColors } from "@/hooks/useThemeColors";
 
 function NativeTabLayout() {
   return (
@@ -37,13 +37,15 @@ function ClassicTabLayout() {
   const safeAreaInsets = useSafeAreaInsets();
   const isIOS = Platform.OS === "ios";
   const isWeb = Platform.OS === "web";
+  const colors = useThemeColors();
+  const isDark = colors.background === "#121110";
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: Colors.light.primary,
-        tabBarInactiveTintColor: Colors.light.secondary,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.secondary,
         tabBarLabelStyle: {
           fontFamily: "Inter_500Medium",
           fontSize: 10,
@@ -54,7 +56,9 @@ function ClassicTabLayout() {
           position: "absolute" as const,
           backgroundColor: isIOS
             ? "transparent"
-            : "rgba(254,249,243,0.95)",
+            : isDark
+              ? "rgba(18,17,16,0.95)"
+              : "rgba(254,249,243,0.95)",
           borderTopWidth: 0,
           elevation: 0,
           paddingBottom: safeAreaInsets.bottom,
@@ -66,14 +70,18 @@ function ClassicTabLayout() {
           isIOS ? (
             <BlurView
               intensity={80}
-              tint="light"
+              tint={isDark ? "dark" : "light"}
               style={[StyleSheet.absoluteFill, { borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: "hidden" }]}
             />
           ) : isWeb ? (
             <View
               style={[
                 StyleSheet.absoluteFill,
-                { backgroundColor: "rgba(254,249,243,0.95)" },
+                {
+                  backgroundColor: isDark
+                    ? "rgba(18,17,16,0.95)"
+                    : "rgba(254,249,243,0.95)",
+                },
               ]}
             />
           ) : null,
