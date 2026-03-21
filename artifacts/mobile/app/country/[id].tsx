@@ -60,7 +60,7 @@ export default function CountryDetailScreen() {
           style={styles.headerButton}
         >
           <Ionicons
-            name={saved ? "heart" : "heart-outline"}
+            name={saved ? "bookmark" : "bookmark-outline"}
             size={22}
             color={Colors.light.primary}
           />
