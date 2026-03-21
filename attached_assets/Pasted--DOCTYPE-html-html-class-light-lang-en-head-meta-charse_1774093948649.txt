@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Serif:ital,wght@0,600;1,400;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f8f3ed",
+                        "secondary-fixed-dim": "#e1c19c",
+                        "tertiary-fixed-dim": "#9ccaff",
+                        "on-tertiary-fixed-variant": "#00497a",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8a7266",
+                        "on-background": "#1d1b18",
+                        "error": "#ba1a1a",
+                        "tertiary": "#005f9c",
+                        "on-primary-fixed": "#341100",
+                        "primary-fixed-dim": "#ffb690",
+                        "on-tertiary-container": "#fdfcff",
+                        "secondary-container": "#fbdab3",
+                        "surface-container-high": "#ece7e2",
+                        "primary": "#9a4100",
+                        "on-surface-variant": "#574238",
+                        "on-secondary-fixed": "#291802",
+                        "surface-container": "#f2ede7",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "surface-variant": "#e6e2dc",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f5f0ea",
+                        "surface-container-highest": "#e6e2dc",
+                        "secondary": "#725a3c",
+                        "tertiary-fixed": "#d0e4ff",
+                        "surface": "#fef9f3",
+                        "outline-variant": "#dec1b3",
+                        "on-primary-fixed-variant": "#783100",
+                        "inverse-surface": "#32302c",
+                        "surface-bright": "#fef9f3",
+                        "surface-dim": "#ded9d4",
+                        "on-error": "#ffffff",
+                        "primary-container": "#bf550a",
+                        "tertiary-container": "#0079c4",
+                        "surface-tint": "#9e4300",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#feddb6",
+                        "on-secondary-fixed-variant": "#584326",
+                        "background": "#fef9f3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#001d35",
+                        "on-surface": "#1d1b18",
+                        "inverse-primary": "#ffb690",
+                        "primary-fixed": "#ffdbcb",
+                        "on-secondary-container": "#775e3f"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/20">
+<!-- Top App Bar (Shared Component Strategy) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#FEF9F3] dark:bg-[#0D0D0D]">
+<button class="hover:opacity-80 transition-opacity scale-95 duration-200">
+<span class="material-symbols-outlined text-orange-900 dark:text-orange-200">arrow_back</span>
+</button>
+<div class="flex items-center gap-2">
+<span class="text-xl">🇮🇹</span>
+<h1 class="font-headline font-semibold italic tracking-tight text-orange-900 dark:text-orange-200 text-lg">Tuscany</h1>
+</div>
+<button class="hover:opacity-80 transition-opacity scale-95 duration-200">
+<span class="material-symbols-outlined text-orange-900 dark:text-orange-200">favorite</span>
+</button>
+</header>
+<main class="pt-20 pb-40 px-6 max-w-[390px] mx-auto">
+<!-- Hero Image Bleed -->
+<section class="mb-10 -mx-6">
+<div class="relative h-[280px] w-full overflow-hidden">
+<img alt="Tuscan Landscape" class="w-full h-full object-cover" data-alt="Sun-drenched rolling hills of Tuscany with cypress trees" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByP4pj7L7seEvBhB7xQFBTvpGySuiGtHHjbfTBnhim0wwD1LtUY0deut4f_FV5DOlzWCn2s_4peE1RhgGQ_o46aWB0_emJXBfJORauBTNmdvlu7Cr5Z-t4USOVgcScW8ZZlV-lD3-FoYuL6oGU1ETtGJtxB4QK4AWNp0lSOCx6QZ_mOCA2TURVEUv7IB_b9Gk-1qKAvE0KpQMzalAoqDdXYRWjmI-ESZeY7puKJkrpOJJyzqKT8VNZaOISEpSyidBh5I_qClZ5_3jl"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+</div>
+</section>
+<!-- Welcome Card -->
+<section class="mb-10 p-6 bg-surface-container-low border-l-4 border-primary rounded-r-xl">
+<p class="font-headline italic text-lg leading-relaxed text-on-surface-variant">
+                "In Tuscany, dinner is an act of faith in simplicity..."
+            </p>
+</section>
+<!-- Dining Etiquette (Collapsible style) -->
+<section class="mb-10 bg-surface-container-high rounded-xl p-5 flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="text-2xl">🍽️</span>
+<h2 class="font-headline font-semibold text-on-surface">How They Eat</h2>
+</div>
+<span class="material-symbols-outlined text-secondary">expand_more</span>
+</section>
+<!-- Course Sequence -->
+<div class="space-y-12">
+<!-- Course 1 -->
+<article class="relative">
+<div class="mb-3">
+<span class="font-label text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Start Here</span>
+</div>
+<div class="flex flex-col gap-4">
+<div class="aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-highest">
+<img alt="Bruschetta" class="w-full h-full object-cover" data-alt="Toasted bread topped with vibrant red tomatoes and basil" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnSdJ36OzOjkWciyKvvKXoezHejEEHl6NdPqoyl1y3IPExFjMCfoMWDe984ucTduzhsPw6i7gwqt_f1l6egDPFaf0nbl6VUZoh2isYjb06WqcPT9dRtJO0fRRdBkQ6JvtqzsfEPhPITZlrO8uTGgihMubqiQ2AerUs33di5fQxU5bs1-a9Xaq6Bv2vId9rgc8dPOFe-2aXPC0qmOoqFKXOHmbkZPheN9k9VLHaLaBn2Lh5XEHywLEfGcSB38gRMB_CRxGDDt0-FegN"/>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-baseline">
+<h3 class="font-headline text-2xl text-on-surface">Bruschetta al Pomodoro</h3>
+<span class="text-primary font-headline italic">I</span>
+</div>
+<div class="flex gap-3 text-secondary text-xs font-medium">
+<span>15 min</span>
+<span>•</span>
+<span>Easy</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed text-sm">Flame-grilled bread rubbed with garlic and topped with sun-ripened tomatoes and cold-pressed oil.</p>
+<div class="mt-4 p-4 rounded-xl bg-surface-container-low/50 border border-outline-variant/10 italic text-sm text-secondary">
+<span class="font-semibold not-italic text-primary block mb-1">Did You Know?</span>
+                            Authentic Tuscan bread is traditionally made without salt, a legacy of medieval salt taxes.
+                        </div>
+</div>
+</div>
+</article>
+<!-- Course 2 -->
+<article class="relative">
+<div class="mb-3">
+<span class="font-label text-[10px] font-bold tracking-[0.2em] text-primary uppercase">The Main Event</span>
+</div>
+<div class="flex flex-col gap-4">
+<div class="aspect-[16/9] rounded-xl overflow-hidden bg-surface-container-highest">
+<img alt="Costolette di Maiale" class="w-full h-full object-cover" data-alt="Juicy grilled pork ribs with rosemary sprigs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvamJG3ZcuW7UOe34EopYCzC4CGywU8eLCdyYHN9pUvqB-rJNki92qJXEeFOgCXzmiyWpmLNsn5QIFI6zZbWWMDBH7MhKYi5ACkAWNlsqnEHmfTmM37eUvSMUYqaGAVdXHTFUB7GdQZBks2BsaP4HQ_zl--gtdjWeQxfEkVs-793La67J2N8sLzkRxdiYO2qncAgtXixWiCfIfL7WJK1vJocgqCFa_be9VVN6q8RaJsDpHcgK-F5vLZW1aouBPjTYapO4vwfglIm2j"/>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-baseline">
+<h3 class="font-headline text-2xl text-on-surface">Costolette di Maiale</h3>
+<span class="text-primary font-headline italic">II</span>
+</div>
+<div class="flex gap-3 text-secondary text-xs font-medium">
+<span>45 min</span>
+<span>•</span>
+<span>Medium</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed text-sm">Slow-roasted pork ribs infused with wild rosemary, fennel seeds, and a splash of Chianti Classico.</p>
+</div>
+</div>
+</article>
+</div>
+<!-- Next Journey CTA -->
+<section class="mt-20 p-8 rounded-2xl bg-surface-container-highest flex flex-col items-center text-center gap-4">
+<span class="font-label text-[10px] font-bold tracking-[0.15em] text-secondary uppercase">Next Journey</span>
+<h4 class="font-headline text-xl text-on-surface leading-snug">If you loved Tuscany, try Provence next →</h4>
+<div class="w-12 h-[1px] bg-outline-variant/30"></div>
+</section>
+</main>
+<!-- Sticky Bottom Interaction Layer -->
+<div class="fixed bottom-0 w-full z-50 pointer-events-none">
+<!-- CTA Container -->
+<div class="px-6 pb-2 pointer-events-auto">
+<button class="w-full h-14 bg-primary text-on-primary font-label font-semibold rounded-xl shadow-lg flex items-center justify-center gap-2 transform active:scale-95 transition-transform bg-gradient-to-b from-[#C75B12] to-[#9A4100]">
+<span>Get the Ingredients (23 items)</span>
+</button>
+</div>
+<!-- Bottom Navigation Bar (Shared Component Strategy) -->
+<nav class="pointer-events-auto bg-[#FEF9F3]/90 dark:bg-[#0D0D0D]/90 backdrop-blur-md rounded-t-3xl shadow-[0_-12px_40px_0_rgba(29,27,24,0.06)] flex justify-around items-center px-4 pb-6 pt-3">
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="explore">explore</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#ECE7E2] dark:bg-[#252A32] text-[#9A4100] dark:text-[#FFB690] rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="restaurant" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest">Cook</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="shopping_basket">shopping_basket</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest">Grocery</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="bookmark">bookmark</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest">Settings</span>
+</a>
+</nav>
+</div>
+</body></html>

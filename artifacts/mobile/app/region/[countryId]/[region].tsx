@@ -1,9 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import {
   Platform,
   Pressable,
@@ -34,13 +35,25 @@ export default function RegionMenuScreen() {
   const insets = useSafeAreaInsets();
   const { country } = useCountry(countryId ?? "");
   const reducedMotion = useReducedMotion();
+  const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const haptic = () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
+  const toggleSelect = (id: string) => {
+    haptic();
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
   const regionName = decodeURIComponent(region ?? "");
   const sections = country ? groupByCategory(country.recipes) : [];
+  const selectedCount = selected.size;
 
   if (!country) {
     return (
@@ -71,7 +84,7 @@ export default function RegionMenuScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 130 : insets.bottom + 130 }}
+        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + 140 }}
       >
         {/* Hero header */}
         <View style={[styles.heroHeader, { paddingTop: Platform.OS === "web" ? 72 : insets.top + 56 }]}>
@@ -85,7 +98,7 @@ export default function RegionMenuScreen() {
           <View key={category} style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>{category}</Text>
-              {recipes.length > 2 && (
+              {recipes.length > 1 && (
                 <Text style={styles.scrollHint}>Scroll to explore</Text>
               )}
             </View>
@@ -94,54 +107,79 @@ export default function RegionMenuScreen() {
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.cardRow}
-              snapToInterval={256 + 16}
+              snapToInterval={220 + 16}
               decelerationRate="fast"
             >
-              {recipes.map((recipe) => (
-                <Pressable
-                  key={recipe.id}
-                  style={({ pressed }) => [styles.card, pressed && { opacity: 0.88 }]}
-                  onPress={() => {
-                    haptic();
-                    router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } });
-                  }}
-                >
-                  <View style={styles.cardImageWrap}>
-                    <Image
-                      source={{ uri: recipe.image }}
-                      style={StyleSheet.absoluteFill}
-                      contentFit="cover"
-                      transition={reducedMotion ? 0 : 300}
-                    />
-                  </View>
-                  <View style={styles.cardMeta}>
-                    <Text style={styles.cardName} numberOfLines={2}>{recipe.name}</Text>
-                    <View style={styles.cardBadges}>
-                      <Text style={styles.badge}>{recipe.time}</Text>
-                      <Text style={styles.badgeDot}>•</Text>
-                      <Text style={styles.badge}>{recipe.difficulty}</Text>
+              {recipes.map((recipe) => {
+                const isSelected = selected.has(recipe.id);
+                return (
+                  <Pressable
+                    key={recipe.id}
+                    style={({ pressed }) => [styles.card, pressed && { opacity: 0.88 }]}
+                    onPress={() => toggleSelect(recipe.id)}
+                  >
+                    <View style={[styles.cardImageWrap, isSelected && styles.cardImageSelected]}>
+                      <Image
+                        source={{ uri: recipe.image }}
+                        style={StyleSheet.absoluteFill}
+                        contentFit="cover"
+                        transition={reducedMotion ? 0 : 300}
+                      />
+                      {isSelected && (
+                        <View style={styles.checkBadge}>
+                          <Ionicons name="checkmark" size={14} color="#fff" />
+                        </View>
+                      )}
                     </View>
-                  </View>
-                </Pressable>
-              ))}
+                    <View style={styles.cardMeta}>
+                      <Text style={styles.cardName} numberOfLines={2}>{recipe.name}</Text>
+                      <View style={styles.cardBadges}>
+                        <Text style={styles.badge}>{recipe.time}</Text>
+                        <Text style={styles.badgeDot}>•</Text>
+                        <Text style={styles.badge}>{recipe.difficulty}</Text>
+                      </View>
+                    </View>
+                  </Pressable>
+                );
+              })}
             </ScrollView>
           </View>
         ))}
       </ScrollView>
 
       {/* Sticky bottom CTA */}
-      <View style={[styles.stickyBottom, { paddingBottom: Platform.OS === "web" ? 24 : insets.bottom + 16 }]}>
+      <LinearGradient
+        colors={["transparent", Colors.light.surface, Colors.light.surface]}
+        locations={[0, 0.4, 1]}
+        style={[styles.stickyBottom, { paddingBottom: Platform.OS === "web" ? 24 : insets.bottom + 16 }]}
+      >
         <Pressable
-          style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
+          style={({ pressed }) => [
+            styles.ctaButton,
+            selectedCount === 0 && styles.ctaButtonDisabled,
+            pressed && { opacity: 0.88 },
+          ]}
           onPress={() => {
+            if (selectedCount === 0) return;
             haptic();
-            router.back();
+            router.push({
+              pathname: "/experience/[countryId]/[region]",
+              params: {
+                countryId: countryId ?? "",
+                region: region ?? "",
+                selected: Array.from(selected).join(","),
+              },
+            });
           }}
         >
-          <Text style={styles.ctaText}>Review Your Experience</Text>
-          <Ionicons name="arrow-forward" size={18} color="#fff" />
+          <Text style={styles.ctaText}>
+            {selectedCount === 0
+              ? "Select a dish to continue"
+              : `Review Your Experience (${selectedCount})`}
+          </Text>
+          {selectedCount > 0 && <Ionicons name="arrow-forward" size={18} color="#fff" />}
         </Pressable>
-      </View>
+      </LinearGradient>
     </View>
   );
 }
@@ -162,8 +200,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 24,
     paddingBottom: 14,
-    backgroundColor: "rgba(254,249,243,0.85)",
-    backdropFilter: "blur(12px)",
+    backgroundColor: "rgba(254,249,243,0.9)",
   },
   headerButton: {
     width: 40,
@@ -238,6 +275,27 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
+    borderWidth: 2,
+    borderColor: "transparent",
+  },
+  cardImageSelected: {
+    borderColor: Colors.light.primary,
+  },
+  checkBadge: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: Colors.light.primary,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
   },
   cardMeta: {
     marginTop: 14,
@@ -272,9 +330,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingHorizontal: 24,
-    paddingTop: 48,
-    backgroundColor: "transparent",
-    backgroundImage: "linear-gradient(to bottom, transparent, #FEF9F3)",
+    paddingTop: 56,
   },
   ctaButton: {
     backgroundColor: Colors.light.primary,
@@ -289,6 +345,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 24,
     elevation: 8,
+  },
+  ctaButtonDisabled: {
+    backgroundColor: Colors.light.outlineVariant,
+    shadowOpacity: 0,
+    elevation: 0,
   },
   ctaText: {
     fontFamily: "NotoSerif_600SemiBold",
