@@ -1,0 +1,135 @@
+
+Kyoto
+Precision, season, and the spirit of Umami.
+
+Japan Highlands
+Hidden Gems
+
+Japan Coast
+By the Sea
+Tonight's Tasting Menu
+
+Appetizer
+Miso Soup
+A warming bowl of dashi broth with silky miso paste, tofu, and wakame seaweed. The soul of Japanese comfort food.
+
+Main Course
+Onigiri
+Hand-formed rice balls filled with savory ingredients and wrapped in crisp nori seaweed.
+“Japanese cuisine is a reverent practice of simplicity and balance, where every ingredient is honored and every dish tells a story of the season.”
+The Editorial Team
+The Spice Market
+View All
+
+Dashi stock
+Traditional soup
+
+Japanese short-grain rice
+Snack
+Cultural Etiquette
+Communal Dining
+In Japan, sharing food is a cornerstone of culture and hospitality.
+Signature Drink
+Every meal tells a story through the local beverages of Japan.
+The Sacred Table
+Mealtimes in Japan are unhurried moments of connection and gratitude.
+Heritage Spices
+The soul of the Kyoto kitchen
+
+Miso Soup
+A warming bowl of dashi broth with silky miso paste, tofu, and wakame seaweed. The soul of Japanese comfort food.
+Traditional soup
+
+Onigiri
+Hand-formed rice balls filled with savory ingredients and wrapped in crisp nori seaweed.
+Snack
+The Cook's Ledger
+“An extraordinary journey through the flavors of Japan. Every recipe told a story I will not forget.”
+A. Chen \u2014 New York
+“The cultural context makes every dish come alive. I felt truly transported to Japan.”
+JM
+J. Martin \u2014 Paris
+Must-Try Street Food
+The vibrant flavors of the Kyoto
+
+Miso Soup
+Traditional soup
+
+Onigiri
+Snack
+Related World Stories
+
+Italy
+The art of slow living and pasta alchemy.
+
+Morocco
+Spice markets, tagines, and the warmth of Marrakech.
+
+Mexico
+Bold flavors born from ancient traditions.
+Discover
+Search
+Grocery
+Saved
+Profile
+Failed to compile
+Syntax Error
+Identifier 'countries' has already been declared.
+Source
+ 
+ 187 |
+   
+const
+ reducedMotion 
+=
+ useReducedMotion()
+;
+ 
+ 188 |
+   
+const
+ [activeIndex
+,
+ setActiveIndex] 
+=
+ useState(
+2
+)
+;
+ 
+// default to Morocco (index 2)
+>
+ 189 |
+   
+const
+ { countries } 
+=
+ useCountries()
+;
+ 
+     |
+           
+^
+ 
+ 190 |
+ 
+ 191 |
+   
+const
+ activeCountry 
+=
+ countries[activeIndex] 
+?
+?
+ countries[
+0
+]
+;
+ 
+ 192 |
+   
+const
+ editorial 
+=
+ buildDiscoverData(activeCountry)
+;
