@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
     right: 0,
     paddingHorizontal: 24,
     paddingTop: 16,
+    // @ts-expect-error backdropFilter is web-only
     backdropFilter: "blur(20px)",
   },
   startButton: {

@@ -4,7 +4,7 @@ import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   Platform,
   Pressable,
@@ -16,10 +16,43 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { ONBOARDING_IMAGES } from "@/constants/data";
+import { COUNTRIES, ONBOARDING_IMAGES, getAllRecipes } from "@/constants/data";
+import type { Country, Recipe } from "@/constants/data";
 import Colors from "@/constants/colors";
-import { useSearch } from "@/hooks/useSearch";
-import type { NormalizedSearchResult } from "@/hooks/types";
+
+// ─── Search logic ─────────────────────────────────────────────────────────────
+
+type SearchResult =
+  | { type: "country"; item: Country }
+  | { type: "recipe"; item: Recipe };
+
+const ALL_RECIPES = getAllRecipes();
+
+function searchItems(query: string): SearchResult[] {
+  const q = query.toLowerCase().trim();
+  if (!q) return [];
+  const results: SearchResult[] = [];
+  for (const country of COUNTRIES) {
+    if (
+      country.name.toLowerCase().includes(q) ||
+      country.description.toLowerCase().includes(q) ||
+      country.region.toLowerCase().includes(q)
+    ) {
+      results.push({ type: "country", item: country });
+    }
+  }
+  for (const recipe of ALL_RECIPES) {
+    if (
+      recipe.name.toLowerCase().includes(q) ||
+      recipe.description.toLowerCase().includes(q) ||
+      recipe.category.toLowerCase().includes(q) ||
+      recipe.ingredients.some((ing) => ing.name.toLowerCase().includes(q))
+    ) {
+      results.push({ type: "recipe", item: recipe });
+    }
+  }
+  return results;
+}
 
 // ─── Static editorial data ────────────────────────────────────────────────────
 
@@ -41,7 +74,7 @@ export default function SearchScreen() {
   const [query, setQuery] = useState("");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
-  const { results } = useSearch(query);
+  const results = useMemo(() => searchItems(query), [query]);
   const topPadding = Platform.OS === "web" ? 67 : insets.top;
 
   const haptic = () => { if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); };
