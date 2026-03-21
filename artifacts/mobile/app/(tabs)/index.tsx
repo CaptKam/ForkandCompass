@@ -215,9 +215,12 @@ export default function DiscoverScreen() {
             <Pressable onPress={() => haptic()} hitSlop={12}>
               <Ionicons name="menu" size={26} color="#FFFFFF" />
             </Pressable>
-            <View style={styles.heroAvatar}>
+            <Pressable
+              onPress={() => { haptic(); router.push("/(tabs)/settings"); }}
+              style={styles.heroAvatar}
+            >
               <Ionicons name="person" size={15} color="rgba(255,255,255,0.8)" />
-            </View>
+            </Pressable>
           </View>
 
           {/* Left-aligned hero content */}
