@@ -14,3 +14,166 @@ import * as zod from "zod";
 export const HealthCheckResponse = zod.object({
   status: zod.string(),
 });
+
+/**
+ * Returns all countries with cuisine metadata
+ * @summary List all countries
+ */
+export const ListCountriesResponseItem = zod.object({
+  id: zod.string(),
+  name: zod.string(),
+  flag: zod.string(),
+  description: zod.string(),
+  image: zod.string(),
+  cuisineLabel: zod.string(),
+  rating: zod.number(),
+  recipeCount: zod.number(),
+  createdAt: zod.date(),
+});
+export const ListCountriesResponse = zod.array(ListCountriesResponseItem);
+
+/**
+ * Returns a country and all its associated recipes
+ * @summary Get a single country with its recipes
+ */
+export const GetCountryParams = zod.object({
+  id: zod.coerce.string(),
+});
+
+export const GetCountryResponse = zod
+  .object({
+    id: zod.string(),
+    name: zod.string(),
+    flag: zod.string(),
+    description: zod.string(),
+    image: zod.string(),
+    cuisineLabel: zod.string(),
+    rating: zod.number(),
+    recipeCount: zod.number(),
+    createdAt: zod.date(),
+  })
+  .and(
+    zod.object({
+      recipes: zod.array(
+        zod.object({
+          id: zod.string(),
+          countryId: zod.string(),
+          title: zod.string(),
+          description: zod.string(),
+          image: zod.string(),
+          prepTime: zod.string(),
+          cookTime: zod.string(),
+          servings: zod.number(),
+          difficulty: zod.string(),
+          ingredients: zod.array(
+            zod.object({
+              id: zod.string(),
+              name: zod.string(),
+              amount: zod.string(),
+            }),
+          ),
+          steps: zod.array(
+            zod.object({
+              id: zod.string(),
+              title: zod.string(),
+              instruction: zod.string(),
+              materials: zod.array(zod.string()),
+            }),
+          ),
+          tips: zod.array(zod.string()).nullish(),
+          createdAt: zod.date(),
+        }),
+      ),
+    }),
+  );
+
+/**
+ * Returns a single recipe by ID
+ * @summary Get a single recipe
+ */
+export const GetRecipeParams = zod.object({
+  id: zod.coerce.string(),
+});
+
+export const GetRecipeResponse = zod.object({
+  id: zod.string(),
+  countryId: zod.string(),
+  title: zod.string(),
+  description: zod.string(),
+  image: zod.string(),
+  prepTime: zod.string(),
+  cookTime: zod.string(),
+  servings: zod.number(),
+  difficulty: zod.string(),
+  ingredients: zod.array(
+    zod.object({
+      id: zod.string(),
+      name: zod.string(),
+      amount: zod.string(),
+    }),
+  ),
+  steps: zod.array(
+    zod.object({
+      id: zod.string(),
+      title: zod.string(),
+      instruction: zod.string(),
+      materials: zod.array(zod.string()),
+    }),
+  ),
+  tips: zod.array(zod.string()).nullish(),
+  createdAt: zod.date(),
+});
+
+/**
+ * Search countries and recipes by a query term
+ * @summary Search countries and recipes
+ */
+export const SearchQueryParams = zod.object({
+  q: zod.coerce.string(),
+});
+
+export const SearchResponse = zod.object({
+  countries: zod.array(
+    zod.object({
+      id: zod.string(),
+      name: zod.string(),
+      flag: zod.string(),
+      description: zod.string(),
+      image: zod.string(),
+      cuisineLabel: zod.string(),
+      rating: zod.number(),
+      recipeCount: zod.number(),
+      createdAt: zod.date(),
+    }),
+  ),
+  recipes: zod.array(
+    zod.object({
+      id: zod.string(),
+      countryId: zod.string(),
+      title: zod.string(),
+      description: zod.string(),
+      image: zod.string(),
+      prepTime: zod.string(),
+      cookTime: zod.string(),
+      servings: zod.number(),
+      difficulty: zod.string(),
+      ingredients: zod.array(
+        zod.object({
+          id: zod.string(),
+          name: zod.string(),
+          amount: zod.string(),
+        }),
+      ),
+      steps: zod.array(
+        zod.object({
+          id: zod.string(),
+          title: zod.string(),
+          instruction: zod.string(),
+          materials: zod.array(zod.string()),
+        }),
+      ),
+      tips: zod.array(zod.string()).nullish(),
+      createdAt: zod.date(),
+    }),
+  ),
+});

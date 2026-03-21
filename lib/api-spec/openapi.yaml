@@ -10,6 +10,12 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: countries
+    description: Country operations
+  - name: recipes
+    description: Recipe operations
+  - name: search
+    description: Search operations
 paths:
   /healthz:
     get:
@@ -24,6 +30,90 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /countries:
+    get:
+      operationId: listCountries
+      tags: [countries]
+      summary: List all countries
+      description: Returns all countries with cuisine metadata
+      responses:
+        "200":
+          description: List of countries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Country"
+  /countries/{id}:
+    get:
+      operationId: getCountry
+      tags: [countries]
+      summary: Get a single country with its recipes
+      description: Returns a country and all its associated recipes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Country with recipes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountryWithRecipes"
+        "404":
+          description: Country not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /recipes/{id}:
+    get:
+      operationId: getRecipe
+      tags: [recipes]
+      summary: Get a single recipe
+      description: Returns a single recipe by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A recipe
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Recipe"
+        "404":
+          description: Recipe not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /search:
+    get:
+      operationId: search
+      tags: [search]
+      summary: Search countries and recipes
+      description: Search countries and recipes by a query term
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResults"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +123,148 @@ components:
           type: string
       required:
         - status
-
+    Country:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        flag:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        cuisineLabel:
+          type: string
+        rating:
+          type: number
+        recipeCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - flag
+        - description
+        - image
+        - cuisineLabel
+        - rating
+        - recipeCount
+        - createdAt
+    Ingredient:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        amount:
+          type: string
+      required:
+        - id
+        - name
+        - amount
+    CookStep:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        instruction:
+          type: string
+        materials:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - title
+        - instruction
+        - materials
+    Recipe:
+      type: object
+      properties:
+        id:
+          type: string
+        countryId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        prepTime:
+          type: string
+        cookTime:
+          type: string
+        servings:
+          type: integer
+        difficulty:
+          type: string
+        ingredients:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ingredient"
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/CookStep"
+        tips:
+          type: array
+          items:
+            type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - countryId
+        - title
+        - description
+        - image
+        - prepTime
+        - cookTime
+        - servings
+        - difficulty
+        - ingredients
+        - steps
+        - createdAt
+    CountryWithRecipes:
+      allOf:
+        - $ref: "#/components/schemas/Country"
+        - type: object
+          properties:
+            recipes:
+              type: array
+              items:
+                $ref: "#/components/schemas/Recipe"
+          required:
+            - recipes
+    SearchResults:
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            $ref: "#/components/schemas/Country"
+        recipes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Recipe"
+      required:
+        - countries
+        - recipes
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
