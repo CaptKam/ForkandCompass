@@ -220,25 +220,25 @@ export default function DiscoverScreen() {
             </View>
           </View>
 
-          {/* Bookmark */}
-          <Pressable
-            onPress={() => { haptic(); toggleSavedCountry(activeCountry.id); }}
-            style={({ pressed }) => [styles.bookmarkButton, { top: topPadding + 56 }, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
-          >
-            <Ionicons name={saved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
-          </Pressable>
-
           {/* Left-aligned hero content */}
           <View style={styles.heroContent}>
             <Text style={styles.heroFlag}>{activeCountry.flag}</Text>
             <Text style={styles.heroTitle}>{activeCountry.name}</Text>
             <Text style={styles.heroBlurb}>{blurb}</Text>
-            <Pressable
-              onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
-              style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
-            >
-              <Text style={styles.letsGoText}>Let's Go</Text>
-            </Pressable>
+            <View style={styles.heroActions}>
+              <Pressable
+                onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+                style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
+              >
+                <Text style={styles.letsGoText}>Let's Go</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => { haptic(); toggleSavedCountry(activeCountry.id); }}
+                style={({ pressed }) => [styles.bookmarkButton, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
+              >
+                <Ionicons name={saved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
+              </Pressable>
+            </View>
           </View>
         </View>
 
@@ -498,15 +498,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   bookmarkButton: {
-    position: "absolute",
-    right: 24,
-    zIndex: 20,
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "rgba(255,255,255,0.1)",
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: "rgba(255,255,255,0.12)",
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.15)",
+    borderColor: "rgba(255,255,255,0.2)",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -514,7 +511,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 48,
     left: 32,
-    right: "30%",
+    right: 32,
+  },
+  heroActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
   },
   heroFlag: {
     fontSize: 28,
