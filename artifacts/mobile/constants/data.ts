@@ -473,7 +473,7 @@ export const WELCOME_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public
 export const LANDMARK_IMAGES: Record<string, string> = {
   italy:   "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1200&q=85&fit=crop",
   japan:   "https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=1200&q=85&fit=crop",
-  morocco: "https://images.unsplash.com/photo-1539020140153-e479b8c22e69?w=1200&q=85&fit=crop",
+  morocco: "https://images.unsplash.com/photo-1517573847294-84690dbc5df8?w=1200&q=85&fit=crop",
   mexico:  "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1200&q=85&fit=crop",
   india:   "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200&q=85&fit=crop",
   thailand:"https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&q=85&fit=crop",
@@ -497,12 +497,12 @@ const REGION_IMAGES: Record<string, CountryLocation[]> = {
     { name: "Osaka", subtitle: "The Kitchen of Japan",   image: "https://images.unsplash.com/photo-1590559899731-a382839e5549?w=900&q=85&fit=crop" },
   ],
   morocco: [
-    { name: "Marrakech",         subtitle: "The Red City",    image: "https://images.unsplash.com/photo-1539020140153-e479b8c22e69?w=900&q=85&fit=crop" },
-    { name: "Chefchaouen",       subtitle: "The Blue Pearl",  image: "https://images.unsplash.com/photo-1602002418082-a4443978a5dc?w=900&q=85&fit=crop" },
+    { name: "Marrakech",         subtitle: "The Red City",    image: "https://images.unsplash.com/photo-1772580310425-63f2290c2ba7?w=900&q=85&fit=crop" },
+    { name: "Chefchaouen",       subtitle: "The Blue Pearl",  image: "https://images.unsplash.com/photo-1730581822492-8a55ce0b7fde?w=900&q=85&fit=crop" },
     { name: "The Atlas Mountains",subtitle: "High Peaks",     image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=900&q=85&fit=crop" },
   ],
   mexico: [
-    { name: "Oaxaca",       subtitle: "The Heart of Mole",   image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85&fit=crop" },
+    { name: "Oaxaca",       subtitle: "The Heart of Mole",   image: "https://images.unsplash.com/photo-1599596706606-70eae0feaa6b?w=900&q=85&fit=crop" },
     { name: "Yucatán",      subtitle: "Mayan Flavours",      image: "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=900&q=85&fit=crop" },
     { name: "Mexico City",  subtitle: "The Capital Table",   image: "https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=900&q=85&fit=crop" },
   ],
