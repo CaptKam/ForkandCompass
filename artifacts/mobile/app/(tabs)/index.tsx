@@ -599,18 +599,17 @@ const styles = StyleSheet.create({
     width: 88,
     height: 88,
     borderRadius: 44,
-    padding: 3,
     borderWidth: 2.5,
     borderColor: "transparent",
-    overflow: "visible",
+    overflow: "hidden",
   },
   destCircleActive: {
     borderColor: Colors.light.primary,
   },
   destCircleImg: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 88,
+    height: 88,
+    borderRadius: 44,
   },
   destFlagBadge: {
     position: "absolute",
