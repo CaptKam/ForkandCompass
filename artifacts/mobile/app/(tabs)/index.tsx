@@ -211,7 +211,7 @@ export default function DiscoverScreen() {
           />
 
           {/* Header */}
-          <View style={[styles.heroHeader, { paddingTop: topPadding + 8 }]}>
+          <View style={[styles.heroHeader, { paddingTop: Platform.OS === "web" ? 50 : topPadding + 8 }]}>
             <Pressable onPress={() => haptic()} hitSlop={12}>
               <Ionicons name="menu" size={26} color="#FFFFFF" />
             </Pressable>
