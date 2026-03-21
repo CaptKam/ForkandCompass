@@ -14,12 +14,14 @@ export interface Recipe {
   title: string;
   description: string;
   image: string;
-  prepTime: string;
-  cookTime: string;
-  servings: number;
+  category?: string | null;
+  prepTime?: string | null;
+  cookTime?: string | null;
+  servings?: number | null;
   difficulty: string;
   ingredients: Ingredient[];
   steps: CookStep[];
-  tips?: string[] | null;
+  culturalNote?: string | null;
+  tips: string[];
   createdAt: Date;
 }

@@ -20,11 +20,12 @@ import type { Recipe } from "@/constants/data";
 import { useCountry } from "@/hooks/useCountry";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useApp } from "@/contexts/AppContext";
+import { useCountry } from "@/hooks/useCountry";
 
 export default function CountryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
-  const { country } = useCountry(id);
+  const { country } = useCountry(id ?? "");
   const { isCountrySaved, toggleSavedCountry } = useApp();
   const reducedMotion = useReducedMotion();
 

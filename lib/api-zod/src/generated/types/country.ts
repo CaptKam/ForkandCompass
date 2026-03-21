@@ -10,9 +10,12 @@ export interface Country {
   id: string;
   name: string;
   flag: string;
+  tagline?: string | null;
   description: string;
+  region?: string | null;
   image: string;
-  cuisineLabel: string;
+  heroImage?: string | null;
+  cuisineLabel?: string | null;
   rating: number;
   recipeCount: number;
   createdAt: Date;

@@ -8,10 +8,10 @@
 
 export * from "./cookStep";
 export * from "./country";
-export * from "./countryWithRecipes";
+export * from "./countryDetail";
 export * from "./errorResponse";
 export * from "./healthStatus";
 export * from "./ingredient";
 export * from "./recipe";
 export * from "./searchParams";
-export * from "./searchResults";
+export * from "./searchResult";

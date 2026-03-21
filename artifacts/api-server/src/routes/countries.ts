@@ -1,36 +1,48 @@
 import { Router, type IRouter } from "express";
-import { eq } from "drizzle-orm";
 import { db, countriesTable, recipesTable } from "@workspace/db";
+import { eq } from "drizzle-orm";
 
 const router: IRouter = Router();
 
-// GET /countries — list all countries
 router.get("/countries", async (_req, res) => {
-  const countries = await db.select().from(countriesTable);
-  res.json(countries);
+  try {
+    const countries = await db
+      .select()
+      .from(countriesTable)
+      .orderBy(countriesTable.name);
+    res.json(countries);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch countries" });
+  }
 });
 
-// GET /countries/:id — single country with its recipes
 router.get("/countries/:id", async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const country = await db
-    .select()
-    .from(countriesTable)
-    .where(eq(countriesTable.id, id))
-    .limit(1);
+    const [country] = await db
+      .select()
+      .from(countriesTable)
+      .where(eq(countriesTable.id, id))
+      .limit(1);
 
-  if (country.length === 0) {
-    res.status(404).json({ error: "Country not found" });
-    return;
+    if (!country) {
+      res.status(404).json({ error: "Country not found" });
+      return;
+    }
+
+    const recipes = await db
+      .select()
+      .from(recipesTable)
+      .where(eq(recipesTable.countryId, id))
+      .orderBy(recipesTable.title);
+
+    res.json({ ...country, recipes });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch country" });
   }
-
-  const recipes = await db
-    .select()
-    .from(recipesTable)
-    .where(eq(recipesTable.countryId, id));
-
-  res.json({ ...country[0], recipes });
 });
 
 export default router;

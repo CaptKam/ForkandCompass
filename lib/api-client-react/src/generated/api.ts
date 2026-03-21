@@ -15,12 +15,12 @@ import type {
 
 import type {
   Country,
-  CountryWithRecipes,
+  CountryDetail,
   ErrorResponse,
   HealthStatus,
   Recipe,
   SearchParams,
-  SearchResults,
+  SearchResult,
 } from "./api.schemas";
 
 import { customFetch } from "../custom-fetch";
@@ -109,7 +109,7 @@ export function useHealthCheck<
 }
 
 /**
- * Returns all countries with cuisine metadata
+ * Returns all available countries
  * @summary List all countries
  */
 export const getListCountriesUrl = () => {
@@ -185,8 +185,8 @@ export function useListCountries<
 }
 
 /**
- * Returns a country and all its associated recipes
- * @summary Get a single country with its recipes
+ * Returns a single country and all its associated recipes
+ * @summary Get a country with its recipes
  */
 export const getGetCountryUrl = (id: string) => {
   return `/api/countries/${id}`;
@@ -195,8 +195,8 @@ export const getGetCountryUrl = (id: string) => {
 export const getCountry = async (
   id: string,
   options?: RequestInit,
-): Promise<CountryWithRecipes> => {
-  return customFetch<CountryWithRecipes>(getGetCountryUrl(id), {
+): Promise<CountryDetail> => {
+  return customFetch<CountryDetail>(getGetCountryUrl(id), {
     ...options,
     method: "GET",
   });
@@ -246,7 +246,7 @@ export type GetCountryQueryResult = NonNullable<
 export type GetCountryQueryError = ErrorType<ErrorResponse>;
 
 /**
- * @summary Get a single country with its recipes
+ * @summary Get a country with its recipes
  */
 
 export function useGetCountry<
@@ -359,7 +359,7 @@ export function useGetRecipe<
 }
 
 /**
- * Search countries and recipes by a query term
+ * Searches countries and recipes by name or description
  * @summary Search countries and recipes
  */
 export const getSearchUrl = (params: SearchParams) => {
@@ -381,8 +381,8 @@ export const getSearchUrl = (params: SearchParams) => {
 export const search = async (
   params: SearchParams,
   options?: RequestInit,
-): Promise<SearchResults> => {
-  return customFetch<SearchResults>(getSearchUrl(params), {
+): Promise<SearchResult> => {
+  return customFetch<SearchResult>(getSearchUrl(params), {
     ...options,
     method: "GET",
   });

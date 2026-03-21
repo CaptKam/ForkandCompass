@@ -30,12 +30,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
   /countries:
     get:
       operationId: listCountries
       tags: [countries]
       summary: List all countries
-      description: Returns all countries with cuisine metadata
+      description: Returns all available countries
       responses:
         "200":
           description: List of countries
@@ -45,12 +46,13 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Country"
+
   /countries/{id}:
     get:
       operationId: getCountry
       tags: [countries]
-      summary: Get a single country with its recipes
-      description: Returns a country and all its associated recipes
+      summary: Get a country with its recipes
+      description: Returns a single country and all its associated recipes
       parameters:
         - name: id
           in: path
@@ -59,17 +61,18 @@ paths:
             type: string
       responses:
         "200":
-          description: Country with recipes
+          description: Country detail with recipes
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountryWithRecipes"
+                $ref: "#/components/schemas/CountryDetail"
         "404":
           description: Country not found
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+
   /recipes/{id}:
     get:
       operationId: getRecipe
@@ -84,7 +87,7 @@ paths:
             type: string
       responses:
         "200":
-          description: A recipe
+          description: Recipe detail
           content:
             application/json:
               schema:
@@ -95,12 +98,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+
   /search:
     get:
       operationId: search
       tags: [search]
       summary: Search countries and recipes
-      description: Search countries and recipes by a query term
+      description: Searches countries and recipes by name or description
       parameters:
         - name: q
           in: query
@@ -113,7 +117,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SearchResults"
+                $ref: "#/components/schemas/SearchResult"
+
 components:
   schemas:
     HealthStatus:
@@ -123,38 +128,7 @@ components:
           type: string
       required:
         - status
-    Country:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        flag:
-          type: string
-        description:
-          type: string
-        image:
-          type: string
-        cuisineLabel:
-          type: string
-        rating:
-          type: number
-        recipeCount:
-          type: integer
-        createdAt:
-          type: string
-          format: date-time
-      required:
-        - id
-        - name
-        - flag
-        - description
-        - image
-        - cuisineLabel
-        - rating
-        - recipeCount
-        - createdAt
+
     Ingredient:
       type: object
       properties:
@@ -168,6 +142,7 @@ components:
         - id
         - name
         - amount
+
     CookStep:
       type: object
       properties:
@@ -186,6 +161,7 @@ components:
         - title
         - instruction
         - materials
+
     Recipe:
       type: object
       properties:
@@ -199,12 +175,18 @@ components:
           type: string
         image:
           type: string
+        category:
+          type: string
+          nullable: true
         prepTime:
           type: string
+          nullable: true
         cookTime:
           type: string
+          nullable: true
         servings:
           type: integer
+          nullable: true
         difficulty:
           type: string
         ingredients:
@@ -215,11 +197,13 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CookStep"
+        culturalNote:
+          type: string
+          nullable: true
         tips:
           type: array
           items:
             type: string
-          nullable: true
         createdAt:
           type: string
           format: date-time
@@ -229,14 +213,55 @@ components:
         - title
         - description
         - image
-        - prepTime
-        - cookTime
-        - servings
         - difficulty
         - ingredients
         - steps
+        - tips
         - createdAt
-    CountryWithRecipes:
+
+    Country:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        flag:
+          type: string
+        tagline:
+          type: string
+          nullable: true
+        description:
+          type: string
+        region:
+          type: string
+          nullable: true
+        image:
+          type: string
+        heroImage:
+          type: string
+          nullable: true
+        cuisineLabel:
+          type: string
+          nullable: true
+        rating:
+          type: number
+        recipeCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - flag
+        - description
+        - image
+        - rating
+        - recipeCount
+        - createdAt
+
+    CountryDetail:
       allOf:
         - $ref: "#/components/schemas/Country"
         - type: object
@@ -247,7 +272,8 @@ components:
                 $ref: "#/components/schemas/Recipe"
           required:
             - recipes
-    SearchResults:
+
+    SearchResult:
       type: object
       properties:
         countries:
@@ -261,6 +287,7 @@ components:
       required:
         - countries
         - recipes
+
     ErrorResponse:
       type: object
       properties:
@@ -268,3 +295,4 @@ components:
           type: string
       required:
         - error
+

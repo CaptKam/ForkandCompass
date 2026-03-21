@@ -9,18 +9,6 @@ export interface HealthStatus {
   status: string;
 }
 
-export interface Country {
-  id: string;
-  name: string;
-  flag: string;
-  description: string;
-  image: string;
-  cuisineLabel: string;
-  rating: number;
-  recipeCount: number;
-  createdAt: string;
-}
-
 export interface Ingredient {
   id: string;
   name: string;
@@ -40,21 +28,38 @@ export interface Recipe {
   title: string;
   description: string;
   image: string;
-  prepTime: string;
-  cookTime: string;
-  servings: number;
+  category?: string | null;
+  prepTime?: string | null;
+  cookTime?: string | null;
+  servings?: number | null;
   difficulty: string;
   ingredients: Ingredient[];
   steps: CookStep[];
-  tips?: string[] | null;
+  culturalNote?: string | null;
+  tips: string[];
   createdAt: string;
 }
 
-export type CountryWithRecipes = Country & {
+export interface Country {
+  id: string;
+  name: string;
+  flag: string;
+  tagline?: string | null;
+  description: string;
+  region?: string | null;
+  image: string;
+  heroImage?: string | null;
+  cuisineLabel?: string | null;
+  rating: number;
+  recipeCount: number;
+  createdAt: string;
+}
+
+export type CountryDetail = Country & {
   recipes: Recipe[];
 };
 
-export interface SearchResults {
+export interface SearchResult {
   countries: Country[];
   recipes: Recipe[];
 }
