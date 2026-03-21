@@ -16,7 +16,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
-import { COUNTRIES, ONBOARDING_IMAGES, type Country } from "@/constants/data";
+import { COUNTRIES, ONBOARDING_IMAGES, getCountryLocations, type Country } from "@/constants/data";
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
@@ -55,11 +55,6 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
 
   const byCountry: Record<string, Partial<DiscoverEditorial>> = {
     morocco: {
-      locations: [
-        { name: "Marrakech", subtitle: "The Red City", image: img },
-        { name: "Chefchaouen", subtitle: "The Blue Pearl", image: imgAlt },
-        { name: "The Atlas Mountains", subtitle: "High Peaks", image: img },
-      ],
       quote: "\u201CIn Morocco, a guest is a gift. We do not just share a meal; we share our history, our warmth, and our home through the art of the spice.\u201D",
       quoteAttrib: "The Editorial Team",
       etiquette: [
@@ -94,11 +89,6 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
       ],
     },
     italy: {
-      locations: [
-        { name: "Tuscany", subtitle: "The Eternal Countryside", image: img },
-        { name: "Rome", subtitle: "The Eternal City", image: imgAlt },
-        { name: "Amalfi Coast", subtitle: "Sun-Kissed Shores", image: img },
-      ],
       quote: "\u201CIn Italy, food is love made visible. A meal is never just nourishment; it is a conversation, a memory, a gift.\u201D",
       quoteAttrib: "The Editorial Team",
       etiquette: [
@@ -137,11 +127,7 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
   const override = byCountry[country.id] || {};
 
   return {
-    locations: override.locations || [
-      { name: country.region, subtitle: country.tagline, image: img },
-      { name: `${country.name} Highlands`, subtitle: "Hidden Gems", image: imgAlt },
-      { name: `${country.name} Coast`, subtitle: "By the Sea", image: img },
-    ],
+    locations: getCountryLocations(country),
     quote: override.quote || `\u201C${country.description}\u201D`,
     quoteAttrib: override.quoteAttrib || "The Editorial Team",
     etiquette: override.etiquette || [
