@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Culinary Editorial | Eat Your Way Across the Globe</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-surface-variant": "#574238",
+                        "secondary-fixed-dim": "#e1c19c",
+                        "outline": "#8a7266",
+                        "surface-container-high": "#ece7e2",
+                        "primary-fixed-dim": "#ffb690",
+                        "surface-container": "#f2ede7",
+                        "secondary-container": "#fbdab3",
+                        "on-secondary-fixed-variant": "#584326",
+                        "surface": "#fef9f3",
+                        "secondary-fixed": "#feddb6",
+                        "tertiary-fixed-dim": "#9ccaff",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#291802",
+                        "surface-container-highest": "#e6e2dc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1d1b18",
+                        "tertiary-fixed": "#d0e4ff",
+                        "on-tertiary-fixed": "#001d35",
+                        "on-tertiary-container": "#fdfcff",
+                        "error-container": "#ffdad6",
+                        "primary": "#9a4100",
+                        "on-background": "#1d1b18",
+                        "inverse-primary": "#ffb690",
+                        "secondary": "#725a3c",
+                        "surface-container-low": "#f8f3ed",
+                        "on-primary-fixed": "#341100",
+                        "inverse-surface": "#32302c",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#bf550a",
+                        "primary-fixed": "#ffdbcb",
+                        "on-tertiary-fixed-variant": "#00497a",
+                        "tertiary-container": "#0079c4",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#783100",
+                        "on-primary-container": "#fffbff",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f5f0ea",
+                        "surface-variant": "#e6e2dc",
+                        "background": "#fef9f3",
+                        "outline-variant": "#dec1b3",
+                        "surface-bright": "#fef9f3",
+                        "surface-tint": "#9e4300",
+                        "tertiary": "#005f9c",
+                        "surface-dim": "#ded9d4",
+                        "on-secondary-container": "#775e3f"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .serif-italic { font-family: 'Noto Serif', serif; font-style: italic; }
+        .hero-gradient { background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%); }
+        .text-shadow-elegant { text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .overlay-vignette { background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<header class="fixed top-0 w-full z-50 bg-white/10 backdrop-blur-md border-b border-white/10">
+<nav class="flex justify-between items-center px-8 py-5 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-serif font-semibold text-white drop-shadow-md">
+                The Culinary Editorial
+            </div>
+<div class="hidden md:flex items-center space-x-10">
+<a class="text-white font-semibold border-b-2 border-white pb-1 font-serif italic tracking-tight text-lg" href="#">Journal</a>
+<a class="text-white/80 hover:text-white transition-colors font-serif italic tracking-tight text-lg" href="#">Ethos</a>
+<a class="text-white/80 hover:text-white transition-colors font-serif italic tracking-tight text-lg" href="#">Destinations</a>
+</div>
+<button class="bg-primary text-on-primary px-8 py-2.5 rounded-full font-medium hover:opacity-90 transition-all">
+                Sign Up
+            </button>
+</nav>
+</header>
+<main>
+<section class="relative h-screen w-full overflow-hidden">
+<img alt="Sunset dinner in a lush vineyard" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChMpRqdNeAh86v51t2nZOMRO-8OekmzcxLrhg3d0CQdSCMDSGahUD62M5cR0J8Askr07ZZc_FfOscn3tr6jsiO72jvdaCdwxA3THGVUW6LeQOfe61vXGnew_An8QWgEZnlnaFGyjXswlVLSNdfNLbw1u7AA9bYT-Ob_z2q5953Onne7Etj0jf_qV6YuLzMA-yZssD4-g_Q4rKDcCPVYZr47NIYhQEX0F_4dGJHiqnCk5WpA9BfspHOI_4x6SY5xem96iiAEPoQueCs"/>
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="relative h-full flex flex-col items-center justify-center pt-20 px-6 text-center">
+<h1 class="font-headline text-white text-6xl md:text-9xl font-semibold tracking-tighter max-w-6xl mb-8 leading-none text-shadow-elegant">
+                    Eat Your Way Across the Globe.
+                </h1>
+<p class="text-white/95 text-xl md:text-3xl max-w-3xl font-body leading-relaxed mb-12 italic text-shadow-elegant">
+                    A curated journey through the world's most soul-stirring cuisines, delivered from your kitchen.
+                </p>
+<button class="bg-primary text-on-primary px-14 py-5 rounded-full text-xl font-semibold shadow-2xl hover:bg-primary-container transition-all flex items-center gap-3">
+                    Start Your Journey
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</section>
+<section class="min-h-[614px] flex flex-col items-center justify-center px-8 bg-surface border-y border-surface-container">
+<div class="max-w-4xl text-center space-y-6">
+<span class="text-primary font-label uppercase tracking-[0.4em] text-sm font-bold block mb-4">The Experience</span>
+<h2 class="font-headline text-6xl md:text-7xl leading-tight">A New Chapter in Every Meal.</h2>
+<p class="text-secondary text-xl md:text-2xl leading-relaxed font-light max-w-3xl mx-auto">We strip away the noise of traditional recipe sites to bring you the narrative of flavor. Each box is a passport to a culture's heart.</p>
+</div>
+</section>
+<section class="relative h-screen w-full">
+<img alt="Selecting a country on a map" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrKCIhkAt1hDVN4Amv8WwQNAQi3YNQ5qEfXNaYN7jrZ9exREhTX12F0FhxL8KjCmUgoEucezeGGNZuI8JMjD3PxsZsYFG1Pg-Q0XYmT7zS_DkHS_JCELxppXpM7qkEpxwBLfuiNqsKYSmNHP2Ahtpheq974iFKDOXDsmweZTBcc23nUB9gTlKheQIyQUDlNQsVcXwYBrc7EBRfRj_O6S_FbwNTDcjdoZHe7aSKGVdkuvqgrWMB_q3Umdx8HKoX1jXGbKaYWwvOvGpy"/>
+<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute inset-0 flex items-center justify-start p-12 md:p-24">
+<div class="max-w-2xl text-white">
+<span class="text-white/60 font-serif italic text-4xl mb-4 block">01</span>
+<h3 class="font-headline text-6xl md:text-8xl mb-8 leading-none">Pick a Country</h3>
+<p class="text-xl md:text-2xl text-white/90 leading-relaxed font-light">Select your destination. From the spice markets of Istanbul to the coastal trattorias of Amalfi.</p>
+</div>
+</div>
+</section>
+<section class="relative h-screen w-full">
+<img alt="Fresh local ingredients" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8zjL-hleO14Ysm5Gg1_odr4-v7-Ebfts49_V9gVWJ1khICK4RWh6j-6h6OtBxXGr4DWC0V8oOXItVMysCiBLWZNcaTDu4NRFtBeA776GYsQya_O5bi--keFwfpIaPN0_wbqpxJywwbSsxuECXZaWbKx0ebG7cLG4wcujvBPFC8C-BUd7ZWWle2v93vk8ekbtdQ7QFrPxTxfMR4MTPI_tdIMQnV5smTUtR0WPM2qzv7gwIOsWaITNIsOw7r_xwNboXjZ9NQQbi14hj"/>
+<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute inset-0 flex items-center justify-end p-12 md:p-24 text-right">
+<div class="max-w-2xl text-white">
+<span class="text-white/60 font-serif italic text-4xl mb-4 block">02</span>
+<h3 class="font-headline text-6xl md:text-8xl mb-8 leading-none">Get the Ingredients</h3>
+<p class="text-xl md:text-2xl text-white/90 leading-relaxed font-light">We source rare spices, heritage grains, and local essentials directly from the source.</p>
+</div>
+</div>
+</section>
+<section class="relative h-screen w-full">
+<img alt="Chef cooking a vibrant dish" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB1Y6QQqOkqUdqr1Qh5C6yYOLzusGF4fT_R6zhwrCeI6dZNWsAlNNgqqE4FmnDBt6SuO5ObCrC3FYMiOxnG5W1nPUSeyx_TrUjqjzxcjW1cxSqvt7XINlNfjbGD-eEcIZUaIxp_SUgDwQCgjeO7pvg958WlWHw7yGhlr8yibInFs57Mj7SsMxAdohGhLrCRDaNuxPbycntgOJkrftQnUIMidI3tPH_gXHvAISJF2Nnyh-QyCcCyb48yWWdF5y_uwkwEwKcJli_wyqJ"/>
+<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute inset-0 flex items-center justify-center p-12 text-center">
+<div class="max-w-3xl text-white">
+<span class="text-white/60 font-serif italic text-4xl mb-4 block">03</span>
+<h3 class="font-headline text-6xl md:text-8xl mb-8 leading-none">Follow the Journey</h3>
+<p class="text-xl md:text-2xl text-white/90 leading-relaxed font-light">Access our cinematic cooking guides and cultural playlists that transport you to your destination as you cook.</p>
+</div>
+</div>
+</section>
+<section class="bg-surface py-32">
+<div class="max-w-screen-2xl mx-auto px-8 mb-20">
+<div class="flex flex-col md:flex-row justify-between items-baseline gap-6 border-b border-primary/20 pb-12">
+<div>
+<span class="text-primary font-label uppercase tracking-[0.3em] text-sm font-bold block mb-2">This Month's Features</span>
+<h2 class="font-headline text-7xl md:text-8xl leading-none">Current Destinations</h2>
+</div>
+<a class="text-primary font-semibold flex items-center gap-2 group text-xl" href="#">
+                        View All Issues <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+</a>
+</div>
+</div>
+<div class="max-w-screen-2xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+<div class="group relative overflow-hidden bg-surface-container-low aspect-[3/4.5]">
+<img alt="Tuscany" class="absolute inset-0 w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3-KSQOfwHCWcChqFrSLDuYSZn11EcTkI-WjvuBCRBwLrfc_att2ysaZiGf9TEjqOJqe5jDhBKo4cUQYBsucusseC_J7cw2JNnn2JsPYP9h-QlyarZJgZsAhoQSA5HJXE0AZyUmf4LD1Zam4qFkGgD02t9vCoYX9m-jfGPf4OndnxBR8jRCorDxQJGWEVdO0RjdSXOSzz65bHWBcqK9RCeue22e662NFBDIEBYYVnYbSxrmhnUbk7qD89s680Vdht1T_uS1oNMefR"/>
+<div class="absolute inset-0 flex flex-col justify-between p-12 bg-gradient-to-b from-black/30 via-transparent to-black/80">
+<span class="font-label tracking-[0.4em] uppercase text-sm text-white border-l-2 border-primary pl-4">Volume IV</span>
+<div class="text-white">
+<h3 class="font-headline text-7xl mb-4 leading-none">Tuscany</h3>
+<p class="serif-italic text-2xl mb-8 opacity-90">The Gold of the Earth</p>
+<button class="px-8 py-3 bg-white text-on-surface rounded-full text-sm font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-colors">Explore Issue</button>
+</div>
+</div>
+</div>
+<div class="group relative overflow-hidden bg-surface-container-low aspect-[3/4.5] md:mt-24">
+<img alt="Marrakech" class="absolute inset-0 w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA94SdzbFiFlAxj25dZMw7DU-46gCPvqkzPdV7R_iBnJs6f5Al2ylegSwsnpE_S0uTTGv0vVtKrq_71OIgTUeXFUj-AMzEPRqXqdhxo-OhUf4NN-oOldqDcYEizeNYcpJQvAYliVoht2XgFWRCMJUiO3bihJIuBQU10P2frC00YjgPs6SQZ8f6Z7QUJr8EX6LHqgDZhVGXRVozc26HuqiUym6grarBypHcdvd8SsQSPuc0rauHHiXrmwifrP5cLMwj_3v5H6JlQItu_"/>
+<div class="absolute inset-0 flex flex-col justify-between p-12 bg-gradient-to-b from-black/30 via-transparent to-black/80">
+<span class="font-label tracking-[0.4em] uppercase text-sm text-white border-l-2 border-primary pl-4">Volume V</span>
+<div class="text-white">
+<h3 class="font-headline text-7xl mb-4 leading-none">Marrakech</h3>
+<p class="serif-italic text-2xl mb-8 opacity-90">The Crimson Spice</p>
+<button class="px-8 py-3 bg-white text-on-surface rounded-full text-sm font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-colors">Explore Issue</button>
+</div>
+</div>
+</div>
+<div class="group relative overflow-hidden bg-surface-container-low aspect-[3/4.5]">
+<img alt="Kyoto" class="absolute inset-0 w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdWXrkKkUpRHGU2c5BUiOez13606j57cIEDzw02IdOlIqB7Ni04sCD4f1rvlYLHLzBreuvRazZPx-HB3usv_YCRDQRljlHc2UD8Ba81-oJTtgc1vBu_sKRZ47sjhDUgJpriwMZ5mjFKCP1RhH1lnIjnMnzLOS6jusL9RKfieFioO3wbquZpVxmFb7zlVzAGbR0qjeSOMXrdGP0K2ia8HalUlhO1hv-ogmOqta8P4n596XeIaaVAsh2wy7KgZpDjDgOAC1l0NxKNNmj"/>
+<div class="absolute inset-0 flex flex-col justify-between p-12 bg-gradient-to-b from-black/30 via-transparent to-black/80">
+<span class="font-label tracking-[0.4em] uppercase text-sm text-white border-l-2 border-primary pl-4">Volume VI</span>
+<div class="text-white">
+<h3 class="font-headline text-7xl mb-4 leading-none">Kyoto</h3>
+<p class="serif-italic text-2xl mb-8 opacity-90">The Art of Umami</p>
+<button class="px-8 py-3 bg-white text-on-surface rounded-full text-sm font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-colors">Explore Issue</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-40 px-8 bg-surface-container-lowest">
+<div class="max-w-5xl mx-auto text-center space-y-16">
+<span class="material-symbols-outlined text-primary/30 text-8xl block" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<blockquote class="font-headline text-5xl md:text-6xl italic leading-tight text-on-surface">
+                    "The Culinary Editorial isn't just a recipe box. It's an evening of discovery that turns my Tuesday night kitchen into a sun-drenched bistro in Provence. Every ingredient tells a story."
+                </blockquote>
+<div class="flex flex-col items-center gap-6">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-xl">
+<img alt="Elena Rossi" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXs9G1nR_upbGeTUL-OAwsbFi1M6S-hyddJSmSL_EbOLphn-ouho1YBojVCjoAjtyKkRbgVQrpBd566PEol9oE1LOIvRfeul-HtMGD7zof6n6TzXmZzq6OdlipAh4xE3F-0Q2siCQIs9Q_OzeFNXJFLAvLAM2OCAoX8wst90-GLdVUCxchKp6mrKuWq6YATpgmmP1V7MXmryO4pA1K03HnIKgOvkci5W257_nzgGlZ43DVA50lEC5CwOrS0zxuK7U1dPJnGd7eglle"/>
+</div>
+<div>
+<p class="font-bold text-2xl">Elena Rossi</p>
+<p class="text-primary text-sm uppercase tracking-[0.3em] mt-2">Travel Writer &amp; Home Chef</p>
+</div>
+</div>
+</div>
+</section>
+<section class="relative min-h-[819px] flex items-center justify-center px-8 overflow-hidden bg-on-surface">
+<div class="absolute inset-0 z-0">
+<img alt="Spices and food" class="w-full h-full object-cover opacity-30 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0bN96Jr4ck4sr4fw9hc5R5SN4P9WryPO53t3sCEuewxCAyW4zrlavGXNs2l5GeK7Wxmw5dCpu6YPX3mjavMcTTXuCYS5IJ7VOYE7i7eTbh-_dOYUNnaiVDir_8ZDfZIW7YkdtvKTkvHjlvMgXrzV-ZikQd4wJn8BzDrRi_dXyBmVGqfCOalVpfWRAWHMDc3rwIIJ4fpyOmSfIfzRM0WXLVUWrUrhej1IpxpcFwUo0LCpkJDnCNY8pqBKaGpDk-zfUGdrbilaO3u1z"/>
+</div>
+<div class="relative z-10 max-w-5xl mx-auto text-center space-y-12">
+<h2 class="font-headline text-6xl md:text-9xl text-white leading-none">Bring the World to Your Table.</h2>
+<p class="text-2xl text-white/80 max-w-3xl mx-auto font-light leading-relaxed">Subscribe now to receive your first curated editorial experience. Shipping globally starting this winter.</p>
+<div class="flex flex-col md:flex-row gap-6 justify-center pt-8">
+<button class="bg-primary text-on-primary px-16 py-6 rounded-full text-xl font-bold shadow-2xl hover:bg-primary-container transition-all">Start Your Subscription</button>
+<button class="bg-white/10 text-white border border-white/30 backdrop-blur-md px-16 py-6 rounded-full text-xl font-bold hover:bg-white/20 transition-all">Gift an Issue</button>
+</div>
+</div>
+</section>
+</main>
+<footer class="w-full bg-[#F8F3ED] border-t border-surface-container-high">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-16 px-12 py-24 max-w-screen-2xl mx-auto">
+<div class="md:col-span-5 space-y-8">
+<span class="text-4xl font-serif font-bold text-[#9A4100] block">The Culinary Editorial</span>
+<p class="font-sans text-lg leading-relaxed text-[#725A3C] max-w-md">
+                    Curating the world's most evocative food stories and delivering the soul of global cuisines directly to your home.
+                </p>
+<div class="flex gap-6">
+<a class="text-primary hover:opacity-70" href="#">Instagram</a>
+<a class="text-primary hover:opacity-70" href="#">Pinterest</a>
+<a class="text-primary hover:opacity-70" href="#">Twitter</a>
+</div>
+</div>
+<div class="md:col-span-3 grid grid-cols-2 gap-12">
+<div class="space-y-6">
+<h4 class="font-bold uppercase tracking-widest text-xs text-primary">Discover</h4>
+<ul class="space-y-4 font-sans text-base text-[#725A3C]">
+<li><a class="hover:text-primary transition-colors" href="#">Journal</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Ethos</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Destinations</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h4 class="font-bold uppercase tracking-widest text-xs text-primary">Company</h4>
+<ul class="space-y-4 font-sans text-base text-[#725A3C]">
+<li><a class="hover:text-primary transition-colors" href="#">Privacy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Press</a></li>
+</ul>
+</div>
+</div>
+<div class="md:col-span-4 space-y-8">
+<h4 class="font-bold uppercase tracking-widest text-xs text-primary">The Newsletter</h4>
+<p class="font-sans text-base text-[#725A3C]">Weekly stories of flavor and far-off places.</p>
+<form class="flex flex-col gap-4">
+<input class="bg-white border-surface-container px-6 py-4 w-full focus:ring-2 focus:ring-primary rounded-lg text-base" placeholder="Your email" type="email"/>
+<button class="bg-primary text-white px-8 py-4 rounded-lg text-base font-bold uppercase tracking-widest hover:opacity-90 transition-all">Join the Editorial</button>
+</form>
+</div>
+</div>
+<div class="px-12 py-12 border-t border-outline-variant/10 text-center">
+<p class="font-sans text-sm text-[#725A3C]">
+                © 2024 The Culinary Editorial. All rights reserved. Designed for the global explorer.
+            </p>
+</div>
+</footer>
+
+</body></html>

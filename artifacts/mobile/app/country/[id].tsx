@@ -16,9 +16,9 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import type { Recipe } from "@/constants/data";
-import { useCountry } from "@/hooks/useCountry";
 import { useApp } from "@/contexts/AppContext";
+import { useCountry } from "@/hooks/useCountry";
+import type { NormalizedRecipe } from "@/hooks/types";
 
 export default function CountryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -107,7 +107,7 @@ export default function CountryDetailScreen() {
   );
 }
 
-function RecipeRegionCard({ recipe }: { recipe: Recipe }) {
+function RecipeRegionCard({ recipe }: { recipe: NormalizedRecipe }) {
   const { isSaved, toggleSaved } = useApp();
   const saved = isSaved(recipe.id);
 

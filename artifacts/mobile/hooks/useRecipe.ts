@@ -1,52 +1,37 @@
-import { useGetRecipe } from "@workspace/api-client-react";
-import { getRecipeById } from "@/constants/data";
-import type { Recipe as LocalRecipe } from "@/constants/data";
+import { useGetRecipe, getGetRecipeQueryKey } from "@workspace/api-client-react";
 
-/**
- * Fetches a single recipe from the API,
- * falling back to hardcoded data if offline.
- */
-export function useRecipe(id: string): {
-  recipe: LocalRecipe | undefined;
+import { mapApiRecipe, mapLocalRecipe, type NormalizedRecipe } from "./types";
+import { COUNTRIES } from "@/constants/data";
+
+function getFallbackRecipe(id: string): NormalizedRecipe | undefined {
+  for (const country of COUNTRIES) {
+    const recipe = country.recipes.find((r) => r.id === id);
+    if (recipe) return mapLocalRecipe(recipe);
+  }
+  return undefined;
+}
+
+export function useRecipe(id: string | undefined): {
+  recipe: NormalizedRecipe | undefined;
   isLoading: boolean;
-  error: unknown;
+  isFromApi: boolean;
 } {
-  const query = useGetRecipe(id);
+  const { data, isLoading, isError } = useGetRecipe(id ?? "", {
+    query: { queryKey: getGetRecipeQueryKey(id ?? ""), enabled: Boolean(id) },
+  });
 
-  const local = getRecipeById(id);
-
-  if (query.data) {
-    const r = query.data;
-    const recipe: LocalRecipe = local
-      ? {
-          ...local,
-          name: r.title,
-          description: r.description,
-          image: r.image,
-          difficulty: r.difficulty,
-        }
-      : {
-          id: r.id,
-          name: r.title,
-          countryId: r.countryId,
-          countryName: "",
-          countryFlag: "",
-          category: r.difficulty,
-          time: r.prepTime,
-          difficulty: r.difficulty,
-          image: r.image,
-          description: r.description,
-          culturalNote: "",
-          ingredients: r.ingredients,
-          steps: r.steps,
-        };
-
-    return { recipe, isLoading: false, error: null };
+  if (data && !isError) {
+    const parent = COUNTRIES.find((c) => c.id === data.countryId);
+    return {
+      recipe: mapApiRecipe(data, parent?.name ?? "", parent?.flag ?? ""),
+      isLoading,
+      isFromApi: true,
+    };
   }
 
   return {
-    recipe: local,
-    isLoading: query.isLoading,
-    error: query.error,
+    recipe: id ? getFallbackRecipe(id) : undefined,
+    isLoading: false,
+    isFromApi: false,
   };
 }

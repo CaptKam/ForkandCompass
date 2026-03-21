@@ -8,7 +8,7 @@
 import type { Country } from "./country";
 import type { Recipe } from "./recipe";
 
-export interface SearchResults {
+export interface SearchResult {
   countries: Country[];
   recipes: Recipe[];
 }

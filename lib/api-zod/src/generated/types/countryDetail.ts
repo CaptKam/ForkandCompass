@@ -8,6 +8,6 @@
 import type { Country } from "./country";
 import type { Recipe } from "./recipe";
 
-export type CountryWithRecipes = Country & {
+export type CountryDetail = Country & {
   recipes: Recipe[];
 };

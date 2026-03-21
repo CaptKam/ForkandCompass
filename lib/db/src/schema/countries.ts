@@ -6,12 +6,15 @@ export const countriesTable = pgTable("countries", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   flag: text("flag").notNull(),
+  tagline: text("tagline"),
   description: text("description").notNull(),
+  region: text("region"),
   image: text("image").notNull(),
-  cuisineLabel: text("cuisine_label").notNull(),
+  heroImage: text("hero_image"),
+  cuisineLabel: text("cuisine_label"),
   rating: real("rating").notNull().default(4.5),
   recipeCount: integer("recipe_count").notNull().default(0),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 export const insertCountrySchema = createInsertSchema(countriesTable).omit({

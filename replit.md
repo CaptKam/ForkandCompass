@@ -52,27 +52,34 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 
 ### `artifacts/api-server` (`@workspace/api-server`)
 
-Express 5 API server. Routes live in `src/routes/` and use `@workspace/api-zod` for request and response validation and `@workspace/db` for persistence.
+Express 5 API server. Routes live in `src/routes/` and use `@workspace/db` for persistence.
 
 - Entry: `src/index.ts` — reads `PORT`, starts Express
 - App setup: `src/app.ts` — mounts CORS, JSON/urlencoded parsing, routes at `/api`
-- Routes: `src/routes/index.ts` mounts sub-routers; `src/routes/health.ts` exposes `GET /health` (full path: `/api/health`)
+- Routes:
+  - `GET /api/healthz` — health check
+  - `GET /api/countries` — list all countries (alphabetical)
+  - `GET /api/countries/:id` — country detail with recipes array
+  - `GET /api/recipes/:id` — single recipe detail
+  - `GET /api/search?q=term` — full-text search across countries + recipes
 - Depends on: `@workspace/db`, `@workspace/api-zod`
 - `pnpm --filter @workspace/api-server run dev` — run the dev server
-- `pnpm --filter @workspace/api-server run build` — production esbuild bundle (`dist/index.cjs`)
-- Build bundles an allowlist of deps (express, cors, pg, drizzle-orm, zod, etc.) and externalizes the rest
+- `pnpm --filter @workspace/api-server run build` — production esbuild bundle
 
 ### `lib/db` (`@workspace/db`)
 
 Database layer using Drizzle ORM with PostgreSQL. Exports a Drizzle client instance and schema models.
 
 - `src/index.ts` — creates a `Pool` + Drizzle instance, exports schema
-- `src/schema/index.ts` — barrel re-export of all models
-- `src/schema/<modelname>.ts` — table definitions with `drizzle-zod` insert schemas (no models definitions exist right now)
+- `src/schema/countries.ts` — `countriesTable` (id, name, flag, tagline, description, region, image, heroImage, cuisineLabel, rating, recipeCount, createdAt)
+- `src/schema/recipes.ts` — `recipesTable` (id, countryId FK, title, description, image, category, prepTime, cookTime, servings, difficulty, ingredients JSONB, steps JSONB, culturalNote, tips text[], createdAt)
+- `src/schema/relations.ts` — Drizzle relations (countries hasMany recipes)
 - `drizzle.config.ts` — Drizzle Kit config (requires `DATABASE_URL`, automatically provided by Replit)
-- Exports: `.` (pool, db, schema), `./schema` (schema only)
+- Exports: `.` (pool, db, all schema), `./schema` (schema only)
 
-Production migrations are handled by Replit when publishing. In development, we just use `pnpm --filter @workspace/db run push`, and we fallback to `pnpm --filter @workspace/db run push-force`.
+Production migrations are handled by Replit when publishing. In development, use `pnpm --filter @workspace/db run push-force`.
+
+**After modifying schema**: run `tsc -b` inside `lib/db` to rebuild declarations, then typecheck will pass.
 
 ### `lib/api-spec` (`@workspace/api-spec`)
 
@@ -94,6 +101,8 @@ Generated React Query hooks and fetch client from the OpenAPI spec (e.g. `useHea
 ### `scripts` (`@workspace/scripts`)
 
 Utility scripts package. Each script is a `.ts` file in `src/` with a corresponding npm script in `package.json`. Run scripts via `pnpm --filter @workspace/scripts run <script>`. Scripts can import any workspace package (e.g., `@workspace/db`) by adding it as a dependency in `scripts/package.json`.
+
+- `seed` — `pnpm --filter @workspace/scripts run seed` — seeds all countries and recipes from mobile app data into the database (uses upsert, safe to re-run)
 
 ### `artifacts/mobile` (`@workspace/mobile`)
 

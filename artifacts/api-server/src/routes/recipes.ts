@@ -1,25 +1,29 @@
 import { Router, type IRouter } from "express";
-import { eq } from "drizzle-orm";
 import { db, recipesTable } from "@workspace/db";
+import { eq } from "drizzle-orm";
 
 const router: IRouter = Router();
 
-// GET /recipes/:id — single recipe
 router.get("/recipes/:id", async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const recipe = await db
-    .select()
-    .from(recipesTable)
-    .where(eq(recipesTable.id, id))
-    .limit(1);
+    const [recipe] = await db
+      .select()
+      .from(recipesTable)
+      .where(eq(recipesTable.id, id))
+      .limit(1);
 
-  if (recipe.length === 0) {
-    res.status(404).json({ error: "Recipe not found" });
-    return;
+    if (!recipe) {
+      res.status(404).json({ error: "Recipe not found" });
+      return;
+    }
+
+    res.json(recipe);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch recipe" });
   }
-
-  res.json(recipe[0]);
 });
 
 export default router;

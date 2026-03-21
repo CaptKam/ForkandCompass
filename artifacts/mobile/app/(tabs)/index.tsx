@@ -16,9 +16,11 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
-import { COUNTRIES, ONBOARDING_IMAGES, type Country } from "@/constants/data";
-import { useCountries } from "@/hooks/useCountries";
+import { ONBOARDING_IMAGES } from "@/constants/data";
 import Colors from "@/constants/colors";
+import { useCountries } from "@/hooks/useCountries";
+import { useCountry } from "@/hooks/useCountry";
+import type { NormalizedCountry } from "@/hooks/types";
 
 // ─── Static editorial blurbs per country ─────────────────────────────────────
 
@@ -48,7 +50,7 @@ interface DiscoverEditorial {
   relatedStories: Array<{ country: string; description: string; image: string }>;
 }
 
-function buildDiscoverData(country: Country): DiscoverEditorial {
+function buildDiscoverData(country: NormalizedCountry, allCountries: NormalizedCountry[]): DiscoverEditorial {
   const img = ONBOARDING_IMAGES[country.id] || country.heroImage || country.image;
   const imgAlt = country.image;
 
@@ -169,7 +171,7 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
       image: i % 2 === 0 ? img : imgAlt,
     })),
     relatedLabel: override.relatedLabel || "Related World Stories",
-    relatedStories: override.relatedStories || COUNTRIES.filter((c) => c.id !== country.id).slice(0, 3).map((c) => ({
+    relatedStories: override.relatedStories || allCountries.filter((c) => c.id !== country.id).slice(0, 3).map((c) => ({
       country: c.name,
       description: c.tagline,
       image: ONBOARDING_IMAGES[c.id] || c.image,
@@ -182,11 +184,17 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
 export default function DiscoverScreen() {
   const insets = useSafeAreaInsets();
   const { isCountrySaved, toggleSavedCountry } = useApp();
-  const { countries } = useCountries();
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
 
-  const activeCountry = countries[activeIndex] ?? countries[0];
-  const editorial = buildDiscoverData(activeCountry);
+  const { countries } = useCountries();
+  const safeIndex = countries.length > 0 ? Math.min(activeIndex, countries.length - 1) : 0;
+  const activeId = countries[safeIndex]?.id;
+  const { country: activeCountryDetail } = useCountry(activeId);
+  const activeCountry = activeCountryDetail ?? countries[safeIndex];
+
+  if (!activeCountry) return null;
+
+  const editorial = buildDiscoverData(activeCountry, countries);
   const heroImage = ONBOARDING_IMAGES[activeCountry.id] || activeCountry.heroImage || activeCountry.image;
   const blurb = EDITORIAL_BLURBS[activeCountry.id] || activeCountry.description;
   const saved = isCountrySaved(activeCountry.id);
@@ -260,7 +268,7 @@ export default function DiscoverScreen() {
             <Text style={styles.destTitle}>Explore Destinations</Text>
             <View style={styles.destDots}>
               {countries.slice(0, 3).map((_, i) => (
-                <View key={i} style={[styles.destDot, i === (activeIndex % 3) && styles.destDotActive]} />
+                <View key={i} style={[styles.destDot, i === (safeIndex % 3) && styles.destDotActive]} />
               ))}
             </View>
           </View>
@@ -270,7 +278,7 @@ export default function DiscoverScreen() {
             contentContainerStyle={styles.destScroll}
           >
             {countries.map((country, idx) => {
-              const isActive = idx === activeIndex;
+              const isActive = idx === safeIndex;
               return (
                 <Pressable
                   key={country.id}

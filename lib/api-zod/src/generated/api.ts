@@ -16,16 +16,19 @@ export const HealthCheckResponse = zod.object({
 });
 
 /**
- * Returns all countries with cuisine metadata
+ * Returns all available countries
  * @summary List all countries
  */
 export const ListCountriesResponseItem = zod.object({
   id: zod.string(),
   name: zod.string(),
   flag: zod.string(),
+  tagline: zod.string().nullish(),
   description: zod.string(),
+  region: zod.string().nullish(),
   image: zod.string(),
-  cuisineLabel: zod.string(),
+  heroImage: zod.string().nullish(),
+  cuisineLabel: zod.string().nullish(),
   rating: zod.number(),
   recipeCount: zod.number(),
   createdAt: zod.date(),
@@ -33,8 +36,8 @@ export const ListCountriesResponseItem = zod.object({
 export const ListCountriesResponse = zod.array(ListCountriesResponseItem);
 
 /**
- * Returns a country and all its associated recipes
- * @summary Get a single country with its recipes
+ * Returns a single country and all its associated recipes
+ * @summary Get a country with its recipes
  */
 export const GetCountryParams = zod.object({
   id: zod.coerce.string(),
@@ -45,9 +48,12 @@ export const GetCountryResponse = zod
     id: zod.string(),
     name: zod.string(),
     flag: zod.string(),
+    tagline: zod.string().nullish(),
     description: zod.string(),
+    region: zod.string().nullish(),
     image: zod.string(),
-    cuisineLabel: zod.string(),
+    heroImage: zod.string().nullish(),
+    cuisineLabel: zod.string().nullish(),
     rating: zod.number(),
     recipeCount: zod.number(),
     createdAt: zod.date(),
@@ -61,9 +67,10 @@ export const GetCountryResponse = zod
           title: zod.string(),
           description: zod.string(),
           image: zod.string(),
-          prepTime: zod.string(),
-          cookTime: zod.string(),
-          servings: zod.number(),
+          category: zod.string().nullish(),
+          prepTime: zod.string().nullish(),
+          cookTime: zod.string().nullish(),
+          servings: zod.number().nullish(),
           difficulty: zod.string(),
           ingredients: zod.array(
             zod.object({
@@ -80,7 +87,8 @@ export const GetCountryResponse = zod
               materials: zod.array(zod.string()),
             }),
           ),
-          tips: zod.array(zod.string()).nullish(),
+          culturalNote: zod.string().nullish(),
+          tips: zod.array(zod.string()),
           createdAt: zod.date(),
         }),
       ),
@@ -101,9 +109,10 @@ export const GetRecipeResponse = zod.object({
   title: zod.string(),
   description: zod.string(),
   image: zod.string(),
-  prepTime: zod.string(),
-  cookTime: zod.string(),
-  servings: zod.number(),
+  category: zod.string().nullish(),
+  prepTime: zod.string().nullish(),
+  cookTime: zod.string().nullish(),
+  servings: zod.number().nullish(),
   difficulty: zod.string(),
   ingredients: zod.array(
     zod.object({
@@ -120,12 +129,13 @@ export const GetRecipeResponse = zod.object({
       materials: zod.array(zod.string()),
     }),
   ),
-  tips: zod.array(zod.string()).nullish(),
+  culturalNote: zod.string().nullish(),
+  tips: zod.array(zod.string()),
   createdAt: zod.date(),
 });
 
 /**
- * Search countries and recipes by a query term
+ * Searches countries and recipes by name or description
  * @summary Search countries and recipes
  */
 export const SearchQueryParams = zod.object({
@@ -138,9 +148,12 @@ export const SearchResponse = zod.object({
       id: zod.string(),
       name: zod.string(),
       flag: zod.string(),
+      tagline: zod.string().nullish(),
       description: zod.string(),
+      region: zod.string().nullish(),
       image: zod.string(),
-      cuisineLabel: zod.string(),
+      heroImage: zod.string().nullish(),
+      cuisineLabel: zod.string().nullish(),
       rating: zod.number(),
       recipeCount: zod.number(),
       createdAt: zod.date(),
@@ -153,9 +166,10 @@ export const SearchResponse = zod.object({
       title: zod.string(),
       description: zod.string(),
       image: zod.string(),
-      prepTime: zod.string(),
-      cookTime: zod.string(),
-      servings: zod.number(),
+      category: zod.string().nullish(),
+      prepTime: zod.string().nullish(),
+      cookTime: zod.string().nullish(),
+      servings: zod.number().nullish(),
       difficulty: zod.string(),
       ingredients: zod.array(
         zod.object({
@@ -172,7 +186,8 @@ export const SearchResponse = zod.object({
           materials: zod.array(zod.string()),
         }),
       ),
-      tips: zod.array(zod.string()).nullish(),
+      culturalNote: zod.string().nullish(),
+      tips: zod.array(zod.string()),
       createdAt: zod.date(),
     }),
   ),
