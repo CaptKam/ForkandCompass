@@ -1,4 +1,5 @@
 import { useState } from "react";
+import mapStepImage from "../assets/map-step.png";
 
 const DESTINATIONS = [
   {
@@ -33,7 +34,7 @@ const HOW_IT_WORKS = [
     title: "Pick a Country",
     body: "Select your destination. From the spice markets of Istanbul to the coastal trattorias of Amalfi.",
     align: "left",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCrKCIhkAt1hDVN4Amv8WwQNAQi3YNQ5qEfXNaYN7jrZ9exREhTX12F0FhxL8KjCmUgoEucezeGGNZuI8JMjD3PxsZsYFG1Pg-Q0XYmT7zS_DkHS_JCELxppXpM7qkEpxwBLfuiNqsKYSmNHP2Ahtpheq974iFKDOXDsmweZTBcc23nUB9gTlKheQIyQUDlNQsVcXwYBrc7EBRfRj_O6S_FbwNTDcjdoZHe7aSKGVdkuvqgrWMB_q3Umdx8HKoX1jXGbKaYWwvOvGpy",
+    image: mapStepImage,
   },
   {
     step: "02",
