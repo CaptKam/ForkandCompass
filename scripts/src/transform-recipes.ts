@@ -23,29 +23,18 @@ const CUISINE_TO_COUNTRY: Record<string, string> = {
   "East Asian": "japan",
   "Latin American": "mexico",
   Mediterranean: "italy",
-  Fusion: "unknown",
-  American: "unknown",
 };
 
-const COUNTRY_NAMES: Record<string, string> = {
-  italy: "Italy",
-  japan: "Japan",
-  morocco: "Morocco",
-  mexico: "Mexico",
-  india: "India",
-  thailand: "Thailand",
+const COUNTRY_META: Record<string, { name: string; flag: string }> = {
+  italy: { name: "Italy", flag: "\u{1F1EE}\u{1F1F9}" },
+  japan: { name: "Japan", flag: "\u{1F1EF}\u{1F1F5}" },
+  morocco: { name: "Morocco", flag: "\u{1F1F2}\u{1F1E6}" },
+  mexico: { name: "Mexico", flag: "\u{1F1F2}\u{1F1FD}" },
+  india: { name: "India", flag: "\u{1F1EE}\u{1F1F3}" },
+  thailand: { name: "Thailand", flag: "\u{1F1F9}\u{1F1ED}" },
 };
 
-const COUNTRY_FLAGS: Record<string, string> = {
-  italy: "🇮🇹",
-  japan: "🇯🇵",
-  morocco: "🇲🇦",
-  mexico: "🇲🇽",
-  india: "🇮🇳",
-  thailand: "🇹🇭",
-};
-
-// Explicit file-id → country mapping from the user's spec
+// Explicit file-id → country mapping
 const FILE_ID_TO_COUNTRY: Record<string, string> = {
   "65bfed85": "italy",
   de363bd9: "italy",
@@ -151,7 +140,7 @@ function flattenIngredients(
   return result;
 }
 
-// ── Convert instructions to steps ────────────────────────────────────────────
+// ── Convert instructions to steps (matching CookStep interface) ──────────────
 
 interface ApiInstruction {
   step_number: number;
@@ -166,52 +155,106 @@ interface ApiInstruction {
 }
 
 function convertSteps(
-  instructions: ApiInstruction[] | undefined
-): Array<{ id: string; title: string; description: string }> {
+  instructions: ApiInstruction[] | undefined,
+  ingredients: Array<{ name: string; amount: string }>
+): Array<{ id: string; title: string; instruction: string; materials: string[] }> {
   if (!instructions) return [];
   return instructions.map((inst) => {
     let title = "";
     if (inst.structured?.action) {
       title = inst.structured.action;
     } else {
-      // First few words as title
       const words = inst.text.split(/\s+/);
       title = words.slice(0, 4).join(" ");
       if (words.length > 4) title += "...";
     }
+
+    // Extract materials: find ingredient names mentioned in step text
+    const materials: string[] = [];
+    const lowerText = inst.text.toLowerCase();
+    for (const ing of ingredients) {
+      if (lowerText.includes(ing.name.toLowerCase())) {
+        materials.push(`${ing.amount} ${ing.name}`.trim());
+      }
+    }
+
     return {
       id: `s${inst.step_number}`,
       title,
-      description: inst.text,
+      instruction: inst.text,
+      materials,
     };
   });
 }
 
-// ── Chef notes → tips array ──────────────────────────────────────────────────
+// ── Resolve country ID ───────────────────────────────────────────────────────
 
-function extractTips(
-  chefNotes: string | string[] | null | undefined
-): string[] {
-  if (!chefNotes) return [];
-  if (Array.isArray(chefNotes)) return chefNotes;
-  // Split on newlines or periods that look like separate tips
-  return chefNotes
-    .split(/\n+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
+function resolveCountryId(
+  fileId: string,
+  cuisine: string | undefined,
+  recipeName: string
+): string {
+  // 1. Explicit file mapping (most reliable)
+  const fromFile = FILE_ID_TO_COUNTRY[fileId];
+  if (fromFile) return fromFile;
+
+  // 2. Cuisine string matching
+  if (cuisine) {
+    const direct = CUISINE_TO_COUNTRY[cuisine];
+    if (direct) return direct;
+    const normalized =
+      cuisine.charAt(0).toUpperCase() + cuisine.slice(1).toLowerCase();
+    const fromNormalized = CUISINE_TO_COUNTRY[normalized];
+    if (fromNormalized) return fromNormalized;
+  }
+
+  // 3. Name-based keyword fallback
+  const lowerName = recipeName.toLowerCase();
+  if (lowerName.includes("italian") || lowerName.includes("italy"))
+    return "italy";
+  if (lowerName.includes("japanese") || lowerName.includes("japan"))
+    return "japan";
+  if (lowerName.includes("moroccan") || lowerName.includes("morocco"))
+    return "morocco";
+  if (lowerName.includes("mexican") || lowerName.includes("mexico"))
+    return "mexico";
+  if (lowerName.includes("indian") || lowerName.includes("india"))
+    return "india";
+  if (lowerName.includes("thai")) return "thailand";
+
+  console.warn(
+    `  WARNING: Could not resolve country for "${recipeName}" (file: ${fileId}, cuisine: ${cuisine})`
+  );
+  return "unknown";
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────────
 
+// Matches the Recipe interface in data.ts
+interface MobileRecipe {
+  id: string;
+  name: string;
+  countryId: string;
+  countryName: string;
+  countryFlag: string;
+  category: string;
+  time: string;
+  difficulty: string;
+  image: string;
+  description: string;
+  culturalNote: string;
+  ingredients: Array<{ id: string; name: string; amount: string }>;
+  steps: Array<{
+    id: string;
+    title: string;
+    instruction: string;
+    materials: string[];
+  }>;
+}
+
 const ROOT = resolve(import.meta.dirname, "../..");
 const CACHE_DIR = join(ROOT, ".stitch", "recipes-cache");
-const OUT_RECIPES = join(
-  ROOT,
-  "artifacts",
-  "mobile",
-  "constants",
-  "transformed-recipes.ts"
-);
+const DATA_TS = join(ROOT, "artifacts", "mobile", "constants", "data.ts");
 const OUT_API_RECIPES = join(
   ROOT,
   "artifacts",
@@ -228,13 +271,14 @@ function main() {
 
   const files = readdirSync(CACHE_DIR).filter((f) => f.endsWith(".json"));
   if (files.length === 0) {
-    console.warn("No JSON files found in cache directory. Generating empty output.");
+    console.warn("No JSON files found in cache directory.");
+    return;
   }
 
   console.log(`Processing ${files.length} recipe files...`);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const recipes: Array<Record<string, any>> = [];
+  // Group recipes by country
+  const recipesByCountry: Record<string, MobileRecipe[]> = {};
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fullRecipes: Array<{ id: string; data: any }> = [];
 
@@ -258,90 +302,72 @@ function main() {
 
     const recipeName: string = recipe.name ?? "Unknown";
     const id = toKebab(recipeName);
+    const countryId = resolveCountryId(fileId, recipe.cuisine, recipeName);
 
-    // Resolve country: explicit file mapping > cuisine mapping > name heuristic
-    const cuisineNormalized = recipe.cuisine
-      ? recipe.cuisine.charAt(0).toUpperCase() + recipe.cuisine.slice(1).toLowerCase()
-      : "";
-    let countryId =
-      FILE_ID_TO_COUNTRY[fileId] ??
-      CUISINE_TO_COUNTRY[recipe.cuisine] ??
-      CUISINE_TO_COUNTRY[cuisineNormalized] ??
-      null;
-
-    if (!countryId) {
-      // Fallback: infer from recipe name keywords
-      const lowerName = recipeName.toLowerCase();
-      if (lowerName.includes("italian") || lowerName.includes("italy")) countryId = "italy";
-      else if (lowerName.includes("japanese") || lowerName.includes("japan")) countryId = "japan";
-      else if (lowerName.includes("moroccan") || lowerName.includes("morocco")) countryId = "morocco";
-      else if (lowerName.includes("mexican") || lowerName.includes("mexico")) countryId = "mexico";
-      else if (lowerName.includes("indian") || lowerName.includes("india")) countryId = "india";
-      else if (lowerName.includes("thai")) countryId = "thailand";
-      else {
-        countryId = "unknown";
-        console.warn(`  ⚠ Could not resolve country for "${recipeName}" (file: ${fileId}, cuisine: ${recipe.cuisine})`);
-      }
+    if (countryId === "unknown") {
+      console.warn(`  Skipping "${recipeName}" — no country match`);
+      continue;
     }
 
-    const prepTime = parseDuration(recipe.meta?.active_time);
-    const cookTime = parseDuration(recipe.meta?.passive_time);
-    const servings = recipe.meta?.yield_count ?? 4;
+    const country = COUNTRY_META[countryId];
+    const totalTime = parseDuration(recipe.meta?.total_time);
     const difficulty = DIFFICULTY_MAP[recipe.difficulty] ?? "Medium";
     const ingredients = flattenIngredients(recipe.ingredients);
-    const steps = convertSteps(recipe.instructions);
-    const tips = extractTips(recipe.chef_notes);
+    const steps = convertSteps(recipe.instructions, ingredients);
     const culturalNote: string = recipe.cultural_context ?? "";
 
-    recipes.push({
+    const mobileRecipe: MobileRecipe = {
       id,
+      name: recipeName,
       countryId,
-      title: recipeName,
-      description: recipe.description ?? "",
-      image: "",
+      countryName: country?.name ?? countryId,
+      countryFlag: country?.flag ?? "",
       category: recipe.category ?? "",
-      prepTime,
-      cookTime,
-      servings,
+      time: totalTime,
       difficulty,
+      image: "",
+      description: recipe.description ?? "",
+      culturalNote,
       ingredients,
       steps,
-      culturalNote,
-      tips,
-    });
+    };
 
+    if (!recipesByCountry[countryId]) recipesByCountry[countryId] = [];
+    recipesByCountry[countryId].push(mobileRecipe);
     fullRecipes.push({ id, data: recipe });
 
     console.log(`  ${id} (${countryId}) - ${recipeName}`);
   }
 
-  // ── Generate transformed-recipes.ts ────────────────────────────────────────
+  // ── Inject recipes into data.ts ────────────────────────────────────────────
 
-  const recipesTs = `// Auto-generated by scripts/src/transform-recipes.ts
-// Do NOT edit manually. Re-run the transform script to regenerate.
+  let dataTs = readFileSync(DATA_TS, "utf-8");
 
-export interface TransformedRecipe {
-  id: string;
-  countryId: string;
-  title: string;
-  description: string;
-  image: string;
-  category: string;
-  prepTime: string;
-  cookTime: string;
-  servings: number;
-  difficulty: "Easy" | "Medium" | "Hard";
-  ingredients: Array<{ id: string; name: string; amount: string }>;
-  steps: Array<{ id: string; title: string; description: string }>;
-  culturalNote: string;
-  tips: string[];
-}
+  for (const [countryId, recipes] of Object.entries(recipesByCountry)) {
+    // Find the recipes array for this country and replace it
+    // Pattern: after `id: "countryId"`, find `recipes: [` and replace until the matching `]`
+    const countryIdPattern = new RegExp(
+      `(id:\\s*"${countryId}"[\\s\\S]*?recipes:\\s*)\\[[\\s\\S]*?\\](?=,?\\s*\\n\\s*\\},?)`,
+    );
 
-export const TRANSFORMED_RECIPES: TransformedRecipe[] = ${JSON.stringify(recipes, null, 2)};
-`;
+    const recipesJson = JSON.stringify(recipes, null, 6)
+      // Indent to match data.ts nesting (6 spaces for recipe array items)
+      .replace(/\n/g, "\n    ");
 
-  writeFileSync(OUT_RECIPES, recipesTs, "utf-8");
-  console.log(`\nWrote ${recipes.length} recipes to ${OUT_RECIPES}`);
+    if (countryIdPattern.test(dataTs)) {
+      dataTs = dataTs.replace(countryIdPattern, `$1${recipesJson}`);
+      console.log(
+        `  Injected ${recipes.length} recipes into ${countryId}`
+      );
+    } else {
+      console.warn(
+        `  Could not find recipes array for country "${countryId}" in data.ts`
+      );
+    }
+  }
+
+  writeFileSync(DATA_TS, dataTs, "utf-8");
+  console.log(`\nUpdated ${DATA_TS}`);
 
   // ── Generate api-recipes.ts ────────────────────────────────────────────────
 
