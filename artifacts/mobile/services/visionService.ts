@@ -7,6 +7,7 @@
  */
 
 import type { DetectedItem, ScanZone } from "@/constants/inventory";
+import { productCatalog } from "./productCatalog";
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
@@ -25,6 +26,7 @@ interface VisionDetectionResponse {
     brand: string | null;
     quantity: number | null;
     unit: string | null;
+    category: string | null;
     confidence: number;
     bounding_box: { x: number; y: number; width: number; height: number };
   }[];
@@ -49,11 +51,12 @@ Identify every visible food item, ingredient, or grocery product. For each item:
 - **brand**: The brand name if you can read it from the label, otherwise null
 - **quantity**: How many of this item you see (integer), or null if unclear
 - **unit**: The unit/container type (e.g. "bottle", "can", "jar", "bag", "box", "gallon", "dozen"), or null
+- **category**: One of "produce", "protein", "dairy", "pantry", "spice", "beverage", "condiment", "frozen", or null
 - **confidence**: Your confidence in the identification from 0.0 to 1.0
 - **bounding_box**: Approximate normalized position in the image as {x, y, width, height} where values are 0.0-1.0 fractions of image dimensions
 
 Respond with ONLY valid JSON in this exact format, no markdown:
-{"items": [{"label": "...", "brand": "..." or null, "quantity": 1, "unit": "...", "confidence": 0.95, "bounding_box": {"x": 0.1, "y": 0.2, "width": 0.3, "height": 0.25}}]}
+{"items": [{"label": "...", "brand": "..." or null, "quantity": 1, "unit": "...", "category": "dairy", "confidence": 0.95, "bounding_box": {"x": 0.1, "y": 0.2, "width": 0.3, "height": 0.25}}]}
 
 If you cannot identify any items, respond with: {"items": []}
 Be thorough — identify everything visible, even partially obscured items (with lower confidence).`;
@@ -133,7 +136,7 @@ export async function detectItemsWithVision(
     const parsed: VisionDetectionResponse = JSON.parse(textBlock.text);
 
     // Map to DetectedItem format
-    return parsed.items.map((item) => ({
+    const detectedItems: DetectedItem[] = parsed.items.map((item) => ({
       label: item.label,
       brand: item.brand,
       quantity: item.quantity,
@@ -146,6 +149,28 @@ export async function detectItemsWithVision(
         height: item.bounding_box.height,
       },
     }));
+
+    // Record each detected item into the product catalog (builds our reference DB)
+    for (const item of parsed.items) {
+      productCatalog
+        .recordDetection({
+          name: item.label,
+          brand: item.brand,
+          unit: item.unit,
+          confidence: item.confidence,
+          boundingBox: {
+            x: item.bounding_box.x,
+            y: item.bounding_box.y,
+            width: item.bounding_box.width,
+            height: item.bounding_box.height,
+          },
+          category: item.category ?? undefined,
+          frameThumbnail: base64Data, // Store the full frame; future: crop to bounding box
+        })
+        .catch((e) => console.warn("[VisionService] Catalog record failed:", e));
+    }
+
+    return detectedItems;
   } catch (error) {
     console.error("[VisionService] Detection failed:", error);
     return null;

@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Platform,
@@ -15,6 +15,7 @@ import {
 import Colors from "@/constants/colors";
 import { SCAN_ZONES, type InventoryItem, type ScanZone } from "@/constants/inventory";
 import { useApp } from "@/contexts/AppContext";
+import { productCatalog, type CatalogStats } from "@/services/productCatalog";
 
 function timeAgo(timestamp: number): string {
   const diff = Date.now() - timestamp;
@@ -37,6 +38,12 @@ interface ZoneGroup {
 export default function InventoryPanel() {
   const { inventoryItems, removeInventoryItem, clearInventory, clearInventoryZone, lastScanTimestamp } = useApp();
   const [expandedZone, setExpandedZone] = useState<ScanZone | null>(null);
+  const [catalogStats, setCatalogStats] = useState<CatalogStats | null>(null);
+
+  // Load catalog stats
+  useEffect(() => {
+    productCatalog.getStats().then(setCatalogStats).catch(() => {});
+  }, [inventoryItems]); // Refresh when inventory changes (after a scan)
 
   const zoneGroups = useMemo(() => {
     const groups: Record<string, ZoneGroup> = {};
@@ -223,6 +230,40 @@ export default function InventoryPanel() {
         <Ionicons name="scan-outline" size={18} color={Colors.light.primary} />
         <Text style={styles.rescanText}>Scan Again</Text>
       </Pressable>
+
+      {/* Product Catalog stats */}
+      {catalogStats && catalogStats.totalProducts > 0 && (
+        <View style={styles.catalogCard}>
+          <View style={styles.catalogHeader}>
+            <Ionicons name="images-outline" size={16} color={Colors.light.secondary} />
+            <Text style={styles.catalogTitle}>Product Catalog</Text>
+          </View>
+          <View style={styles.catalogStatsRow}>
+            <View style={styles.catalogStat}>
+              <Text style={styles.catalogStatValue}>{catalogStats.totalProducts}</Text>
+              <Text style={styles.catalogStatLabel}>Products</Text>
+            </View>
+            <View style={styles.catalogStatDivider} />
+            <View style={styles.catalogStat}>
+              <Text style={styles.catalogStatValue}>{catalogStats.totalImages}</Text>
+              <Text style={styles.catalogStatLabel}>Images</Text>
+            </View>
+          </View>
+          {catalogStats.topProducts.length > 0 && (
+            <View style={styles.catalogTopList}>
+              <Text style={styles.catalogTopLabel}>Most seen</Text>
+              {catalogStats.topProducts.slice(0, 3).map((p, i) => (
+                <Text key={i} style={styles.catalogTopItem}>
+                  {p.name}{p.brand ? ` (${p.brand})` : ""} — {p.timesDetected}x
+                </Text>
+              ))}
+            </View>
+          )}
+          <Text style={styles.catalogFooter}>
+            Each scan builds your product reference library
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -436,5 +477,77 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     color: Colors.light.primary,
+  },
+  // Product Catalog stats
+  catalogCard: {
+    marginTop: 12,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 14,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: "rgba(99,102,241,0.15)",
+  },
+  catalogHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    marginBottom: 10,
+  },
+  catalogTitle: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.secondary,
+  },
+  catalogStatsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 20,
+    marginBottom: 10,
+  },
+  catalogStat: {
+    alignItems: "center",
+  },
+  catalogStatValue: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 20,
+    color: Colors.light.onSurface,
+  },
+  catalogStatLabel: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: Colors.light.secondary,
+  },
+  catalogStatDivider: {
+    width: 1,
+    height: 28,
+    backgroundColor: Colors.light.outlineVariant,
+  },
+  catalogTopList: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: Colors.light.outlineVariant,
+    paddingTop: 8,
+    marginBottom: 6,
+  },
+  catalogTopLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 11,
+    color: Colors.light.secondary,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  catalogTopItem: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12,
+    color: Colors.light.onSurfaceVariant,
+    paddingVertical: 2,
+  },
+  catalogFooter: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: Colors.light.outlineVariant,
+    textAlign: "center",
+    fontStyle: "italic",
   },
 });
