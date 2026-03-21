@@ -487,7 +487,7 @@ export interface CountryLocation {
 
 const REGION_IMAGES: Record<string, CountryLocation[]> = {
   italy: [
-    { name: "Tuscany",      subtitle: "The Eternal Countryside", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=85&fit=crop" },
+    { name: "Tuscany",      subtitle: "The Eternal Countryside", image: "https://images.unsplash.com/photo-1679935983144-abfd99e1f611?w=900&q=85&fit=crop" },
     { name: "Rome",         subtitle: "The Eternal City",        image: "https://images.unsplash.com/photo-1529260830199-42c24126f198?w=900&q=85&fit=crop" },
     { name: "Amalfi Coast", subtitle: "Sun-Kissed Shores",       image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=900&q=85&fit=crop" },
   ],
