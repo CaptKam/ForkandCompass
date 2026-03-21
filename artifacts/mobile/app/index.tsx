@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
+import { useScaledStyles } from "@/hooks/useScaledStyles";
 import { WELCOME_HERO_IMAGE } from "@/constants/data";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -23,6 +24,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 export default function WelcomeScreen() {
   const { hasSeenWelcome, hasCompletedOnboarding, setHasSeenWelcome } = useApp();
   const colors = useThemeColors();
+  const type = useScaledStyles();
   const insets = useSafeAreaInsets();
 
   React.useEffect(() => {
@@ -64,19 +66,23 @@ export default function WelcomeScreen() {
         ]}
       >
         <View style={styles.textContainer}>
-          <Text style={styles.title}>Eat Your Way{"\n"}Across the Globe.</Text>
-          <Text style={styles.subtitle}>
+          <Text style={[type.displayLarge, styles.title]}>
+            Eat Your Way{"\n"}Across the Globe.
+          </Text>
+          <Text style={[type.bodyLarge, styles.subtitle]}>
             Pick a country, cook a dinner, feel like you traveled.
           </Text>
           <Pressable
             onPress={handleStart}
+            accessibilityRole="button"
+            accessibilityLabel="Start your journey — begin onboarding"
             style={({ pressed }) => [
               styles.button,
               { backgroundColor: colors.primary },
               pressed && styles.buttonPressed,
             ]}
           >
-            <Text style={[styles.buttonText, { color: colors.onPrimary }]}>Start Your Journey</Text>
+            <Text style={[type.titleMedium, { color: colors.onPrimary }]}>Start Your Journey</Text>
             <Ionicons name="arrow-forward" size={20} color={colors.onPrimary} />
           </Pressable>
         </View>
@@ -98,18 +104,11 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   title: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 44,
     color: "#FFFFFF",
-    lineHeight: 52,
-    letterSpacing: -0.5,
     marginBottom: 12,
   },
   subtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 18,
     color: "rgba(255,255,255,0.8)",
-    lineHeight: 26,
     marginBottom: 32,
     maxWidth: 320,
   },
@@ -125,9 +124,5 @@ const styles = StyleSheet.create({
   buttonPressed: {
     transform: [{ scale: 0.97 }],
     opacity: 0.9,
-  },
-  buttonText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
   },
 });
