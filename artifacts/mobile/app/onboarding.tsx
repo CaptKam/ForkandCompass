@@ -19,6 +19,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { COUNTRIES, ONBOARDING_IMAGES } from "@/constants/data";
 import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
+import { useScaledStyles } from "@/hooks/useScaledStyles";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_GAP = 16;
@@ -28,6 +29,7 @@ export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
   const { selectedCountryIds, toggleCountrySelection, setHasCompletedOnboarding } = useApp();
   const colors = useThemeColors();
+  const type = useScaledStyles();
   const isDark = colors.background === "#121110";
 
   const handleStart = () => {
@@ -47,8 +49,12 @@ export default function OnboardingScreen() {
         ]}
       >
         <View style={styles.headerContainer}>
-          <Text style={[styles.title, { color: colors.onSurface }]}>Where do you{"\n"}want to go?</Text>
-          <Text style={[styles.subtitle, { color: colors.secondary }]}>Pick the countries on your bucket list</Text>
+          <Text style={[type.headlineMedium, styles.title, { color: colors.onSurface }]}>
+            Where do you{"\n"}want to go?
+          </Text>
+          <Text style={[type.bodyMedium, styles.subtitle, { color: colors.secondary }]}>
+            Pick the countries on your bucket list
+          </Text>
         </View>
 
         <View style={styles.grid}>
@@ -58,6 +64,9 @@ export default function OnboardingScreen() {
             return (
               <Pressable
                 key={country.id}
+                accessibilityRole="button"
+                accessibilityLabel={`${country.name}, ${isSelected ? "selected" : "not selected"}`}
+                accessibilityState={{ selected: isSelected }}
                 onPress={() => {
                   if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                   toggleCountrySelection(country.id);
@@ -80,7 +89,7 @@ export default function OnboardingScreen() {
                   style={styles.cardOverlay}
                 />
                 <View style={styles.cardContent}>
-                  <Text style={styles.cardName}>
+                  <Text style={[type.titleSmall, styles.cardName]}>
                     {country.name} {country.flag}
                   </Text>
                 </View>
@@ -108,13 +117,15 @@ export default function OnboardingScreen() {
       >
         <Pressable
           onPress={handleStart}
+          accessibilityRole="button"
+          accessibilityLabel="Start exploring — complete onboarding"
           style={({ pressed }) => [
             styles.startButton,
             { backgroundColor: colors.primary },
             pressed && { transform: [{ scale: 0.97 }], opacity: 0.9 },
           ]}
         >
-          <Text style={[styles.startButtonText, { color: colors.onPrimary }]}>Start Exploring</Text>
+          <Text style={[type.titleMedium, { color: colors.onPrimary }]}>Start Exploring</Text>
         </Pressable>
       </View>
     </View>
@@ -134,15 +145,9 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   title: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 28,
     textAlign: "center",
-    letterSpacing: -0.5,
-    lineHeight: 36,
   },
   subtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
     marginTop: 8,
     textAlign: "center",
   },
@@ -175,8 +180,6 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   cardName: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
     color: "#FFFFFF",
   },
   checkBadge: {
@@ -204,9 +207,5 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
-  },
-  startButtonText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
   },
 });
