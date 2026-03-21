@@ -470,6 +470,56 @@ export const ONBOARDING_IMAGES: Record<string, string> = {
 
 export const WELCOME_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuBNn6amxRklLOG69FpzFwcXZX5f0amiGLTlhj-OK4CKLAIjyld88eF-BtrHONmt69pF3NCPSHevwxzssyeJ5w5VEPOr_80X6OLvGsHb34IEqgiWpCiWubiMQhnstosxqXAbBBiQcEZU-D9RTzfI_NmGNh5z4lYEsg0anY3accSKOTqZq8eXDHA6YRz9F54mcDsybrvMxHqD1TGxK3VUSsKjgta2G468z9ttJssORTCBDgaEojDrgatyIZ3koBd5P5yOCQsaO7I5moy8";
 
+export interface CountryLocation {
+  name: string;
+  subtitle: string;
+  image: string;
+}
+
+export function getCountryLocations(country: Country): CountryLocation[] {
+  const img = country.heroImage || ONBOARDING_IMAGES[country.id] || country.image;
+  const imgAlt = img;
+
+  const byCountry: Record<string, CountryLocation[]> = {
+    morocco: [
+      { name: "Marrakech", subtitle: "The Red City", image: img },
+      { name: "Chefchaouen", subtitle: "The Blue Pearl", image: imgAlt },
+      { name: "The Atlas Mountains", subtitle: "High Peaks", image: img },
+    ],
+    italy: [
+      { name: "Tuscany", subtitle: "The Eternal Countryside", image: img },
+      { name: "Rome", subtitle: "The Eternal City", image: imgAlt },
+      { name: "Amalfi Coast", subtitle: "Sun-Kissed Shores", image: img },
+    ],
+    japan: [
+      { name: "Kyoto", subtitle: "The Ancient Capital", image: img },
+      { name: "Tokyo", subtitle: "The Neon Metropolis", image: imgAlt },
+      { name: "Osaka", subtitle: "The Kitchen of Japan", image: img },
+    ],
+    mexico: [
+      { name: "Oaxaca", subtitle: "The Heart of Mole", image: img },
+      { name: "Yucatán", subtitle: "Mayan Flavours", image: imgAlt },
+      { name: "Mexico City", subtitle: "The Capital Table", image: img },
+    ],
+    india: [
+      { name: "Delhi", subtitle: "The Spice Capital", image: img },
+      { name: "Kerala", subtitle: "The Coconut Coast", image: imgAlt },
+      { name: "Rajasthan", subtitle: "Royal Kitchens", image: img },
+    ],
+    thailand: [
+      { name: "Bangkok", subtitle: "Street Food Capital", image: img },
+      { name: "Chiang Mai", subtitle: "Northern Traditions", image: imgAlt },
+      { name: "Phuket", subtitle: "Coastal Delights", image: img },
+    ],
+  };
+
+  return byCountry[country.id] || [
+    { name: country.region, subtitle: country.tagline, image: img },
+    { name: `${country.name} Highlands`, subtitle: "Hidden Gems", image: imgAlt },
+    { name: `${country.name} Coast`, subtitle: "By the Sea", image: img },
+  ];
+}
+
 export function getCountryById(id: string): Country | undefined {
   return COUNTRIES.find((c) => c.id === id);
 }
