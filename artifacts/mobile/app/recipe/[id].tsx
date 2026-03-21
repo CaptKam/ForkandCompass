@@ -64,7 +64,7 @@ export default function RecipeDetailScreen() {
       <StatusBar style="light" />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, 16) + (Platform.OS === "web" ? 100 : 80) }}
       >
         {/* Hero */}
         <View style={styles.heroContainer}>
@@ -104,7 +104,7 @@ export default function RecipeDetailScreen() {
         <View style={styles.contentCard}>
           {/* Title */}
           <Text style={styles.recipeTitle}>{recipe.name}</Text>
-          <Text style={styles.recipeSubtitle}>{recipe.category} \u00B7 {recipe.countryName} {recipe.countryFlag}</Text>
+          <Text style={styles.recipeSubtitle}>{recipe.category} · {recipe.countryName} {recipe.countryFlag}</Text>
 
           {/* Metadata chips */}
           <View style={styles.metaRow}>
@@ -162,7 +162,7 @@ export default function RecipeDetailScreen() {
                   </View>
                   <Text style={[styles.ingredientText, isChecked && styles.ingredientTextChecked]}>
                     {ing.name}
-                    <Text style={styles.ingredientAmount}> \u2014 {ing.amount}</Text>
+                    <Text style={styles.ingredientAmount}>{" \u2014 "}{ing.amount}</Text>
                   </Text>
                 </Pressable>
               );
