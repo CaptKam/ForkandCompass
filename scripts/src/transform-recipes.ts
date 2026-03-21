@@ -10,6 +10,21 @@ const CUISINE_TO_COUNTRY: Record<string, string> = {
   Mexican: "mexico",
   Indian: "india",
   Thai: "thailand",
+  // Common API variants
+  italian: "italy",
+  japanese: "japan",
+  moroccan: "morocco",
+  mexican: "mexico",
+  indian: "india",
+  thai: "thailand",
+  "North African": "morocco",
+  "Southeast Asian": "thailand",
+  "South Asian": "india",
+  "East Asian": "japan",
+  "Latin American": "mexico",
+  Mediterranean: "italy",
+  Fusion: "unknown",
+  American: "unknown",
 };
 
 const COUNTRY_NAMES: Record<string, string> = {
@@ -244,11 +259,30 @@ function main() {
     const recipeName: string = recipe.name ?? "Unknown";
     const id = toKebab(recipeName);
 
-    // Resolve country: explicit file mapping > cuisine mapping
-    const countryId =
+    // Resolve country: explicit file mapping > cuisine mapping > name heuristic
+    const cuisineNormalized = recipe.cuisine
+      ? recipe.cuisine.charAt(0).toUpperCase() + recipe.cuisine.slice(1).toLowerCase()
+      : "";
+    let countryId =
       FILE_ID_TO_COUNTRY[fileId] ??
       CUISINE_TO_COUNTRY[recipe.cuisine] ??
-      "unknown";
+      CUISINE_TO_COUNTRY[cuisineNormalized] ??
+      null;
+
+    if (!countryId) {
+      // Fallback: infer from recipe name keywords
+      const lowerName = recipeName.toLowerCase();
+      if (lowerName.includes("italian") || lowerName.includes("italy")) countryId = "italy";
+      else if (lowerName.includes("japanese") || lowerName.includes("japan")) countryId = "japan";
+      else if (lowerName.includes("moroccan") || lowerName.includes("morocco")) countryId = "morocco";
+      else if (lowerName.includes("mexican") || lowerName.includes("mexico")) countryId = "mexico";
+      else if (lowerName.includes("indian") || lowerName.includes("india")) countryId = "india";
+      else if (lowerName.includes("thai")) countryId = "thailand";
+      else {
+        countryId = "unknown";
+        console.warn(`  ⚠ Could not resolve country for "${recipeName}" (file: ${fileId}, cuisine: ${recipe.cuisine})`);
+      }
+    }
 
     const prepTime = parseDuration(recipe.meta?.active_time);
     const cookTime = parseDuration(recipe.meta?.passive_time);
