@@ -20,6 +20,10 @@ interface AppContextType {
   clearGrocery: () => void;
   hasSeenWelcome: boolean;
   setHasSeenWelcome: (v: boolean) => void;
+  selectedCountryIds: string[];
+  toggleCountrySelection: (id: string) => void;
+  hasCompletedOnboarding: boolean;
+  setHasCompletedOnboarding: (v: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -27,20 +31,26 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 const SAVED_KEY = "@culinary_saved";
 const GROCERY_KEY = "@culinary_grocery";
 const WELCOME_KEY = "@culinary_welcome";
+const SELECTED_COUNTRIES_KEY = "@culinary_selected_countries";
+const ONBOARDING_KEY = "@culinary_onboarding";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [savedRecipeIds, setSavedRecipeIds] = useState<string[]>([]);
   const [groceryItems, setGroceryItems] = useState<GroceryItem[]>([]);
   const [hasSeenWelcome, setHasSeenWelcomeState] = useState(false);
+  const [selectedCountryIds, setSelectedCountryIds] = useState<string[]>([]);
+  const [hasCompletedOnboarding, setHasCompletedOnboardingState] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
+          AsyncStorage.getItem(SELECTED_COUNTRIES_KEY).catch(() => null),
+          AsyncStorage.getItem(ONBOARDING_KEY).catch(() => null),
         ]);
         if (saved) {
           try {
@@ -55,6 +65,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           } catch {}
         }
         if (welcome === "true") setHasSeenWelcomeState(true);
+        if (countries) {
+          try {
+            const parsed = JSON.parse(countries);
+            if (Array.isArray(parsed)) setSelectedCountryIds(parsed);
+          } catch {}
+        }
+        if (onboarding === "true") setHasCompletedOnboardingState(true);
       } catch {}
       setLoaded(true);
     })();
@@ -111,7 +128,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const setHasSeenWelcome = useCallback((v: boolean) => {
     setHasSeenWelcomeState(v);
-    AsyncStorage.setItem(WELCOME_KEY, v ? "true" : "false");
+    AsyncStorage.setItem(WELCOME_KEY, v ? "true" : "false").catch(() => {});
+  }, []);
+
+  const toggleCountrySelection = useCallback((id: string) => {
+    setSelectedCountryIds((prev) => {
+      const next = prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id];
+      AsyncStorage.setItem(SELECTED_COUNTRIES_KEY, JSON.stringify(next)).catch(() => {});
+      return next;
+    });
+  }, []);
+
+  const setHasCompletedOnboarding = useCallback((v: boolean) => {
+    setHasCompletedOnboardingState(v);
+    AsyncStorage.setItem(ONBOARDING_KEY, v ? "true" : "false").catch(() => {});
   }, []);
 
   if (!loaded) return null;
@@ -129,6 +159,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         clearGrocery,
         hasSeenWelcome,
         setHasSeenWelcome,
+        selectedCountryIds,
+        toggleCountrySelection,
+        hasCompletedOnboarding,
+        setHasCompletedOnboarding,
       }}
     >
       {children}

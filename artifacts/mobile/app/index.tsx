@@ -20,20 +20,22 @@ import { Ionicons } from "@expo/vector-icons";
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function WelcomeScreen() {
-  const { hasSeenWelcome, setHasSeenWelcome } = useApp();
+  const { hasSeenWelcome, hasCompletedOnboarding, setHasSeenWelcome } = useApp();
   const insets = useSafeAreaInsets();
 
   React.useEffect(() => {
-    if (hasSeenWelcome) {
+    if (hasCompletedOnboarding) {
       router.replace("/(tabs)");
+    } else if (hasSeenWelcome) {
+      router.replace("/onboarding");
     }
-  }, [hasSeenWelcome]);
+  }, [hasSeenWelcome, hasCompletedOnboarding]);
 
-  if (hasSeenWelcome) return null;
+  if (hasSeenWelcome || hasCompletedOnboarding) return null;
 
   const handleStart = () => {
     setHasSeenWelcome(true);
-    router.replace("/(tabs)");
+    router.replace("/onboarding");
   };
 
   return (

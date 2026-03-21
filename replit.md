@@ -100,15 +100,17 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
 "The Culinary Editorial" — a premium culinary travel mobile app (Expo/React Native) with a high-end editorial magazine aesthetic.
 
 - **Design System**: Primary terracotta #9A4100, surface #FEF9F3, Noto Serif for headlines, Inter for body text, no-line border rule (sections defined by color shifts, not borders)
-- **Navigation**: Welcome screen → Tab bar (Explore, Grocery, Saved, Settings) with NativeTabs (liquid glass) on iOS 26+, classic BlurView tabs fallback
-- **Stack screens**: country/[id], recipe/[id], cook-mode (modal)
-- **State**: AsyncStorage for saved recipes, grocery list, welcome-seen flag via AppContext
-- **Data**: Static hardcoded content in constants/data.ts (Italy, Japan, Morocco, Mexico with recipes)
+- **Navigation**: Welcome → Onboarding (country picker) → Tab bar (Explore, Grocery, Saved, Settings) with NativeTabs (liquid glass) on iOS 26+, classic BlurView tabs fallback
+- **Stack screens**: onboarding, country/[id], recipe/[id], cook-mode (modal)
+- **State**: AsyncStorage for saved recipes, grocery list, welcome-seen, selected countries, onboarding-completed via AppContext
+- **Data**: Static hardcoded content in constants/data.ts (Italy, Japan, Morocco, Mexico, India, Thailand with recipes)
+- **Onboarding**: "Where do you want to go?" country picker grid with selectable cards, checkmark badges, and "Start Exploring" CTA
 - **Key files**:
   - `constants/colors.ts` — design system colors
-  - `constants/data.ts` — all countries/recipes data
-  - `contexts/AppContext.tsx` — global state (saved, grocery, welcome)
-  - `app/index.tsx` — Welcome screen
+  - `constants/data.ts` — all countries/recipes data + ONBOARDING_IMAGES
+  - `contexts/AppContext.tsx` — global state (saved, grocery, welcome, selectedCountryIds, hasCompletedOnboarding)
+  - `app/index.tsx` — Welcome screen (routes to /onboarding or /(tabs) based on state)
+  - `app/onboarding.tsx` — Country picker onboarding screen
   - `app/(tabs)/` — Tab screens (explore, grocery, saved, settings)
   - `app/country/[id].tsx` — Country detail
   - `app/recipe/[id].tsx` — Recipe detail with ingredients
