@@ -11,6 +11,9 @@ import { productCatalog } from "./productCatalog";
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
+/** Minimum confidence to keep a detection — anything below is discarded */
+const CONFIDENCE_THRESHOLD = 0.75;
+
 // Pull from Expo env (set via .env or app.config)
 function getApiKey(): string | null {
   // Expo makes env vars available via process.env with EXPO_PUBLIC_ prefix
@@ -44,22 +47,29 @@ function buildPrompt(zone: ScanZone): string {
     other: "a kitchen storage area",
   };
 
-  return `You are a kitchen inventory scanner. Analyze this image of ${zoneDescriptions[zone]}.
+  return `You are a precise kitchen inventory scanner. Analyze this image of ${zoneDescriptions[zone]}.
 
-Identify every visible food item, ingredient, or grocery product. For each item:
-- **label**: The common name of the item (e.g. "Milk", "Olive Oil", "Cumin")
-- **brand**: The brand name if you can read it from the label, otherwise null
-- **quantity**: How many of this item you see (integer), or null if unclear
-- **unit**: The unit/container type (e.g. "bottle", "can", "jar", "bag", "box", "gallon", "dozen"), or null
+CRITICAL RULES — read carefully:
+- ONLY report items you can clearly see and positively identify in the image.
+- Do NOT guess, infer, or hallucinate items that are not clearly visible.
+- Do NOT assume items exist because of the zone type (e.g. don't add "milk" just because it's a fridge).
+- If you see a single item, report exactly one item. If you see nothing identifiable, return an empty list.
+- Be conservative — it is much better to miss an item than to report a phantom one.
+- Your confidence score must honestly reflect how certain you are. If below 0.7, do not include the item.
+
+For each item you can clearly identify:
+- **label**: The common name (e.g. "Coca-Cola", "Olive Oil")
+- **brand**: The brand ONLY if you can read it on the packaging, otherwise null
+- **quantity**: Exact count you can see (integer), or null if unclear
+- **unit**: Container type (e.g. "can", "bottle", "jar", "bag"), or null
 - **category**: One of "produce", "protein", "dairy", "pantry", "spice", "beverage", "condiment", "frozen", or null
-- **confidence**: Your confidence in the identification from 0.0 to 1.0
-- **bounding_box**: Approximate normalized position in the image as {x, y, width, height} where values are 0.0-1.0 fractions of image dimensions
+- **confidence**: Honest confidence from 0.0 to 1.0 — only include items where confidence >= 0.7
+- **bounding_box**: Approximate normalized position {x, y, width, height} as 0.0-1.0 fractions
 
-Respond with ONLY valid JSON in this exact format, no markdown:
-{"items": [{"label": "...", "brand": "..." or null, "quantity": 1, "unit": "...", "category": "dairy", "confidence": 0.95, "bounding_box": {"x": 0.1, "y": 0.2, "width": 0.3, "height": 0.25}}]}
+Respond with ONLY valid JSON, no markdown:
+{"items": [{"label": "...", "brand": "..." or null, "quantity": 1, "unit": "...", "category": "beverage", "confidence": 0.95, "bounding_box": {"x": 0.1, "y": 0.2, "width": 0.3, "height": 0.25}}]}
 
-If you cannot identify any items, respond with: {"items": []}
-Be thorough — identify everything visible, even partially obscured items (with lower confidence).`;
+If you cannot clearly identify any items, respond with: {"items": []}`;
 }
 
 /**
@@ -135,8 +145,17 @@ export async function detectItemsWithVision(
     // Parse the JSON response
     const parsed: VisionDetectionResponse = JSON.parse(textBlock.text);
 
+    // Filter out low-confidence hallucinations
+    const confident = parsed.items.filter(
+      (item) => item.confidence >= CONFIDENCE_THRESHOLD,
+    );
+
+    console.log(
+      `[VisionService] Raw: ${parsed.items.length} items, kept ${confident.length} above ${CONFIDENCE_THRESHOLD} threshold`,
+    );
+
     // Map to DetectedItem format
-    const detectedItems: DetectedItem[] = parsed.items.map((item) => ({
+    const detectedItems: DetectedItem[] = confident.map((item) => ({
       label: item.label,
       brand: item.brand,
       quantity: item.quantity,
@@ -150,8 +169,8 @@ export async function detectItemsWithVision(
       },
     }));
 
-    // Record each detected item into the product catalog (builds our reference DB)
-    for (const item of parsed.items) {
+    // Record only confident detections into the product catalog
+    for (const item of confident) {
       productCatalog
         .recordDetection({
           name: item.label,
@@ -165,7 +184,7 @@ export async function detectItemsWithVision(
             height: item.bounding_box.height,
           },
           category: item.category ?? undefined,
-          frameThumbnail: base64Data, // Store the full frame; future: crop to bounding box
+          frameThumbnail: base64Data,
         })
         .catch((e) => console.warn("[VisionService] Catalog record failed:", e));
     }
