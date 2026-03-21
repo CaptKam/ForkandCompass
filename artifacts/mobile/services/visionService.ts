@@ -12,7 +12,7 @@ import { productCatalog } from "./productCatalog";
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
 /** Minimum confidence to keep a detection — anything below is discarded */
-const CONFIDENCE_THRESHOLD = 0.75;
+const CONFIDENCE_THRESHOLD = 0.85;
 
 // Pull from Expo env (set via .env or app.config)
 function getApiKey(): string | null {
@@ -40,36 +40,35 @@ interface VisionDetectionResponse {
  */
 function buildPrompt(zone: ScanZone): string {
   const zoneDescriptions: Record<ScanZone, string> = {
-    fridge: "a refrigerator (look for dairy, condiments, beverages, produce, leftovers)",
-    pantry: "a pantry or dry storage (look for canned goods, grains, pasta, oils, baking supplies)",
-    spice_rack: "a spice rack or spice cabinet (look for spice jars, seasonings, dried herbs)",
-    counter: "a kitchen countertop (look for fresh produce, fruit bowls, bread, appliances with visible items)",
+    fridge: "a refrigerator",
+    pantry: "a pantry or dry storage area",
+    spice_rack: "a spice rack or cabinet",
+    counter: "a kitchen countertop",
     other: "a kitchen storage area",
   };
 
-  return `You are a precise kitchen inventory scanner. Analyze this image of ${zoneDescriptions[zone]}.
+  return `Analyze this image of ${zoneDescriptions[zone]}.
 
-CRITICAL RULES — read carefully:
-- ONLY report items you can clearly see and positively identify in the image.
-- Do NOT guess, infer, or hallucinate items that are not clearly visible.
-- Do NOT assume items exist because of the zone type (e.g. don't add "milk" just because it's a fridge).
-- If you see a single item, report exactly one item. If you see nothing identifiable, return an empty list.
-- Be conservative — it is much better to miss an item than to report a phantom one.
-- Your confidence score must honestly reflect how certain you are. If below 0.7, do not include the item.
+RULES — STRICTLY FOLLOW:
+1. ONLY list items you can physically SEE in this specific image. Count them.
+2. NEVER add items you cannot see. NEVER guess what "might" be there.
+3. If you see 1 item, return exactly 1 item. If you see 0 items, return {"items": []}.
+4. Do NOT let the zone type influence what you report — only report what is visible.
+5. An empty list is always better than a wrong list.
 
-For each item you can clearly identify:
-- **label**: The common name (e.g. "Coca-Cola", "Olive Oil")
-- **brand**: The brand ONLY if you can read it on the packaging, otherwise null
-- **quantity**: Exact count you can see (integer), or null if unclear
-- **unit**: Container type (e.g. "can", "bottle", "jar", "bag"), or null
-- **category**: One of "produce", "protein", "dairy", "pantry", "spice", "beverage", "condiment", "frozen", or null
-- **confidence**: Honest confidence from 0.0 to 1.0 — only include items where confidence >= 0.7
-- **bounding_box**: Approximate normalized position {x, y, width, height} as 0.0-1.0 fractions
+For each visible item provide:
+- "label": Product name you can identify from the image
+- "brand": Brand ONLY if text is readable on the packaging, otherwise null
+- "quantity": Exact count visible (integer), or null
+- "unit": Container type ("can", "bottle", "jar", "bag", "box"), or null
+- "category": One of "produce", "protein", "dairy", "pantry", "spice", "beverage", "condiment", "frozen", or null
+- "confidence": How certain you are this item is truly in the image (0.0-1.0). Be honest — do not inflate.
+- "bounding_box": Normalized position {x, y, width, height} as 0.0-1.0 fractions
 
-Respond with ONLY valid JSON, no markdown:
-{"items": [{"label": "...", "brand": "..." or null, "quantity": 1, "unit": "...", "category": "beverage", "confidence": 0.95, "bounding_box": {"x": 0.1, "y": 0.2, "width": 0.3, "height": 0.25}}]}
+Respond with ONLY valid JSON:
+{"items": [{"label": "...", "brand": null, "quantity": 1, "unit": "...", "category": null, "confidence": 0.95, "bounding_box": {"x": 0.1, "y": 0.2, "width": 0.3, "height": 0.25}}]}
 
-If you cannot clearly identify any items, respond with: {"items": []}`;
+If nothing is clearly identifiable: {"items": []}`;
 }
 
 /**
@@ -103,6 +102,8 @@ export async function detectItemsWithVision(
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 2048,
+        temperature: 0,
+        system: "You are a strict visual inventory scanner. You MUST only report items that are physically visible in the image. NEVER fabricate, guess, or infer items. If you are not absolutely sure an item is in the image, do not include it. Accuracy is more important than completeness. An empty list is always better than a wrong list.",
         messages: [
           {
             role: "user",
