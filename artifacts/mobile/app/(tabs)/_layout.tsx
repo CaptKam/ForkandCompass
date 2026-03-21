@@ -17,9 +17,13 @@ function NativeTabLayout() {
         <Icon sf={{ default: "safari", selected: "safari.fill" }} />
         <Label>Discover</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="search">
+        <Icon sf={{ default: "magnifyingglass", selected: "magnifyingglass" }} />
+        <Label>Search</Label>
+      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="grocery">
-        <Icon sf={{ default: "book", selected: "book.fill" }} />
-        <Label>Journeys</Label>
+        <Icon sf={{ default: "cart", selected: "cart.fill" }} />
+        <Label>Grocery</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="saved">
         <Icon sf={{ default: "bookmark", selected: "bookmark.fill" }} />
@@ -100,14 +104,26 @@ function ClassicTabLayout() {
         }}
       />
       <Tabs.Screen
-        name="grocery"
+        name="search"
         options={{
-          title: "Journeys",
+          title: "Search",
           tabBarIcon: ({ color }) =>
             isIOS ? (
-              <SymbolView name="book" tintColor={color} size={24} />
+              <SymbolView name="magnifyingglass" tintColor={color} size={24} />
             ) : (
-              <MaterialIcons name="auto-stories" size={24} color={color} />
+              <MaterialIcons name="search" size={24} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="grocery"
+        options={{
+          title: "Grocery",
+          tabBarIcon: ({ color }) =>
+            isIOS ? (
+              <SymbolView name="cart" tintColor={color} size={24} />
+            ) : (
+              <MaterialIcons name="shopping-cart" size={24} color={color} />
             ),
         }}
       />
