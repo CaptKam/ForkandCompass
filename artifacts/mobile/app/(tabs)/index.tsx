@@ -245,15 +245,7 @@ export default function DiscoverScreen() {
                   />
                   <View style={styles.heroContent}>
                     <Text style={styles.heroFlag}>{country.flag}</Text>
-                    <View style={styles.heroTitleRow}>
-                      <Text style={styles.heroTitle}>{country.name}</Text>
-                      <Pressable
-                        onPress={() => { haptic(); toggleSavedCountry(country.id); }}
-                        style={({ pressed }) => [styles.inlineBookmark, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
-                      >
-                        <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={22} color="#FFFFFF" />
-                      </Pressable>
-                    </View>
+                    <Text style={styles.heroTitle}>{country.name}</Text>
                     <Text style={styles.heroBlurb}>{blurb}</Text>
                     <View style={styles.heroActions}>
                       <Pressable
@@ -261,6 +253,12 @@ export default function DiscoverScreen() {
                         style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
                       >
                         <Text style={styles.letsGoText}>Let's Go</Text>
+                      </Pressable>
+                      <Pressable
+                        onPress={() => { haptic(); toggleSavedCountry(country.id); }}
+                        style={({ pressed }) => [styles.bookmarkButton, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
+                      >
+                        <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
                       </Pressable>
                     </View>
                   </View>
@@ -636,8 +634,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     letterSpacing: -0.5,
     lineHeight: 44,
-    flex: 1,
-    marginRight: 12,
+    marginBottom: 12,
   },
   heroBlurb: {
     fontFamily: "Inter_400Regular",
