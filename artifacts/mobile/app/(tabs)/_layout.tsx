@@ -25,13 +25,13 @@ function NativeTabLayout() {
         <Icon sf={{ default: "cart", selected: "cart.fill" }} />
         <Label>Grocery</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="cook">
+        <Icon sf={{ default: "fork.knife", selected: "fork.knife" }} />
+        <Label>Cook</Label>
+      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="saved">
         <Icon sf={{ default: "bookmark", selected: "bookmark.fill" }} />
         <Label>Saved</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="settings">
-        <Icon sf={{ default: "person", selected: "person.fill" }} />
-        <Label>Profile</Label>
       </NativeTabs.Trigger>
     </NativeTabs>
   );
@@ -128,6 +128,18 @@ function ClassicTabLayout() {
         }}
       />
       <Tabs.Screen
+        name="cook"
+        options={{
+          title: "Cook",
+          tabBarIcon: ({ color }) =>
+            isIOS ? (
+              <SymbolView name="fork.knife" tintColor={color} size={24} />
+            ) : (
+              <MaterialIcons name="restaurant" size={24} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
         name="saved"
         options={{
           title: "Saved",
@@ -142,13 +154,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Profile",
-          tabBarIcon: ({ color }) =>
-            isIOS ? (
-              <SymbolView name="person" tintColor={color} size={24} />
-            ) : (
-              <MaterialIcons name="person" size={24} color={color} />
-            ),
+          href: null,
         }}
       />
     </Tabs>
