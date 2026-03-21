@@ -109,14 +109,10 @@ export default function CookScreen() {
             )}
             {!isLoading && results.map((recipe, idx) => (
               <View key={idx} style={[styles.ninjaCard, idx < results.length - 1 && styles.ninjaCardBorder]}>
+                {/* Title + difficulty badge */}
                 <View style={styles.ninjaCardHeader}>
                   <Text style={styles.ninjaTitle}>{recipe.title}</Text>
                   <View style={styles.ninjaBadgeRow}>
-                    {recipe.servings ? (
-                      <View style={styles.servingsBadge}>
-                        <Text style={styles.servingsBadgeText}>{recipe.servings} srv</Text>
-                      </View>
-                    ) : null}
                     {recipe.difficulty ? (
                       <View style={[styles.servingsBadge, { backgroundColor: "rgba(154,65,0,0.1)" }]}>
                         <Text style={[styles.servingsBadgeText, { color: Colors.light.primary }]}>{recipe.difficulty}</Text>
@@ -125,39 +121,29 @@ export default function CookScreen() {
                   </View>
                 </View>
 
-                {/* Meta row: cuisine + timing */}
-                {(recipe.cuisine || recipe.prep_time_minutes || recipe.cook_time_minutes) ? (
-                  <View style={styles.ninjaMetaRow}>
-                    {recipe.cuisine ? <Text style={styles.ninjaMeta}>{recipe.cuisine}</Text> : null}
-                    {recipe.prep_time_minutes ? <Text style={styles.ninjaMeta}>Prep {recipe.prep_time_minutes}min</Text> : null}
-                    {recipe.cook_time_minutes ? <Text style={styles.ninjaMeta}>Cook {recipe.cook_time_minutes}min</Text> : null}
-                  </View>
+                {/* Meta: cuisine · servings · time · calories */}
+                <View style={styles.ninjaMetaRow}>
+                  {recipe.cuisine ? <Text style={styles.ninjaMeta}>{recipe.cuisine}</Text> : null}
+                  {recipe.servings && recipe.servings !== "–" ? <Text style={styles.ninjaMeta}>{recipe.servings}</Text> : null}
+                  {recipe.active_time ? <Text style={styles.ninjaMeta}>⏱ {recipe.active_time}</Text> : null}
+                  {recipe.total_time ? <Text style={styles.ninjaMeta}>Total {recipe.total_time}</Text> : null}
+                  {recipe.calories ? <Text style={styles.ninjaMeta}>{Math.round(recipe.calories)} cal</Text> : null}
+                </View>
+
+                {/* Description */}
+                {recipe.description ? (
+                  <Text style={styles.ninjaInstructions} numberOfLines={2}>{recipe.description}</Text>
                 ) : null}
 
                 {/* Dietary flags */}
                 {recipe.dietary_flags && recipe.dietary_flags.length > 0 ? (
                   <View style={styles.ninjaFlagRow}>
-                    {recipe.dietary_flags.slice(0, 4).map((flag) => (
+                    {recipe.dietary_flags.slice(0, 5).map((flag) => (
                       <View key={flag} style={styles.ninjaFlag}>
                         <Text style={styles.ninjaFlagText}>{flag}</Text>
                       </View>
                     ))}
                   </View>
-                ) : null}
-
-                {recipe.ingredients.length > 0 && (
-                  <View style={styles.ninjaIngredients}>
-                    <Text style={styles.ninjaIngredientsLabel}>Ingredients</Text>
-                    <Text style={styles.ninjaIngredientsList} numberOfLines={3}>
-                      {recipe.ingredients.slice(0, 6).join("  ·  ")}
-                      {recipe.ingredients.length > 6 ? `  +${recipe.ingredients.length - 6} more` : ""}
-                    </Text>
-                  </View>
-                )}
-                {recipe.instructions ? (
-                  <Text style={styles.ninjaInstructions} numberOfLines={3}>
-                    {recipe.instructions}
-                  </Text>
                 ) : null}
               </View>
             ))}

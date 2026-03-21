@@ -1,68 +1,64 @@
 import { useState, useEffect, useRef } from "react";
 
-export interface RecipeIngredient {
+export interface RecipeMeta {
+  active_time?: string;
+  passive_time?: string;
+  total_time?: string;
+  yields?: string;
+  yield_count?: number;
+}
+
+export interface RecipeDietary {
+  flags?: string[];
+  not_suitable_for?: string[];
+}
+
+export interface RecipeNutritionSummary {
+  calories?: number;
+  protein_g?: number;
+  carbohydrates_g?: number;
+  fat_g?: number;
+}
+
+export interface RecipeListItem {
+  id: string;
   name: string;
-  quantity: number | null;
-  unit: string | null;
-  preparation: string | null;
-}
-
-export interface RecipeIngredientGroup {
-  group: string | null;
-  ingredients: RecipeIngredient[];
-}
-
-export interface RecipeStep {
-  step_number: number;
-  phase: string;
-  text: string;
-}
-
-export interface RecipeResult {
-  id: string | number;
-  title: string;
   description?: string;
-  image_url?: string;
-  servings?: number;
-  prep_time_minutes?: number;
-  cook_time_minutes?: number;
-  difficulty?: string;
+  category?: string;
   cuisine?: string;
-  dietary_flags?: string[];
-  ingredient_groups?: RecipeIngredientGroup[];
-  instructions?: RecipeStep[];
-  chef_notes?: string[];
-  cultural_context?: string;
+  difficulty?: string;
+  tags?: string[];
+  meta?: RecipeMeta;
+  dietary?: RecipeDietary;
+  nutrition_summary?: RecipeNutritionSummary;
 }
 
-function flatIngredients(groups: RecipeIngredientGroup[] = []): string[] {
-  return groups.flatMap((g) =>
-    g.ingredients.map((i) => {
-      const parts = [
-        i.quantity != null ? String(i.quantity) : "",
-        i.unit ?? "",
-        i.name,
-        i.preparation ? `(${i.preparation})` : "",
-      ].filter(Boolean);
-      return parts.join(" ");
-    })
-  );
+/** Parse ISO 8601 duration like "PT15M", "PT1H30M" → "15 min" / "1h 30min" */
+function parseDuration(iso?: string): string | null {
+  if (!iso) return null;
+  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?/);
+  if (!match) return null;
+  const h = match[1] ? parseInt(match[1]) : 0;
+  const m = match[2] ? parseInt(match[2]) : 0;
+  if (h > 0 && m > 0) return `${h}h ${m}min`;
+  if (h > 0) return `${h}h`;
+  if (m > 0) return `${m} min`;
+  return null;
 }
 
 export interface RecipeFormatted {
-  id: string | number;
+  id: string;
   title: string;
-  ingredients: string[];
   servings: string;
-  instructions: string;
   cuisine?: string;
   difficulty?: string;
   dietary_flags?: string[];
-  prep_time_minutes?: number;
-  cook_time_minutes?: number;
-  image_url?: string;
-  chef_notes?: string[];
-  cultural_context?: string;
+  not_suitable_for?: string[];
+  tags?: string[];
+  active_time?: string | null;
+  total_time?: string | null;
+  description?: string;
+  calories?: number;
 }
 
 export function useNinjaRecipes(query: string) {
@@ -94,20 +90,19 @@ export function useNinjaRecipes(query: string) {
         if (!res.ok) throw new Error(`Status ${res.status}`);
         const json = await res.json();
 
-        const items: RecipeFormatted[] = (json?.data ?? []).map((r: RecipeResult) => ({
+        const items: RecipeFormatted[] = (json?.data ?? []).map((r: RecipeListItem) => ({
           id: r.id,
-          title: r.title,
-          ingredients: flatIngredients(r.ingredient_groups),
-          servings: r.servings != null ? String(r.servings) : "–",
-          instructions: (r.instructions ?? []).map((s) => s.text).join(" "),
+          title: r.name,
+          servings: r.meta?.yields ?? (r.meta?.yield_count ? `${r.meta.yield_count} servings` : "–"),
           cuisine: r.cuisine,
           difficulty: r.difficulty,
-          dietary_flags: r.dietary_flags,
-          prep_time_minutes: r.prep_time_minutes,
-          cook_time_minutes: r.cook_time_minutes,
-          image_url: r.image_url,
-          chef_notes: r.chef_notes,
-          cultural_context: r.cultural_context,
+          dietary_flags: r.dietary?.flags ?? [],
+          not_suitable_for: r.dietary?.not_suitable_for ?? [],
+          tags: r.tags ?? [],
+          active_time: parseDuration(r.meta?.active_time),
+          total_time: parseDuration(r.meta?.total_time),
+          description: r.description,
+          calories: r.nutrition_summary?.calories,
         }));
 
         setResults(items);

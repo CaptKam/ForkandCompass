@@ -5,68 +5,44 @@ const router: IRouter = Router();
 const RECIPE_API_BASE = "https://recipe-api.com/api/v1";
 const API_KEY = process.env.RECIPE_API_KEY ?? "";
 
-export interface RecipeIngredient {
+export interface RecipeMeta {
+  active_time?: string;
+  passive_time?: string;
+  total_time?: string;
+  overnight_required?: boolean;
+  yields?: string;
+  yield_count?: number;
+  serving_size_g?: number;
+}
+
+export interface RecipeDietary {
+  flags?: string[];
+  not_suitable_for?: string[];
+}
+
+export interface RecipeNutritionSummary {
+  calories?: number;
+  protein_g?: number;
+  carbohydrates_g?: number;
+  fat_g?: number;
+}
+
+export interface RecipeListItem {
+  id: string;
   name: string;
-  quantity: number | null;
-  unit: string | null;
-  preparation: string | null;
-}
-
-export interface RecipeIngredientGroup {
-  group: string | null;
-  ingredients: RecipeIngredient[];
-}
-
-export interface RecipeStep {
-  step_number: number;
-  phase: string;
-  text: string;
-  structured?: {
-    action: string;
-    temperature?: { celsius: number; fahrenheit: number } | null;
-    duration?: string | null;
-    doneness_cues?: { visual?: string | null; tactile?: string | null } | null;
-  };
-  tips?: string[];
-}
-
-export interface RecipeNutrition {
-  per_serving?: {
-    calories?: number;
-    protein_g?: number;
-    carbohydrates_g?: number;
-    fat_g?: number;
-    fiber_g?: number;
-    sodium_mg?: number;
-  };
-}
-
-export interface RecipeResult {
-  id: string | number;
-  title: string;
-  slug?: string;
   description?: string;
-  image_url?: string;
-  servings?: number;
-  prep_time_minutes?: number;
-  cook_time_minutes?: number;
-  difficulty?: string;
+  category?: string;
   cuisine?: string;
-  dietary_flags?: string[];
-  ingredient_groups?: RecipeIngredientGroup[];
-  instructions?: RecipeStep[];
-  chef_notes?: string[];
-  cultural_context?: string;
-  nutrition?: RecipeNutrition;
+  difficulty?: string;
+  tags?: string[];
+  meta?: RecipeMeta;
+  dietary?: RecipeDietary;
+  nutrition_summary?: RecipeNutritionSummary;
 }
 
 export interface RecipeListResponse {
-  data: RecipeResult[];
-  meta?: {
-    total?: number;
-    page?: number;
-    limit?: number;
-  };
+  data: RecipeListItem[];
+  meta?: { total?: number; page?: number; limit?: number };
 }
 
 router.get("/ninja/recipes", async (req, res) => {
@@ -121,7 +97,7 @@ router.get("/ninja/recipes/:id", async (req, res) => {
       return;
     }
 
-    const data = (await upstream.json()) as RecipeResult;
+    const data = await upstream.json();
     res.json(data);
   } catch (err) {
     console.error("ninja/recipes/:id error", err);
