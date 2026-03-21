@@ -1,0 +1,44 @@
+# ==============================================================================
+# .claudeignore — Stitch Monorepo
+# Keeps Claude Code from burning context on files it doesn't need to read.
+# ==============================================================================
+
+# ── Lock files & package manager noise ────────────────────────────────────────
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# ── Attached assets (3.8MB of zips & pasted HTML) ─────────────────────────────
+attached_assets/
+
+# ── Generated code (Orval codegen — regenerate, don't read) ──────────────────
+lib/api-client-react/src/generated/
+lib/api-zod/src/generated/
+
+# ── Mockup sandbox (55 shadcn UI component files, not the mobile app) ────────
+artifacts/mockup-sandbox/src/components/ui/
+
+# ── Mobile build/serve tooling (generated, not hand-written) ─────────────────
+artifacts/mobile/scripts/build.js
+artifacts/mobile/server/
+
+# ── Binary assets ─────────────────────────────────────────────────────────────
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.ico
+*.svg
+*.zip
+*.tar.gz
+
+# ── Standard ignores ─────────────────────────────────────────────────────────
+node_modules/
+dist/
+.expo/
+.cache/
+*.tsbuildinfo
+.replit
+.replit-artifact/
+.replitignore
