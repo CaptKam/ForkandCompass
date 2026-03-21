@@ -6,7 +6,6 @@ import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
-  Dimensions,
   Platform,
   Pressable,
   ScrollView,
@@ -18,13 +17,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
 import { getCountryById, type Recipe } from "@/constants/data";
-
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+import { useApp } from "@/contexts/AppContext";
 
 export default function CountryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
   const country = getCountryById(id);
+  const { isCountrySaved, toggleSavedCountry } = useApp();
 
   if (!country) {
     return (
@@ -38,13 +37,38 @@ export default function CountryDetailScreen() {
     );
   }
 
+  const saved = isCountrySaved(country.id);
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
+
+      {/* Fixed header */}
+      <View style={[styles.fixedHeader, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
+        <Pressable onPress={() => router.back()} style={styles.headerButton}>
+          <Ionicons name="arrow-back" size={22} color={Colors.light.primary} />
+        </Pressable>
+        <Text style={styles.headerTitle}>The Culinary Editorial</Text>
+        <Pressable
+          onPress={() => {
+            if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            toggleSavedCountry(country.id);
+          }}
+          style={styles.headerButton}
+        >
+          <Ionicons
+            name={saved ? "heart" : "heart-outline"}
+            size={22}
+            color={Colors.light.primary}
+          />
+        </Pressable>
+      </View>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 }}
       >
+        {/* Hero */}
         <View style={styles.heroContainer}>
           <Image
             source={{ uri: country.heroImage }}
@@ -53,51 +77,39 @@ export default function CountryDetailScreen() {
             transition={400}
           />
           <LinearGradient
-            colors={[
-              "rgba(29,27,24,0.3)",
-              "transparent",
-              "rgba(29,27,24,0.8)",
-            ]}
-            locations={[0, 0.3, 1]}
+            colors={["transparent", Colors.light.surface]}
+            locations={[0.5, 1]}
             style={StyleSheet.absoluteFill}
           />
+        </View>
 
-          <Pressable
-            onPress={() => router.back()}
-            style={[styles.backButton, { top: Platform.OS === "web" ? 67 : insets.top + 8 }]}
-          >
-            <Ionicons name="arrow-back" size={22} color="#FFFFFF" />
-          </Pressable>
-
-          <View style={styles.heroTextContainer}>
-            <Text style={styles.heroFlag}>{country.flag}</Text>
-            <Text style={styles.heroTitle}>{country.name}</Text>
-            <Text style={styles.heroRegion}>{country.region} Region</Text>
+        {/* Content card overlapping hero */}
+        <View style={styles.contentCard}>
+          <View style={styles.titleRow}>
+            <Text style={styles.countryTitle}>{country.flag} {country.name}</Text>
           </View>
-        </View>
 
-        <View style={styles.descriptionSection}>
-          <Text style={styles.descriptionText}>{country.description}</Text>
-        </View>
+          <Text style={styles.description}>{country.description}</Text>
 
-        <View style={styles.recipesSection}>
-          <Text style={styles.sectionTitle}>
-            Recipes from {country.name}
-          </Text>
-          <Text style={styles.sectionSubtitle}>
-            {country.recipes.length} authentic dishes to explore
-          </Text>
+          {/* Region heading */}
+          <Text style={styles.regionHeading}>Choose a region</Text>
 
-          {country.recipes.map((recipe) => (
-            <CountryRecipeCard key={recipe.id} recipe={recipe} />
-          ))}
+          {/* Recipe cards as "region" cards */}
+          <View style={styles.recipeCards}>
+            {country.recipes.map((recipe) => (
+              <RecipeRegionCard key={recipe.id} recipe={recipe} />
+            ))}
+          </View>
         </View>
       </ScrollView>
     </View>
   );
 }
 
-function CountryRecipeCard({ recipe }: { recipe: Recipe }) {
+function RecipeRegionCard({ recipe }: { recipe: Recipe }) {
+  const { isSaved, toggleSaved } = useApp();
+  const saved = isSaved(recipe.id);
+
   return (
     <Pressable
       onPress={() => {
@@ -105,34 +117,45 @@ function CountryRecipeCard({ recipe }: { recipe: Recipe }) {
         router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } });
       }}
       style={({ pressed }) => [
-        styles.recipeCard,
+        styles.regionCard,
         pressed && { transform: [{ scale: 0.98 }] },
       ]}
     >
       <Image
         source={{ uri: recipe.image }}
-        style={styles.recipeImage}
+        style={StyleSheet.absoluteFill}
         contentFit="cover"
         transition={300}
       />
       <LinearGradient
-        colors={["transparent", "rgba(29,27,24,0.7)"]}
-        style={styles.recipeOverlay}
+        colors={["transparent", "rgba(0,0,0,0.6)"]}
+        locations={[0.4, 1]}
+        style={StyleSheet.absoluteFill}
       />
-      <View style={styles.recipeContent}>
-        <View style={styles.recipeBadge}>
-          <Text style={styles.recipeBadgeText}>{recipe.category}</Text>
-        </View>
-        <Text style={styles.recipeName}>{recipe.name}</Text>
-        <View style={styles.recipeMeta}>
-          <View style={styles.recipeMetaItem}>
-            <Ionicons name="time-outline" size={14} color="rgba(255,255,255,0.8)" />
-            <Text style={styles.recipeMetaText}>{recipe.time}</Text>
-          </View>
-          <View style={styles.recipeMetaItem}>
-            <Ionicons name="flame-outline" size={14} color="rgba(255,255,255,0.8)" />
-            <Text style={styles.recipeMetaText}>{recipe.difficulty}</Text>
-          </View>
+
+      {/* Heart button */}
+      <Pressable
+        onPress={(e) => {
+          e.stopPropagation?.();
+          if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          toggleSaved(recipe.id);
+        }}
+        style={styles.regionHeartButton}
+      >
+        <Ionicons
+          name={saved ? "heart" : "heart-outline"}
+          size={18}
+          color={saved ? Colors.light.primary : Colors.light.primary}
+        />
+      </Pressable>
+
+      <View style={styles.regionCardContent}>
+        <Text style={styles.regionCardTitle}>{recipe.name}</Text>
+        {/* Carousel dots */}
+        <View style={styles.regionDots}>
+          <View style={[styles.regionDot, styles.regionDotActive]} />
+          <View style={styles.regionDot} />
+          <View style={styles.regionDot} />
         </View>
       </View>
     </Pressable>
@@ -144,130 +167,130 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.light.surface,
   },
+  // Fixed header
+  fixedHeader: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 50,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 24,
+    paddingBottom: 12,
+    backgroundColor: "rgba(254,249,243,0.7)",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(222,193,179,0.15)",
+  },
+  headerButton: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerTitle: {
+    fontFamily: "NotoSerif_600SemiBold",
+    fontStyle: "italic",
+    fontSize: 18,
+    color: Colors.light.primary,
+    letterSpacing: -0.3,
+  },
+  // Hero
   heroContainer: {
-    height: 360,
+    height: 353,
     position: "relative",
   },
   heroImage: {
     width: "100%",
     height: "100%",
   },
-  backButton: {
+  // Content card
+  contentCard: {
+    marginTop: -32,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    backgroundColor: Colors.light.surface,
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    minHeight: 530,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 14,
+  },
+  countryTitle: {
+    fontFamily: "NotoSerif_600SemiBold",
+    fontSize: 24,
+    color: Colors.light.onSurface,
+    letterSpacing: -0.3,
+  },
+  description: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 15,
+    color: Colors.light.secondary,
+    lineHeight: 24,
+    marginBottom: 32,
+  },
+  // Region heading
+  regionHeading: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 13,
+    color: Colors.light.primary,
+    letterSpacing: 1,
+    textTransform: "uppercase",
+    marginBottom: 24,
+  },
+  // Recipe cards
+  recipeCards: {
+    gap: 28,
+  },
+  regionCard: {
+    borderRadius: 14,
+    overflow: "hidden",
+    aspectRatio: 4 / 5,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+  },
+  regionHeartButton: {
     position: "absolute",
-    left: 16,
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: "rgba(29,27,24,0.4)",
+    top: 16,
+    right: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "rgba(254,249,243,0.7)",
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.15)",
     alignItems: "center",
     justifyContent: "center",
   },
-  heroTextContainer: {
+  regionCardContent: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     padding: 24,
   },
-  heroFlag: {
-    fontSize: 28,
-    marginBottom: 8,
-  },
-  heroTitle: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 38,
-    color: "#FFFFFF",
-    letterSpacing: -0.5,
-  },
-  heroRegion: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 15,
-    color: "rgba(255,255,255,0.8)",
-    marginTop: 4,
-    letterSpacing: 0.5,
-  },
-  descriptionSection: {
-    paddingHorizontal: 24,
-    paddingVertical: 24,
-    backgroundColor: Colors.light.surfaceContainerLow,
-  },
-  descriptionText: {
-    fontFamily: "NotoSerif_400Regular_Italic",
-    fontSize: 17,
-    color: Colors.light.onSurfaceVariant,
-    lineHeight: 28,
-  },
-  recipesSection: {
-    paddingHorizontal: 24,
-    paddingTop: 28,
-  },
-  sectionTitle: {
+  regionCardTitle: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 24,
-    color: Colors.light.onSurface,
-    letterSpacing: -0.3,
-    marginBottom: 4,
-  },
-  sectionSubtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    marginBottom: 20,
-  },
-  recipeCard: {
-    borderRadius: 20,
-    overflow: "hidden",
-    height: 200,
-    marginBottom: 16,
-    backgroundColor: Colors.light.surfaceContainerLow,
-  },
-  recipeImage: {
-    width: "100%",
-    height: "100%",
-  },
-  recipeOverlay: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  recipeContent: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 18,
-  },
-  recipeBadge: {
-    backgroundColor: "rgba(154,65,0,0.85)",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 10,
-    alignSelf: "flex-start",
-    marginBottom: 8,
-  },
-  recipeBadgeText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
     color: "#FFFFFF",
-    letterSpacing: 0.5,
-    textTransform: "uppercase",
+    marginBottom: 12,
   },
-  recipeName: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 22,
-    color: "#FFFFFF",
-    marginBottom: 8,
-  },
-  recipeMeta: {
+  regionDots: {
     flexDirection: "row",
-    gap: 16,
+    gap: 6,
   },
-  recipeMetaItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
+  regionDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "rgba(255,255,255,0.4)",
   },
-  recipeMetaText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: "rgba(255,255,255,0.8)",
+  regionDotActive: {
+    width: 16,
+    backgroundColor: "#FFFFFF",
   },
 });
