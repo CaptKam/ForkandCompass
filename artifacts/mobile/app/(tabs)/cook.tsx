@@ -111,12 +111,40 @@ export default function CookScreen() {
               <View key={idx} style={[styles.ninjaCard, idx < results.length - 1 && styles.ninjaCardBorder]}>
                 <View style={styles.ninjaCardHeader}>
                   <Text style={styles.ninjaTitle}>{recipe.title}</Text>
-                  {recipe.servings ? (
-                    <View style={styles.servingsBadge}>
-                      <Text style={styles.servingsBadgeText}>{recipe.servings}</Text>
-                    </View>
-                  ) : null}
+                  <View style={styles.ninjaBadgeRow}>
+                    {recipe.servings ? (
+                      <View style={styles.servingsBadge}>
+                        <Text style={styles.servingsBadgeText}>{recipe.servings} srv</Text>
+                      </View>
+                    ) : null}
+                    {recipe.difficulty ? (
+                      <View style={[styles.servingsBadge, { backgroundColor: "rgba(154,65,0,0.1)" }]}>
+                        <Text style={[styles.servingsBadgeText, { color: Colors.light.primary }]}>{recipe.difficulty}</Text>
+                      </View>
+                    ) : null}
+                  </View>
                 </View>
+
+                {/* Meta row: cuisine + timing */}
+                {(recipe.cuisine || recipe.prep_time_minutes || recipe.cook_time_minutes) ? (
+                  <View style={styles.ninjaMetaRow}>
+                    {recipe.cuisine ? <Text style={styles.ninjaMeta}>{recipe.cuisine}</Text> : null}
+                    {recipe.prep_time_minutes ? <Text style={styles.ninjaMeta}>Prep {recipe.prep_time_minutes}min</Text> : null}
+                    {recipe.cook_time_minutes ? <Text style={styles.ninjaMeta}>Cook {recipe.cook_time_minutes}min</Text> : null}
+                  </View>
+                ) : null}
+
+                {/* Dietary flags */}
+                {recipe.dietary_flags && recipe.dietary_flags.length > 0 ? (
+                  <View style={styles.ninjaFlagRow}>
+                    {recipe.dietary_flags.slice(0, 4).map((flag) => (
+                      <View key={flag} style={styles.ninjaFlag}>
+                        <Text style={styles.ninjaFlagText}>{flag}</Text>
+                      </View>
+                    ))}
+                  </View>
+                ) : null}
+
                 {recipe.ingredients.length > 0 && (
                   <View style={styles.ninjaIngredients}>
                     <Text style={styles.ninjaIngredientsLabel}>Ingredients</Text>
@@ -127,7 +155,7 @@ export default function CookScreen() {
                   </View>
                 )}
                 {recipe.instructions ? (
-                  <Text style={styles.ninjaInstructions} numberOfLines={4}>
+                  <Text style={styles.ninjaInstructions} numberOfLines={3}>
                     {recipe.instructions}
                   </Text>
                 ) : null}
@@ -328,6 +356,37 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.light.onSurfaceVariant,
     lineHeight: 20,
+  },
+  ninjaBadgeRow: {
+    flexDirection: "row",
+    gap: 6,
+    flexShrink: 0,
+  },
+  ninjaMetaRow: {
+    flexDirection: "row",
+    gap: 12,
+    flexWrap: "wrap",
+  },
+  ninjaMeta: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12,
+    color: Colors.light.secondary,
+  },
+  ninjaFlagRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+  },
+  ninjaFlag: {
+    backgroundColor: "rgba(154,65,0,0.07)",
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+  ninjaFlagText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: Colors.light.primary,
   },
 
   /* Featured */
