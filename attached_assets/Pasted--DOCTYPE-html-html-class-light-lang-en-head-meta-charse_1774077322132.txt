@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Culinary Editorial - Discovery Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Noto+Serif:ital,wght@0,600;0,700;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#e1c19c",
+              "secondary-fixed": "#feddb6",
+              "tertiary-fixed": "#d0e4ff",
+              "on-secondary-fixed-variant": "#584326",
+              "primary": "#9a4100",
+              "background": "#fef9f3",
+              "inverse-on-surface": "#f5f0ea",
+              "primary-container": "#bf550a",
+              "on-secondary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-dim": "#ded9d4",
+              "on-background": "#1d1b18",
+              "outline": "#8a7266",
+              "on-primary-fixed": "#341100",
+              "on-primary-container": "#fffbff",
+              "surface-container-low": "#f8f3ed",
+              "surface-bright": "#fef9f3",
+              "primary-fixed-dim": "#ffb690",
+              "on-primary": "#ffffff",
+              "surface-variant": "#e6e2dc",
+              "primary-fixed": "#ffdbcb",
+              "on-surface": "#1d1b18",
+              "secondary": "#725a3c",
+              "on-tertiary": "#ffffff",
+              "secondary-container": "#fbdab3",
+              "on-secondary-container": "#775e3f",
+              "inverse-surface": "#32302c",
+              "on-primary-fixed-variant": "#783100",
+              "on-tertiary-fixed-variant": "#00497a",
+              "tertiary-fixed-dim": "#9ccaff",
+              "surface-container-high": "#ece7e2",
+              "surface-container": "#f2ede7",
+              "error": "#ba1a1a",
+              "surface-container-highest": "#e6e2dc",
+              "error-container": "#ffdad6",
+              "surface-tint": "#9e4300",
+              "on-secondary-fixed": "#291802",
+              "outline-variant": "#dec1b3",
+              "on-surface-variant": "#574238",
+              "tertiary-container": "#0079c4",
+              "on-tertiary-fixed": "#001d35",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "tertiary": "#005f9c",
+              "on-tertiary-container": "#fdfcff",
+              "surface": "#fef9f3",
+              "inverse-primary": "#ffb690"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scrim-overlay {
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+        }
+        .scrim-bottom {
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased overflow-hidden">
+<div class="relative w-[390px] h-[844px] mx-auto overflow-hidden bg-black shadow-2xl flex flex-col">
+<!-- Main Scrollable Content -->
+<div class="flex-1 overflow-y-auto hide-scrollbar pb-32 bg-background">
+<!-- Hero Section -->
+<div class="relative h-[560px] w-full overflow-hidden">
+<img alt="Moroccan Market" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuAaqROW9q8mgNaJigvWmdRpSR03vjO8AItTK4uFQZqAeBjh-IFmXevWe2DNO_XOPiZDVVX8gLKBO4tNAkydUrO70Orkgl0ehXa17P0p2FGLCvPDJSCTDEp-A957C72z6oglWbXbG3XoWuJqZffk9qsAemQ_mr0dBWx_sfMtFFbcV0Qiyo3M4VsjCmBv4GaoCDUbCNMnLtItGfseVndV1vti8Pii47AInX_V9pVWM7Pq65Gjqt9i2LIfCbxkC8yK3bU_EhvatXr5Gm"/>
+<div class="absolute inset-0 scrim-overlay z-10"></div>
+<header class="absolute top-0 left-0 w-full z-30 flex justify-between items-center px-6 py-4">
+<span class="material-symbols-outlined text-white hover:opacity-80 transition-opacity" data-icon="menu">menu</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-white/20">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCODOgU857wVFgOJVDdtHh9b1X3Z6OOXetnj3hm1rycwpAPXoh2JsUm9ZxLVXWUUUDb2h3F7rOzh87Rg0q-mJWngktbq45fw1DaJE_2JwzyUdk0IDYHGCTnKa5O_z7_EpK1TIHaO-812vYhbEE2DYv9EJqFPLPwcSjIDtCOleOEtgPDRY0Gj5D1bUVLoRbsthBFqhFk10iXmgOZ6y-jD860R5cdQqkhXOiKT-7M3bXMZ_UxBhsF8_flhkyaefCMB4viuvuLVJHBIHrn"/>
+</div>
+</header>
+<div class="absolute inset-y-0 left-0 w-3/4 z-20 flex flex-col justify-center px-8 text-left pt-12">
+<div class="inline-flex items-center gap-2 mb-2">
+<span class="text-2xl">🇲🇦</span>
+</div>
+<h2 class="text-white font-headline text-[32pt] font-bold tracking-tight leading-tight mb-3">
+                        Morocco
+                    </h2>
+<p class="text-white/85 text-[16pt] font-body leading-snug mb-8">
+                        Tonight, lose yourself in the warmth of Marrakech. Tagine, mint tea, and stories from the medina.
+                    </p>
+<button class="bg-white text-on-background w-fit px-10 py-4 rounded-full font-semibold text-lg shadow-xl active:scale-95 transition-transform">
+                        Let's Go
+                    </button>
+</div>
+<div class="absolute top-20 right-6 z-30">
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+</div>
+<!-- Explore Destinations Horizontal Nav -->
+<div class="py-6 border-b border-outline-variant/30">
+<div class="flex items-center justify-between px-6 mb-4">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60">Explore Destinations</h3>
+<div class="flex gap-1">
+<div class="w-1 h-1 rounded-full bg-primary"></div>
+<div class="w-1 h-1 rounded-full bg-on-surface-variant/20"></div>
+<div class="w-1 h-1 rounded-full bg-on-surface-variant/20"></div>
+</div>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar gap-6 px-6 pb-2 items-start">
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<div class="relative w-16 h-16 rounded-full p-1 border-2 border-primary">
+<img alt="Morocco" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuAaqROW9q8mgNaJigvWmdRpSR03vjO8AItTK4uFQZqAeBjh-IFmXevWe2DNO_XOPiZDVVX8gLKBO4tNAkydUrO70Orkgl0ehXa17P0p2FGLCvPDJSCTDEp-A957C72z6oglWbXbG3XoWuJqZffk9qsAemQ_mr0dBWx_sfMtFFbcV0Qiyo3M4VsjCmBv4GaoCDUbCNMnLtItGfseVndV1vti8Pii47AInX_V9pVWM7Pq65Gjqt9i2LIfCbxkC8yK3bU_EhvatXr5Gm"/>
+<span class="absolute -bottom-1 -right-1 text-sm bg-white rounded-full shadow-sm">🇲🇦</span>
+</div>
+<span class="text-[10px] font-bold text-primary uppercase tracking-tighter">Morocco</span>
+</div>
+<!-- Other countries simplified -->
+<div class="flex flex-col items-center gap-2 flex-shrink-0 opacity-60">
+<div class="relative w-16 h-16 rounded-full p-1 border-2 border-transparent">
+<img alt="Italy" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMtLhB2X83_t0pY0-lE5XqO3t-Y-H6n19u6A0K2G9_9_v1-L8QpW5u5-M-4S5-K8L8-W5"/>
+<span class="absolute -bottom-1 -right-1 text-sm bg-white rounded-full shadow-sm">🇮🇹</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface uppercase tracking-tighter">Italy</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-shrink-0 opacity-60">
+<div class="relative w-16 h-16 rounded-full p-1 border-2 border-transparent">
+<img alt="Japan" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMtLhB2X83_t0pY0-lE5XqO3t-Y-H6n19u6A0K2G9_9_v1-L8QpW5u5-M-4S5-K8L8-W6"/>
+<span class="absolute -bottom-1 -right-1 text-sm bg-white rounded-full shadow-sm">🇯🇵</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface uppercase tracking-tighter">Japan</span>
+</div>
+</div>
+</div>
+<!-- Featured Destinations Carousel -->
+<div class="py-8">
+<h3 class="px-6 text-xl font-headline font-bold text-on-surface mb-4">Featured Locations</h3>
+<div class="flex overflow-x-auto hide-scrollbar gap-4 px-6">
+<div class="relative w-48 h-64 flex-shrink-0 rounded-xl overflow-hidden shadow-md">
+<img alt="Marrakech" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8lW2K_rK8-y5R2P6Y1f7B9Xm3N0L4V5G6H7J8K9L0-M1N2O3P4Q5R6S7T8U9V0W1X2Y3Z4_567890"/>
+<div class="absolute inset-0 scrim-bottom z-10"></div>
+<div class="absolute bottom-4 left-4 z-20">
+<p class="text-white font-headline text-lg font-bold">Marrakech</p>
+<p class="text-white/80 text-xs">The Red City</p>
+</div>
+</div>
+<div class="relative w-48 h-64 flex-shrink-0 rounded-xl overflow-hidden shadow-md">
+<img alt="Chefchaouen" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9mX3L_sL9-z6S3Q7Z2g8C0Yn4O5M5W6G7H8J9K0L1-N2O3P4Q5R6S7T8U9V0W1X2Y3Z4_567891"/>
+<div class="absolute inset-0 scrim-bottom z-10"></div>
+<div class="absolute bottom-4 left-4 z-20">
+<p class="text-white font-headline text-lg font-bold">Chefchaouen</p>
+<p class="text-white/80 text-xs">The Blue Pearl</p>
+</div>
+</div>
+<div class="relative w-48 h-64 flex-shrink-0 rounded-xl overflow-hidden shadow-md">
+<img alt="Atlas Mountains" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuE0nY4M_tM0-a7T4R8A3h9D1Zo5P6N6X7H8I9K0L1M2-O3P4Q5R6S7T8U9V0W1X2Y3Z4_567892"/>
+<div class="absolute inset-0 scrim-bottom z-10"></div>
+<div class="absolute bottom-4 left-4 z-20">
+<p class="text-white font-headline text-lg font-bold">The Atlas Mountains</p>
+<p class="text-white/80 text-xs">High Peaks</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Tonight's Tasting Menu -->
+<div class="px-6 py-8 bg-surface-container-low">
+<h3 class="text-xl font-headline font-bold text-on-surface mb-6">Tonight's Tasting Menu</h3>
+<div class="space-y-4">
+<div class="flex gap-4 bg-white p-3 rounded-xl shadow-sm border border-outline-variant/20">
+<img alt="Appetizer" class="w-20 h-20 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuF1oZ5N_uN1-b8U5S9B4i0E2Ap6Q7O7Y8I9J0K1L2M3-P4Q5R6S7T8U9V0W1X2Y3Z4_567893"/>
+<div class="flex flex-col justify-center">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Appetizer</span>
+<h4 class="font-headline font-bold text-on-surface">Zaalouk</h4>
+<p class="text-xs text-on-surface-variant italic">Smoked eggplant &amp; tomato dip</p>
+</div>
+</div>
+<div class="flex gap-4 bg-white p-3 rounded-xl shadow-sm border border-outline-variant/20">
+<img alt="Main" class="w-20 h-20 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuG2pA6O_vO2-c9V6T0C5j1F3Bq7R8P8Z9J0K1L2M3N4-Q5R6S7T8U9V0W1X2Y3Z4_567894"/>
+<div class="flex flex-col justify-center">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Main Course</span>
+<h4 class="font-headline font-bold text-on-surface">Lamb Tagine</h4>
+<p class="text-xs text-on-surface-variant italic">With prunes and toasted almonds</p>
+</div>
+</div>
+<div class="flex gap-4 bg-white p-3 rounded-xl shadow-sm border border-outline-variant/20">
+<img alt="Dessert" class="w-20 h-20 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuH3qB7P_wP3-d0W7U1D6k2G4Cr8S9Q9A0K1L2M3N4O5-R6S7T8U9V0W1X2Y3Z4_567895"/>
+<div class="flex flex-col justify-center">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Dessert</span>
+<h4 class="font-headline font-bold text-on-surface">Mint Tea &amp; Gazelle Horns</h4>
+<p class="text-xs text-on-surface-variant italic">Orange blossom almond pastries</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Editorial Highlight -->
+<div class="px-6 py-10">
+<div class="bg-[#fcf3e8] border border-primary/10 p-8 rounded-2xl text-center shadow-sm">
+<span class="material-symbols-outlined text-primary mb-4 block" data-icon="format_quote">format_quote</span>
+<p class="font-headline italic text-xl leading-relaxed text-on-surface-variant">
+                        "In Morocco, a guest is a gift. We do not just share a meal; we share our history, our warmth, and our home through the art of the spice."
+                    </p>
+<div class="mt-6 w-8 h-px bg-primary/30 mx-auto"></div>
+<p class="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant/70">The Editorial Team</p>
+</div>
+</div>
+<!-- The Spice Market Grid -->
+<div class="px-6 py-8">
+<div class="flex justify-between items-baseline mb-6">
+<h3 class="text-xl font-headline font-bold text-on-surface">The Spice Market</h3>
+<span class="text-xs font-bold text-primary uppercase tracking-widest">View All</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<img alt="Saffron" class="w-full h-32 object-cover rounded-lg shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuI4rC8Q_xQ4-e1X8V2E7l3H5Ds9T0R0B1L2M3N4O5P6-S7T8U9V0W1X2Y3Z4_567896"/>
+<div>
+<h5 class="font-bold text-sm text-on-surface">Saffron</h5>
+<p class="text-[10px] text-on-surface-variant leading-tight">Hand-picked from the Taliouine region.</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<img alt="Cumin" class="w-full h-32 object-cover rounded-lg shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuJ5sD9R_yR5-f2Y9W3F8m4I6Et0U1S1C2L3M4N5O6P7-T8U9V0W1X2Y3Z4_567897"/>
+<div>
+<h5 class="font-bold text-sm text-on-surface">Cumin</h5>
+<p class="text-[10px] text-on-surface-variant leading-tight">Earthiness central to every tagine.</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<img alt="Ras el Hanout" class="w-full h-32 object-cover rounded-lg shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuK6tE0S_zS6-g3Z0X4G9n5J7Fu1V2T2D3L4M5N6O7P8-U9V0W1X2Y3Z4_567898"/>
+<div>
+<h5 class="font-bold text-sm text-on-surface">Ras el Hanout</h5>
+<p class="text-[10px] text-on-surface-variant leading-tight">"Head of the shop" — a complex blend.</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<img alt="Paprika" class="w-full h-32 object-cover rounded-lg shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuL7uF1T_AT7-h4A1Y5H0o6K8Gv2W3U3E4L5M6N7O8P9-V0W1X2Y3Z4_567899"/>
+<div>
+<h5 class="font-bold text-sm text-on-surface">Sweet Paprika</h5>
+<p class="text-[10px] text-on-surface-variant leading-tight">Sun-dried for vibrant color and depth.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 1. Cultural Etiquette Section -->
+<div class="px-6 py-12 border-t border-outline-variant/20">
+<h3 class="text-xl font-headline font-bold text-on-surface mb-8">Cultural Etiquette</h3>
+<div class="space-y-8">
+<div class="flex gap-4 items-start">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-lg">pan_tool</span>
+</div>
+<div>
+<h4 class="font-bold text-sm uppercase tracking-wide text-on-surface mb-1">The Right Hand</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">It is custom to eat from communal dishes using only the thumb and first two fingers of your right hand.</p>
+</div>
+</div>
+<div class="flex gap-4 items-start">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-lg">coffee</span>
+</div>
+<div>
+<h4 class="font-bold text-sm uppercase tracking-wide text-on-surface mb-1">The Tea Ceremony</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Mint tea is a sign of hospitality. It is poured from a height to create a crown of foam—never refuse a first cup.</p>
+</div>
+</div>
+<div class="flex gap-4 items-start">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-lg">restaurant</span>
+</div>
+<div>
+<h4 class="font-bold text-sm uppercase tracking-wide text-on-surface mb-1">Bread is Life</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Bread is often used as a utensil. Treat it with respect; never waste even a small crumb of 'Khobz'.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. Heritage Spices Gallery -->
+<div class="py-12 bg-surface-container">
+<h3 class="px-6 text-xl font-headline font-bold text-on-surface mb-2">Heritage Spices</h3>
+<p class="px-6 text-xs text-on-surface-variant/80 italic mb-8">The soul of the Maghreb kitchen</p>
+<div class="flex overflow-x-auto hide-scrollbar gap-6 px-6">
+<div class="w-64 flex-shrink-0 bg-white rounded-2xl overflow-hidden shadow-sm">
+<img alt="Ras el Hanout" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuK6tE0S_zS6-g3Z0X4G9n5J7Fu1V2T2D3L4M5N6O7P8-U9V0W1X2Y3Z4_567898"/>
+<div class="p-6">
+<h4 class="font-headline font-bold text-lg mb-2">Ras el Hanout</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed mb-4">A complex symphony of up to 30 spices. Floral, earthy, and warm with hints of cardamom and cinnamon.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary">Signature Blend</span>
+</div>
+</div>
+</div>
+<div class="w-64 flex-shrink-0 bg-white rounded-2xl overflow-hidden shadow-sm">
+<img alt="Saffron" class="w-full h-48 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuI4rC8Q_xQ4-e1X8V2E7l3H5Ds9T0R0B1L2M3N4O5P6-S7T8U9V0W1X2Y3Z4_567896"/>
+<div class="p-6">
+<h4 class="font-headline font-bold text-lg mb-2">Pure Saffron</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed mb-4">The world's most precious spice. Imparts a delicate, honey-like aroma and a brilliant golden hue to couscous.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary">Taliouine Gold</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Traveler Reviews -->
+<div class="px-6 py-12">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-xl font-headline font-bold text-on-surface">The Cook's Ledger</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+</div>
+<div class="space-y-10">
+<div class="relative pl-6 border-l border-primary/20">
+<p class="text-sm italic font-body text-on-surface-variant mb-4">"The Lamb Tagine was a revelation. The balance of salty olives and sweet prunes captured the exact scent of the medina air. A masterpiece of a guide."</p>
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 rounded-full bg-surface-dim overflow-hidden">
+<img alt="Reviewer" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCODOgU857wVFgOJVDdtHh9b1X3Z6OOXetnj3hm1rycwpAPXoh2JsUm9ZxLVXWUUUDb2h3F7rOzh87Rg0q-mJWngktbq45fw1DaJE_2JwzyUdk0IDYHGCTnKa5O_z7_EpK1TIHaO-812vYhbEE2DYv9EJqFPLPwcSjIDtCOleOEtgPDRY0Gj5D1bUVLoRbsthBFqhFk10iXmgOZ6y-jD860R5cdQqkhXOiKT-7M3bXMZ_UxBhsF8_flhkyaefCMB4viuvuLVJHBIHrn"/>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Elena V. — San Francisco</span>
+</div>
+</div>
+<div class="relative pl-6 border-l border-primary/20">
+<p class="text-sm italic font-body text-on-surface-variant mb-4">"It’s more than a recipe; it’s storytelling. Making the mint tea felt like a meditation. Highly recommend for a slow Sunday."</p>
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 rounded-full bg-surface-dim overflow-hidden">
+<div class="w-full h-full flex items-center justify-center bg-secondary-fixed-dim text-[10px] font-bold">MK</div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Marcus K. — London</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Must-Try Street Food Carousel -->
+<div class="py-12 bg-white">
+<div class="px-6 mb-8">
+<h3 class="text-xl font-headline font-bold text-on-surface">Must-Try Street Food</h3>
+<p class="text-xs text-on-surface-variant mt-1">The vibrant flavors of the Jemaa el-Fnaa</p>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar gap-4 px-6">
+<div class="relative w-72 h-48 flex-shrink-0 rounded-2xl overflow-hidden group">
+<img alt="Sfenj" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuF1oZ5N_uN1-b8U5S9B4i0E2Ap6Q7O7Y8I9J0K1L2M3-P4Q5R6S7T8U9V0W1X2Y3Z4_567893"/>
+<div class="absolute inset-0 bg-black/30 flex flex-col justify-end p-6">
+<h4 class="text-white font-headline font-bold text-xl">Sfenj</h4>
+<p class="text-white/80 text-xs">Honey-soaked airy donuts</p>
+</div>
+</div>
+<div class="relative w-72 h-48 flex-shrink-0 rounded-2xl overflow-hidden group">
+<img alt="Maakouda" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuG2pA6O_vO2-c9V6T0C5j1F3Bq7R8P8Z9J0K1L2M3N4-Q5R6S7T8U9V0W1X2Y3Z4_567894"/>
+<div class="absolute inset-0 bg-black/30 flex flex-col justify-end p-6">
+<h4 class="text-white font-headline font-bold text-xl">Maakouda</h4>
+<p class="text-white/80 text-xs">Spiced potato fritters</p>
+</div>
+</div>
+<div class="relative w-72 h-48 flex-shrink-0 rounded-2xl overflow-hidden group">
+<img alt="Brochettes" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuH3qB7P_wP3-d0W7U1D6k2G4Cr8S9Q9A0K1L2M3N4O5-R6S7T8U9V0W1X2Y3Z4_567895"/>
+<div class="absolute inset-0 bg-black/30 flex flex-col justify-end p-6">
+<h4 class="text-white font-headline font-bold text-xl">Brochettes</h4>
+<p class="text-white/80 text-xs">Grilled lamb &amp; beef skewers</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Stories -->
+<div class="py-8 bg-surface-dim/20">
+<h3 class="px-6 text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant/60 mb-6">Related Mediterranean Stories</h3>
+<div class="flex overflow-x-auto hide-scrollbar gap-4 px-6">
+<div class="flex flex-col gap-3 w-40 flex-shrink-0">
+<img alt="Tunisia" class="w-full h-24 object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMtLhB2X83_t0pY0-lE5XqO3t-Y-H6n19u6A0K2G9_9_v1-L8QpW5u5-M-4S5-K8L8-W9"/>
+<div class="space-y-1">
+<h6 class="text-xs font-bold text-on-surface">Tunisia</h6>
+<p class="text-[10px] text-on-surface-variant">The Fire of Harissa</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 w-40 flex-shrink-0">
+<img alt="Greece" class="w-full h-24 object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMtLhB2X83_t0pY0-lE5XqO3t-Y-H6n19u6A0K2G9_9_v1-L8QpW5u5-M-4S5-K8L8-X0"/>
+<div class="space-y-1">
+<h6 class="text-xs font-bold text-on-surface">Greece</h6>
+<p class="text-[10px] text-on-surface-variant">Sun-Drenched Herbs</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 w-40 flex-shrink-0">
+<img alt="Spain" class="w-full h-24 object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMtLhB2X83_t0pY0-lE5XqO3t-Y-H6n19u6A0K2G9_9_v1-L8QpW5u5-M-4S5-K8L8-X1"/>
+<div class="space-y-1">
+<h6 class="text-xs font-bold text-on-surface">Spain</h6>
+<p class="text-[10px] text-on-surface-variant">The Moorish Legacy</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Bar - Fixed at bottom -->
+<nav class="absolute bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/95 dark:bg-black/95 backdrop-blur-md shadow-[0_-12px_40px_0_rgba(29,27,24,0.08)] rounded-t-3xl border-t border-outline-variant/10">
+<a class="flex flex-col items-center justify-center bg-[#ECE7E2] dark:bg-[#252A32] text-[#9A4100] dark:text-[#FFB690] rounded-2xl px-5 py-2 scale-90 duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-wider mt-1">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-5 py-2 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-wider mt-1">Grocery</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-5 py-2 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-wider mt-1">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-5 py-2 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-wider mt-1">Settings</span>
+</a>
+</nav>
+</div>
+</body></html>
