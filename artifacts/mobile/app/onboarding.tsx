@@ -18,6 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { COUNTRIES, ONBOARDING_IMAGES } from "@/constants/data";
 import { useApp } from "@/contexts/AppContext";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { useScaledStyles } from "@/hooks/useScaledStyles";
 
@@ -30,6 +31,7 @@ export default function OnboardingScreen() {
   const { selectedCountryIds, toggleCountrySelection, setHasCompletedOnboarding } = useApp();
   const colors = useThemeColors();
   const type = useScaledStyles();
+  const reducedMotion = useReducedMotion();
   const isDark = colors.background === "#121110";
 
   const handleStart = () => {
@@ -75,14 +77,14 @@ export default function OnboardingScreen() {
                   styles.card,
                   { backgroundColor: colors.surfaceContainerHigh },
                   isSelected && [styles.cardSelected, { borderColor: colors.primary }],
-                  pressed && { transform: [{ scale: 0.95 }] },
+                  pressed && !reducedMotion && { transform: [{ scale: 0.95 }] },
                 ]}
               >
                 <Image
                   source={{ uri: onboardingImage }}
                   style={styles.cardImage}
                   contentFit="cover"
-                  transition={300}
+                  transition={reducedMotion ? 0 : 300}
                 />
                 <LinearGradient
                   colors={["transparent", "rgba(0,0,0,0.6)"]}
@@ -122,7 +124,7 @@ export default function OnboardingScreen() {
           style={({ pressed }) => [
             styles.startButton,
             { backgroundColor: colors.primary },
-            pressed && { transform: [{ scale: 0.97 }], opacity: 0.9 },
+            pressed && (reducedMotion ? { opacity: 0.9 } : { transform: [{ scale: 0.97 }], opacity: 0.9 }),
           ]}
         >
           <Text style={[type.titleMedium, { color: colors.onPrimary }]}>Start Exploring</Text>

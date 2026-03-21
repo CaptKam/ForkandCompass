@@ -18,6 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useApp } from "@/contexts/AppContext";
 import { COUNTRIES, ONBOARDING_IMAGES, type Country } from "@/constants/data";
 import { useCountries } from "@/hooks/useCountries";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
 
 // ─── Static editorial blurbs per country ─────────────────────────────────────
@@ -182,6 +183,8 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
 export default function DiscoverScreen() {
   const insets = useSafeAreaInsets();
   const { isCountrySaved, toggleSavedCountry } = useApp();
+  const { countries } = useCountries();
+  const reducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
   const { countries } = useCountries();
 
@@ -208,7 +211,7 @@ export default function DiscoverScreen() {
 
         {/* ── Hero ─────────────────────────────────────────────────── */}
         <View style={styles.hero}>
-          <Image source={{ uri: heroImage }} style={StyleSheet.absoluteFill} contentFit="cover" transition={400} />
+          <Image source={{ uri: heroImage }} style={StyleSheet.absoluteFill} contentFit="cover" transition={reducedMotion ? 0 : 400} />
           <LinearGradient
             colors={["rgba(0,0,0,0.78)", "rgba(0,0,0,0.38)", "transparent"]}
             start={{ x: 0, y: 0.5 }}
@@ -235,7 +238,7 @@ export default function DiscoverScreen() {
           {/* Bookmark */}
           <Pressable
             onPress={() => { haptic(); toggleSavedCountry(activeCountry.id); }}
-            style={({ pressed }) => [styles.bookmarkButton, { top: topPadding + 56 }, pressed && { transform: [{ scale: 0.88 }] }]}
+            style={({ pressed }) => [styles.bookmarkButton, { top: topPadding + 56 }, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
           >
             <Ionicons name={saved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
           </Pressable>
@@ -247,7 +250,7 @@ export default function DiscoverScreen() {
             <Text style={styles.heroBlurb}>{blurb}</Text>
             <Pressable
               onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
-              style={({ pressed }) => [styles.letsGoButton, pressed && { transform: [{ scale: 0.95 }] }]}
+              style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
             >
               <Text style={styles.letsGoText}>Let's Go</Text>
             </Pressable>
