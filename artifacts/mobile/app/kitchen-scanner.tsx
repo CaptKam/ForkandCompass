@@ -31,33 +31,13 @@ import { detectItemsWithVision, isVisionAvailable } from "@/services/visionServi
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get("window");
 
 // Fallback mock detection when no AI API key is configured
-function simulateDetection(zone: ScanZone, frameIndex: number): DetectedItem[] {
-  const zoneItems = COMMON_KITCHEN_ITEMS.filter((i) => i.zone === zone);
-  if (zoneItems.length === 0) return [];
-
-  const discoveryRate = Math.min(frameIndex * 2, zoneItems.length);
-  const discovered: DetectedItem[] = [];
-
-  for (let i = 0; i < discoveryRate; i++) {
-    const item = zoneItems[i];
-    const brandIdx = Math.floor(Math.random() * Math.max(1, item.brands.length));
-    const confidence = 0.72 + Math.random() * 0.26;
-
-    discovered.push({
-      label: item.name,
-      brand: item.brands[brandIdx] ?? null,
-      quantity: Math.ceil(Math.random() * 3),
-      unit: item.defaultUnit,
-      confidence,
-      boundingBox: {
-        x: 0.1 + Math.random() * 0.5,
-        y: 0.1 + Math.random() * 0.6,
-        width: 0.15 + Math.random() * 0.2,
-        height: 0.1 + Math.random() * 0.15,
-      },
-    });
-  }
-  return discovered;
+/**
+ * Mock mode is disabled — we no longer fabricate items from the common items list.
+ * Without a real AI backend the scanner simply cannot detect anything.
+ */
+function simulateDetection(_zone: ScanZone, _frameIndex: number): DetectedItem[] {
+  // Return nothing — making up items is worse than returning an empty scan.
+  return [];
 }
 
 // Whether we have a real AI backend available
@@ -193,25 +173,6 @@ export default function KitchenScannerScreen() {
   }, [scanning, pulseAnim]);
 
   /** Merge new detections into existing list, keeping highest confidence per label */
-  const mergeDetections = useCallback((newItems: DetectedItem[]) => {
-    setDetectedItems((existing) => {
-      const merged = [...existing];
-      for (const item of newItems) {
-        const idx = merged.findIndex(
-          (e) => e.label.toLowerCase() === item.label.toLowerCase(),
-        );
-        if (idx >= 0) {
-          if (item.confidence > merged[idx].confidence) {
-            merged[idx] = item;
-          }
-        } else {
-          merged.push(item);
-        }
-      }
-      return merged;
-    });
-  }, []);
-
   /** Capture a frame from the camera and run AI detection */
   const captureAndDetect = useCallback(async () => {
     if (!cameraRef.current || aiProcessing) return;
@@ -227,7 +188,9 @@ export default function KitchenScannerScreen() {
       if (photo?.base64) {
         const aiItems = await detectItemsWithVision(photo.base64, selectedZone);
         if (aiItems && aiItems.length > 0) {
-          mergeDetections(aiItems);
+          // Replace detections with what the latest frame actually sees —
+          // don't accumulate stale items from previous frames.
+          setDetectedItems(aiItems);
           if (Platform.OS !== "web") {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           }
@@ -238,7 +201,7 @@ export default function KitchenScannerScreen() {
     } finally {
       setAiProcessing(false);
     }
-  }, [selectedZone, aiProcessing, mergeDetections]);
+  }, [selectedZone, aiProcessing]);
 
   // Frame capture — AI detection or mock fallback
   useEffect(() => {
@@ -255,22 +218,15 @@ export default function KitchenScannerScreen() {
           captureAndDetect();
         }, 4000);
       } else {
-        // Mock mode: simulated detection every 1.5s
+        // No AI backend — scanning is not functional without a real vision model.
+        // We do NOT fabricate items. Just advance the progress bar so the user
+        // can finish the scan and see an empty (honest) result.
         scanInterval.current = setInterval(() => {
           setFrameCount((prev) => {
             const next = prev + 1;
-            const newItems = simulateDetection(selectedZone, next);
-            mergeDetections(newItems);
-
-            const zoneTotal = COMMON_KITCHEN_ITEMS.filter((i) => i.zone === selectedZone).length;
-            setScanProgress(Math.min(1, next / Math.max(zoneTotal / 2, 5)));
-
+            setScanProgress(Math.min(1, next / 5));
             return next;
           });
-
-          if (Platform.OS !== "web") {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          }
         }, 1500);
       }
     }
@@ -278,7 +234,7 @@ export default function KitchenScannerScreen() {
     return () => {
       if (scanInterval.current) clearInterval(scanInterval.current);
     };
-  }, [scanning, speed, selectedZone, useAI, captureAndDetect, mergeDetections]);
+  }, [scanning, speed, selectedZone, useAI, captureAndDetect]);
 
   // Progress bar animation
   useEffect(() => {
