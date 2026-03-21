@@ -243,21 +243,17 @@ export default function DiscoverScreen() {
                     end={{ x: 0, y: 1 }}
                     style={[StyleSheet.absoluteFill, { height: 120 }]}
                   />
-                  {/* Bookmark pinned to upper-right of slide */}
-                  <Pressable
-                    onPress={() => { haptic(); toggleSavedCountry(country.id); }}
-                    style={({ pressed }) => [
-                      styles.slideBookmark,
-                      { top: Platform.OS === "web" ? 58 : topPadding + 14 },
-                      pressed && !reducedMotion && { transform: [{ scale: 0.88 }] },
-                    ]}
-                  >
-                    <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={22} color="#FFFFFF" />
-                  </Pressable>
-
                   <View style={styles.heroContent}>
                     <Text style={styles.heroFlag}>{country.flag}</Text>
-                    <Text style={styles.heroTitle}>{country.name}</Text>
+                    <View style={styles.heroTitleRow}>
+                      <Text style={styles.heroTitle}>{country.name}</Text>
+                      <Pressable
+                        onPress={() => { haptic(); toggleSavedCountry(country.id); }}
+                        style={({ pressed }) => [styles.inlineBookmark, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
+                      >
+                        <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={22} color="#FFFFFF" />
+                      </Pressable>
+                    </View>
                     <Text style={styles.heroBlurb}>{blurb}</Text>
                     <View style={styles.heroActions}>
                       <Pressable
@@ -604,18 +600,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  slideBookmark: {
-    position: "absolute",
-    right: 24,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  heroTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  inlineBookmark: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: "rgba(255,255,255,0.15)",
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.25)",
     alignItems: "center",
     justifyContent: "center",
-    zIndex: 5,
+    flexShrink: 0,
   },
   heroContent: {
     position: "absolute",
@@ -638,7 +638,8 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     letterSpacing: -0.5,
     lineHeight: 44,
-    marginBottom: 12,
+    flex: 1,
+    marginRight: 12,
   },
   heroBlurb: {
     fontFamily: "Inter_400Regular",
