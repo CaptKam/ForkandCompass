@@ -100,7 +100,7 @@ export default function CountryDetailScreen() {
           {/* Location region cards */}
           <View style={styles.recipeCards}>
             {getCountryLocations(country).map((loc, idx) => (
-              <LocationRegionCard key={idx} location={loc} reducedMotion={reducedMotion} />
+              <LocationRegionCard key={idx} location={loc} countryId={country.id} reducedMotion={reducedMotion} />
             ))}
           </View>
         </View>
@@ -109,9 +109,18 @@ export default function CountryDetailScreen() {
   );
 }
 
-function LocationRegionCard({ location, reducedMotion }: { location: CountryLocation; reducedMotion: boolean }) {
+function LocationRegionCard({ location, countryId, reducedMotion }: { location: CountryLocation; countryId: string; reducedMotion: boolean }) {
   return (
-    <View style={styles.regionCard}>
+    <Pressable
+      style={({ pressed }) => [styles.regionCard, pressed && { opacity: 0.9 }]}
+      onPress={() => {
+        if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        router.push({
+          pathname: "/region/[countryId]/[region]",
+          params: { countryId, region: encodeURIComponent(location.name) },
+        });
+      }}
+    >
       <Image
         source={{ uri: location.image }}
         style={StyleSheet.absoluteFill}
@@ -127,7 +136,7 @@ function LocationRegionCard({ location, reducedMotion }: { location: CountryLoca
         <Text style={styles.regionCardSubtitle}>{location.subtitle}</Text>
         <Text style={styles.regionCardTitle}>{location.name}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

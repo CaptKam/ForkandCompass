@@ -284,14 +284,24 @@ export default function DiscoverScreen() {
           <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>Featured Locations</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.locScroll}>
             {editorial.locations.map((loc, idx) => (
-              <View key={idx} style={styles.locCard}>
+              <Pressable
+                key={idx}
+                style={({ pressed }) => [styles.locCard, pressed && { opacity: 0.88 }]}
+                onPress={() => {
+                  haptic();
+                  router.push({
+                    pathname: "/region/[countryId]/[region]",
+                    params: { countryId: activeCountry.id, region: encodeURIComponent(loc.name) },
+                  });
+                }}
+              >
                 <Image source={{ uri: loc.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
                 <LinearGradient colors={["transparent", "rgba(0,0,0,0.72)"]} style={StyleSheet.absoluteFill} />
                 <View style={styles.locInfo}>
                   <Text style={styles.locName}>{loc.name}</Text>
                   <Text style={styles.locSub}>{loc.subtitle}</Text>
                 </View>
-              </View>
+              </Pressable>
             ))}
           </ScrollView>
         </View>
