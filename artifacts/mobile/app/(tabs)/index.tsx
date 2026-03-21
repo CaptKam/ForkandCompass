@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
 import { COUNTRIES, ONBOARDING_IMAGES, type Country } from "@/constants/data";
+import { useCountries } from "@/hooks/useCountries";
 import Colors from "@/constants/colors";
 
 // ─── Static editorial blurbs per country ─────────────────────────────────────
@@ -181,9 +182,10 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
 export default function DiscoverScreen() {
   const insets = useSafeAreaInsets();
   const { isCountrySaved, toggleSavedCountry } = useApp();
+  const { countries } = useCountries();
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
 
-  const activeCountry = COUNTRIES[activeIndex];
+  const activeCountry = countries[activeIndex] ?? countries[0];
   const editorial = buildDiscoverData(activeCountry);
   const heroImage = ONBOARDING_IMAGES[activeCountry.id] || activeCountry.heroImage || activeCountry.image;
   const blurb = EDITORIAL_BLURBS[activeCountry.id] || activeCountry.description;
@@ -257,7 +259,7 @@ export default function DiscoverScreen() {
           <View style={styles.destHeader}>
             <Text style={styles.destTitle}>Explore Destinations</Text>
             <View style={styles.destDots}>
-              {COUNTRIES.slice(0, 3).map((_, i) => (
+              {countries.slice(0, 3).map((_, i) => (
                 <View key={i} style={[styles.destDot, i === (activeIndex % 3) && styles.destDotActive]} />
               ))}
             </View>
@@ -267,7 +269,7 @@ export default function DiscoverScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.destScroll}
           >
-            {COUNTRIES.map((country, idx) => {
+            {countries.map((country, idx) => {
               const isActive = idx === activeIndex;
               return (
                 <Pressable

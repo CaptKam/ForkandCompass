@@ -13,7 +13,15 @@ import type {
   UseQueryResult,
 } from "@tanstack/react-query";
 
-import type { HealthStatus } from "./api.schemas";
+import type {
+  Country,
+  CountryWithRecipes,
+  ErrorResponse,
+  HealthStatus,
+  Recipe,
+  SearchParams,
+  SearchResults,
+} from "./api.schemas";
 
 import { customFetch } from "../custom-fetch";
 import type { ErrorType } from "../custom-fetch";
@@ -92,6 +100,341 @@ export function useHealthCheck<
   request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getHealthCheckQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * Returns all countries with cuisine metadata
+ * @summary List all countries
+ */
+export const getListCountriesUrl = () => {
+  return `/api/countries`;
+};
+
+export const listCountries = async (
+  options?: RequestInit,
+): Promise<Country[]> => {
+  return customFetch<Country[]>(getListCountriesUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getListCountriesQueryKey = () => {
+  return [`/api/countries`] as const;
+};
+
+export const getListCountriesQueryOptions = <
+  TData = Awaited<ReturnType<typeof listCountries>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listCountries>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getListCountriesQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof listCountries>>> = ({
+    signal,
+  }) => listCountries({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listCountries>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ListCountriesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listCountries>>
+>;
+export type ListCountriesQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List all countries
+ */
+
+export function useListCountries<
+  TData = Awaited<ReturnType<typeof listCountries>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listCountries>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getListCountriesQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * Returns a country and all its associated recipes
+ * @summary Get a single country with its recipes
+ */
+export const getGetCountryUrl = (id: string) => {
+  return `/api/countries/${id}`;
+};
+
+export const getCountry = async (
+  id: string,
+  options?: RequestInit,
+): Promise<CountryWithRecipes> => {
+  return customFetch<CountryWithRecipes>(getGetCountryUrl(id), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetCountryQueryKey = (id: string) => {
+  return [`/api/countries/${id}`] as const;
+};
+
+export const getGetCountryQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCountry>>,
+  TError = ErrorType<ErrorResponse>,
+>(
+  id: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getCountry>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetCountryQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCountry>>> = ({
+    signal,
+  }) => getCountry(id, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCountry>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetCountryQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCountry>>
+>;
+export type GetCountryQueryError = ErrorType<ErrorResponse>;
+
+/**
+ * @summary Get a single country with its recipes
+ */
+
+export function useGetCountry<
+  TData = Awaited<ReturnType<typeof getCountry>>,
+  TError = ErrorType<ErrorResponse>,
+>(
+  id: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getCountry>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetCountryQueryOptions(id, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * Returns a single recipe by ID
+ * @summary Get a single recipe
+ */
+export const getGetRecipeUrl = (id: string) => {
+  return `/api/recipes/${id}`;
+};
+
+export const getRecipe = async (
+  id: string,
+  options?: RequestInit,
+): Promise<Recipe> => {
+  return customFetch<Recipe>(getGetRecipeUrl(id), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetRecipeQueryKey = (id: string) => {
+  return [`/api/recipes/${id}`] as const;
+};
+
+export const getGetRecipeQueryOptions = <
+  TData = Awaited<ReturnType<typeof getRecipe>>,
+  TError = ErrorType<ErrorResponse>,
+>(
+  id: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getRecipe>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetRecipeQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getRecipe>>> = ({
+    signal,
+  }) => getRecipe(id, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getRecipe>>, TError, TData> & {
+    queryKey: QueryKey;
+  };
+};
+
+export type GetRecipeQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getRecipe>>
+>;
+export type GetRecipeQueryError = ErrorType<ErrorResponse>;
+
+/**
+ * @summary Get a single recipe
+ */
+
+export function useGetRecipe<
+  TData = Awaited<ReturnType<typeof getRecipe>>,
+  TError = ErrorType<ErrorResponse>,
+>(
+  id: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getRecipe>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetRecipeQueryOptions(id, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * Search countries and recipes by a query term
+ * @summary Search countries and recipes
+ */
+export const getSearchUrl = (params: SearchParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/search?${stringifiedParams}`
+    : `/api/search`;
+};
+
+export const search = async (
+  params: SearchParams,
+  options?: RequestInit,
+): Promise<SearchResults> => {
+  return customFetch<SearchResults>(getSearchUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getSearchQueryKey = (params?: SearchParams) => {
+  return [`/api/search`, ...(params ? [params] : [])] as const;
+};
+
+export const getSearchQueryOptions = <
+  TData = Awaited<ReturnType<typeof search>>,
+  TError = ErrorType<unknown>,
+>(
+  params: SearchParams,
+  options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof search>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getSearchQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof search>>> = ({
+    signal,
+  }) => search(params, { signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof search>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type SearchQueryResult = NonNullable<Awaited<ReturnType<typeof search>>>;
+export type SearchQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Search countries and recipes
+ */
+
+export function useSearch<
+  TData = Awaited<ReturnType<typeof search>>,
+  TError = ErrorType<unknown>,
+>(
+  params: SearchParams,
+  options?: {
+    query?: UseQueryOptions<Awaited<ReturnType<typeof search>>, TError, TData>;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getSearchQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;

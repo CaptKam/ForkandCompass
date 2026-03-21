@@ -8,3 +8,61 @@
 export interface HealthStatus {
   status: string;
 }
+
+export interface Country {
+  id: string;
+  name: string;
+  flag: string;
+  description: string;
+  image: string;
+  cuisineLabel: string;
+  rating: number;
+  recipeCount: number;
+  createdAt: string;
+}
+
+export interface Ingredient {
+  id: string;
+  name: string;
+  amount: string;
+}
+
+export interface CookStep {
+  id: string;
+  title: string;
+  instruction: string;
+  materials: string[];
+}
+
+export interface Recipe {
+  id: string;
+  countryId: string;
+  title: string;
+  description: string;
+  image: string;
+  prepTime: string;
+  cookTime: string;
+  servings: number;
+  difficulty: string;
+  ingredients: Ingredient[];
+  steps: CookStep[];
+  tips?: string[] | null;
+  createdAt: string;
+}
+
+export type CountryWithRecipes = Country & {
+  recipes: Recipe[];
+};
+
+export interface SearchResults {
+  countries: Country[];
+  recipes: Recipe[];
+}
+
+export interface ErrorResponse {
+  error: string;
+}
+
+export type SearchParams = {
+  q: string;
+};

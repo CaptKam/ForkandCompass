@@ -16,13 +16,14 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { getCountryById, type Recipe } from "@/constants/data";
+import type { Recipe } from "@/constants/data";
+import { useCountry } from "@/hooks/useCountry";
 import { useApp } from "@/contexts/AppContext";
 
 export default function CountryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
-  const country = getCountryById(id);
+  const { country } = useCountry(id);
   const { isCountrySaved, toggleSavedCountry } = useApp();
 
   if (!country) {

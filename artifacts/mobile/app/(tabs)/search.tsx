@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   FlatList,
   Platform,
@@ -13,46 +13,14 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { COUNTRIES, getAllRecipes } from "@/constants/data";
 import type { Country, Recipe } from "@/constants/data";
+import { useSearchRecipes } from "@/hooks/useSearchRecipes";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { useScaledStyles } from "@/hooks/useScaledStyles";
 
 type SearchResult =
   | { type: "country"; item: Country }
   | { type: "recipe"; item: Recipe };
-
-const ALL_RECIPES = getAllRecipes();
-
-function searchItems(query: string): SearchResult[] {
-  const q = query.toLowerCase().trim();
-  if (!q) return [];
-
-  const results: SearchResult[] = [];
-
-  for (const country of COUNTRIES) {
-    if (
-      country.name.toLowerCase().includes(q) ||
-      country.description.toLowerCase().includes(q) ||
-      country.region.toLowerCase().includes(q)
-    ) {
-      results.push({ type: "country", item: country });
-    }
-  }
-
-  for (const recipe of ALL_RECIPES) {
-    if (
-      recipe.name.toLowerCase().includes(q) ||
-      recipe.description.toLowerCase().includes(q) ||
-      recipe.category.toLowerCase().includes(q) ||
-      recipe.ingredients.some((ing) => ing.name.toLowerCase().includes(q))
-    ) {
-      results.push({ type: "recipe", item: recipe });
-    }
-  }
-
-  return results;
-}
 
 function keyExtractor(item: SearchResult) {
   return `${item.type}-${item.item.id}`;
@@ -64,7 +32,7 @@ export default function SearchScreen() {
   const type = useScaledStyles();
   const [query, setQuery] = useState("");
 
-  const results = useMemo(() => searchItems(query), [query]);
+  const { results } = useSearchRecipes(query);
 
   const renderItem = ({ item }: { item: SearchResult }) => {
     if (item.type === "country") {
