@@ -213,7 +213,20 @@ export default function DiscoverScreen() {
 
         {/* ── Hero carousel ─────────────────────────────────────── */}
         <View style={styles.heroWrap}>
-          {/* Paginated horizontal scroll — rendered first so header/dots sit on top */}
+          {/* Shared top header sits above the scroll so it doesn't move */}
+          <View style={[styles.heroHeader, { paddingTop: Platform.OS === "web" ? 50 : topPadding + 8 }]}>
+            <Pressable onPress={() => haptic()} hitSlop={12}>
+              <Ionicons name="menu" size={26} color="#FFFFFF" />
+            </Pressable>
+            <Pressable
+              onPress={() => { haptic(); router.push("/(tabs)/settings"); }}
+              style={styles.heroAvatar}
+            >
+              <Ionicons name="person" size={15} color="rgba(255,255,255,0.8)" />
+            </Pressable>
+          </View>
+
+          {/* Paginated horizontal scroll */}
           <ScrollView
             ref={heroScrollRef}
             horizontal
@@ -266,19 +279,6 @@ export default function DiscoverScreen() {
               );
             })}
           </ScrollView>
-
-          {/* Header rendered after scroll so it sits on top and receives touches */}
-          <View style={[styles.heroHeader, { paddingTop: Platform.OS === "web" ? 50 : topPadding + 8 }]}>
-            <Pressable onPress={() => haptic()} hitSlop={12}>
-              <Ionicons name="menu" size={26} color="#FFFFFF" />
-            </Pressable>
-            <Pressable
-              onPress={() => { haptic(); router.push("/(tabs)/settings"); }}
-              style={styles.heroAvatar}
-            >
-              <Ionicons name="person" size={15} color="rgba(255,255,255,0.8)" />
-            </Pressable>
-          </View>
 
           {/* Pagination dots */}
           <View style={styles.heroDots}>
