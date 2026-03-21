@@ -18,6 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import type { Recipe } from "@/constants/data";
 import { useCountry } from "@/hooks/useCountry";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useApp } from "@/contexts/AppContext";
 
 export default function CountryDetailScreen() {
@@ -25,6 +26,7 @@ export default function CountryDetailScreen() {
   const insets = useSafeAreaInsets();
   const { country } = useCountry(id);
   const { isCountrySaved, toggleSavedCountry } = useApp();
+  const reducedMotion = useReducedMotion();
 
   if (!country) {
     return (
@@ -75,7 +77,7 @@ export default function CountryDetailScreen() {
             source={{ uri: country.heroImage }}
             style={styles.heroImage}
             contentFit="cover"
-            transition={400}
+            transition={reducedMotion ? 0 : 400}
           />
           <LinearGradient
             colors={["transparent", Colors.light.surface]}
@@ -98,7 +100,7 @@ export default function CountryDetailScreen() {
           {/* Recipe cards as "region" cards */}
           <View style={styles.recipeCards}>
             {country.recipes.map((recipe) => (
-              <RecipeRegionCard key={recipe.id} recipe={recipe} />
+              <RecipeRegionCard key={recipe.id} recipe={recipe} reducedMotion={reducedMotion} />
             ))}
           </View>
         </View>
@@ -107,7 +109,7 @@ export default function CountryDetailScreen() {
   );
 }
 
-function RecipeRegionCard({ recipe }: { recipe: Recipe }) {
+function RecipeRegionCard({ recipe, reducedMotion }: { recipe: Recipe; reducedMotion: boolean }) {
   const { isSaved, toggleSaved } = useApp();
   const saved = isSaved(recipe.id);
 
@@ -119,14 +121,14 @@ function RecipeRegionCard({ recipe }: { recipe: Recipe }) {
       }}
       style={({ pressed }) => [
         styles.regionCard,
-        pressed && { transform: [{ scale: 0.98 }] },
+        pressed && !reducedMotion && { transform: [{ scale: 0.98 }] },
       ]}
     >
       <Image
         source={{ uri: recipe.image }}
         style={StyleSheet.absoluteFill}
         contentFit="cover"
-        transition={300}
+        transition={reducedMotion ? 0 : 300}
       />
       <LinearGradient
         colors={["transparent", "rgba(0,0,0,0.6)"]}

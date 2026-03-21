@@ -22,31 +22,36 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppProvider } from "@/contexts/AppContext";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 
 function RootLayoutNav() {
+  const reducedMotion = useReducedMotion();
+  const slideAnimation = reducedMotion ? "fade" as const : "slide_from_right" as const;
+  const modalAnimation = reducedMotion ? "fade" as const : "slide_from_bottom" as const;
+
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen
         name="onboarding"
-        options={{ animation: "slide_from_right" }}
+        options={{ animation: slideAnimation }}
       />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen
         name="country/[id]"
-        options={{ animation: "slide_from_right" }}
+        options={{ animation: slideAnimation }}
       />
       <Stack.Screen
         name="recipe/[id]"
-        options={{ animation: "slide_from_right" }}
+        options={{ animation: slideAnimation }}
       />
       <Stack.Screen
         name="cook-mode"
-        options={{ animation: "slide_from_bottom", presentation: "modal" }}
+        options={{ animation: modalAnimation, presentation: "modal" }}
       />
     </Stack>
   );
