@@ -272,9 +272,10 @@ export default function DiscoverScreen() {
                         style={styles.destCircleImg}
                         contentFit="cover"
                       />
-                      <View style={styles.destFlagBadge}>
-                        <Text style={styles.destFlagEmoji}>{country.flag}</Text>
-                      </View>
+                    </View>
+                    {/* Flag badge lives outside the clipping view so it's never hidden */}
+                    <View style={styles.destFlagBadge}>
+                      <Text style={styles.destFlagEmoji}>{country.flag}</Text>
                     </View>
                   </View>
                   <Text style={[styles.destLabel, isActive && styles.destLabelActive]} numberOfLines={1}>
