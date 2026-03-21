@@ -256,6 +256,18 @@ export default function DiscoverScreen() {
                     end={{ x: 0, y: 1 }}
                     style={[StyleSheet.absoluteFill, { height: 120 }]}
                   />
+                  {/* Bookmark pinned to upper-right of slide */}
+                  <Pressable
+                    onPress={() => { haptic(); toggleSavedCountry(country.id); }}
+                    style={({ pressed }) => [
+                      styles.slideBookmark,
+                      { top: Platform.OS === "web" ? 58 : topPadding + 14 },
+                      pressed && !reducedMotion && { transform: [{ scale: 0.88 }] },
+                    ]}
+                  >
+                    <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={22} color="#FFFFFF" />
+                  </Pressable>
+
                   <View style={styles.heroContent}>
                     <Text style={styles.heroFlag}>{country.flag}</Text>
                     <Text style={styles.heroTitle}>{country.name}</Text>
@@ -266,12 +278,6 @@ export default function DiscoverScreen() {
                         style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
                       >
                         <Text style={styles.letsGoText}>Let's Go</Text>
-                      </Pressable>
-                      <Pressable
-                        onPress={() => { haptic(); toggleSavedCountry(country.id); }}
-                        style={({ pressed }) => [styles.bookmarkButton, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
-                      >
-                        <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
                       </Pressable>
                     </View>
                   </View>
@@ -597,6 +603,19 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.2)",
     alignItems: "center",
     justifyContent: "center",
+  },
+  slideBookmark: {
+    position: "absolute",
+    right: 24,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.25)",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 5,
   },
   heroContent: {
     position: "absolute",
