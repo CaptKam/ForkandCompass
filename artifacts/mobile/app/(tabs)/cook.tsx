@@ -20,6 +20,7 @@ import Colors from "@/constants/colors";
 import { COUNTRIES } from "@/constants/data";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useNinjaRecipes } from "@/hooks/useNinjaRecipes";
+import TabHeader from "@/components/TabHeader";
 
 const DIFFICULTY_ORDER = ["Easy", "Medium", "Hard"];
 
@@ -56,18 +57,12 @@ export default function CookScreen() {
 
   return (
     <View style={styles.container}>
+      <TabHeader title="Cook" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 120 }}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Header */}
-        <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 60 : insets.top + 16 }]}>
-          <View>
-            <Text style={styles.headerEyebrow}>Tonight's Menu</Text>
-            <Text style={styles.headerTitle}>What will you cook?</Text>
-          </View>
-        </View>
 
         {/* Search bar */}
         <View style={styles.searchWrap}>
@@ -239,25 +234,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.light.surface,
   },
-  header: {
-    paddingHorizontal: 24,
-    paddingBottom: 16,
-  },
-  headerEyebrow: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
-    color: Colors.light.primary,
-    letterSpacing: 2,
-    textTransform: "uppercase",
-    marginBottom: 4,
-  },
-  headerTitle: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 28,
-    color: Colors.light.onSurface,
-    letterSpacing: -0.5,
-  },
-
   /* Search */
   searchWrap: {
     paddingHorizontal: 24,
