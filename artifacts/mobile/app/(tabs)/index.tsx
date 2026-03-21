@@ -4,7 +4,7 @@ import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   NativeScrollEvent,
@@ -179,6 +179,11 @@ export default function DiscoverScreen() {
   const reducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
   const heroScrollRef = useRef<ScrollView>(null);
+  const circlesScrollRef = useRef<ScrollView>(null);
+
+  // Keep the circles row centered on the active country
+  const CIRCLE_ITEM = 94 + 24; // destRing width + gap
+  const CIRCLE_LEADING = 24;   // paddingHorizontal
 
   const activeCountry = countries[activeIndex] ?? countries[0];
   const editorial = buildDiscoverData(activeCountry);
@@ -202,6 +207,12 @@ export default function DiscoverScreen() {
       setActiveIndex(idx);
     }
   };
+
+  // Auto-scroll the circles row to keep the active circle centered
+  useEffect(() => {
+    const centerX = CIRCLE_LEADING + activeIndex * CIRCLE_ITEM + 47 - SCREEN_WIDTH / 2;
+    circlesScrollRef.current?.scrollTo({ x: Math.max(0, centerX), animated: true });
+  }, [activeIndex]);
 
   return (
     <View style={styles.container}>
@@ -300,6 +311,7 @@ export default function DiscoverScreen() {
             <Text style={styles.destTitle}>Explore Destinations</Text>
           </View>
           <ScrollView
+            ref={circlesScrollRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.destScroll}
