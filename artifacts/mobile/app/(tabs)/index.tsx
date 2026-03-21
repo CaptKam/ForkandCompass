@@ -260,11 +260,6 @@ export default function DiscoverScreen() {
         <View style={styles.destSection}>
           <View style={styles.destHeader}>
             <Text style={styles.destTitle}>Explore Destinations</Text>
-            <View style={styles.destDots}>
-              {countries.slice(0, 3).map((_, i) => (
-                <View key={i} style={[styles.destDot, i === (activeIndex % 3) && styles.destDotActive]} />
-              ))}
-            </View>
           </View>
           <ScrollView
             horizontal
