@@ -53,6 +53,10 @@ function RootLayoutNav() {
         name="cook-mode"
         options={{ animation: modalAnimation, presentation: "modal" }}
       />
+      <Stack.Screen
+        name="kitchen-scanner"
+        options={{ animation: modalAnimation, presentation: "modal" }}
+      />
     </Stack>
   );
 }

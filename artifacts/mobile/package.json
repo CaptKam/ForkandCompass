@@ -55,5 +55,9 @@
     "typescript": "~5.9.2",
     "zod": "catalog:",
     "zod-validation-error": "^3.4.0"
+  },
+  "dependencies": {
+    "expo-camera": "^55.0.10",
+    "expo-sensors": "^55.0.9"
   }
 }

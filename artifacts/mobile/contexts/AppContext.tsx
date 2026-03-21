@@ -8,6 +8,7 @@ import React, {
 } from "react";
 
 import type { GroceryItem, Recipe } from "@/constants/data";
+import type { InventoryItem, ScanZone } from "@/constants/inventory";
 
 export type CookingLevel = "beginner" | "intermediate" | "advanced";
 export type AppearanceMode = "system" | "light" | "dark";
@@ -37,6 +38,14 @@ interface AppContextType {
   savedCountryIds: string[];
   toggleSavedCountry: (id: string) => void;
   isCountrySaved: (id: string) => boolean;
+  // Kitchen Inventory Scanner (Beta)
+  inventoryItems: InventoryItem[];
+  addInventoryItems: (items: InventoryItem[]) => void;
+  removeInventoryItem: (id: string) => void;
+  updateInventoryItem: (id: string, updates: Partial<InventoryItem>) => void;
+  clearInventory: () => void;
+  clearInventoryZone: (zone: ScanZone) => void;
+  lastScanTimestamp: number | null;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -50,6 +59,8 @@ const COOKING_LEVEL_KEY = "@culinary_cooking_level";
 const APPEARANCE_KEY = "@culinary_appearance";
 const EXPLORE_VIEW_KEY = "@culinary_explore_view";
 const SAVED_COUNTRIES_KEY = "@culinary_saved_countries";
+const INVENTORY_KEY = "@culinary_inventory";
+const LAST_SCAN_KEY = "@culinary_last_scan";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [savedRecipeIds, setSavedRecipeIds] = useState<string[]>([]);
@@ -61,12 +72,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [appearanceMode, setAppearanceModeState] = useState<AppearanceMode>("light");
   const [exploreViewMode, setExploreViewModeState] = useState<ExploreViewMode>("feed");
   const [savedCountryIds, setSavedCountryIds] = useState<string[]>([]);
+  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
+  const [lastScanTimestamp, setLastScanTimestamp] = useState<number | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, inventory, lastScan] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
@@ -76,6 +89,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(APPEARANCE_KEY).catch(() => null),
           AsyncStorage.getItem(EXPLORE_VIEW_KEY).catch(() => null),
           AsyncStorage.getItem(SAVED_COUNTRIES_KEY).catch(() => null),
+          AsyncStorage.getItem(INVENTORY_KEY).catch(() => null),
+          AsyncStorage.getItem(LAST_SCAN_KEY).catch(() => null),
         ]);
         if (saved) {
           try {
@@ -111,6 +126,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             const parsed = JSON.parse(savedCtries);
             if (Array.isArray(parsed)) setSavedCountryIds(parsed);
           } catch {}
+        }
+        if (inventory) {
+          try {
+            const parsed = JSON.parse(inventory);
+            if (Array.isArray(parsed)) setInventoryItems(parsed);
+          } catch {}
+        }
+        if (lastScan) {
+          const ts = Number(lastScan);
+          if (!Number.isNaN(ts)) setLastScanTimestamp(ts);
         }
       } catch {}
       setLoaded(true);
@@ -199,6 +224,55 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     AsyncStorage.setItem(EXPLORE_VIEW_KEY, mode).catch(() => {});
   }, []);
 
+  // Inventory persistence
+  useEffect(() => {
+    if (loaded) AsyncStorage.setItem(INVENTORY_KEY, JSON.stringify(inventoryItems)).catch(() => {});
+  }, [inventoryItems, loaded]);
+
+  useEffect(() => {
+    if (loaded && lastScanTimestamp !== null) {
+      AsyncStorage.setItem(LAST_SCAN_KEY, String(lastScanTimestamp)).catch(() => {});
+    }
+  }, [lastScanTimestamp, loaded]);
+
+  const addInventoryItems = useCallback((items: InventoryItem[]) => {
+    setInventoryItems((prev) => {
+      // Merge: update existing items by name+zone, add new ones
+      const updated = [...prev];
+      for (const item of items) {
+        const existingIdx = updated.findIndex(
+          (e) => e.name.toLowerCase() === item.name.toLowerCase() && e.zone === item.zone
+        );
+        if (existingIdx >= 0) {
+          updated[existingIdx] = { ...updated[existingIdx], ...item, quantity: item.quantity };
+        } else {
+          updated.push(item);
+        }
+      }
+      return updated;
+    });
+    setLastScanTimestamp(Date.now());
+  }, []);
+
+  const removeInventoryItem = useCallback((id: string) => {
+    setInventoryItems((prev) => prev.filter((i) => i.id !== id));
+  }, []);
+
+  const updateInventoryItem = useCallback((id: string, updates: Partial<InventoryItem>) => {
+    setInventoryItems((prev) =>
+      prev.map((i) => (i.id === id ? { ...i, ...updates } : i))
+    );
+  }, []);
+
+  const clearInventory = useCallback(() => {
+    setInventoryItems([]);
+    setLastScanTimestamp(null);
+  }, []);
+
+  const clearInventoryZone = useCallback((zone: ScanZone) => {
+    setInventoryItems((prev) => prev.filter((i) => i.zone !== zone));
+  }, []);
+
   const toggleSavedCountry = useCallback((id: string) => {
     setSavedCountryIds((prev) => {
       const next = prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id];
@@ -240,6 +314,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         savedCountryIds,
         toggleSavedCountry,
         isCountrySaved,
+        inventoryItems,
+        addInventoryItems,
+        removeInventoryItem,
+        updateInventoryItem,
+        clearInventory,
+        clearInventoryZone,
+        lastScanTimestamp,
       }}
     >
       {children}
