@@ -15,19 +15,19 @@ function NativeTabLayout() {
     <NativeTabs>
       <NativeTabs.Trigger name="index">
         <Icon sf={{ default: "safari", selected: "safari.fill" }} />
-        <Label>Explore</Label>
+        <Label>Discover</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="grocery">
-        <Icon sf={{ default: "basket", selected: "basket.fill" }} />
-        <Label>Grocery</Label>
+        <Icon sf={{ default: "book", selected: "book.fill" }} />
+        <Label>Journeys</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="saved">
         <Icon sf={{ default: "bookmark", selected: "bookmark.fill" }} />
         <Label>Saved</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="settings">
-        <Icon sf={{ default: "gearshape", selected: "gearshape.fill" }} />
-        <Label>Settings</Label>
+        <Icon sf={{ default: "person", selected: "person.fill" }} />
+        <Label>Profile</Label>
       </NativeTabs.Trigger>
     </NativeTabs>
   );
@@ -82,7 +82,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Explore",
+          title: "Discover",
           tabBarIcon: ({ color }) =>
             isIOS ? (
               <SymbolView name="safari" tintColor={color} size={24} />
@@ -94,12 +94,12 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="grocery"
         options={{
-          title: "Grocery",
+          title: "Journeys",
           tabBarIcon: ({ color }) =>
             isIOS ? (
-              <SymbolView name="basket" tintColor={color} size={24} />
+              <SymbolView name="book" tintColor={color} size={24} />
             ) : (
-              <MaterialIcons name="shopping-basket" size={24} color={color} />
+              <MaterialIcons name="auto-stories" size={24} color={color} />
             ),
         }}
       />
@@ -118,12 +118,12 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: "Profile",
           tabBarIcon: ({ color }) =>
             isIOS ? (
-              <SymbolView name="gearshape" tintColor={color} size={24} />
+              <SymbolView name="person" tintColor={color} size={24} />
             ) : (
-              <MaterialIcons name="settings" size={24} color={color} />
+              <MaterialIcons name="person" size={24} color={color} />
             ),
         }}
       />

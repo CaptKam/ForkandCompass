@@ -100,7 +100,8 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
 "The Culinary Editorial" — a premium culinary travel mobile app (Expo/React Native) with a high-end editorial magazine aesthetic.
 
 - **Design System**: Primary terracotta #9A4100, surface #FEF9F3, Noto Serif for headlines, Inter for body text, no-line border rule (sections defined by color shifts, not borders)
-- **Navigation**: Welcome → Onboarding (country picker) → Tab bar (Explore, Grocery, Saved, Settings) with NativeTabs (liquid glass) on iOS 26+, classic BlurView tabs fallback
+- **Navigation**: Welcome → Onboarding (country picker) → Tab bar (Discover, Journeys, Saved, Profile) with NativeTabs (liquid glass) on iOS 26+, classic BlurView tabs fallback
+- **Discover tab (editorial homepage)**: Scrollable editorial landing page with hero section, "Curator's Method" 3-step concept, featured destination journal cards (horizontal scroll), testimonial quote, CTA, and footer
 - **Stack screens**: onboarding, country/[id], recipe/[id], cook-mode (modal)
 - **State**: AsyncStorage for saved recipes, grocery list, welcome-seen, selected countries, onboarding-completed via AppContext
 - **Data**: Static hardcoded content in constants/data.ts (Italy, Japan, Morocco, Mexico, India, Thailand with recipes)
