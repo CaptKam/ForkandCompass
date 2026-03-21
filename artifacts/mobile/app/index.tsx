@@ -67,10 +67,7 @@ export default function WelcomeScreen() {
       >
         <View style={styles.textContainer}>
           <Text style={[type.displayLarge, styles.title]}>
-            Eat Your Way{"\n"}Across the Globe.
-          </Text>
-          <Text style={[type.bodyLarge, styles.subtitle]}>
-            Pick a country, cook a dinner, feel like you traveled.
+            Your kitchen.{"\n"}A different country{"\n"}every night.
           </Text>
           <Pressable
             onPress={handleStart}
