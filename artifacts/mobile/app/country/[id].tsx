@@ -16,7 +16,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { getCountryLocations, type CountryLocation } from "@/constants/data";
+import { getCountryLocations, LANDMARK_IMAGES, type CountryLocation } from "@/constants/data";
 import { useCountry } from "@/hooks/useCountry";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useApp } from "@/contexts/AppContext";
@@ -74,7 +74,7 @@ export default function CountryDetailScreen() {
         {/* Hero */}
         <View style={styles.heroContainer}>
           <Image
-            source={{ uri: country.heroImage }}
+            source={{ uri: LANDMARK_IMAGES[country.id] || country.heroImage }}
             style={styles.heroImage}
             contentFit="cover"
             transition={reducedMotion ? 0 : 400}

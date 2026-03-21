@@ -470,52 +470,60 @@ export const ONBOARDING_IMAGES: Record<string, string> = {
 
 export const WELCOME_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuBNn6amxRklLOG69FpzFwcXZX5f0amiGLTlhj-OK4CKLAIjyld88eF-BtrHONmt69pF3NCPSHevwxzssyeJ5w5VEPOr_80X6OLvGsHb34IEqgiWpCiWubiMQhnstosxqXAbBBiQcEZU-D9RTzfI_NmGNh5z4lYEsg0anY3accSKOTqZq8eXDHA6YRz9F54mcDsybrvMxHqD1TGxK3VUSsKjgta2G468z9ttJssORTCBDgaEojDrgatyIZ3koBd5P5yOCQsaO7I5moy8";
 
+export const LANDMARK_IMAGES: Record<string, string> = {
+  italy:   "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1200&q=85&fit=crop",
+  japan:   "https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=1200&q=85&fit=crop",
+  morocco: "https://images.unsplash.com/photo-1539020140153-e479b8c22e69?w=1200&q=85&fit=crop",
+  mexico:  "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1200&q=85&fit=crop",
+  india:   "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200&q=85&fit=crop",
+  thailand:"https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&q=85&fit=crop",
+};
+
 export interface CountryLocation {
   name: string;
   subtitle: string;
   image: string;
 }
 
+const REGION_IMAGES: Record<string, CountryLocation[]> = {
+  italy: [
+    { name: "Tuscany",      subtitle: "The Eternal Countryside", image: "https://images.unsplash.com/photo-1568797629192-789acf8e4df3?w=900&q=85&fit=crop" },
+    { name: "Rome",         subtitle: "The Eternal City",        image: "https://images.unsplash.com/photo-1529260830199-42c24126f198?w=900&q=85&fit=crop" },
+    { name: "Amalfi Coast", subtitle: "Sun-Kissed Shores",       image: "https://images.unsplash.com/photo-1533606688076-b6683a5f59f1?w=900&q=85&fit=crop" },
+  ],
+  japan: [
+    { name: "Kyoto", subtitle: "The Ancient Capital",    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=900&q=85&fit=crop" },
+    { name: "Tokyo", subtitle: "The Neon Metropolis",    image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=900&q=85&fit=crop" },
+    { name: "Osaka", subtitle: "The Kitchen of Japan",   image: "https://images.unsplash.com/photo-1590559899731-a382839e5549?w=900&q=85&fit=crop" },
+  ],
+  morocco: [
+    { name: "Marrakech",         subtitle: "The Red City",    image: "https://images.unsplash.com/photo-1539020140153-e479b8c22e69?w=900&q=85&fit=crop" },
+    { name: "Chefchaouen",       subtitle: "The Blue Pearl",  image: "https://images.unsplash.com/photo-1602002418082-a4443978a5dc?w=900&q=85&fit=crop" },
+    { name: "The Atlas Mountains",subtitle: "High Peaks",     image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=900&q=85&fit=crop" },
+  ],
+  mexico: [
+    { name: "Oaxaca",       subtitle: "The Heart of Mole",   image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85&fit=crop" },
+    { name: "Yucatán",      subtitle: "Mayan Flavours",      image: "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=900&q=85&fit=crop" },
+    { name: "Mexico City",  subtitle: "The Capital Table",   image: "https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=900&q=85&fit=crop" },
+  ],
+  india: [
+    { name: "Delhi",      subtitle: "The Spice Capital",  image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=900&q=85&fit=crop" },
+    { name: "Kerala",     subtitle: "The Coconut Coast",  image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=900&q=85&fit=crop" },
+    { name: "Rajasthan",  subtitle: "Royal Kitchens",     image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=900&q=85&fit=crop" },
+  ],
+  thailand: [
+    { name: "Bangkok",    subtitle: "Street Food Capital",   image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=900&q=85&fit=crop" },
+    { name: "Chiang Mai", subtitle: "Northern Traditions",   image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=900&q=85&fit=crop" },
+    { name: "Phuket",     subtitle: "Coastal Delights",      image: "https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=900&q=85&fit=crop" },
+  ],
+};
+
 export function getCountryLocations(country: Country): CountryLocation[] {
+  if (REGION_IMAGES[country.id]) return REGION_IMAGES[country.id];
   const img = country.heroImage || ONBOARDING_IMAGES[country.id] || country.image;
-  const imgAlt = img;
-
-  const byCountry: Record<string, CountryLocation[]> = {
-    morocco: [
-      { name: "Marrakech", subtitle: "The Red City", image: img },
-      { name: "Chefchaouen", subtitle: "The Blue Pearl", image: imgAlt },
-      { name: "The Atlas Mountains", subtitle: "High Peaks", image: img },
-    ],
-    italy: [
-      { name: "Tuscany", subtitle: "The Eternal Countryside", image: img },
-      { name: "Rome", subtitle: "The Eternal City", image: imgAlt },
-      { name: "Amalfi Coast", subtitle: "Sun-Kissed Shores", image: img },
-    ],
-    japan: [
-      { name: "Kyoto", subtitle: "The Ancient Capital", image: img },
-      { name: "Tokyo", subtitle: "The Neon Metropolis", image: imgAlt },
-      { name: "Osaka", subtitle: "The Kitchen of Japan", image: img },
-    ],
-    mexico: [
-      { name: "Oaxaca", subtitle: "The Heart of Mole", image: img },
-      { name: "Yucatán", subtitle: "Mayan Flavours", image: imgAlt },
-      { name: "Mexico City", subtitle: "The Capital Table", image: img },
-    ],
-    india: [
-      { name: "Delhi", subtitle: "The Spice Capital", image: img },
-      { name: "Kerala", subtitle: "The Coconut Coast", image: imgAlt },
-      { name: "Rajasthan", subtitle: "Royal Kitchens", image: img },
-    ],
-    thailand: [
-      { name: "Bangkok", subtitle: "Street Food Capital", image: img },
-      { name: "Chiang Mai", subtitle: "Northern Traditions", image: imgAlt },
-      { name: "Phuket", subtitle: "Coastal Delights", image: img },
-    ],
-  };
-
-  return byCountry[country.id] || [
+  return [
     { name: country.region, subtitle: country.tagline, image: img },
-    { name: `${country.name} Highlands`, subtitle: "Hidden Gems", image: imgAlt },
+    { name: `${country.name} Highlands`, subtitle: "Hidden Gems", image: img },
     { name: `${country.name} Coast`, subtitle: "By the Sea", image: img },
   ];
 }
