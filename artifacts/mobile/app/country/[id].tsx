@@ -20,7 +20,6 @@ import type { Recipe } from "@/constants/data";
 import { useCountry } from "@/hooks/useCountry";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useApp } from "@/contexts/AppContext";
-import { useCountry } from "@/hooks/useCountry";
 
 export default function CountryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
