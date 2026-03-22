@@ -17,7 +17,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { COUNTRIES } from "@/constants/data";
+import { COUNTRIES, resolveImageUrl } from "@/constants/data";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useNinjaRecipes } from "@/hooks/useNinjaRecipes";
 import TabHeader from "@/components/TabHeader";
@@ -34,7 +34,7 @@ function getAllRecipesGrouped() {
     for (const recipe of country.recipes) {
       const key = recipe.difficulty ?? "Easy";
       if (!byDifficulty[key]) byDifficulty[key] = [];
-      byDifficulty[key].push({ recipe, country });
+      byDifficulty[key].push({ recipe: { ...recipe, image: resolveImageUrl(recipe.image) }, country });
     }
   }
   return byDifficulty;
