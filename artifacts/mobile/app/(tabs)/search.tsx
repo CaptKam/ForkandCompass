@@ -62,7 +62,7 @@ export default function SearchScreen() {
     <View style={styles.container}>
       <StatusBar style="dark" />
 
-      <TabHeader title="The Culinary Editorial" />
+      <TabHeader title="Fork & Compass" />
 
       {/* ── Sticky Search Bar ────────────────────────────────────── */}
       <View style={styles.topBar}>

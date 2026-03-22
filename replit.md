@@ -106,7 +106,7 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
 
 ### `artifacts/mobile` (`@workspace/mobile`)
 
-"The Culinary Editorial" — a premium culinary travel mobile app (Expo/React Native) with a high-end editorial magazine aesthetic.
+"Fork & Compass" — a premium culinary travel mobile app (Expo/React Native) with a high-end editorial magazine aesthetic.
 
 - **Design System**: Primary terracotta #9A4100, surface #FEF9F3, Noto Serif for headlines, Inter for body text, no-line border rule (sections defined by color shifts, not borders)
 - **Navigation**: Welcome → Onboarding (country picker) → Tab bar (Discover, Journeys, Saved, Profile) with NativeTabs (liquid glass) on iOS 26+, classic BlurView tabs fallback

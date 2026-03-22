@@ -51,7 +51,7 @@ export default function CountryDetailScreen() {
         <Pressable onPress={() => router.back()} style={styles.headerButton}>
           <Ionicons name="arrow-back" size={22} color={Colors.light.primary} />
         </Pressable>
-        <Text style={styles.headerTitle}>The Culinary Editorial</Text>
+        <Text style={styles.headerTitle}>Fork & Compass</Text>
         <Pressable
           onPress={() => {
             if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);

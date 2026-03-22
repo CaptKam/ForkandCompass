@@ -115,7 +115,7 @@ export default function GroceryScreen() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: "My Culinary Editorial List",
+          title: "My Fork & Compass List",
           items: itemsToOrder.map((i) => ({
             name: i.name,
             amount: i.amount,

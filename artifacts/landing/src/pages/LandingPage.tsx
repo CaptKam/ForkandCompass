@@ -87,7 +87,7 @@ export default function LandingPage() {
             className="text-xl sm:text-2xl font-semibold text-white drop-shadow-md"
             style={{ fontFamily: "'Noto Serif', Georgia, serif" }}
           >
-            The Culinary Editorial
+            Fork & Compass
           </div>
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center space-x-10">
@@ -385,7 +385,7 @@ export default function LandingPage() {
                 color: "#1d1b18",
               }}
             >
-              "The Culinary Editorial isn't just a recipe box. It's an evening of discovery that turns my Tuesday night kitchen into a sun-drenched bistro in Provence. Every ingredient tells a story."
+              "Fork & Compass isn't just a recipe box. It's an evening of discovery that turns my Tuesday night kitchen into a sun-drenched bistro in Provence. Every ingredient tells a story."
             </blockquote>
             <div className="flex flex-col items-center gap-5 sm:gap-6">
               <div
@@ -500,7 +500,7 @@ export default function LandingPage() {
               className="block font-bold"
               style={{ fontFamily: "'Noto Serif', Georgia, serif", fontSize: "clamp(1.5rem, 3vw, 2.25rem)", color: "#9a4100" }}
             >
-              The Culinary Editorial
+              Fork & Compass
             </span>
             <p className="text-lg leading-relaxed max-w-md" style={{ color: "#725a3c" }}>
               Curating the world's most evocative food stories and delivering the soul of global cuisines directly to your home.
@@ -580,7 +580,7 @@ export default function LandingPage() {
           style={{ borderTop: "1px solid rgba(222,193,179,0.2)" }}
         >
           <p className="text-sm" style={{ color: "#725a3c" }}>
-            © 2024 The Culinary Editorial. All rights reserved. Designed for the global explorer.
+            © 2024 Fork & Compass. All rights reserved. Designed for the global explorer.
           </p>
         </div>
       </footer>
