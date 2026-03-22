@@ -142,7 +142,7 @@ export default function LandingPage() {
                     willChange: "transform",
                     transition: "transform 0.1s linear",
                   }}
-                  src="/web/app-screenshot.png"
+                  src="/web/app-screenshot-tuscany.png"
                 />
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1C1A17] rounded-b-2xl z-50" />
               </div>
