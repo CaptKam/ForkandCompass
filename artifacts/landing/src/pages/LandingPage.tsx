@@ -101,7 +101,7 @@ export default function LandingPage() {
                 <span className="italic font-normal text-[#9A4100]">Cook it at home.</span>
               </h1>
               <p className="text-white/90 text-xl md:text-2xl max-w-xl leading-relaxed italic text-shadow-elegant">
-                The high-end digital journal for the global explorer and the curious chef.
+                A premium cooking app for the curious home cook.
               </p>
               <div id="hero-signup" className="pt-4">
                 {heroSubmitted ? (
