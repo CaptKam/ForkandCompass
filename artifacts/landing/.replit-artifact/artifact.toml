@@ -1,5 +1,5 @@
 kind = "web"
-previewPath = "/web/"
+previewPath = "/"
 title = "The Culinary Editorial — Web"
 version = "1.0.0"
 id = "artifacts/landing"
@@ -11,7 +11,7 @@ version = "1.0.0"
 
 [[services]]
 name = "web"
-paths = [ "/web/" ]
+paths = [ "/" ]
 localPort = 18150
 
 [services.development]
@@ -28,4 +28,4 @@ to = "/index.html"
 
 [services.env]
 PORT = "18150"
-BASE_PATH = "/web/"
+BASE_PATH = "/"

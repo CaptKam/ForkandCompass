@@ -104,9 +104,16 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
 
 - `seed` — `pnpm --filter @workspace/scripts run seed` — seeds all countries and recipes from mobile app data into the database (uses upsert, safe to re-run)
 
+### `artifacts/landing` (`@workspace/landing`)
+
+"Fork & Compass" landing page (React + Vite). Serves at root `/` — this is the homepage for `forkandcompass.app`. Features hero section with email waitlist capture, iPhone app mockup, destination grid, and CTA. Waitlist emails persisted to PostgreSQL via `POST /api/waitlist`.
+
+- **Preview path**: `/` (root)
+- **Key files**: `src/pages/LandingPage.tsx`, `src/index.css`, `index.html`, `public/og-image.png`
+
 ### `artifacts/mobile` (`@workspace/mobile`)
 
-"Fork & Compass" — a premium culinary travel mobile app (Expo/React Native) with a high-end editorial magazine aesthetic.
+"Fork & Compass" — a premium culinary travel mobile app (Expo/React Native) with a high-end editorial magazine aesthetic. Preview path: `/mobile/`.
 
 - **Design System**: Primary terracotta #9A4100, surface #FEF9F3, Noto Serif for headlines, Inter for body text, no-line border rule (sections defined by color shifts, not borders)
 - **Navigation**: Welcome → Onboarding (country picker) → Tab bar (Discover, Journeys, Saved, Profile) with NativeTabs (liquid glass) on iOS 26+, classic BlurView tabs fallback
