@@ -9,6 +9,7 @@ import React, {
 
 import type { GroceryItem, Recipe } from "@/constants/data";
 import type { InventoryItem, ScanZone } from "@/constants/inventory";
+import type { ItineraryProfile, ItineraryDay } from "@/hooks/useItinerary";
 
 export type CookingLevel = "beginner" | "intermediate" | "advanced";
 export type AppearanceMode = "system" | "light" | "dark";
@@ -38,6 +39,13 @@ interface AppContextType {
   savedCountryIds: string[];
   toggleSavedCountry: (id: string) => void;
   isCountrySaved: (id: string) => boolean;
+  // Culinary Itinerary
+  itineraryProfile: ItineraryProfile | null;
+  setItineraryProfile: (profile: ItineraryProfile) => void;
+  currentItinerary: ItineraryDay[];
+  setCurrentItinerary: (itinerary: ItineraryDay[]) => void;
+  itineraryHistory: ItineraryDay[][];
+  addToItineraryHistory: (week: ItineraryDay[]) => void;
   // Kitchen Inventory Scanner (Beta)
   inventoryItems: InventoryItem[];
   addInventoryItems: (items: InventoryItem[]) => void;
@@ -59,6 +67,9 @@ const COOKING_LEVEL_KEY = "@culinary_cooking_level";
 const APPEARANCE_KEY = "@culinary_appearance";
 const EXPLORE_VIEW_KEY = "@culinary_explore_view";
 const SAVED_COUNTRIES_KEY = "@culinary_saved_countries";
+const ITINERARY_PROFILE_KEY = "@culinary_itinerary_profile";
+const CURRENT_ITINERARY_KEY = "@culinary_current_itinerary";
+const ITINERARY_HISTORY_KEY = "@culinary_itinerary_history";
 const INVENTORY_KEY = "@culinary_inventory";
 const LAST_SCAN_KEY = "@culinary_last_scan";
 
@@ -72,6 +83,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [appearanceMode, setAppearanceModeState] = useState<AppearanceMode>("light");
   const [exploreViewMode, setExploreViewModeState] = useState<ExploreViewMode>("feed");
   const [savedCountryIds, setSavedCountryIds] = useState<string[]>([]);
+  const [itineraryProfile, setItineraryProfileState] = useState<ItineraryProfile | null>(null);
+  const [currentItinerary, setCurrentItineraryState] = useState<ItineraryDay[]>([]);
+  const [itineraryHistory, setItineraryHistoryState] = useState<ItineraryDay[][]>([]);
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
   const [lastScanTimestamp, setLastScanTimestamp] = useState<number | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -79,7 +93,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, inventory, lastScan] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, itinProfile, itinCurrent, itinHistory, inventory, lastScan] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
@@ -89,6 +103,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(APPEARANCE_KEY).catch(() => null),
           AsyncStorage.getItem(EXPLORE_VIEW_KEY).catch(() => null),
           AsyncStorage.getItem(SAVED_COUNTRIES_KEY).catch(() => null),
+          AsyncStorage.getItem(ITINERARY_PROFILE_KEY).catch(() => null),
+          AsyncStorage.getItem(CURRENT_ITINERARY_KEY).catch(() => null),
+          AsyncStorage.getItem(ITINERARY_HISTORY_KEY).catch(() => null),
           AsyncStorage.getItem(INVENTORY_KEY).catch(() => null),
           AsyncStorage.getItem(LAST_SCAN_KEY).catch(() => null),
         ]);
@@ -125,6 +142,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           try {
             const parsed = JSON.parse(savedCtries);
             if (Array.isArray(parsed)) setSavedCountryIds(parsed);
+          } catch {}
+        }
+        if (itinProfile) {
+          try {
+            const parsed = JSON.parse(itinProfile);
+            if (parsed && typeof parsed === "object") setItineraryProfileState(parsed);
+          } catch {}
+        }
+        if (itinCurrent) {
+          try {
+            const parsed = JSON.parse(itinCurrent);
+            if (Array.isArray(parsed)) setCurrentItineraryState(parsed);
+          } catch {}
+        }
+        if (itinHistory) {
+          try {
+            const parsed = JSON.parse(itinHistory);
+            if (Array.isArray(parsed)) setItineraryHistoryState(parsed);
           } catch {}
         }
         if (inventory) {
@@ -224,6 +259,38 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     AsyncStorage.setItem(EXPLORE_VIEW_KEY, mode).catch(() => {});
   }, []);
 
+  // Itinerary persistence
+  useEffect(() => {
+    if (loaded) {
+      if (itineraryProfile) {
+        AsyncStorage.setItem(ITINERARY_PROFILE_KEY, JSON.stringify(itineraryProfile)).catch(() => {});
+      }
+    }
+  }, [itineraryProfile, loaded]);
+
+  useEffect(() => {
+    if (loaded) AsyncStorage.setItem(CURRENT_ITINERARY_KEY, JSON.stringify(currentItinerary)).catch(() => {});
+  }, [currentItinerary, loaded]);
+
+  useEffect(() => {
+    if (loaded) AsyncStorage.setItem(ITINERARY_HISTORY_KEY, JSON.stringify(itineraryHistory)).catch(() => {});
+  }, [itineraryHistory, loaded]);
+
+  const setItineraryProfile = useCallback((profile: ItineraryProfile) => {
+    setItineraryProfileState(profile);
+  }, []);
+
+  const setCurrentItinerary = useCallback((itinerary: ItineraryDay[]) => {
+    setCurrentItineraryState(itinerary);
+  }, []);
+
+  const addToItineraryHistory = useCallback((week: ItineraryDay[]) => {
+    setItineraryHistoryState((prev) => {
+      const next = [...prev, week].slice(-4); // keep last 4 weeks
+      return next;
+    });
+  }, []);
+
   // Inventory persistence
   useEffect(() => {
     if (loaded) AsyncStorage.setItem(INVENTORY_KEY, JSON.stringify(inventoryItems)).catch(() => {});
@@ -314,6 +381,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         savedCountryIds,
         toggleSavedCountry,
         isCountrySaved,
+        itineraryProfile,
+        setItineraryProfile,
+        currentItinerary,
+        setCurrentItinerary,
+        itineraryHistory,
+        addToItineraryHistory,
         inventoryItems,
         addInventoryItems,
         removeInventoryItem,

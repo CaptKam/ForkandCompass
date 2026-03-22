@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import React from "react";
 import {
   Alert,
@@ -42,6 +43,7 @@ export default function ProfileScreen() {
     appearanceMode,
     setAppearanceMode,
     selectedCountryIds,
+    itineraryProfile,
   } = useApp();
 
   const haptic = () => {
@@ -153,6 +155,26 @@ export default function ProfileScreen() {
             })}
           </View>
         </View>
+
+        {/* Itinerary Preferences */}
+        {itineraryProfile && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Itinerary Preferences</Text>
+            <Pressable
+              style={styles.card}
+              onPress={() => { haptic(); router.push("/itinerary-setup"); }}
+            >
+              <View style={styles.itineraryPrefRow}>
+                <View style={styles.itineraryPrefContent}>
+                  <Text style={styles.itineraryPrefSummary}>
+                    {itineraryProfile.cookingDays} nights · {itineraryProfile.timePreference === "quick" ? "Quick" : itineraryProfile.timePreference === "moderate" ? "Moderate" : "Relaxed"} · {itineraryProfile.adventurousness === "familiar" ? "Familiar" : itineraryProfile.adventurousness === "mixed" ? "Mixed" : "Surprise"} · {itineraryProfile.defaultServings} {itineraryProfile.defaultServings === 1 ? "serving" : "servings"}
+                  </Text>
+                </View>
+                <Ionicons name="chevron-forward" size={18} color={Colors.light.secondary} />
+              </View>
+            </Pressable>
+          </View>
+        )}
 
         {/* Bucket List */}
         <View style={styles.section}>
@@ -385,6 +407,25 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 5,
     backgroundColor: Colors.light.primary,
+  },
+
+  /* Itinerary Preferences */
+  itineraryPrefRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  itineraryPrefContent: {
+    flex: 1,
+    marginRight: 8,
+  },
+  itineraryPrefSummary: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.onSurface,
+    lineHeight: 20,
   },
 
   /* Bucket List */
