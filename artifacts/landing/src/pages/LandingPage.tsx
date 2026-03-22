@@ -187,12 +187,12 @@ export default function LandingPage() {
           </div>
           <div className="max-w-[1536px] mx-auto px-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12">
             {[
-              { name: "Morocco", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCuAaqROW9q8mgNaJigvWmdRpSR03vjO8AItTK4uFQZqAeBjh-IFmXevWe2DNO_XOPiZDVVX8gLKBO4tNAkydUrO70Orkgl0ehXa17P0p2FGLCvPDJSCTDEp-A957C72z6oglWbXbG3XoWuJqZffk9qsAemQ_mr0dBWx_sfMtFFbcV0Qiyo3M4VsjCmBv4GaoCDUbCNMnLtItGfseVndV1vti8Pii47AInX_V9pVWM7Pq65Gjqt9i2LIfCbxkC8yK3bU_EhvatXr5Gm" },
-              { name: "Italy", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAu3-KSQOfwHCWcChqFrSLDuYSZn11EcTkI-WjvuBCRBwLrfc_att2ysaZiGf9TEjqOJqe5jDhBKo4cUQYBsucusseC_J7cw2JNnn2JsPYP9h-QlyarZJgZsAhoQSA5HJXE0AZyUmf4LD1Zam4qFkGgD02t9vCoYX9m-jfGPf4OndnxBR8jRCorDxQJGWEVdO0RjdSXOSzz65bHWBcqK9RCeue22e662NFBDIEBYYVnYbSxrmhnUbk7qD89s680Vdht1T_uS1oNMefR" },
-              { name: "Japan", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBdWXrkKkUpRHGU2c5BUiOez13606j57cIEDzw02IdOlIqB7Ni04sCD4f1rvlYLHLzBreuvRazZPx-HB3usv_YCRDQRljlHc2UD8Ba81-oJTtgc1vBu_sKRZ47sjhDUgJpriwMZ5mjFKCP1RhH1lnIjnMnzLOS6jusL9RKfieFioO3wbquZpVxmFb7zlVzAGbR0qjeSOMXrdGP0K2ia8HalUlhO1hv-ogmOqta8P4n596XeIaaVAsh2wy7KgZpDjDgOAC1l0NxKNNmj" },
-              { name: "Mexico", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBr0PI2NYdINsGe-4oKwFvFTKv8LOmrzXTk7OJBp2iKSyjYDIK1I1Wl-h1xhDcRJF-oRLIQTnsBf3VvSL3QyPgGrXU_e3Po-rrq1VY4WlvGvMLDULWnDIe4nJU7lNocEZ7zm5AZO2uEPHG3XQJo4BwbkdtAoth0PgE5ENA2w_by5iF9K5XOLeQ-k9KpfgY-uCC3afr4Fa5Jd3lhfNdQv4or5HBOnpz8-c5uJYTWhjo4307dMgOCMiOKmZNxBigpDOOL_ECKpCk-zXVR" },
-              { name: "Thailand", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDCXbxqqNIcPA-Ij80rKI3T06DMHLM_bHIXDVqMtIxGsUousF2YKJ56rNXB-1vIWWS4Y632e71fmIKEW87bSdKI8z2cm20rRxY7RI4BnOdwZoYRfZkevYmHfHfq_gwXAyey7x39akc7yxVZBQbbyxfZH3tRQDp6DRp_5glF6VgWOxp8SKf_gsRXi-25Cgc8ZNp1g8bsKGmy6Cj4snjIywv5YfRyVLKgdP74ZLj6HloAsTy5bSVGVCVBZE6FUGYxFdyoQUcv0FAV-6Ym" },
-              { name: "France", img: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&q=85&fit=crop" },
+              { name: "Morocco", img: "https://images.unsplash.com/photo-1541518763-a49d21d05039?w=600&q=85&fit=crop" },
+              { name: "Italy", img: "https://images.unsplash.com/photo-1498579150354-977475b7ea0b?w=600&q=85&fit=crop" },
+              { name: "Japan", img: "https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=85&fit=crop" },
+              { name: "Mexico", img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=85&fit=crop" },
+              { name: "Thailand", img: "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=600&q=85&fit=crop" },
+              { name: "France", img: "https://images.unsplash.com/photo-1608855238293-a8853e7f7c98?w=600&q=85&fit=crop" },
             ].map((country) => (
               <div key={country.name} className="text-center group cursor-pointer">
                 <div className="aspect-square rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[#9A4100] transition-all mb-6">
