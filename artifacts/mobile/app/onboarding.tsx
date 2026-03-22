@@ -6,13 +6,13 @@ import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
-  Dimensions,
   Platform,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -22,9 +22,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { useScaledStyles } from "@/hooks/useScaledStyles";
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_GAP = 16;
-const CARD_WIDTH = (SCREEN_WIDTH - 48 - CARD_GAP) / 2;
 
 export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
@@ -33,6 +31,8 @@ export default function OnboardingScreen() {
   const type = useScaledStyles();
   const reducedMotion = useReducedMotion();
   const isDark = colors.background === "#121110";
+  const { width: screenWidth } = useWindowDimensions();
+  const cardWidth = (screenWidth - 48 - CARD_GAP) / 2;
 
   const handleStart = () => {
     if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -75,7 +75,7 @@ export default function OnboardingScreen() {
                 }}
                 style={({ pressed }) => [
                   styles.card,
-                  { backgroundColor: colors.surfaceContainerHigh },
+                  { backgroundColor: colors.surfaceContainerHigh, width: cardWidth },
                   isSelected && [styles.cardSelected, { borderColor: colors.primary }],
                   pressed && !reducedMotion && { transform: [{ scale: 0.95 }] },
                 ]}
@@ -159,7 +159,6 @@ const styles = StyleSheet.create({
     gap: CARD_GAP,
   },
   card: {
-    width: CARD_WIDTH,
     aspectRatio: 4 / 5,
     borderRadius: 16,
     overflow: "hidden",

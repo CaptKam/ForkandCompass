@@ -6,12 +6,12 @@ import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Animated,
-  Dimensions,
   Platform,
   Pressable,
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -28,7 +28,6 @@ import {
 import { useApp } from "@/contexts/AppContext";
 import { detectItemsWithVision, isVisionAvailable } from "@/services/visionService";
 
-const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get("window");
 
 // Fallback mock detection when no AI API key is configured
 /**
@@ -46,6 +45,7 @@ const AI_ENABLED = isVisionAvailable();
 export default function KitchenScannerScreen() {
   const insets = useSafeAreaInsets();
   const { addInventoryItems } = useApp();
+  const { height: screenH } = useWindowDimensions();
   const [permission, requestPermission] = useCameraPermissions();
 
   // Scanner state
@@ -410,7 +410,7 @@ export default function KitchenScannerScreen() {
   if (phase === "scanning") {
     const scanLineTranslate = scanLineAnim.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, SCREEN_H * 0.5],
+      outputRange: [0, screenH * 0.5],
     });
 
     return (

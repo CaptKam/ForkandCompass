@@ -4,9 +4,8 @@ import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Platform,
@@ -15,6 +14,7 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -24,8 +24,6 @@ import { COUNTRIES, ONBOARDING_IMAGES, getCountryLocations, type Country } from 
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
 
 // ─── Static editorial blurbs per country ─────────────────────────────────────
 
@@ -179,6 +177,13 @@ export default function DiscoverScreen() {
   const reducedMotion = useReducedMotion();
   const heroScrollRef = useRef<ScrollView>(null);
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
+  const { width: screenWidth } = useWindowDimensions();
+
+  useEffect(() => {
+    if (screenWidth > 0) {
+      heroScrollRef.current?.scrollTo({ x: activeIndex * screenWidth, animated: false });
+    }
+  }, [screenWidth]);
 
   const activeCountry = countries[activeIndex] ?? countries[0];
   const editorial = buildDiscoverData(activeCountry);
@@ -192,11 +197,11 @@ export default function DiscoverScreen() {
   };
 
   const scrollHeroTo = (idx: number) => {
-    heroScrollRef.current?.scrollTo({ x: idx * SCREEN_WIDTH, animated: true });
+    heroScrollRef.current?.scrollTo({ x: idx * screenWidth, animated: true });
   };
 
   const onHeroScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const idx = Math.round(e.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+    const idx = Math.round(e.nativeEvent.contentOffset.x / screenWidth);
     if (idx !== activeIndex && idx >= 0 && idx < countries.length) {
       haptic();
       setActiveIndex(idx);
@@ -221,7 +226,7 @@ export default function DiscoverScreen() {
             showsHorizontalScrollIndicator={false}
             onMomentumScrollEnd={onHeroScroll}
             scrollEventThrottle={16}
-            contentOffset={{ x: activeIndex * SCREEN_WIDTH, y: 0 }}
+            contentOffset={{ x: activeIndex * screenWidth, y: 0 }}
             style={styles.heroScroll}
           >
             {countries.map((country, idx) => {
@@ -229,7 +234,7 @@ export default function DiscoverScreen() {
               const blurb = EDITORIAL_BLURBS[country.id] || country.description;
               const isSaved = isCountrySaved(country.id);
               return (
-                <View key={country.id} style={styles.heroSlide}>
+                <View key={country.id} style={[styles.heroSlide, { width: screenWidth }]}>
                   <Image source={{ uri: img }} style={StyleSheet.absoluteFill} contentFit="cover" transition={reducedMotion ? 0 : 400} />
                   <LinearGradient
                     colors={["rgba(0,0,0,0.78)", "rgba(0,0,0,0.38)", "transparent"]}
@@ -541,7 +546,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   heroSlide: {
-    width: SCREEN_WIDTH,
     height: 560,
   },
   heroDots: {
