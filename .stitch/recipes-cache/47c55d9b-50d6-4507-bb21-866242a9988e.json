@@ -1,0 +1,270 @@
+{
+  "data": {
+    "id": "47c55d9b-50d6-4507-bb21-866242a9988e",
+    "name": "Classic Caprese Salad",
+    "description": "A vibrant, refreshing Italian salad featuring ripe tomatoes, creamy fresh mozzarella, and sweet basil leaves, finished with a drizzle of quality olive oil and a pinch of flaky sea salt.",
+    "category": "Salad",
+    "cuisine": "Italian",
+    "difficulty": "Easy",
+    "tags": [
+      "Italian",
+      "Salad",
+      "Tomato",
+      "Vegetarian",
+      "Easy",
+      "Quick",
+      "No-Cook",
+      "Summer"
+    ],
+    "meta": {
+      "active_time": "PT10M",
+      "passive_time": "PT0M",
+      "total_time": "PT10M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 180
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Gluten-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Peanut-Free",
+        "Soy-Free",
+        "Sugar-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Tomatoes degrade in the refrigerator; this salad is best eaten immediately.",
+        "duration": "PT4H"
+      },
+      "freezer": {
+        "notes": "Do not freeze.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Chef's knife",
+        "required": true,
+        "alternative": "Serrated knife"
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Serving platter",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Main Components",
+        "items": [
+          {
+            "name": "ripe tomatoes",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "washed and dried",
+            "notes": "medium to large size, preferably vine-ripened or heirloom, approximately 450g total",
+            "substitutions": [],
+            "ingredient_id": "9579a1ee-33e0-430e-8c34-b9fa2f32c020",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "fresh mozzarella cheese",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": "drained",
+            "notes": "buffalo mozzarella or fior di latte",
+            "substitutions": [],
+            "ingredient_id": "16a525ac-b987-4e5f-8496-b05fcf65457b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh basil leaves",
+            "quantity": 20,
+            "unit": null,
+            "preparation": "washed and dried",
+            "notes": "approximately 10g",
+            "substitutions": [],
+            "ingredient_id": "417f8397-9065-4cd6-8820-0ab7363fbb08",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Seasoning and Dressing",
+        "items": [
+          {
+            "name": "extra virgin olive oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "use the highest quality available",
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "flaky sea salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": "to taste",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "black pepper",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": "freshly ground",
+            "notes": "to taste",
+            "substitutions": [],
+            "ingredient_id": "c25dc1c9-4ea7-403c-976e-ab1d06578b7a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Using a sharp chef's knife or serrated knife, slice the tomatoes and fresh mozzarella into even rounds, approximately one centimeter thick.",
+        "structured": {
+          "action": "SLICE",
+          "temperature": null,
+          "duration": "PT4M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "assemble",
+        "text": "Arrange the tomato and mozzarella slices on a serving platter, alternating them in a slightly overlapping circular or linear pattern.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "assemble",
+        "text": "Tuck the fresh basil leaves evenly between the overlapping slices of tomato and mozzarella.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "finish",
+        "text": "Sprinkle the arranged salad evenly with the flaky sea salt and freshly ground black pepper.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Drizzle the extra virgin olive oil generously over the entire platter just before serving.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Watery salad base",
+        "likely_cause": "Tomatoes were too wet or mozzarella leaked excess whey after slicing",
+        "prevention": "Pat mozzarella slices gently with a paper towel before assembling, and use firm but ripe tomatoes",
+        "fix": "Carefully dab the pooling liquid on the platter with a paper towel before serving"
+      },
+      {
+        "symptom": "Basil leaves turning black",
+        "likely_cause": "Basil was chopped with a dull knife or handled too roughly",
+        "prevention": "Leave basil leaves whole, or tear them gently by hand just before serving",
+        "fix": "Replace damaged basil leaves with fresh ones"
+      }
+    ],
+    "chef_notes": [
+      "Always serve Caprese salad at room temperature. Refrigeration mutes the natural sweetness of the tomatoes and makes the fresh mozzarella rubbery.",
+      "Do not use balsamic vinegar in a traditional Caprese salad. The acidity clashes with the delicate sweetness of the tomatoes and the pure flavor of the olive oil. Let the high-quality ingredients speak for themselves.",
+      "The quality of the extra virgin olive oil is critical here. It acts as a primary flavor component rather than a cooking medium, so choose an oil with a grassy, peppery, or fruity profile that you enjoy."
+    ],
+    "cultural_context": "The Insalata Caprese originates from the island of Capri in the Campania region of Italy, where it became popular in the mid-twentieth century. Its simple ingredients intentionally represent the red, white, and green colors of the Italian flag, making it a patriotic dish. It perfectly encapsulates the Italian culinary philosophy of relying on a few pristine, high-quality, seasonal ingredients rather than complex techniques.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 290.25,
+        "protein_g": 9.6,
+        "carbohydrates_g": 21.61,
+        "fat_g": 18.93,
+        "saturated_fat_g": 5.22,
+        "trans_fat_g": 0.23,
+        "monounsaturated_fat_g": 8.16,
+        "polyunsaturated_fat_g": 3.99,
+        "fiber_g": 3.13,
+        "sugar_g": 6.17,
+        "sodium_mg": 928.18,
+        "cholesterol_mg": 20,
+        "potassium_mg": 353.09,
+        "calcium_mg": 223.91,
+        "iron_mg": 0.98,
+        "magnesium_mg": 27.54,
+        "phosphorus_mg": 252.55,
+        "zinc_mg": 1.45,
+        "vitamin_a_mcg": 66.67,
+        "vitamin_c_mg": 15.86,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 1.57,
+        "vitamin_k_mcg": 31.18,
+        "vitamin_b6_mg": 0.06,
+        "vitamin_b12_mcg": 0.6,
+        "thiamin_mg": 0.1,
+        "riboflavin_mg": 0.17,
+        "niacin_mg": 0.64,
+        "folate_mcg": 17.99,
+        "water_g": 25.84,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14763,
+    "monthly_limit": 15000,
+    "daily_remaining": 302,
+    "daily_limit": 500
+  }
+}

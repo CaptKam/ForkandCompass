@@ -1,0 +1,544 @@
+{
+  "data": {
+    "id": "5078029b-7ed5-4ea9-9464-edae9fc1a745",
+    "name": "Vibrant Trio of Meal Prep Grain Bowls",
+    "description": "A versatile week of meal prep featuring a fluffy quinoa base partitioned into three distinct flavor profiles: a zesty Mediterranean chickpea bowl, a smoky Southwestern black bean bowl, and a savory sesame edamame bowl. Bright, nourishing, and designed to prevent flavor fatigue.",
+    "category": "Lunch",
+    "cuisine": "Fusion",
+    "difficulty": "Intermediate",
+    "tags": [
+      "grain bowl",
+      "meal prep",
+      "healthy",
+      "vegetarian",
+      "vegan",
+      "lunch",
+      "high-fiber"
+    ],
+    "meta": {
+      "active_time": "PT0H45M",
+      "passive_time": "PT0H20M",
+      "total_time": "PT1H05M",
+      "overnight_required": false,
+      "yields": "6 bowls",
+      "yield_count": 6,
+      "serving_size_g": 375
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Dairy-Free",
+        "Egg-Free",
+        "Gluten-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store dressings in separate small containers to keep ingredients fresh and crisp.",
+        "duration": "P4D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended as fresh vegetables will become mushy upon thawing.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Fine mesh sieve",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Medium saucepan with tight-fitting lid",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Chef knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Small mixing bowls",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": "Fork"
+      },
+      {
+        "name": "Meal prep containers",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Grain Base",
+        "items": [
+          {
+            "name": "white quinoa",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": "dry",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "ba29a17b-b043-48ea-b2ee-5dd1632a794c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vegetable broth",
+            "quantity": 700,
+            "unit": "ml",
+            "preparation": "low sodium",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "624c665f-ba9e-4934-afc4-5580e395913a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "olive oil",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Mediterranean Bowls (2 portions)",
+        "items": [
+          {
+            "name": "canned chickpeas",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "rinsed and drained",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "145073f5-45bb-493b-bc45-ce71653e9f26",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cucumber",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "457adec2-3e06-4efe-a26e-9e6ea9f84924",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cherry tomatoes",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "halved",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "9579a1ee-33e0-430e-8c34-b9fa2f32c020",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "kalamata olives",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "pitted and halved",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d018fb0f-3c49-492f-814a-5a9d81cb522e",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "tahini",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "83438503-f81d-4478-bafd-fae07acfdef7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lemon juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "84822702-05df-495b-91a5-3fe45e48c8d9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": "cold",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Southwestern Bowls (2 portions)",
+        "items": [
+          {
+            "name": "canned black beans",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "rinsed and drained",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "ff8b9618-3332-4acf-99ad-a9df04dd2643",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "sweet corn kernels",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "thawed if frozen",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "4b3ea8bd-bab1-45b6-b9e0-b8695a1239d2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "red bell pepper",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8c4f8af4-14ec-4b21-8e25-e2e592f9144d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "olive oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cumin",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b9c9e3cb-61b7-4bbc-87c0-7858d42d7935",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Asian-Inspired Bowls (2 portions)",
+        "items": [
+          {
+            "name": "shelled edamame",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "thawed if frozen",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "86149e85-b598-4de9-9ef6-d6500e845493",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "carrots",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "shredded or julienned",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "9d020677-cb7a-444c-98e3-1a982ae39df4",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "red cabbage",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "thinly sliced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "9a6d138d-1f4e-48f1-af70-ad08153ff908",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "tamari or soy sauce",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "toasted sesame oil",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e74beff5-5295-4a3f-82fb-9f8ef1d5da59",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "rice vinegar",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "fcbf5252-1be9-4dd4-8c22-4fda1dbdca28",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "maple syrup",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2d062b40-ecd2-482e-96e3-d96fb9cb4a8a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Place the quinoa in a fine mesh sieve and rinse thoroughly under cold running water for at least 30 seconds to remove the bitter coating.",
+        "structured": {
+          "action": "RINSE",
+          "temperature": null,
+          "duration": "PT0H1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "In a medium saucepan, combine the rinsed quinoa, vegetable broth, 15ml olive oil, and 3g salt. Bring to a boil over medium-high heat at 100 degrees Celsius or 212 degrees Fahrenheit, then reduce the heat to low, cover, and simmer until the liquid is absorbed and the quinoa is tender.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": "PT0H15M",
+          "doneness_cues": {
+            "visual": "Liquid is completely absorbed and quinoa germs present as tiny white spirals",
+            "tactile": "Quinoa yields easily to a bite without hard centers"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Remove the quinoa from heat and let it rest covered for 5 minutes. Fluff with a fork and spread it on a baking sheet to cool completely.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": "PT0H15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "While the quinoa cools, prepare the Mediterranean dressing by vigorously whisking together tahini, lemon juice, and cold water in a small bowl until smooth. Add a pinch of salt to taste.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT0H2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "Prepare the Southwestern dressing by whisking together 30ml olive oil, lime juice, and ground cumin in a second small bowl.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT0H2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "prep",
+        "text": "Prepare the Asian-inspired dressing by whisking together the tamari, toasted sesame oil, rice vinegar, and maple syrup in a third small bowl.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT0H2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Divide the cooled quinoa evenly among 6 meal prep containers, placing approximately 150g of cooked quinoa into each.",
+        "structured": {
+          "action": "MEASURE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Build two Mediterranean bowls by topping the quinoa with chickpeas, cucumber, cherry tomatoes, and kalamata olives. Pack the tahini dressing in separate small containers.",
+        "structured": {
+          "action": "PLATE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "assemble",
+        "text": "Build two Southwestern bowls by topping the quinoa with black beans, corn, and diced red bell pepper. Pack the lime-cumin dressing in separate small containers.",
+        "structured": {
+          "action": "PLATE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "assemble",
+        "text": "Build two Asian-inspired bowls by topping the quinoa with edamame, shredded carrots, and red cabbage. Pack the sesame-tamari dressing in separate small containers.",
+        "structured": {
+          "action": "PLATE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Quinoa is mushy and clumped together",
+        "likely_cause": "Too much liquid or overcooking",
+        "prevention": "Measure the broth and quinoa precisely. Ensure a gentle simmer rather than a rolling boil.",
+        "fix": "Spread the warm quinoa on a baking sheet and place it in a low oven for 10 minutes to dry out slightly."
+      },
+      {
+        "symptom": "Tahini dressing split or seized into a stiff paste",
+        "likely_cause": "Natural reaction between sesame paste and acidic lemon juice before sufficient water is introduced",
+        "prevention": "Whisk in ice-cold water gradually until the emulsion smooths out.",
+        "fix": "Add more cold water 5ml at a time, whisking vigorously until the sauce becomes creamy and pourable."
+      }
+    ],
+    "chef_notes": [
+      "Always rinse quinoa aggressively. Quinoa possesses a natural coating called saponin which tastes distinctly soapy and bitter if not washed away.",
+      "For the crispiest meal prep over the course of the week, ensure the quinoa is completely room temperature before sealing the containers. Trapped steam leads to rapid spoilage.",
+      "To customize these bowls for varied dietary needs, you can easily top any of them with grilled chicken breast, baked tofu, or a soft-boiled egg.",
+      "The red cabbage in the Asian bowl will stay much crisper if you refrain from dressing it until the exact moment you are ready to eat."
+    ],
+    "cultural_context": "The modern grain bowl owes its architectural concept to ancient food traditions spanning the globe. From macrobiotic Japanese diets emphasizing a balance of grains and vegetables in a single vessel, to Hawaiian poke bowls and Mediterranean mezze platters, organizing colorful, nutritionally dense ingredients over a carbohydrate base has long been a universal method for achieving balanced, economical, and deeply satisfying meals.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 462.51,
+        "protein_g": 17.22,
+        "carbohydrates_g": 59.08,
+        "fat_g": 19.14,
+        "saturated_fat_g": 2.49,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 8.91,
+        "polyunsaturated_fat_g": 5.73,
+        "fiber_g": 11.85,
+        "sugar_g": 7.43,
+        "sodium_mg": 1050.45,
+        "cholesterol_mg": null,
+        "potassium_mg": 831.41,
+        "calcium_mg": 118.67,
+        "iron_mg": 5.15,
+        "magnesium_mg": 159.06,
+        "phosphorus_mg": 416.55,
+        "zinc_mg": 2.86,
+        "vitamin_a_mcg": 198.01,
+        "vitamin_c_mg": 39.58,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 3.25,
+        "vitamin_k_mcg": 25.58,
+        "vitamin_b6_mg": 0.48,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.42,
+        "riboflavin_mg": 0.35,
+        "niacin_mg": 2.36,
+        "folate_mcg": 233.97,
+        "water_g": 272.17,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14781,
+    "monthly_limit": 15000,
+    "daily_remaining": 320,
+    "daily_limit": 500
+  }
+}

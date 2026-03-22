@@ -1,0 +1,403 @@
+{
+  "data": {
+    "id": "8ddd1a18-6a69-406e-8243-213b8103cdaa",
+    "name": "Crispy Duck Confit Tacos With Cranberry Relish",
+    "description": "Crisp gyoza wrappers folded into miniature taco shells, filled with rich shredded duck confit, vibrant crunchy red cabbage, and a tart, citrus-infused cranberry relish to balance the savory depth.",
+    "category": "Appetizer",
+    "cuisine": "Fusion",
+    "difficulty": "Intermediate",
+    "tags": [
+      "tacos",
+      "duck",
+      "crispy",
+      "cranberry",
+      "relish",
+      "gyoza wrappers",
+      "fusion",
+      "appetizer",
+      "party food"
+    ],
+    "meta": {
+      "active_time": "PT35M",
+      "passive_time": "PT20M",
+      "total_time": "PT55M",
+      "overnight_required": false,
+      "yields": "12 tacos",
+      "yield_count": 12,
+      "serving_size_g": 185
+    },
+    "dietary": {
+      "flags": [
+        "Dairy-Free",
+        "Nut-Free",
+        "Peanut-Free"
+      ],
+      "not_suitable_for": [
+        "Gluten intolerances",
+        "Vegetarians",
+        "Vegans"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Components can be stored separately for up to 3 days, but assembled tacos will become soggy immediately.",
+        "duration": null
+      },
+      "freezer": {
+        "notes": "Freezing not recommended for assembled tacos or fresh cabbage.",
+        "duration": null
+      },
+      "reheating": "Not recommended for fully assembled tacos. Reheat duck filling gently in a skillet.",
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Saucepan",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Small skillet",
+        "required": true,
+        "alternative": "Wok"
+      },
+      {
+        "name": "Tongs",
+        "required": true,
+        "alternative": "Long metal chopsticks"
+      },
+      {
+        "name": "Wire rack",
+        "required": true,
+        "alternative": "Paper towel lined plate"
+      },
+      {
+        "name": "Chef knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Cranberry Relish",
+        "items": [
+          {
+            "name": "fresh cranberries",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "frozen cranberries"
+            ],
+            "ingredient_id": "792b7aa4-5582-400e-9d8b-cb9b5575d6fe",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "orange juice",
+            "quantity": 60,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a15da11d-f8dd-46e3-9ac5-725a7912f1c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "orange zest",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "finely grated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c1a067e6-674f-4f68-9fe9-3eda4b074356",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Duck Filling",
+        "items": [
+          {
+            "name": "duck confit legs",
+            "quantity": 2,
+            "unit": null,
+            "preparation": null,
+            "notes": "yields about 250g of meat",
+            "substitutions": [],
+            "ingredient_id": "ac233414-ac52-4e60-8a89-83b44117b47f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Taco Shells and Assembly",
+        "items": [
+          {
+            "name": "gyoza wrappers",
+            "quantity": 12,
+            "unit": null,
+            "preparation": null,
+            "notes": "round wheat wrappers, about 100g total",
+            "substitutions": [],
+            "ingredient_id": "309430c5-0bb0-47f4-92c9-768f163f5799",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "neutral frying oil",
+            "quantity": 500,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "canola, vegetable, or grapeseed",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": null
+          },
+          {
+            "name": "red cabbage",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "finely shredded",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "9a6d138d-1f4e-48f1-af70-ad08153ff908",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh cilantro",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "roughly chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Combine fresh cranberries, granulated sugar, orange juice, orange zest, and water in a saucepan.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Bring the cranberry mixture to a boil over medium-high heat, then reduce to a simmer. Cook until the cranberries burst and the mixture thickens into a relish consistency.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": {
+            "visual": "Berries are popped and liquid is syrupy",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "finish",
+        "text": "Remove the relish from the heat and allow it to cool to room temperature, which will help it thicken further.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": "PT20M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Remove the skin and bones from the duck confit legs. Shred the meat into bite-sized pieces using your hands or two forks.",
+        "structured": {
+          "action": "SHRED",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Heat the shredded duck meat in a skillet over medium heat until warmed through and slightly crispy at the edges. Ensure it reaches an internal safety temperature of 74C/165F.",
+        "structured": {
+          "action": "SAUTE",
+          "temperature": {
+            "celsius": 74,
+            "fahrenheit": 165
+          },
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "In a separate small skillet, heat the neutral frying oil to 180C/350F. Using tongs, grasp one side of a gyoza wrapper, dip the bottom half into the oil, fold the top half over to create a taco shape, and carefully submerge completely while holding the gap open.",
+        "structured": {
+          "action": "FRY",
+          "temperature": {
+            "celsius": 180,
+            "fahrenheit": 356
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "Hold the folded wrapper in the oil with the tongs for 5 to 10 seconds to set the shape before letting go."
+        ]
+      },
+      {
+        "step_number": 7,
+        "phase": "finish",
+        "text": "Fry the shell until golden and crispy all over, about 30 seconds. Transfer upside down to a wire rack positioned over paper towels to drain excess oil. Repeat with remaining wrappers.",
+        "structured": {
+          "action": "DRAIN",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Golden brown with small blisters",
+            "tactile": "Rigid and crisp"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Fill each crispy gyoza shell with a small pinch of shredded red cabbage, a generous portion of the warm duck confit, and a spoonful of the cooled cranberry relish.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Garnish the assembled tacos with fresh chopped cilantro and serve immediately to maintain maximum crispness.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Gyoza wrappers unfold into flat chips during frying",
+        "likely_cause": "Released from the tongs before the starches had time to set in the hot oil",
+        "prevention": "Hold the folded edges in place with tongs for the first 5 to 10 seconds of frying",
+        "fix": "Cannot be fixed once fried flat; use as a tostada base instead"
+      },
+      {
+        "symptom": "Relish is too runny and makes the taco soggy",
+        "likely_cause": "Not simmered long enough or not allowed to cool completely",
+        "prevention": "Cook until the liquid is heavily reduced and thick, and allow passive cooling time",
+        "fix": "Return to the saucepan and simmer for an additional 5 minutes to evaporate excess moisture"
+      },
+      {
+        "symptom": "Taco shells are greasy and chewy",
+        "likely_cause": "Frying oil temperature dropped below 180C/350F",
+        "prevention": "Fry in small batches and allow oil to return to temperature between shells",
+        "fix": "Cannot be fixed"
+      }
+    ],
+    "chef_notes": [
+      "Using gyoza wrappers creates a shatteringly crisp, bubbly shell that holds its shape beautifully when fried and acts as the perfect miniature vessel.",
+      "The high fat content of the duck confit requires a highly acidic, tart accompaniment like cranberry to cut through the richness and balance the palate.",
+      "Do not discard the duck confit skin. Crisp it separately in a dry pan over low heat, chop it finely, and crumble it over the finished tacos as an ultimate savory garnish.",
+      "For the cleanest presentation, ensure the red cabbage is sliced as finely as possible so it does not overwhelm the delicate taco shell.",
+      "Work quickly during assembly; the moisture from the warm duck and the relish will begin to soften the crispy wrappers within minutes."
+    ],
+    "cultural_context": "This recipe marries the rich, preserved meat traditions of French duck confit with the handheld, vibrant format of Mexican street tacos, using a Japanese dumpling wrapper as the structural bridge. The cranberry relish nods to classic holiday poultry pairings, reimagined here as a bright, acidic salsa that elevates the fusion concept.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 121.67,
+        "protein_g": 5,
+        "carbohydrates_g": 11.75,
+        "fat_g": 6.09,
+        "saturated_fat_g": 2.04,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 2.71,
+        "polyunsaturated_fat_g": 0.83,
+        "fiber_g": 0.84,
+        "sugar_g": 5.43,
+        "sodium_mg": 62.82,
+        "cholesterol_mg": 18.25,
+        "potassium_mg": 92.73,
+        "calcium_mg": 12.55,
+        "iron_mg": 0.96,
+        "magnesium_mg": 7.86,
+        "phosphorus_mg": 44.26,
+        "zinc_mg": 0.48,
+        "vitamin_a_mcg": 20.49,
+        "vitamin_c_mg": 9.68,
+        "vitamin_d_mcg": 0.02,
+        "vitamin_e_mg": 0.33,
+        "vitamin_k_mcg": 6.17,
+        "vitamin_b6_mg": 0.07,
+        "vitamin_b12_mcg": 0.06,
+        "thiamin_mg": 0.09,
+        "riboflavin_mg": 0.1,
+        "niacin_mg": 1.53,
+        "folate_mcg": 11.93,
+        "water_g": 39.24,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14786,
+    "monthly_limit": 15000,
+    "daily_remaining": 325,
+    "daily_limit": 500
+  }
+}

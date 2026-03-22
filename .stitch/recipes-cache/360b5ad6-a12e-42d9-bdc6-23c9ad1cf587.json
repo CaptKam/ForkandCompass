@@ -1,0 +1,392 @@
+{
+  "data": {
+    "id": "360b5ad6-a12e-42d9-bdc6-23c9ad1cf587",
+    "name": "Matcha & White Chocolate Molten Fondant",
+    "description": "A vibrant, earthy matcha green tea sponge with a decadent, flowing molten white chocolate center. The bitter notes of the high-quality green tea perfectly balance the creamy sweetness of the white chocolate core.",
+    "category": "Dessert",
+    "cuisine": "Fusion",
+    "difficulty": "Advanced",
+    "tags": [
+      "Matcha",
+      "White Chocolate",
+      "Fusion",
+      "Dessert",
+      "French-Japanese",
+      "Advanced"
+    ],
+    "meta": {
+      "active_time": "PT45M",
+      "passive_time": "PT1H30M",
+      "total_time": "PT2H15M",
+      "overnight_required": false,
+      "yields": "4 fondants",
+      "yield_count": 4,
+      "serving_size_g": 1
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Nut-Free"
+      ],
+      "not_suitable_for": [
+        "vegans",
+        "celiacs"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Best eaten immediately. Can be kept in the fridge unbaked for up to 24 hours.",
+        "duration": "P2D"
+      },
+      "freezer": {
+        "notes": "Freeze unbaked. Bake from frozen for 16-18 minutes.",
+        "duration": "P1M"
+      },
+      "reheating": "Microwave for 15 seconds if already baked, but quality will diminish.",
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Dariole molds or ramekins (150ml)",
+        "required": true,
+        "alternative": "Muffin tin"
+      },
+      {
+        "name": "Small heavy-bottomed saucepan",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Stand mixer or electric hand whisk",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Silicone ice cube tray",
+        "required": true,
+        "alternative": "Parchment paper on a plate"
+      },
+      {
+        "name": "Fine mesh sieve",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "White Chocolate Molten Core",
+        "items": [
+          {
+            "name": "white chocolate",
+            "quantity": 60,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": "use high quality with cocoa butter",
+            "substitutions": [
+              "white chocolate chips"
+            ],
+            "ingredient_id": "b6c0dcbc-6448-42d2-88b1-2979e857db6c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "heavy cream",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": "liquid",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla bean paste",
+            "quantity": 0.5,
+            "unit": "tsp",
+            "preparation": null,
+            "notes": "optional",
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Mold Preparation",
+        "items": [
+          {
+            "name": "unsalted butter",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "softened",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "eaea8246-f7e7-43d0-98b1-6e668894fea1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "all-purpose flour",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "dry",
+            "notes": "mixed with 2g matcha",
+            "substitutions": [],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Matcha Sponge Batter",
+        "items": [
+          {
+            "name": "white chocolate",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b6c0dcbc-6448-42d2-88b1-2979e857db6c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "unsalted butter",
+            "quantity": 80,
+            "unit": "g",
+            "preparation": "cubed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "eaea8246-f7e7-43d0-98b1-6e668894fea1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "large eggs",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "room temperature",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "egg yolks",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "room temperature",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "f2620643-65a0-4dda-ad74-f40982f9cf84",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "caster sugar",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": "reduced to balance white chocolate sweetness",
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "matcha powder",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "sifted",
+            "notes": "ceremonial or high-quality culinary grade",
+            "substitutions": [],
+            "ingredient_id": null,
+            "nutrition_source": null
+          },
+          {
+            "name": "all-purpose flour",
+            "quantity": 45,
+            "unit": "g",
+            "preparation": "sifted",
+            "notes": null,
+            "substitutions": [
+              "gluten-free 1:1 baking flour"
+            ],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "Prep",
+        "text": "Make the white chocolate ganache cores: Place the 60g chopped white chocolate in a small bowl. Heat the heavy cream until just simmering, then pour over the chocolate. Let sit for 1 minute, add vanilla, then stir until smooth. Pour into 4 small ice cube molds and freeze for at least 1 hour until rock solid.",
+        "structured": {
+          "action": "melt",
+          "temperature": null,
+          "duration": "PT1H",
+          "doneness_cues": {
+            "visual": "Completely solid pucks",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "Do not overheat the white chocolate as it seizes easily."
+        ]
+      },
+      {
+        "step_number": 2,
+        "phase": "Prep",
+        "text": "Preheat the oven to 190°C (375°F). Prepare the molds by brushing with softened butter in upward strokes. Dust the inside with the flour/matcha mixture, tapping out any excess. Chill the molds until needed.",
+        "structured": {
+          "action": "preheat",
+          "temperature": {
+            "celsius": 190,
+            "fahrenheit": 374
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "Upward strokes help the fondant rise vertically."
+        ]
+      },
+      {
+        "step_number": 3,
+        "phase": "Cook",
+        "text": "Melt the 100g white chocolate and 80g butter together in a bain-marie (heatproof bowl over simmering water). Stir until smooth and set aside to cool slightly.",
+        "structured": {
+          "action": "melt",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Glossy and combined",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "Cook",
+        "text": "In a stand mixer, whisk the whole eggs, yolks, and caster sugar until pale and thick (ribbon stage), approximately 5 minutes.",
+        "structured": {
+          "action": "whisk",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "Pale yellow and tripled in volume",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "Cook",
+        "text": "Gently fold the cooled white chocolate mixture into the eggs. Sift the flour and matcha powder over the mixture and fold delicately until no green streaks remain. Do not deflate the eggs.",
+        "structured": {
+          "action": "fold",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Uniform green color",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "Assemble",
+        "text": "Spoon the matcha batter into the prepared molds until half full. Place one frozen white chocolate ganache puck into the center of each. Cover with remaining batter, leaving 1cm at the top.",
+        "structured": {
+          "action": "assemble",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "Cook",
+        "text": "Bake for 11-13 minutes. The edges should be set and slightly pulling away, while the center should still have a slight wobble.",
+        "structured": {
+          "action": "bake",
+          "temperature": {
+            "celsius": 190,
+            "fahrenheit": 374
+          },
+          "duration": "PT12M",
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "Soft center, firm edges"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "Finish",
+        "text": "Rest for 2 minutes before unmolding. Invert onto a plate and dust with extra matcha powder or powdered sugar. Serve immediately.",
+        "structured": {
+          "action": "rest",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [],
+    "chef_notes": [
+      "The quality of matcha is vital; use a bright green 'ceremonial' grade for the best color and flavor.",
+      "White chocolate burns at a lower temperature than dark chocolate, so we bake at 190°C instead of 200°C to preserve the green color.",
+      "If you find the white chocolate too sweet, add a pinch of salt to the matcha batter."
+    ],
+    "cultural_context": "This recipe is a modern East-meets-West fusion of the classic French 'Fondant au Chocolat' and Japanese tea culture. It replaces the traditional dark chocolate profile with the creamy, lactic notes of white chocolate and the vegetal, umami-rich depth of Uji matcha.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 563.85,
+        "protein_g": 9.58,
+        "carbohydrates_g": 43.19,
+        "fat_g": 39.81,
+        "saturated_fat_g": 23.09,
+        "trans_fat_g": 0.1,
+        "monounsaturated_fat_g": 11.8,
+        "polyunsaturated_fat_g": 2.12,
+        "fiber_g": 1.62,
+        "sugar_g": 31.57,
+        "sodium_mg": 80.75,
+        "cholesterol_mg": 252.74,
+        "potassium_mg": 285.19,
+        "calcium_mg": 129.99,
+        "iron_mg": 1.46,
+        "magnesium_mg": 12.05,
+        "phosphorus_mg": 176.64,
+        "zinc_mg": 1.09,
+        "vitamin_a_mcg": 906.01,
+        "vitamin_c_mg": 6.81,
+        "vitamin_d_mcg": 1.08,
+        "vitamin_e_mg": 1.5,
+        "vitamin_k_mcg": 5.72,
+        "vitamin_b6_mg": 0.11,
+        "vitamin_b12_mcg": 0.67,
+        "thiamin_mg": 0.07,
+        "riboflavin_mg": 0.3,
+        "niacin_mg": 0.49,
+        "folate_mcg": 31.22,
+        "water_g": 34.01,
+        "alcohol_g": 0.22,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14784,
+    "monthly_limit": 15000,
+    "daily_remaining": 323,
+    "daily_limit": 500
+  }
+}

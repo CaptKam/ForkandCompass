@@ -1,0 +1,319 @@
+{
+  "data": {
+    "id": "671c4b65-69f7-4fdb-8c27-d406fcae447e",
+    "name": "Spiced Fish Finger Tacos with Pickled Onions",
+    "description": "Crispy fish fingers dusted with warm spices, nestled in soft tortillas, and topped with zesty lime crema and bright pickled red onions for a vibrant, satisfying bite.",
+    "category": "Dinner",
+    "cuisine": "Fusion",
+    "difficulty": "Easy",
+    "tags": [
+      "fish",
+      "main course",
+      "quick",
+      "tacos",
+      "weeknight dinner",
+      "kid-friendly"
+    ],
+    "meta": {
+      "active_time": "PT10M",
+      "passive_time": "PT15M",
+      "total_time": "PT25M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 280
+    },
+    "dietary": {
+      "flags": [
+        "Pescatarian",
+        "Nut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store fish fingers, crema, and toppings in separate airtight containers.",
+        "duration": "P2D"
+      },
+      "freezer": {
+        "notes": "Freezing assembled tacos or cooked fish fingers is not recommended as they will become soggy.",
+        "duration": null
+      },
+      "reheating": "Reheat leftover fish fingers in an oven or air fryer at 200 degrees Celsius until crispy. Do not microwave.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Baking sheet",
+        "required": true,
+        "alternative": "Air fryer basket"
+      },
+      {
+        "name": "Small bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Frying pan",
+        "required": false,
+        "alternative": "Microwave"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Fish and Seasonings",
+        "items": [
+          {
+            "name": "frozen fish fingers",
+            "quantity": 400,
+            "unit": "g",
+            "preparation": null,
+            "notes": "approximately 12 to 16 standard fish fingers",
+            "substitutions": [],
+            "ingredient_id": "e21c64c0-009f-4824-bfcd-b4a5e3596b24",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "smoked paprika",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "f4c3bdd7-6528-40d2-84b3-a6325df15e8e",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cumin",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b9c9e3cb-61b7-4bbc-87c0-7858d42d7935",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic powder",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "177a312f-ef99-4398-9108-98f7a608a245",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Taco Components",
+        "items": [
+          {
+            "name": "small flour tortillas",
+            "quantity": 8,
+            "unit": null,
+            "preparation": null,
+            "notes": "weighing approximately 320g total",
+            "substitutions": [
+              "corn tortillas"
+            ],
+            "ingredient_id": "666ee79a-db4d-4af2-bd7c-b13850ec0971",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "pickled red onions",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "drained",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "030594ee-db7c-4296-ae14-ef5e134ab20f",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "sour cream",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "plain greek yogurt"
+            ],
+            "ingredient_id": "079022c8-c111-431c-8741-fe553576bf5b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh coriander",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "roughly chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 200°C/400°F. Line a baking sheet with parchment paper to prevent sticking.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Place the frozen fish fingers on the prepared baking sheet. Sprinkle evenly with smoked paprika, ground cumin, and garlic powder, tossing gently so the spices adhere to the frosty coating.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Bake in the preheated oven for 15 minutes, turning halfway through, until the exterior is golden and crispy, and the internal temperature reaches 74°C/165°F.",
+        "structured": {
+          "action": "BAKE",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": "PT15M",
+          "doneness_cues": {
+            "visual": "golden brown and crispy crust",
+            "tactile": "firm to the touch with bubbling juices"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "While the fish fingers bake, combine the sour cream and fresh lime juice in a small bowl. Stir thoroughly to create a smooth, tangy crema.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Heat a dry frying pan over medium-high heat. Warm each flour tortilla for about 30 seconds per side until soft, pliable, and slightly charred at the edges.",
+        "structured": {
+          "action": "TOAST",
+          "temperature": null,
+          "duration": "PT4M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Spread a generous spoonful of lime crema onto the center of each warm tortilla. Top with two spiced fish fingers, a heap of pickled red onions, and a sprinkle of fresh coriander. Serve immediately.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Tortillas crack or break when folded",
+        "likely_cause": "Tortillas were not heated adequately or dried out during heating",
+        "prevention": "Keep warmed tortillas wrapped in a slightly damp kitchen towel until the exact moment of assembly",
+        "fix": "Cannot be fixed once broken, but can be eaten flat as a tostada"
+      },
+      {
+        "symptom": "Fish fingers are soggy on the bottom",
+        "likely_cause": "Oven was not fully preheated, or fish fingers were overcrowded on the tray",
+        "prevention": "Ensure the oven is at full temperature before inserting the tray and leave space between each piece",
+        "fix": "Return to the oven or air fryer for an additional 3 to 4 minutes"
+      }
+    ],
+    "chef_notes": [
+      "Using an air fryer instead of an oven will reduce cooking time to about 10 minutes and yield a superior, crispier exterior. Adjust temperature to 190 degrees Celsius.",
+      "Applying the dry spices directly to the slightly frosty exterior of frozen fish fingers allows the moisture to act as a binder, helping the seasoning adhere without needing extra oil.",
+      "To make quick pickled onions from scratch: thinly slice a red onion and submerge it in equal parts hot water and apple cider vinegar with a large pinch of salt and sugar. Let sit for at least 30 minutes before draining."
+    ],
+    "cultural_context": "This dish embraces the modern culinary trend of elevating humble, nostalgic convenience foods with vibrant, fresh accompaniments. It draws structural inspiration from Baja-style fish tacos, replacing labor-intensive battered white fish with highly accessible fish fingers for a rapid, weeknight-friendly meal.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 747.96,
+        "protein_g": 18.92,
+        "carbohydrates_g": 77.72,
+        "fat_g": 40.88,
+        "saturated_fat_g": 10.15,
+        "trans_fat_g": 0.12,
+        "monounsaturated_fat_g": 16.52,
+        "polyunsaturated_fat_g": 10.88,
+        "fiber_g": 6.69,
+        "sugar_g": 3.05,
+        "sodium_mg": 1203.03,
+        "cholesterol_mg": 43.53,
+        "potassium_mg": 511.71,
+        "calcium_mg": 201.69,
+        "iron_mg": 4.49,
+        "magnesium_mg": 98.85,
+        "phosphorus_mg": 421.47,
+        "zinc_mg": 1.66,
+        "vitamin_a_mcg": 84.22,
+        "vitamin_c_mg": 3.63,
+        "vitamin_d_mcg": 0.08,
+        "vitamin_e_mg": 7.3,
+        "vitamin_k_mcg": 13.29,
+        "vitamin_b6_mg": 0.35,
+        "vitamin_b12_mcg": 1.16,
+        "thiamin_mg": 0.47,
+        "riboflavin_mg": 0.46,
+        "niacin_mg": 4.9,
+        "folate_mcg": 134.7,
+        "water_g": 86.02,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14750,
+    "monthly_limit": 15000,
+    "daily_remaining": 289,
+    "daily_limit": 500
+  }
+}

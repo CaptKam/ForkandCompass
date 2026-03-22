@@ -1,0 +1,309 @@
+{
+  "data": {
+    "id": "7850bdd7-6e49-487a-9e4d-5897a4a89a7f",
+    "name": "Guacamole with Pickled Green Peppercorns",
+    "description": "A vibrant Southwestern twist on classic guacamole, featuring the bright, briny pop and mild heat of pickled green peppercorns. Crisp tomatillos and fiery serrano peppers balance the rich, creamy avocado for a truly marvelous bite.",
+    "category": "Appetizer",
+    "cuisine": "Southwestern",
+    "difficulty": "Easy",
+    "tags": [
+      "Southwestern",
+      "Avocado",
+      "Green Peppercorn",
+      "Guacamole",
+      "Serrano",
+      "Tomatillo",
+      "Appetizer",
+      "Dip",
+      "Condiment"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT15M",
+      "total_time": "PT30M",
+      "overnight_required": false,
+      "yields": "600g",
+      "yield_count": 10,
+      "serving_size_g": 60
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Gluten-Free",
+        "Dairy-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Peanut-Free",
+        "Soy-Free",
+        "Paleo",
+        "Whole30",
+        "Sugar-Free"
+      ],
+      "not_suitable_for": [
+        "Individuals with nightshade allergies"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Press plastic wrap directly onto the surface of the guacamole to prevent oxidation.",
+        "duration": "P1D"
+      },
+      "freezer": {
+        "notes": "Freezing ruins the texture of fresh avocado and tomatillo.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Mortar and pestle",
+        "required": false,
+        "alternative": "Heavy bowl and muddler"
+      },
+      {
+        "name": "Chef's knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Sturdy fork",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Aromatics & Seasoning",
+        "items": [
+          {
+            "name": "pickled green peppercorns",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "drained",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0eb02df3-4449-4f05-95ca-e67c5301e72a",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 4,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "white onion",
+            "quantity": 40,
+            "unit": "g",
+            "preparation": "finely diced, divided",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "serrano pepper",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "finely minced, seeds removed for less heat",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "6a646318-3d5c-494b-97fe-6869490329d6",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Base & Mix-ins",
+        "items": [
+          {
+            "name": "hass avocados",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "ripe",
+            "notes": "Yields roughly 450g of flesh",
+            "substitutions": [],
+            "ingredient_id": "2f40a31e-80a0-4265-b6f3-99ed88ee4c24",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "tomatillo",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": "husked, rinsed, and finely diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "fde15e0b-5ee8-4a52-a190-72e03a764a1d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh cilantro",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Place the pickled green peppercorns, kosher salt, half of the white onion, and the minced serrano pepper into a mortar and pestle. Pound into a coarse paste to release the essential oils.",
+        "structured": {
+          "action": "POUND",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Halve the avocados and remove the pits using a chef's knife. Score the flesh in a crosshatch pattern and scoop it into a large mixing bowl.",
+        "structured": {
+          "action": "SCORE",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "assemble",
+        "text": "Add the pounded aromatics to the avocado. Gently crush the mixture together using a sturdy fork, leaving plenty of coarse chunks for texture.",
+        "structured": {
+          "action": "CRUSH",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "Chunky and uneven, not a smooth puree",
+            "tactile": "Noticeable resistance from avocado pieces"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "assemble",
+        "text": "Fold in the remaining diced white onion, diced tomatillo, chopped cilantro, and fresh lime juice until evenly distributed.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Taste the guacamole for seasoning, adjusting with more salt if necessary. Let the mixture rest at room temperature (around 20°C/68°F) to allow the flavors to marry before serving.",
+        "structured": {
+          "action": "REST",
+          "temperature": {
+            "celsius": 20,
+            "fahrenheit": 68
+          },
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Guacamole turns brown quickly",
+        "likely_cause": "Oxidation from air exposure",
+        "prevention": "Press plastic wrap directly onto the surface of the guacamole when storing, eliminating all air pockets.",
+        "fix": "Scrape off and discard the top oxidized layer before serving; the guacamole underneath will be perfectly green."
+      },
+      {
+        "symptom": "Guacamole is too tart or acidic",
+        "likely_cause": "Too much lime juice or overly acidic pickled peppercorn brine",
+        "prevention": "Rinse pickled peppercorns lightly before using and add lime juice incrementally.",
+        "fix": "Fold in half of a freshly mashed avocado to dilute the acidity, or add a tiny pinch of sugar."
+      }
+    ],
+    "chef_notes": [
+      "For the best texture, ensure your avocados are perfectly ripe; they should yield to gentle pressure at the stem but not feel entirely mushy.",
+      "Using pickled green peppercorns adds both acidity and a mild, herbaceous heat. Rinse them briefly if you want to control the impact of the brine.",
+      "Raw tomatillos add a crisp, tart crunch that perfectly cuts through the rich avocado, acting as a textural contrast to the soft peppercorns.",
+      "Pounding a small amount of the aromatics with salt creates a flavor base that seasons the dip more evenly than simply stirring the ingredients together."
+    ],
+    "cultural_context": "Guacamole originated in Central Mexico, where it has traditionally been prepared by pounding ingredients in a volcanic stone molcajete. This Southwestern interpretation bridges culinary traditions by introducing the briny, floral bite of pickled green peppercorns, an ingredient more commonly associated with French or Southeast Asian cuisines. The addition of raw tomatillo reinforces the regional Southwestern profile with a bright, crisp acidity.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 78.68,
+        "protein_g": 1.14,
+        "carbohydrates_g": 5.37,
+        "fat_g": 6.71,
+        "saturated_fat_g": 0.97,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 4.42,
+        "polyunsaturated_fat_g": 0.84,
+        "fiber_g": 3.5,
+        "sugar_g": 0.74,
+        "sodium_mg": 159.29,
+        "cholesterol_mg": null,
+        "potassium_mg": 260.13,
+        "calcium_mg": 12.06,
+        "iron_mg": 0.39,
+        "magnesium_mg": 15.05,
+        "phosphorus_mg": 27.6,
+        "zinc_mg": 0.32,
+        "vitamin_a_mcg": 7.32,
+        "vitamin_c_mg": 6.55,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.99,
+        "vitamin_k_mcg": 13.2,
+        "vitamin_b6_mg": 0.13,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.04,
+        "riboflavin_mg": 0.07,
+        "niacin_mg": 0.91,
+        "folate_mcg": 38.56,
+        "water_g": 44.27,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14776,
+    "monthly_limit": 15000,
+    "daily_remaining": 315,
+    "daily_limit": 500
+  }
+}

@@ -1,0 +1,359 @@
+{
+  "data": {
+    "id": "2a8f8b2a-77ae-49e9-8952-0761ed10f126",
+    "name": "Edamame Dashi Gohan",
+    "description": "A comforting Japanese rice dish where plump edamame beans are cooked with premium short-grain rice in a savory dashi broth, finished with a sprinkle of roasted black sesame seeds.",
+    "category": "Side Dish",
+    "cuisine": "Japanese",
+    "difficulty": "Easy",
+    "tags": [
+      "Japanese",
+      "Edamame",
+      "Short Grain Rice",
+      "Weeknight",
+      "Side Dish",
+      "Takikomi Gohan"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT30M",
+      "total_time": "PT45M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 180
+    },
+    "dietary": {
+      "flags": [
+        "Pescatarian",
+        "Dairy-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Peanut-Free"
+      ],
+      "not_suitable_for": [
+        "Individuals with soy allergies"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight container. Rice will harden in the fridge.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Wrap individual portions tightly in plastic wrap while still warm, then place in a freezer bag to preserve moisture.",
+        "duration": "P1M"
+      },
+      "reheating": "Microwave covered with a damp paper towel until steaming hot and soft again.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Fine mesh sieve",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Medium saucepan with tight-fitting lid",
+        "required": true,
+        "alternative": "Rice cooker"
+      },
+      {
+        "name": "Small saucepan",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Rice paddle",
+        "required": true,
+        "alternative": "Wooden spoon"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Rice",
+        "items": [
+          {
+            "name": "short grain japanese rice",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": "dry",
+            "notes": "Often labeled as sushi rice",
+            "substitutions": [],
+            "ingredient_id": "24663b2d-5fab-4384-8385-1532a901babd",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Broth and Seasoning",
+        "items": [
+          {
+            "name": "dashi stock",
+            "quantity": 400,
+            "unit": "ml",
+            "preparation": "liquid",
+            "notes": "Awase dashi made from kombu and bonito flakes preferred",
+            "substitutions": [],
+            "ingredient_id": "b5fb9759-5e5b-4f18-8127-6552c4030bca",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "sake",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "1cfffbd2-7ea5-4cbc-bc35-c57e12233152",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "mirin",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2a72c18d-8a1d-4259-8790-25d62f6fb5ba",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "light soy sauce",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "Usukuchi soy sauce prevents the rice from turning dark brown",
+            "substitutions": [
+              "regular soy sauce"
+            ],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "sea salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Edamame and Garnish",
+        "items": [
+          {
+            "name": "shelled edamame",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "thawed if frozen",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "86149e85-b598-4de9-9ef6-d6500e845493",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "black sesame seeds",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "roasted",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0edc9256-6bac-4718-9f80-12351b1bc941",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "flaky sea salt",
+            "quantity": null,
+            "unit": null,
+            "preparation": null,
+            "notes": "Minimum 1g, to taste",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Place the short grain rice in a fine mesh sieve. Wash thoroughly under cold running water, gently rubbing the grains, until the water runs clear. Drain completely and let the rice rest for 15 minutes.",
+        "structured": {
+          "action": "DRAIN",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a small saucepan, combine the dashi stock, sake, mirin, light soy sauce, and sea salt. Bring to a gentle simmer (around 85C/185F) over medium heat.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": {
+            "celsius": 85,
+            "fahrenheit": 185
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Add the shelled edamame to the simmering dashi broth. Cook for 2 minutes to infuse the broth with the edamame flavor and gently cook the beans.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "Edamame turns bright green",
+            "tactile": "Slightly tender but retaining a bite"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Strain the edamame from the broth, reserving both. Set the edamame aside. Measure the remaining broth; if it has reduced below 400ml, add water to reach exactly 400ml. Allow the broth to cool to room temperature.",
+        "structured": {
+          "action": "STRAIN",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Transfer the drained rice and the cooled 400ml seasoned broth to a medium saucepan. Cover with a tight-fitting lid. Bring to a boil (100C/212F) over medium-high heat, then immediately reduce heat to the lowest setting and simmer undisturbed for 12 minutes.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": "PT12M",
+          "doneness_cues": {
+            "visual": "No liquid visible on the surface of the rice",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "finish",
+        "text": "Remove the saucepan from the heat. Quickly scatter the reserved edamame evenly over the top of the hot rice. Immediately replace the lid and let it rest off the heat for 10 minutes to finish steaming.",
+        "structured": {
+          "action": "REST",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Remove the lid and use a moistened rice paddle to gently fold the edamame into the rice using a slicing, bottom-to-top motion to keep the rice grains completely intact.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Portion the hot rice into individual bowls. Garnish each serving with a pinch of flaky sea salt and a generous sprinkle of roasted black sesame seeds before serving.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Rice is mushy or waterlogged",
+        "likely_cause": "Rice was not drained adequately after washing, or too much liquid was added",
+        "prevention": "Ensure the washed rice rests in the sieve long enough to drain completely, and strictly measure the remaining dashi broth to exactly 400ml.",
+        "fix": "Leave the pot uncovered on low heat for 1 to 2 minutes to evaporate excess surface moisture, then fluff gently."
+      },
+      {
+        "symptom": "Rice is burnt on the bottom",
+        "likely_cause": "The lowest heat setting on the stove is too high, or the saucepan bottom is too thin",
+        "prevention": "Use a heavy-bottomed saucepan or a heat diffuser, and ensure the burner is set to its absolute lowest flame during the simmering phase.",
+        "fix": "Do not scrape the bottom of the pot. Salvage the unburnt top layer of rice and discard the scorched portion."
+      }
+    ],
+    "chef_notes": [
+      "Cooling the broth slightly before combining it with the rice ensures the cooking timer starts accurately and prevents the rice grains from cracking prematurely.",
+      "Using light soy sauce (usukuchi) is crucial for this dish; it provides the necessary salinity and depth of umami without turning the beautiful white rice muddy or brown.",
+      "Always use a slicing and folding motion when mixing the final dish. Smashing the rice releases internal starches that make the texture gummy rather than pleasantly sticky.",
+      "Cooking the edamame in the dashi first serves two purposes: it seasons the beans deeply while also infusing the cooking liquid with a sweet, grassy aroma that permeates the rice."
+    ],
+    "cultural_context": "Takikomi gohan refers to Japanese mixed rice dishes where seasonal ingredients are cooked together with the rice in a seasoned dashi broth. This particular variation celebrates the fresh, grassy notes of young soybeans, perfectly complemented by the foundational umami of traditional dashi. It is a quintessential, comforting dish often served in late summer when fresh edamame is harvested.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 352.51,
+        "protein_g": 12.16,
+        "carbohydrates_g": 65.26,
+        "fat_g": 3.8,
+        "saturated_fat_g": 0.63,
+        "trans_fat_g": 0.01,
+        "monounsaturated_fat_g": 1.08,
+        "polyunsaturated_fat_g": 1.34,
+        "fiber_g": 2.13,
+        "sugar_g": 2.6,
+        "sodium_mg": 667.47,
+        "cholesterol_mg": 1,
+        "potassium_mg": 387.66,
+        "calcium_mg": 42.67,
+        "iron_mg": 1.71,
+        "magnesium_mg": 55.65,
+        "phosphorus_mg": 204.94,
+        "zinc_mg": 1.53,
+        "vitamin_a_mcg": 7.63,
+        "vitamin_c_mg": 2.39,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.43,
+        "vitamin_k_mcg": 10.01,
+        "vitamin_b6_mg": 0.22,
+        "vitamin_b12_mcg": 0.69,
+        "thiamin_mg": 0.17,
+        "riboflavin_mg": 0.18,
+        "niacin_mg": 2.88,
+        "folate_mcg": 124.86,
+        "water_g": 139.54,
+        "alcohol_g": 0.61,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14779,
+    "monthly_limit": 15000,
+    "daily_remaining": 318,
+    "daily_limit": 500
+  }
+}

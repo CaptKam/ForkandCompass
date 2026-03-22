@@ -1,0 +1,249 @@
+{
+  "data": {
+    "id": "244483f1-1700-4395-a199-a9e17c705a30",
+    "name": "Mango Buttermilk Sherbet",
+    "description": "A refreshing, creamy, and tangy frozen dessert inspired by traditional mango lassi. Ripe mangoes and cultured buttermilk combine for a light tropical treat with a warm hint of cardamom.",
+    "category": "Dessert",
+    "cuisine": "Indian",
+    "difficulty": "Easy",
+    "tags": [
+      "Indian",
+      "Buttermilk",
+      "Five Ingredient",
+      "Mango",
+      "Sherbet",
+      "Snack",
+      "Dessert",
+      "Gluten-Free",
+      "Halal",
+      "Kosher",
+      "Low Cholesterol",
+      "Low-Fat",
+      "Low-Sodium",
+      "Nut-Free",
+      "Vegetarian"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT4H25M",
+      "total_time": "PT4H40M",
+      "overnight_required": false,
+      "yields": "6 servings",
+      "yield_count": 6,
+      "serving_size_g": 150
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Gluten-Free",
+        "Nut-Free",
+        "Low-Sodium"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Melts at room or refrigerator temperature.",
+        "duration": null
+      },
+      "freezer": {
+        "notes": "Press parchment paper directly onto the surface to prevent ice crystals from forming.",
+        "duration": "P1M"
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Blender",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Ice cream maker",
+        "required": true,
+        "alternative": "Shallow freezing pan for a manual scrape-and-freeze granita method"
+      },
+      {
+        "name": "Freezer-safe container",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Sherbet Base",
+        "items": [
+          {
+            "name": "mango puree",
+            "quantity": 500,
+            "unit": "g",
+            "preparation": "chilled",
+            "notes": "Preferably Alphonso or Kesar varieties for authentic flavor",
+            "substitutions": [],
+            "ingredient_id": "6ab51d7d-dea3-4f14-8253-76acb67bd2c8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "buttermilk",
+            "quantity": 300,
+            "unit": "ml",
+            "preparation": "chilled",
+            "notes": "Low-fat cultured buttermilk",
+            "substitutions": [],
+            "ingredient_id": "de1c3d44-e3e7-47d2-a315-83a46edfb165",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "white sugar",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Adjust based on the natural sweetness of the mangoes",
+            "substitutions": [
+              "honey",
+              "agave nectar"
+            ],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cardamom",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": "About 1 teaspoon",
+            "substitutions": [],
+            "ingredient_id": "c56f6cd8-882c-487c-956f-3a91ee1fec07",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Place the mango puree, buttermilk, white sugar, lime juice, and ground cardamom into a blender. Blend on high speed for 1 to 2 minutes until completely smooth and the sugar is fully dissolved.",
+        "structured": {
+          "action": "BLEND",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Transfer the blended mixture to a sealed container and refrigerate for at least 1 hour. A thoroughly chilled base churns faster and produces a smoother final texture.",
+        "structured": {
+          "action": "CHILL",
+          "temperature": null,
+          "duration": "PT1H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "finish",
+        "text": "Pour the chilled mixture into an ice cream maker. Churn according to the manufacturer instructions, typically 20 to 25 minutes, until it reaches the consistency of soft serve.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": "PT25M",
+          "doneness_cues": {
+            "visual": "Thickened, pulling away from the sides, resembling soft serve ice cream",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "finish",
+        "text": "Transfer the churned sherbet to a freezer-safe container. Smooth the top with a spatula and freeze at -18°C/0°F for at least 3 hours until firm enough to scoop.",
+        "structured": {
+          "action": "FREEZE",
+          "temperature": {
+            "celsius": -18,
+            "fahrenheit": 0
+          },
+          "duration": "PT3H",
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Texture is icy rather than creamy",
+        "likely_cause": "Base was not cold enough before churning, or the mango puree had high water content and insufficient sugar",
+        "prevention": "Ensure the mixture is refrigerator-cold before churning and do not reduce the sugar drastically, as sugar prevents ice crystal formation",
+        "fix": "Allow the frozen sherbet to soften slightly, then re-blend until smooth and refreeze immediately"
+      }
+    ],
+    "chef_notes": [
+      "Using canned Alphonso mango puree yields incredibly consistent results, especially when fresh mangoes are out of season.",
+      "The acidity of cultured buttermilk perfectly balances the heavy sweetness of tropical fruit. Always taste your base before freezing, as freezing mutes both sweetness and flavor intensity.",
+      "If you lack an ice cream maker, pour the blended mixture into a wide, shallow dish and place in the freezer. Vigorously scrape with a fork every 30 minutes until fully frozen for a delightful granita texture."
+    ],
+    "cultural_context": "Inspired by the beloved Indian beverage, mango lassi, this sherbet transforms the classic yogurt drink into a scoopable dessert. The use of buttermilk, known similarly as chaas in Indian cuisine, adds a distinct, refreshing tartness that cuts through the tropical sweetness of the fruit.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 136.16,
+        "protein_g": 2.39,
+        "carbohydrates_g": 32,
+        "fat_g": 0.88,
+        "saturated_fat_g": 0.41,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 0.25,
+        "polyunsaturated_fat_g": 0.08,
+        "fiber_g": 1.44,
+        "sugar_g": 30.77,
+        "sodium_mg": 75.11,
+        "cholesterol_mg": 2,
+        "potassium_mg": 222.49,
+        "calcium_mg": 68.96,
+        "iron_mg": 0.22,
+        "magnesium_mg": 14.8,
+        "phosphorus_mg": 57.11,
+        "zinc_mg": 0.31,
+        "vitamin_a_mcg": 52.05,
+        "vitamin_c_mg": 31.65,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.78,
+        "vitamin_k_mcg": 3.57,
+        "vitamin_b6_mg": 0.12,
+        "vitamin_b12_mcg": 0.11,
+        "thiamin_mg": 0.04,
+        "riboflavin_mg": 0.11,
+        "niacin_mg": 0.6,
+        "folate_mcg": 38.58,
+        "water_g": 116.94,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14747,
+    "monthly_limit": 15000,
+    "daily_remaining": 286,
+    "daily_limit": 500
+  }
+}

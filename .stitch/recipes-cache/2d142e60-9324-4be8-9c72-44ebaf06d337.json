@@ -1,0 +1,447 @@
+{
+  "data": {
+    "id": "2d142e60-9324-4be8-9c72-44ebaf06d337",
+    "name": "Cumin-Lime Shredded Pork Nachos",
+    "description": "Crispy tortilla chips buckle under a mountain of tender, citrus-spiked pulled pork and molten cheddar cheese. Vibrant radishes, fresh cilantro, and a cooling lime crema cut through the rich, warming winter spices to deliver perfectly balanced bites.",
+    "category": "Appetizer",
+    "cuisine": "Mexican",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Mexican",
+      "Cheese",
+      "Nacho",
+      "Pork",
+      "Dinner",
+      "Lunch",
+      "Appetizer",
+      "Winter"
+    ],
+    "meta": {
+      "active_time": "PT45M",
+      "passive_time": "PT2H30M",
+      "total_time": "PT3H15M",
+      "overnight_required": false,
+      "yields": "8 servings",
+      "yield_count": 8,
+      "serving_size_g": 350
+    },
+    "dietary": {
+      "flags": [
+        "Gluten-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Assembled nachos do not keep. Store the braised pork and crema in separate airtight containers.",
+        "duration": "P5D"
+      },
+      "freezer": {
+        "notes": "Freeze the braised pork only. Crema and fresh garnishes will not survive freezing.",
+        "duration": "P3M"
+      },
+      "reheating": null,
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Dutch oven",
+        "required": true,
+        "alternative": "Slow cooker"
+      },
+      {
+        "name": "Large baking sheet",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Small mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Forks",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Citrus-Spiced Pork",
+        "items": [
+          {
+            "name": "boneless pork shoulder",
+            "quantity": 1200,
+            "unit": "g",
+            "preparation": "cut into large 5cm chunks",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2435c811-13bb-4d94-b94c-ac0381ef4b0f",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "ground cumin",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b9c9e3cb-61b7-4bbc-87c0-7858d42d7935",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground coriander",
+            "quantity": 8,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "225e04a2-508a-4752-ac80-1f8437a6c970",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "black pepper",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "f0a6986f-fb44-4088-b9de-ccfa1558f88c",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "olive oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 60,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "chicken broth",
+            "quantity": 250,
+            "unit": "ml",
+            "preparation": "low sodium",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c37b3cf0-3bc7-4596-8c5e-d709c0182cd6",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Lime Crema",
+        "items": [
+          {
+            "name": "sour cream",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "079022c8-c111-431c-8741-fe553576bf5b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime zest",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "finely grated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e36e3577-8502-4151-8970-de4c2a268d06",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Nacho Assembly",
+        "items": [
+          {
+            "name": "corn tortilla chips",
+            "quantity": 400,
+            "unit": "g",
+            "preparation": "thick-cut, restaurant style",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a9580985-24e7-4c44-9c53-ea62f6620553",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cheddar cheese",
+            "quantity": 350,
+            "unit": "g",
+            "preparation": "freshly grated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c5948fd5-2804-4d18-98e4-da7884e00680",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Garnishes",
+        "items": [
+          {
+            "name": "radishes",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "sliced paper-thin",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2d6f93d3-117b-49ab-9e11-1058462db7ce",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "scallions",
+            "quantity": 40,
+            "unit": "g",
+            "preparation": "thinly sliced, green and white parts",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "dcfaf926-661e-4117-aeea-145370b787f7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh cilantro",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "roughly chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 160C/320F for braising the pork. In a small bowl, combine the cumin, coriander, kosher salt, and black pepper. Toss the pork shoulder chunks in the spice blend until thoroughly coated.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Heat the olive oil in a large Dutch oven over medium-high heat. Add the spiced pork chunks in batches to avoid crowding, searing until deeply browned on all sides.",
+        "structured": {
+          "action": "SEAR",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": {
+            "visual": "Deep golden-brown crust on all sides",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Return all pork to the Dutch oven. Pour in the chicken broth and the first measure of lime juice, scraping up any browned bits from the bottom. Cover with a heavy lid, transfer to the 160C/320F oven, and braise until the pork yields entirely to a fork.",
+        "structured": {
+          "action": "BRAISE",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": "PT2H30M",
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "Meat shreds with zero resistance when pulled with a fork"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Remove the pot from the oven and carefully transfer the pork to a cutting board. Shred the meat using two forks. Skim excess fat from the braising liquid, then return the shredded pork to the juices to keep it moist. Increase the oven temperature to 200C/400F.",
+        "structured": {
+          "action": "SHRED",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "While the oven preheats, whisk together the sour cream, the second measure of lime juice, lime zest, and salt in a small mixing bowl. Set aside in the refrigerator to allow flavors to meld.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Arrange half of the tortilla chips in a slightly overlapping layer on a large baking sheet. Top evenly with half of the drained shredded pork and half of the grated cheddar cheese. Repeat with a second layer of chips, the remaining pork, and the remaining cheese.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "Bake the assembled nachos in the 200C/400F oven until the cheese is completely melted, bubbling, and just starting to brown at the edges.",
+        "structured": {
+          "action": "BAKE",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": "PT8M",
+          "doneness_cues": {
+            "visual": "Cheese is melted, glossy, and bubbling rapidly",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Remove the nachos from the oven. Immediately scatter the sliced radishes, scallions, and chopped cilantro over the hot cheese. Generously drizzle or dollop the chilled lime crema across the entire platter. Serve immediately.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Soggy tortilla chips at the bottom of the platter",
+        "likely_cause": "Pork was not drained sufficiently before layering, or chips were too thin to support the heavy toppings.",
+        "prevention": "Use only thick, restaurant-style corn tortilla chips and use tongs to slightly drain the pork as you transfer it to the chips.",
+        "fix": "Cannot be fixed once fully saturated, but baking an extra 3 minutes can crisp the exposed edges."
+      },
+      {
+        "symptom": "Cheese is clumpy and sweating oil rather than melting smoothly",
+        "likely_cause": "Using pre-shredded bagged cheese which contains anti-caking starches.",
+        "prevention": "Always grate cheddar cheese from a solid block for melting applications.",
+        "fix": "Cannot be fixed"
+      }
+    ],
+    "chef_notes": [
+      "Always grate block cheddar yourself. Pre-shredded cheese is coated in cellulose to prevent clumping in the bag, which acts as a barrier to smooth, creamy melting.",
+      "For a truly remarkable texture contrast, spread the shredded pork on a bare baking sheet and broil it for 3-5 minutes before adding it to the nachos. This mimics traditional crispy carnitas.",
+      "Shock the sliced radishes in a bowl of ice water for 10 minutes while the nachos bake. This maximizes their crisp, refreshing crunch against the rich, fatty pork.",
+      "Layering is crucial. A double-layer approach ensures that every chip receives topping, preventing the dreaded dry chip phenomenon found at the bottom of poorly structured nacho mountains."
+    ],
+    "cultural_context": "Nachos originated in Piedras Negras, Mexico, in 1943, created out of necessity by maitre d' Ignacio 'Nacho' Anaya for a group of hungry visitors. This robust winter iteration builds upon that classic foundation by integrating flavor profiles reminiscent of carnitas, celebrating the rich Mexican tradition of slow-cooked, heavily spiced pork shoulder. The careful balance of rich, fatty meat cut by bright citrus, sharp radishes, and cooling dairy is a hallmark of traditional Mexican culinary architecture.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 842.89,
+        "protein_g": 47.51,
+        "carbohydrates_g": 44.7,
+        "fat_g": 64.67,
+        "saturated_fat_g": 7.74,
+        "trans_fat_g": 0.04,
+        "monounsaturated_fat_g": 13.56,
+        "polyunsaturated_fat_g": 6.36,
+        "fiber_g": 3.78,
+        "sugar_g": 1.45,
+        "sodium_mg": 1687.69,
+        "cholesterol_mg": 36.94,
+        "potassium_mg": 1269.75,
+        "calcium_mg": 149.21,
+        "iron_mg": 4.31,
+        "magnesium_mg": 62.95,
+        "phosphorus_mg": 799.27,
+        "zinc_mg": 10.15,
+        "vitamin_a_mcg": 36.31,
+        "vitamin_c_mg": 6.64,
+        "vitamin_d_mcg": 0.18,
+        "vitamin_e_mg": 2.25,
+        "vitamin_k_mcg": 19.13,
+        "vitamin_b6_mg": 0.19,
+        "vitamin_b12_mcg": 0.87,
+        "thiamin_mg": 0.21,
+        "riboflavin_mg": 0.16,
+        "niacin_mg": 2.28,
+        "folate_mcg": 23.61,
+        "water_g": 102.44,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14749,
+    "monthly_limit": 15000,
+    "daily_remaining": 288,
+    "daily_limit": 500
+  }
+}

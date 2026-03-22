@@ -1,0 +1,311 @@
+{
+  "data": {
+    "id": "7f5ba864-c7bf-400f-8294-3e04aa7449db",
+    "name": "Tiramisu Affogato",
+    "description": "A quick-assembly dessert featuring espresso-soaked sponge fingers and chocolate ice cream topped with a sweetened mascarpone cream.",
+    "category": "Dessert",
+    "cuisine": "Italian",
+    "difficulty": "easy",
+    "tags": [
+      "Quick",
+      "Coffee",
+      "No-Bake",
+      "Italian-inspired"
+    ],
+    "meta": {
+      "active_time": "PT10M",
+      "passive_time": "PT0M",
+      "total_time": "PT10M",
+      "overnight_required": false,
+      "yields": "1 serving",
+      "yield_count": 1,
+      "serving_size_g": 175
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "The ice cream will melt and the sponge will become overly soggy if stored.",
+        "duration": null
+      },
+      "freezer": {
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": "Small bowl"
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": "Fork"
+      },
+      {
+        "name": "Serving glass",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Topping",
+        "items": [
+          {
+            "name": "mascarpone",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "approx 30g",
+            "substitutions": [],
+            "ingredient_id": "fc428935-3bcd-4cef-8495-7ed35e7dae22",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "heavy cream",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "icing sugar",
+            "quantity": 13,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "348e3418-0252-4e05-80e2-4ee53081f4c8",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Base and Layers",
+        "items": [
+          {
+            "name": "sponge fingers",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "broken into three pieces",
+            "notes": "approx 20g; also known as ladyfingers",
+            "substitutions": [
+              "ladyfingers"
+            ],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "espresso",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": "hot",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "3f36da11-eb5c-4472-a480-39ea7a1d702f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "chocolate ice cream",
+            "quantity": 1,
+            "unit": null,
+            "preparation": null,
+            "notes": "approx 50g scoop",
+            "substitutions": [],
+            "ingredient_id": "ae5d1f9f-5652-4651-8912-538cd0be1554",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cocoa powder",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": "for dusting",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c06a8e5a-163a-4f21-ad00-a6d90e34c38c",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Whisk the mascarpone and heavy cream together in a bowl until the mixture reaches soft peaks.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Add the icing sugar to the bowl and whisk again until the ingredients are fully combined.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "assemble",
+        "text": "Place half of the broken sponge finger pieces into the bottom of the serving glass.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "assemble",
+        "text": "Pour 15 ml of the hot espresso over the sponge fingers in the glass.",
+        "structured": {
+          "action": "POUR",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "assemble",
+        "text": "Add the scoop of chocolate ice cream directly on top of the soaked sponge fingers.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Layer the remaining pieces of sponge fingers over the ice cream.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Pour the remaining 15 ml of hot espresso over the top layer of sponge fingers.",
+        "structured": {
+          "action": "POUR",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Spoon the prepared mascarpone cream mixture over the top layer of the dessert.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Dust the top with cocoa powder and serve immediately.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Sponge fingers are too mushy or disintegrated",
+        "likely_cause": "The dessert was assembled too far in advance or the espresso was poured too slowly",
+        "prevention": "Assemble all components immediately before consumption",
+        "fix": "Cannot be fixed"
+      }
+    ],
+    "chef_notes": [
+      "Ensure the espresso is hot when pouring to properly soften the sponge fingers and slightly melt the ice cream for the classic affogato texture."
+    ],
+    "cultural_context": "The affogato is a traditional Italian coffee-based dessert, usually consisting of a scoop of gelato 'drowned' in a shot of hot espresso.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 503.33,
+        "protein_g": 8.67,
+        "carbohydrates_g": 67.39,
+        "fat_g": 27.04,
+        "saturated_fat_g": 16.48,
+        "trans_fat_g": 0.37,
+        "monounsaturated_fat_g": 2.86,
+        "polyunsaturated_fat_g": 0.67,
+        "fiber_g": 2.56,
+        "sugar_g": 19.38,
+        "sodium_mg": 64.28,
+        "cholesterol_mg": 41.9,
+        "potassium_mg": 136.46,
+        "calcium_mg": 153.79,
+        "iron_mg": 1.13,
+        "magnesium_mg": 44.88,
+        "phosphorus_mg": 77.38,
+        "zinc_mg": 0.51,
+        "vitamin_a_mcg": 284.1,
+        "vitamin_c_mg": 0.59,
+        "vitamin_d_mcg": 0.48,
+        "vitamin_e_mg": 0.3,
+        "vitamin_k_mcg": 1.16,
+        "vitamin_b6_mg": 0.03,
+        "vitamin_b12_mcg": 0.05,
+        "thiamin_mg": 0.06,
+        "riboflavin_mg": 0.13,
+        "niacin_mg": 2.12,
+        "folate_mcg": 12.54,
+        "water_g": 83.85,
+        "alcohol_g": null,
+        "caffeine_mg": 68.2
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14788,
+    "monthly_limit": 15000,
+    "daily_remaining": 327,
+    "daily_limit": 500
+  }
+}

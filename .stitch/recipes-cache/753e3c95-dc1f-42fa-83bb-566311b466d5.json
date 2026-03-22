@@ -1,0 +1,338 @@
+{
+  "data": {
+    "id": "753e3c95-dc1f-42fa-83bb-566311b466d5",
+    "name": "Classic Italian Tiramisu Cups",
+    "description": "Rich, velvety mascarpone cream layered with espresso-soaked ladyfingers in elegant individual portions. A delicate balance of bold coffee notes and subtle sweetness with a dusting of bitter cocoa.",
+    "category": "Dessert",
+    "cuisine": "Italian",
+    "difficulty": "Easy",
+    "tags": [
+      "Italian",
+      "Dessert",
+      "Coffee",
+      "No-Bake",
+      "Easy",
+      "Individual Portions",
+      "Make-Ahead"
+    ],
+    "meta": {
+      "active_time": "PT20M",
+      "passive_time": "PT4H",
+      "total_time": "PT4H20M",
+      "overnight_required": false,
+      "yields": "4 individual cups",
+      "yield_count": 4,
+      "serving_size_g": 160
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian"
+      ],
+      "not_suitable_for": [
+        "Pregnant women (if using unpasteurized eggs)",
+        "Infants",
+        "Immunocompromised individuals (if using unpasteurized eggs)",
+        "Children (contains alcohol and caffeine)"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Cover tightly to prevent the cream from absorbing refrigerator odors.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freezing alters the texture of the mascarpone cream and makes the ladyfingers mushy.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Electric hand mixer",
+        "required": false,
+        "alternative": "Balloon whisk"
+      },
+      {
+        "name": "Mixing bowls",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Shallow dish",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Individual serving glasses",
+        "required": true,
+        "alternative": "Ramekins or small jars"
+      },
+      {
+        "name": "Fine mesh sieve",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Coffee Soak",
+        "items": [
+          {
+            "name": "strong espresso or coffee",
+            "quantity": 150,
+            "unit": "ml",
+            "preparation": "brewed and cooled to room temperature",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "3f36da11-eb5c-4472-a480-39ea7a1d702f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "marsala wine",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "dark rum",
+              "amaretto",
+              "coffee liqueur"
+            ],
+            "ingredient_id": "00554779-e13f-412e-aa08-6c1fbe625154",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Mascarpone Cream",
+        "items": [
+          {
+            "name": "egg yolks",
+            "quantity": 3,
+            "unit": null,
+            "preparation": null,
+            "notes": "about 55g total, highly recommend pasteurized eggs for safety",
+            "substitutions": [],
+            "ingredient_id": "f2620643-65a0-4dda-ad74-f40982f9cf84",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "white granulated sugar",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "mascarpone cheese",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": "chilled",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "fc428935-3bcd-4cef-8495-7ed35e7dae22",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Assembly",
+        "items": [
+          {
+            "name": "ladyfingers (savoiardi)",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": null,
+            "notes": "about 12-14 cookies",
+            "substitutions": [],
+            "ingredient_id": "84baaadc-caa3-4e39-a184-32533b490604",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "unsweetened cocoa powder",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": null,
+            "notes": "for dusting",
+            "substitutions": [],
+            "ingredient_id": "c06a8e5a-163a-4f21-ad00-a6d90e34c38c",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In a shallow dish, combine the cooled espresso and Marsala wine. Set aside.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a mixing bowl, vigorously whisk the egg yolks and sugar together until the mixture triples in volume, becomes thick, and turns a pale yellow color.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "Pale yellow and thick enough to leave a trailing ribbon when the whisk is lifted",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Add the cold mascarpone to the egg yolk mixture. Gently fold it in using a spatula until completely smooth and homogeneous. Do not overmix.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "Smooth, completely blended cream with no lumps",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "Overmixing mascarpone can cause it to curdle and turn into butter. Mix just until smooth."
+        ]
+      },
+      {
+        "step_number": 4,
+        "phase": "assemble",
+        "text": "Quickly dip the ladyfingers into the coffee mixture for exactly one second per side. Break them as needed to fit the bottom of your individual serving glasses.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "Outside is damp but the core remains slightly crisp"
+          }
+        },
+        "tips": [
+          "Do not let the ladyfingers soak, or the final dessert will be watery."
+        ]
+      },
+      {
+        "step_number": 5,
+        "phase": "assemble",
+        "text": "Spoon or pipe a layer of the mascarpone cream over the soaked ladyfingers in the glasses. Repeat with another layer of dipped ladyfingers and finish with a final layer of cream.",
+        "structured": {
+          "action": "PLATE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "finish",
+        "text": "Cover the cups and chill in the refrigerator at 4C/39F for at least 4 hours to allow the flavors to meld and the cream to set.",
+        "structured": {
+          "action": "CHILL",
+          "temperature": {
+            "celsius": 4,
+            "fahrenheit": 39
+          },
+          "duration": "PT4H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "finish",
+        "text": "Just before serving, use a fine mesh sieve to generously dust the tops with unsweetened cocoa powder.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Mascarpone cream is runny or split",
+        "likely_cause": "The mascarpone was overmixed or brought to room temperature before mixing",
+        "prevention": "Keep mascarpone cold until right before use and fold gently by hand rather than using a high-speed mixer.",
+        "fix": "Cannot be completely fixed if it has separated into butterfat. If just slightly loose, chilling the mixture for 30 minutes before assembling can help firm it up."
+      },
+      {
+        "symptom": "Liquid pooling at the bottom of the cups",
+        "likely_cause": "Ladyfingers were soaked too long in the coffee",
+        "prevention": "Submerge the cookies for no more than 1 second per side.",
+        "fix": "Cannot be fixed once assembled."
+      }
+    ],
+    "chef_notes": [
+      "Because this recipe requires no cooking, utilizing pasteurized shell eggs is strongly recommended to ensure food safety without sacrificing the traditional silken texture.",
+      "For the best structural integrity, seek out Italian Savoiardi biscuits rather than soft sponge-cake ladyfingers found in some bakeries.",
+      "Dusting the cocoa powder immediately before serving is crucial. If dusted before chilling, the cocoa absorbs moisture from the cream and turns into a dark, unappealing paste.",
+      "If you prefer a lighter, airier cream, you can fold in two pasteurized egg whites beaten to stiff peaks just after adding the mascarpone."
+    ],
+    "cultural_context": "Tiramisu literally translates to pick me up in Italian, a fitting name given its energizing combination of strong espresso, sugar, and rich fats. While its exact origins are heavily debated, most culinary historians agree it was created in the Veneto region of Italy during the 1960s or 1970s. Serving this classic dessert in individual cups transforms a rustic, difficult-to-slice dish into a pristine, modern presentation suitable for dinner parties.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 459.98,
+        "protein_g": 8.51,
+        "carbohydrates_g": 49.33,
+        "fat_g": 32.58,
+        "saturated_fat_g": 17.94,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 2.66,
+        "polyunsaturated_fat_g": 0.98,
+        "fiber_g": 1.68,
+        "sugar_g": 25.22,
+        "sodium_mg": 74.93,
+        "cholesterol_mg": 203.75,
+        "potassium_mg": 131.51,
+        "calcium_mg": 167.91,
+        "iron_mg": 1.69,
+        "magnesium_mg": 46.84,
+        "phosphorus_mg": 118.53,
+        "zinc_mg": 0.8,
+        "vitamin_a_mcg": 388.14,
+        "vitamin_c_mg": 1,
+        "vitamin_d_mcg": 0.89,
+        "vitamin_e_mg": 0.52,
+        "vitamin_k_mcg": 0.25,
+        "vitamin_b6_mg": 0.08,
+        "vitamin_b12_mcg": 0.46,
+        "thiamin_mg": 0.1,
+        "riboflavin_mg": 0.26,
+        "niacin_mg": 2.55,
+        "folate_mcg": 36.25,
+        "water_g": 54.11,
+        "alcohol_g": 1.15,
+        "caffeine_mg": 85.25
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14793,
+    "monthly_limit": 15000,
+    "daily_remaining": 332,
+    "daily_limit": 500
+  }
+}

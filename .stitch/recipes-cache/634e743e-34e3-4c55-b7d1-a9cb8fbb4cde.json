@@ -1,0 +1,540 @@
+{
+  "data": {
+    "id": "634e743e-34e3-4c55-b7d1-a9cb8fbb4cde",
+    "name": "Spiced Potato Samosas with Mint Chutney",
+    "description": "Crispy, golden pastry triangles filled with a fragrant, warmly spiced potato and pea mixture, served alongside a vibrant, zesty mint and coriander chutney.",
+    "category": "Appetizer",
+    "cuisine": "Indian",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Indian",
+      "Appetizer",
+      "Potatoes",
+      "Vegetarian",
+      "Snack",
+      "Street Food"
+    ],
+    "meta": {
+      "active_time": "PT1H",
+      "passive_time": "PT30M",
+      "total_time": "PT1H30M",
+      "overnight_required": false,
+      "yields": "12 samosas",
+      "yield_count": 12,
+      "serving_size_g": 100
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Soy-Free",
+        "Nut-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store chutney separately from samosas in an airtight container.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freeze assembled, uncooked samosas on a baking sheet before transferring to a freezer bag.",
+        "duration": "P2M"
+      },
+      "reheating": "Bake in a 180C/350F oven or air fryer for 10-15 minutes until heated through and crispy.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Rolling pin",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Heavy-bottomed pot or Dutch oven",
+        "required": true,
+        "alternative": "Deep frying pan"
+      },
+      {
+        "name": "Slotted spoon",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Blender",
+        "required": true,
+        "alternative": "Food processor"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Pastry Dough",
+        "items": [
+          {
+            "name": "all-purpose flour",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ajwain seeds",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": "carom seeds, can substitute with crushed cumin seeds",
+            "substitutions": [
+              "cumin seeds"
+            ],
+            "ingredient_id": "5fb07424-aa49-4da5-afeb-0636713c313f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ghee",
+            "quantity": 45,
+            "unit": "g",
+            "preparation": "melted",
+            "notes": null,
+            "substitutions": [
+              "vegetable oil"
+            ],
+            "ingredient_id": "ca296665-b88a-4c3c-bf70-5e6f42d7fe80",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 120,
+            "unit": "ml",
+            "preparation": "cold",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Potato Filling",
+        "items": [
+          {
+            "name": "potatoes",
+            "quantity": 500,
+            "unit": "g",
+            "preparation": "boiled, peeled, and roughly mashed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5bf06478-4785-465e-9842-f70a24e22054",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "green peas",
+            "quantity": 80,
+            "unit": "g",
+            "preparation": "fresh or frozen",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "881b19fa-ab56-40da-b76e-46e9098ff18f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vegetable oil",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": null
+          },
+          {
+            "name": "cumin seeds",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b9c9e3cb-61b7-4bbc-87c0-7858d42d7935",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "coriander seeds",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": "coarsely crushed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "225e04a2-508a-4752-ac80-1f8437a6c970",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garam masala",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ffcea01-5f22-462b-94de-ad2a97049325",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "amchur powder",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": "dry mango powder for tartness",
+            "substitutions": [
+              "lemon juice"
+            ],
+            "ingredient_id": "788307a9-b769-4fba-bc38-c0f1b4057b6f",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "green chili",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "6cdb0615-378e-4bfa-b76d-f19bbd780e6c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ginger",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "grated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d57750c1-f582-4793-8aea-40d9d3ac3677",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "salt",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Mint Chutney",
+        "items": [
+          {
+            "name": "fresh mint leaves",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "17abecc0-a2a0-4478-8486-57b46e4305c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh coriander leaves",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "green chili",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "roughly chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "6cdb0615-378e-4bfa-b76d-f19bbd780e6c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ginger",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "peeled",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d57750c1-f582-4793-8aea-40d9d3ac3677",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lemon juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "84822702-05df-495b-91a5-3fe45e48c8d9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "roasted cumin powder",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b9c9e3cb-61b7-4bbc-87c0-7858d42d7935",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Frying",
+        "items": [
+          {
+            "name": "vegetable oil",
+            "quantity": 1000,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "for deep frying, quantity varies by pot size",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": null
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In a mixing bowl, combine the flour, ajwain seeds, and salt. Add the melted ghee and rub the mixture between your fingers until it resembles coarse breadcrumbs. Gradually add cold water and knead into a stiff, firm dough.",
+        "structured": {
+          "action": "KNEAD",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "stiff, firm, and slightly rough rather than perfectly smooth"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Cover the dough tightly with a damp cloth and allow it to rest at room temperature.",
+        "structured": {
+          "action": "REST",
+          "temperature": null,
+          "duration": "PT30M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Heat 15ml of vegetable oil in a pan over medium heat. Add the cumin seeds and crushed coriander seeds, cooking until they sizzle and release their aroma.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": {
+            "visual": "seeds are spluttering and lightly browned",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Add the grated ginger, green chili, and peas to the pan. Cook for 2 minutes. Stir in the roughly mashed potatoes, garam masala, amchur powder, and salt. Mix thoroughly to combine the flavors.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "Remove the filling from the heat and spread it out on a plate to cool completely before assembling the samosas.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "prep",
+        "text": "Place the mint leaves, coriander leaves, green chili, ginger, lemon juice, roasted cumin powder, salt, and water into a blender. Process until a smooth, vibrant green chutney forms. Transfer to a bowl.",
+        "structured": {
+          "action": "BLEND",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": {
+            "visual": "smooth, vibrant green liquid with no large leafy chunks",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Divide the rested dough into 6 equal portions. Roll each portion into a smooth ball, then flatten and roll out into a thin oval shape, about 15cm long. Cut each oval in half horizontally to create two semi-circles.",
+        "structured": {
+          "action": "ROLL",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Take a semi-circle, lightly brush the straight edge with water, and fold it into a cone shape, overlapping the straight edge to seal. Fill the cone with 2 tablespoons of the cooled potato filling, brush the open top edge with water, and pinch firmly to close.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "a tightly sealed triangular pyramid",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Heat the deep frying oil in a heavy-bottomed pot to 160C/320F. Carefully slide the samosas into the warm oil and fry on a low to medium heat, turning occasionally, until perfectly crisp and golden brown.",
+        "structured": {
+          "action": "FRY",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": "PT12M",
+          "doneness_cues": {
+            "visual": "even, deep golden brown exterior without excessive blistering",
+            "tactile": "hard, crispy casing"
+          }
+        },
+        "tips": [
+          "Do not crowd the pot; fry in batches of 4 to 5 depending on pan size.",
+          "Low and slow frying is essential to cook the thick folded edges of the pastry."
+        ]
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Small blisters and bubbles covering the entire surface of the pastry after frying.",
+        "likely_cause": "The frying oil was too hot when the samosas were dropped in.",
+        "prevention": "Ensure the oil is warm (160C), not smoking hot. The samosas should take several minutes to color.",
+        "fix": "Lower the heat immediately for the current batch. Ensure oil cools slightly before adding the next batch."
+      },
+      {
+        "symptom": "Samosas break open or leak filling into the oil.",
+        "likely_cause": "Edges were not sealed tightly enough, or the filling was overstuffed.",
+        "prevention": "Use a dab of water along the seam and pinch firmly. Leave a small gap at the top of the cone before sealing.",
+        "fix": "Cannot be fixed once in the oil. Remove the broken samosa quickly with a slotted spoon to prevent burned filling in the oil."
+      }
+    ],
+    "chef_notes": [
+      "The process of rubbing fat into the flour is called moyan. It coats the gluten strands and is the absolute non-negotiable secret to a flaky, short pastry crust.",
+      "A stiff dough absorbs less oil during frying. Resist the temptation to add extra water during the kneading phase.",
+      "Do not over-mash the potatoes. Leaving distinct chunks adds wonderful textural contrast to the final filling.",
+      "Frying must be an exercise in patience. Starting the samosas in warm oil and slowly raising the heat ensures a perfectly crisp crust that remains crunchy long after cooling."
+    ],
+    "cultural_context": "The samosa traces its ancient origins to the Middle Eastern sambusak, traveling to the Indian subcontinent along trade routes with merchants and rulers. Today, this spiced potato and pea iteration stands as a beloved culinary icon of India, representing a masterful amalgamation of indigenous spices and the potato, which was introduced by Portuguese traders in the 17th century.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 157.41,
+        "protein_g": 4.01,
+        "carbohydrates_g": 23.47,
+        "fat_g": 5.49,
+        "saturated_fat_g": 2.57,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 1.19,
+        "polyunsaturated_fat_g": 0.3,
+        "fiber_g": 2.69,
+        "sugar_g": 0.65,
+        "sodium_mg": 333.18,
+        "cholesterol_mg": 9.6,
+        "potassium_mg": 277.23,
+        "calcium_mg": 35.3,
+        "iron_mg": 2.57,
+        "magnesium_mg": 23.23,
+        "phosphorus_mg": 54.35,
+        "zinc_mg": 0.5,
+        "vitamin_a_mcg": 57.29,
+        "vitamin_c_mg": 11.83,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.26,
+        "vitamin_k_mcg": 15.1,
+        "vitamin_b6_mg": 0.14,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.06,
+        "riboflavin_mg": 0.05,
+        "niacin_mg": 0.96,
+        "folate_mcg": 24.42,
+        "water_g": 65.3,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14768,
+    "monthly_limit": 15000,
+    "daily_remaining": 307,
+    "daily_limit": 500
+  }
+}

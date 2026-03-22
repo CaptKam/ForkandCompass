@@ -1,0 +1,293 @@
+{
+  "data": {
+    "id": "47abbc29-5a78-48d9-81e3-73229ca46880",
+    "name": "Sweet Pea Guacamole",
+    "description": "A vibrant, lightened-up take on classic guacamole. Sweet green peas provide a fresh, spring-like sweetness and striking green hue, blending beautifully with creamy avocado, bright lime juice, and sharp jalapeno.",
+    "category": "Appetizer",
+    "cuisine": "Fusion",
+    "difficulty": "Easy",
+    "tags": [
+      "avocado",
+      "frozen pea",
+      "guacamole",
+      "easy",
+      "weeknight",
+      "side dish",
+      "vegetarian"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT0M",
+      "total_time": "PT15M",
+      "overnight_required": false,
+      "yields": "400g",
+      "yield_count": 4,
+      "serving_size_g": 100
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Gluten-Free",
+        "Dairy-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Peanut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Press plastic wrap directly against the surface to prevent oxidation.",
+        "duration": "P2D"
+      },
+      "freezer": {
+        "notes": "Avocado and pea mixture degrades in texture and weeping occurs when frozen.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Fine mesh sieve",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Food processor",
+        "required": false,
+        "alternative": "Potato masher"
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Base",
+        "items": [
+          {
+            "name": "frozen peas",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "thawed and drained well",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "fa661e9d-c4df-42f0-99c8-ca41610251a9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "avocado",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "pitted, peeled, and diced",
+            "notes": "about 1 medium-large avocado",
+            "substitutions": [],
+            "ingredient_id": "35c8f26f-d008-407a-9bf3-48c8aa641729",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Aromatics and Seasoning",
+        "items": [
+          {
+            "name": "red onion",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "finely diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "jalapeno",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "seeded and minced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "28f54199-5672-4d2a-9f41-4e4e5cbfa93f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh cilantro",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 4,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cumin",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b9c9e3cb-61b7-4bbc-87c0-7858d42d7935",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Place the thawed peas in a fine mesh sieve and press out any excess moisture with a paper towel. The peas must be completely dry to prevent a watery dip.",
+        "structured": {
+          "action": "PAT_DRY",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Transfer the dried peas to a food processor and pulse until coarsely pureed. Alternatively, thoroughly crush them in a mixing bowl using a potato masher.",
+        "structured": {
+          "action": "PUREE",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "Coarse, textured paste rather than a perfectly smooth puree",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "In a mixing bowl, add the diced avocado. Gently crush with a fork until broken down but still slightly chunky.",
+        "structured": {
+          "action": "CRUSH",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "assemble",
+        "text": "Add the pea puree to the crushed avocado. Fold in the finely diced red onion, minced jalapeno, and chopped fresh cilantro.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Pour in the fresh lime juice, kosher salt, and ground cumin. Stir gently to combine. Taste and adjust seasoning with additional lime juice or salt if necessary.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Dip has a watery or split texture",
+        "likely_cause": "Peas held too much water after thawing",
+        "prevention": "Thoroughly drain and pat the peas dry before pureeing",
+        "fix": "Stir in an additional quarter of an avocado to absorb excess moisture"
+      },
+      {
+        "symptom": "Guacamole turns brown quickly",
+        "likely_cause": "Oxidation from exposure to air during storage",
+        "prevention": "Ensure adequate lime juice is mixed in and press plastic wrap flush against the surface before refrigerating",
+        "fix": "Scrape off the top oxidized layer to reveal the vibrant green dip underneath"
+      }
+    ],
+    "chef_notes": [
+      "Using sweet peas not only lightens the caloric density but also acts as a stabilizer against oxidation, keeping the dip vibrantly green for much longer than pure avocado.",
+      "For the best texture, err on the side of a chunky mash. Blending the peas into a completely smooth paste will result in an unappealing, gummy consistency.",
+      "Ensure your avocado is perfectly ripe; the fat from the avocado is crucial for rounding out the sweetness of the peas and providing mouthfeel.",
+      "If using fresh peas instead of frozen, blanch them in boiling salted water for 90 seconds, then immediately shock in an ice bath to set the color before proceeding."
+    ],
+    "cultural_context": "While traditional guacamole is a pre-Columbian staple originating in central Mexico, blending sweet peas into the avocado base is a modern fusion technique. It emerged as a plant-forward approach to reducing the heavy reliance on resource-intensive avocados while introducing a complementary, spring-like sweetness and brilliant green hue.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 90.98,
+        "protein_g": 3.7,
+        "carbohydrates_g": 11.51,
+        "fat_g": 4.08,
+        "saturated_fat_g": 0.78,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 2.13,
+        "polyunsaturated_fat_g": 0.73,
+        "fiber_g": 4.71,
+        "sugar_g": 4.04,
+        "sodium_mg": 444.88,
+        "cholesterol_mg": null,
+        "potassium_mg": 254.73,
+        "calcium_mg": 22.22,
+        "iron_mg": 1.08,
+        "magnesium_mg": 25.49,
+        "phosphorus_mg": 62.65,
+        "zinc_mg": 0.61,
+        "vitamin_a_mcg": 64.89,
+        "vitamin_c_mg": 23.49,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 1.23,
+        "vitamin_k_mcg": 22.48,
+        "vitamin_b6_mg": 0.1,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.15,
+        "riboflavin_mg": 0.08,
+        "niacin_mg": 1.22,
+        "folate_mcg": 44.39,
+        "water_g": 88.81,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14775,
+    "monthly_limit": 15000,
+    "daily_remaining": 314,
+    "daily_limit": 500
+  }
+}

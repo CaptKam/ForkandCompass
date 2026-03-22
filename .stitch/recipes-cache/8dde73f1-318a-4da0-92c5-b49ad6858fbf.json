@@ -1,0 +1,476 @@
+{
+  "data": {
+    "id": "8dde73f1-318a-4da0-92c5-b49ad6858fbf",
+    "name": "Spring Chicken Miso Soup",
+    "description": "A clear chicken soup flavored with miso and tamari, served with buckwheat noodles, sugar snap peas, and leeks.",
+    "category": "Soup",
+    "cuisine": "Japanese",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Chicken Soup",
+      "Miso",
+      "Soba",
+      "Spring Vegetables"
+    ],
+    "meta": {
+      "active_time": "PT25M",
+      "passive_time": "PT35M",
+      "total_time": "PT1H",
+      "overnight_required": false,
+      "yields": "6 servings",
+      "yield_count": 6,
+      "serving_size_g": 588
+    },
+    "dietary": {
+      "flags": [
+        "Dairy-Free",
+        "Nut-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store noodles and broth separately to prevent the noodles from becoming mushy.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Not recommended due to the texture of fresh greens and soba noodles.",
+        "duration": null
+      },
+      "reheating": "Warm the broth on the stovetop over medium heat; add noodles and vegetables just before serving.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Soup pot",
+        "required": true,
+        "alternative": "Dutch oven"
+      },
+      {
+        "name": "Saucepan",
+        "required": true,
+        "alternative": "Medium pot"
+      },
+      {
+        "name": "Small pot",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": "Fork"
+      },
+      {
+        "name": "Serving bowls",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Main",
+        "items": [
+          {
+            "name": "chicken thighs",
+            "quantity": 680,
+            "unit": "g",
+            "preparation": null,
+            "notes": "boneless and skinless",
+            "substitutions": [],
+            "ingredient_id": "3a379059-66e9-4241-b3f4-c14b8de0af73",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": "to taste",
+            "notes": "minimum quantity provided",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "black pepper",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": "to taste",
+            "notes": "minimum quantity provided",
+            "substitutions": [],
+            "ingredient_id": "c25dc1c9-4ea7-403c-976e-ab1d06578b7a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vegetable oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "7b44c5cb-6a71-4350-8a4b-f6e987d6a8ad",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "minced",
+            "notes": "approx 6g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ginger",
+            "quantity": 4,
+            "unit": "g",
+            "preparation": "grated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d57750c1-f582-4793-8aea-40d9d3ac3677",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "mirin",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "dry sherry"
+            ],
+            "ingredient_id": "2a72c18d-8a1d-4259-8790-25d62f6fb5ba",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "sugar",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "tamari",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "soy sauce"
+            ],
+            "ingredient_id": "57439756-ebcc-4de3-8e21-4344fd6abc25",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "soba (buckwheat noodles)",
+            "quantity": 225,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2a4c3a57-46fc-4be3-a219-94e29b7cf735",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "sugar snap peas",
+            "quantity": 225,
+            "unit": "g",
+            "preparation": "trimmed",
+            "notes": null,
+            "substitutions": [
+              "snow peas"
+            ],
+            "ingredient_id": "60c7ede9-f4af-4692-8d85-a3a2fb513951",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 1900,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "56f313bb-9571-44c8-aa24-45a63b0d2b1e",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "leeks",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c689e786-49ea-4b98-9526-3b7bb15a8edc",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "miso",
+            "quantity": 66,
+            "unit": "g",
+            "preparation": "to taste",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "46697260-96ba-4751-83c0-b40aebb81229",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "baby spinach",
+            "quantity": 140,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "4734440a-226d-4d26-a110-3ed5c3bde93f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "basil",
+            "quantity": null,
+            "unit": null,
+            "preparation": "julienned",
+            "notes": "to taste, approx 5g",
+            "substitutions": [
+              "shiso leaves"
+            ],
+            "ingredient_id": "417f8397-9065-4cd6-8820-0ab7363fbb08",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Season the chicken thighs evenly with salt and black pepper.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Heat vegetable oil in a soup pot over medium-high heat (190°C/375°F). Sear the chicken thighs for 4 minutes per side, adjusting heat to prevent excessive browning.",
+        "structured": {
+          "action": "SEAR",
+          "temperature": {
+            "celsius": 190,
+            "fahrenheit": 374
+          },
+          "duration": "PT8M",
+          "doneness_cues": {
+            "visual": "Chicken should be opaque and lightly browned on the surface.",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Add minced garlic and grated ginger to the pot. Sauté for 1 minute until fragrant.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Stir in the mirin, sugar, tamari, and water.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Bring the liquid to a boil, then reduce heat and simmer gently for 20 minutes until the chicken reaches an internal temperature of 74°C/165°F.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": {
+            "celsius": 90,
+            "fahrenheit": 194
+          },
+          "duration": "PT20M",
+          "doneness_cues": {
+            "visual": "Liquid should have small, lazy bubbles.",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "In a separate saucepan, boil the soba noodles until al dente according to package directions. Drain and rinse with cool water.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "In a small pot of boiling water, blanch the diced leeks and trimmed sugar snap peas for 1 minute. Drain and rinse with cool water.",
+        "structured": {
+          "action": "BLANCH",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "prep",
+        "text": "Remove the chicken from the soup pot and cut into 1.5 cm (1/2 inch) pieces.",
+        "structured": {
+          "action": "CHOP",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Whisk the miso in a small bowl with a small amount of warm broth (60°C/140°F) until the mixture is smooth.",
+        "structured": {
+          "action": "TEMPER",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "finish",
+        "text": "Return the chopped chicken to the soup pot. Stir in the miso mixture, baby spinach, blanched leeks, and snap peas. Heat for 1 minute until the spinach is wilted.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 11,
+        "phase": "finish",
+        "text": "Place the cooked soba noodles into bowls. Ladle the hot soup over the noodles and garnish with julienned basil.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Miso broth tastes flat or lacks aroma",
+        "likely_cause": "The broth was boiled after the miso was added.",
+        "prevention": "Add miso at the very end of cooking and do not let the soup return to a rolling boil.",
+        "fix": "Cannot be fixed; boiling destroys the delicate fermented flavors of miso."
+      },
+      {
+        "symptom": "Miso is clumpy in the soup",
+        "likely_cause": "Miso paste was added directly to the pot without being dissolved first.",
+        "prevention": "Always whisk miso with a small amount of warm liquid in a separate bowl before adding to the main pot.",
+        "fix": "Whisk the broth vigorously or strain the soup to remove clumps."
+      }
+    ],
+    "chef_notes": [
+      "For an even deeper flavor, consider using chicken bones to make a more robust broth for the soup base.",
+      "Don't boil the miso; adding it at the end and gently heating preserves its delicate flavor and beneficial probiotics.",
+      "Taste and adjust seasoning with salt, tamari, and miso at the very end, as miso itself can be quite salty.",
+      "When searing the chicken, ensure the pot is hot enough to create a good crust, but adjust the heat to prevent the garlic and ginger from burning.",
+      "The blanching of leeks and snap peas ensures they retain their vibrant color and a slight crispness, adding textural contrast to the soup."
+    ],
+    "cultural_context": "Miso soup is a cornerstone of Japanese cuisine, traditionally served as part of a meal, not typically as a main course. This recipe, however, elevates it into a heartier dish by incorporating chicken, noodles, and vegetables, making it a satisfying and modern interpretation suitable for a lighter main meal.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 414.39,
+        "protein_g": 24.49,
+        "carbohydrates_g": 24.75,
+        "fat_g": 24.8,
+        "saturated_fat_g": 5.61,
+        "trans_fat_g": 0.14,
+        "monounsaturated_fat_g": 11.6,
+        "polyunsaturated_fat_g": 5.25,
+        "fiber_g": 2.79,
+        "sugar_g": 7.78,
+        "sodium_mg": 702.89,
+        "cholesterol_mg": 111.07,
+        "potassium_mg": 545.75,
+        "calcium_mg": 88.69,
+        "iron_mg": 3.43,
+        "magnesium_mg": 70.45,
+        "phosphorus_mg": 250.97,
+        "zinc_mg": 2.11,
+        "vitamin_a_mcg": 186.1,
+        "vitamin_c_mg": 33.73,
+        "vitamin_d_mcg": 0.11,
+        "vitamin_e_mg": 2.27,
+        "vitamin_k_mcg": 147.1,
+        "vitamin_b6_mg": 0.62,
+        "vitamin_b12_mcg": 0.71,
+        "thiamin_mg": 0.19,
+        "riboflavin_mg": 0.27,
+        "niacin_mg": 5.89,
+        "folate_mcg": 88.56,
+        "water_g": 482.81,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14756,
+    "monthly_limit": 15000,
+    "daily_remaining": 295,
+    "daily_limit": 500
+  }
+}

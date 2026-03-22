@@ -1,0 +1,484 @@
+{
+  "data": {
+    "id": "16fe1161-82f8-4524-adf0-31efe7cbdfac",
+    "name": "Classic Mexican Churros With Chocolate Dipping Sauce",
+    "description": "Crispy on the outside and tender on the inside, these golden churros are coated in fragrant cinnamon sugar and served alongside a rich, velvety dark chocolate sauce for dipping.",
+    "category": "Dessert",
+    "cuisine": "Mexican",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Mexican",
+      "Dessert",
+      "Snack",
+      "Sweet",
+      "Kid-Friendly",
+      "Deep Fried",
+      "Street Food"
+    ],
+    "meta": {
+      "active_time": "PT45M",
+      "passive_time": "PT15M",
+      "total_time": "PT1H",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 245
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Peanut-Free"
+      ],
+      "not_suitable_for": [
+        "Dairy allergies",
+        "Gluten intolerances",
+        "Egg allergies"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store leftover chocolate sauce in an airtight container. Churros do not keep well and should be eaten fresh.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Unfried piped churro dough can be frozen on a baking sheet, then transferred to a bag. Fry directly from frozen, adding an extra 1 to 2 minutes of cooking time.",
+        "duration": "P1M"
+      },
+      "reheating": "Reheat leftover fried churros in an oven or air fryer at 180C/350F for 3 to 5 minutes until crispy. Microwave reheating will make them soggy.",
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Heavy-bottomed pot or Dutch oven",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Deep-fry thermometer",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Strong piping bag",
+        "required": true,
+        "alternative": "Double-layered heavy duty zip-top bag"
+      },
+      {
+        "name": "Large star pastry tip",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Medium saucepan",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Wooden spoon",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Spider skimmer or slotted spoon",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Wire cooling rack",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowls",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Scissors",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Cinnamon Sugar Coating",
+        "items": [
+          {
+            "name": "granulated sugar",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cinnamon",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a789fa1a-78af-4718-b6f8-1a3bb6a6c92d",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Chocolate Dipping Sauce",
+        "items": [
+          {
+            "name": "dark chocolate",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": "60 to 70 percent cacao",
+            "substitutions": [],
+            "ingredient_id": "973a4f9c-a487-4704-9c32-f749af4ab8d8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "heavy cream",
+            "quantity": 120,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 2,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": "a small pinch",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Churro Dough (Pate a Choux base)",
+        "items": [
+          {
+            "name": "water",
+            "quantity": 240,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "unsalted butter",
+            "quantity": 115,
+            "unit": "g",
+            "preparation": "cubed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "eaea8246-f7e7-43d0-98b1-6e668894fea1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "all-purpose flour",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "large eggs",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "room temperature",
+            "notes": "about 150g total without shell",
+            "substitutions": [],
+            "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Frying",
+        "items": [
+          {
+            "name": "vegetable oil",
+            "quantity": 1000,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "or canola oil, for deep frying",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": null
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In a shallow dish, combine the 100g granulated sugar and 5g ground cinnamon for the coating. Mix well and set aside.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Place the chopped dark chocolate in a heatproof bowl. In a small saucepan, heat the heavy cream until just simmering. Pour the hot cream over the chocolate, let sit for 1 minute, then whisk until smooth. Stir in the vanilla extract and pinch of salt. Cover and keep warm.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "In a medium saucepan, combine the water, butter, sugar, and salt. Bring to a rolling boil over medium-high heat.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "Butter is completely melted and liquid is bubbling rapidly",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Reduce the heat to low. Add the all-purpose flour all at once and stir vigorously with a wooden spoon until a dough ball forms and pulls away from the sides of the pan. Continue to cook and stir for 1 to 2 minutes to cook out the raw flour taste.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "A smooth dough ball forms with a thin film of cooked dough on the bottom of the pan",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "Transfer the dough to a mixing bowl and let it cool for 5 minutes. Add the vanilla extract, then beat in the eggs one at a time, making sure each egg is fully incorporated before adding the next. The dough will look separated at first but will come together into a thick, smooth, and pipeable paste.",
+        "structured": {
+          "action": "BEAT",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "Dough should slowly fall from a spatula in a V-shape"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "prep",
+        "text": "Transfer the dough to a strong piping bag fitted with a large star tip. Squeeze the bag to remove any trapped air pockets.",
+        "structured": {
+          "action": "SHAPE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "In a heavy-bottomed pot, heat about 5 centimeters of vegetable oil to 190C/375F. Use a deep-fry thermometer to monitor the temperature.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 190,
+            "fahrenheit": 374
+          },
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "cook",
+        "text": "Holding the piping bag carefully above the hot oil, pipe 10 to 12 centimeter lengths of dough into the oil. Use scissors to snip the dough at the tip. Fry 3 to 4 churros at a time, turning occasionally, until deep golden brown all over.",
+        "structured": {
+          "action": "FRY",
+          "temperature": {
+            "celsius": 190,
+            "fahrenheit": 374
+          },
+          "duration": "PT4M",
+          "doneness_cues": {
+            "visual": "Deep golden brown color",
+            "tactile": "Crisp and firm shell"
+          }
+        },
+        "tips": [
+          "Do not overcrowd the pot, which will lower the oil temperature rapidly.",
+          "Maintain the oil temperature between 185C and 190C during frying."
+        ]
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Use a spider skimmer to transfer the fried churros to a wire cooling rack set over paper towels. Let them drain for 15 to 30 seconds, then toss them in the cinnamon sugar mixture while they are still warm.",
+        "structured": {
+          "action": "DREDGE",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "serve",
+        "text": "Serve the churros warm immediately, alongside the warm chocolate sauce for dipping.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Churros are raw in the middle but dark on the outside",
+        "likely_cause": "The oil temperature was too high or the dough was piped too thick.",
+        "prevention": "Strictly maintain oil temperature at 190C/375F. Ensure you are using a star tip, which increases surface area for even cooking.",
+        "fix": "Bake in a 180C/350F oven for 5 minutes to finish cooking the centers."
+      },
+      {
+        "symptom": "Churros explode or pop violently in the hot oil",
+        "likely_cause": "Air pockets trapped inside the dough or a smooth round pastry tip was used.",
+        "prevention": "Squeeze all air out of the piping bag before tying it off. Always use a star tip; the ridges allow steam to escape the dough safely during frying.",
+        "fix": "Cannot be fixed. Discard and re-pipe safely."
+      },
+      {
+        "symptom": "Dough is too runny and loses shape when piped",
+        "likely_cause": "Too much liquid or eggs were too large. Measuring volume instead of weight.",
+        "prevention": "Weigh the eggs and water accurately. If the dough seems too loose, do not add the final egg.",
+        "fix": "Pipe onto parchment paper, freeze until solid, and fry directly from frozen."
+      }
+    ],
+    "chef_notes": [
+      "The star tip is not merely decorative. The ridges increase the dough's surface area, ensuring the center cooks fully before the exterior burns, and allows internal steam to escape safely.",
+      "Allowing the cooked flour base to cool slightly before adding eggs is a critical step; if it is too hot, the eggs will scramble and ruin the dough structure.",
+      "Frying temperature management is the secret to perfect churros. If the oil drops below 180C/350F, the dough absorbs the oil and becomes greasy and heavy.",
+      "If your piping bag feels dangerously hot to hold or is difficult to squeeze, wrap it in a kitchen towel. This provides a better grip and protects your hands from the warm dough."
+    ],
+    "cultural_context": "While churros share ancestral DNA with Chinese youtiao and were heavily shaped by Spanish and Portuguese maritime exploration, they have become an iconic pillar of Mexican street food culture. Unlike Spanish churros which are often lightly dusted in plain sugar, Mexican churros are distinctively dredged in a generous coating of cinnamon sugar immediately out of the fryer. They are traditionally consumed for breakfast or late-night merienda, famously paired with rich drinking chocolate or masa-thickened champurrado.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 823.9,
+        "protein_g": 11.65,
+        "carbohydrates_g": 82.23,
+        "fat_g": 50.17,
+        "saturated_fat_g": 29.78,
+        "trans_fat_g": 0.43,
+        "monounsaturated_fat_g": 14.54,
+        "polyunsaturated_fat_g": 2.63,
+        "fiber_g": 4.38,
+        "sugar_g": 47.36,
+        "sodium_mg": 463.96,
+        "cholesterol_mg": 237.84,
+        "potassium_mg": 349.21,
+        "calcium_mg": 89.12,
+        "iron_mg": 4.31,
+        "magnesium_mg": 74,
+        "phosphorus_mg": 220.21,
+        "zinc_mg": 1.67,
+        "vitamin_a_mcg": 380.89,
+        "vitamin_c_mg": 0.23,
+        "vitamin_d_mcg": 1.23,
+        "vitamin_e_mg": 1.6,
+        "vitamin_k_mcg": 6.59,
+        "vitamin_b6_mg": 0.11,
+        "vitamin_b12_mcg": 0.52,
+        "thiamin_mg": 0.08,
+        "riboflavin_mg": 0.28,
+        "niacin_mg": 0.84,
+        "folate_mcg": 29.51,
+        "water_g": 116.44,
+        "alcohol_g": 0.6,
+        "caffeine_mg": 17.63
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14770,
+    "monthly_limit": 15000,
+    "daily_remaining": 309,
+    "daily_limit": 500
+  }
+}

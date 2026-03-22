@@ -1,0 +1,412 @@
+{
+  "data": {
+    "id": "0502213a-d851-4d44-94e2-0137116cc1e8",
+    "name": "Hearty Minestrone Soup",
+    "description": "A comforting, thick, and vibrant Italian vegetable soup simmering with seasonal vegetables, creamy cannellini beans, and tender small pasta in a rich tomato-herb broth.",
+    "category": "Soup",
+    "cuisine": "Italian",
+    "difficulty": "Easy",
+    "tags": [
+      "Italian",
+      "Soup",
+      "Vegetables",
+      "Vegetarian",
+      "Easy",
+      "Comfort Food",
+      "One Pot"
+    ],
+    "meta": {
+      "active_time": "PT20M",
+      "passive_time": "PT40M",
+      "total_time": "PT1H",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 400
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Egg-Free",
+        "Nut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Pasta will continue to absorb liquid; you may need to add extra broth or water when reheating.",
+        "duration": "P4D"
+      },
+      "freezer": {
+        "notes": "Freeze without pasta for best results. Add fresh cooked pasta when reheating.",
+        "duration": "P3M"
+      },
+      "reheating": "Warm gently on the stovetop over medium heat until simmering, adding a splash of water or broth if it has thickened too much.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Large pot",
+        "required": true,
+        "alternative": "Dutch oven"
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Chef's knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Wooden spoon",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Soffritto Base",
+        "items": [
+          {
+            "name": "extra virgin olive oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "yellow onion",
+            "quantity": null,
+            "unit": null,
+            "preparation": "diced",
+            "notes": "about 150g",
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "carrots",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "diced",
+            "notes": "about 120g",
+            "substitutions": [],
+            "ingredient_id": "9d020677-cb7a-444c-98e3-1a982ae39df4",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "celery",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "diced",
+            "notes": "about 100g",
+            "substitutions": [],
+            "ingredient_id": "174de298-3765-49e2-821b-415a9f6213d1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "minced",
+            "notes": "about 15g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Vegetables and Broth",
+        "items": [
+          {
+            "name": "zucchini",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "diced",
+            "notes": "about 200g",
+            "substitutions": [],
+            "ingredient_id": "c34b610f-8869-4d77-a9b3-e01849d703b5",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "green beans",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "trimmed and cut into 2cm pieces",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8b7e6e4d-368f-454b-9f38-1d55c66b40e4",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "crushed tomatoes",
+            "quantity": 400,
+            "unit": "g",
+            "preparation": "canned",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b0df7b21-9ae6-48bc-bcd7-892e96510899",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "vegetable broth",
+            "quantity": 900,
+            "unit": "ml",
+            "preparation": "low-sodium preferred",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "624c665f-ba9e-4934-afc4-5580e395913a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Hearty Elements and Seasoning",
+        "items": [
+          {
+            "name": "cannellini beans",
+            "quantity": 240,
+            "unit": "g",
+            "preparation": "canned, rinsed and drained",
+            "notes": "yield from one standard 400g can",
+            "substitutions": [],
+            "ingredient_id": "338d5b1f-5e90-4e7f-b286-e827b78558e9",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "small pasta",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "dry",
+            "notes": "ditalini or macaroni work best",
+            "substitutions": [
+              "gluten-free small pasta"
+            ],
+            "ingredient_id": "c3d19c9d-f603-44a1-b9e4-cbff540218ef",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "dried oregano",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "687f54eb-e811-4e5e-ac2e-e2735458480c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "dried basil",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b8e7f2da-8acf-4d15-b5a7-141d3726ff08",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": "adjust to taste",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "black pepper",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": "freshly cracked",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c25dc1c9-4ea7-403c-976e-ab1d06578b7a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vegetarian hard cheese",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "grated",
+            "notes": "parmesan-style, ensuring no animal rennet",
+            "substitutions": [],
+            "ingredient_id": "f637b882-56bc-4ac8-86d5-c508da7d6712",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Prepare all vegetables by dicing the onion, carrots, celery, and zucchini into uniform, bite-sized pieces to ensure even cooking.",
+        "structured": {
+          "action": "CHOP",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Heat the extra virgin olive oil in a large pot or Dutch oven over medium heat. Add the diced onion, carrots, and celery. Sauté until the vegetables are softened and the onions are translucent, about 7 to 8 minutes.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT8M",
+          "doneness_cues": {
+            "visual": "Onions are translucent and vegetables are slightly softened but not browned",
+            "tactile": "Carrots yield slightly when pressed with a wooden spoon"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Stir in the minced garlic, dried oregano, and dried basil. Cook for 1 minute until highly fragrant, stirring continuously to prevent the garlic from burning.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Pour in the crushed tomatoes and vegetable broth. Increase the heat to medium-high to bring the liquid to a gentle boil around 100°C/212°F, then immediately reduce the heat to low to maintain a steady simmer.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Add the diced zucchini, green beans, kosher salt, and black pepper. Cover the pot partially and simmer for 15 minutes, allowing the flavors to meld and the vegetables to become tender.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Stir in the drained cannellini beans and the dry small pasta. Continue to simmer uncovered for another 10 to 12 minutes, stirring occasionally, until the pasta is cooked al dente.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT12M",
+          "doneness_cues": {
+            "visual": "Pasta is fully hydrated and swollen",
+            "tactile": "Pasta offers slight resistance when bitten, vegetables are completely tender"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "finish",
+        "text": "Remove the pot from the heat. Taste the broth and adjust the seasoning with more salt or pepper if necessary. Ladle into warm bowls and top with a sprinkle of grated vegetarian hard cheese if desired.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Soup becomes too thick and pasta is mushy",
+        "likely_cause": "The pasta was cooked directly in the soup and left to sit, absorbing the broth as it rested.",
+        "prevention": "If making ahead of time or expecting leftovers, cook the pasta in a separate pot of boiling salted water and add it to individual serving bowls instead of the main pot.",
+        "fix": "Stir in additional warm vegetable broth or water a little at a time until the desired soup consistency is reached."
+      },
+      {
+        "symptom": "Vegetables are unevenly cooked",
+        "likely_cause": "Vegetables were cut into drastically different sizes, causing smaller pieces to turn to mush while larger pieces remained crunchy.",
+        "prevention": "Take time during the prep phase to dice the carrots, celery, onion, and zucchini into uniform pieces.",
+        "fix": "Cannot be fixed once cooked, but simmering slightly longer may soften the hard pieces at the expense of the softer ones."
+      }
+    ],
+    "chef_notes": [
+      "Minestrone is a clean-out-the-fridge soup; feel free to swap in seasonal vegetables like butternut squash or kale in the winter, or asparagus and peas in the spring.",
+      "If you have a leftover rind of vegetarian parmesan-style cheese, drop it into the soup during the simmering phase. It acts as an umami bomb and adds incredible depth to the broth. Remember to fish it out before serving.",
+      "For a brighter finish, stir in a teaspoon of fresh lemon juice or a splash of red wine vinegar right before serving to elevate the rich tomato flavor.",
+      "Rinsing canned beans thoroughly is crucial. The packing liquid is starchy and contains excess sodium, which can make the soup broth murky and overly salty."
+    ],
+    "cultural_context": "Minestrone translates roughly to big soup in Italian, historically rooted in the rural peasant tradition of cucina povera. It was traditionally prepared to utilize leftover vegetables, legumes, and whatever was abundantly growing in the garden. Because there is no fixed, authoritative recipe for minestrone, it beautifully reflects the changing seasons and diverse regional agricultural landscapes of Italy.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 425.23,
+        "protein_g": 21.72,
+        "carbohydrates_g": 71.95,
+        "fat_g": 11.09,
+        "saturated_fat_g": 2.51,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 6.14,
+        "polyunsaturated_fat_g": 1.13,
+        "fiber_g": 13.9,
+        "sugar_g": 12.51,
+        "sodium_mg": 1781.34,
+        "cholesterol_mg": 5.1,
+        "potassium_mg": 1395.46,
+        "calcium_mg": 294.65,
+        "iron_mg": 7.43,
+        "magnesium_mg": 146.46,
+        "phosphorus_mg": 337.16,
+        "zinc_mg": 3.05,
+        "vitamin_a_mcg": 339.52,
+        "vitamin_c_mg": 29.46,
+        "vitamin_d_mcg": 0.04,
+        "vitamin_e_mg": 1.71,
+        "vitamin_k_mcg": 41.55,
+        "vitamin_b6_mg": 0.35,
+        "vitamin_b12_mcg": 0.09,
+        "thiamin_mg": 0.36,
+        "riboflavin_mg": 0.28,
+        "niacin_mg": 2.97,
+        "folate_mcg": 104.78,
+        "water_g": 381.09,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14762,
+    "monthly_limit": 15000,
+    "daily_remaining": 301,
+    "daily_limit": 500
+  }
+}

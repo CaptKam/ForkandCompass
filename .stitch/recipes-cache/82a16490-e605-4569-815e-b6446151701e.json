@@ -1,0 +1,411 @@
+{
+  "data": {
+    "id": "82a16490-e605-4569-815e-b6446151701e",
+    "name": "Chicken Pad See Ew",
+    "description": "A classic Thai stir-fried noodle dish featuring chewy wide rice noodles, tender marinated chicken, and crisp Chinese broccoli, all tossed in a savory, slightly sweet, and deeply caramelized soy sauce.",
+    "category": "Dinner",
+    "cuisine": "Thai",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Asian",
+      "Thai",
+      "Dinner",
+      "Lunch",
+      "Main Course",
+      "Stir-Fry",
+      "Noodles",
+      "Street Food"
+    ],
+    "meta": {
+      "active_time": "PT20M",
+      "passive_time": "PT15M",
+      "total_time": "PT35M",
+      "overnight_required": false,
+      "yields": "2 servings",
+      "yield_count": 2,
+      "serving_size_g": 500
+    },
+    "dietary": {
+      "flags": [
+        "Dairy-Free"
+      ],
+      "not_suitable_for": [
+        "Soy allergy sufferers",
+        "Gluten intolerance (unless using gluten-free soy sauces)"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Noodles will harden in the fridge. Best reheated with a small splash of water to restore texture.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended as it severely degrades the texture of the fresh rice noodles.",
+        "duration": null
+      },
+      "reheating": "Microwave covered with a damp paper towel until hot, or briefly saute in a pan with a splash of water.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Carbon steel wok",
+        "required": true,
+        "alternative": "Large heavy-bottomed skillet"
+      },
+      {
+        "name": "Wok spatula",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Small bowl",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Chicken and Marinade",
+        "items": [
+          {
+            "name": "chicken breast",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": "sliced thinly against the grain",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2b577d04-33ca-4919-938f-bfc8780a3a4b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "light soy sauce",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cornstarch",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e37d9484-8bf9-4d9a-a6c8-22a597cbb237",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Stir-Fry Sauce",
+        "items": [
+          {
+            "name": "dark soy sauce",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "Provides the signature dark color and slight molasses flavor",
+            "substitutions": [],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "oyster sauce",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "f6dc3673-ea10-41e9-b5d4-0bd87242aadb",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "light soy sauce",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "white vinegar",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "bcd70aae-3e70-4329-9336-529bc3e36652",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Noodles and Vegetables",
+        "items": [
+          {
+            "name": "fresh wide rice noodles",
+            "quantity": 400,
+            "unit": "g",
+            "preparation": "gently separated by hand",
+            "notes": "Also known as ho fun or sen yai",
+            "substitutions": [
+              "dried wide rice noodles, soaked according to package instructions"
+            ],
+            "ingredient_id": "9778a74b-22cd-4e7d-9124-703c63b4d785",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "chinese broccoli",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "leaves roughly chopped, stems sliced thinly",
+            "notes": "Also known as gai lan",
+            "substitutions": [
+              "regular broccoli florets"
+            ],
+            "ingredient_id": "d76b34d6-ab24-47c9-95a6-fe49dc10c82f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "minced",
+            "notes": "About 3-4 cloves",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "egg",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "lightly beaten",
+            "notes": "About 100g total",
+            "substitutions": [],
+            "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "neutral cooking oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "Such as canola, peanut, or vegetable oil",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In a mixing bowl, combine the sliced chicken breast, light soy sauce, and cornstarch. Mix thoroughly until the chicken is evenly coated. Set aside to marinate for 15 minutes.",
+        "structured": {
+          "action": "MARINATE",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a small bowl, whisk together the dark soy sauce, oyster sauce, light soy sauce, granulated sugar, white vinegar, and water until the sugar is fully dissolved.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Heat half of the neutral oil in a carbon steel wok over high heat until it begins to smoke. Add the marinated chicken and spread it into a single layer. Sear without moving for 1 minute to develop color, then stir continuously until the chicken is cooked through and reaches an internal temperature of 74C or 165F. Remove the chicken from the wok and set aside.",
+        "structured": {
+          "action": "SEAR",
+          "temperature": {
+            "celsius": 74,
+            "fahrenheit": 165
+          },
+          "duration": "PT3M",
+          "doneness_cues": {
+            "visual": "Opaque throughout with browned edges",
+            "tactile": "Firm to the touch"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Wipe the wok clean if necessary, then add the remaining oil over medium-high heat. Add the minced garlic and sliced Chinese broccoli stems. Saute for 30 seconds until fragrant and slightly softened.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT30S",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Push the aromatics and stems to one side of the wok. Pour the lightly beaten eggs into the empty space. Allow them to set for a few seconds, then break them apart and scramble until fully cooked.",
+        "structured": {
+          "action": "FRY",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": {
+            "visual": "Fully set and fluffy, with no runny spots",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Increase the heat to high. Add the separated fresh rice noodles, Chinese broccoli leaves, cooked chicken, and the prepared stir-fry sauce. Toss rapidly and continuously to ensure the noodles are evenly coated in the sauce and the leaves wilt.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "finish",
+        "text": "Stop stirring and spread the noodles into an even layer in the wok. Let them sit completely undisturbed for 15 to 20 seconds to caramelize the soy sauce and develop char on the edges of the noodles. Give one final toss to distribute the charred bits.",
+        "structured": {
+          "action": "CARAMELIZE",
+          "temperature": null,
+          "duration": "PT20S",
+          "doneness_cues": {
+            "visual": "Dark brown, slightly blistered spots on the edges of the noodles",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "This step is crucial for achieving wok hei, the signature smoky flavor of authentic stir-fries."
+        ]
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Remove the wok from the heat immediately. Portion the noodles into bowls and serve hot.",
+        "structured": {
+          "action": "PLATE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Fresh rice noodles are breaking into tiny pieces in the wok.",
+        "likely_cause": "Noodles were too cold, stale, or forced apart aggressively.",
+        "prevention": "Microwave the unopened package of fresh noodles for 30 to 60 seconds to soften them before gently separating by hand.",
+        "fix": "Cannot be fixed once broken, but will still taste delicious as a chopped noodle dish."
+      },
+      {
+        "symptom": "The dish is soggy or pooled with liquid.",
+        "likely_cause": "Wok was not hot enough or the ingredients were overcrowded, causing them to steam instead of fry.",
+        "prevention": "Ensure the wok is smoking hot before adding ingredients, and cook in two separate batches if your stove lacks power.",
+        "fix": "Continue cooking over the highest possible heat until the excess liquid evaporates."
+      }
+    ],
+    "chef_notes": [
+      "Wok hei, or breath of the wok, is the defining characteristic of restaurant-quality Pad See Ew. Achieving this at home requires a properly heated carbon steel wok and giving the noodles a moment to sit undisturbed in the pan to char.",
+      "Preparation is everything. This dish cooks in under ten minutes once you begin frying. Have all ingredients measured, chopped, and grouped within reach before turning on the stove.",
+      "The cornstarch marinade on the chicken is a technique called velveting. It provides a protective barrier against the intense heat of the wok, ensuring the meat remains remarkably tender."
+    ],
+    "cultural_context": "Pad See Ew translates to stir-fried soy sauce. It is one of the most popular street food dishes in Thailand, historically influenced by Chinese immigrants who introduced soy sauce and stir-frying techniques. Unlike the sour and nutty profile of Pad Thai, Pad See Ew relies on the deep, savory, and slightly sweet caramelization of dark soy sauce.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 714.83,
+        "protein_g": 39.8,
+        "carbohydrates_g": 63.94,
+        "fat_g": 32.53,
+        "saturated_fat_g": 7.21,
+        "trans_fat_g": 0.14,
+        "monounsaturated_fat_g": 6.74,
+        "polyunsaturated_fat_g": 3.81,
+        "fiber_g": 4.4,
+        "sugar_g": 6.09,
+        "sodium_mg": 2046.54,
+        "cholesterol_mg": 266,
+        "potassium_mg": 722.39,
+        "calcium_mg": 154.93,
+        "iron_mg": 3.15,
+        "magnesium_mg": 82.05,
+        "phosphorus_mg": 452.1,
+        "zinc_mg": 2.81,
+        "vitamin_a_mcg": 174.5,
+        "vitamin_c_mg": 24.55,
+        "vitamin_d_mcg": 1.5,
+        "vitamin_e_mg": 1.31,
+        "vitamin_k_mcg": 67.11,
+        "vitamin_b6_mg": 0.97,
+        "vitamin_b12_mcg": 0.9,
+        "thiamin_mg": 0.23,
+        "riboflavin_mg": 0.53,
+        "niacin_mg": 13.74,
+        "folate_mcg": 114.05,
+        "water_g": 383.86,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14744,
+    "monthly_limit": 15000,
+    "daily_remaining": 283,
+    "daily_limit": 500
+  }
+}

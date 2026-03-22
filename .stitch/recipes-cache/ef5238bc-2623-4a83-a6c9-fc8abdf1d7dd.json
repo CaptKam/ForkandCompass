@@ -1,0 +1,392 @@
+{
+  "data": {
+    "id": "ef5238bc-2623-4a83-a6c9-fc8abdf1d7dd",
+    "name": "Classic Tiramisu",
+    "description": "A velvety, no-bake Italian masterpiece featuring layers of espresso-soaked Savoiardi biscuits and a rich, airy mascarpone sabayon. The dessert balances the bitterness of cocoa and coffee with the sweet creaminess of the filling.",
+    "category": "Dessert",
+    "cuisine": "Italian",
+    "difficulty": "intermediate",
+    "tags": [
+      "Italian",
+      "No-Bake",
+      "Party Favor",
+      "Coffee",
+      "Make-Ahead"
+    ],
+    "meta": {
+      "active_time": "PT45M",
+      "passive_time": "PT6H",
+      "total_time": "PT6H45M",
+      "overnight_required": true,
+      "yields": "8 servings",
+      "yield_count": 8,
+      "serving_size_g": 180
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Nut-Free"
+      ],
+      "not_suitable_for": [
+        "Infants under 12 months",
+        "Pregnant women (if using raw unpasteurized eggs)",
+        "Individuals avoiding alcohol"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Cover tightly with plastic wrap to prevent absorbing fridge odors.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freeze without cocoa topping. Thaw in refrigerator overnight.",
+        "duration": "P1M"
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Stand mixer or electric hand mixer",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Large mixing bowls",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Rectangular baking dish (approx 23x33cm)",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Rubber spatula",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Fine mesh sieve",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Mascarpone Cream",
+        "items": [
+          {
+            "name": "mascarpone cheese",
+            "quantity": 500,
+            "unit": "g",
+            "preparation": "chilled",
+            "notes": "must be high quality and stiff",
+            "substitutions": [],
+            "ingredient_id": "fc428935-3bcd-4cef-8495-7ed35e7dae22",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "pasteurized eggs",
+            "quantity": 4,
+            "unit": null,
+            "preparation": "separated",
+            "notes": "large, approx 200g total without shell",
+            "substitutions": [],
+            "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "divided",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "salt",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": "small pinch",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Soaking Liquid",
+        "items": [
+          {
+            "name": "strong espresso",
+            "quantity": 300,
+            "unit": "ml",
+            "preparation": "cooled to room temperature",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "marsala wine",
+            "quantity": 45,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "sweet Marsala preferred",
+            "substitutions": [
+              "dark rum",
+              "coffee liqueur"
+            ],
+            "ingredient_id": "3c65aad8-87cf-4ee6-a882-daa0fb6c4d28",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Assembly",
+        "items": [
+          {
+            "name": "savoiardi (ladyfingers)",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": null,
+            "notes": "approx 30-40 cookies depending on dish size",
+            "substitutions": [],
+            "ingredient_id": "84baaadc-caa3-4e39-a184-32533b490604",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "unsweetened cocoa powder",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": "for dusting",
+            "substitutions": [],
+            "ingredient_id": "c06a8e5a-163a-4f21-ad00-a6d90e34c38c",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Combine the freshly brewed espresso and Marsala wine in a shallow bowl. Set aside to cool completely to room temperature (approx 20°C/68°F).",
+        "structured": {
+          "action": "MIX",
+          "temperature": {
+            "celsius": 20,
+            "fahrenheit": 68
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a large bowl, whisk egg yolks and 50g of sugar until pale yellow, creamy, and doubled in volume. The mixture should fall in ribbons from the whisk.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "Pale yellow, ribbon stage",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Add the mascarpone to the yolk mixture. Whisk gently on low speed or by hand just until combined and smooth. Do not over-beat or the cheese may curdle/split.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Smooth and homogenous",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "Mascarpone should be cold when added to prevent splitting."
+        ]
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "In a separate clean, grease-free bowl, beat the egg whites with a pinch of salt until frothy. Gradually add the remaining 50g of sugar and whip until stiff peaks form.",
+        "structured": {
+          "action": "WHIP",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Stiff, glossy peaks",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "Gently fold one-third of the whipped egg whites into the mascarpone mixture to lighten it. Then, carefully fold in the remaining whites until no white streaks remain, keeping as much air in the mixture as possible.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Uniform pale cream color, airy texture",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Quickly dip each Savoiardi biscuit into the cooled coffee mixture (1 second per side) and arrange them in a single layer at the bottom of the dish. Do not soak them; they should be moist on the outside but still firm in the center.",
+        "structured": {
+          "action": "DREDGE",
+          "temperature": null,
+          "duration": "PT2S",
+          "doneness_cues": null
+        },
+        "tips": [
+          "If the cookies are too soggy, the tiramisu will collapse."
+        ]
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Spread half of the mascarpone cream mixture evenly over the layer of biscuits.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Repeat with a second layer of dipped biscuits and top with the remaining mascarpone cream. Smooth the top with a spatula.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Cover the dish with plastic wrap and refrigerate for at least 6 hours, preferably overnight, to allow the cream to set and flavors to meld.",
+        "structured": {
+          "action": "CHILL",
+          "temperature": {
+            "celsius": 4,
+            "fahrenheit": 39
+          },
+          "duration": "PT6H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "finish",
+        "text": "Just before serving, place cocoa powder in a fine mesh sieve and generously dust the top of the tiramisu.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Filling is runny or soupy",
+        "likely_cause": "Egg whites were over-mixed or mascarpone was over-beaten causing separation",
+        "prevention": "Fold egg whites gently and stop whisking mascarpone as soon as it is combined",
+        "fix": "Freeze for 1-2 hours before serving to firm up (texture will be more like semifreddo)"
+      },
+      {
+        "symptom": "Base is watery/leaking liquid",
+        "likely_cause": "Ladyfingers were soaked too long",
+        "prevention": "Dip cookies very quickly—just 'in and out' of the coffee",
+        "fix": "Cannot be fixed"
+      }
+    ],
+    "chef_notes": [
+      "Safety First: This authentic recipe uses raw eggs. Ensure you use pasteurized eggs if serving to vulnerable groups (elderly, pregnant, immune-compromised) or cook the yolks with sugar over a bain-marie to 71°C/160°F before mixing.",
+      "The soak is the most critical variable. Different brands of Savoiardi absorb liquid at different rates. Test one cookie first; it should be dark on the outside but white in the center when snapped.",
+      "Do not use pre-ground coffee if possible. Freshly pulled espresso provides the necessary depth of flavor to cut through the rich cheese.",
+      "Allowing the tiramisu to rest overnight drastically improves the flavor and structural integrity, making it easier to slice."
+    ],
+    "cultural_context": "Tiramisu, meaning 'pick me up' or 'cheer me up' in Italian, is a relatively modern dessert, likely originating in the Veneto region (Treviso) in the 1960s or 1970s. It represents the perfect marriage of Italy's coffee culture with its tradition of rich, dairy-based desserts.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 491.44,
+        "protein_g": 10.99,
+        "carbohydrates_g": 55.94,
+        "fat_g": 32.55,
+        "saturated_fat_g": 17.86,
+        "trans_fat_g": 0.01,
+        "monounsaturated_fat_g": 2.49,
+        "polyunsaturated_fat_g": 1.03,
+        "fiber_g": 2.26,
+        "sugar_g": 28.06,
+        "sodium_mg": 172.19,
+        "cholesterol_mg": 175.88,
+        "potassium_mg": 140,
+        "calcium_mg": 171.08,
+        "iron_mg": 2.31,
+        "magnesium_mg": 26.59,
+        "phosphorus_mg": 141.9,
+        "zinc_mg": 1.01,
+        "vitamin_a_mcg": 376.13,
+        "vitamin_c_mg": 1.39,
+        "vitamin_d_mcg": 0.73,
+        "vitamin_e_mg": 0.5,
+        "vitamin_k_mcg": 0.24,
+        "vitamin_b6_mg": 0.09,
+        "vitamin_b12_mcg": 0.5,
+        "thiamin_mg": 0.12,
+        "riboflavin_mg": 0.29,
+        "niacin_mg": 0.89,
+        "folate_mcg": 35.45,
+        "water_g": 63.98,
+        "alcohol_g": null,
+        "caffeine_mg": 8.63
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14789,
+    "monthly_limit": 15000,
+    "daily_remaining": 328,
+    "daily_limit": 500
+  }
+}

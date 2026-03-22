@@ -1,0 +1,475 @@
+{
+  "data": {
+    "id": "9c3733ca-2f8f-433e-8213-b4956dc5156e",
+    "name": "Tiramisu Cookies",
+    "description": "Soft espresso-infused cookies topped with a stable whipped mascarpone cream and a dusting of cocoa powder to replicate the flavors of the classic Italian dessert.",
+    "category": "Dessert",
+    "cuisine": "Italian",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Coffee",
+      "Baking",
+      "Italian-Inspired",
+      "Party Food"
+    ],
+    "meta": {
+      "active_time": "PT35M",
+      "passive_time": "PT40M",
+      "total_time": "PT1H15M",
+      "overnight_required": false,
+      "yields": "12 cookies",
+      "yield_count": 12,
+      "serving_size_g": 83
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight container; the topping contains fresh dairy.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Mascarpone topping does not freeze well due to texture changes.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Oven",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Electric hand mixer",
+        "required": true,
+        "alternative": "Stand mixer or whisk"
+      },
+      {
+        "name": "Sieve",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Baking trays",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Parchment paper",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Piping bag",
+        "required": true,
+        "alternative": "Plastic bag with a corner cut off"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "cookie base",
+        "items": [
+          {
+            "name": "unsalted butter",
+            "quantity": 110,
+            "unit": "g",
+            "preparation": "softened",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "eaea8246-f7e7-43d0-98b1-6e668894fea1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 80,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "brown sugar",
+            "quantity": 120,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "36d35eb7-2cba-4de4-8ec0-8b95c235c0e0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla bean paste",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "egg",
+            "quantity": 1,
+            "unit": null,
+            "preparation": null,
+            "notes": "approx 50g",
+            "substitutions": [],
+            "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "espresso powder",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "68df3797-71cf-4765-ad9f-98527dbed2a2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "all-purpose flour",
+            "quantity": 230,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "11e03c79-4bf6-47ed-babb-753b1a9789c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "baking powder",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c119cded-8cf7-4a52-80b8-03c25d8efa50",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "mascarpone topping",
+        "items": [
+          {
+            "name": "mascarpone",
+            "quantity": 180,
+            "unit": "g",
+            "preparation": "chilled",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "fc428935-3bcd-4cef-8495-7ed35e7dae22",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "heavy cream",
+            "quantity": 110,
+            "unit": "ml",
+            "preparation": "chilled",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla bean paste",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "icing sugar",
+            "quantity": 85,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "348e3418-0252-4e05-80e2-4ee53081f4c8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cocoa powder",
+            "quantity": 6,
+            "unit": "g",
+            "preparation": "for dusting",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c06a8e5a-163a-4f21-ad00-a6d90e34c38c",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 180°C (350°F).",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 180,
+            "fahrenheit": 356
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Cream the softened butter, granulated sugar, brown sugar, and vanilla bean paste in a bowl until the mixture is light and fluffy.",
+        "structured": {
+          "action": "CREAM",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Lightened in color and increased in volume",
+            "tactile": "Smooth and no longer gritty"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Add the egg to the butter mixture and beat until it is fully incorporated.",
+        "structured": {
+          "action": "BEAT",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Sieve the espresso powder, flour, and baking powder into the mixing bowl.",
+        "structured": {
+          "action": "SIFT",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "Stir the ingredients together until a cohesive dough forms.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "prep",
+        "text": "Place the dough in the refrigerator to chill for 10 minutes.",
+        "structured": {
+          "action": "CHILL",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Divide the chilled dough into 12 equal portions, weighing approximately 50g each.",
+        "structured": {
+          "action": "SHAPE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Arrange the dough balls on baking trays lined with parchment paper, leaving space between them for spreading.",
+        "structured": {
+          "action": "MEASURE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "cook",
+        "text": "Bake the cookies for 10 minutes at 180°C (350°F).",
+        "structured": {
+          "action": "BAKE",
+          "temperature": {
+            "celsius": 180,
+            "fahrenheit": 356
+          },
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "finish",
+        "text": "Remove the cookies from the oven and allow them to cool completely on the trays.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "Firm to the touch and room temperature"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 11,
+        "phase": "prep",
+        "text": "Combine the mascarpone, heavy cream, vanilla, and icing sugar in a clean mixing bowl.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 12,
+        "phase": "prep",
+        "text": "Whisk the mixture until stiff peaks form, ensuring you do not over-mix.",
+        "structured": {
+          "action": "WHIP",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Peaks stand straight up when the whisk is lifted",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 13,
+        "phase": "finish",
+        "text": "Pipe a swirl of the mascarpone cream onto each cooled cookie.",
+        "structured": {
+          "action": "PIPE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 14,
+        "phase": "finish",
+        "text": "Dust the tops with cocoa powder and serve immediately.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Mascarpone topping is runny or flat",
+        "likely_cause": "The cream or mascarpone was too warm before whisking, or it was under-whisked.",
+        "prevention": "Ensure all dairy ingredients and the mixing bowl are thoroughly chilled.",
+        "fix": "Chill the mixture for 20 minutes and attempt to whisk again briefly."
+      },
+      {
+        "symptom": "Cookies spread into one large sheet",
+        "likely_cause": "The dough was not chilled sufficiently or the oven was not at the correct temperature.",
+        "prevention": "Do not skip the 10-minute refrigeration step and use an oven thermometer.",
+        "fix": "Cannot be fixed once baked."
+      }
+    ],
+    "chef_notes": [
+      "Ensure your butter and egg are truly at room temperature for optimal creaming, which incorporates air for a lighter cookie texture.",
+      "Don't overwork the cookie dough after adding the dry ingredients; mix just until combined to prevent tough cookies.",
+      "For a more intense espresso flavor, you can dissolve the espresso powder in a tablespoon of hot water before adding it to the wet ingredients.",
+      "When whipping the mascarpone cream, ensure all ingredients and your bowl are well-chilled to achieve stiff, stable peaks without curdling.",
+      "For a more authentic tiramisu experience, consider lightly brushing the cooled cookies with a coffee liqueur mixture before topping with the mascarpone cream."
+    ],
+    "cultural_context": "Tiramisu, meaning 'pick me up' in Italian, is a beloved dessert originating from the Veneto region of Italy. While its exact origins are debated, it rose to international fame in the latter half of the 20th century. This cookie adaptation captures the essence of the classic dessert's coffee and mascarpone flavors in a more portable and shareable format.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 333.34,
+        "protein_g": 3.85,
+        "carbohydrates_g": 44.31,
+        "fat_g": 17.7,
+        "saturated_fat_g": 10.69,
+        "trans_fat_g": 0.12,
+        "monounsaturated_fat_g": 3.17,
+        "polyunsaturated_fat_g": 0.58,
+        "fiber_g": 0.82,
+        "sugar_g": 25.1,
+        "sodium_mg": 63.6,
+        "cholesterol_mg": 45.57,
+        "potassium_mg": 103.91,
+        "calcium_mg": 80.99,
+        "iron_mg": 1.22,
+        "magnesium_mg": 13.24,
+        "phosphorus_mg": 53.5,
+        "zinc_mg": 0.26,
+        "vitamin_a_mcg": 187.44,
+        "vitamin_c_mg": 0.06,
+        "vitamin_d_mcg": 0.23,
+        "vitamin_e_mg": 0.35,
+        "vitamin_k_mcg": 1.04,
+        "vitamin_b6_mg": 0.02,
+        "vitamin_b12_mcg": 0.07,
+        "thiamin_mg": 0.16,
+        "riboflavin_mg": 0.14,
+        "niacin_mg": 1.52,
+        "folate_mcg": 37.94,
+        "water_g": 12.9,
+        "alcohol_g": 0.29,
+        "caffeine_mg": 40.4
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14787,
+    "monthly_limit": 15000,
+    "daily_remaining": 326,
+    "daily_limit": 500
+  }
+}

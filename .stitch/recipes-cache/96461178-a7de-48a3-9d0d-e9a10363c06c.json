@@ -1,0 +1,323 @@
+{
+  "data": {
+    "id": "96461178-a7de-48a3-9d0d-e9a10363c06c",
+    "name": "Creamy Avocado Hummus",
+    "description": "A vibrant, velvety fusion of classic Middle Eastern hummus and Mexican guacamole. This bright green dip combines creamy chickpeas, rich avocado, nutty tahini, and zesty lime for a refreshing appetizer.",
+    "category": "Appetizer",
+    "cuisine": "Fusion",
+    "difficulty": "Easy",
+    "tags": [
+      "avocado",
+      "hummus",
+      "appetizer",
+      "dip",
+      "vegetarian",
+      "vegan",
+      "fusion",
+      "quick"
+    ],
+    "meta": {
+      "active_time": "PT10M",
+      "passive_time": "PT0M",
+      "total_time": "PT10M",
+      "overnight_required": false,
+      "yields": "400g",
+      "yield_count": 8,
+      "serving_size_g": 50
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Gluten-Free",
+        "Dairy-Free",
+        "Egg-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight container with a piece of plastic wrap pressed directly against the surface of the hummus to prevent oxidation.",
+        "duration": "P2D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended as the avocado will become watery and discolored upon thawing.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Food processor",
+        "required": true,
+        "alternative": "High-powered blender"
+      },
+      {
+        "name": "Spatula",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Produce",
+        "items": [
+          {
+            "name": "avocado",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "halved, pitted, and peeled",
+            "notes": "use a large, very ripe avocado; yields about 150g flesh",
+            "substitutions": [],
+            "ingredient_id": "35c8f26f-d008-407a-9bf3-48c8aa641729",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [
+              "lemon juice"
+            ],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "peeled",
+            "notes": "about 4g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh cilantro",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "roughly chopped",
+            "notes": "leaves and tender stems only",
+            "substitutions": [
+              "fresh parsley"
+            ],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Pantry & Base",
+        "items": [
+          {
+            "name": "canned chickpeas",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": "drained and rinsed well",
+            "notes": "save the liquid or aquafaba for other uses if desired",
+            "substitutions": [],
+            "ingredient_id": "bc61d002-fe4c-464e-97fc-4323b3f26855",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "tahini",
+            "quantity": 45,
+            "unit": "g",
+            "preparation": "well stirred",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5f248884-1e68-437c-a36a-eb81ba7ac3e2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "extra virgin olive oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "plus extra for garnishing",
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cumin",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b9c9e3cb-61b7-4bbc-87c0-7858d42d7935",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": "adjust to taste",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ice water",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "use as needed to adjust thickness",
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In the bowl of a food processor, combine the lime juice, tahini, garlic, and kosher salt. Process until the mixture becomes pale and whipped.",
+        "structured": {
+          "action": "BLEND",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "pale and slightly thickened paste",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "Whipping the tahini and citrus juice together first creates a much smoother, creamier base emulsion."
+        ]
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Add the drained chickpeas to the food processor and process for one full minute. Stop to scrape down the sides of the bowl with a spatula, then process for another minute.",
+        "structured": {
+          "action": "PUREE",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "thick, mostly smooth paste with no whole chickpeas remaining",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Add the avocado halves, ground cumin, and fresh cilantro to the mixture. Process until the avocado is completely broken down and the hummus turns a uniform bright green color.",
+        "structured": {
+          "action": "PUREE",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "uniform bright green color with no chunks of avocado",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "finish",
+        "text": "With the food processor running, slowly stream in the extra virgin olive oil followed by the ice water. Continue to blend until the hummus reaches a light, airy, and whipped consistency.",
+        "structured": {
+          "action": "EMULSIFY",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": {
+            "visual": "fluffy, creamy, and aerated texture",
+            "tactile": "silky smooth on the palate"
+          }
+        },
+        "tips": [
+          "If the hummus is still too thick, add an additional tablespoon of ice water and process again."
+        ]
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Transfer the avocado hummus to a serving bowl. Use the back of a spoon to create a shallow well in the center, drizzle with a little extra olive oil, and serve immediately.",
+        "structured": {
+          "action": "PLATE",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Hummus has a grainy or chunky texture",
+        "likely_cause": "The avocado was under-ripe, or the chickpeas were not processed long enough",
+        "prevention": "Ensure the avocado yields to gentle pressure before using, and process the chickpeas for at least two full minutes before adding other ingredients",
+        "fix": "Continue processing for an additional 2 to 3 minutes, adding one more tablespoon of ice water to help smooth it out"
+      },
+      {
+        "symptom": "The surface of the hummus has turned brown in the refrigerator",
+        "likely_cause": "Exposure to oxygen has caused the avocado enzymes to oxidize",
+        "prevention": "Always press a piece of plastic wrap directly onto the surface of the dip to block out air before storing",
+        "fix": "Use a spoon to gently scrape off and discard the top brown layer; the bright green hummus underneath is perfectly safe and delicious to eat"
+      }
+    ],
+    "chef_notes": [
+      "Ice water is the culinary secret to ultra-light, airy hummus. The cold temperature helps emulsify the fat in the tahini and olive oil while preventing the high friction of the blender blades from cooking the mixture.",
+      "Lime juice provides a brighter, more complementary acidity to the rich avocado than the traditional lemon juice used in standard hummus, bridging the flavor profile toward guacamole.",
+      "For the absolute silkiest texture, you can boil canned chickpeas for 15 minutes with a pinch of baking soda, then rinse them under cold water to remove the skins before blending. It adds active time but dramatically improves mouthfeel."
+    ],
+    "cultural_context": "This recipe represents a vibrant modern culinary fusion, marrying the ancient Middle Eastern tradition of pureed chickpeas and sesame tahini with the rich, indigenous Mesoamerican avocado. The resulting dish acts as a delicious bridge between classic hummus and guacamole, celebrating the creamy textures and dynamic flavor profiles of both food cultures in a single bowl.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 137.48,
+        "protein_g": 4.3,
+        "carbohydrates_g": 11.88,
+        "fat_g": 9.51,
+        "saturated_fat_g": 1.31,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 4.93,
+        "polyunsaturated_fat_g": 2.03,
+        "fiber_g": 5.46,
+        "sugar_g": 2.98,
+        "sodium_mg": 327.61,
+        "cholesterol_mg": null,
+        "potassium_mg": 325.66,
+        "calcium_mg": 47.1,
+        "iron_mg": 2.66,
+        "magnesium_mg": 11.55,
+        "phosphorus_mg": 55.08,
+        "zinc_mg": 0.36,
+        "vitamin_a_mcg": 5.93,
+        "vitamin_c_mg": 5.14,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 1.09,
+        "vitamin_k_mcg": 6.18,
+        "vitamin_b6_mg": 0.04,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.1,
+        "riboflavin_mg": 0.02,
+        "niacin_mg": 0.48,
+        "folate_mcg": 13.27,
+        "water_g": 23.57,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14772,
+    "monthly_limit": 15000,
+    "daily_remaining": 311,
+    "daily_limit": 500
+  }
+}

@@ -1,0 +1,485 @@
+{
+  "data": {
+    "id": "721b970c-1851-4f79-b830-bc8ef15b2c05",
+    "name": "Classic Moroccan Couscous with Roasted Vegetables and Harissa",
+    "description": "A vibrant, fragrant, and hearty vegetarian dish featuring fluffy steamed couscous, deeply roasted root vegetables, tender chickpeas, and a spicy kick of harissa.",
+    "category": "Dinner",
+    "cuisine": "Moroccan",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Moroccan",
+      "Couscous",
+      "Vegetables",
+      "Dinner",
+      "Vegetarian",
+      "Spicy",
+      "Hearty"
+    ],
+    "meta": {
+      "active_time": "PT30M",
+      "passive_time": "PT35M",
+      "total_time": "PT1H5M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 350
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Dairy-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store harissa dressing separately if possible to maintain optimal texture.",
+        "duration": "P4D"
+      },
+      "freezer": {
+        "notes": "Zucchini may become mushy upon thawing. Best frozen without zucchini.",
+        "duration": "P1M"
+      },
+      "reheating": "Microwave on medium power until warm, or heat in a skillet with a splash of water.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Oven",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Baking sheet",
+        "required": true,
+        "alternative": "Large roasting pan"
+      },
+      {
+        "name": "Saucepan with lid",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Chef knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Fork",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Vegetables and Protein",
+        "items": [
+          {
+            "name": "carrots",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "peeled and sliced into 2cm coins",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "9d020677-cb7a-444c-98e3-1a982ae39df4",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "sweet potato",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": "peeled and cubed",
+            "notes": null,
+            "substitutions": [
+              "butternut squash"
+            ],
+            "ingredient_id": "c656d81f-a846-4e2a-bf00-8d3efd325b60",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "zucchini",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "halved and thickly sliced",
+            "notes": null,
+            "substitutions": [
+              "eggplant"
+            ],
+            "ingredient_id": "d0aa0d47-cefe-4ece-a337-e656f79b74e9",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "red onion",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "cut into wedges",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "canned chickpeas",
+            "quantity": 240,
+            "unit": "g",
+            "preparation": "rinsed and drained",
+            "notes": "drained weight of one standard 400g can",
+            "substitutions": [],
+            "ingredient_id": "145073f5-45bb-493b-bc45-ce71653e9f26",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "minced",
+            "notes": "about 10g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Spices and Oils",
+        "items": [
+          {
+            "name": "olive oil",
+            "quantity": 45,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "divided use",
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ras el hanout",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2ed50ccb-a82e-4e45-af79-3cb5b5af661e",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "salt",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": "adjust to taste",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "harissa paste",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": "adjust depending on spice tolerance",
+            "substitutions": [],
+            "ingredient_id": "815e1d9a-7c22-475e-b8a1-62b49a31b9b4",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Couscous",
+        "items": [
+          {
+            "name": "dry couscous",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": "standard or fine",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "98ca56e9-68ee-4dd1-aab7-c26cca367098",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vegetable broth",
+            "quantity": 300,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "624c665f-ba9e-4934-afc4-5580e395913a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Garnish",
+        "items": [
+          {
+            "name": "fresh parsley",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "roughly chopped",
+            "notes": null,
+            "substitutions": [
+              "fresh coriander"
+            ],
+            "ingredient_id": "3f818392-5426-4c7d-93de-f2451df41f2f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 200 degrees Celsius or 400 degrees Fahrenheit.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a large mixing bowl, combine the carrots, sweet potato, red onion wedges, and chickpeas.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Drizzle the mixed vegetables and chickpeas with 30ml of olive oil, then add the ras el hanout, minced garlic, and salt. Toss thoroughly to coat.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Spread the seasoned vegetables and chickpeas evenly onto a baking sheet. Roast in the preheated oven at 200 degrees Celsius or 400 degrees Fahrenheit for 20 minutes.",
+        "structured": {
+          "action": "ROAST",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": "PT20M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Remove the baking sheet from the oven briefly, add the zucchini slices, toss everything gently, and return to the oven for another 15 minutes until all vegetables are tender and slightly caramelized.",
+        "structured": {
+          "action": "ROAST",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": "PT15M",
+          "doneness_cues": {
+            "visual": "edges are browned and caramelized",
+            "tactile": "vegetables are easily pierced with a fork"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "While the vegetables finish roasting, pour the vegetable broth into a saucepan and bring to a boil over high heat.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "rapid, rolling bubbles",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "Remove the boiling broth from the heat. Stir in the dry couscous and the remaining 15ml of olive oil, then immediately cover the saucepan with a tight-fitting lid.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Let the couscous steep undisturbed off the heat for 5 minutes.",
+        "structured": {
+          "action": "REST",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Remove the lid from the saucepan and gently fluff the couscous with a fork to separate the individual grains.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "light and distinct grains, no clumps",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "Always use a fork rather than a spoon to avoid mashing the delicate grains."
+        ]
+      },
+      {
+        "step_number": 10,
+        "phase": "prep",
+        "text": "In a small bowl, whisk the harissa paste with a tablespoon of warm water to loosen it into a drizzle-able sauce.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 11,
+        "phase": "assemble",
+        "text": "Spread the fluffed couscous onto a large serving platter or divide among individual bowls. Top generously with the roasted vegetables and chickpeas.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 12,
+        "phase": "finish",
+        "text": "Drizzle the loosened harissa sauce over the top and scatter the freshly chopped parsley evenly across the dish.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Couscous is clumpy and mushy",
+        "likely_cause": "Too much liquid or stirred too aggressively while hot",
+        "prevention": "Measure liquid accurately and only use a fork to fluff",
+        "fix": "Spread onto a flat baking sheet to cool slightly and gently break apart clumps with fingers"
+      },
+      {
+        "symptom": "Vegetables are steaming instead of roasting",
+        "likely_cause": "Baking sheet is overcrowded",
+        "prevention": "Use two baking sheets if necessary to ensure vegetables are in a single layer with space between them",
+        "fix": "Increase oven temperature by 10-15 degrees for the last few minutes or transfer half to another pan"
+      },
+      {
+        "symptom": "Dish is overwhelmingly spicy",
+        "likely_cause": "Harissa brand is particularly fiery",
+        "prevention": "Taste the harissa before making the sauce and adjust quantities accordingly",
+        "fix": "Serve with a side of plain yogurt or a squeeze of lemon juice to cut the heat"
+      }
+    ],
+    "chef_notes": [
+      "To build even more flavor, try toasting the dry couscous in a dry skillet for 2-3 minutes until fragrant before adding the boiling broth.",
+      "Zucchini is added later in the roasting process because it contains more water and cooks much faster than dense root vegetables like sweet potato and carrots.",
+      "Ras el hanout is a complex Moroccan spice blend. If you do not have it, a quick substitute can be made by mixing cumin, coriander, cinnamon, ginger, and a pinch of cayenne.",
+      "Do not over-mix the couscous when fluffing. The mechanical action of a spoon will crush the semolina spheres, creating a dense paste."
+    ],
+    "cultural_context": "Couscous is deeply embedded in the culinary traditions of North Africa, particularly Morocco, where it is traditionally steamed multiple times in a couscoussier over a simmering stew. While this roasted vegetable variation is a quicker, modern adaptation suited for weeknight cooking, it honors authentic flavor profiles by pairing the staple grain with the aromatic warmth of ras el hanout and the fiery depth of harissa.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 548.86,
+        "protein_g": 15.75,
+        "carbohydrates_g": 90.01,
+        "fat_g": 14.24,
+        "saturated_fat_g": 1.94,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 8.59,
+        "polyunsaturated_fat_g": 2,
+        "fiber_g": 13.05,
+        "sugar_g": 11.29,
+        "sodium_mg": 1029.93,
+        "cholesterol_mg": null,
+        "potassium_mg": 720.36,
+        "calcium_mg": 122.24,
+        "iron_mg": 3.04,
+        "magnesium_mg": 74.86,
+        "phosphorus_mg": 229.13,
+        "zinc_mg": 1.4,
+        "vitamin_a_mcg": 998.64,
+        "vitamin_c_mg": 15.28,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 2.36,
+        "vitamin_k_mcg": 78.46,
+        "vitamin_b6_mg": 0.46,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.26,
+        "riboflavin_mg": 0.16,
+        "niacin_mg": 3.37,
+        "folate_mcg": 71.95,
+        "water_g": 259.09,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14752,
+    "monthly_limit": 15000,
+    "daily_remaining": 291,
+    "daily_limit": 500
+  }
+}

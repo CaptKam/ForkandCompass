@@ -1,0 +1,408 @@
+{
+  "data": {
+    "id": "e780432e-1aad-4b12-b84f-c4c7f71a42d9",
+    "name": "Grilled Corn and Cotija Guacamole",
+    "description": "A vibrant summer dip merging creamy, rich avocados with the smoky sweetness of charred corn and the salty tang of crumbled Cotija cheese, built on a foundation of pounded aromatics for maximum flavor.",
+    "category": "Appetizer",
+    "cuisine": "Mexican",
+    "difficulty": "Easy",
+    "tags": [
+      "avocado",
+      "corn",
+      "cotija",
+      "guacamole",
+      "summer",
+      "fourth of july",
+      "labor day",
+      "memorial day",
+      "dip",
+      "esquites"
+    ],
+    "meta": {
+      "active_time": "PT20M",
+      "passive_time": "PT10M",
+      "total_time": "PT30M",
+      "overnight_required": false,
+      "yields": "about 600g",
+      "yield_count": 6,
+      "serving_size_g": 100
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Gluten-Free",
+        "Egg-Free",
+        "Soy-Free",
+        "Peanut-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Press plastic wrap directly onto the surface of the guacamole to prevent oxidation.",
+        "duration": "P2D"
+      },
+      "freezer": {
+        "notes": "Freezing destroys the emulsion and texture of fresh avocados.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Grill or grill pan",
+        "required": true,
+        "alternative": "Cast iron skillet"
+      },
+      {
+        "name": "Pastry brush",
+        "required": false,
+        "alternative": null
+      },
+      {
+        "name": "Knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mortar and pestle",
+        "required": true,
+        "alternative": "Heavy mixing bowl and muddler"
+      },
+      {
+        "name": "Mixing spoon",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Aromatics",
+        "items": [
+          {
+            "name": "white onion",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "roughly chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "jalapeno pepper",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "seeded and roughly chopped",
+            "notes": null,
+            "substitutions": [
+              "serrano pepper"
+            ],
+            "ingredient_id": "28f54199-5672-4d2a-9f41-4e4e5cbfa93f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh cilantro",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "stems and leaves chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 4,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Diamond Crystal or similar flaky salt preferred",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Grilled Corn",
+        "items": [
+          {
+            "name": "sweet corn on the cob",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "husked",
+            "notes": "yields about 150g of kernels",
+            "substitutions": [],
+            "ingredient_id": "46ca2aab-cb23-4397-9711-528c234b2cf8",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "neutral cooking oil",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "canola, grapeseed, or avocado oil",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Guacamole Base",
+        "items": [
+          {
+            "name": "hass avocados",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "ripe",
+            "notes": "yields about 450g of flesh",
+            "substitutions": [],
+            "ingredient_id": "2f40a31e-80a0-4265-b6f3-99ed88ee4c24",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cotija cheese",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": "crumbled",
+            "notes": null,
+            "substitutions": [
+              "feta cheese",
+              "queso fresco"
+            ],
+            "ingredient_id": "8ac005dc-dfb4-4067-bc69-5bbfb71c3abf",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "chili powder",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": "for garnish",
+            "substitutions": [],
+            "ingredient_id": "95bf3619-4042-48ea-8f4d-86f61e1721c6",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "cook",
+        "text": "Preheat a grill or heavy grill pan over medium-high heat, reaching approximately 200C/400F.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Using a pastry brush, lightly coat the husked ear of sweet corn with the neutral cooking oil.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Place the corn on the hot grill. Cook, turning occasionally, until charred spots appear on all sides and the kernels are tender, about 10 minutes.",
+        "structured": {
+          "action": "GRILL",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": {
+            "visual": "Deep brown or black charred spots evenly distributed across the kernels",
+            "tactile": "Kernels feel slightly softened when pressed"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Remove the corn from the heat and set it aside to cool completely so it does not melt the avocado fat later.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "Once cool enough to handle, stand the corn vertically on a cutting board and slice the charred kernels off the cob.",
+        "structured": {
+          "action": "SLICE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "prep",
+        "text": "In a mortar and pestle, combine the white onion, jalapeno pepper, fresh cilantro, and kosher salt. Pound the mixture firmly using a circular grinding motion until it forms a wet, fragrant paste.",
+        "structured": {
+          "action": "POUND",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "A green, relatively uniform slurry with released juices",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "prep",
+        "text": "Halve the avocados, remove the pits, and score the flesh with a knife. Scoop the scored flesh directly into the mortar containing the aromatic paste.",
+        "structured": {
+          "action": "SCORE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Using a spoon or the pestle, gently crush and mash the avocado into the paste, stopping while there are still distinct, chunky pieces of avocado remaining.",
+        "structured": {
+          "action": "CRUSH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Cohesive but chunky mixture, not totally smooth",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "assemble",
+        "text": "Gently fold in the cooled charred corn kernels, fresh lime juice, and about 40g of the crumbled Cotija cheese, reserving a small amount of cheese for the final presentation.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "finish",
+        "text": "Transfer the guacamole to a serving bowl. Garnish with the reserved Cotija cheese and a dusting of chili powder if desired, then serve immediately.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Guacamole turns brown quickly",
+        "likely_cause": "The avocado flesh oxidized from exposure to air",
+        "prevention": "Mix in enough lime juice and store with plastic wrap pressed flush against the surface of the dip",
+        "fix": "Skim off the top browned layer with a spoon; the vibrant green guacamole underneath is perfectly safe to eat"
+      },
+      {
+        "symptom": "Guacamole tastes flat or dull",
+        "likely_cause": "Insufficient salt or acid, or aromatics were just chopped instead of pounded",
+        "prevention": "Always pound the aromatics with coarse salt to draw out flavorful essential oils",
+        "fix": "Stir in an extra splash of lime juice and a pinch of salt to taste"
+      }
+    ],
+    "chef_notes": [
+      "Pounding the aromatics (onion, chili, cilantro) with salt breaks down cell walls, releasing vibrant essential oils that simply chopping cannot achieve.",
+      "Allow the charred corn to cool completely before folding it into the avocado to prevent the heat from melting the fat and ruining the guacamole's texture.",
+      "Cotija is a salty cheese; taste your guacamole before adding any extra salt beyond what is used to pound the aromatics.",
+      "If a mortar and pestle are unavailable, mince the aromatics finely, sprinkle with the salt, and use the flat side of a chef's knife to scrape and mash them into a paste directly on your cutting board."
+    ],
+    "cultural_context": "Guacamole dates back to the Aztec empire in Mesoamerica, where ahuacamolli literally translated to avocado sauce. Utilizing a molcajete (a traditional volcanic stone mortar) is the historically authentic method for its preparation. The addition of charred sweet corn and salty Cotija cheese channels the beloved flavors of Mexican street corn (esquites), marrying two iconic culinary traditions in a single dish.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 184.17,
+        "protein_g": 4.42,
+        "carbohydrates_g": 12.6,
+        "fat_g": 14.77,
+        "saturated_fat_g": 1.81,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 7.47,
+        "polyunsaturated_fat_g": 1.52,
+        "fiber_g": 5.86,
+        "sugar_g": 2.5,
+        "sodium_mg": 395.04,
+        "cholesterol_mg": null,
+        "potassium_mg": 465.84,
+        "calcium_mg": 76.54,
+        "iron_mg": 0.66,
+        "magnesium_mg": 36.38,
+        "phosphorus_mg": 126.6,
+        "zinc_mg": 0.96,
+        "vitamin_a_mcg": 65.08,
+        "vitamin_c_mg": 14.5,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 1.84,
+        "vitamin_k_mcg": 21.86,
+        "vitamin_b6_mg": 0.25,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.1,
+        "riboflavin_mg": 0.12,
+        "niacin_mg": 1.85,
+        "folate_mcg": 74.5,
+        "water_g": 86.76,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14773,
+    "monthly_limit": 15000,
+    "daily_remaining": 312,
+    "daily_limit": 500
+  }
+}

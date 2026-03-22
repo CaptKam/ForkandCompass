@@ -1,0 +1,428 @@
+{
+  "data": {
+    "id": "ae31eb07-b169-4039-bb14-3c70c4d3022e",
+    "name": "Spicy Tuna and Salmon Poke Bowl",
+    "description": "A vibrant Hawaiian bowl featuring melt-in-your-mouth sushi-grade tuna and salmon in a savory sesame marinade. Served over seasoned sticky rice and crowned with creamy avocado, sweet mango, crunchy edamame, and rich spicy sriracha mayonnaise.",
+    "category": "Lunch",
+    "cuisine": "Hawaiian",
+    "difficulty": "Easy",
+    "tags": [
+      "Seafood",
+      "Edamame",
+      "Mango",
+      "Mayonnaise",
+      "Mirin",
+      "Salmon",
+      "Seaweed",
+      "Sesame Oil",
+      "Soy Sauce",
+      "Sriracha",
+      "Sushi Rice",
+      "Tuna",
+      "Dinner",
+      "Lunch",
+      "Poke Bowl",
+      "Hawaiian"
+    ],
+    "meta": {
+      "active_time": "PT25M",
+      "passive_time": "PT45M",
+      "total_time": "PT1H10M",
+      "overnight_required": false,
+      "yields": "2 bowls",
+      "yield_count": 2,
+      "serving_size_g": 535
+    },
+    "dietary": {
+      "flags": [
+        "Pescatarian",
+        "Dairy-Free"
+      ],
+      "not_suitable_for": [
+        "Pregnant women",
+        "Infants",
+        "Immunocompromised individuals"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Must be kept refrigerated. Best consumed immediately due to raw fish.",
+        "duration": "PT12H"
+      },
+      "freezer": {
+        "notes": "Do not freeze raw marinated fish or seasoned cooked sushi rice.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Saucepan with tight-fitting lid",
+        "required": true,
+        "alternative": "Rice cooker"
+      },
+      {
+        "name": "Fine mesh sieve",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Sharp knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowls",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Sushi Rice Base",
+        "items": [
+          {
+            "name": "sushi rice",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "dry, short-grain",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "24663b2d-5fab-4384-8385-1532a901babd",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 200,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "rice vinegar",
+            "quantity": 20,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "fcbf5252-1be9-4dd4-8c22-4fda1dbdca28",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 8,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Fish and Marinade",
+        "items": [
+          {
+            "name": "sushi-grade salmon",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "skinless, diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "6648fae7-4f63-45b3-b45d-19d927b57c2d",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "sushi-grade tuna",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c4bcd639-73ba-4231-9d1f-1fbe47ba7048",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "soy sauce",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "tamari for gluten-free"
+            ],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "toasted sesame oil",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e74beff5-5295-4a3f-82fb-9f8ef1d5da59",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "mirin",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2a72c18d-8a1d-4259-8790-25d62f6fb5ba",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Spicy Sriracha Mayonnaise",
+        "items": [
+          {
+            "name": "mayonnaise",
+            "quantity": 45,
+            "unit": "g",
+            "preparation": "preferably kewpie",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "97b74a34-8c1f-4c58-b70e-42c1de6d12aa",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "sriracha sauce",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "04e25096-2354-47fb-8109-ed574c64615c",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Toppings",
+        "items": [
+          {
+            "name": "edamame",
+            "quantity": 60,
+            "unit": "g",
+            "preparation": "shelled, thawed if frozen",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "86149e85-b598-4de9-9ef6-d6500e845493",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "mango",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "peeled, diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "6ab51d7d-dea3-4f14-8253-76acb67bd2c8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "avocado",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "sliced",
+            "notes": "yields approximately 150g flesh",
+            "substitutions": [],
+            "ingredient_id": "2f40a31e-80a0-4265-b6f3-99ed88ee4c24",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "nori seaweed",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "shredded",
+            "notes": "1 standard sheet, about 3g",
+            "substitutions": [],
+            "ingredient_id": "c4b7f8d9-242e-4135-8c47-0644e9b25be6",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "sesame seeds",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "toasted",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0edc9256-6bac-4718-9f80-12351b1bc941",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Place the sushi rice in a fine mesh sieve and rinse thoroughly under cold running water until the water runs completely clear. Drain well.",
+        "structured": {
+          "action": "STRAIN",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Combine the rinsed rice and water in a saucepan. Bring to a boil at 100°C/212°F over medium-high heat. Immediately reduce the heat to the lowest setting, cover tightly, and simmer for 15 minutes. Remove from heat and let sit covered for 10 minutes.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": "PT25M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Transfer the cooked rice to a wide mixing bowl. Gently fold in the rice vinegar, sugar, and salt while fanning the rice to cool it down to body temperature, approximately 37°C/98°F.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": {
+            "celsius": 37,
+            "fahrenheit": 99
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "In a small bowl, whisk together the mayonnaise and sriracha sauce until smooth and uniform in color. Set aside.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "In a medium bowl, combine the diced sushi-grade salmon and tuna. Add the soy sauce, toasted sesame oil, and mirin. Toss gently to coat and allow the fish to marinate for 5 to 10 minutes.",
+        "structured": {
+          "action": "MARINATE",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Divide the seasoned sushi rice between two bowls. Arrange the marinated fish, shelled edamame, diced mango, and sliced avocado in distinct sections over the rice. Drizzle generously with the spicy sriracha mayonnaise and garnish with shredded nori seaweed and toasted sesame seeds.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Rice is gummy or mushy",
+        "likely_cause": "Rice was not rinsed enough, leaving excess starch, or too much water was added",
+        "prevention": "Always rinse sushi rice until water runs clear and measure water accurately",
+        "fix": "Spread the warm rice thinly on a baking sheet to let excess moisture evaporate; texture cannot be fully restored"
+      },
+      {
+        "symptom": "Fish texture becomes tough or mushy",
+        "likely_cause": "Fish was left in the soy sauce marinade for too long, causing it to cure",
+        "prevention": "Do not marinate fish for more than 15 minutes before serving",
+        "fix": "Cannot be fixed"
+      }
+    ],
+    "chef_notes": [
+      "Always source fish specifically labeled as sushi-grade or sashimi-grade from a reputable fishmonger. This ensures it has been properly flash-frozen to eliminate parasites.",
+      "For the glossiest, most authentic sushi rice, fan the rice vigorously while folding in the vinegar dressing. This rapidly cools the exterior of the grains and produces a beautiful shine.",
+      "A small squeeze of fresh lime juice or yuzu juice over the marinated fish just before serving can add a bright, acidic note that perfectly cuts through the richness of the salmon and spicy mayonnaise.",
+      "Keep raw fish refrigerated right up until you are ready to assemble the bowls. Warm raw fish compromises both food safety and the delicate texture of the dish."
+    ],
+    "cultural_context": "Poke, which translates to to slice or to cut crosswise in Hawaiian, originated as a humble fisherman's snack made from off-cuts of the day's catch seasoned with sea salt and local seaweed. With the influx of Japanese immigrants to Hawaii, ingredients like soy sauce and sesame oil were integrated, eventually evolving into the modern, internationally beloved poke bowl served over sushi rice.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 1044.07,
+        "protein_g": 48.41,
+        "carbohydrates_g": 90.89,
+        "fat_g": 61.78,
+        "saturated_fat_g": 6.77,
+        "trans_fat_g": 0.05,
+        "monounsaturated_fat_g": 16.37,
+        "polyunsaturated_fat_g": 17.01,
+        "fiber_g": 8.02,
+        "sugar_g": 18.25,
+        "sodium_mg": 3199.63,
+        "cholesterol_mg": 37.95,
+        "potassium_mg": 936.12,
+        "calcium_mg": 283.83,
+        "iron_mg": 12.24,
+        "magnesium_mg": 348.05,
+        "phosphorus_mg": 633.12,
+        "zinc_mg": 3.28,
+        "vitamin_a_mcg": 748.43,
+        "vitamin_c_mg": 30.13,
+        "vitamin_d_mcg": 4.32,
+        "vitamin_e_mg": 4.18,
+        "vitamin_k_mcg": 64.44,
+        "vitamin_b6_mg": 0.84,
+        "vitamin_b12_mcg": 7.1,
+        "thiamin_mg": 0.4,
+        "riboflavin_mg": 0.45,
+        "niacin_mg": 10.16,
+        "folate_mcg": 191.04,
+        "water_g": 301.86,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14780,
+    "monthly_limit": 15000,
+    "daily_remaining": 319,
+    "daily_limit": 500
+  }
+}

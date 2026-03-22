@@ -1,0 +1,534 @@
+{
+  "data": {
+    "id": "78ea84e8-8570-466d-9b53-7028ef311f18",
+    "name": "Tiramisu Layer Cake",
+    "description": "An elegant transformation of the classic Italian dessert into a stunning celebration cake. Delicate genoise sponge layers are heavily imbibed with espresso liqueur syrup and cloaked in a cloud-like mascarpone whipped cream.",
+    "category": "Dessert",
+    "cuisine": "Italian",
+    "difficulty": "Advanced",
+    "tags": [
+      "tiramisu",
+      "cake",
+      "dessert",
+      "coffee",
+      "chocolate",
+      "italian",
+      "layer cake",
+      "celebration"
+    ],
+    "meta": {
+      "active_time": "PT1H15M",
+      "passive_time": "PT5H",
+      "total_time": "PT6H15M",
+      "overnight_required": false,
+      "yields": "One 20cm layer cake",
+      "yield_count": 12,
+      "serving_size_g": 175
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian"
+      ],
+      "not_suitable_for": [
+        "Individuals avoiding alcohol",
+        "Individuals sensitive to caffeine"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight cake dome to prevent the mascarpone cream from absorbing fridge odors.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended as the mascarpone cream may separate upon thawing.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "20cm round cake pans",
+        "required": true,
+        "alternative": "8-inch round cake pans"
+      },
+      {
+        "name": "Stand mixer",
+        "required": true,
+        "alternative": "Electric hand mixer"
+      },
+      {
+        "name": "Fine mesh sieve",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Silicone spatula",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Wire cooling rack",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowls",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Serrated knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Pastry brush",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Offset spatula",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Genoise Sponge",
+        "items": [
+          {
+            "name": "eggs",
+            "quantity": 6,
+            "unit": null,
+            "preparation": "room temperature",
+            "notes": "Large eggs, about 300g total without shell",
+            "substitutions": [],
+            "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "all-purpose flour",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "cake flour"
+            ],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "unsalted butter",
+            "quantity": 60,
+            "unit": "g",
+            "preparation": "melted and slightly cooled",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "eaea8246-f7e7-43d0-98b1-6e668894fea1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 10,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Coffee Soak",
+        "items": [
+          {
+            "name": "espresso",
+            "quantity": 150,
+            "unit": "ml",
+            "preparation": "hot",
+            "notes": null,
+            "substitutions": [
+              "very strong brewed coffee"
+            ],
+            "ingredient_id": "3f36da11-eb5c-4472-a480-39ea7a1d702f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "coffee liqueur",
+            "quantity": 50,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "marsala wine",
+              "dark rum"
+            ],
+            "ingredient_id": "470f2d69-ed81-4a07-a5f5-1fcf41331c8e",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Mascarpone Cream",
+        "items": [
+          {
+            "name": "mascarpone cheese",
+            "quantity": 500,
+            "unit": "g",
+            "preparation": "cold",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "fc428935-3bcd-4cef-8495-7ed35e7dae22",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "heavy cream",
+            "quantity": 400,
+            "unit": "ml",
+            "preparation": "very cold",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "powdered sugar",
+            "quantity": 120,
+            "unit": "g",
+            "preparation": "sifted",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "348e3418-0252-4e05-80e2-4ee53081f4c8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 10,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Garnish",
+        "items": [
+          {
+            "name": "unsweetened cocoa powder",
+            "quantity": 20,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c06a8e5a-163a-4f21-ad00-a6d90e34c38c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "dark chocolate",
+            "quantity": 40,
+            "unit": "g",
+            "preparation": "shaved or finely grated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "973a4f9c-a487-4704-9c32-f749af4ab8d8",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 175 degrees C or 350 degrees F. Grease two 20cm round cake pans and line the bottoms with parchment paper.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 175,
+            "fahrenheit": 347
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a stand mixer fitted with the whisk attachment, beat the room temperature eggs, 200g of granulated sugar, and salt on medium-high speed until the mixture triples in volume, turns very pale, and reaches the ribbon stage. This will take about 8 to 10 minutes.",
+        "structured": {
+          "action": "WHIP",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": {
+            "visual": "Batter falls from whisk in thick ribbons that sit on the surface for a few seconds before sinking.",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Using a fine mesh sieve, sift one third of the flour over the egg mixture. Gently fold it in using a silicone spatula, drawing a figure-eight motion from the bottom to the top to avoid deflating the eggs. Repeat with the remaining flour in two more batches.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Transfer about 1 cup of the batter into a small bowl and whisk it together with the melted butter and 10ml of vanilla extract until smooth. Gently fold this butter mixture back into the main batter just until incorporated.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Divide the batter evenly between the prepared 20cm round cake pans. Smooth the tops gently.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Bake at 175 degrees C or 350 degrees F for 25 to 30 minutes, or until the cakes are golden brown and spring back when lightly pressed in the center.",
+        "structured": {
+          "action": "BAKE",
+          "temperature": {
+            "celsius": 175,
+            "fahrenheit": 347
+          },
+          "duration": "PT30M",
+          "doneness_cues": {
+            "visual": "Golden brown",
+            "tactile": "Springs back when lightly pressed"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "finish",
+        "text": "Remove from the oven and let cool in the pans for 10 minutes. Turn out onto a wire cooling rack, remove the parchment paper, and cool completely.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": "PT1H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "prep",
+        "text": "While the cakes cool, prepare the coffee soak. In a mixing bowl, combine the hot espresso and 30g of granulated sugar, stirring until dissolved. Stir in the coffee liqueur if using, then set aside to cool completely.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "prep",
+        "text": "To make the mascarpone cream, place the cold mascarpone, heavy cream, powdered sugar, and 10ml of vanilla extract in a large mixing bowl. Beat on medium speed with an electric hand mixer or stand mixer just until stiff peaks form. Do not overmix or it will curdle.",
+        "structured": {
+          "action": "WHIP",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": {
+            "visual": "Holds firm, stiff peaks",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "assemble",
+        "text": "Using a serrated knife, carefully slice each cooled cake in half horizontally to create four even layers.",
+        "structured": {
+          "action": "SLICE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 11,
+        "phase": "assemble",
+        "text": "Place the first cake layer on a serving platter. Generously brush the top with the coffee soak using a pastry brush. Spread a layer of mascarpone cream about 1 centimeter thick evenly over the soaked cake using an offset spatula. Repeat this process with the next three layers.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 12,
+        "phase": "assemble",
+        "text": "Use the remaining mascarpone cream to frost the top and sides of the cake smoothly, or leave the sides bare for a naked cake look.",
+        "structured": {
+          "action": "SPREAD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 13,
+        "phase": "finish",
+        "text": "Refrigerate the assembled cake for at least 4 hours, or preferably overnight, to allow the layers to meld and the cream to set firmly.",
+        "structured": {
+          "action": "CHILL",
+          "temperature": null,
+          "duration": "PT4H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 14,
+        "phase": "finish",
+        "text": "Just before serving, use a fine mesh sieve to generously dust the top of the cake with unsweetened cocoa powder. Sprinkle the dark chocolate shavings over the cocoa.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Genoise sponge is dense and flat.",
+        "likely_cause": "Eggs were not whipped sufficiently to the ribbon stage, or the batter was deflated during the folding of the flour and butter.",
+        "prevention": "Ensure eggs are at room temperature and whip until truly voluminous. Fold dry ingredients very gently and slowly.",
+        "fix": "Cannot be fixed once baked. Slice thinner layers to salvage, or repurpose as a trifle base."
+      },
+      {
+        "symptom": "Mascarpone cream curdled or split.",
+        "likely_cause": "The mixture was overwhipped, or there was a stark temperature difference between the mascarpone and heavy cream.",
+        "prevention": "Keep both dairy items very cold and stop whipping the moment stiff peaks form.",
+        "fix": "Gently fold in 1 to 2 tablespoons of unwhipped cold heavy cream to smooth out minor splitting. If it has turned to butter, it cannot be fixed."
+      },
+      {
+        "symptom": "Cake layers are sliding or leaning.",
+        "likely_cause": "The mascarpone cream was too soft or the cake was not chilled long enough to set properly.",
+        "prevention": "Whip frosting to firm peaks and use a cake collar or dowels during assembly if ambient kitchen temperature is warm.",
+        "fix": "Push a wooden skewer down the center to stabilize and immediately refrigerate until firm."
+      }
+    ],
+    "chef_notes": [
+      "To achieve the highest volume when whipping eggs for genoise, you can warm the eggs and sugar gently over a double boiler to about 40 degrees C before whipping.",
+      "Do not over-soak the very edges of the cake layers. The espresso syrup naturally migrates outward as the cake rests, and keeping the edges slightly drier prevents structural collapse.",
+      "This recipe omits the raw egg yolks traditionally found in zabaglione. This substitution guarantees superior structural stability for a layer cake and ensures food safety for longer refrigeration.",
+      "Always dust the cocoa powder right before serving. The moisture from the mascarpone cream will eventually hydrate the cocoa, turning it dark and less visually appealing over time."
+    ],
+    "cultural_context": "Tiramisu translates to 'pick me up' or 'cheer me up' in Italian, a nod to its potent blend of espresso and sugar. First appearing in the Veneto region during the 1960s or 70s, the classic dish relies on savoiardi ladyfingers. This adaptation honors the traditional flavor profile by utilizing a delicate genoise sponge, historically the base for fine European tortes, which acts as the perfect vehicle for soaking up the rich coffee liqueur syrup.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 570.73,
+        "protein_g": 8.46,
+        "carbohydrates_g": 60.54,
+        "fat_g": 37.47,
+        "saturated_fat_g": 22.2,
+        "trans_fat_g": 0.43,
+        "monounsaturated_fat_g": 5.54,
+        "polyunsaturated_fat_g": 1.28,
+        "fiber_g": 1.64,
+        "sugar_g": 37.19,
+        "sodium_mg": 130.46,
+        "cholesterol_mg": 141.65,
+        "potassium_mg": 148.16,
+        "calcium_mg": 133.71,
+        "iron_mg": 1.21,
+        "magnesium_mg": 32.81,
+        "phosphorus_mg": 108.63,
+        "zinc_mg": 0.72,
+        "vitamin_a_mcg": 434.6,
+        "vitamin_c_mg": 0.23,
+        "vitamin_d_mcg": 1.03,
+        "vitamin_e_mg": 0.72,
+        "vitamin_k_mcg": 1.86,
+        "vitamin_b6_mg": 0.07,
+        "vitamin_b12_mcg": 0.29,
+        "thiamin_mg": 0.04,
+        "riboflavin_mg": 0.22,
+        "niacin_mg": 0.97,
+        "folate_mcg": 18.22,
+        "water_g": 55.58,
+        "alcohol_g": 1.48,
+        "caffeine_mg": 32.98
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14791,
+    "monthly_limit": 15000,
+    "daily_remaining": 330,
+    "daily_limit": 500
+  }
+}

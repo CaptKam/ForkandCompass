@@ -1,0 +1,421 @@
+{
+  "data": {
+    "id": "b79cb6a3-8d7e-4a3b-8607-5b4b7cd8fa1e",
+    "name": "Warming Vegetarian Thai Tom Yum Soup with Tofu and Mushrooms",
+    "description": "A vibrant, aromatic broth infused with lemongrass, galangal, and makrut lime leaves. Silken tofu and earthy mushrooms float in this spicy, sour, and deeply comforting plant-based take on the classic Thai soup.",
+    "category": "Soup",
+    "cuisine": "Thai",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Thai",
+      "Soup",
+      "Tofu",
+      "Mushroom",
+      "Vegetarian",
+      "Spicy",
+      "Comfort Food",
+      "Warming",
+      "Gluten-Free"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT20M",
+      "total_time": "PT35M",
+      "overnight_required": false,
+      "yields": "4 bowls",
+      "yield_count": 4,
+      "serving_size_g": 420
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Dairy-Free",
+        "Gluten-Free",
+        "Nut-Free",
+        "Peanut-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store broth and solid ingredients separately if possible to maintain tofu texture.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended as tofu will change texture and mushrooms will become mushy.",
+        "duration": null
+      },
+      "reheating": "Reheat gently on the stovetop over low heat until warm. Do not boil, or the lime juice may turn bitter.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Heavy-bottomed pot",
+        "required": true,
+        "alternative": "Dutch oven"
+      },
+      {
+        "name": "Chef's knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Ladle",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Aromatics & Broth",
+        "items": [
+          {
+            "name": "vegetable stock",
+            "quantity": 1000,
+            "unit": "ml",
+            "preparation": "low sodium preferred",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "71d7bf5e-cf58-4bfc-984d-d7d0e9a299b7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lemongrass stalks",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "bruised and cut into 5cm pieces",
+            "notes": "about 30g total",
+            "substitutions": [],
+            "ingredient_id": "76ba728d-d8c8-46f5-a879-98c3eefd20b6",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh galangal",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "cut into thin rounds",
+            "notes": null,
+            "substitutions": [
+              "ginger (flavor profile will change significantly)"
+            ],
+            "ingredient_id": "ed0ba6b1-4a3a-4cb3-9995-55f61a722dcd",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "makrut lime leaves",
+            "quantity": 6,
+            "unit": null,
+            "preparation": "central vein removed and slightly torn",
+            "notes": "about 2g total",
+            "substitutions": [],
+            "ingredient_id": "22cd9839-9732-4f42-9992-e5a4e8722b9b",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "thai bird's eye chilies",
+            "quantity": 4,
+            "unit": null,
+            "preparation": "smashed",
+            "notes": "about 8g total; adjust quantity for heat preference",
+            "substitutions": [],
+            "ingredient_id": "3c3f97d4-c951-43fd-865c-88fa8b445739",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "garlic cloves",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "crushed",
+            "notes": "about 15g total",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Body",
+        "items": [
+          {
+            "name": "firm silken tofu",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": "cut into bite-sized cubes",
+            "notes": null,
+            "substitutions": [
+              "medium firm tofu"
+            ],
+            "ingredient_id": "864e8f0d-90a8-481b-853c-ae1de43929de",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "oyster mushrooms",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "torn into bite-sized clusters",
+            "notes": null,
+            "substitutions": [
+              "straw mushrooms",
+              "shiitake mushrooms"
+            ],
+            "ingredient_id": "4fb0a923-94d7-4be9-9f04-c4fa16aa1b64",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cherry tomatoes",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "halved",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "1d174190-f1f3-41c8-aeac-587898aefbf2",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Seasonings & Garnish",
+        "items": [
+          {
+            "name": "fresh lime juice",
+            "quantity": 60,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "tamari",
+            "quantity": 45,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "light soy sauce",
+              "vegetarian fish sauce"
+            ],
+            "ingredient_id": "ab99a024-9474-40da-abfb-36a47a65232b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "palm sugar",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": null,
+            "substitutions": [
+              "brown sugar"
+            ],
+            "ingredient_id": "b10e6b0f-3bf5-4230-b7c7-519f5b180f27",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "vegetarian thai roasted chili paste",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": "also known as nam prik pao",
+            "substitutions": [],
+            "ingredient_id": "9d99c1ed-ca6b-466d-8f79-054288799779",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "fresh cilantro",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "roughly chopped for garnish",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Using the back of a chef's knife or a heavy object, firmly bruise the lemongrass stalks and smash the Thai chilies and garlic cloves. This ruptures the cell walls and allows the essential oils to release into the soup.",
+        "structured": {
+          "action": "CRUSH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Place a heavy-bottomed pot over medium-high heat. Add the vegetable stock and bring it to a rolling boil at approximately 100 degrees C or 212 degrees F.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Add the bruised lemongrass, sliced galangal, torn makrut lime leaves, smashed garlic, and chilies to the boiling stock. Lower the heat to maintain a gentle bubbling and simmer to infuse the broth with the aromatics.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": {
+            "visual": "broth takes on a slight tint from the herbs",
+            "tactile": "kitchen smells highly aromatic and fragrant"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Stir in the oyster mushrooms, halved cherry tomatoes, and the vegetarian roasted chili paste if you are using it. Continue to cook until the mushrooms begin to soften and the tomatoes gently collapse.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "mushrooms shrink slightly and tomatoes soften but hold their shape",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Add the tamari and chopped palm sugar to the pot. Stir gently until the sugar dissolves completely into the hot liquid.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Carefully slide the tofu cubes into the pot. Let the soup gently bubble for a few minutes just to heat the tofu all the way through without causing it to break apart.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": {
+            "visual": "tofu cubes swell slightly and remain intact",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "finish",
+        "text": "Remove the pot entirely from the heat. Stir in the fresh lime juice. Taste the broth carefully and adjust the seasoning with an extra splash of tamari for saltiness or lime juice for acidity until it hits a perfect balance.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Use a ladle to divide the soup into warmed serving bowls, taking care to distribute the tofu and mushrooms evenly. Leave the tough herbs in the pot or instruct guests not to eat them. Garnish heavily with fresh chopped cilantro.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Broth tastes overly bitter or metallic",
+        "likely_cause": "Lime juice was added while the soup was still boiling on the stove, which turns the citrus bitter",
+        "prevention": "Always remove the pot from the heat completely before stirring in fresh citrus juices",
+        "fix": "Balance the bitterness by stirring in a little extra palm sugar and a splash of tamari"
+      },
+      {
+        "symptom": "Broth lacks depth and tastes like plain water",
+        "likely_cause": "Aromatics were not bruised properly or simmered long enough to release their oils",
+        "prevention": "Smash lemongrass and chilies vigorously until they splinter before adding to the stock",
+        "fix": "Simmer for an additional 5 to 10 minutes before adding the delicate vegetables and tofu"
+      }
+    ],
+    "chef_notes": [
+      "Bruising the lemongrass and chilies with the back of a knife or a pestle is an absolutely crucial step. It ruptures the plant cell walls and releases the volatile essential oils directly into your broth.",
+      "The classic Tom Yum flavor profile relies entirely on the dynamic tension between hot, sour, salty, and slightly sweet elements. Always taste your broth right at the end and make minor adjustments to the lime and tamari until it hits all corners of your palate.",
+      "Galangal, lemongrass, and makrut lime leaves are strictly used for infusing the broth and possess a very tough, woody texture. They should not be eaten. Either fish them out before ladling, or advise your guests to leave them at the bottom of the bowl.",
+      "Vegetarian Nam Prik Pao is highly recommended. It adds a smoky, umami-rich depth that mimics the complexity of the shrimp paste traditionally used in Thai soups."
+    ],
+    "cultural_context": "Tom Yum is arguably the most internationally recognized Thai soup, originating from the waterways of Central Thailand. Traditionally made with shrimp to create Tom Yum Goong, this vegetarian adaptation captures the iconic herbal, hot, and sour profile using plant-based ingredients. The soup's restorative properties are deeply rooted in traditional Thai herbal medicine, utilizing medicinal roots like galangal and lemongrass alongside fiery chilies to stimulate digestion and clear the sinuses.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 111.08,
+        "protein_g": 7.6,
+        "carbohydrates_g": 16.57,
+        "fat_g": 2.38,
+        "saturated_fat_g": 0.34,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 0.51,
+        "polyunsaturated_fat_g": 1.06,
+        "fiber_g": 1.97,
+        "sugar_g": 6.51,
+        "sodium_mg": 1401.42,
+        "cholesterol_mg": null,
+        "potassium_mg": 379.65,
+        "calcium_mg": 87.06,
+        "iron_mg": 2.49,
+        "magnesium_mg": 22.91,
+        "phosphorus_mg": 85.2,
+        "zinc_mg": 0.66,
+        "vitamin_a_mcg": 44.65,
+        "vitamin_c_mg": 415.76,
+        "vitamin_d_mcg": 0.26,
+        "vitamin_e_mg": 0.14,
+        "vitamin_k_mcg": 13.81,
+        "vitamin_b6_mg": 0.16,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.13,
+        "riboflavin_mg": 0.22,
+        "niacin_mg": 2.78,
+        "folate_mcg": 26.3,
+        "water_g": 380.08,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14742,
+    "monthly_limit": 15000,
+    "daily_remaining": 281,
+    "daily_limit": 500
+  }
+}

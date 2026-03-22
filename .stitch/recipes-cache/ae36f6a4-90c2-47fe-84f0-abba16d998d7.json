@@ -1,0 +1,407 @@
+{
+  "data": {
+    "id": "ae36f6a4-90c2-47fe-84f0-abba16d998d7",
+    "name": "Classic Korean Army Stew (Budae Jjigae)",
+    "description": "A deeply comforting, spicy, and savory fusion stew combining traditional Korean ingredients like aged kimchi and gochujang with processed meats like Spam and hot dogs, finished with chewy instant ramen noodles.",
+    "category": "Soup",
+    "cuisine": "Korean",
+    "difficulty": "Easy",
+    "tags": [
+      "Korean",
+      "Pork",
+      "Soup",
+      "Dinner",
+      "Comfort Food",
+      "Spicy",
+      "One-Pot"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT15M",
+      "total_time": "PT30M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 450
+    },
+    "dietary": {
+      "flags": [
+        "Nut-Free",
+        "Peanut-Free"
+      ],
+      "not_suitable_for": [
+        "Vegetarians",
+        "Vegans",
+        "Gluten-free diets",
+        "Low-sodium diets"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Remove leftover ramen noodles before storing, as they will absorb the broth and become mushy over time.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended because tofu and noodles will undergo severe textural degradation when thawed.",
+        "duration": null
+      },
+      "reheating": "Reheat gently on the stove over medium heat. Add half a cup of water or plain stock to compensate for moisture loss, and add a fresh pack of ramen noodles if desired.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Shallow wide pot or braiser",
+        "required": true,
+        "alternative": "Large skillet with deep sides"
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Chef knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Small mixing bowl",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Seasoning Paste (Yangnyeom)",
+        "items": [
+          {
+            "name": "gochujang",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Korean chili paste",
+            "substitutions": [],
+            "ingredient_id": "01322d91-3959-4671-b230-25f5b14e132a",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "gochugaru",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Korean chili flakes",
+            "substitutions": [],
+            "ingredient_id": "1f6019e9-c5ca-4eda-a3f9-e8df6535e5eb",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "soy sauce",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "mirin",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2a72c18d-8a1d-4259-8790-25d62f6fb5ba",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "garlic",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "minced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Stew Components",
+        "items": [
+          {
+            "name": "anchovy-kelp stock",
+            "quantity": 1000,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "unsalted chicken broth",
+              "water"
+            ],
+            "ingredient_id": "b5fb9759-5e5b-4f18-8127-6552c4030bca",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "aged fermented kimchi",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "chopped into bite-sized pieces",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "4e660990-6834-4c9b-a4e9-720e5d868303",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "spam",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "sliced into rectangles",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a60b76c7-fc62-453f-9dba-79293ae6168e",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "hot dogs",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "sliced diagonally",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "6aa1c8f0-fd62-4a01-bc8e-f113f92e99c7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground pork",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "raw",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "95b412ba-c68f-4b61-ae87-42b44000956b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "firm tofu",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "sliced into rectangles",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "35ac0b00-5c3a-40cc-bf3a-93c2e458798f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "yellow onion",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "sliced",
+            "notes": "about 1 medium onion",
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "scallions",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": "cut into 2-inch lengths",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "dcfaf926-661e-4117-aeea-145370b787f7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "canned baked beans",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "068a96df-cccd-4bdf-80ee-580480be74d2",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Carbohydrates and Finishing",
+        "items": [
+          {
+            "name": "instant ramen noodles",
+            "quantity": 110,
+            "unit": "g",
+            "preparation": null,
+            "notes": "discard the flavor packet",
+            "substitutions": [],
+            "ingredient_id": "f5431890-e64d-4712-b49e-a01ab553b6f8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "korean rice cakes",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "soaked in water if frozen",
+            "notes": "tteokbokki tteok",
+            "substitutions": [],
+            "ingredient_id": "d5a6b2e2-af3d-4b2a-b339-d86732948a1d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "american cheese",
+            "quantity": 1,
+            "unit": null,
+            "preparation": null,
+            "notes": "approximately 20g",
+            "substitutions": [],
+            "ingredient_id": "65857627-3aec-4a26-9101-3b570841562b",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In a small mixing bowl, combine the gochujang, gochugaru, soy sauce, mirin, and minced garlic. Stir vigorously until a cohesive paste forms, then set it aside.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "assemble",
+        "text": "In a shallow wide pot or braiser, arrange the chopped kimchi, sliced spam, hot dogs, ground pork, firm tofu, yellow onion, scallions, and baked beans in separate neat clusters around the edge. Place the mixed seasoning paste in the center of the pot. Ensure you handle the raw ground pork with separate utensils and wash your hands to prevent cross-contamination.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Gently pour the anchovy-kelp stock over the arranged ingredients. Bring the stew to a boil over medium-high heat, which is approximately 100°C/212°F. As it begins to boil, gently stir the seasoning paste in the center into the broth until fully dissolved, taking care not to mix up all the arranged ingredients.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": "PT8M",
+          "doneness_cues": {
+            "visual": "Broth is boiling vigorously and has turned a deep, opaque red color",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Once the stew is boiling rapidly, add the instant ramen noodles and soaked rice cakes to the center of the pot. Place the slice of American cheese directly on top of the noodles. Let everything simmer undisturbed for 4 to 5 minutes until the noodles are chewy and the raw ground pork is fully cooked, reaching a safe internal temperature of 74°C/165°F.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": {
+            "celsius": 74,
+            "fahrenheit": 165
+          },
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "Pork is fully opaque and firm; cheese is melted into the broth",
+            "tactile": "Noodles separate easily and are tender but retain a chewy bite"
+          }
+        },
+        "tips": [
+          "Do not overcook the ramen noodles, as they will continue to soften in the hot broth once removed from the heat."
+        ]
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Remove the pot from the heat. Traditionally, the entire pot is placed in the center of the dining table for sharing. Serve immediately, prioritizing the ramen noodles before they soak up too much broth.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Broth tastes overly salty or intense",
+        "likely_cause": "High sodium content from the processed meats combined with excessive reduction of the broth",
+        "prevention": "Start with half of the seasoning paste and add more to taste, or use unsalted stock",
+        "fix": "Stir in an additional half cup of unseasoned water or stock to dilute the saltiness"
+      },
+      {
+        "symptom": "Ramen noodles are mushy and falling apart",
+        "likely_cause": "Noodles were cooked for too long or left sitting in the hot broth before eating",
+        "prevention": "Add noodles at the very end of cooking and serve immediately",
+        "fix": "Cannot be fixed"
+      }
+    ],
+    "chef_notes": [
+      "Always use highly fermented, aged kimchi for budae jjigae. Fresh kimchi lacks the required lactic acid development and will result in a flat, uninteresting broth.",
+      "If you want a thicker, richer broth, allow the American cheese to fully dissolve into the liquid rather than just melting it on top of the noodles.",
+      "Rinsing the canned baked beans before adding them is generally discouraged; the starchy tomato sauce clinging to them actually adds a subtle sweetness that balances the sharp kimchi.",
+      "For the best texture, soak your rice cakes in warm water for ten minutes before adding them to the stew to prevent them from splitting or remaining hard in the center."
+    ],
+    "cultural_context": "Budae Jjigae, translating to Army Base Stew, emerged in South Korea shortly after the Korean War. Food scarcity led locals to scavenge surplus processed foods like Spam, hot dogs, and baked beans from American military bases, brilliantly combining them with traditional Korean survival staples like kimchi and gochujang. Today, it stands as a celebrated cultural dish and a quintessential example of Korean fusion comfort food.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 606.48,
+        "protein_g": 35.27,
+        "carbohydrates_g": 60.92,
+        "fat_g": 25.38,
+        "saturated_fat_g": 8.81,
+        "trans_fat_g": 0.08,
+        "monounsaturated_fat_g": 9.84,
+        "polyunsaturated_fat_g": 3.62,
+        "fiber_g": 6.55,
+        "sugar_g": 9.13,
+        "sodium_mg": 2492,
+        "cholesterol_mg": 78.38,
+        "potassium_mg": 1130.72,
+        "calcium_mg": 254.8,
+        "iron_mg": 8.24,
+        "magnesium_mg": 109.26,
+        "phosphorus_mg": 538.64,
+        "zinc_mg": 4.83,
+        "vitamin_a_mcg": 28.5,
+        "vitamin_c_mg": 35.15,
+        "vitamin_d_mcg": 0.71,
+        "vitamin_e_mg": 1.67,
+        "vitamin_k_mcg": 31.17,
+        "vitamin_b6_mg": 0.6,
+        "vitamin_b12_mcg": 2.75,
+        "thiamin_mg": 0.63,
+        "riboflavin_mg": 0.61,
+        "niacin_mg": 10.86,
+        "folate_mcg": 74.81,
+        "water_g": 421.62,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14755,
+    "monthly_limit": 15000,
+    "daily_remaining": 294,
+    "daily_limit": 500
+  }
+}

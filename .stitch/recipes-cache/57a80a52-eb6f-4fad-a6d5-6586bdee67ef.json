@@ -1,0 +1,467 @@
+{
+  "data": {
+    "id": "57a80a52-eb6f-4fad-a6d5-6586bdee67ef",
+    "name": "Sizzling Chicken Fajitas with Fresh Guacamole",
+    "description": "Tender strips of marinated chicken charred to perfection, tossed with sweet blistered bell peppers and onions. Served in warm flour tortillas with a side of bright, creamy guacamole for a vibrant textural contrast.",
+    "category": "Dinner",
+    "cuisine": "Mexican",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Fajitas",
+      "Mexican",
+      "Chicken",
+      "Quick Meal",
+      "Dinner",
+      "Tex-Mex"
+    ],
+    "meta": {
+      "active_time": "PT35M",
+      "passive_time": "PT30M",
+      "total_time": "PT1H5M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 350
+    },
+    "dietary": {
+      "flags": [
+        "Dairy-Free",
+        "Nut-Free",
+        "Peanut-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store filling and guacamole separately. Guacamole will brown; press plastic wrap directly onto surface.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Chicken and peppers freeze well; do not freeze guacamole or tortillas.",
+        "duration": "P2M"
+      },
+      "reheating": "Reheat chicken and pepper mixture in a hot skillet for best texture. Warm tortillas fresh.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Cast iron skillet",
+        "required": true,
+        "alternative": "Heavy-bottomed stainless steel pan"
+      },
+      {
+        "name": "Chef's knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Small mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Large zip-top bag or bowl",
+        "required": true,
+        "alternative": "Glass baking dish for marinating"
+      },
+      {
+        "name": "Tongs",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Marinade",
+        "items": [
+          {
+            "name": "vegetable oil",
+            "quantity": 45,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "divided use",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cumin",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b9c9e3cb-61b7-4bbc-87c0-7858d42d7935",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "smoked paprika",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "f4c3bdd7-6528-40d2-84b3-a6325df15e8e",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "chili powder",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "95bf3619-4042-48ea-8f4d-86f61e1721c6",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "minced",
+            "notes": "approx 9g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "soy sauce",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "adds savory depth/browning",
+            "substitutions": [],
+            "ingredient_id": "a3c13611-4174-49d9-b957-12e63638e78c",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Fajita Filling",
+        "items": [
+          {
+            "name": "boneless skinless chicken thighs",
+            "quantity": 600,
+            "unit": "g",
+            "preparation": "trimmed of excess fat",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d7fc1bf9-fc05-429b-bfa6-2ad857cb0bb6",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "red bell pepper",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "sliced into strips",
+            "notes": "approx 150g",
+            "substitutions": [],
+            "ingredient_id": "8c4f8af4-14ec-4b21-8e25-e2e592f9144d",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "yellow bell pepper",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "sliced into strips",
+            "notes": "approx 150g",
+            "substitutions": [],
+            "ingredient_id": "b8ed9fc6-8806-4baf-a073-89a5b79f63f0",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "red onion",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "sliced into strips",
+            "notes": "approx 150g",
+            "substitutions": [],
+            "ingredient_id": "1c270c6e-0acc-4c5c-9935-7eff3240fc4a",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": "to taste",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "black pepper",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c25dc1c9-4ea7-403c-976e-ab1d06578b7a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Fresh Guacamole",
+        "items": [
+          {
+            "name": "ripe avocados",
+            "quantity": 2,
+            "unit": null,
+            "preparation": null,
+            "notes": "approx 400g total weight",
+            "substitutions": [],
+            "ingredient_id": "35c8f26f-d008-407a-9bf3-48c8aa641729",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cilantro",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a9eea519-8ecc-4b3c-9dec-8dcaaa33cd87",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "salt",
+            "quantity": null,
+            "unit": null,
+            "preparation": null,
+            "notes": "to taste, start with 2g",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Serving",
+        "items": [
+          {
+            "name": "flour tortillas",
+            "quantity": 8,
+            "unit": null,
+            "preparation": null,
+            "notes": "15cm diameter",
+            "substitutions": [],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Whisk together 30ml of the vegetable oil, lime juice, cumin, smoked paprika, chili powder, minced garlic, and soy sauce in a small bowl.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Place the whole chicken thighs in a large bag or dish and pour the marinade over them. Massage to coat ensuring even coverage. Let sit at room temperature.",
+        "structured": {
+          "action": "MARINATE",
+          "temperature": null,
+          "duration": "PT30M",
+          "doneness_cues": null
+        },
+        "tips": [
+          "Room temperature marinating helps the chicken cook more evenly.",
+          "Do not marinate longer than 2 hours as the lime juice will break down the meat texture too much."
+        ]
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "While chicken marinates, cut the avocados in half, remove pits, and scoop flesh into a bowl. Mash with 15ml lime juice, chopped cilantro, and salt until desired consistency is reached.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Heat a large cast iron skillet over high heat until smoking hot. Add the remaining 15ml oil.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 230,
+            "fahrenheit": 446
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Remove chicken from marinade (discard excess liquid) and place in the hot skillet. Sear undisturbed for 4-5 minutes until deeply browned.",
+        "structured": {
+          "action": "SEAR",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Flip chicken and cook for another 3-4 minutes until the internal temperature reaches 74°C/165°F. Remove chicken to a clean board to rest.",
+        "structured": {
+          "action": "COOK",
+          "temperature": {
+            "celsius": 74,
+            "fahrenheit": 165
+          },
+          "duration": "PT4M",
+          "doneness_cues": {
+            "visual": "Deep brown crust",
+            "tactile": "Firm to touch"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "In the same hot skillet (do not wipe out), add the sliced onions and peppers. Sauté vigorously, scraping up the browned bits from the bottom, until vegetables are tender-crisp and charred in spots.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "Charred edges on peppers",
+            "tactile": "Softened but retaining crunch"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Slice the rested chicken against the grain into strips. Return the chicken and any accumulated juices to the skillet with the vegetables. Toss briefly to combine and reheat.",
+        "structured": {
+          "action": "SLICE",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Warm tortillas in a dry pan or directly over a gas flame for 10-15 seconds per side. Serve immediately with the skillet mixture and fresh guacamole.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Vegetables are soggy instead of charred",
+        "likely_cause": "The pan was overcrowded or the heat was too low",
+        "prevention": "Use the largest skillet possible and keep heat on high; cook in two batches if necessary",
+        "fix": "Remove vegetables, drain excess liquid from pan, reheat pan until smoking, and return vegetables briefly to char"
+      }
+    ],
+    "chef_notes": [
+      "Slicing the chicken after cooking rather than before ensures it stays juicy and prevents it from drying out in the high heat.",
+      "The soy sauce in the marinade is not traditional, but it adds a crucial 'umami' depth and helps the chicken brown beautifully.",
+      "Warm tortillas are essential. Cold tortillas are brittle and unappetizing. Wrap warmed tortillas in a clean tea towel to keep them soft at the table.",
+      "For extra smoke flavor, you can let the peppers char undisturbed for 60 seconds before tossing them."
+    ],
+    "cultural_context": "Fajitas originated in the Rio Grande Valley of Texas, where Mexican ranch workers were often paid partly in meat, receiving the 'fajas' or little belts (skirt steak) of the cow. While skirt steak is the traditional cut, the concept has evolved to include chicken and shrimp, becoming a staple of Tex-Mex cuisine defined by the theatrical sizzling skillet.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 577.34,
+        "protein_g": 38.5,
+        "carbohydrates_g": 59.95,
+        "fat_g": 20.37,
+        "saturated_fat_g": 3.77,
+        "trans_fat_g": 0.03,
+        "monounsaturated_fat_g": 3.37,
+        "polyunsaturated_fat_g": 2.22,
+        "fiber_g": 4.55,
+        "sugar_g": 2.48,
+        "sodium_mg": 1659.05,
+        "cholesterol_mg": 141,
+        "potassium_mg": 724.4,
+        "calcium_mg": 88.89,
+        "iron_mg": 3.82,
+        "magnesium_mg": 69.18,
+        "phosphorus_mg": 402.75,
+        "zinc_mg": 3.33,
+        "vitamin_a_mcg": 125.09,
+        "vitamin_c_mg": 36.83,
+        "vitamin_d_mcg": 0,
+        "vitamin_e_mg": 1.75,
+        "vitamin_k_mcg": 8.56,
+        "vitamin_b6_mg": 1.09,
+        "vitamin_b12_mcg": 0.92,
+        "thiamin_mg": 0.28,
+        "riboflavin_mg": 0.4,
+        "niacin_mg": 9.84,
+        "folate_mcg": 35.22,
+        "water_g": 177.59,
+        "alcohol_g": 0,
+        "caffeine_mg": 0
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14771,
+    "monthly_limit": 15000,
+    "daily_remaining": 310,
+    "daily_limit": 500
+  }
+}

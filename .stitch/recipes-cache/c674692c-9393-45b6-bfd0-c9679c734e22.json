@@ -1,0 +1,431 @@
+{
+  "data": {
+    "id": "c674692c-9393-45b6-bfd0-c9679c734e22",
+    "name": "Vegan Eggplant And Tofu Zha Jiang Mian",
+    "description": "A deeply savory, umami-rich vegan take on classic Zha Jiang Mian. Caramelized eggplant, crumbled firm tofu, and earthy shiitake mushrooms are simmered in a glossy sweet bean sauce, served over thick udon noodles with crisp, cooling cucumber.",
+    "category": "Dinner",
+    "cuisine": "Chinese",
+    "difficulty": "Easy",
+    "tags": [
+      "Chinese",
+      "Noodles",
+      "Budget",
+      "Eggplant",
+      "Firm Tofu",
+      "Shiitake",
+      "Stovetop",
+      "Udon Noodle",
+      "Dinner",
+      "Easy",
+      "Lunch",
+      "Quick",
+      "Weeknight",
+      "Vegan"
+    ],
+    "meta": {
+      "active_time": "PT20M",
+      "passive_time": "PT10M",
+      "total_time": "PT30M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 490
+    },
+    "dietary": {
+      "flags": [
+        "Vegan",
+        "Vegetarian",
+        "Dairy-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Peanut-Free"
+      ],
+      "not_suitable_for": [
+        "Gluten intolerances (wheat in udon and sauces)",
+        "Soy allergies"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store the cooked sauce separately from the noodles to prevent them from becoming soggy.",
+        "duration": "P4D"
+      },
+      "freezer": {
+        "notes": "The sauce freezes excellently. Thaw overnight before reheating.",
+        "duration": "P1M"
+      },
+      "reheating": "Warm the sauce gently in a pan over low heat until bubbling, then spoon over freshly boiled noodles.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Wok",
+        "required": true,
+        "alternative": "Large heavy-bottomed frying pan"
+      },
+      {
+        "name": "Large pot",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Small mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Chef's knife",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Vegetable & Protein Base",
+        "items": [
+          {
+            "name": "firm tofu",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": "pressed and crumbled into small pieces",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "35ac0b00-5c3a-40cc-bf3a-93c2e458798f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "eggplant",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": "diced into 5mm cubes",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "77c14307-dacf-4ab2-85d1-3594bff0ec99",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh shiitake mushrooms",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "stems removed, caps finely diced",
+            "notes": null,
+            "substitutions": [
+              "rehydrated dried shiitake mushrooms"
+            ],
+            "ingredient_id": "127ce8a8-238d-40e6-a4b0-c58c42a7c745",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Aromatics",
+        "items": [
+          {
+            "name": "garlic",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "finely minced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ginger",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "finely minced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d57750c1-f582-4793-8aea-40d9d3ac3677",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "scallions",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "white and green parts separated, thinly sliced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "dcfaf926-661e-4117-aeea-145370b787f7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "neutral cooking oil",
+            "quantity": 45,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "canola, peanut, or sunflower oil",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Zha Jiang Sauce",
+        "items": [
+          {
+            "name": "sweet bean sauce (tianmianjiang)",
+            "quantity": 60,
+            "unit": "g",
+            "preparation": null,
+            "notes": "the core flavor of the dish; do not substitute",
+            "substitutions": [],
+            "ingredient_id": "1ff6ac63-3f80-4aff-8218-7bc53a9cabd8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground bean sauce",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": "yellow soybean paste (huangdoujiang) is preferred",
+            "substitutions": [],
+            "ingredient_id": "1ff6ac63-3f80-4aff-8218-7bc53a9cabd8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "light soy sauce",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "dark soy sauce",
+            "quantity": 10,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "mainly for achieving a deep, appetizing color",
+            "substitutions": [],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "sugar",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": null,
+            "notes": "balances the salty fermented pastes",
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 150,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Noodles & Garnish",
+        "items": [
+          {
+            "name": "fresh udon noodles",
+            "quantity": 800,
+            "unit": "g",
+            "preparation": null,
+            "notes": "frozen udon blocks work perfectly as well",
+            "substitutions": [],
+            "ingredient_id": "1604b9e9-4add-460c-848a-ca753318d785",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "cucumber",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "julienned into fine matchsticks",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "457adec2-3e06-4efe-a26e-9e6ea9f84924",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Using a chef's knife, prepare all vegetables. Dice the eggplant and shiitake mushrooms into uniform 5 millimeter cubes. Mince the garlic and ginger, and slice the scallions, keeping the white and green parts separate.",
+        "structured": {
+          "action": "DICE",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a small mixing bowl, combine the sweet bean sauce, ground bean sauce, light soy sauce, dark soy sauce, sugar, and water. Stir thoroughly until a smooth, well-integrated liquid slurry forms.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Heat the neutral oil in a wok over medium-high heat. Add the crumbled tofu and pan-fry until the moisture evaporates and the edges turn lightly golden and firm.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "tofu edges are golden",
+            "tactile": "tofu feels firmer and less wet"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Add the minced garlic, ginger, and scallion whites to the wok with the tofu. Sauté briefly until highly fragrant, then fold in the diced eggplant and shiitake mushrooms. Continue to cook until the eggplant softens and noticeably reduces in volume.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT6M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Pour the mixed sauce slurry into the wok. Stir continuously, allowing the fermented pastes to fry in the residual oil. This step is crucial for mellowing the raw, earthy flavor of the bean pastes.",
+        "structured": {
+          "action": "FRY",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Lower the heat to a gentle bubble. Simmer the mixture until the liquid reduces into a thick, deeply glossy sauce that clings heavily to the vegetables. The oil should begin to separate slightly from the sauce around the edges.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "sauce is thick, dark, glossy, and oil forms small pools at the edges",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "While the sauce simmers, bring a large pot of water to a rolling boil (100°C/212°F). Cook the udon noodles according to package instructions until tender but maintaining a chewy bite. Drain thoroughly.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": "PT3M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Divide the hot, drained udon noodles among serving bowls. Spoon a generous ladle of the hot eggplant and tofu sauce directly into the center of each bowl. Garnish with a small handful of julienned cucumber and the reserved green scallion slices. Serve immediately to be tossed vigorously by the diner.",
+        "structured": {
+          "action": "PLATE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Sauce tastes overly salty or harsh.",
+        "likely_cause": "Bean paste was under-fried or sauce lacked enough water to properly balance during reduction.",
+        "prevention": "Fry the bean pastes gently and ensure the full amount of water is added to allow for a proper simmer.",
+        "fix": "Stir in a splash of water and an extra pinch of sugar to round out and balance the saltiness."
+      },
+      {
+        "symptom": "Eggplant breaks down into an unappealing mush.",
+        "likely_cause": "Eggplant was diced too small or the sauce was simmered for too long.",
+        "prevention": "Keep the diced eggplant strictly at 5mm uniform cubes and stop simmering as soon as the sauce thickens.",
+        "fix": "Cannot be fixed, but the sauce will still taste excellent and coat the noodles well."
+      }
+    ],
+    "chef_notes": [
+      "Frying the sauce (the zha in zha jiang) is the most critical technique here. You are looking for the oil to separate slightly from the bean paste at the end of cooking, an indicator that the raw, fermented flavor of the beans has been cooked out and transformed into rich umami.",
+      "While udon noodles are traditionally Japanese, their thick, slick, and chewy texture makes them an incredibly convenient and excellent substitute for hand-pulled or thick-cut northern Chinese wheat noodles.",
+      "Salting the diced eggplant for 15 minutes and gently patting it dry before cooking can prevent it from acting like a sponge and absorbing too much oil, yielding a lighter final sauce.",
+      "If you want to add a layer of texture, toss in a small handful of blanched edamame or roasted peanuts as a garnish just before serving."
+    ],
+    "cultural_context": "Zha Jiang Mian, which translates directly to fried sauce noodles, is a cornerstone of northern Chinese comfort food and is heavily associated with the culinary heritage of Beijing. While traditional iterations rely on fatty ground pork to flavor the sauce, the true soul of the dish lies in its deeply fermented, savory-sweet bean pastes. This vegan interpretation honors the complex, punchy flavor profile of the original by utilizing the meaty bite of shiitake mushrooms alongside the rich, flavor-absorbing qualities of eggplant.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 561.42,
+        "protein_g": 20.01,
+        "carbohydrates_g": 83.62,
+        "fat_g": 17.72,
+        "saturated_fat_g": 2.39,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 1.1,
+        "polyunsaturated_fat_g": 1.73,
+        "fiber_g": 8.18,
+        "sugar_g": 13.03,
+        "sodium_mg": 964,
+        "cholesterol_mg": 0.68,
+        "potassium_mg": 495.81,
+        "calcium_mg": 206.74,
+        "iron_mg": 2.88,
+        "magnesium_mg": 60.41,
+        "phosphorus_mg": 171.04,
+        "zinc_mg": 1.26,
+        "vitamin_a_mcg": 5.75,
+        "vitamin_c_mg": 5.3,
+        "vitamin_d_mcg": 0.1,
+        "vitamin_e_mg": 0.36,
+        "vitamin_k_mcg": 24.23,
+        "vitamin_b6_mg": 0.28,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.1,
+        "riboflavin_mg": 0.21,
+        "niacin_mg": 2.05,
+        "folate_mcg": 46.99,
+        "water_g": 240.43,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14753,
+    "monthly_limit": 15000,
+    "daily_remaining": 292,
+    "daily_limit": 500
+  }
+}

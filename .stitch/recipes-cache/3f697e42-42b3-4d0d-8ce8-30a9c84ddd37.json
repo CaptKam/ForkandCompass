@@ -1,0 +1,470 @@
+{
+  "data": {
+    "id": "3f697e42-42b3-4d0d-8ce8-30a9c84ddd37",
+    "name": "Gulab Jamun Cheesecake",
+    "description": "A decadent fusion dessert marrying the rich, spiced syrup of traditional Indian gulab jamun with the creamy elegance of a Western baked cheesecake, all resting on a cardamom-infused biscuit crust.",
+    "category": "Dessert",
+    "cuisine": "Fusion",
+    "difficulty": "Intermediate",
+    "tags": [
+      "cheesecake",
+      "gulab jamun",
+      "indian dessert",
+      "fusion",
+      "eggless",
+      "festive"
+    ],
+    "meta": {
+      "active_time": "PT30M",
+      "passive_time": "PT8H30M",
+      "total_time": "PT9H",
+      "overnight_required": true,
+      "yields": "12 slices",
+      "yield_count": 12,
+      "serving_size_g": 140
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Egg-Free"
+      ],
+      "not_suitable_for": [
+        "Dairy allergy",
+        "Gluten intolerance",
+        "Nut allergy"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight container to prevent the cheesecake from absorbing fridge odors.",
+        "duration": "P5D"
+      },
+      "freezer": {
+        "notes": "Freeze whole or in slices wrapped tightly in plastic wrap and foil. Thaw overnight in the refrigerator.",
+        "duration": "P1M"
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "20cm springform pan",
+        "required": true,
+        "alternative": "22cm springform pan"
+      },
+      {
+        "name": "Parchment paper",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Food processor",
+        "required": true,
+        "alternative": "Rolling pin and sealed bag"
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Stand mixer",
+        "required": true,
+        "alternative": "Electric hand mixer"
+      },
+      {
+        "name": "Oven",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Cardamom Biscuit Crust",
+        "items": [
+          {
+            "name": "digestive biscuits",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8fc2188f-4a8f-4ada-a35b-d02fdd09f47b",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "unsalted butter",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "melted",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "eaea8246-f7e7-43d0-98b1-6e668894fea1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "green cardamom powder",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c56f6cd8-882c-487c-956f-3a91ee1fec07",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Cheesecake Batter",
+        "items": [
+          {
+            "name": "cream cheese",
+            "quantity": 500,
+            "unit": "g",
+            "preparation": "room temperature block style",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "262c67de-76a4-4444-8c02-30ad4a179459",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "sweetened condensed milk",
+            "quantity": 400,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d9d1435b-7445-46fd-a682-be48baaad067",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "heavy cream",
+            "quantity": 120,
+            "unit": "ml",
+            "preparation": "room temperature",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cornstarch",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e37d9484-8bf9-4d9a-a6c8-22a597cbb237",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "rose water",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "3727c144-9938-4127-83e5-4663adb03094",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "saffron strands",
+            "quantity": null,
+            "unit": null,
+            "preparation": null,
+            "notes": "a small pinch, steeped in 10ml warm milk",
+            "substitutions": [],
+            "ingredient_id": "7f9ec0c8-2db1-48ac-a2c9-9b1efce12cf3",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Filling and Garnish",
+        "items": [
+          {
+            "name": "gulab jamun",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": "syrup drained, cut in half",
+            "notes": "about 10 to 12 pieces",
+            "substitutions": [],
+            "ingredient_id": "7e0de053-a570-4a08-b927-e3e4384cf6e4",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "pistachios",
+            "quantity": 20,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "59207580-65c8-4564-9467-eb7286b8e5a7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "dried edible rose petals",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "05b4b393-32b0-424e-8f6e-b40be29b38d8",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 160°C or 320°F. Line the bottom and sides of a 20cm springform pan with parchment paper.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Place the digestive biscuits in a food processor and pulse until fine crumbs form.",
+        "structured": {
+          "action": "CRUSH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "texture resembling fine sand",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Transfer the biscuit crumbs to a mixing bowl. Add the melted butter and green cardamom powder, stirring until the mixture is evenly moistened.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "assemble",
+        "text": "Press the crumb mixture firmly and evenly into the bottom of the prepared springform pan using the back of a spoon or a flat-bottomed glass.",
+        "structured": {
+          "action": "SHAPE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Bake the crust at 160°C or 320°F for 10 minutes. Remove from the oven and let it cool completely.",
+        "structured": {
+          "action": "BAKE",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "prep",
+        "text": "In the bowl of a stand mixer, beat the room temperature cream cheese on medium speed until perfectly smooth and free of lumps.",
+        "structured": {
+          "action": "BEAT",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "completely smooth and creamy, no lumps visible",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "prep",
+        "text": "Add the sweetened condensed milk, heavy cream, cornstarch, rose water, and saffron-infused milk to the cream cheese. Beat on low speed just until combined, scraping down the sides of the bowl as needed.",
+        "structured": {
+          "action": "BLEND",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "Avoid overmixing at this stage to prevent incorporating too much air, which can cause cracking."
+        ]
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Arrange the drained, halved gulab jamun pieces evenly over the cooled biscuit crust, flat side down.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "assemble",
+        "text": "Gently pour the cheesecake batter over the gulab jamun pieces, spreading it into an even layer with a spatula.",
+        "structured": {
+          "action": "POUR",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "cook",
+        "text": "Bake at 160°C or 320°F for 45 to 55 minutes. The cheesecake is done when the edges are set but the center 5cm still has a slight wobble when gently shaken.",
+        "structured": {
+          "action": "BAKE",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": "PT50M",
+          "doneness_cues": {
+            "visual": "edges puffed and set",
+            "tactile": "center jiggles like gelatin when the pan is tapped"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 11,
+        "phase": "finish",
+        "text": "Turn off the oven and prop the door slightly open. Leave the cheesecake in the oven to cool slowly for 1 hour.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": "PT1H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 12,
+        "phase": "finish",
+        "text": "Remove the cheesecake from the oven and transfer it to the refrigerator. Chill for at least 6 hours, or preferably overnight, until completely firm.",
+        "structured": {
+          "action": "CHILL",
+          "temperature": null,
+          "duration": "PT6H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 13,
+        "phase": "finish",
+        "text": "Once fully chilled, carefully release the sides of the springform pan. Garnish the edges with chopped pistachios and dried edible rose petals before slicing.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Cheesecake surface cracks",
+        "likely_cause": "Overmixing the batter incorporating excess air, or cooling the cheesecake too rapidly",
+        "prevention": "Mix ingredients on low speed once condensed milk is added, and strictly adhere to the gradual oven cooling step",
+        "fix": "Cosmetic only. Cover the top with an extra layer of sliced gulab jamuns, whipped cream, or extra pistachios before serving"
+      },
+      {
+        "symptom": "Soggy biscuit crust",
+        "likely_cause": "Excess syrup weeping from the gulab jamun during baking",
+        "prevention": "Drain the gulab jamun pieces thoroughly on paper towels and squeeze very gently before placing them on the crust",
+        "fix": "Cannot be fixed once baked"
+      },
+      {
+        "symptom": "Cheesecake center is completely liquid",
+        "likely_cause": "Oven temperature was too low or baking time was too short",
+        "prevention": "Ensure oven is properly calibrated and check for the correct jiggle cue before turning off the heat",
+        "fix": "If discovered after chilling, freeze the cheesecake to serve it as a frozen dessert"
+      }
+    ],
+    "chef_notes": [
+      "Squeeze the gulab jamuns gently to remove excess syrup before halving. This critical step prevents the heavy syrup from weeping into the cheesecake batter and altering the dense, creamy texture.",
+      "Ensure your cream cheese is completely at room temperature before beating. Cold cream cheese will inevitably result in small, stubborn lumps that ruin the mouthfeel.",
+      "Using an eggless base with condensed milk not only honors traditional Indian vegetarian dietary preferences but also provides a fudge-like density that pairs beautifully with the spongy gulab jamuns.",
+      "To cut clean, professional slices, dip a sharp knife in a tall container of hot water, wipe it completely dry with a towel, and make your cut. Repeat this process for every single slice."
+    ],
+    "cultural_context": "Gulab jamun is one of South Asia's most beloved sweets, consisting of deep-fried milk solid dumplings soaked in a fragrant sugar syrup infused with rose and cardamom. By embedding these tender dumplings into a Western-style baked cheesecake, this dessert beautifully bridges culinary traditions. The fusion has become immensely popular during Diwali and modern Indian weddings, representing a globalized approach to festive celebrations.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 520.67,
+        "protein_g": 8.98,
+        "carbohydrates_g": 43.95,
+        "fat_g": 35.42,
+        "saturated_fat_g": 18.33,
+        "trans_fat_g": 0.61,
+        "monounsaturated_fat_g": 7.78,
+        "polyunsaturated_fat_g": 1.4,
+        "fiber_g": 1.07,
+        "sugar_g": 31.52,
+        "sodium_mg": 411.04,
+        "cholesterol_mg": 82.63,
+        "potassium_mg": 224.38,
+        "calcium_mg": 178.34,
+        "iron_mg": 0.42,
+        "magnesium_mg": 18.05,
+        "phosphorus_mg": 147.6,
+        "zinc_mg": 0.61,
+        "vitamin_a_mcg": 291.77,
+        "vitamin_c_mg": 2.05,
+        "vitamin_d_mcg": 0.23,
+        "vitamin_e_mg": 0.74,
+        "vitamin_k_mcg": 1.98,
+        "vitamin_b6_mg": 0.08,
+        "vitamin_b12_mcg": 0.27,
+        "thiamin_mg": 0.06,
+        "riboflavin_mg": 0.26,
+        "niacin_mg": 0.15,
+        "folate_mcg": 9.73,
+        "water_g": 38.54,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14748,
+    "monthly_limit": 15000,
+    "daily_remaining": 287,
+    "daily_limit": 500
+  }
+}

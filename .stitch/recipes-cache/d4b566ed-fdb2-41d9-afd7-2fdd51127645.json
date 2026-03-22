@@ -1,0 +1,392 @@
+{
+  "data": {
+    "id": "d4b566ed-fdb2-41d9-afd7-2fdd51127645",
+    "name": "Sesame-Chile Ramen Noodle Salad With Bok Choy",
+    "description": "Chewy ramen noodles, crisp bok choy, and sweet corn mingle in a rich, nutty sesame dressing cut with the fiery tang of chile crisp and black vinegar. This vibrant, cooling salad is highly adaptable and delivers deep savory flavors with every bite.",
+    "category": "Salad",
+    "cuisine": "Chinese",
+    "difficulty": "Easy",
+    "tags": [
+      "Noodles",
+      "Bok Choy",
+      "Budget",
+      "Chile Crisp",
+      "Chile Oil",
+      "Corn",
+      "Party",
+      "Ramen Noodle",
+      "Salad",
+      "Sesame Paste",
+      "Stovetop",
+      "Dinner",
+      "Easy",
+      "Lunch",
+      "Quick",
+      "Weeknight",
+      "Main Course",
+      "Side Dish",
+      "Dairy-Free",
+      "Vegan",
+      "Vegetarian"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT5M",
+      "total_time": "PT20M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 220
+    },
+    "dietary": {
+      "flags": [
+        "Vegan",
+        "Vegetarian",
+        "Dairy-Free",
+        "Egg-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store dressing and salad separately if possible to maintain noodle texture.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Do not freeze; noodles become mushy and bok choy loses its crisp texture upon thawing.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Medium mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": "Fork"
+      },
+      {
+        "name": "Large pot",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Colander",
+        "required": true,
+        "alternative": "Strainer"
+      },
+      {
+        "name": "Large serving bowl",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Salad Base",
+        "items": [
+          {
+            "name": "dry ramen noodles",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "seasoning packets discarded if present",
+            "notes": "ensure noodles are egg-free for strict vegan diets",
+            "substitutions": [],
+            "ingredient_id": "98048d03-76bc-4960-9313-10eed711f74a",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "baby bok choy",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": "base trimmed, leaves separated and halved lengthways",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "65af243f-e822-4926-b403-4c7c68976e0d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "sweet corn kernels",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "fresh or thawed from frozen",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "46ca2aab-cb23-4397-9711-528c234b2cf8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "scallions",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "thinly sliced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "dcfaf926-661e-4117-aeea-145370b787f7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh cilantro",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "roughly chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Sesame-Chile Dressing",
+        "items": [
+          {
+            "name": "chinese sesame paste",
+            "quantity": 45,
+            "unit": "g",
+            "preparation": "stirred well before measuring",
+            "notes": null,
+            "substitutions": [
+              "tahini",
+              "smooth peanut butter"
+            ],
+            "ingredient_id": "83438503-f81d-4478-bafd-fae07acfdef7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "chile crisp",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": "adjust quantity based on spice preference",
+            "substitutions": [
+              "chile oil"
+            ],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "soy sauce",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "tamari"
+            ],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "chinkiang black vinegar",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "rice vinegar combined with a pinch of brown sugar"
+            ],
+            "ingredient_id": "bcd70aae-3e70-4329-9336-529bc3e36652",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "toasted sesame oil",
+            "quantity": 10,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e74beff5-5295-4a3f-82fb-9f8ef1d5da59",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "finely minced",
+            "notes": "approximately 10g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "warm water",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In a medium mixing bowl, vigorously whisk together the chinese sesame paste, soy sauce, chinkiang black vinegar, toasted sesame oil, granulated sugar, and minced garlic until a thick paste forms. Gradually whisk in the warm water until the dressing is smooth and evenly emulsified. Stir in the chile crisp and set aside to allow the flavors to meld.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": [
+          "If the sesame paste is very stiff, add the warm water slightly earlier to help it relax."
+        ]
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Fill a large pot with water and bring to a rapid rolling boil at 100°C/212°F. Submerge the dry ramen noodles and cook according to package directions, typically about 3 minutes, stirring occasionally with chopsticks or a fork to separate the strands.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": "PT3M",
+          "doneness_cues": {
+            "visual": "Noodles are fully separated and opaque",
+            "tactile": "Al dente, chewy but cooked through"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "During the final 1 minute of the noodles' cooking time, drop the prepared baby bok choy and sweet corn kernels directly into the boiling water to blanch. The water temperature will drop slightly, but continue cooking until the bok choy stalks turn vibrant green.",
+        "structured": {
+          "action": "BLANCH",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": {
+            "visual": "Bok choy leaves wilted, stalks bright green",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Drain the contents of the pot immediately into a colander. Rinse aggressively under cold running water for at least 1 minute, tossing the noodles and vegetables by hand until they are completely cool to the touch. This halts the cooking process and removes excess surface starch.",
+        "structured": {
+          "action": "DRAIN",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "Noodles feel cold and slippery, not sticky"
+          }
+        },
+        "tips": [
+          "Shake the colander vigorously to remove as much residual water as possible so the dressing does not become diluted."
+        ]
+      },
+      {
+        "step_number": 5,
+        "phase": "assemble",
+        "text": "Transfer the drained noodles, bok choy, and corn to a large serving bowl. Pour the prepared sesame-chile dressing over the mixture, add the sliced scallions and chopped cilantro, and toss thoroughly until every noodle is evenly coated in the sauce. Serve immediately or chill.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Dressing is too thick or clumpy",
+        "likely_cause": "Sesame paste seized when mixed with colder liquids or was not stirred thoroughly in its jar before use.",
+        "prevention": "Use warm water and ensure the sesame paste is homogeneous before measuring.",
+        "fix": "Whisk in an additional 5-10ml of hot water until the dressing relaxes into a smooth consistency."
+      },
+      {
+        "symptom": "Noodles are gummy and stick together in clumps",
+        "likely_cause": "Residual starches were not adequately rinsed off the noodles after boiling.",
+        "prevention": "Rinse noodles immediately and thoroughly under cold running water while continuously tossing.",
+        "fix": "Rinse again under cold water if they have not yet been mixed with the dressing, otherwise it cannot be fixed."
+      },
+      {
+        "symptom": "Dressing tastes watery on the final dish",
+        "likely_cause": "Too much residual cooking water was trapped in the noodles or bok choy leaves.",
+        "prevention": "Drain meticulously and shake the colander vigorously before assembly.",
+        "fix": "Add another spoonful of soy sauce and a drizzle of sesame oil to boost the flavor profile."
+      }
+    ],
+    "chef_notes": [
+      "Seasonal Adaptability: This foundational formula easily adapts to any season. In spring, try blanched asparagus and snow peas; in winter, julienned root vegetables like carrots or kohlrabi provide excellent crunch.",
+      "Sesame Paste Varieties: Chinese sesame paste is made from toasted seeds and has a deeper, nuttier flavor profile than Middle Eastern tahini, which uses raw seeds. If substituting tahini, adding a few extra drops of toasted sesame oil helps bridge the flavor gap.",
+      "The Importance of Rinsing: Aggressively rinsing boiled noodles under cold water is not just to cool them down; it washes away gelatinized starches that would otherwise cause the noodles to stick together and turn pasty when mixed with dressing.",
+      "Chile Crisp Nuance: Not all chile crisps are equal in heat or sodium. Taste yours before mixing the dressing. If it is particularly salty, reduce the soy sauce slightly; if it lacks heat, add a pinch of crushed red pepper flakes."
+    ],
+    "cultural_context": "Cold noodle salads (Liangmian) are a beloved staple across various regions of China, especially treasured during sweltering, humid summer months for their cooling properties. The pairing of rich, unctuous sesame paste with the sharp acidity of black vinegar and the fiery, numbing qualities of chile oil creates a dynamic flavor profile known to awaken the palate.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 439.53,
+        "protein_g": 10.07,
+        "carbohydrates_g": 46.4,
+        "fat_g": 25.78,
+        "saturated_fat_g": 6.69,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 3.47,
+        "polyunsaturated_fat_g": 3.98,
+        "fiber_g": 4.09,
+        "sugar_g": 6.65,
+        "sodium_mg": 1324.58,
+        "cholesterol_mg": null,
+        "potassium_mg": 478.38,
+        "calcium_mg": 139.69,
+        "iron_mg": 4.05,
+        "magnesium_mg": 45.2,
+        "phosphorus_mg": 159.85,
+        "zinc_mg": 0.96,
+        "vitamin_a_mcg": 159.48,
+        "vitamin_c_mg": 33.88,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.28,
+        "vitamin_k_mcg": 56.08,
+        "vitamin_b6_mg": 0.23,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.23,
+        "riboflavin_mg": 0.14,
+        "niacin_mg": 1.86,
+        "folate_mcg": 76.28,
+        "water_g": 116.46,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14757,
+    "monthly_limit": 15000,
+    "daily_remaining": 296,
+    "daily_limit": 500
+  }
+}

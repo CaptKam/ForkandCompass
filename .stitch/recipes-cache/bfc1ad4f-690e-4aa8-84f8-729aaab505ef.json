@@ -1,0 +1,418 @@
+{
+  "data": {
+    "id": "bfc1ad4f-690e-4aa8-84f8-729aaab505ef",
+    "name": "Crispy Fried Guacamole Bites",
+    "description": "Experience a striking textural contrast with these appetizers: a hot, shatteringly crisp seltzer and corn flour shell that gives way to a pleasantly cool, creamy, and vibrant jalapeno-spiked guacamole center.",
+    "category": "Appetizer",
+    "cuisine": "Mexican",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Mexican",
+      "Avocado",
+      "Corn Flour",
+      "Guacamole",
+      "Jalapeño",
+      "Seltzer",
+      "Party Food",
+      "Appetizer",
+      "Fusion"
+    ],
+    "meta": {
+      "active_time": "PT30M",
+      "passive_time": "PT2H",
+      "total_time": "PT2H30M",
+      "overnight_required": false,
+      "yields": "20 bites",
+      "yield_count": 20,
+      "serving_size_g": 120
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Gluten-Free",
+        "Dairy-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Do not refrigerate after frying; the crust will become soggy.",
+        "duration": null
+      },
+      "freezer": {
+        "notes": "Uncooked guacamole scoops can be frozen for up to a month in an airtight container before battering and frying.",
+        "duration": "P1M"
+      },
+      "reheating": null,
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Medium mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Baking sheet",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Parchment paper",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Small cookie scoop",
+        "required": true,
+        "alternative": "Spoon"
+      },
+      {
+        "name": "Heavy-bottomed pot or Dutch oven",
+        "required": true,
+        "alternative": "Deep fryer"
+      },
+      {
+        "name": "Deep fry thermometer",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Spider skimmer",
+        "required": true,
+        "alternative": "Slotted spoon"
+      },
+      {
+        "name": "Wire cooling rack",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Guacamole Center",
+        "items": [
+          {
+            "name": "avocados",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "ripe",
+            "notes": "yields about 450g of flesh",
+            "substitutions": [],
+            "ingredient_id": "2f40a31e-80a0-4265-b6f3-99ed88ee4c24",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "jalapeno",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "finely diced",
+            "notes": "about 15g, remove seeds for less heat",
+            "substitutions": [],
+            "ingredient_id": "28f54199-5672-4d2a-9f41-4e4e5cbfa93f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "red onion",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "finely diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh cilantro",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 4,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Seltzer Corn Batter",
+        "items": [
+          {
+            "name": "fine corn flour",
+            "quantity": 120,
+            "unit": "g",
+            "preparation": null,
+            "notes": "plain fine corn flour, not cornstarch",
+            "substitutions": [
+              "masa harina"
+            ],
+            "ingredient_id": "c5ec9857-d6b7-4b91-bdbe-35d44ad92dc5",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "baking powder",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c119cded-8cf7-4a52-80b8-03c25d8efa50",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "seltzer water",
+            "quantity": 180,
+            "unit": "ml",
+            "preparation": "ice cold",
+            "notes": null,
+            "substitutions": [
+              "club soda"
+            ],
+            "ingredient_id": "571f00da-af10-4b7d-ab41-af9b9f3c7cdc",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Frying",
+        "items": [
+          {
+            "name": "neutral oil",
+            "quantity": 1000,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "canola, vegetable, or grapeseed oil",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": null
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Halve the avocados, remove the pits, and scoop the flesh into a medium mixing bowl. Use a fork to crush the avocado until mostly smooth but still retaining some small chunks.",
+        "structured": {
+          "action": "CRUSH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Add the finely diced jalapeno, red onion, chopped cilantro, lime juice, and salt to the crushed avocado. Stir thoroughly to combine into a thick guacamole.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Line a baking sheet with parchment paper. Using a small cookie scoop, shape the guacamole into 20 bite-sized mounds, placing them evenly on the prepared sheet.",
+        "structured": {
+          "action": "SHAPE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Transfer the baking sheet to the freezer. Freeze the guacamole mounds until completely solid, which will take about 2 hours.",
+        "structured": {
+          "action": "FREEZE",
+          "temperature": null,
+          "duration": "PT2H",
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "Rock hard to the touch"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Add the neutral oil to a heavy-bottomed pot, ensuring it is at least 5 centimeters deep. Heat the oil to 190 degrees Celsius (375 degrees Fahrenheit).",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 190,
+            "fahrenheit": 374
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "prep",
+        "text": "Just before frying, prepare the batter. In a bowl, whisk together the fine corn flour, baking powder, and salt. Pour in the ice cold seltzer water and whisk lightly until just combined. Lumps are acceptable.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "Working in batches of 4 or 5, dip the frozen guacamole scoops into the batter, ensuring they are fully coated. Immediately drop them into the hot oil. Fry for 90 seconds to 2 minutes until the exterior is golden and crispy, but the center remains cool.",
+        "structured": {
+          "action": "FRY",
+          "temperature": {
+            "celsius": 190,
+            "fahrenheit": 374
+          },
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "Crispy and golden yellow",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "Do not overcook, or the guacamole will melt and leak out of the batter.",
+          "Ensure the oil returns to 190 degrees Celsius between batches."
+        ]
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Use a spider skimmer to carefully remove the fried bites from the oil. Transfer them to a wire cooling rack set over paper towels to drain excess oil.",
+        "structured": {
+          "action": "DRAIN",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Serve immediately while the outer shell is hot and the inside is still creamy and cold.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Guacamole melts and leaks into the frying oil",
+        "likely_cause": "The guacamole scoops were not frozen entirely solid, or the frying oil temperature was too low.",
+        "prevention": "Freeze the guacamole scoops for at least 2 full hours. Maintain frying oil at 190C to ensure rapid crisping.",
+        "fix": "Cannot be fixed"
+      },
+      {
+        "symptom": "Batter is too thick and heavy",
+        "likely_cause": "Corn flour to liquid ratio was off, or batter was overmixed.",
+        "prevention": "Measure the flour by weight, not volume. Do not overmix the batter; small lumps are fine.",
+        "fix": "Stir an additional tablespoon of cold seltzer water into the batter until thinned."
+      }
+    ],
+    "chef_notes": [
+      "The secret to a cool interior and hot exterior is flash-frying. Because the core is frozen solid, a rapid deep fry perfectly cooks the batter before the heat penetrates the center.",
+      "Carbonation in the seltzer water expands rapidly when it hits hot oil, creating a highly aerated, shatteringly crisp coating that pairs wonderfully with creamy avocado.",
+      "Keeping the batter ice cold prevents gluten or starch development, yielding a lighter, crispier crust.",
+      "Ensure your oil has a high smoke point and a neutral flavor so it does not compete with the delicate taste of the fresh guacamole."
+    ],
+    "cultural_context": "While guacamole has ancient Mesoamerican roots dating back to the Aztecs, deep-frying it is a distinctly modern, playful fusion technique. It brings the beloved flavors of Mexican cuisine into the realm of state-fair style textural exploration.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 59.17,
+        "protein_g": 1,
+        "carbohydrates_g": 6.89,
+        "fat_g": 3.54,
+        "saturated_fat_g": 0.51,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 2.27,
+        "polyunsaturated_fat_g": 0.51,
+        "fiber_g": 1.96,
+        "sugar_g": 0.27,
+        "sodium_mg": 155.81,
+        "cholesterol_mg": null,
+        "potassium_mg": 133.49,
+        "calcium_mg": 21.31,
+        "iron_mg": 0.67,
+        "magnesium_mg": 12.75,
+        "phosphorus_mg": 29.93,
+        "zinc_mg": 0.27,
+        "vitamin_a_mcg": 4.35,
+        "vitamin_c_mg": 3.84,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.51,
+        "vitamin_k_mcg": 6.43,
+        "vitamin_b6_mg": 0.09,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.11,
+        "riboflavin_mg": 0.08,
+        "niacin_mg": 1.01,
+        "folate_mcg": 28.89,
+        "water_g": 29.9,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14777,
+    "monthly_limit": 15000,
+    "daily_remaining": 316,
+    "daily_limit": 500
+  }
+}

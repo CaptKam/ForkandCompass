@@ -1,0 +1,297 @@
+{
+  "data": {
+    "id": "3d69dc78-a98e-492e-808d-d404a86fcd1c",
+    "name": "Vegetarian Japanese Miso Soup",
+    "description": "A comforting, savory broth brimming with umami, featuring delicate cubes of silken tofu, tender wakame seaweed, and the bright, crisp bite of fresh spring onions. This traditional daily staple warms the body and soul.",
+    "category": "Soup",
+    "cuisine": "Japanese",
+    "difficulty": "Easy",
+    "tags": [
+      "Japanese",
+      "Soup",
+      "Tofu",
+      "Easy",
+      "Quick",
+      "Vegetarian",
+      "Vegan",
+      "Umami",
+      "Comfort Food",
+      "Traditional"
+    ],
+    "meta": {
+      "active_time": "PT10M",
+      "passive_time": "PT15M",
+      "total_time": "PT25M",
+      "overnight_required": false,
+      "yields": "2 servings",
+      "yield_count": 2,
+      "serving_size_g": 350
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Dairy-Free",
+        "Gluten-Free",
+        "Egg-Free",
+        "Nut-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store broth separately from tofu and wakame if possible, as wakame becomes overly soft and slimy over time.",
+        "duration": "P2D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended as the texture of silken tofu degrades significantly, becoming porous and spongy.",
+        "duration": null
+      },
+      "reheating": "Reheat gently on the stove over medium-low heat until just steaming. Do not let the soup boil, as it will ruin the miso flavor.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Medium saucepan",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Small bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Fine mesh strainer",
+        "required": true,
+        "alternative": "Miso muddler"
+      },
+      {
+        "name": "Serving bowls",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Kombu Dashi (Vegetarian Broth)",
+        "items": [
+          {
+            "name": "water",
+            "quantity": 600,
+            "unit": "ml",
+            "preparation": "cold",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "dried kombu",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "wiped clean with a damp cloth",
+            "notes": "about one 5x5cm piece",
+            "substitutions": [],
+            "ingredient_id": "fc0c5bfe-b506-4f4c-a872-e4c038eb88e6",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Soup Elements",
+        "items": [
+          {
+            "name": "dried wakame seaweed",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "829af572-9acc-4435-ad0f-640b6b25a62d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "silken tofu",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "cut into 1cm cubes",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "864e8f0d-90a8-481b-853c-ae1de43929de",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "white miso paste",
+            "quantity": 45,
+            "unit": "g",
+            "preparation": null,
+            "notes": "ensure it is rice-based for gluten-free diets, avoiding barley miso",
+            "substitutions": [],
+            "ingredient_id": "46697260-96ba-4751-83c0-b40aebb81229",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "spring onions",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "thinly sliced",
+            "notes": "about 20g",
+            "substitutions": [],
+            "ingredient_id": "dcfaf926-661e-4117-aeea-145370b787f7",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Place the cold water and dried kombu in a medium saucepan. Let it sit at room temperature for 15 minutes to gently extract the natural umami flavors.",
+        "structured": {
+          "action": "STEEP",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "While the broth steeps, place the dried wakame seaweed in a small bowl of water to rehydrate for 5 minutes, then drain completely.",
+        "structured": {
+          "action": "DRAIN",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Place the saucepan with the kombu over medium heat. Just before the water reaches a boil, at approximately 90°C/195°F, remove and discard the kombu to prevent the broth from becoming bitter and slimy.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": {
+            "celsius": 90,
+            "fahrenheit": 194
+          },
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Small bubbles forming around the edge of the saucepan, but not a rolling boil",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Add the cubed silken tofu and the drained, rehydrated wakame to the hot dashi. Simmer gently for 2 minutes to warm the ingredients through.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Turn off the heat completely. Lower a fine mesh strainer slightly into the hot broth, add the miso paste into the strainer, and use a spoon or chopsticks to dissolve it seamlessly into the soup.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "Never boil the soup after adding miso, as it destroys the delicate aroma and beneficial probiotics."
+        ]
+      },
+      {
+        "step_number": 6,
+        "phase": "finish",
+        "text": "Ladle the hot soup carefully into serving bowls, taking care not to break the delicate tofu cubes. Garnish with thinly sliced spring onions and serve immediately.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "The soup tastes somewhat sour, dull, or has a gritty texture.",
+        "likely_cause": "The miso paste was boiled, which breaks down its delicate emulsion, diminishes aromatics, and alters the texture.",
+        "prevention": "Always remove the saucepan from the heat source completely before dissolving the miso paste.",
+        "fix": "Cannot be fixed, though adding a tiny pinch of salt or a drop of soy sauce might rescue some missing savory notes."
+      },
+      {
+        "symptom": "The broth has a noticeable bitter or overly oceanic, pungent flavor.",
+        "likely_cause": "The kombu was left in the water while it reached a rolling boil.",
+        "prevention": "Remove the kombu just as small bubbles begin to appear at the edges of the pot, well before a full boil.",
+        "fix": "Cannot be fixed."
+      }
+    ],
+    "chef_notes": [
+      "Never boil the soup once the miso paste has been added. High heat destroys the delicate aromas, subtle flavors, and beneficial enzymes of the fermented paste.",
+      "Using a dedicated miso muddler or a small fine-mesh strainer ensures the thick paste dissolves completely into the broth without leaving unpleasant, salty lumps at the bottom of the bowl.",
+      "While white (shiro) miso yields a sweeter, lighter soup, you can create a more complex, robust flavor profile by mixing white miso with a darker red (aka) miso, a technique known as an awase blend.",
+      "Silken tofu is traditional and provides a luxurious, melt-in-the-mouth texture, but it is extremely fragile. Stir the soup with a very gentle hand once the tofu is added."
+    ],
+    "cultural_context": "Miso soup (misoshiru) is a fundamental pillar of Japanese cuisine, traditionally served daily alongside steamed rice as part of the classic ichiju-sansai (one soup, three dishes) meal structure. The combination of savory dashi and fermented miso provides a deeply satisfying source of umami, while floating ingredients like tofu and wakame represent a harmonious balance of earth and sea.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 84.75,
+        "protein_g": 6.75,
+        "carbohydrates_g": 7.88,
+        "fat_g": 3.27,
+        "saturated_fat_g": 0.47,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 0.71,
+        "polyunsaturated_fat_g": 1.64,
+        "fiber_g": 1.75,
+        "sugar_g": 1.81,
+        "sodium_mg": 868.76,
+        "cholesterol_mg": null,
+        "potassium_mg": 79.33,
+        "calcium_mg": 88.73,
+        "iron_mg": 1.49,
+        "magnesium_mg": 20.43,
+        "phosphorus_mg": 41.73,
+        "zinc_mg": 0.65,
+        "vitamin_a_mcg": 6.32,
+        "vitamin_c_mg": 2,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.09,
+        "vitamin_k_mcg": 29.03,
+        "vitamin_b6_mg": 0.05,
+        "vitamin_b12_mcg": 0.02,
+        "thiamin_mg": 0.03,
+        "riboflavin_mg": 0.07,
+        "niacin_mg": 0.3,
+        "folate_mcg": 18.11,
+        "water_g": 389.77,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14758,
+    "monthly_limit": 15000,
+    "daily_remaining": 297,
+    "daily_limit": 500
+  }
+}

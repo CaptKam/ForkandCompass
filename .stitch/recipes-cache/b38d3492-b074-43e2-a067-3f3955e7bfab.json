@@ -1,0 +1,365 @@
+{
+  "data": {
+    "id": "b38d3492-b074-43e2-a067-3f3955e7bfab",
+    "name": "Classic Bruschetta al Pomodoro",
+    "description": "Crisp, smoky grilled bread topped with a vibrant mixture of sweet ripe tomatoes, fresh basil, pungent garlic, and rich extra-virgin olive oil. A masterclass in Italian simplicity.",
+    "category": "Appetizer",
+    "cuisine": "Italian",
+    "difficulty": "Easy",
+    "tags": [
+      "Italian",
+      "Appetizer",
+      "Tomato",
+      "Easy",
+      "Vegetarian",
+      "Vegan",
+      "Classic",
+      "Summer"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT15M",
+      "total_time": "PT30M",
+      "overnight_required": false,
+      "yields": "6 servings",
+      "yield_count": 6,
+      "serving_size_g": 140
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Dairy-Free",
+        "Egg-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store the tomato mixture separately from the bread. Do not refrigerate assembled bruschetta as it will become soggy.",
+        "duration": "PT12H"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended because the fresh tomatoes will lose their texture and become mushy.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Colander",
+        "required": true,
+        "alternative": "Fine mesh strainer"
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Serrated knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Grill pan",
+        "required": true,
+        "alternative": "Heavy cast iron skillet or outdoor grill"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Tomato Topping",
+        "items": [
+          {
+            "name": "roma tomatoes",
+            "quantity": 500,
+            "unit": "g",
+            "preparation": "cored and diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "9579a1ee-33e0-430e-8c34-b9fa2f32c020",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "minced",
+            "notes": "about 3g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh basil",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "torn or chiffonade",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "417f8397-9065-4cd6-8820-0ab7363fbb08",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "extra-virgin olive oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "balsamic vinegar",
+            "quantity": 10,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "4da62caf-a01b-4477-b6bb-f4213102565d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "black pepper",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": "freshly cracked",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c25dc1c9-4ea7-403c-976e-ab1d06578b7a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "The Bread",
+        "items": [
+          {
+            "name": "rustic sourdough loaf",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": "cut into 1.5cm slices",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "90f297c6-9ec3-45a6-850d-9aa9c65b45e7",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "extra-virgin olive oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "halved",
+            "notes": "about 3g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Core and carefully dice the roma tomatoes into small, even 1cm cubes using a serrated knife.",
+        "structured": {
+          "action": "DICE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Toss the diced tomatoes with kosher salt and place them in a colander set over a mixing bowl. Let drain for 15 minutes to remove excess liquid.",
+        "structured": {
+          "action": "DRAIN",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Discard the extracted tomato juice. In a clean mixing bowl, gently combine the drained tomatoes with minced garlic, fresh basil, 30ml extra-virgin olive oil, optional balsamic vinegar, and black pepper.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Slice the rustic sourdough loaf into 1.5cm thick slices on a cutting board.",
+        "structured": {
+          "action": "SLICE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "Brush both sides of each bread slice lightly with the remaining 30ml of extra-virgin olive oil.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Heat a grill pan over medium-high heat around 200°C/400°F. Toast the oiled bread slices until crisp and golden brown with distinct char marks, about 2 minutes per side.",
+        "structured": {
+          "action": "GRILL",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": "PT4M",
+          "doneness_cues": {
+            "visual": "Golden brown with distinct, dark char marks on the edges",
+            "tactile": "Completely crisp and firm to the touch"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "finish",
+        "text": "Immediately after removing the hot bread from the grill pan, gently rub one side of each slice with the cut side of the halved raw garlic clove.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Spoon the marinated tomato topping generously over the garlic-rubbed side of the grilled bread slices.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Serve immediately before the bread loses its crunch, garnished with extra fresh basil leaves if desired.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Bread becomes soggy immediately upon assembly",
+        "likely_cause": "Tomato mixture retained too much water or the bread was under-toasted",
+        "prevention": "Ensure tomatoes are salted and thoroughly drained before mixing, and toast bread until completely crisp throughout.",
+        "fix": "Cannot be fixed once assembled."
+      }
+    ],
+    "chef_notes": [
+      "Using room-temperature, in-season tomatoes is non-negotiable for this dish; never refrigerate your tomatoes before preparation as it degrades their flavor and texture.",
+      "Salting and draining the tomatoes removes excess water, concentrating their natural sweetness and preventing the bread from becoming instantly waterlogged.",
+      "Rubbing raw garlic on the hot, toasted bread acts like a microplane grater, melting the pungent garlic oils directly into the crumb without overwhelming the palate."
+    ],
+    "cultural_context": "Bruschetta originates from 15th century Italy, tracing back to Ancient Rome where olive growers would bring their harvest to a local press and taste a sample of their freshly pressed oil on a slice of bread. The name derives from the Roman dialect verb bruscare, meaning to roast over coals.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 237.33,
+        "protein_g": 5.14,
+        "carbohydrates_g": 27.91,
+        "fat_g": 10.72,
+        "saturated_fat_g": 1.41,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 7.3,
+        "polyunsaturated_fat_g": 1.06,
+        "fiber_g": 2.88,
+        "sugar_g": 4.07,
+        "sodium_mg": 875.89,
+        "cholesterol_mg": null,
+        "potassium_mg": 212.89,
+        "calcium_mg": 15.32,
+        "iron_mg": 0.4,
+        "magnesium_mg": 11.26,
+        "phosphorus_mg": 23.31,
+        "zinc_mg": 0.17,
+        "vitamin_a_mcg": 4.49,
+        "vitamin_c_mg": 12.03,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 1.46,
+        "vitamin_k_mcg": 13.5,
+        "vitamin_b6_mg": 0.02,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": null,
+        "riboflavin_mg": null,
+        "niacin_mg": 0.03,
+        "folate_mcg": 1.22,
+        "water_g": 3.44,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14765,
+    "monthly_limit": 15000,
+    "daily_remaining": 304,
+    "daily_limit": 500
+  }
+}

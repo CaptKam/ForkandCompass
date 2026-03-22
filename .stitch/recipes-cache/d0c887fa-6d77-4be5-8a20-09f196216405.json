@@ -1,0 +1,441 @@
+{
+  "data": {
+    "id": "d0c887fa-6d77-4be5-8a20-09f196216405",
+    "name": "Khao Tang Na Tang (Thai Rice Crackers with Creamy Shrimp & Chicken Dip)",
+    "description": "Crispy, airy rice crackers served with a rich, savory-sweet coconut dip featuring minced chicken, shrimp, and roasted peanuts. This classic Thai appetizer balances the crunch of the rice with a luscious, aromatic sauce infused with coriander root, garlic, and white pepper.",
+    "category": "Appetizer",
+    "cuisine": "Thai",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Chicken",
+      "Shrimp",
+      "Appetizer",
+      "Thai",
+      "Party Food",
+      "Dip"
+    ],
+    "meta": {
+      "active_time": "PT45M",
+      "passive_time": "PT0M",
+      "total_time": "PT45M",
+      "overnight_required": false,
+      "yields": "6 servings",
+      "yield_count": 6,
+      "serving_size_g": 180
+    },
+    "dietary": {
+      "flags": [
+        "Gluten-Free",
+        "Dairy-Free",
+        "Pescatarian"
+      ],
+      "not_suitable_for": [
+        "People with peanut allergies",
+        "People with shellfish allergies"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store dip and crackers in separate airtight containers. Crackers will lose crispness if refrigerated; store at room temp if possible.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Dip freezes well. Thaw and reheat gently.",
+        "duration": "P1M"
+      },
+      "reheating": "Reheat dip over low heat or microwave until warm. Crackers do not reheat well; fry fresh batch if stale.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Mortar and pestle",
+        "required": true,
+        "alternative": "Small food processor"
+      },
+      {
+        "name": "Wok or deep frying pan",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Wire rack",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Thermometer",
+        "required": false,
+        "alternative": null
+      },
+      {
+        "name": "Spider strainer or slotted spoon",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Aromatic Paste (Sam Kluer)",
+        "items": [
+          {
+            "name": "coriander roots",
+            "quantity": 4,
+            "unit": null,
+            "preparation": "cleaned and chopped",
+            "notes": "approx 8g; use stems if roots unavailable",
+            "substitutions": [],
+            "ingredient_id": "8c7693be-b538-445c-80f9-3d5bf4c6dcc0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic cloves",
+            "quantity": 5,
+            "unit": null,
+            "preparation": "peeled",
+            "notes": "approx 25g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "white peppercorns",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "whole",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "cdc9ddd1-ed48-431b-a39c-171f424578c9",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Dip Base",
+        "items": [
+          {
+            "name": "coconut milk",
+            "quantity": 400,
+            "unit": "ml",
+            "preparation": "full-fat",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c037ee7e-e3ed-4340-b8fb-d8ad284ba96e",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "chicken breast",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "minced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2b577d04-33ca-4919-938f-bfc8780a3a4b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "shrimp",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "peeled, deveined, and minced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a6bf7ab3-9b88-4c5b-a2fa-966c40a0e5a7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "roasted peanuts",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "coarsely ground",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "ba36d967-879c-446b-ba1e-b1fa36e475db",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "shallots",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": "finely sliced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "fdfc0723-3dbf-44af-b667-f5e4bd6005a8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vegetable oil",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "for sautéing",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Seasoning & Garnish",
+        "items": [
+          {
+            "name": "palm sugar",
+            "quantity": 60,
+            "unit": "g",
+            "preparation": "shaved",
+            "notes": "adjust to taste",
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fish sauce",
+            "quantity": 45,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "95a9a747-50ee-4be0-84be-0dfc96111e2a",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "tamarind paste",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "concentrate",
+            "notes": "optional for acidity balance",
+            "substitutions": [],
+            "ingredient_id": "c9dd70fa-d98b-459d-bd61-21b5778f1d4a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "spur chilies (prik chee fa)",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "sliced diagonally",
+            "notes": "red, for garnish",
+            "substitutions": [],
+            "ingredient_id": "5080eb9a-d555-4558-94e5-d5700e96ff9b",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "coriander leaves",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "picked",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8c7693be-b538-445c-80f9-3d5bf4c6dcc0",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Rice Crackers",
+        "items": [
+          {
+            "name": "dried rice cakes (uncooked khao tang)",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": null,
+            "notes": "available in Asian markets",
+            "substitutions": [],
+            "ingredient_id": "835c75bb-29cf-4adc-ad5f-8e8764110647",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "neutral oil",
+            "quantity": 500,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "for deep frying",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": null
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Make the 'Sam Kluer' paste: Pound white peppercorns in a mortar until fine. Add coriander roots and garlic cloves, pounding until a smooth, uniform paste forms.",
+        "structured": {
+          "action": "POUND",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Smooth paste",
+            "tactile": "Uniform consistency"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Heat 15ml vegetable oil in a wok or saucepan over medium heat. Add the pounded paste and sliced shallots. Sauté until the shallots soften and the mixture is highly aromatic.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": "PT3M",
+          "doneness_cues": {
+            "visual": "Shallots are translucent",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Add the minced chicken and shrimp to the pan. Stir vigorously to break up any clumps and cook until the meat turns opaque.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT4M",
+          "doneness_cues": {
+            "visual": "Meat is opaque",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Pour in the coconut milk, then season with palm sugar, fish sauce, and tamarind paste. Bring to a gentle simmer. Add the coarsely ground peanuts and stir to combine.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": {
+            "celsius": 90,
+            "fahrenheit": 194
+          },
+          "duration": "PT10M",
+          "doneness_cues": {
+            "visual": "Sauce has thickened slightly and turned a rich golden color",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Reduce heat to low and let the dip simmer gently until it reaches a coating consistency. Taste and adjust seasoning; it should be predominantly sweet and salty with a hint of nutty richness. Remove from heat.",
+        "structured": {
+          "action": "REDUCE",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "Coats the back of a spoon"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Clean the wok or use a separate pot. Heat frying oil to 190°C/375°F. Fry the dried rice cakes in batches. They will expand instantly. Flip once and remove immediately (within 5-10 seconds) to drain on a wire rack.",
+        "structured": {
+          "action": "FRY",
+          "temperature": {
+            "celsius": 190,
+            "fahrenheit": 374
+          },
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Puffed, white, and crispy",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "Do not overcrowd the oil; the crackers expand significantly."
+        ]
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Transfer the warm dip to a serving bowl. Garnish with sliced red spur chilies and coriander leaves. Serve alongside the crispy rice crackers for dipping.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Rice crackers are tough or hard, not airy",
+        "likely_cause": "Oil temperature was too low",
+        "prevention": "Ensure oil reaches 190°C/375°F before adding dried rice cakes",
+        "fix": "Heat oil properly and try again with a test piece; cannot fix already fried crackers"
+      },
+      {
+        "symptom": "Dip is too thin/watery",
+        "likely_cause": "Coconut milk was low fat or sauce wasn't reduced enough",
+        "prevention": "Use full-fat coconut milk",
+        "fix": "Simmer longer to evaporate moisture, or add more ground peanuts to thicken"
+      }
+    ],
+    "chef_notes": [
+      "The foundation of Thai flavor is the 'Sam Kluer' (Three Buddies): coriander root, garlic, and white pepper. Do not skip the white pepper; black pepper changes the flavor profile entirely.",
+      "If you cannot find dried rice cakes (raw khao tang), you can dehydrate cooked jasmine rice in a low oven (80°C) for 3-4 hours until rock hard before frying.",
+      "Roast raw peanuts yourself in a dry pan before grinding for a vastly superior aroma compared to pre-roasted store-bought peanuts.",
+      "The consistency of the dip should be similar to a Bolognese sauce—thick enough to sit on top of the cracker without running off immediately."
+    ],
+    "cultural_context": "Khao Tang Na Tang is a traditional Royal Thai appetizer dating back to the Ayutthaya period. Originally a way to use leftover rice (sun-dried to preserve it), it was elevated with a rich, coconut-based dipping sauce ('Na Tang') often reserved for guests and ceremonies. The balance of salty, sweet, and nutty flavors represents the harmony sought in central Thai cuisine.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 428.34,
+        "protein_g": 15.86,
+        "carbohydrates_g": 46.87,
+        "fat_g": 21.42,
+        "saturated_fat_g": 15.13,
+        "trans_fat_g": 0.03,
+        "monounsaturated_fat_g": 1.67,
+        "polyunsaturated_fat_g": 0.72,
+        "fiber_g": 2.78,
+        "sugar_g": 14,
+        "sodium_mg": 400.8,
+        "cholesterol_mg": 56.25,
+        "potassium_mg": 407.19,
+        "calcium_mg": 47.67,
+        "iron_mg": 3.66,
+        "magnesium_mg": 59.02,
+        "phosphorus_mg": 203.11,
+        "zinc_mg": 1.37,
+        "vitamin_a_mcg": 157.85,
+        "vitamin_c_mg": 14.04,
+        "vitamin_d_mcg": 0.1,
+        "vitamin_e_mg": 0.18,
+        "vitamin_k_mcg": 0.27,
+        "vitamin_b6_mg": 0.24,
+        "vitamin_b12_mcg": 0.09,
+        "thiamin_mg": 0.06,
+        "riboflavin_mg": 0.04,
+        "niacin_mg": 3.08,
+        "folate_mcg": 15.06,
+        "water_g": 94.01,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14743,
+    "monthly_limit": 15000,
+    "daily_remaining": 282,
+    "daily_limit": 500
+  }
+}

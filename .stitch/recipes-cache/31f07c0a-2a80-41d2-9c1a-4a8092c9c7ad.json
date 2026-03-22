@@ -1,0 +1,426 @@
+{
+  "data": {
+    "id": "31f07c0a-2a80-41d2-9c1a-4a8092c9c7ad",
+    "name": "Homemade Sushi: Nigiri and Maki Rolls",
+    "description": "Delicate, perfectly seasoned grains of sushi rice pair harmoniously with fresh seafood and crisp vegetables. This foundational recipe guides you through crafting elegant nigiri and classic maki rolls in your own kitchen.",
+    "category": "Dinner",
+    "cuisine": "Japanese",
+    "difficulty": "Intermediate",
+    "tags": [
+      "sushi",
+      "nigiri",
+      "maki",
+      "japanese",
+      "pescatarian",
+      "seafood",
+      "rice"
+    ],
+    "meta": {
+      "active_time": "PT1H",
+      "passive_time": "PT45M",
+      "total_time": "PT1H45M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 350
+    },
+    "dietary": {
+      "flags": [
+        "Pescatarian",
+        "Dairy-Free"
+      ],
+      "not_suitable_for": [
+        "Pregnant individuals (due to raw fish)",
+        "Immunocompromised individuals (due to raw fish)"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Sushi rice hardens significantly when refrigerated. Best consumed immediately.",
+        "duration": "PT24H"
+      },
+      "freezer": {
+        "notes": "Do not freeze.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Bamboo rolling mat (makisu)",
+        "required": true,
+        "alternative": "Parchment paper or plastic wrap"
+      },
+      {
+        "name": "Sharp chef's knife or yanagiba",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Large wide bowl (hangiri)",
+        "required": true,
+        "alternative": "Large glass or ceramic mixing bowl"
+      },
+      {
+        "name": "Rice paddle (shamoji)",
+        "required": true,
+        "alternative": "Wooden spoon"
+      },
+      {
+        "name": "Heavy-bottomed pot with tight-fitting lid",
+        "required": true,
+        "alternative": "Rice cooker"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Sushi Rice (Shari)",
+        "items": [
+          {
+            "name": "short-grain sushi rice",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": "dry",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "24663b2d-5fab-4384-8385-1532a901babd",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 330,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "filtered water preferred",
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Sushi Vinegar (Awasezu)",
+        "items": [
+          {
+            "name": "rice vinegar",
+            "quantity": 60,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "unseasoned",
+            "substitutions": [],
+            "ingredient_id": "fcbf5252-1be9-4dd4-8c22-4fda1dbdca28",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fine sea salt",
+            "quantity": 8,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Fillings and Toppings (Neta)",
+        "items": [
+          {
+            "name": "sushi-grade salmon fillet",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "boneless and skinless",
+            "notes": "must be commercially flash-frozen for safety",
+            "substitutions": [],
+            "ingredient_id": "6648fae7-4f63-45b3-b45d-19d927b57c2d",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "sushi-grade tuna steak",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "boneless",
+            "notes": "must be commercially flash-frozen for safety",
+            "substitutions": [],
+            "ingredient_id": "c4bcd639-73ba-4231-9d1f-1fbe47ba7048",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "japanese cucumber",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "seeded and julienned",
+            "notes": "about 100g",
+            "substitutions": [],
+            "ingredient_id": "457adec2-3e06-4efe-a26e-9e6ea9f84924",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "avocado",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "peeled and sliced",
+            "notes": "about 150g",
+            "substitutions": [],
+            "ingredient_id": "35c8f26f-d008-407a-9bf3-48c8aa641729",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Wrappings and Accompaniments",
+        "items": [
+          {
+            "name": "nori sheets",
+            "quantity": 4,
+            "unit": null,
+            "preparation": "cut in half crosswise",
+            "notes": "about 10g total",
+            "substitutions": [],
+            "ingredient_id": "c4b7f8d9-242e-4135-8c47-0644e9b25be6",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "soy sauce",
+            "quantity": 60,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "tamari for gluten-free"
+            ],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "wasabi paste",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "1e889b3e-e22b-4c08-b147-a4e1520a2c53",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "pickled ginger (gari)",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5cf94206-2d9c-4791-9758-31b05b6fa51a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "cook",
+        "text": "Rinse the sushi rice in a fine-mesh strainer under cold water until the water runs completely clear. Drain well and place in a heavy-bottomed pot with the measured filtered water. Let soak for 30 minutes, then bring to a boil over medium-high heat. Once boiling, reduce to a low simmer, cover tightly, and cook for 15 minutes. Remove from heat and let steam, covered, for 10 minutes.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT55M",
+          "doneness_cues": {
+            "visual": "water is fully absorbed and rice grains are plump",
+            "tactile": "tender but with a slight bite"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "While the rice cooks, combine the rice vinegar, sugar, and fine sea salt in a small saucepan. Heat gently over low heat, stirring constantly, until the sugar and salt completely dissolve. Do not allow the mixture to boil. Set aside to cool to room temperature.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": {
+            "celsius": 50,
+            "fahrenheit": 122
+          },
+          "duration": "PT5M",
+          "doneness_cues": {
+            "visual": "liquid is completely clear with no visible sugar crystals",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Transfer the hot cooked rice to a large wide bowl. Pour the cooled vinegar mixture evenly over the rice. Using a rice paddle, gently slice through the rice at an angle and fold it over, being careful not to smash the grains. Fan the rice simultaneously to cool it quickly to body temperature (around 37°C/98°F), which gives it a glossy finish.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": {
+            "celsius": 37,
+            "fahrenheit": 99
+          },
+          "duration": "PT15M",
+          "doneness_cues": {
+            "visual": "grains are separate and shiny",
+            "tactile": "rice is slightly sticky but not mushy, warm to the touch"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Prepare your fillings using strict hygiene practices for raw fish. Keep fish chilled until cutting. Use separate cutting boards for fish and vegetables to prevent cross-contamination. For nigiri, cut thin, wide rectangular slices of salmon and tuna at a 45-degree angle. For maki rolls, cut the remaining fish into long, 1cm thick strips. Have your julienned cucumber and sliced avocado ready.",
+        "structured": {
+          "action": "SLICE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "assemble",
+        "text": "To assemble maki rolls, place a half-sheet of nori rough-side up on a bamboo mat. Lightly wet your hands with tezu (a mix of water and a splash of vinegar) to prevent sticking. Spread a thin, even layer of about 70g of rice over the nori, leaving a bare 1cm border at the top edge. Arrange your matchstick fillings horizontally across the center of the rice.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "nori is mostly covered but you can still see the dark green seaweed through gaps in the rice",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Lift the bottom edge of the bamboo mat nearest you and roll it tightly over the fillings, tucking the edge over the filling. Apply gentle, even pressure to shape the roll into a firm cylinder. Roll forward again to seal the bare edge of the nori against the roll. Squeeze gently to set the shape, then unroll the mat.",
+        "structured": {
+          "action": "SHAPE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "roll feels firm and holds its shape without ingredients falling out"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "To assemble nigiri, wet your hands with tezu and scoop about 15g of seasoned rice. Gently squeeze and shape it into a small, compact rectangular oval. Place a slice of fish over the rice, optionally adding a tiny dab of wasabi between the fish and rice. Press lightly with two fingers to adhere the fish to the rice mound.",
+        "structured": {
+          "action": "SHAPE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "fish drapes nicely over the edges of the rice oval",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Using a very sharp knife wiped with a damp cloth between every single cut, slice each maki roll in half, then cut each half into three equal pieces, yielding six pieces per roll. Arrange the maki and nigiri elegantly on a platter. Serve immediately alongside soy sauce, wasabi paste, and pickled ginger.",
+        "structured": {
+          "action": "PLATE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Sushi rice is overly mushy and wet",
+        "likely_cause": "Too much water added during cooking, or rice was not properly cooled and fanned while folding in the vinegar",
+        "prevention": "Weigh water accurately and ensure diligent fanning during the folding process to evaporate excess surface moisture",
+        "fix": "Spread rice into a thinner layer and fan for an additional 10 minutes. If completely unsalvageable, repurpose into a savory rice porridge or congee"
+      },
+      {
+        "symptom": "Maki roll falls apart when cutting or eating",
+        "likely_cause": "Not rolled tightly enough or the bare nori edge was not adequately sealed",
+        "prevention": "Apply firm, even pressure across the bamboo mat during shaping, and ensure the top 1cm border remains rice-free for a proper seal",
+        "fix": "Place the loose roll back into the bamboo mat and apply firm, even pressure to reshape and compress it before cutting"
+      },
+      {
+        "symptom": "Rice aggressively sticks to fingers making shaping impossible",
+        "likely_cause": "Hands are too dry while handling the seasoned rice",
+        "prevention": "Keep a small bowl of tezu (water mixed with a splash of vinegar) at your workstation to lightly dampen hands before grabbing rice",
+        "fix": "Wash hands thoroughly, dry them, lightly dampen with tezu, and resume shaping"
+      }
+    ],
+    "chef_notes": [
+      "The secret to perfect sushi is handling the rice with a very light touch. Never smash the grains; seasoned rice needs air pockets to feel light on the palate.",
+      "Always use a mixture called tezu (water with a splash of rice vinegar) to wet your hands when handling rice. This prevents sticking without diluting the seasoning.",
+      "When cutting maki rolls, the sharpness of your knife is critical. Wipe the blade with a damp cloth between every single cut to remove starches and ensure a clean slice.",
+      "Sourcing fish is the most critical safety step. Standard grocery store fish is not safe for raw consumption. You must seek out fish explicitly labeled sushi-grade or sashimi-grade, which dictates it has been deep-frozen to eliminate parasites."
+    ],
+    "cultural_context": "The modern concept of nigiri sushi originated as Edomae-zushi in Tokyo (formerly Edo) during the 1820s. It was essentially the world's first fast food, served from street stalls to busy workers. In traditional Japanese sushi craft, the seasoned rice (shari) is considered the true test of a chef's skill, often taking years to master before an apprentice is allowed to prepare the fish (neta).",
+    "nutrition": {
+      "per_serving": {
+        "calories": 567.39,
+        "protein_g": 31.4,
+        "carbohydrates_g": 76.85,
+        "fat_g": 19.58,
+        "saturated_fat_g": 1.5,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 3.01,
+        "polyunsaturated_fat_g": 1.5,
+        "fiber_g": 2.92,
+        "sugar_g": 10.98,
+        "sodium_mg": 2648.03,
+        "cholesterol_mg": 19,
+        "potassium_mg": 450.25,
+        "calcium_mg": 170.76,
+        "iron_mg": 7.52,
+        "magnesium_mg": 219.38,
+        "phosphorus_mg": 398.75,
+        "zinc_mg": 2,
+        "vitamin_a_mcg": 473.45,
+        "vitamin_c_mg": 9.77,
+        "vitamin_d_mcg": 2.85,
+        "vitamin_e_mg": 1.54,
+        "vitamin_k_mcg": 4.37,
+        "vitamin_b6_mg": 0.44,
+        "vitamin_b12_mcg": 4.72,
+        "thiamin_mg": 0.2,
+        "riboflavin_mg": 0.24,
+        "niacin_mg": 6.2,
+        "folate_mcg": 26.88,
+        "water_g": 202.2,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14754,
+    "monthly_limit": 15000,
+    "daily_remaining": 293,
+    "daily_limit": 500
+  }
+}

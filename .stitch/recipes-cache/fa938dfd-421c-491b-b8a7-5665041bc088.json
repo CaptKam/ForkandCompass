@@ -1,0 +1,498 @@
+{
+  "data": {
+    "id": "fa938dfd-421c-491b-b8a7-5665041bc088",
+    "name": "Classic Tres Leches Cake",
+    "description": "A remarkably tender sponge cake soaked in a rich, sweet blend of three milks, crowned with billowy whipped cream and a dusting of warm cinnamon.",
+    "category": "Dessert",
+    "cuisine": "Mexican",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Mexican",
+      "Dessert",
+      "Cake",
+      "Baking",
+      "Make-Ahead",
+      "Celebration"
+    ],
+    "meta": {
+      "active_time": "PT45M",
+      "passive_time": "PT5H30M",
+      "total_time": "PT6H15M",
+      "overnight_required": true,
+      "yields": "12 servings",
+      "yield_count": 12,
+      "serving_size_g": 150
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian"
+      ],
+      "not_suitable_for": [
+        "Lactose intolerance",
+        "Dairy allergy",
+        "Gluten intolerance",
+        "Wheat allergy"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Keep tightly covered in the baking dish to prevent absorbing refrigerator odors.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended as the milk soak will crystallize and ruin the crumb texture upon thawing.",
+        "duration": null
+      },
+      "reheating": "Do not reheat. Serve chilled straight from the refrigerator.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Oven",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "23x33 centimeter baking dish",
+        "required": true,
+        "alternative": "Large casserole dish"
+      },
+      {
+        "name": "Electric mixer",
+        "required": true,
+        "alternative": "Balloon whisk and vigorous arm strength"
+      },
+      {
+        "name": "Large mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Medium mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Fine mesh sifter",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Rubber spatula",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Skewer or fork",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Cake Sponge",
+        "items": [
+          {
+            "name": "all-purpose flour",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "baking powder",
+            "quantity": 8,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5c0b5fc8-b210-4e39-b3a6-479541ac45d2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fine sea salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "large eggs",
+            "quantity": 5,
+            "unit": null,
+            "preparation": "separated into yolks and whites",
+            "notes": "about 250g total weight",
+            "substitutions": [],
+            "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": null,
+            "notes": "for beating with egg yolks",
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": null,
+            "notes": "for whipping with egg whites",
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "whole milk",
+            "quantity": 80,
+            "unit": "ml",
+            "preparation": "room temperature",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0d4b43bc-f9a5-4b03-8dbb-9ddc3e1ae2f5",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Tres Leches Soak",
+        "items": [
+          {
+            "name": "evaporated milk",
+            "quantity": 354,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "684e9506-fd34-4087-bcbd-d3a263aa2ee5",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "sweetened condensed milk",
+            "quantity": 397,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d9d1435b-7445-46fd-a682-be48baaad067",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "heavy cream",
+            "quantity": 60,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "whole milk",
+              "half-and-half"
+            ],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Whipped Topping",
+        "items": [
+          {
+            "name": "heavy whipping cream",
+            "quantity": 350,
+            "unit": "ml",
+            "preparation": "cold",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "powdered sugar",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "348e3418-0252-4e05-80e2-4ee53081f4c8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cinnamon",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": "for dusting",
+            "substitutions": [],
+            "ingredient_id": "a789fa1a-78af-4718-b6f8-1a3bb6a6c92d",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 175°C/350°F. Lightly grease a 23x33 centimeter baking dish with non-stick spray or butter.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 175,
+            "fahrenheit": 347
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a large mixing bowl, using an electric mixer, whip the egg yolks with 150 grams of the granulated sugar until the mixture is pale yellow and has doubled in volume. Stir in the whole milk and vanilla extract.",
+        "structured": {
+          "action": "WHIP",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Sift the all-purpose flour, baking powder, and fine sea salt directly into the egg yolk mixture. Gently mix with a rubber spatula until just combined, taking care not to overmix.",
+        "structured": {
+          "action": "SIFT",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "In a separate, impeccably clean medium mixing bowl, whip the egg whites with an electric mixer until soft peaks form. Gradually add the remaining 50 grams of granulated sugar and continue whipping until stiff, glossy peaks form.",
+        "structured": {
+          "action": "WHIP",
+          "temperature": null,
+          "duration": "PT4M",
+          "doneness_cues": {
+            "visual": "stiff, glossy peaks that hold their shape straight up when beaters are lifted",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "Add one-third of the whipped egg whites to the egg yolk batter to lighten it, folding gently. Fold in the remaining egg whites in two additions, using a sweeping motion from the bottom of the bowl over the top to retain as much air as possible.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Pour the airy batter into the prepared baking dish and gently smooth the top. Bake for 25 to 30 minutes. The cake is done when the center springs back to a gentle touch and reaches an internal temperature of 95°C/203°F.",
+        "structured": {
+          "action": "BAKE",
+          "temperature": {
+            "celsius": 175,
+            "fahrenheit": 347
+          },
+          "duration": "PT30M",
+          "doneness_cues": {
+            "visual": "golden brown surface",
+            "tactile": "springs back to a gentle touch and a skewer inserted in the center comes out clean"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "Remove the cake from the oven and allow it to cool completely in the pan at room temperature. Do not rush this process as pouring cold milk over hot cake causes a rubbery texture.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": "PT1H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Once the cake is completely cool, use a skewer or a fork to pierce holes generously all over the surface. Ensure the holes penetrate all the way to the bottom of the pan to allow even soaking.",
+        "structured": {
+          "action": "DOCK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "assemble",
+        "text": "In a medium mixing bowl, whisk together the evaporated milk, sweetened condensed milk, and 60 milliliters of heavy cream until the mixture is entirely homogeneous.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "assemble",
+        "text": "Slowly pour the three-milk mixture evenly over the pierced cake. Pay special attention to the edges, pausing as needed to allow the sponge to drink up the liquid before adding more.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 11,
+        "phase": "assemble",
+        "text": "Cover the baking dish tightly with plastic wrap or a lid and refrigerate for at least 4 hours, or ideally overnight, to allow the milks to soak perfectly into the crumb.",
+        "structured": {
+          "action": "CHILL",
+          "temperature": null,
+          "duration": "PT4H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 12,
+        "phase": "finish",
+        "text": "When ready to serve, whip the 350 milliliters of heavy whipping cream, powdered sugar, and vanilla extract in a chilled bowl until stiff peaks form.",
+        "structured": {
+          "action": "WHIP",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": {
+            "visual": "stiff, spreadable peaks that do not droop",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "Chill your mixing bowl and beaters in the freezer for 15 minutes prior to whipping the cream to achieve maximum volume quickly."
+        ]
+      },
+      {
+        "step_number": 13,
+        "phase": "finish",
+        "text": "Spread the whipped cream evenly over the surface of the soaked cake. Lightly dust the top with ground cinnamon. Keep refrigerated until the exact moment of serving.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Cake is dense and did not absorb the milk mixture.",
+        "likely_cause": "Egg whites were deflated during folding, or the cake was not pierced deeply enough.",
+        "prevention": "Fold egg whites gently in three stages using a sweeping motion to preserve the air bubbles. Ensure the skewer reaches the absolute bottom of the pan when piercing the baked sponge.",
+        "fix": "Cannot be fixed completely once soaked, but serving the unabsorbed milk mixture in a small pitcher alongside individual slices helps mitigate dryness."
+      }
+    ],
+    "chef_notes": [
+      "The secret to a perfect sponge that absorbs liquid without turning to mush is whipping the egg whites to stiff peaks and folding them gently to build a strong, airy matrix.",
+      "Make sure the cake is completely cool before adding the milk soak. Pouring cold milk over a hot cake can cause the crumb to collapse and become dense and gelatinous.",
+      "For the best flavor and texture, allow the soaked cake to rest in the refrigerator overnight. This gives the sponge adequate time to evenly distribute the milks and soften perfectly.",
+      "When piercing the cake, do not be shy. You want numerous, evenly spaced holes. A bamboo skewer creates the ideal channel size for the rich milk mixture to flow through without destroying the surface crust."
+    ],
+    "cultural_context": "Tres Leches cake is a beloved celebration dessert deeply rooted in Mexican culinary tradition, though its exact origins are debated across Latin America. The proliferation of canned milks in the mid-twentieth century helped popularize this decadent treat, transforming a European-style sponge cake into a distinctly Latin American masterpiece. It remains an absolute staple at weddings, birthdays, and family gatherings, celebrated for its uniquely refreshing, rich, and indulgent profile.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 451.39,
+        "protein_g": 10.96,
+        "carbohydrates_g": 54,
+        "fat_g": 21.55,
+        "saturated_fat_g": 13.19,
+        "trans_fat_g": 0.43,
+        "monounsaturated_fat_g": 4.74,
+        "polyunsaturated_fat_g": 1.11,
+        "fiber_g": 0.44,
+        "sugar_g": 43.94,
+        "sodium_mg": 157.63,
+        "cholesterol_mg": 128.02,
+        "potassium_mg": 308.25,
+        "calcium_mg": 189.09,
+        "iron_mg": 0.69,
+        "magnesium_mg": 17.31,
+        "phosphorus_mg": 209.82,
+        "zinc_mg": 0.79,
+        "vitamin_a_mcg": 201.33,
+        "vitamin_c_mg": 1.07,
+        "vitamin_d_mcg": 1.12,
+        "vitamin_e_mg": 0.6,
+        "vitamin_k_mcg": 1.46,
+        "vitamin_b6_mg": 0.07,
+        "vitamin_b12_mcg": 0.42,
+        "thiamin_mg": 0.06,
+        "riboflavin_mg": 0.32,
+        "niacin_mg": 0.27,
+        "folate_mcg": 18.39,
+        "water_g": 52.46,
+        "alcohol_g": 0.29,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14751,
+    "monthly_limit": 15000,
+    "daily_remaining": 290,
+    "daily_limit": 500
+  }
+}

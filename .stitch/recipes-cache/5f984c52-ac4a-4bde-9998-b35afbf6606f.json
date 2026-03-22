@@ -1,0 +1,363 @@
+{
+  "data": {
+    "id": "5f984c52-ac4a-4bde-9998-b35afbf6606f",
+    "name": "Matcha Pie",
+    "description": "A smooth, verdant custard pie flavored with culinary-grade matcha powder and baked in a crisp pastry shell.",
+    "category": "Dessert",
+    "cuisine": "American",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Matcha",
+      "Custard Pie",
+      "Baking",
+      "Tea-Flavored"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT50M",
+      "total_time": "PT1H5M",
+      "overnight_required": false,
+      "yields": "8 servings",
+      "yield_count": 8,
+      "serving_size_g": 148
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store covered to prevent the custard from absorbing fridge odors.",
+        "duration": "PT72H"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended for custard-based pies as it may break the emulsion.",
+        "duration": null
+      },
+      "reheating": "Serve chilled or at room temperature.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Oven",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Fine-mesh sieve",
+        "required": true,
+        "alternative": "Cheesecloth"
+      },
+      {
+        "name": "9-inch pie shell",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Main",
+        "items": [
+          {
+            "name": "sugar",
+            "quantity": 133,
+            "unit": "g",
+            "preparation": "granulated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "flour",
+            "quantity": 20,
+            "unit": "g",
+            "preparation": "all-purpose",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "11e03c79-4bf6-47ed-babb-753b1a9789c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "salt",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "matcha powder",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "culinary grade",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "44d6af42-f4c7-419b-875f-0733af9f41fd",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "butter",
+            "quantity": 115,
+            "unit": "g",
+            "preparation": "melted",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "eaea8246-f7e7-43d0-98b1-6e668894fea1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "egg",
+            "quantity": 4,
+            "unit": null,
+            "preparation": null,
+            "notes": "approx 200g",
+            "substitutions": [],
+            "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "heavy cream",
+            "quantity": 475,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 2.5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "pie shell",
+            "quantity": 1,
+            "unit": null,
+            "preparation": null,
+            "notes": "approx 225g",
+            "substitutions": [],
+            "ingredient_id": "91e8285e-9999-40d4-b1c0-d41e4e17216b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "whipped cream",
+            "quantity": null,
+            "unit": null,
+            "preparation": "for serving",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5015e61b-c5ee-48a1-82ce-6d78e35896cb",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 160°C (325°F).",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Whisk together the sugar, flour, salt, and matcha powder in a mixing bowl until the color is uniform and no clumps remain.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Pour the melted butter into the dry ingredients and stir until combined.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Beat the eggs into the mixture one at a time, ensuring each is incorporated before adding the next.",
+        "structured": {
+          "action": "BEAT",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Continue beating the mixture for 2 minutes until the texture is smooth.",
+        "structured": {
+          "action": "BEAT",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Stir in the heavy cream and vanilla extract until the liquid is fully integrated.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Strain the mixture through a fine-mesh sieve directly into the pie shell to remove any remaining lumps.",
+        "structured": {
+          "action": "STRAIN",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "cook",
+        "text": "Bake for 50 minutes at 160°C (325°F), rotating the pie 180 degrees halfway through the baking time.",
+        "structured": {
+          "action": "BAKE",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": "PT50M",
+          "doneness_cues": {
+            "visual": "Edges are firm, center remains slightly wobbly.",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Remove from the oven and allow the pie to cool completely on a wire rack before serving.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Lumps of green powder in the finished pie",
+        "likely_cause": "Matcha powder was not sifted or whisked thoroughly into dry ingredients.",
+        "prevention": "Sift matcha with the flour and sugar before adding liquids.",
+        "fix": "The straining step in the instructions will remove most lumps before baking."
+      },
+      {
+        "symptom": "Custard is cracked or rubbery",
+        "likely_cause": "The pie was overbaked or the oven temperature was too high.",
+        "prevention": "Check for doneness at 45 minutes; the center should still jiggle slightly.",
+        "fix": "Cover cracks with whipped cream before serving."
+      }
+    ],
+    "chef_notes": [
+      "Use high-quality, culinary-grade matcha for the best flavor and vibrant green color. Ceremonial grade matcha is too delicate and expensive for baking.",
+      "Sifting the dry ingredients, especially the matcha powder, is crucial for a smooth, lump-free custard. Consider sifting them together twice.",
+      "Don't overbake the pie. The center should still have a slight wobble when gently shaken, as it will continue to set as it cools. Overbaking can lead to a rubbery texture.",
+      "Allow the pie to cool completely at room temperature before refrigerating. This helps prevent condensation and ensures the custard sets properly."
+    ],
+    "cultural_context": "While the concept of custard pies is deeply rooted in American baking traditions, the inclusion of matcha powder introduces a distinctly Japanese element. This fusion reflects a modern culinary trend of incorporating global flavors into familiar formats, creating a sophisticated dessert that appeals to a wide audience.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 564.81,
+        "protein_g": 7.38,
+        "carbohydrates_g": 39.54,
+        "fat_g": 42.67,
+        "saturated_fat_g": 23.55,
+        "trans_fat_g": 0.75,
+        "monounsaturated_fat_g": 14.01,
+        "polyunsaturated_fat_g": 2.46,
+        "fiber_g": 1.24,
+        "sugar_g": 26.21,
+        "sodium_mg": 243.69,
+        "cholesterol_mg": 193.85,
+        "potassium_mg": 189.44,
+        "calcium_mg": 74.78,
+        "iron_mg": 2.03,
+        "magnesium_mg": 22.57,
+        "phosphorus_mg": 131.57,
+        "zinc_mg": 1.17,
+        "vitamin_a_mcg": 504.91,
+        "vitamin_c_mg": 1.83,
+        "vitamin_d_mcg": 1.47,
+        "vitamin_e_mg": 1.67,
+        "vitamin_k_mcg": 8.18,
+        "vitamin_b6_mg": 0.08,
+        "vitamin_b12_mcg": 0.35,
+        "thiamin_mg": 0.14,
+        "riboflavin_mg": 0.33,
+        "niacin_mg": 1.07,
+        "folate_mcg": 39.49,
+        "water_g": 59.81,
+        "alcohol_g": 0.11,
+        "caffeine_mg": 2.25
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14783,
+    "monthly_limit": 15000,
+    "daily_remaining": 322,
+    "daily_limit": 500
+  }
+}

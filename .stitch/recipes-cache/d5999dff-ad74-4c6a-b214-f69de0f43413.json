@@ -1,0 +1,325 @@
+{
+  "data": {
+    "id": "d5999dff-ad74-4c6a-b214-f69de0f43413",
+    "name": "Italian Roasted Peppers with Anchovy and Caper Dressing",
+    "description": "A vibrant, savory antipasto featuring sweet, blistered bell peppers marinated in a rich, umami-packed garlic and anchovy infused extra virgin olive oil with briny capers.",
+    "category": "Appetizer",
+    "cuisine": "Italian",
+    "difficulty": "Easy",
+    "tags": [
+      "Italian",
+      "Anchovy",
+      "Caper",
+      "Five Ingredient",
+      "Appetizer",
+      "Side",
+      "Dairy-Free",
+      "Gluten-Free",
+      "Nut-Free",
+      "Antipasto",
+      "Pescatarian",
+      "Vegetable"
+    ],
+    "meta": {
+      "active_time": "PT20M",
+      "passive_time": "PT40M",
+      "total_time": "PT1H",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 150
+    },
+    "dietary": {
+      "flags": [
+        "Pescatarian",
+        "Gluten-Free",
+        "Dairy-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Peanut-Free",
+        "Soy-Free",
+        "Low-Carb",
+        "Paleo"
+      ],
+      "not_suitable_for": [
+        "Vegetarians",
+        "Vegans",
+        "Individuals with fish allergies"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight container. Flavors will deepen over time. Bring to room temperature before serving.",
+        "duration": "P5D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended as it will severely compromise the texture of the peppers.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Baking sheet",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Plastic wrap",
+        "required": true,
+        "alternative": "Large plate to cover the bowl"
+      },
+      {
+        "name": "Small skillet",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Tongs",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Primary Ingredients",
+        "items": [
+          {
+            "name": "red bell peppers",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "whole",
+            "notes": "approx 400g total weight",
+            "substitutions": [],
+            "ingredient_id": "8c4f8af4-14ec-4b21-8e25-e2e592f9144d",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "yellow bell peppers",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "whole",
+            "notes": "approx 400g total weight",
+            "substitutions": [],
+            "ingredient_id": "b8ed9fc6-8806-4baf-a073-89a5b79f63f0",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "anchovy fillets packed in oil",
+            "quantity": 6,
+            "unit": null,
+            "preparation": "drained and finely chopped",
+            "notes": "approx 20g total weight",
+            "substitutions": [],
+            "ingredient_id": "e06cb280-7055-45e9-910e-17614be5ebd3",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "capers",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "drained and rinsed",
+            "notes": "use non-pareil if available",
+            "substitutions": [],
+            "ingredient_id": "e7301d2c-b906-4ef8-917e-787be0b25880",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "extra virgin olive oil",
+            "quantity": 45,
+            "unit": "ml",
+            "preparation": "divided use",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "thinly sliced",
+            "notes": "approx 10g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 230°C (450°F). Lightly rub the whole bell peppers with a few drops of olive oil and place them on the baking sheet.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 230,
+            "fahrenheit": 446
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Roast the peppers in the oven for 25 to 30 minutes. Use tongs to turn them every 10 minutes to ensure even exposure to the heat.",
+        "structured": {
+          "action": "ROAST",
+          "temperature": null,
+          "duration": "PT30M",
+          "doneness_cues": {
+            "visual": "Skins should be completely blistered, wrinkled, and blackened in spots",
+            "tactile": "Peppers should feel soft and slightly collapsed"
+          }
+        },
+        "tips": [
+          "If the skins are not blistering, you can turn on the broiler for the last 3 to 5 minutes, watching closely to prevent burning."
+        ]
+      },
+      {
+        "step_number": 3,
+        "phase": "finish",
+        "text": "Using tongs, immediately transfer the hot peppers to a mixing bowl. Cover tightly with plastic wrap or a flat plate and let them sit for 15 minutes. This creates steam that loosens the skins.",
+        "structured": {
+          "action": "REST",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Once cool enough to handle, peel the charred skins off the peppers and discard them. Remove the stems and seeds, then slice the flesh into long strips. Place the strips into a clean serving bowl.",
+        "structured": {
+          "action": "SLICE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Clean strips of pepper meat with no charred skin or seeds attached",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "Do not rinse the peppers under water to remove seeds, as this washes away their sweet, concentrated juices."
+        ]
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "In a small skillet over medium-low heat, gently warm the 45ml of extra virgin olive oil, sliced garlic, and chopped anchovies. Cook, stirring frequently, for 3 to 4 minutes.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT4M",
+          "doneness_cues": {
+            "visual": "Anchovies should dissolve completely into the oil, and garlic should become translucent but not browned",
+            "tactile": "The mixture should form a thick, rustic paste"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Pour the warm garlic and anchovy oil over the sliced peppers. Add the rinsed capers and gently toss everything together until well coated.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "finish",
+        "text": "Let the mixture marinate at room temperature for at least 25 minutes before serving to allow the flavors to meld. Serve at room temperature.",
+        "structured": {
+          "action": "REST",
+          "temperature": null,
+          "duration": "PT25M",
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Pepper skins are difficult to peel and tear the flesh",
+        "likely_cause": "The peppers were not roasted long enough to fully blister, or they did not steam long enough in the bowl",
+        "prevention": "Ensure skins are deeply blistered all over before removing from the oven, and allow a full 15 minutes of covered steaming",
+        "fix": "Use a sharp paring knife to carefully scrape the stubborn skin patches away from the flesh"
+      },
+      {
+        "symptom": "The garlic tastes bitter",
+        "likely_cause": "The skillet heat was too high, causing the garlic to fry and brown instead of gently infusing",
+        "prevention": "Keep the heat medium-low and remove the skillet from the heat immediately if the garlic begins to take on a dark color",
+        "fix": "Cannot be fixed. If the garlic burns, discard the oil mixture and start over to avoid ruining the peppers"
+      }
+    ],
+    "chef_notes": [
+      "For the best flavor, seek out high-quality anchovy fillets packed in olive oil or salt. Avoid anchovy paste, which can have a tinny, metallic aftertaste.",
+      "If using salt-packed capers instead of brined, soak them in cold water for 15 minutes and rinse thoroughly to remove excess sodium before adding to the dish.",
+      "The resting period is crucial. Giving the sweet peppers time to absorb the briny, umami-rich anchovy oil transforms the dish from a simple side into a complex antipasto.",
+      "Save any leftover infused oil at the bottom of the serving bowl; it makes an exceptional dipping oil for crusty bread or a dressing base for bitter greens."
+    ],
+    "cultural_context": "This recipe is deeply rooted in Southern Italian and Sicilian culinary traditions, where the combination of sweet summer produce and briny preserved seafood is a foundational flavor profile. Peperonata and similar roasted pepper antipasti are almost always served at room temperature to allow the robust qualities of extra virgin olive oil, garlic, and anchovies to fully bloom. The anchovies act not as a fishy element, but as a savory backbone that elevates the natural sweetness of the roasted bell peppers.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 168.4,
+        "protein_g": 3.77,
+        "carbohydrates_g": 13.55,
+        "fat_g": 12.32,
+        "saturated_fat_g": 1.77,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 8.41,
+        "polyunsaturated_fat_g": 1.5,
+        "fiber_g": 3.29,
+        "sugar_g": 4.26,
+        "sodium_mg": 366.4,
+        "cholesterol_mg": 4.25,
+        "potassium_mg": 463.34,
+        "calcium_mg": 37.24,
+        "iron_mg": 1.35,
+        "magnesium_mg": 30.55,
+        "phosphorus_mg": 67.18,
+        "zinc_mg": 0.6,
+        "vitamin_a_mcg": 168.13,
+        "vitamin_c_mg": 313.1,
+        "vitamin_d_mcg": 0.09,
+        "vitamin_e_mg": 3.44,
+        "vitamin_k_mcg": 14.17,
+        "vitamin_b6_mg": 0.5,
+        "vitamin_b12_mcg": 0.05,
+        "thiamin_mg": 0.09,
+        "riboflavin_mg": 0.15,
+        "niacin_mg": 2.93,
+        "folate_mcg": 74.45,
+        "water_g": 194.47,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14760,
+    "monthly_limit": 15000,
+    "daily_remaining": 299,
+    "daily_limit": 500
+  }
+}

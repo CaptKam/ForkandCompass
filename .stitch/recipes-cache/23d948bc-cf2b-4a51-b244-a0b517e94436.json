@@ -1,0 +1,318 @@
+{
+  "data": {
+    "id": "23d948bc-cf2b-4a51-b244-a0b517e94436",
+    "name": "Classic Tamarind Chutney",
+    "description": "A glossy, mahogany-colored condiment delivering a complex punch of sweet, tart, and deeply savory spiced notes. The quintessential dipping sauce for samosas, pakoras, and chaat.",
+    "category": "Condiment",
+    "cuisine": "Indian",
+    "difficulty": "Easy",
+    "tags": [
+      "chutney",
+      "tamarind",
+      "condiment",
+      "indian",
+      "saunth",
+      "chaat",
+      "vegan",
+      "gluten-free"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT20M",
+      "total_time": "PT35M",
+      "overnight_required": false,
+      "yields": "300g",
+      "yield_count": 20,
+      "serving_size_g": 15
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Dairy-Free",
+        "Egg-Free",
+        "Gluten-Free",
+        "Nut-Free",
+        "Peanut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight glass jar.",
+        "duration": "P1M"
+      },
+      "freezer": {
+        "notes": "Freeze in ice cube trays for easy portioning.",
+        "duration": "P6M"
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Medium saucepan",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Fine-mesh strainer",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Silicone spatula",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Base",
+        "items": [
+          {
+            "name": "seedless tamarind block",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "broken into chunks",
+            "notes": null,
+            "substitutions": [
+              "tamarind concentrate (use 50g and reduce water to 300ml)"
+            ],
+            "ingredient_id": "c9dd70fa-d98b-459d-bd61-21b5778f1d4a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 400,
+            "unit": "ml",
+            "preparation": "hot",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "jaggery",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "crushed or grated",
+            "notes": null,
+            "substitutions": [
+              "dark brown sugar"
+            ],
+            "ingredient_id": "36d35eb7-2cba-4de4-8ec0-8b95c235c0e0",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Spices",
+        "items": [
+          {
+            "name": "roasted cumin powder",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "b9c9e3cb-61b7-4bbc-87c0-7858d42d7935",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kashmiri red chili powder",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": "provides vibrant color with mild heat",
+            "substitutions": [],
+            "ingredient_id": "95bf3619-4042-48ea-8f4d-86f61e1721c6",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "black salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": "also known as kala namak",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground ginger",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": "also known as saunth",
+            "substitutions": [],
+            "ingredient_id": "401ddd0b-3597-4b46-bb54-f3bc755048bb",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Combine the tamarind chunks and hot water in a medium saucepan. Bring to a rapid boil at 100 degrees Celsius (212 degrees Fahrenheit) over medium-high heat, then turn off the heat. Let the tamarind sit and soften for 5 minutes.",
+        "structured": {
+          "action": "BOIL",
+          "temperature": {
+            "celsius": 100,
+            "fahrenheit": 212
+          },
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Using a silicone spatula, mash the softened tamarind in the water. Pour the mixture through a fine-mesh strainer set over a mixing bowl. Press firmly on the solids to extract all the pulp. Discard the leftover fibers and incidental seeds.",
+        "structured": {
+          "action": "STRAIN",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Rinse the saucepan and return the strained tamarind liquid to it over medium heat. Add the crushed jaggery, roasted cumin powder, Kashmiri red chili powder, black salt, ground ginger, and kosher salt. Whisk vigorously to dissolve the jaggery and incorporate the spices.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Bring the mixture to a gentle bubble, then reduce the heat to low. Simmer uncovered, stirring occasionally, until the liquid reduces and thickens slightly. The chutney is ready when it lightly coats the back of a spoon.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": {
+            "visual": "glossy, mahogany color with a syrupy consistency",
+            "tactile": "coats the back of a spoon and leaves a clean line when a finger is swiped through"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Remove the saucepan from the heat and allow the chutney to sit at room temperature. It will thicken considerably as it cools. Transfer to a clean glass jar once fully cooled.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": "PT20M",
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Chutney is too thin after cooling",
+        "likely_cause": "Not simmered long enough or too much water was used",
+        "prevention": "Ensure precise measurement of water and test consistency using the spoon-coating method before removing from heat",
+        "fix": "Return to a saucepan and simmer for another 5 to 7 minutes until reduced"
+      },
+      {
+        "symptom": "Chutney solidifies or is too thick when cold",
+        "likely_cause": "Over-reduced during simmering or jaggery ratio too high",
+        "prevention": "Remove from heat while slightly thinner than the desired final consistency",
+        "fix": "Stir in a few tablespoons of warm water until the desired consistency is reached"
+      },
+      {
+        "symptom": "Lacks the characteristic sulfurous, tangy punch",
+        "likely_cause": "Black salt (kala namak) was omitted or stale",
+        "prevention": "Always use fresh black salt, as it provides the essential chaat flavor profile",
+        "fix": "Stir in an extra pinch of black salt at the end of cooking"
+      }
+    ],
+    "chef_notes": [
+      "Black salt (kala namak) is non-negotiable for an authentic flavor profile. Its distinct, slightly sulfurous taste is what gives Indian street food its characteristic 'chaat' flavor.",
+      "Roasted cumin powder yields a deeper, smokier flavor than raw ground cumin. To make your own, toast whole cumin seeds in a dry skillet until fragrant, cool completely, and grind to a fine powder.",
+      "Jaggery can vary wildly in sweetness and saltiness depending on the source. Always taste your finished chutney and adjust with a pinch more jaggery or a splash of water if needed.",
+      "Do not panic if the chutney seems watery when you take it off the heat. The high pectin content in tamarind paired with the cooling jaggery will cause it to thicken drastically as it reaches room temperature."
+    ],
+    "cultural_context": "Tamarind chutney, often referred to as 'Saunth' due to the traditional inclusion of dried ginger powder, is a pillar of Indian street food culture. It serves as the essential sweet-and-sour counterpart to the vibrant, spicy green coriander-mint chutney. Together, these two sauces provide the foundational flavor architecture for countless chaat variations across the subcontinent.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 42.15,
+        "protein_g": 0.22,
+        "carbohydrates_g": 10.74,
+        "fat_g": 0.11,
+        "saturated_fat_g": 0.02,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 0.05,
+        "polyunsaturated_fat_g": 0.02,
+        "fiber_g": 0.35,
+        "sugar_g": 9.24,
+        "sodium_mg": 105.75,
+        "cholesterol_mg": null,
+        "potassium_mg": 50.22,
+        "calcium_mg": 13.32,
+        "iron_mg": 0.41,
+        "magnesium_mg": 6.83,
+        "phosphorus_mg": 7.82,
+        "zinc_mg": 0.03,
+        "vitamin_a_mcg": 2.48,
+        "vitamin_c_mg": 0.2,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.07,
+        "vitamin_k_mcg": 0.31,
+        "vitamin_b6_mg": 0.01,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.02,
+        "riboflavin_mg": 0.01,
+        "niacin_mg": 0.14,
+        "folate_mcg": 0.86,
+        "water_g": 21.72,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14769,
+    "monthly_limit": 15000,
+    "daily_remaining": 308,
+    "daily_limit": 500
+  }
+}

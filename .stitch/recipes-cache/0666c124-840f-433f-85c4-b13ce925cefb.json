@@ -1,0 +1,477 @@
+{
+  "data": {
+    "id": "0666c124-840f-433f-85c4-b13ce925cefb",
+    "name": "Chai Masala Spiced Apple Cake",
+    "description": "A comforting, aromatic cake combining the tender crumb of a classic apple bake with the deep, warming spices of traditional Indian masala chai. Notes of ginger, green cardamom, cinnamon, and a hint of black pepper elevate sweet, tart apples.",
+    "category": "Baked Good",
+    "cuisine": "Indian Fusion",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Indian Fusion",
+      "Dessert",
+      "Cake",
+      "Apple",
+      "Baking",
+      "Spiced",
+      "Autumn",
+      "Comfort Food"
+    ],
+    "meta": {
+      "active_time": "PT30M",
+      "passive_time": "PT1H",
+      "total_time": "PT1H30M",
+      "overnight_required": false,
+      "yields": "1 round cake",
+      "yield_count": 8,
+      "serving_size_g": 115
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Nut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight container to maintain moisture.",
+        "duration": "P5D"
+      },
+      "freezer": {
+        "notes": "Wrap individual slices tightly in plastic wrap and then foil before freezing.",
+        "duration": "P3M"
+      },
+      "reheating": "Microwave individual slices for 10-15 seconds to serve warm.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "20cm round cake pan",
+        "required": true,
+        "alternative": "20cm square baking pan"
+      },
+      {
+        "name": "Large mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Medium mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Electric hand mixer",
+        "required": true,
+        "alternative": "Sturdy whisk and strong arm"
+      },
+      {
+        "name": "Rubber spatula",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Wire cooling rack",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Dry Ingredients",
+        "items": [
+          {
+            "name": "all-purpose flour",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "baking powder",
+            "quantity": 8,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5c0b5fc8-b210-4e39-b3a6-479541ac45d2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "baking soda",
+            "quantity": 4,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "43f6961e-dc10-42f7-a024-e7f9c60cbdca",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Chai Masala Spices",
+        "items": [
+          {
+            "name": "ground ginger",
+            "quantity": 6,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "401ddd0b-3597-4b46-bb54-f3bc755048bb",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cardamom",
+            "quantity": 4,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Freshly ground green cardamom pods yield the best flavor",
+            "substitutions": [],
+            "ingredient_id": "c56f6cd8-882c-487c-956f-3a91ee1fec07",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cinnamon",
+            "quantity": 4,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a789fa1a-78af-4718-b6f8-1a3bb6a6c92d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground cloves",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "7b3bf68a-3ae9-4dad-91f4-6c7a14ec5e0e",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ground black pepper",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c25dc1c9-4ea7-403c-976e-ab1d06578b7a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Wet Ingredients",
+        "items": [
+          {
+            "name": "unsalted butter",
+            "quantity": 115,
+            "unit": "g",
+            "preparation": "softened at room temperature",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "eaea8246-f7e7-43d0-98b1-6e668894fea1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "light brown sugar",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "packed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "36d35eb7-2cba-4de4-8ec0-8b95c235c0e0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "eggs",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "room temperature",
+            "notes": "Large size, approximately 100g total",
+            "substitutions": [],
+            "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "plain whole milk yogurt",
+            "quantity": 120,
+            "unit": "ml",
+            "preparation": "room temperature",
+            "notes": null,
+            "substitutions": [
+              "buttermilk",
+              "sour cream"
+            ],
+            "ingredient_id": "ba236210-8230-458e-a809-4c025a1bf020",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Fruit",
+        "items": [
+          {
+            "name": "apples",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "peeled, cored, and diced into 1cm cubes",
+            "notes": "Tart firm apples like Granny Smith or Honeycrisp, approximately 300g total",
+            "substitutions": [],
+            "ingredient_id": "9985672b-aa9f-4125-8a32-62d520c99d6f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Preheat the oven to 175 degrees Celsius or 350 degrees Fahrenheit. Grease a 20cm round cake pan and line the bottom with parchment paper.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 175,
+            "fahrenheit": 347
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a medium mixing bowl, whisk together the flour, baking powder, baking soda, salt, ground ginger, cardamom, cinnamon, cloves, and black pepper. Remove 1 tablespoon of this mixture and set it aside to coat the apples.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Toss the diced apples with the reserved tablespoon of the dry flour mixture. This prevents the fruit from sinking to the bottom of the cake during baking.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "mix",
+        "text": "In a large mixing bowl, beat the softened butter, granulated sugar, and brown sugar with an electric hand mixer on medium speed until light and fluffy.",
+        "structured": {
+          "action": "CREAM",
+          "temperature": null,
+          "duration": "PT4M",
+          "doneness_cues": {
+            "visual": "Pale in color, fluffy and aerated texture",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "mix",
+        "text": "Add the eggs one at a time, beating well after each addition and scraping down the sides of the bowl. Stir in the vanilla extract.",
+        "structured": {
+          "action": "BEAT",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "mix",
+        "text": "Turn the mixer to low speed. Add one-third of the dry flour mixture, followed by half of the yogurt. Add another third of the flour, the remaining yogurt, and finish with the last of the flour. Mix only until just combined to avoid a tough cake.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Gently fold the flour-coated diced apples into the batter using a rubber spatula.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Transfer the batter into the prepared cake pan, smoothing the top into an even layer with the spatula.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "cook",
+        "text": "Bake in the preheated oven at 175 degrees Celsius or 350 degrees Fahrenheit for 45 to 50 minutes, or until a wooden skewer inserted into the center comes out clean.",
+        "structured": {
+          "action": "BAKE",
+          "temperature": {
+            "celsius": 175,
+            "fahrenheit": 347
+          },
+          "duration": "PT50M",
+          "doneness_cues": {
+            "visual": "Golden brown top that springs back slightly when pressed",
+            "tactile": "Skewer inserted in center comes out clean with no wet batter"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "finish",
+        "text": "Allow the cake to cool in the pan for 10 minutes. Run a knife around the edges, then carefully invert onto a wire cooling rack to cool completely before serving.",
+        "structured": {
+          "action": "COOL",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Cake texture is dense, tough, or gummy",
+        "likely_cause": "Overmixing the batter once the flour was added, causing gluten development.",
+        "prevention": "Mix the dry ingredients and yogurt into the wet mixture using low speed, and stop exactly when no dry flour streaks remain.",
+        "fix": "Cannot be fixed once baked. Serve with a generous pour of warm custard or vanilla sauce to mask the texture."
+      },
+      {
+        "symptom": "Apples sank to the bottom of the cake",
+        "likely_cause": "The apple pieces were too large or were not tossed in flour, or the batter was too thin from liquid ingredients.",
+        "prevention": "Ensure apples are diced into no larger than 1cm cubes and always toss them in the reserved flour before folding into the batter.",
+        "fix": "Cannot be fixed"
+      },
+      {
+        "symptom": "Outside is browning too quickly but center is raw",
+        "likely_cause": "Oven temperature is running too hot.",
+        "prevention": "Use an oven thermometer to verify the temperature before baking.",
+        "fix": "Tent the top loosely with aluminum foil for the remainder of the baking time to stop the top from burning while the center finishes cooking."
+      }
+    ],
+    "chef_notes": [
+      "To maximize the flavor of the chai spices, you can lightly toast the ground spices in a dry skillet over low heat for 30 seconds before whisking them into the flour.",
+      "The tiny pinch of black pepper is essential here. It doesn't make the cake spicy, but it works as a flavor enhancer for the warming spices, mimicking the authentic bite of masala chai.",
+      "Yogurt provides the acidity needed to activate the baking soda while keeping the crumb incredibly tender. Ensure it is at room temperature so the butter does not coagulate when they mix.",
+      "For an elegant finish, dust the cooled cake with powdered sugar mixed with a pinch of cinnamon, or serve warm with unsweetened whipped cream to balance the sweetness."
+    ],
+    "cultural_context": "Masala Chai is deeply rooted in Indian culture, traditionally prepared by simmering black tea with milk, sugar, and an array of warming spices known as karha. The specific blend of spices varies by region and family, but green cardamom and fresh ginger are almost universally present. This cake adapts those iconic aromatics into a Western-style baked good, pairing the sharp, spicy warmth of chai with the comforting, sweet-tart profile of an autumn apple cake.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 367.95,
+        "protein_g": 5.71,
+        "carbohydrates_g": 56.57,
+        "fat_g": 13.8,
+        "saturated_fat_g": 8.06,
+        "trans_fat_g": 0.01,
+        "monounsaturated_fat_g": 4,
+        "polyunsaturated_fat_g": 0.85,
+        "fiber_g": 2.35,
+        "sugar_g": 29.46,
+        "sodium_mg": 315.03,
+        "cholesterol_mg": 79.36,
+        "potassium_mg": 256.94,
+        "calcium_mg": 98.61,
+        "iron_mg": 1.11,
+        "magnesium_mg": 17.42,
+        "phosphorus_mg": 152.36,
+        "zinc_mg": 0.59,
+        "vitamin_a_mcg": 123.63,
+        "vitamin_c_mg": 1.93,
+        "vitamin_d_mcg": 0.27,
+        "vitamin_e_mg": 0.58,
+        "vitamin_k_mcg": 2.54,
+        "vitamin_b6_mg": 0.07,
+        "vitamin_b12_mcg": 0.19,
+        "thiamin_mg": 0.06,
+        "riboflavin_mg": 0.11,
+        "niacin_mg": 0.55,
+        "folate_mcg": 16.91,
+        "water_g": 61.62,
+        "alcohol_g": 0.22,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14746,
+    "monthly_limit": 15000,
+    "daily_remaining": 285,
+    "daily_limit": 500
+  }
+}

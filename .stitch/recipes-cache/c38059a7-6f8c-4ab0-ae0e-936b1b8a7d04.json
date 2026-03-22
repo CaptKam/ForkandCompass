@@ -1,0 +1,456 @@
+{
+  "data": {
+    "id": "c38059a7-6f8c-4ab0-ae0e-936b1b8a7d04",
+    "name": "Spinach and Cheese Samosas",
+    "description": "Crispy, golden-brown pastry triangles giving way to a warm, savory filling of wilted spinach, aromatic spices, and molten cheese.",
+    "category": "Appetizer",
+    "cuisine": "Indian Fusion",
+    "difficulty": "Intermediate",
+    "tags": [
+      "samosa",
+      "spinach",
+      "cheese",
+      "fried",
+      "snack",
+      "starter",
+      "fusion",
+      "appetizer"
+    ],
+    "meta": {
+      "active_time": "PT45M",
+      "passive_time": "PT30M",
+      "total_time": "PT1H15M",
+      "overnight_required": false,
+      "yields": "12 samosas",
+      "yield_count": 12,
+      "serving_size_g": 120
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Egg-Free",
+        "Nut-Free",
+        "Peanut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": [
+        "Dairy-Free diets",
+        "Vegan diets",
+        "Gluten-Free diets"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight container lined with paper towels to absorb excess moisture.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freeze un-fried samosas on a baking sheet before transferring to a freezer bag. Fry directly from frozen, adding an extra 3-4 minutes to the fry time.",
+        "duration": "P2M"
+      },
+      "reheating": "Bake in a preheated oven at 180C/350F for 8-10 minutes until heated through and crispy.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Skillet",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Rolling pin",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Deep fryer or heavy-bottomed pot",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Slotted spoon",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Thermometer",
+        "required": false,
+        "alternative": "Wooden chopstick to test oil readiness"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Pastry Dough",
+        "items": [
+          {
+            "name": "plain flour",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vegetable oil",
+            "quantity": 45,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": null
+          },
+          {
+            "name": "water",
+            "quantity": 100,
+            "unit": "ml",
+            "preparation": "room temperature",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "carom seeds",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": "also known as ajwain",
+            "substitutions": [],
+            "ingredient_id": "5fb07424-aa49-4da5-afeb-0636713c313f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Spinach & Cheese Filling",
+        "items": [
+          {
+            "name": "fresh spinach",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "washed and roughly chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "4734440a-226d-4d26-a110-3ed5c3bde93f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "low-moisture mozzarella cheese",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "grated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "41aca251-8bbe-492d-9539-ba0ac6c15194",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "paneer",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "crumbled",
+            "notes": null,
+            "substitutions": [
+              "feta cheese",
+              "ricotta cheese"
+            ],
+            "ingredient_id": "ba205af7-336e-43bc-b0e1-e12573faaf4e",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "yellow onion",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "finely chopped",
+            "notes": "approximately 100g",
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "garlic",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "minced",
+            "notes": "approximately 6g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh ginger",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": "minced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d57750c1-f582-4793-8aea-40d9d3ac3677",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "green chilli",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "finely minced",
+            "notes": "approximately 3g",
+            "substitutions": [],
+            "ingredient_id": "6cdb0615-378e-4bfa-b76d-f19bbd780e6c",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "garam masala",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ffcea01-5f22-462b-94de-ad2a97049325",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vegetable oil",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "for sauteing",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": null
+          }
+        ]
+      },
+      {
+        "group_name": "Frying",
+        "items": [
+          {
+            "name": "vegetable oil",
+            "quantity": 500,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "adjust based on pot size, need about 5cm depth",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": null
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In a mixing bowl, rub the 45ml of vegetable oil into the plain flour, salt, and carom seeds until the mixture resembles coarse breadcrumbs. Gradually add water and knead into a firm, stiff dough. Cover with a damp cloth and let it rest for 30 minutes.",
+        "structured": {
+          "action": "KNEAD",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": [
+          "A stiff dough is essential for a crispy, blister-free pastry.",
+          "Do not over-knead; just bring the ingredients together until smooth."
+        ]
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Heat 15ml of vegetable oil in a skillet over medium heat. Add the chopped onion, ginger, garlic, and green chilli. Saute for 3-4 minutes until the onions soften and become translucent.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT4M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Add the chopped spinach to the skillet along with the garam masala and salt. Cook for 5 minutes until the spinach is completely wilted and all excess moisture has evaporated. Transfer the mixture to a bowl and let it cool completely.",
+        "structured": {
+          "action": "REDUCE",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": [
+          "It is critical that the spinach is as dry as possible to prevent soggy samosas."
+        ]
+      },
+      {
+        "step_number": 4,
+        "phase": "assemble",
+        "text": "Once the spinach mixture is cool to the touch, mix in the grated mozzarella and crumbled paneer. Stir until evenly distributed.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "assemble",
+        "text": "Divide the rested dough into 6 equal portions and roll them into smooth balls. On an un-floured surface, roll each ball into a thin oval shape about 15cm long. Cut each oval in half horizontally to create 12 semi-circles.",
+        "structured": {
+          "action": "ROLL",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Take one semi-circle, wet the straight edge with a little water, and fold it into a cone shape, overlapping the wet edges to seal firmly. Fill the cone with 2 tablespoons of the spinach and cheese mixture. Wet the open edges, pinch them together, and crimp or fold to seal completely.",
+        "structured": {
+          "action": "SHAPE",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": [
+          "Ensure the bottom tip of the cone is properly sealed so oil does not seep in during frying."
+        ]
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "Pour the frying oil into a heavy-bottomed pot and heat it to 160C/320F over medium-low heat.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "cook",
+        "text": "Gently drop 3-4 samosas into the oil. Fry slowly for 10-12 minutes, turning occasionally, until the pastry is uniformly golden brown and crisp. Remove with a slotted spoon and drain on paper towels. Repeat with the remaining samosas.",
+        "structured": {
+          "action": "FRY",
+          "temperature": {
+            "celsius": 160,
+            "fahrenheit": 320
+          },
+          "duration": "PT12M",
+          "doneness_cues": {
+            "visual": "Uniform golden brown color and crisp exterior",
+            "tactile": "Hard and rigid shell"
+          }
+        },
+        "tips": [
+          "Frying on medium-low heat is the secret to a flaky, fully cooked crust that stays crisp for hours."
+        ]
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Pastry shell develops large bubbles and blisters while frying",
+        "likely_cause": "The frying oil was too hot, or the dough was too soft.",
+        "prevention": "Ensure the dough is stiff and maintain an oil temperature around 160C/320F. Fry on medium-low heat.",
+        "fix": "Cannot be fixed for the current batch, but lower the heat for subsequent batches."
+      },
+      {
+        "symptom": "Samosa bursts open in the oil",
+        "likely_cause": "Edges were not sealed properly or the samosa was overfilled.",
+        "prevention": "Use a dab of water along the seam and pinch firmly to lock the edges. Do not overstuff the cones.",
+        "fix": "Remove the broken samosa immediately to prevent the cheese and filling from spoiling the frying oil."
+      },
+      {
+        "symptom": "Filling is soggy and seeps through the pastry",
+        "likely_cause": "Spinach was not cooked down enough, leaving too much moisture.",
+        "prevention": "Cook the spinach mixture until the pan is completely dry before cooling.",
+        "fix": "Cannot be fixed once assembled."
+      }
+    ],
+    "chef_notes": [
+      "Temperature control is paramount for samosas. If the oil is too hot, the outside will brown before the inside layers of pastry can cook through, leaving a doughy interior.",
+      "Substituting half the paneer with feta adds a brilliant salty tang that pairs beautifully with the earthy spinach.",
+      "For an extra layer of flavor, toast your spices lightly in the hot oil before adding the aromatics during the filling preparation.",
+      "Do not skip resting the dough; this allows the gluten strands to relax, making it significantly easier to roll out without shrinking back."
+    ],
+    "cultural_context": "Samosas trace their origins to the Middle East and Central Asia, known historically as 'sanbusak' before traveling along trade routes to the Indian subcontinent. While traditional Indian samosas feature heavily spiced potato and pea or minced meat fillings, this spinach and cheese variation reflects modern Indo-Western fusion, drawing inspiration from both saag paneer and savory Mediterranean pastries.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 180.57,
+        "protein_g": 6.29,
+        "carbohydrates_g": 18.52,
+        "fat_g": 8.94,
+        "saturated_fat_g": 2.96,
+        "trans_fat_g": 0.06,
+        "monounsaturated_fat_g": 0.51,
+        "polyunsaturated_fat_g": 0.21,
+        "fiber_g": 1.21,
+        "sugar_g": 0.95,
+        "sodium_mg": 233.27,
+        "cholesterol_mg": 5.33,
+        "potassium_mg": 159.18,
+        "calcium_mg": 126.36,
+        "iron_mg": 0.86,
+        "magnesium_mg": 23.8,
+        "phosphorus_mg": 109.89,
+        "zinc_mg": 0.81,
+        "vitamin_a_mcg": 114.84,
+        "vitamin_c_mg": 6.12,
+        "vitamin_d_mcg": 0.03,
+        "vitamin_e_mg": 0.4,
+        "vitamin_k_mcg": 80.75,
+        "vitamin_b6_mg": 0.07,
+        "vitamin_b12_mcg": 0.14,
+        "thiamin_mg": 0.05,
+        "riboflavin_mg": 0.07,
+        "niacin_mg": 0.42,
+        "folate_mcg": 41.72,
+        "water_g": 38.26,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14766,
+    "monthly_limit": 15000,
+    "daily_remaining": 305,
+    "daily_limit": 500
+  }
+}

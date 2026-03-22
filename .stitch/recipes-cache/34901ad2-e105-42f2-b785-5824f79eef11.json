@@ -1,0 +1,391 @@
+{
+  "data": {
+    "id": "34901ad2-e105-42f2-b785-5824f79eef11",
+    "name": "Steamed Pork and Cabbage Gyoza",
+    "description": "Delicate, slightly translucent steamed dumplings encasing a savory, juicy filling of minced pork, crisp cabbage, and aromatic ginger, served with a bright and citrusy ponzu dipping sauce.",
+    "category": "Appetizer",
+    "cuisine": "Japanese",
+    "difficulty": "Easy",
+    "tags": [
+      "Japanese",
+      "Pork",
+      "Appetizer",
+      "Dumplings",
+      "Easy",
+      "Steamed",
+      "Dim Sum"
+    ],
+    "meta": {
+      "active_time": "PT30M",
+      "passive_time": "PT15M",
+      "total_time": "PT45M",
+      "overnight_required": false,
+      "yields": "24 dumplings",
+      "yield_count": 24,
+      "serving_size_g": 140
+    },
+    "dietary": {
+      "flags": [
+        "Dairy-Free"
+      ],
+      "not_suitable_for": [
+        "Vegetarians",
+        "Vegans",
+        "Gluten-Free"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store cooked in an airtight container.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freeze uncooked dumplings in a single layer before transferring to a bag. Steam directly from frozen, adding 2 to 3 minutes to the cooking time.",
+        "duration": "P1M"
+      },
+      "reheating": "Steam for 3 to 5 minutes until heated through.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Bamboo steamer",
+        "required": true,
+        "alternative": "Large pot with a steamer insert and lid"
+      },
+      {
+        "name": "Perforated parchment paper",
+        "required": true,
+        "alternative": "Whole cabbage leaves"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Filling",
+        "items": [
+          {
+            "name": "ground pork",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": "chilled",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "95b412ba-c68f-4b61-ae87-42b44000956b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "napa cabbage",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "finely minced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "aac462c5-0792-4720-90d9-266e2b4a89e0",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "scallions",
+            "quantity": 20,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "dcfaf926-661e-4117-aeea-145370b787f7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "minced",
+            "notes": "about 2 cloves",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh ginger",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "grated",
+            "notes": "about 1 tablespoon",
+            "substitutions": [],
+            "ingredient_id": "d57750c1-f582-4793-8aea-40d9d3ac3677",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "soy sauce",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "toasted sesame oil",
+            "quantity": 10,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e74beff5-5295-4a3f-82fb-9f8ef1d5da59",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "white pepper",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": "ground",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "cdc9ddd1-ed48-431b-a39c-171f424578c9",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Wrappers",
+        "items": [
+          {
+            "name": "gyoza wrappers",
+            "quantity": 24,
+            "unit": null,
+            "preparation": "room temperature",
+            "notes": "round wrappers, about 150g total weight",
+            "substitutions": [],
+            "ingredient_id": "309430c5-0bb0-47f4-92c9-768f163f5799",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "water",
+            "quantity": 50,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "for sealing wrappers",
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Dipping Sauce",
+        "items": [
+          {
+            "name": "ponzu sauce",
+            "quantity": 60,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "009fb00f-7d3e-4386-b11c-3195c3f06e99",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "chili oil",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "japanese rayu preferred",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Place the finely minced napa cabbage in a bowl and toss thoroughly with the salt. Let sit at room temperature for 10 to 15 minutes to draw out excess moisture.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Using your hands or a clean kitchen towel, squeeze the salted cabbage very firmly to extract as much liquid as possible. Discard the liquid.",
+        "structured": {
+          "action": "DRAIN",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "Removing water from the cabbage prevents the dumpling filling from becoming soggy and bursting the wrappers."
+        ]
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "In a large mixing bowl, combine the ground pork, squeezed cabbage, scallions, garlic, ginger, soy sauce, toasted sesame oil, and white pepper. Mix vigorously in one continuous circular direction until the mixture becomes pale, sticky, and cohesive.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "Stirring in only one direction develops the meat proteins, resulting in a delightfully bouncy texture."
+        ]
+      },
+      {
+        "step_number": 4,
+        "phase": "assemble",
+        "text": "Hold a gyoza wrapper flat on the palm of your hand. Place a small spoonful of filling, roughly 15 grams, directly into the center of the wrapper. Dip an index finger into the water and lightly moisten the top half of the wrapper's outer edge.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "assemble",
+        "text": "Fold the wrapper in half over the filling to form a semi-circle. Pinch the top center to secure it. Working down one side, create three small pleats on the front half of the wrapper, pressing them firmly against the flat back half to seal. Repeat the pleating on the other side.",
+        "structured": {
+          "action": "CRIMP",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "Keep unused wrappers covered with a damp paper towel so they do not dry out and crack."
+        ]
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Line a bamboo steamer with perforated parchment paper. Arrange the assembled dumplings inside, leaving at least a 1 centimeter gap between each to prevent them from sticking together during cooking.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "Bring a pot of water to a vigorous boil. Place the steamer basket over the boiling water, cover with the lid, and steam for 8 to 10 minutes. The wrappers should become slightly translucent and the internal temperature of the pork must reach at least 74 degrees Celsius (165 degrees Fahrenheit).",
+        "structured": {
+          "action": "STEAM",
+          "temperature": {
+            "celsius": 74,
+            "fahrenheit": 165
+          },
+          "duration": "PT8M",
+          "doneness_cues": {
+            "visual": "Wrappers appear somewhat translucent and shrink slightly against the filling.",
+            "tactile": "Dumplings feel firm to a gentle touch."
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Carefully remove the steamer from the heat. Transfer the hot gyoza to a serving plate and serve immediately with ponzu sauce and an optional drizzle of chili oil.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Dumplings stick to the steamer and tear when picked up.",
+        "likely_cause": "The steamer was unlined, lined with unperforated paper trapping starch, or dumplings were placed too close together.",
+        "prevention": "Always line the steamer basket with perforated parchment paper or whole cabbage leaves, and ensure distinct gaps between the dumplings.",
+        "fix": "Use a very thin, wet silicone spatula to gently coax the dumplings off the surface, though deep tears cannot be fixed."
+      },
+      {
+        "symptom": "Filling is watery and bursts during steaming.",
+        "likely_cause": "The cabbage was not squeezed thoroughly after salting.",
+        "prevention": "Squeeze the cabbage with maximum force, preferably inside a clean kitchen towel, to remove all excess water.",
+        "fix": "Cannot be fixed once assembled."
+      }
+    ],
+    "chef_notes": [
+      "Mixing the pork filling in a single direction is crucial; it helps develop the myosin proteins in the ground meat, creating a cohesive, bouncy texture rather than a crumbly, meatloaf-like consistency.",
+      "Thoroughly squeezing the cabbage is essential. Skipping this step or doing it half-heartedly will result in a watery filling that compromises the wrapper integrity and dilutes the seasoning.",
+      "If you do not have perforated parchment paper, line your steamer basket with whole green or napa cabbage leaves. This prevents sticking and imparts a subtle, sweet aroma to the dumplings.",
+      "Be mindful of cross-contamination when handling the raw pork mixture. Wash hands and utensils thoroughly before touching the steamer or serving dishes."
+    ],
+    "cultural_context": "Gyoza are the Japanese adaptation of Chinese jiaozi, a culinary crossover popularized by soldiers returning from Manchuria after World War II. While pan-fried yaki gyoza are the most ubiquitous style found in Japanese ramen shops and izakayas today, mushi gyoza or steamed dumplings offer a delicate alternative. The steaming method yields wonderfully soft wrappers that highlight the rich, savory qualities of the pork and cabbage filling without the heavy addition of frying oil.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 55.45,
+        "protein_g": 2.66,
+        "carbohydrates_g": 4.44,
+        "fat_g": 2.95,
+        "saturated_fat_g": 0.93,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 1.16,
+        "polyunsaturated_fat_g": 0.42,
+        "fiber_g": 0.24,
+        "sugar_g": 0.3,
+        "sodium_mg": 198.6,
+        "cholesterol_mg": 8.06,
+        "potassium_mg": 65.2,
+        "calcium_mg": 10.18,
+        "iron_mg": 0.5,
+        "magnesium_mg": 5.2,
+        "phosphorus_mg": 27.87,
+        "zinc_mg": 0.31,
+        "vitamin_a_mcg": 3.31,
+        "vitamin_c_mg": 1.26,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.01,
+        "vitamin_k_mcg": 1.79,
+        "vitamin_b6_mg": 0.05,
+        "vitamin_b12_mcg": 0.07,
+        "thiamin_mg": 0.11,
+        "riboflavin_mg": 0.05,
+        "niacin_mg": 0.82,
+        "folate_mcg": 6.58,
+        "water_g": 12.02,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14785,
+    "monthly_limit": 15000,
+    "daily_remaining": 324,
+    "daily_limit": 500
+  }
+}

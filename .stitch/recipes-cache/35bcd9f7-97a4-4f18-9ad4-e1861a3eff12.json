@@ -1,0 +1,433 @@
+{
+  "data": {
+    "id": "35bcd9f7-97a4-4f18-9ad4-e1861a3eff12",
+    "name": "Spicy Tofu And Edamame Stir-Fry",
+    "description": "Crispy golden cubes of tofu and vibrant, tender edamame beans are tossed in a sticky, savory sauce with a bold chili heat. This vibrant stir-fry delivers a satisfying crunch and mouth-watering aroma in under thirty minutes.",
+    "category": "Dinner",
+    "cuisine": "Asian Fusion",
+    "difficulty": "Easy",
+    "tags": [
+      "tofu",
+      "edamame",
+      "stir-fry",
+      "spicy",
+      "vegetarian",
+      "quick",
+      "weeknight dinner"
+    ],
+    "meta": {
+      "active_time": "PT20M",
+      "passive_time": "PT15M",
+      "total_time": "PT35M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 220
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Dairy-Free",
+        "Egg-Free",
+        "Nut-Free"
+      ],
+      "not_suitable_for": [
+        "Individuals with severe soy allergies"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight container. The tofu will lose its crispness but flavors will deepen.",
+        "duration": "P4D"
+      },
+      "freezer": {
+        "notes": "Freezing is not recommended as the texture of the tofu will become spongy.",
+        "duration": null
+      },
+      "reheating": "Reheat in a skillet over medium heat with a splash of water until warmed through, or microwave in 30-second intervals.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Tofu press",
+        "required": false,
+        "alternative": "Heavy books and paper towels"
+      },
+      {
+        "name": "Wok",
+        "required": true,
+        "alternative": "Large frying pan"
+      },
+      {
+        "name": "Mixing bowls",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Chef's knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Tofu Prep",
+        "items": [
+          {
+            "name": "extra firm tofu",
+            "quantity": 400,
+            "unit": "g",
+            "preparation": "drained and pressed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8f454271-8676-4706-8e95-eb9359717dcf",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cornstarch",
+            "quantity": 25,
+            "unit": "g",
+            "preparation": null,
+            "notes": "for dredging",
+            "substitutions": [
+              "potato starch",
+              "tapioca starch"
+            ],
+            "ingredient_id": "e37d9484-8bf9-4d9a-a6c8-22a597cbb237",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Stir-Fry Base",
+        "items": [
+          {
+            "name": "vegetable oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "divided use",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "edamame",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": "shelled and thawed if frozen",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "830ff142-9f45-4331-bd18-6dec443faabb",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garlic",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "minced",
+            "notes": "about 15g",
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ginger",
+            "quantity": 15,
+            "unit": "g",
+            "preparation": "grated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "d57750c1-f582-4793-8aea-40d9d3ac3677",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "bird's eye chili",
+            "quantity": 2,
+            "unit": null,
+            "preparation": "finely sliced",
+            "notes": "adjust to taste, about 6g total",
+            "substitutions": [
+              "10g chili flakes",
+              "15ml chili oil"
+            ],
+            "ingredient_id": "3c3f97d4-c951-43fd-865c-88fa8b445739",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Spicy Savory Sauce",
+        "items": [
+          {
+            "name": "soy sauce",
+            "quantity": 45,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "tamari"
+            ],
+            "ingredient_id": "0d724b69-c9e4-4ae4-91f5-a32fde1d4b40",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vegetarian mushroom oyster sauce",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "hoisin sauce"
+            ],
+            "ingredient_id": "f6dc3673-ea10-41e9-b5d4-0bd87242aadb",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "water",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [
+              "maple syrup"
+            ],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "toasted sesame oil",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e74beff5-5295-4a3f-82fb-9f8ef1d5da59",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Garnish",
+        "items": [
+          {
+            "name": "scallions",
+            "quantity": 20,
+            "unit": "g",
+            "preparation": "thinly sliced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "dcfaf926-661e-4117-aeea-145370b787f7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "toasted sesame seeds",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "f9ac565c-bf29-463d-93f6-d0d93d91cdeb",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Wrap the tofu in paper towels and press using a tofu press or heavy objects for 15 minutes to extract excess moisture. Cut into bite-sized cubes.",
+        "structured": {
+          "action": "PRESS",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Place the cubed tofu in a mixing bowl and sprinkle with cornstarch. Toss gently until every piece is evenly coated.",
+        "structured": {
+          "action": "DREDGE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "In a small bowl, whisk together the soy sauce, vegetarian mushroom oyster sauce, water, sugar, and toasted sesame oil to create the sauce.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "cook",
+        "text": "Heat 20ml of the vegetable oil in a wok or large skillet over medium-high heat. Add the coated tofu cubes in a single layer. Pan-fry for 6 to 8 minutes, turning occasionally, until crispy and golden brown on all sides. Remove the tofu from the pan and set aside.",
+        "structured": {
+          "action": "FRY",
+          "temperature": null,
+          "duration": "PT8M",
+          "doneness_cues": {
+            "visual": "Crispy, golden brown crust on all sides",
+            "tactile": "Firm exterior shell"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Add the remaining 10ml of vegetable oil to the wok. Add the minced garlic, grated ginger, and sliced chilies. Sauté for 30 seconds until highly fragrant, being careful not to burn the garlic.",
+        "structured": {
+          "action": "SAUTÉ",
+          "temperature": null,
+          "duration": "PT30S",
+          "doneness_cues": {
+            "visual": "Garlic taking on a very light golden hue",
+            "tactile": "Aromatics softening slightly"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "cook",
+        "text": "Add the shelled edamame to the wok and stir-fry for 2 minutes to warm through and coat in the aromatics.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Return the crispy tofu to the wok. Pour the prepared sauce mixture over the ingredients. Toss vigorously for 1 minute as the sauce bubbles and thickens, clinging to the tofu and edamame.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": {
+            "visual": "Sauce reduces to a glossy, sticky glaze",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Remove from heat. Transfer to a serving platter and garnish with thinly sliced scallions and toasted sesame seeds.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Tofu is mushy and sticking to the pan",
+        "likely_cause": "Insufficient pressing time or adding tofu before the oil was fully heated",
+        "prevention": "Ensure tofu is pressed thoroughly and oil is shimmering before frying. Do not crowd the pan.",
+        "fix": "Add a splash more oil, turn the heat up slightly, and avoid moving the tofu until a crust forms."
+      },
+      {
+        "symptom": "Sauce is too watery and pooling at the bottom",
+        "likely_cause": "Residual cornstarch on the tofu was insufficient to thicken the sauce, or not cooked long enough",
+        "prevention": "Ensure tofu is well-coated in cornstarch.",
+        "fix": "Mix 5g of cornstarch with 10ml of cold water to make a slurry, pour it into the pan, and simmer for 30 seconds until thick."
+      },
+      {
+        "symptom": "Garlic tastes bitter",
+        "likely_cause": "Wok was too hot and aromatics burned during the initial saute",
+        "prevention": "Lower the heat slightly before adding aromatics and keep them moving continuously.",
+        "fix": "Cannot be fixed. If caught early, wipe the pan and restart the aromatics step."
+      }
+    ],
+    "chef_notes": [
+      "For the crispiest tofu, resist the urge to move the cubes immediately after they hit the pan. Let them sit undisturbed for 1-2 minutes per side so a proper crust can form.",
+      "If using frozen edamame, briefly blanch them in boiling water for one minute, then drain thoroughly before adding them to the wok to prevent excess water from diluting the sauce.",
+      "Cornstarch is essential not just for a crispy exterior, but because the residual starch left on the tofu helps thicken the sauce when it is added at the end.",
+      "To adjust the heat level cleanly, rely on the seeds of the bird's eye chilies. Keep them in for maximum heat, or scrape them out before slicing for a milder chili flavor."
+    ],
+    "cultural_context": "Stir-frying is a fundamental Chinese cooking technique that relies on high heat and minimal liquid to quickly sear ingredients, preserving their texture and vibrant color. This modern fusion dish combines the classic Chinese method of shallow-frying cornstarch-coated tofu with edamame, a staple ingredient in Japanese cuisine. The resulting dish celebrates the versatility of soy in both its fermented and whole-bean forms.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 298.08,
+        "protein_g": 17.25,
+        "carbohydrates_g": 17.3,
+        "fat_g": 19.63,
+        "saturated_fat_g": 2.64,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 3.06,
+        "polyunsaturated_fat_g": 4.55,
+        "fiber_g": 4.05,
+        "sugar_g": 4.79,
+        "sodium_mg": 832.35,
+        "cholesterol_mg": null,
+        "potassium_mg": 479.43,
+        "calcium_mg": 342.05,
+        "iron_mg": 3.68,
+        "magnesium_mg": 82.73,
+        "phosphorus_mg": 230.12,
+        "zinc_mg": 2.01,
+        "vitamin_a_mcg": 3.22,
+        "vitamin_c_mg": 9.32,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.47,
+        "vitamin_k_mcg": 29.64,
+        "vitamin_b6_mg": 0.24,
+        "vitamin_b12_mcg": 0.03,
+        "thiamin_mg": 0.15,
+        "riboflavin_mg": 0.23,
+        "niacin_mg": 1.22,
+        "folate_mcg": 168.5,
+        "water_g": 152.94,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14782,
+    "monthly_limit": 15000,
+    "daily_remaining": 321,
+    "daily_limit": 500
+  }
+}

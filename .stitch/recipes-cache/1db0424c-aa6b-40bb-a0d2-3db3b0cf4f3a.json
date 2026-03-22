@@ -1,0 +1,417 @@
+{
+  "data": {
+    "id": "1db0424c-aa6b-40bb-a0d2-3db3b0cf4f3a",
+    "name": "White Chocolate Pistachio Tiramisu",
+    "description": "An enriched, dense, and velvety twist on the classic tiramisu. Milky white chocolate blends seamlessly with roasted pistachio paste and rich mascarpone, layered between lightly coffee-soaked ladyfingers for a decadent, buttery finish.",
+    "category": "Dessert",
+    "cuisine": "Italian-Contemporary",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Make-Ahead",
+      "Egg-Free Cream",
+      "Modern Italian",
+      "Decadent",
+      "Nutty"
+    ],
+    "meta": {
+      "active_time": "PT45M",
+      "passive_time": "PT8H",
+      "total_time": "PT8H45M",
+      "overnight_required": true,
+      "yields": "8 servings",
+      "yield_count": 8,
+      "serving_size_g": 200
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian"
+      ],
+      "not_suitable_for": [
+        "Nut allergy sufferers",
+        "Lactose intolerant",
+        "Gluten intolerant"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Cover tightly with plastic wrap to prevent absorption of savory refrigerator odors. The texture becomes denser each day.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freeze in an airtight container without the garnish. Thaw completely in the refrigerator for 24 hours before serving.",
+        "duration": "P1M"
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Mixing bowls",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Double boiler",
+        "required": true,
+        "alternative": "Microwave-safe bowl"
+      },
+      {
+        "name": "Hand mixer",
+        "required": true,
+        "alternative": "Balloon whisk"
+      },
+      {
+        "name": "Silicone spatula",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "20x20 cm baking dish",
+        "required": true,
+        "alternative": "Similar sized rectangular casserole dish"
+      },
+      {
+        "name": "Vegetable peeler",
+        "required": true,
+        "alternative": "Sharp paring knife"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "White Chocolate Pistachio Mascarpone Cream",
+        "items": [
+          {
+            "name": "white chocolate (30% cocoa butter)",
+            "quantity": 250,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": "High cocoa butter content is essential for setting the cream properly.",
+            "substitutions": [],
+            "ingredient_id": "b6c0dcbc-6448-42d2-88b1-2979e857db6c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "mascarpone cheese",
+            "quantity": 500,
+            "unit": "g",
+            "preparation": "room temperature",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "fc428935-3bcd-4cef-8495-7ed35e7dae22",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "heavy whipping cream (35% fat)",
+            "quantity": 200,
+            "unit": "ml",
+            "preparation": "chilled",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "pure pistachio paste",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": "unsweetened",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "59207580-65c8-4564-9467-eb7286b8e5a7",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fine sea salt",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Coffee Soak",
+        "items": [
+          {
+            "name": "brewed espresso",
+            "quantity": 300,
+            "unit": "ml",
+            "preparation": "warm",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "3f1014bd-ed69-41c6-8760-ee78dcb88282",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "water",
+            "quantity": 100,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "amaretto liqueur",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "f9f5700d-8f00-4787-815b-f2ff74d121ad",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Assembly & Garnish",
+        "items": [
+          {
+            "name": "ladyfingers (savoiardi)",
+            "quantity": 300,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Crisp Italian variety, approximately 24 to 30 pieces",
+            "substitutions": [],
+            "ingredient_id": "1f796095-25a2-49ef-90f7-2231a25ff617",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "white chocolate block",
+            "quantity": 50,
+            "unit": "g",
+            "preparation": "solid, room temperature",
+            "notes": "For shaving over the top",
+            "substitutions": [],
+            "ingredient_id": "b6c0dcbc-6448-42d2-88b1-2979e857db6c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "roasted unsalted pistachios",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "59207580-65c8-4564-9467-eb7286b8e5a7",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In a wide, shallow mixing bowl, combine the warm brewed espresso, water, and amaretto liqueur. Set aside to cool to room temperature. Diluting the coffee ensures the delicate chocolate notes are not overpowered.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Melt the chopped white chocolate in a double boiler over gently simmering water, stirring occasionally with a silicone spatula until smooth. Remove from heat and let cool to about 30 degrees Celsius (86 degrees Fahrenheit) before proceeding.",
+        "structured": {
+          "action": "MELT",
+          "temperature": {
+            "celsius": 30,
+            "fahrenheit": 86
+          },
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": [
+          "Do not let any water or steam touch the white chocolate, or it will seize."
+        ]
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "In a large mixing bowl, beat the room temperature mascarpone cheese, pure pistachio paste, vanilla extract, and sea salt using a hand mixer on low speed just until smooth and uniform.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Pour the cooled, melted white chocolate into the mascarpone mixture. Gently fold together with a silicone spatula until completely emulsified and no streaks remain.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "prep",
+        "text": "In a separate clean mixing bowl, whip the chilled heavy cream until soft peaks form. Gently fold the whipped cream into the dense pistachio mascarpone base in two additions to lighten the texture.",
+        "structured": {
+          "action": "WHIP",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Cream holds its shape but the tip flops over slightly when the beater is lifted",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Quickly dip one side of a ladyfinger into the cooled coffee soak for about 1 second, then flip and dip the other side. Arrange soaked ladyfingers in a single layer in the bottom of a 20x20 cm baking dish. Repeat until the bottom is covered.",
+        "structured": {
+          "action": "DREDGE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "Avoid oversoaking; the cookies should be moist on the outside but slightly crisp in the center as they will absorb more moisture while chilling."
+        ]
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Spoon half of the white chocolate pistachio mascarpone cream over the ladyfinger layer. Spread it into an even, smooth layer using a spatula.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "assemble",
+        "text": "Repeat the dipping process with the remaining ladyfingers to create a second layer. Top with the remaining mascarpone cream and smooth the surface beautifully.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "finish",
+        "text": "Cover the dish tightly with plastic wrap and refrigerate for at least 8 hours, preferably overnight. This allows the cocoa butter in the white chocolate to firm up, creating the signature dense, velvety texture.",
+        "structured": {
+          "action": "CHILL",
+          "temperature": null,
+          "duration": "PT8H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "finish",
+        "text": "Just before serving, use a vegetable peeler to shave the solid block of white chocolate into tight curls over the surface of the tiramisu. Sprinkle evenly with finely chopped roasted pistachios.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Cream mixture splits or looks grainy",
+        "likely_cause": "The white chocolate was too warm when added, or the mascarpone was too cold, causing the cocoa butter to shock and crystallize.",
+        "prevention": "Ensure mascarpone is truly at room temperature and the melted chocolate has cooled to barely warm (30 degrees Celsius).",
+        "fix": "Set the bowl over a warm water bath and whisk vigorously for a few moments to re-melt the cocoa butter and restore the emulsion."
+      },
+      {
+        "symptom": "Tiramisu is overly soupy or soft",
+        "likely_cause": "Ladyfingers were soaked too long in the coffee, or the dessert was not chilled long enough.",
+        "prevention": "Dip ladyfingers for a maximum of 1 to 2 seconds total and allow a full 8 hours of chilling time.",
+        "fix": "Freeze the tiramisu for 30 to 45 minutes before slicing to firm up the structure for plating."
+      }
+    ],
+    "chef_notes": [
+      "Using a high-quality couverture white chocolate with at least 30 percent cocoa butter is crucial. The structural integrity and dense mouthfeel of the final dessert rely entirely on the cocoa butter resetting in the fridge.",
+      "Diluting the espresso soak might seem counterintuitive for tiramisu, but it prevents the harsh, bitter coffee notes from completely masking the delicate milky, nutty profile of the pistachio and white chocolate.",
+      "For the smoothest integration, your mascarpone must be at room temperature before blending with the pistachio paste, while your whipping cream must be very cold to whip properly.",
+      "Always source pure, unsweetened pistachio paste. Sweetened pistachio creams or spreads will make this dessert cloyingly sweet when combined with the white chocolate.",
+      "When folding the whipped cream into the dense mascarpone base, sacrifice the first addition by mixing it in a bit more vigorously to lighten the base, then fold the second addition very gently to keep the air intact."
+    ],
+    "cultural_context": "While classic tiramisu originates from the Veneto region of Italy utilizing a traditional zabaglione base, contemporary Italian pastry chefs frequently explore eggless mascarpone creams enriched with high-quality chocolate or nut pastes. The pairing of pistachio, highly prized in Sicilian dolce, with white chocolate creates a modern, luxurious bridge between northern dessert techniques and southern regional flavors.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 788.53,
+        "protein_g": 13.34,
+        "carbohydrates_g": 70.82,
+        "fat_g": 58.15,
+        "saturated_fat_g": 30.77,
+        "trans_fat_g": 0.31,
+        "monounsaturated_fat_g": 9.47,
+        "polyunsaturated_fat_g": 3.11,
+        "fiber_g": 2.41,
+        "sugar_g": 32.94,
+        "sodium_mg": 174.91,
+        "cholesterol_mg": 36.13,
+        "potassium_mg": 439.12,
+        "calcium_mg": 248.02,
+        "iron_mg": 1.18,
+        "magnesium_mg": 57.39,
+        "phosphorus_mg": 181.16,
+        "zinc_mg": 0.82,
+        "vitamin_a_mcg": 507.98,
+        "vitamin_c_mg": 1.47,
+        "vitamin_d_mcg": 0.4,
+        "vitamin_e_mg": 1.06,
+        "vitamin_k_mcg": 4.21,
+        "vitamin_b6_mg": 0.31,
+        "vitamin_b12_mcg": 0.25,
+        "thiamin_mg": 0.17,
+        "riboflavin_mg": 0.18,
+        "niacin_mg": 0.51,
+        "folate_mcg": 11.91,
+        "water_g": 65.2,
+        "alcohol_g": 0.22,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14790,
+    "monthly_limit": 15000,
+    "daily_remaining": 329,
+    "daily_limit": 500
+  }
+}

@@ -1,0 +1,374 @@
+{
+  "data": {
+    "id": "9221f8a4-22d1-48c4-926d-816d6e32c1e6",
+    "name": "Msemen (Moroccan Laminated Flatbread)",
+    "description": "Golden, square-shaped flatbreads featuring distinct buttery layers and a crispy exterior. These savory-sweet breads offer a texture somewhere between a crêpe and a croissant, perfect for tearing apart and dipping in honey or soft cheese.",
+    "category": "Bread",
+    "cuisine": "Moroccan",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Moroccan",
+      "Breads",
+      "Breakfast",
+      "Snack",
+      "Street Food",
+      "Vegetarian"
+    ],
+    "meta": {
+      "active_time": "PT45M",
+      "passive_time": "PT30M",
+      "total_time": "PT1H15M",
+      "overnight_required": false,
+      "yields": "8 flatbreads",
+      "yield_count": 8,
+      "serving_size_g": 110
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Nut-Free",
+        "Soy-Free",
+        "Egg-Free"
+      ],
+      "not_suitable_for": [
+        "Celiac Disease",
+        "Gluten Intolerance"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Store in an airtight container or ziplock bag.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freeze separated by parchment paper. Reheat directly from frozen.",
+        "duration": "P2M"
+      },
+      "reheating": "Reheat in a dry pan over medium heat until crispy again, or in a toaster oven.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Large mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Heavy-bottomed frying pan or cast iron skillet",
+        "required": true,
+        "alternative": "Griddle"
+      },
+      {
+        "name": "Clean work surface",
+        "required": true,
+        "alternative": "Large silicone mat"
+      },
+      {
+        "name": "Small bowls",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Dough",
+        "items": [
+          {
+            "name": "all-purpose flour",
+            "quantity": 350,
+            "unit": "g",
+            "preparation": "sifted",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "c44eca83-374b-437f-b52e-979b3beacb3a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fine semolina",
+            "quantity": 100,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Plus extra for laminating",
+            "substitutions": [],
+            "ingredient_id": "1a84c379-e19f-49b5-88d9-e7abd6f569af",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "granulated sugar",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fine sea salt",
+            "quantity": 7,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "instant yeast",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Optional pinch for extensibility",
+            "substitutions": [],
+            "ingredient_id": "b5658d19-b726-4ddb-b56e-74884c61e753",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "warm water",
+            "quantity": 280,
+            "unit": "ml",
+            "preparation": "approx 35°C",
+            "notes": "Adjust slightly based on flour absorption",
+            "substitutions": [],
+            "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+            "nutrition_source": "Aggregated Public Data"
+          }
+        ]
+      },
+      {
+        "group_name": "Lamination Mixture",
+        "items": [
+          {
+            "name": "vegetable oil",
+            "quantity": 60,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "For stretching the dough",
+            "substitutions": [],
+            "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "unsalted butter",
+            "quantity": 80,
+            "unit": "g",
+            "preparation": "very soft or melted",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "eaea8246-f7e7-43d0-98b1-6e668894fea1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fine semolina",
+            "quantity": 40,
+            "unit": "g",
+            "preparation": null,
+            "notes": "For sprinkling between layers",
+            "substitutions": [],
+            "ingredient_id": "1a84c379-e19f-49b5-88d9-e7abd6f569af",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "In a large mixing bowl, combine the all-purpose flour, 100g fine semolina, sugar, salt, and instant yeast. Make a well in the center.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Gradually pour in warm water while mixing with your hand or a wooden spoon until a shaggy dough forms. You may not need all the water, or you may need a splash more.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Transfer dough to a work surface and knead vigorously for 10 minutes. The dough must be smooth, soft, and slightly tacky but not sticky.",
+        "structured": {
+          "action": "KNEAD",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": null
+        },
+        "tips": [
+          "Use the heel of your hand to push the dough away, then fold it back."
+        ]
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Divide the dough into 8 equal balls (approx 90g each). Coat each ball generously with vegetable oil, place on a tray, cover with plastic wrap, and let rest for 15 minutes.",
+        "structured": {
+          "action": "REST",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": [
+          "Resting is crucial for gluten relaxation; do not skip or the dough will tear."
+        ]
+      },
+      {
+        "step_number": 5,
+        "phase": "assemble",
+        "text": "Oil your work surface. Take one dough ball and flatten it with your hands, stretching it outwards until it is paper-thin and translucent. Do not worry about small holes.",
+        "structured": {
+          "action": "SHAPE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Brush the flattened sheet with soft butter and sprinkle lightly with the extra fine semolina. Fold the top third down to the center, and the bottom third up (like a letter). Repeat butter and semolina on the strip, then fold the right side in and left side over to form a square.",
+        "structured": {
+          "action": "LAMINATE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 7,
+        "phase": "assemble",
+        "text": "Repeat with remaining balls. Let the formed squares rest on an oiled surface for another 10-15 minutes.",
+        "structured": {
+          "action": "REST",
+          "temperature": null,
+          "duration": "PT15M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "cook",
+        "text": "Preheat a heavy skillet or griddle over medium heat (approx 190°C/375°F). Take a rested square and flatten it with your hand to double its size, maintaining the square shape.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 190,
+            "fahrenheit": 374
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 9,
+        "phase": "cook",
+        "text": "Place the msemen in the hot pan. Cook for about 2-3 minutes on the first side until golden brown spots appear, then flip.",
+        "structured": {
+          "action": "FRY",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": {
+            "visual": "Golden brown spots",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 10,
+        "phase": "cook",
+        "text": "Cook the second side for another 2-3 minutes. Flip a few more times to ensure even cooking and puffing. Remove to a cooling rack.",
+        "structured": {
+          "action": "FRY",
+          "temperature": null,
+          "duration": "PT3M",
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Dough snaps back and won't stretch",
+        "likely_cause": "Gluten is too tight",
+        "prevention": "Knead thoroughly and allow adequate resting time",
+        "fix": "Cover the dough and let it rest for another 10-15 minutes before trying again"
+      },
+      {
+        "symptom": "Bread is tough or hard after cooking",
+        "likely_cause": "Cooked too long on low heat or dough was too dry",
+        "prevention": "Ensure dough is soft/hydrated and cook on medium-high heat to crisp quickly without drying out",
+        "fix": "Eat immediately while warm or reheat in microwave to soften"
+      }
+    ],
+    "chef_notes": [
+      "The secret to layers is the 'semolina sprinkle' between the folds; this creates a physical barrier that prevents the dough layers from fusing completely.",
+      "Use oil for the work surface (it slides better) and butter for the inside layers (better flavor).",
+      "Serve traditionally with a mixture of warm honey and melted butter.",
+      "If using a stand mixer, knead with the dough hook on speed 2 for 8 minutes."
+    ],
+    "cultural_context": "Msemen (also known as Rghaif) is a staple of the Maghreb region. Often served for breakfast or 'Gouter' (afternoon tea), it showcases the region's historical mastery of wheat and semolina processing. It is ubiquitous in Moroccan street food stalls and home kitchens alike.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 363.25,
+        "protein_g": 6.95,
+        "carbohydrates_g": 46.89,
+        "fat_g": 16.5,
+        "saturated_fat_g": 6.25,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 2.43,
+        "polyunsaturated_fat_g": 0.63,
+        "fiber_g": 3.19,
+        "sugar_g": 1.13,
+        "sodium_mg": 344.52,
+        "cholesterol_mg": 21.5,
+        "potassium_mg": 106.31,
+        "calcium_mg": 14.37,
+        "iron_mg": 1.13,
+        "magnesium_mg": 26.7,
+        "phosphorus_mg": 94.55,
+        "zinc_mg": 0.71,
+        "vitamin_a_mcg": 68.4,
+        "vitamin_c_mg": null,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.26,
+        "vitamin_k_mcg": 0.99,
+        "vitamin_b6_mg": 0.06,
+        "vitamin_b12_mcg": 0.02,
+        "thiamin_mg": 0.16,
+        "riboflavin_mg": 0.08,
+        "niacin_mg": 2.11,
+        "folate_mcg": 34.55,
+        "water_g": 43.45,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14778,
+    "monthly_limit": 15000,
+    "daily_remaining": 317,
+    "daily_limit": 500
+  }
+}

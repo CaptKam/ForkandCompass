@@ -1,0 +1,288 @@
+{
+  "data": {
+    "id": "a9d1d6a0-d870-473b-a760-6cbff5c4972d",
+    "name": "Dulce de Leche Panna Cotta",
+    "description": "A velvety, eggless Italian custard infused with rich, caramelized dulce de leche. This five-ingredient dessert melts in the mouth, delivering a perfect balance of milky sweetness and roasted caramel notes.",
+    "category": "Dessert",
+    "cuisine": "Fusion",
+    "difficulty": "Easy",
+    "tags": [
+      "Italian",
+      "Five Ingredient",
+      "Dessert",
+      "Gluten-Free",
+      "Nut-Free",
+      "Make-Ahead"
+    ],
+    "meta": {
+      "active_time": "PT15M",
+      "passive_time": "PT4H",
+      "total_time": "PT4H15M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 192
+    },
+    "dietary": {
+      "flags": [
+        "Gluten-Free",
+        "Nut-Free",
+        "Egg-Free",
+        "Peanut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": [
+        "Vegetarians (contains animal gelatin)",
+        "Vegans",
+        "Dairy-Free diets"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Cover tightly with plastic wrap to prevent skin formation.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freezing alters the texture of the gelatin and causes weeping when thawed.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Small bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Medium saucepan",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Fine-mesh strainer",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "4 ramekins or dariole molds",
+        "required": true,
+        "alternative": "Serving glasses"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Panna Cotta Base",
+        "items": [
+          {
+            "name": "whole milk",
+            "quantity": 150,
+            "unit": "ml",
+            "preparation": "cold",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "0d4b43bc-f9a5-4b03-8dbb-9ddc3e1ae2f5",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "unflavored gelatin powder",
+            "quantity": 7,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a909aa0d-d907-4a92-8c81-fa4fe0f452f8",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "heavy cream",
+            "quantity": 400,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "266353a6-1595-489c-a61a-cc070d4323e1",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "dulce de leche",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": null,
+            "notes": "reserve 40g for garnish if desired",
+            "substitutions": [],
+            "ingredient_id": "89b31de5-be52-4f45-94c7-c172bf5fa8cc",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "vanilla extract",
+            "quantity": 5,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "5245d064-3efa-48b3-9dca-6dfa7c398bb2",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Pour the cold milk into a small bowl and sprinkle the gelatin powder evenly over the surface. Let it sit undisturbed for 5 to 10 minutes to bloom and hydrate.",
+        "structured": {
+          "action": "MEASURE",
+          "temperature": null,
+          "duration": "PT5M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "In a medium saucepan, combine the heavy cream, 160 grams of the dulce de leche, and vanilla extract. Heat over medium heat, whisking gently, until the mixture reaches a gentle simmer at around 80 degrees Celsius (175 degrees Fahrenheit). Do not let it boil.",
+        "structured": {
+          "action": "SIMMER",
+          "temperature": {
+            "celsius": 80,
+            "fahrenheit": 176
+          },
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Small bubbles form around the edges of the pan, dulce de leche is completely dissolved",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Remove the saucepan from the heat. Scrape the bloomed gelatin and milk mixture into the hot cream. Whisk thoroughly until the gelatin is completely dissolved and the mixture is entirely smooth.",
+        "structured": {
+          "action": "WHISK",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "No visible granules of gelatin remain on the whisk or spoon",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "assemble",
+        "text": "Pour the mixture through a fine-mesh strainer into a liquid measuring cup to catch any undissolved pieces. Divide the strained liquid evenly among 4 ramekins or serving glasses.",
+        "structured": {
+          "action": "STRAIN",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Let the ramekins cool to room temperature, then cover each with plastic wrap. Transfer to the refrigerator and chill for at least 4 hours, or until completely set.",
+        "structured": {
+          "action": "CHILL",
+          "temperature": null,
+          "duration": "PT4H",
+          "doneness_cues": {
+            "visual": null,
+            "tactile": "Surface is firm to the touch and jiggles slightly like set pudding"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "finish",
+        "text": "To serve, dip the bottoms of the ramekins in warm water for 5 seconds. Run a thin knife around the edges and invert onto plates. Warm the remaining dulce de leche and drizzle over the top.",
+        "structured": {
+          "action": "PLATE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Panna cotta separates into two distinct layers",
+        "likely_cause": "Mixture was not fully emulsified or was poured into molds while too hot",
+        "prevention": "Cool the mixture over an ice bath while whisking until slightly thickened before pouring into molds",
+        "fix": "Cannot be fixed once set"
+      },
+      {
+        "symptom": "Gelatin forms rubbery lumps",
+        "likely_cause": "Gelatin was not bloomed evenly or mixture was not hot enough to dissolve it",
+        "prevention": "Sprinkle gelatin evenly over cold liquid and ensure cream mixture is hot enough before combining",
+        "fix": "Return to low heat and whisk gently until dissolved, then strain again"
+      }
+    ],
+    "chef_notes": [
+      "For a flawlessly smooth texture, always strain the panna cotta mixture before pouring it into your molds to catch any stubborn undissolved gelatin granules.",
+      "Unmolding can be tricky. Dipping the ramekin in warm water just long enough to melt the outermost layer of gelatin ensures a clean release.",
+      "Using a high-quality, thick dulce de leche rather than a thin caramel syrup is crucial, as its milk solids emulsify beautifully with the heavy cream."
+    ],
+    "cultural_context": "Panna cotta, meaning cooked cream, is a classic dessert originating from the Piedmont region of Northern Italy. This variation introduces a Latin American staple, dulce de leche, creating a modern cross-cultural dessert that replaces traditional sugar with deeply roasted milk caramel.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 529.84,
+        "protein_g": 8.94,
+        "carbohydrates_g": 32.5,
+        "fat_g": 41,
+        "saturated_fat_g": 25.96,
+        "trans_fat_g": 1.42,
+        "monounsaturated_fat_g": 10.48,
+        "polyunsaturated_fat_g": 1.84,
+        "fiber_g": 0,
+        "sugar_g": 29.82,
+        "sodium_mg": 111.17,
+        "cholesterol_mg": 131.25,
+        "potassium_mg": 321.63,
+        "calcium_mg": 234.98,
+        "iron_mg": 0.22,
+        "magnesium_mg": 22.29,
+        "phosphorus_mg": 186.76,
+        "zinc_mg": 0.78,
+        "vitamin_a_mcg": 465.25,
+        "vitamin_c_mg": 1.9,
+        "vitamin_d_mcg": 2.19,
+        "vitamin_e_mg": 1.05,
+        "vitamin_k_mcg": 3.96,
+        "vitamin_b6_mg": 0.07,
+        "vitamin_b12_mcg": 0.49,
+        "thiamin_mg": 0.05,
+        "riboflavin_mg": 0.47,
+        "niacin_mg": 0.21,
+        "folate_mcg": 11.9,
+        "water_g": 105.97,
+        "alcohol_g": 0.43,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14761,
+    "monthly_limit": 15000,
+    "daily_remaining": 300,
+    "daily_limit": 500
+  }
+}

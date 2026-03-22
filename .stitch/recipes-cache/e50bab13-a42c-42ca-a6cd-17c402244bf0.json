@@ -1,0 +1,258 @@
+{
+  "data": {
+    "id": "e50bab13-a42c-42ca-a6cd-17c402244bf0",
+    "name": "Limoncello Cocktail",
+    "description": "A bright citrus cocktail balancing tart lemon and sweet limoncello with nutty hazelnut notes and a frothy egg white texture.",
+    "category": "Beverage",
+    "cuisine": "Italian",
+    "difficulty": "Intermediate",
+    "tags": [
+      "Cocktail",
+      "Limoncello",
+      "Italian-Inspired",
+      "Refreshing"
+    ],
+    "meta": {
+      "active_time": "PT5M",
+      "passive_time": "PT0M",
+      "total_time": "PT5M",
+      "overnight_required": false,
+      "yields": "1 cocktail",
+      "yield_count": 1,
+      "serving_size_g": 150
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Dairy-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": [
+        "Individuals with nut allergies (hazelnut liqueur)",
+        "Vulnerable populations (raw egg white)"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "duration": null
+      },
+      "freezer": {
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Cocktail shaker",
+        "required": true,
+        "alternative": "Mason jar with a tight lid"
+      },
+      {
+        "name": "Nick and Nora coupe glass",
+        "required": true,
+        "alternative": "Martini glass or small wine glass"
+      },
+      {
+        "name": "Hawthorne strainer",
+        "required": true,
+        "alternative": "Shaker lid or slotted spoon"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Main",
+        "items": [
+          {
+            "name": "limoncello",
+            "quantity": 50,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "84822702-05df-495b-91a5-3fe45e48c8d9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "hazelnut liqueur",
+            "quantity": 25,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "935ead31-ae09-4ac3-bb90-c321af05d9b4",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "simple syrup",
+            "quantity": 10,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lemon juice",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "84822702-05df-495b-91a5-3fe45e48c8d9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "egg white",
+            "quantity": 1,
+            "unit": null,
+            "preparation": null,
+            "notes": "approximately 30g; use pasteurized eggs for safety",
+            "substitutions": [],
+            "ingredient_id": "17645f6b-c1ea-4e82-a4b4-5ae8cb6a5a53",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lace biscuit",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "whole",
+            "notes": "approximately 5g for garnish",
+            "substitutions": [],
+            "ingredient_id": "55b558f7-1683-4482-a4ff-8e7d0c579a8a",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Pour the limoncello, hazelnut liqueur, simple syrup, lemon juice, and egg white into the cocktail shaker.",
+        "structured": {
+          "action": "MEASURE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "cook",
+        "text": "Seal the shaker and shake the contents vigorously without ice for 20 seconds to emulsify the egg white.",
+        "structured": {
+          "action": "SHAKE",
+          "temperature": null,
+          "duration": "PT20S",
+          "doneness_cues": {
+            "visual": "Mixture should appear frothy and pale.",
+            "tactile": null
+          }
+        },
+        "tips": [
+          "This is called a dry shake and is essential for a thick foam."
+        ]
+      },
+      {
+        "step_number": 3,
+        "phase": "cook",
+        "text": "Add a handful of ice to the shaker and shake again for 15 seconds until the outside of the vessel is chilled.",
+        "structured": {
+          "action": "SHAKE",
+          "temperature": null,
+          "duration": "PT15S",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "finish",
+        "text": "Strain the liquid through a Hawthorne strainer into a chilled Nick and Nora coupe glass.",
+        "structured": {
+          "action": "STRAIN",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Place the lace biscuit on the rim of the glass or carefully on top of the foam to garnish.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Cocktail foam is thin or dissipates quickly",
+        "likely_cause": "The dry shake (without ice) was too short or the egg white was cold.",
+        "prevention": "Shake for a minimum of 20 seconds during the dry shake phase and use a room-temperature egg white.",
+        "fix": "Cannot be fixed once the drink is poured."
+      }
+    ],
+    "chef_notes": [
+      "For the best foam, ensure your egg white is at room temperature before shaking. Cold egg whites won't emulsify as well.",
+      "A dry shake (without ice) is crucial for creating a stable, luxurious foam. Don't skip this step!",
+      "Taste your lemon juice before adding; if it's very tart, you might need to slightly adjust the simple syrup. The goal is balance, not overwhelming sourness.",
+      "Chilling your coupe glass beforehand will help keep the cocktail colder for longer, preserving the delicate foam.",
+      "When garnishing with the lace biscuit, ensure it's placed just before serving to prevent it from becoming soggy."
+    ],
+    "cultural_context": "Limoncello, a beloved Italian liqueur, is traditionally made from the zest of locally grown lemons, particularly in Southern Italy. This cocktail elevates the spirit by combining it with hazelnut liqueur, creating a sophisticated, modern twist on classic Italian flavors.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 244.95,
+        "protein_g": 7.59,
+        "carbohydrates_g": 23.87,
+        "fat_g": 14.07,
+        "saturated_fat_g": 0.18,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 0.33,
+        "polyunsaturated_fat_g": 0.1,
+        "fiber_g": 2.77,
+        "sugar_g": 12.65,
+        "sodium_mg": 99.2,
+        "cholesterol_mg": 0.08,
+        "potassium_mg": 322.11,
+        "calcium_mg": 123.96,
+        "iron_mg": 0.97,
+        "magnesium_mg": 67.79,
+        "phosphorus_mg": 135.59,
+        "zinc_mg": 0.6,
+        "vitamin_a_mcg": 0.08,
+        "vitamin_c_mg": 30.97,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 0.13,
+        "vitamin_k_mcg": 0.24,
+        "vitamin_b6_mg": 0.19,
+        "vitamin_b12_mcg": 0.04,
+        "thiamin_mg": 0.16,
+        "riboflavin_mg": 0.2,
+        "niacin_mg": 1.08,
+        "folate_mcg": 21.89,
+        "water_g": 101.95,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14764,
+    "monthly_limit": 15000,
+    "daily_remaining": 303,
+    "daily_limit": 500
+  }
+}

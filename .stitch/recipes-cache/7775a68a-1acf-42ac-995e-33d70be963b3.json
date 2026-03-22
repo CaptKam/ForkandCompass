@@ -1,0 +1,268 @@
+{
+  "data": {
+    "id": "7775a68a-1acf-42ac-995e-33d70be963b3",
+    "name": "White Bean Caprese Salad",
+    "description": "A fresh salad combining creamy white beans with cherry tomatoes, mozzarella, and basil in a light balsamic dressing.",
+    "category": "Salad",
+    "cuisine": "Italian",
+    "difficulty": "Easy",
+    "tags": [
+      "Quick",
+      "Summer",
+      "No-Cook",
+      "High-Protein"
+    ],
+    "meta": {
+      "active_time": "PT10M",
+      "passive_time": "PT0M",
+      "total_time": "PT10M",
+      "overnight_required": false,
+      "yields": "3 servings",
+      "yield_count": 3,
+      "serving_size_g": 250
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Gluten-Free",
+        "Nut-Free",
+        "Egg-Free"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Best served immediately; acidity will soften the vegetables over time.",
+        "duration": "PT24H"
+      },
+      "freezer": {
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": true
+    },
+    "equipment": [
+      {
+        "name": "Medium bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Spoon",
+        "required": true,
+        "alternative": "Silicone spatula"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Main",
+        "items": [
+          {
+            "name": "white beans",
+            "quantity": 400,
+            "unit": "g",
+            "preparation": "rinsed and drained",
+            "notes": "approx 1 standard can",
+            "substitutions": [],
+            "ingredient_id": "a991e6b0-eb6c-4d7d-b45f-2df5375321fa",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "cherry tomatoes",
+            "quantity": 140,
+            "unit": "g",
+            "preparation": "halved",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "15f7fcd0-6094-4322-90b3-d25eae059040",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "mozzarella",
+            "quantity": 140,
+            "unit": "g",
+            "preparation": "halved or torn into bite-size pieces",
+            "notes": "room temperature preferred",
+            "substitutions": [],
+            "ingredient_id": "d10212b8-e285-49ec-9990-1433862b69d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh basil",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "torn",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "417f8397-9065-4cd6-8820-0ab7363fbb08",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "extra virgin olive oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "e9f370c4-07c8-4d8d-8a9f-0edea38db44c",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "balsamic vinegar",
+            "quantity": 10,
+            "unit": "ml",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "4da62caf-a01b-4477-b6bb-f4213102565d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kosher salt",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": null,
+            "notes": "adjust to taste",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "black pepper",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": "adjust to taste",
+            "substitutions": [],
+            "ingredient_id": "c25dc1c9-4ea7-403c-976e-ab1d06578b7a",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "flaky salt",
+            "quantity": 1,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Place the rinsed white beans, halved cherry tomatoes, mozzarella pieces, and half of the torn basil into a medium bowl.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Pour the olive oil over the ingredients and season with kosher salt and black pepper.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "assemble",
+        "text": "Stir the mixture gently with a spoon to distribute the oil and seasonings without breaking the beans.",
+        "structured": {
+          "action": "STIR",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": {
+            "visual": "Ingredients should be evenly coated in oil.",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "finish",
+        "text": "Drizzle the balsamic vinegar over the salad and top with the remaining basil and a pinch of flaky salt.",
+        "structured": {
+          "action": "GARNISH",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Salad is watery or soggy",
+        "likely_cause": "Beans were not drained properly or salad sat too long after seasoning.",
+        "prevention": "Ensure beans are thoroughly drained and dried. Add salt and vinegar just before serving.",
+        "fix": "Drain excess liquid from the bottom of the bowl before plating."
+      }
+    ],
+    "chef_notes": [
+      "For optimal flavor, use high-quality extra virgin olive oil and a good quality balsamic vinegar. The difference in taste is significant.",
+      "Ensure your mozzarella is at room temperature before adding it to the salad. This allows it to soften slightly and meld better with the other ingredients.",
+      "Gently toss the salad to avoid mashing the white beans. The goal is to coat them with the dressing, not to create a bean paste.",
+      "Taste and adjust seasoning before serving. The saltiness of the mozzarella and the acidity of the balsamic can vary, so a final check ensures perfect balance.",
+      "This salad is best served fresh. If making ahead, keep the dressing separate and toss just before serving to prevent the basil from wilting and the beans from becoming mushy."
+    ],
+    "cultural_context": "This salad is a modern Italian-inspired creation that draws inspiration from the classic Caprese salad, which originates from the Campania region of Italy. While traditional Caprese features tomatoes, mozzarella, and basil, this version incorporates hearty white beans, offering a more substantial and protein-rich twist on the beloved summer dish.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 394.4,
+        "protein_g": 20.82,
+        "carbohydrates_g": 32.25,
+        "fat_g": 20.87,
+        "saturated_fat_g": 7.98,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 10.43,
+        "polyunsaturated_fat_g": 1.65,
+        "fiber_g": 7.2,
+        "sugar_g": 2.15,
+        "sodium_mg": 1071.9,
+        "cholesterol_mg": 36.87,
+        "potassium_mg": 789.25,
+        "calcium_mg": 358.08,
+        "iron_mg": 4.75,
+        "magnesium_mg": 89.85,
+        "phosphorus_mg": 304.49,
+        "zinc_mg": 3.02,
+        "vitamin_a_mcg": 129.62,
+        "vitamin_c_mg": 8.19,
+        "vitamin_d_mcg": 0.19,
+        "vitamin_e_mg": 2.92,
+        "vitamin_k_mcg": 56.69,
+        "vitamin_b6_mg": 0.17,
+        "vitamin_b12_mcg": 1.06,
+        "thiamin_mg": 0.17,
+        "riboflavin_mg": 0.2,
+        "niacin_mg": 0.56,
+        "folate_mcg": 103.79,
+        "water_g": 172.7,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14759,
+    "monthly_limit": 15000,
+    "daily_remaining": 298,
+    "daily_limit": 500
+  }
+}

@@ -1,0 +1,415 @@
+{
+  "data": {
+    "id": "ba2bc3ce-8242-49f4-9f74-8576b5c471d0",
+    "name": "Grilled Paneer Tikka Skewers",
+    "description": "Smoky, charred skewers of tender paneer cheese, crisp bell peppers, and sweet onions, all marinated in a vibrantly spiced, tangy yogurt base.",
+    "category": "Appetizer",
+    "cuisine": "Indian",
+    "difficulty": "Intermediate",
+    "tags": [
+      "paneer",
+      "vegetables",
+      "skewers",
+      "marinated",
+      "grill",
+      "indian",
+      "tandoori",
+      "appetizer",
+      "high-protein"
+    ],
+    "meta": {
+      "active_time": "PT25M",
+      "passive_time": "PT2H",
+      "total_time": "PT2H25M",
+      "overnight_required": false,
+      "yields": "4 skewers",
+      "yield_count": 4,
+      "serving_size_g": 250
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Gluten-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Soy-Free"
+      ],
+      "not_suitable_for": [
+        "Individuals with dairy allergies",
+        "Vegans"
+      ]
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Remove from skewers and store in an airtight container.",
+        "duration": "P3D"
+      },
+      "freezer": {
+        "notes": "Freezing cooked paneer changes its texture significantly, making it crumbly and dry.",
+        "duration": null
+      },
+      "reheating": "Reheat gently in a pan over medium heat with a splash of water, or in the oven at 180C for 5 minutes.",
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Large mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Whisk",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Skewers",
+        "required": true,
+        "alternative": "Baking sheet for oven roasting"
+      },
+      {
+        "name": "Grill or grill pan",
+        "required": true,
+        "alternative": "Oven with broiler function"
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Main Ingredients",
+        "items": [
+          {
+            "name": "paneer",
+            "quantity": 400,
+            "unit": "g",
+            "preparation": "cut into 3cm cubes",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "ba205af7-336e-43bc-b0e1-e12573faaf4e",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "red bell pepper",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "cut into 3cm squares",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8c4f8af4-14ec-4b21-8e25-e2e592f9144d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "green bell pepper",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "cut into 3cm squares",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "73526a0d-a2c7-4cac-8f5e-a77e5faf659d",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "red onion",
+            "quantity": 150,
+            "unit": "g",
+            "preparation": "cut into 3cm squares, layers separated",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      },
+      {
+        "group_name": "Yogurt Marinade",
+        "items": [
+          {
+            "name": "greek yogurt",
+            "quantity": 200,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Must be thick; strain regular yogurt if Greek is unavailable",
+            "substitutions": [],
+            "ingredient_id": "cb272815-f202-42e9-a1ee-21757d749f90",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "mustard oil",
+            "quantity": 30,
+            "unit": "ml",
+            "preparation": null,
+            "notes": "Essential for authentic flavor",
+            "substitutions": [
+              "neutral cooking oil"
+            ],
+            "ingredient_id": "71a6eb9b-27fb-43d3-8e41-394612198076",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "ginger garlic paste",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kashmiri red chili powder",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": null,
+            "notes": "Provides vibrant color without excessive heat",
+            "substitutions": [],
+            "ingredient_id": "95bf3619-4042-48ea-8f4d-86f61e1721c6",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "garam masala",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "8ffcea01-5f22-462b-94de-ad2a97049325",
+            "nutrition_source": "Aggregated Public Data"
+          },
+          {
+            "name": "ground coriander",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "225e04a2-508a-4752-ac80-1f8437a6c970",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "turmeric powder",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "1ee1ad9b-8638-45be-82a4-683925a61d05",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "chaat masala",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "225e04a2-508a-4752-ac80-1f8437a6c970",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "kasuri methi",
+            "quantity": 2,
+            "unit": "g",
+            "preparation": "crushed between palms",
+            "notes": "dried fenugreek leaves",
+            "substitutions": [],
+            "ingredient_id": "224501d9-d278-4443-ac4b-93837873a1d5",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lemon juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "84822702-05df-495b-91a5-3fe45e48c8d9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fine sea salt",
+            "quantity": 5,
+            "unit": "g",
+            "preparation": null,
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Cut the paneer, red bell pepper, green bell pepper, and red onion into uniform 3cm pieces to ensure even cooking and easy skewering.",
+        "structured": {
+          "action": "CHOP",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "In a large mixing bowl, whisk together the greek yogurt, mustard oil, ginger garlic paste, kashmiri chili powder, garam masala, ground coriander, turmeric, chaat masala, kasuri methi, lemon juice, and salt until smooth and vibrant red.",
+        "structured": {
+          "action": "MIX",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Add the chopped paneer and vegetables to the mixing bowl. Gently toss the ingredients until every piece is thickly coated in the yogurt marinade.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "prep",
+        "text": "Cover the bowl tightly and refrigerate to allow the spices to penetrate the paneer and vegetables. Marinate for at least 2 hours, or up to 24 hours for maximum flavor.",
+        "structured": {
+          "action": "MARINATE",
+          "temperature": null,
+          "duration": "PT2H",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "cook",
+        "text": "Heat a grill or grill pan over medium-high heat until it reaches roughly 200°C/400°F. Lightly brush the grates with a high smoke point oil.",
+        "structured": {
+          "action": "PREHEAT",
+          "temperature": {
+            "celsius": 200,
+            "fahrenheit": 392
+          },
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 6,
+        "phase": "assemble",
+        "text": "Thread the marinated paneer, red onion, and bell peppers alternately onto the skewers, packing them snugly but not too tight to ensure heat circulates evenly.",
+        "structured": {
+          "action": "ASSEMBLE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "If using bamboo or wooden skewers, ensure they have been soaked in cold water for 30 minutes to prevent burning."
+        ]
+      },
+      {
+        "step_number": 7,
+        "phase": "cook",
+        "text": "Place the skewers on the hot grill. Cook, turning every 2 to 3 minutes, until the paneer develops a crisp, beautifully charred exterior and the vegetables are tender but still retain a slight bite.",
+        "structured": {
+          "action": "GRILL",
+          "temperature": null,
+          "duration": "PT10M",
+          "doneness_cues": {
+            "visual": "Blackened char marks on the paneer edges and slightly blistered pepper skins",
+            "tactile": "Paneer feels firm but springy, vegetables yield slightly to pressure"
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 8,
+        "phase": "finish",
+        "text": "Transfer the hot skewers to a serving platter. Serve immediately while the paneer is soft and warm inside.",
+        "structured": {
+          "action": "SERVE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": [
+          "Dust lightly with extra chaat masala and serve with a wedge of lemon and fresh mint chutney."
+        ]
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Paneer breaks or crumbles while threading onto skewers or grilling",
+        "likely_cause": "Paneer was too soft, cut too small, or handled roughly",
+        "prevention": "Purchase firm block paneer rather than fresh soft paneer, and cut into generous 3cm cubes",
+        "fix": "Remove from skewers and cook the pieces loosely in a flat pan as a stir-fry"
+      },
+      {
+        "symptom": "Marinade drips off heavily during grilling",
+        "likely_cause": "Yogurt contained too much whey or water",
+        "prevention": "Use thick Greek yogurt or hang standard yogurt in cheesecloth for 2 hours before mixing",
+        "fix": "Baste the skewers with any remaining thick marinade from the bottom of the bowl during the first few minutes of cooking"
+      }
+    ],
+    "chef_notes": [
+      "Mustard oil is traditional in tandoori marinades, providing a signature sharp, pungent flavor. If using raw mustard oil, heat it in a pan until it reaches its smoking point, then let it cool completely before adding to the marinade to remove its raw bitterness.",
+      "Using Kashmiri chili powder is the secret to the bright, appetizing red color of authentic tikka without making the dish overwhelmingly spicy. Do not substitute with standard cayenne pepper unless you drastically reduce the quantity.",
+      "Ensure your grill is thoroughly preheated before adding the skewers. A hot initial sear is crucial to prevent the paneer from sticking to the grates and to set the yogurt marinade quickly."
+    ],
+    "cultural_context": "Paneer Tikka is a widely loved vegetarian adaptation of Chicken Tikka, originating in the Punjab region of the Indian subcontinent. Traditionally cooked in a cylindrical clay oven called a tandoor, the intense heat of the charcoal creates a signature smoky flavor and external char that defines the dish. It is a staple at Indian celebrations and street food stalls alike.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 486.18,
+        "protein_g": 25.48,
+        "carbohydrates_g": 20.15,
+        "fat_g": 33.17,
+        "saturated_fat_g": 16.66,
+        "trans_fat_g": 0.03,
+        "monounsaturated_fat_g": 5.06,
+        "polyunsaturated_fat_g": 1.98,
+        "fiber_g": 4.6,
+        "sugar_g": 9.62,
+        "sodium_mg": 600.65,
+        "cholesterol_mg": 5,
+        "potassium_mg": 489.83,
+        "calcium_mg": 641.79,
+        "iron_mg": 2.79,
+        "magnesium_mg": 57.45,
+        "phosphorus_mg": 477.8,
+        "zinc_mg": 3.7,
+        "vitamin_a_mcg": 358.64,
+        "vitamin_c_mg": 85.61,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 1.75,
+        "vitamin_k_mcg": 7.74,
+        "vitamin_b6_mg": 0.42,
+        "vitamin_b12_mcg": 0.26,
+        "thiamin_mg": 0.11,
+        "riboflavin_mg": 0.21,
+        "niacin_mg": 1.1,
+        "folate_mcg": 36.24,
+        "water_g": 153.45,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "Aggregated Public Data",
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14745,
+    "monthly_limit": 15000,
+    "daily_remaining": 284,
+    "daily_limit": 500
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "data": {
+    "id": "223955ce-71fd-40a4-9262-c84e36dcb635",
+    "name": "Classic Homemade Guacamole",
+    "description": "Creamy, vibrant, and bursting with fresh flavors, this authentic guacamole balances rich avocado with zesty lime, crisp jalapeño, and aromatic coriander.",
+    "category": "Appetizer",
+    "cuisine": "Mexican",
+    "difficulty": "Easy",
+    "tags": [
+      "Mexican",
+      "Appetizer",
+      "Avocado",
+      "Easy",
+      "Vegetarian",
+      "Quick",
+      "Dip",
+      "Party Food"
+    ],
+    "meta": {
+      "active_time": "PT10M",
+      "passive_time": "PT0M",
+      "total_time": "PT10M",
+      "overnight_required": false,
+      "yields": "4 servings",
+      "yield_count": 4,
+      "serving_size_g": 90
+    },
+    "dietary": {
+      "flags": [
+        "Vegetarian",
+        "Vegan",
+        "Gluten-Free",
+        "Dairy-Free",
+        "Egg-Free",
+        "Nut-Free",
+        "Peanut-Free",
+        "Soy-Free",
+        "Paleo",
+        "Whole30",
+        "Sugar-Free",
+        "Low-Carb",
+        "Keto"
+      ],
+      "not_suitable_for": []
+    },
+    "storage": {
+      "refrigerator": {
+        "notes": "Press plastic wrap directly against the surface of the guacamole to prevent oxidation.",
+        "duration": "P1D"
+      },
+      "freezer": {
+        "notes": "Freezing changes the texture and is not recommended.",
+        "duration": null
+      },
+      "reheating": null,
+      "does_not_keep": false
+    },
+    "equipment": [
+      {
+        "name": "Medium mixing bowl",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Fork or potato masher",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Chef's knife",
+        "required": true,
+        "alternative": null
+      },
+      {
+        "name": "Cutting board",
+        "required": true,
+        "alternative": null
+      }
+    ],
+    "ingredients": [
+      {
+        "group_name": "Base",
+        "items": [
+          {
+            "name": "hass avocados",
+            "quantity": 3,
+            "unit": null,
+            "preparation": "ripe",
+            "notes": "about 450g total weight before pitting and peeling, yielding about 300g of flesh",
+            "substitutions": [],
+            "ingredient_id": "35c8f26f-d008-407a-9bf3-48c8aa641729",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "lime juice",
+            "quantity": 15,
+            "unit": "ml",
+            "preparation": "freshly squeezed",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "531b7deb-b63c-41c9-8c01-b7bec6fcd2d0",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "fresh coriander",
+            "quantity": 10,
+            "unit": "g",
+            "preparation": "finely chopped",
+            "notes": "also known as cilantro",
+            "substitutions": [],
+            "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "jalapeño pepper",
+            "quantity": 1,
+            "unit": null,
+            "preparation": "finely diced",
+            "notes": "about 15g; remove seeds and ribs for less heat",
+            "substitutions": [],
+            "ingredient_id": "28f54199-5672-4d2a-9f41-4e4e5cbfa93f",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "red onion",
+            "quantity": 30,
+            "unit": "g",
+            "preparation": "finely diced",
+            "notes": null,
+            "substitutions": [],
+            "ingredient_id": "a41c8927-b981-495e-ac59-c5e9b583c1c9",
+            "nutrition_source": "USDA FoodData Central"
+          },
+          {
+            "name": "sea salt",
+            "quantity": 3,
+            "unit": "g",
+            "preparation": null,
+            "notes": "to taste, adjust as necessary",
+            "substitutions": [],
+            "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+            "nutrition_source": "USDA FoodData Central"
+          }
+        ]
+      }
+    ],
+    "instructions": [
+      {
+        "step_number": 1,
+        "phase": "prep",
+        "text": "Cut the avocados in half, remove the pits, and scoop the flesh into a medium mixing bowl.",
+        "structured": {
+          "action": "PEEL",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 2,
+        "phase": "prep",
+        "text": "Pour the freshly squeezed lime juice directly over the avocado flesh to help prevent browning.",
+        "structured": {
+          "action": "MEASURE",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 3,
+        "phase": "prep",
+        "text": "Using a fork or potato masher, gently crush the avocado and lime juice together until you reach your desired consistency, leaving some chunks for texture.",
+        "structured": {
+          "action": "CRUSH",
+          "temperature": null,
+          "duration": "PT2M",
+          "doneness_cues": {
+            "visual": "mostly mashed but with visible chunks of avocado remaining",
+            "tactile": null
+          }
+        },
+        "tips": []
+      },
+      {
+        "step_number": 4,
+        "phase": "assemble",
+        "text": "Add the diced jalapeño, chopped coriander, red onion, and sea salt to the bowl. Fold the ingredients together gently until evenly distributed.",
+        "structured": {
+          "action": "FOLD",
+          "temperature": null,
+          "duration": "PT1M",
+          "doneness_cues": null
+        },
+        "tips": []
+      },
+      {
+        "step_number": 5,
+        "phase": "finish",
+        "text": "Taste the guacamole and adjust the seasoning with more sea salt or lime juice if needed. Serve immediately.",
+        "structured": {
+          "action": "SEASON",
+          "temperature": null,
+          "duration": null,
+          "doneness_cues": null
+        },
+        "tips": []
+      }
+    ],
+    "troubleshooting": [
+      {
+        "symptom": "Guacamole turns brown quickly",
+        "likely_cause": "Oxidation from exposure to air",
+        "prevention": "Add sufficient lime juice during preparation and press plastic wrap directly onto the surface of the guacamole when storing",
+        "fix": "Scrape off the top brown layer; the bright green guacamole underneath is perfectly safe to eat"
+      },
+      {
+        "symptom": "Guacamole is too spicy",
+        "likely_cause": "Jalapeño seeds and ribs were included, or the pepper was exceptionally hot",
+        "prevention": "Remove all seeds and inner white membranes from the jalapeño before dicing",
+        "fix": "Mash in an extra half of an avocado to dilute the heat"
+      }
+    ],
+    "chef_notes": [
+      "Always use Hass avocados for the best creamy texture and rich flavor. They should yield slightly to gentle pressure at the stem.",
+      "Adding the lime juice immediately over the scooped avocado helps prevent oxidation while you prepare the other ingredients.",
+      "Rolling the lime firmly on the counter before cutting helps break the internal cell walls, yielding significantly more juice.",
+      "For the best texture, avoid over-mashing. Authentic guacamole should have distinct, creamy chunks of avocado rather than a smooth, pureed consistency."
+    ],
+    "cultural_context": "Guacamole dates back to the Aztec Empire in Central America, where avocados naturally grow. The name originates from the Nahuatl word ahuacamolli, which translates directly to avocado sauce.",
+    "nutrition": {
+      "per_serving": {
+        "calories": 95.6,
+        "protein_g": 1.86,
+        "carbohydrates_g": 7.22,
+        "fat_g": 7.61,
+        "saturated_fat_g": 1.48,
+        "trans_fat_g": null,
+        "monounsaturated_fat_g": 4.14,
+        "polyunsaturated_fat_g": 1.27,
+        "fiber_g": 4.52,
+        "sugar_g": 2.37,
+        "sodium_mg": 294.14,
+        "cholesterol_mg": null,
+        "potassium_mg": 300.97,
+        "calcium_mg": 12.06,
+        "iron_mg": 0.2,
+        "magnesium_mg": 20.27,
+        "phosphorus_mg": 34.88,
+        "zinc_mg": 0.33,
+        "vitamin_a_mcg": 15.78,
+        "vitamin_c_mg": 19.87,
+        "vitamin_d_mcg": null,
+        "vitamin_e_mg": 2.2,
+        "vitamin_k_mcg": 8.5,
+        "vitamin_b6_mg": 0.09,
+        "vitamin_b12_mcg": null,
+        "thiamin_mg": 0.03,
+        "riboflavin_mg": 0.05,
+        "niacin_mg": 0.59,
+        "folate_mcg": 30.61,
+        "water_g": 74.94,
+        "alcohol_g": null,
+        "caffeine_mg": null
+      },
+      "sources": [
+        "USDA FoodData Central"
+      ]
+    }
+  },
+  "usage": {
+    "monthly_remaining": 14774,
+    "monthly_limit": 15000,
+    "daily_remaining": 313,
+    "daily_limit": 500
+  }
+}
