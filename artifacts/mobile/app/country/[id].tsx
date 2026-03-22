@@ -16,7 +16,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import type { Recipe } from "@/constants/data";
+import { getCountryLocations, LANDMARK_IMAGES, type CountryLocation } from "@/constants/data";
 import { useCountry } from "@/hooks/useCountry";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useApp } from "@/contexts/AppContext";
@@ -60,7 +60,7 @@ export default function CountryDetailScreen() {
           style={styles.headerButton}
         >
           <Ionicons
-            name={saved ? "heart" : "heart-outline"}
+            name={saved ? "bookmark" : "bookmark-outline"}
             size={22}
             color={Colors.light.primary}
           />
@@ -74,7 +74,7 @@ export default function CountryDetailScreen() {
         {/* Hero */}
         <View style={styles.heroContainer}>
           <Image
-            source={{ uri: country.heroImage }}
+            source={{ uri: LANDMARK_IMAGES[country.id] || country.heroImage }}
             style={styles.heroImage}
             contentFit="cover"
             transition={reducedMotion ? 0 : 400}
@@ -97,10 +97,10 @@ export default function CountryDetailScreen() {
           {/* Region heading */}
           <Text style={styles.regionHeading}>Choose a region</Text>
 
-          {/* Recipe cards as "region" cards */}
+          {/* Location region cards */}
           <View style={styles.recipeCards}>
-            {country.recipes.map((recipe) => (
-              <RecipeRegionCard key={recipe.id} recipe={recipe} reducedMotion={reducedMotion} />
+            {getCountryLocations(country).map((loc, idx) => (
+              <LocationRegionCard key={idx} location={loc} countryId={country.id} reducedMotion={reducedMotion} />
             ))}
           </View>
         </View>
@@ -109,57 +109,32 @@ export default function CountryDetailScreen() {
   );
 }
 
-function RecipeRegionCard({ recipe, reducedMotion }: { recipe: Recipe; reducedMotion: boolean }) {
-  const { isSaved, toggleSaved } = useApp();
-  const saved = isSaved(recipe.id);
-
+function LocationRegionCard({ location, countryId, reducedMotion }: { location: CountryLocation; countryId: string; reducedMotion: boolean }) {
   return (
     <Pressable
+      style={({ pressed }) => [styles.regionCard, pressed && { opacity: 0.9 }]}
       onPress={() => {
         if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } });
+        router.push({
+          pathname: "/region/[countryId]/[region]",
+          params: { countryId, region: encodeURIComponent(location.name) },
+        });
       }}
-      style={({ pressed }) => [
-        styles.regionCard,
-        pressed && !reducedMotion && { transform: [{ scale: 0.98 }] },
-      ]}
     >
       <Image
-        source={{ uri: recipe.image }}
+        source={{ uri: location.image }}
         style={StyleSheet.absoluteFill}
         contentFit="cover"
         transition={reducedMotion ? 0 : 300}
       />
       <LinearGradient
-        colors={["transparent", "rgba(0,0,0,0.6)"]}
+        colors={["transparent", "rgba(0,0,0,0.65)"]}
         locations={[0.4, 1]}
         style={StyleSheet.absoluteFill}
       />
-
-      {/* Heart button */}
-      <Pressable
-        onPress={(e) => {
-          e.stopPropagation?.();
-          if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          toggleSaved(recipe.id);
-        }}
-        style={styles.regionHeartButton}
-      >
-        <Ionicons
-          name={saved ? "heart" : "heart-outline"}
-          size={18}
-          color={saved ? Colors.light.primary : Colors.light.primary}
-        />
-      </Pressable>
-
       <View style={styles.regionCardContent}>
-        <Text style={styles.regionCardTitle}>{recipe.name}</Text>
-        {/* Carousel dots */}
-        <View style={styles.regionDots}>
-          <View style={[styles.regionDot, styles.regionDotActive]} />
-          <View style={styles.regionDot} />
-          <View style={styles.regionDot} />
-        </View>
+        <Text style={styles.regionCardSubtitle}>{location.subtitle}</Text>
+        <Text style={styles.regionCardTitle}>{location.name}</Text>
       </View>
     </Pressable>
   );
@@ -276,11 +251,18 @@ const styles = StyleSheet.create({
     right: 0,
     padding: 24,
   },
+  regionCardSubtitle: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12,
+    color: "rgba(255,255,255,0.75)",
+    letterSpacing: 0.5,
+    textTransform: "uppercase",
+    marginBottom: 6,
+  },
   regionCardTitle: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 24,
     color: "#FFFFFF",
-    marginBottom: 12,
   },
   regionDots: {
     flexDirection: "row",

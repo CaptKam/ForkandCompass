@@ -4,8 +4,11 @@ import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   Platform,
   Pressable,
   ScrollView,
@@ -13,13 +16,16 @@ import {
   Text,
   View,
 } from "react-native";
+
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
-import { COUNTRIES, ONBOARDING_IMAGES, type Country } from "@/constants/data";
+import { COUNTRIES, ONBOARDING_IMAGES, getCountryLocations, type Country } from "@/constants/data";
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 // ─── Static editorial blurbs per country ─────────────────────────────────────
 
@@ -55,11 +61,6 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
 
   const byCountry: Record<string, Partial<DiscoverEditorial>> = {
     morocco: {
-      locations: [
-        { name: "Marrakech", subtitle: "The Red City", image: img },
-        { name: "Chefchaouen", subtitle: "The Blue Pearl", image: imgAlt },
-        { name: "The Atlas Mountains", subtitle: "High Peaks", image: img },
-      ],
       quote: "\u201CIn Morocco, a guest is a gift. We do not just share a meal; we share our history, our warmth, and our home through the art of the spice.\u201D",
       quoteAttrib: "The Editorial Team",
       etiquette: [
@@ -94,11 +95,6 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
       ],
     },
     italy: {
-      locations: [
-        { name: "Tuscany", subtitle: "The Eternal Countryside", image: img },
-        { name: "Rome", subtitle: "The Eternal City", image: imgAlt },
-        { name: "Amalfi Coast", subtitle: "Sun-Kissed Shores", image: img },
-      ],
       quote: "\u201CIn Italy, food is love made visible. A meal is never just nourishment; it is a conversation, a memory, a gift.\u201D",
       quoteAttrib: "The Editorial Team",
       etiquette: [
@@ -137,11 +133,7 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
   const override = byCountry[country.id] || {};
 
   return {
-    locations: override.locations || [
-      { name: country.region, subtitle: country.tagline, image: img },
-      { name: `${country.name} Highlands`, subtitle: "Hidden Gems", image: imgAlt },
-      { name: `${country.name} Coast`, subtitle: "By the Sea", image: img },
-    ],
+    locations: getCountryLocations(country),
     quote: override.quote || `\u201C${country.description}\u201D`,
     quoteAttrib: override.quoteAttrib || "The Editorial Team",
     etiquette: override.etiquette || [
@@ -189,14 +181,24 @@ export default function DiscoverScreen() {
 
   const activeCountry = countries[activeIndex] ?? countries[0];
   const editorial = buildDiscoverData(activeCountry);
-  const heroImage = ONBOARDING_IMAGES[activeCountry.id] || activeCountry.heroImage || activeCountry.image;
-  const blurb = EDITORIAL_BLURBS[activeCountry.id] || activeCountry.description;
   const saved = isCountrySaved(activeCountry.id);
   const topPadding = Platform.OS === "web" ? 67 : insets.top;
 
   const haptic = (style: "light" | "medium" = "light") => {
     if (Platform.OS !== "web") {
       Haptics.impactAsync(style === "medium" ? Haptics.ImpactFeedbackStyle.Medium : Haptics.ImpactFeedbackStyle.Light);
+    }
+  };
+
+  const scrollHeroTo = (idx: number) => {
+    heroScrollRef.current?.scrollTo({ x: idx * SCREEN_WIDTH, animated: true });
+  };
+
+  const onHeroScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const idx = Math.round(e.nativeEvent.contentOffset.x / SCREEN_WIDTH);
+    if (idx !== activeIndex && idx >= 0 && idx < countries.length) {
+      haptic();
+      setActiveIndex(idx);
     }
   };
 
@@ -208,50 +210,85 @@ export default function DiscoverScreen() {
         contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 100 }}
       >
 
-        {/* ── Hero ─────────────────────────────────────────────────── */}
-        <View style={styles.hero}>
-          <Image source={{ uri: heroImage }} style={StyleSheet.absoluteFill} contentFit="cover" transition={reducedMotion ? 0 : 400} />
-          <LinearGradient
-            colors={["rgba(0,0,0,0.78)", "rgba(0,0,0,0.38)", "transparent"]}
-            start={{ x: 0, y: 0.5 }}
-            end={{ x: 1, y: 0.5 }}
-            style={StyleSheet.absoluteFill}
-          />
-          <LinearGradient
-            colors={["rgba(0,0,0,0.4)", "transparent"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            style={[StyleSheet.absoluteFill, { height: 120 }]}
-          />
+        {/* ── Hero carousel ─────────────────────────────────────── */}
+        <View style={styles.heroWrap}>
+          {/* Paginated horizontal scroll */}
+          <ScrollView
+            ref={heroScrollRef}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={onHeroScroll}
+            scrollEventThrottle={16}
+            contentOffset={{ x: activeIndex * SCREEN_WIDTH, y: 0 }}
+            style={styles.heroScroll}
+          >
+            {countries.map((country, idx) => {
+              const img = ONBOARDING_IMAGES[country.id] || country.heroImage || country.image;
+              const blurb = EDITORIAL_BLURBS[country.id] || country.description;
+              const isSaved = isCountrySaved(country.id);
+              return (
+                <View key={country.id} style={styles.heroSlide}>
+                  <Image source={{ uri: img }} style={StyleSheet.absoluteFill} contentFit="cover" transition={reducedMotion ? 0 : 400} />
+                  <LinearGradient
+                    colors={["rgba(0,0,0,0.78)", "rgba(0,0,0,0.38)", "transparent"]}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    style={StyleSheet.absoluteFill}
+                  />
+                  <LinearGradient
+                    colors={["rgba(0,0,0,0.4)", "transparent"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                    style={[StyleSheet.absoluteFill, { height: 120 }]}
+                  />
+                  <View style={styles.heroContent}>
+                    <Text style={styles.heroFlag}>{country.flag}</Text>
+                    <Text style={styles.heroTitle}>{country.name}</Text>
+                    <Text style={styles.heroBlurb}>{blurb}</Text>
+                    <View style={styles.heroActions}>
+                      <Pressable
+                        onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: country.id } }); }}
+                        style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
+                      >
+                        <Text style={styles.letsGoText}>Let's Go</Text>
+                      </Pressable>
+                      <Pressable
+                        onPress={() => { haptic(); toggleSavedCountry(country.id); }}
+                        style={({ pressed }) => [styles.bookmarkButton, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
+                      >
+                        <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
+                      </Pressable>
+                    </View>
+                  </View>
+                </View>
+              );
+            })}
+          </ScrollView>
 
-          {/* Header */}
-          <View style={[styles.heroHeader, { paddingTop: topPadding + 8 }]}>
+          {/* Pagination dots */}
+          <View style={styles.heroDots}>
+            {countries.map((_, idx) => (
+              <Pressable
+                key={idx}
+                onPress={() => { haptic(); setActiveIndex(idx); scrollHeroTo(idx); }}
+                hitSlop={8}
+              >
+                <View style={[styles.heroDot, idx === activeIndex && styles.heroDotActive]} />
+              </Pressable>
+            ))}
+          </View>
+
+          {/* Header rendered last so it sits on top of the ScrollView in the touch responder chain */}
+          <View style={[styles.heroHeader, { paddingTop: Platform.OS === "web" ? 50 : topPadding + 8 }]}>
             <Pressable onPress={() => haptic()} hitSlop={12}>
               <Ionicons name="menu" size={26} color="#FFFFFF" />
             </Pressable>
-            <View style={styles.heroAvatar}>
-              <Ionicons name="person" size={15} color="rgba(255,255,255,0.8)" />
-            </View>
-          </View>
-
-          {/* Bookmark */}
-          <Pressable
-            onPress={() => { haptic(); toggleSavedCountry(activeCountry.id); }}
-            style={({ pressed }) => [styles.bookmarkButton, { top: topPadding + 56 }, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
-          >
-            <Ionicons name={saved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
-          </Pressable>
-
-          {/* Left-aligned hero content */}
-          <View style={styles.heroContent}>
-            <Text style={styles.heroFlag}>{activeCountry.flag}</Text>
-            <Text style={styles.heroTitle}>{activeCountry.name}</Text>
-            <Text style={styles.heroBlurb}>{blurb}</Text>
             <Pressable
-              onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
-              style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
+              onPress={() => { haptic(); router.push("/(tabs)/settings"); }}
+              style={styles.heroAvatar}
             >
-              <Text style={styles.letsGoText}>Let's Go</Text>
+              <Ionicons name="person" size={15} color="rgba(255,255,255,0.8)" />
             </Pressable>
           </View>
         </View>
@@ -260,11 +297,6 @@ export default function DiscoverScreen() {
         <View style={styles.destSection}>
           <View style={styles.destHeader}>
             <Text style={styles.destTitle}>Explore Destinations</Text>
-            <View style={styles.destDots}>
-              {countries.slice(0, 3).map((_, i) => (
-                <View key={i} style={[styles.destDot, i === (activeIndex % 3) && styles.destDotActive]} />
-              ))}
-            </View>
           </View>
           <ScrollView
             horizontal
@@ -276,15 +308,20 @@ export default function DiscoverScreen() {
               return (
                 <Pressable
                   key={country.id}
-                  onPress={() => { haptic(); setActiveIndex(idx); }}
+                  onPress={() => { haptic(); setActiveIndex(idx); scrollHeroTo(idx); }}
                   style={styles.destItem}
                 >
-                  <View style={[styles.destCircle, isActive && styles.destCircleActive]}>
-                    <Image
-                      source={{ uri: ONBOARDING_IMAGES[country.id] || country.image }}
-                      style={styles.destCircleImg}
-                      contentFit="cover"
-                    />
+                  {/* Outer ring — handles the active border without clipping */}
+                  <View style={[styles.destRing, isActive && styles.destRingActive]}>
+                    {/* Inner circle — clips the image to a circle */}
+                    <View style={styles.destCircle}>
+                      <Image
+                        source={{ uri: ONBOARDING_IMAGES[country.id] || country.image }}
+                        style={styles.destCircleImg}
+                        contentFit="cover"
+                      />
+                    </View>
+                    {/* Flag badge lives outside the clipping view so it's never hidden */}
                     <View style={styles.destFlagBadge}>
                       <Text style={styles.destFlagEmoji}>{country.flag}</Text>
                     </View>
@@ -303,14 +340,24 @@ export default function DiscoverScreen() {
           <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>Featured Locations</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.locScroll}>
             {editorial.locations.map((loc, idx) => (
-              <View key={idx} style={styles.locCard}>
+              <Pressable
+                key={idx}
+                style={({ pressed }) => [styles.locCard, pressed && { opacity: 0.88 }]}
+                onPress={() => {
+                  haptic();
+                  router.push({
+                    pathname: "/region/[countryId]/[region]",
+                    params: { countryId: activeCountry.id, region: encodeURIComponent(loc.name) },
+                  });
+                }}
+              >
                 <Image source={{ uri: loc.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
                 <LinearGradient colors={["transparent", "rgba(0,0,0,0.72)"]} style={StyleSheet.absoluteFill} />
                 <View style={styles.locInfo}>
                   <Text style={styles.locName}>{loc.name}</Text>
                   <Text style={styles.locSub}>{loc.subtitle}</Text>
                 </View>
-              </View>
+              </Pressable>
             ))}
           </ScrollView>
         </View>
@@ -483,12 +530,44 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.surface,
   },
 
-  // Hero
-  hero: {
+  // Hero carousel
+  heroWrap: {
     height: 560,
     backgroundColor: "#000",
+    overflow: "hidden",
+  },
+  heroScroll: {
+    flex: 1,
+  },
+  heroSlide: {
+    width: SCREEN_WIDTH,
+    height: 560,
+  },
+  heroDots: {
+    position: "absolute",
+    bottom: 20,
+    left: 32,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  heroDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  heroDotActive: {
+    width: 22,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.light.primary,
   },
   heroHeader: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -507,23 +586,42 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   bookmarkButton: {
-    position: "absolute",
-    right: 24,
-    zIndex: 20,
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "rgba(255,255,255,0.1)",
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: "rgba(255,255,255,0.12)",
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.15)",
+    borderColor: "rgba(255,255,255,0.2)",
     alignItems: "center",
     justifyContent: "center",
+  },
+  heroTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  inlineBookmark: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.25)",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
   },
   heroContent: {
     position: "absolute",
     bottom: 48,
     left: 32,
-    right: "30%",
+    right: 32,
+  },
+  heroActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
   },
   heroFlag: {
     fontSize: 28,
@@ -599,22 +697,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 6,
   },
-  destCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    padding: 2,
-    borderWidth: 2,
+  destRing: {
+    width: 94,
+    height: 94,
+    borderRadius: 47,
+    borderWidth: 2.5,
     borderColor: "transparent",
-    overflow: "visible",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  destCircleActive: {
+  destRingActive: {
     borderColor: Colors.light.primary,
   },
+  destCircle: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    overflow: "hidden",
+  },
   destCircleImg: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 88,
+    height: 88,
+    borderRadius: 44,
   },
   destFlagBadge: {
     position: "absolute",

@@ -12,14 +12,13 @@ import {
   Text,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import TabHeader from "@/components/TabHeader";
 
 import Colors from "@/constants/colors";
 import { useApp } from "@/contexts/AppContext";
 import { COUNTRIES, getAllRecipes, type Country, type Recipe } from "@/constants/data";
 
 export default function SavedScreen() {
-  const insets = useSafeAreaInsets();
   const { savedRecipeIds, savedCountryIds, toggleSaved } = useApp();
 
   const savedRecipes = getAllRecipes().filter((r) => savedRecipeIds.includes(r.id));
@@ -29,9 +28,7 @@ export default function SavedScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
-        <Text style={styles.headerTitle}>Saved</Text>
-      </View>
+      <TabHeader title="Saved" />
 
       {!hasSavedContent ? (
         <View style={styles.emptyState}>
@@ -151,16 +148,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.light.surface,
-  },
-  header: {
-    paddingHorizontal: 24,
-    paddingBottom: 16,
-  },
-  headerTitle: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 28,
-    color: Colors.light.onSurface,
-    letterSpacing: -0.5,
   },
   // Empty state
   emptyState: {

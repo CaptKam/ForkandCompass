@@ -12,7 +12,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import TabHeader from "@/components/TabHeader";
 
 import Colors from "@/constants/colors";
 import InventoryPanel from "@/components/InventoryPanel";
@@ -46,7 +46,6 @@ interface CategoryGroup {
 type GroceryTab = "list" | "kitchen";
 
 export default function GroceryScreen() {
-  const insets = useSafeAreaInsets();
   const { groceryItems, toggleGroceryItem, removeGroceryItem, clearGrocery, inventoryItems } = useApp();
   const [activeTab, setActiveTab] = useState<GroceryTab>("list");
 
@@ -99,18 +98,20 @@ export default function GroceryScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
-        <Text style={styles.headerTitle}>Grocery</Text>
-        <Pressable
-          style={styles.scanHeaderButton}
-          onPress={() => {
-            if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-            router.push("/kitchen-scanner");
-          }}
-        >
-          <Ionicons name="scan" size={16} color={Colors.light.primary} />
-        </Pressable>
-      </View>
+      <TabHeader
+        title="Grocery"
+        rightExtra={
+          <Pressable
+            style={styles.scanHeaderButton}
+            onPress={() => {
+              if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+              router.push("/kitchen-scanner");
+            }}
+          >
+            <Ionicons name="scan" size={16} color={Colors.light.primary} />
+          </Pressable>
+        }
+      />
 
       {/* Tab switcher */}
       <View style={styles.tabBar}>
@@ -243,19 +244,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.light.surface,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "baseline",
-    paddingHorizontal: 24,
-    paddingBottom: 16,
-  },
-  headerTitle: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 28,
-    color: Colors.light.onSurface,
-    letterSpacing: -0.5,
   },
   scanHeaderButton: {
     width: 36,

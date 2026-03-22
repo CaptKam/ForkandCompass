@@ -16,6 +16,8 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import TabHeader from "@/components/TabHeader";
+
 import { ONBOARDING_IMAGES } from "@/constants/data";
 import Colors from "@/constants/colors";
 import { useSearch } from "@/hooks/useSearch";
@@ -42,7 +44,6 @@ export default function SearchScreen() {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
   const { results } = useSearch(query);
-  const topPadding = Platform.OS === "web" ? 67 : insets.top;
 
   const haptic = () => { if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); };
 
@@ -61,21 +62,10 @@ export default function SearchScreen() {
     <View style={styles.container}>
       <StatusBar style="dark" />
 
-      {/* ── Sticky Top Bar + Search ─────────────────────────────── */}
-      <View style={[styles.topBar, { paddingTop: topPadding + 8 }]}>
-        {/* Header row */}
-        <View style={styles.headerRow}>
-          <View style={styles.headerLeft}>
-            <Pressable onPress={haptic} hitSlop={12}>
-              <Ionicons name="menu" size={24} color={Colors.light.primary} />
-            </Pressable>
-            <Text style={styles.headerTitle}>The Culinary Editorial</Text>
-          </View>
-          <View style={styles.headerAvatar}>
-            <Ionicons name="person" size={14} color={Colors.light.outline} />
-          </View>
-        </View>
+      <TabHeader title="The Culinary Editorial" />
 
+      {/* ── Sticky Search Bar ────────────────────────────────────── */}
+      <View style={styles.topBar}>
         {/* Search bar */}
         <View style={styles.searchRow}>
           <View style={styles.searchBar}>
@@ -300,40 +290,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.surface,
   },
 
-  // Top bar
+  // Top bar (search input only — header is handled by TabHeader)
   topBar: {
     backgroundColor: Colors.light.surface,
     paddingHorizontal: 24,
+    paddingTop: 12,
     paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: "rgba(222,193,179,0.25)",
-  },
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  headerLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
-  },
-  headerTitle: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 20,
-    color: Colors.light.primary,
-    letterSpacing: -0.3,
-  },
-  headerAvatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    borderWidth: 1,
-    borderColor: "rgba(222,193,179,0.2)",
-    alignItems: "center",
-    justifyContent: "center",
   },
 
   // Search bar
