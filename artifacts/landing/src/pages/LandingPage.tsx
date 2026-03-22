@@ -129,16 +129,16 @@ export default function LandingPage() {
                     <p className="font-serif italic text-white">You're on the list — we'll be in touch soon.</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleHeroSubmit} className="bg-white/10 backdrop-blur-md border border-white/20 p-1 rounded-full flex items-center w-full max-w-md">
+                  <form onSubmit={handleHeroSubmit} className="bg-white/10 backdrop-blur-md border border-white/20 p-1 rounded-full flex items-center w-full max-w-md overflow-hidden">
                     <input
                       type="email"
                       required
                       value={heroEmail}
                       onChange={(e) => setHeroEmail(e.target.value)}
                       placeholder="Your email for early access"
-                      className="bg-transparent border-none focus:ring-0 focus:outline-none text-white placeholder-white/50 px-6 py-3 flex-grow text-lg"
+                      className="bg-transparent border-none focus:ring-0 focus:outline-none text-white placeholder-white/50 px-4 sm:px-6 py-3 flex-grow min-w-0 text-base sm:text-lg"
                     />
-                    <button type="submit" disabled={heroLoading} className="bg-[#9A4100] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all disabled:opacity-60">
+                    <button type="submit" disabled={heroLoading} className="bg-[#9A4100] text-white px-6 sm:px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all disabled:opacity-60 flex-shrink-0">
                       {heroLoading ? "..." : "Join"}
                     </button>
                   </form>
