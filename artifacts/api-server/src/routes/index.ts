@@ -5,6 +5,7 @@ import recipesRouter from "./recipes";
 import searchRouter from "./search";
 import ninjaRouter from "./ninja";
 import instacartRouter from "./instacart";
+import waitlistRouter from "./waitlist";
 
 const router: IRouter = Router();
 
@@ -14,5 +15,6 @@ router.use(recipesRouter);
 router.use(searchRouter);
 router.use(ninjaRouter);
 router.use(instacartRouter);
+router.use(waitlistRouter);
 
 export default router;

@@ -1,8 +1,27 @@
 import { useState, useEffect } from "react";
 
+const API_BASE = import.meta.env.BASE_URL.replace(/\/$/, "").replace("/web", "") + "/api";
+
+async function submitWaitlist(email: string, source: string): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_BASE}/waitlist`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, source }),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 export default function LandingPage() {
+  const [heroEmail, setHeroEmail] = useState("");
+  const [heroSubmitted, setHeroSubmitted] = useState(false);
+  const [heroLoading, setHeroLoading] = useState(false);
   const [ctaEmail, setCtaEmail] = useState("");
   const [ctaSubmitted, setCtaSubmitted] = useState(false);
+  const [ctaLoading, setCtaLoading] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -11,9 +30,25 @@ export default function LandingPage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleCtaSubmit = (e: React.FormEvent) => {
+  const handleHeroSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (ctaEmail.trim()) {
+    if (!heroEmail.trim()) return;
+    setHeroLoading(true);
+    const ok = await submitWaitlist(heroEmail, "hero");
+    setHeroLoading(false);
+    if (ok) {
+      setHeroSubmitted(true);
+      setHeroEmail("");
+    }
+  };
+
+  const handleCtaSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!ctaEmail.trim()) return;
+    setCtaLoading(true);
+    const ok = await submitWaitlist(ctaEmail, "cta");
+    setCtaLoading(false);
+    if (ok) {
       setCtaSubmitted(true);
       setCtaEmail("");
     }
@@ -61,14 +96,27 @@ export default function LandingPage() {
               <p className="text-white/90 text-xl md:text-2xl max-w-xl leading-relaxed italic text-shadow-elegant">
                 The high-end digital journal for the global explorer and the curious chef.
               </p>
-              <div className="pt-4">
-                <button
-                  className="bg-[#9A4100] text-white px-12 py-5 rounded-full text-lg font-bold shadow-2xl hover:brightness-110 transition-all flex items-center gap-4"
-                  onClick={() => document.getElementById("cta-section")?.scrollIntoView({ behavior: "smooth" })}
-                >
-                  Begin Your Journey
-                  <span className="material-symbols-outlined">arrow_forward</span>
-                </button>
+              <div id="hero-signup" className="pt-4">
+                {heroSubmitted ? (
+                  <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-4 max-w-md">
+                    <span className="material-symbols-outlined text-[#9A4100]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    <p className="font-serif italic text-white">You're on the list — we'll be in touch soon.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleHeroSubmit} className="bg-white/10 backdrop-blur-md border border-white/20 p-1 rounded-full flex items-center w-full max-w-md">
+                    <input
+                      type="email"
+                      required
+                      value={heroEmail}
+                      onChange={(e) => setHeroEmail(e.target.value)}
+                      placeholder="Your email for early access"
+                      className="bg-transparent border-none focus:ring-0 focus:outline-none text-white placeholder-white/50 px-6 py-3 flex-grow text-lg"
+                    />
+                    <button type="submit" disabled={heroLoading} className="bg-[#9A4100] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all disabled:opacity-60">
+                      {heroLoading ? "..." : "Join"}
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
 
@@ -199,8 +247,8 @@ export default function LandingPage() {
                   placeholder="Enter your email address"
                   className="bg-white/10 border border-white/20 text-white placeholder-white/50 px-8 py-5 flex-grow rounded-full text-lg backdrop-blur-md focus:ring-2 focus:ring-[#9A4100] focus:border-transparent outline-none"
                 />
-                <button type="submit" className="bg-[#9A4100] text-white px-10 py-5 rounded-full text-lg font-bold hover:brightness-110 transition-all whitespace-nowrap">
-                  Claim Early Access
+                <button type="submit" disabled={ctaLoading} className="bg-[#9A4100] text-white px-10 py-5 rounded-full text-lg font-bold hover:brightness-110 transition-all whitespace-nowrap disabled:opacity-60">
+                  {ctaLoading ? "Saving..." : "Claim Early Access"}
                 </button>
               </form>
             )}
