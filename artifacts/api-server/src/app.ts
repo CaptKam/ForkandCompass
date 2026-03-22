@@ -1,4 +1,5 @@
 import express, { type Express } from "express";
+import path from "path";
 import cors from "cors";
 import pinoHttp from "pino-http";
 import router from "./routes";
@@ -28,6 +29,11 @@ app.use(
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/api/images", express.static(path.join(__dirname, "..", "public", "images"), {
+  maxAge: "30d",
+  immutable: true,
+}));
 
 app.use("/api", router);
 

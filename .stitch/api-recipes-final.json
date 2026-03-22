@@ -9,7 +9,7 @@
       "category": "Side Dish",
       "time": "20 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1498579150354-977475b7ea0b?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/italy-garlic-bread.png",
       "description": "Golden and crispy on the outside while delightfully soft and buttery on the inside, this Italian-American side dish delivers a robust punch of savory garlic and bright, fresh parsley.",
       "culturalNote": "While bread has been served with garlic and oil in Italy since ancient times, the buttery version known today is largely an Italian-American invention. Italian immigrants in the United States adapted their traditional bruschetta recipes by replacing olive oil, which was scarce and expensive, with readily available butter.",
       "ingredients": [
@@ -87,7 +87,7 @@
       "category": "Dinner",
       "time": "40 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/italy-pizzoccheri.png",
       "description": "A deeply comforting alpine Italian baked pasta featuring earthy buckwheat noodles, tender potatoes, and Swiss chard, bound together by a luxurious combination of melted mountain cheese and garlic-infused brown butter.",
       "culturalNote": "Pizzoccheri alla Valtellinese originates from the Valtellina valley in Lombardy, northern Italy. The steep, high-altitude alpine climate makes it ideal for growing robust crops like buckwheat, hardy greens, and root vegetables. This culminated in the creation of an incredibly warming, energy-dense winter dish traditionally designed to sustain mountain farmers through long, bitterly cold days.",
       "ingredients": [
@@ -226,7 +226,7 @@
       "category": "Dinner",
       "time": "45 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/italy-fettuccine.png",
       "description": "A bright, no-cook tomato sauce featuring sweet cherry tomatoes, fragrant basil, and rich olive oil. Tossed with tender fresh fettuccine, this dish creates an effortless, flavor-packed Italian dinner that highlights seasonal produce.",
       "culturalNote": "Known in Italy as Pasta alla Checca or simply Salsa Cruda, this dish is a classic Roman summer staple. It was designed to provide a hearty meal without needing to stand over a hot stove to simmer a traditional marinara, relying instead on the peak ripeness of seasonal tomatoes.",
       "ingredients": [
@@ -324,7 +324,7 @@
       "category": "Dinner",
       "time": "2 hr 40 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/italy-veal-chops.png",
       "description": "Thick-cut, bone-in veal chops infused with aromatic fennel and herbs, heavily seared over an open flame, and finished with a bright, herbaceous, and intensely citrusy Southern Italian dressing.",
       "culturalNote": "Salmoriglio is a classic condiment native to Southern Italy, particularly prominent in the regions of Sicily and Calabria. Derived from the word salmurigghiu, meaning a light brine, it was historically used by fishermen to dress robust catches like swordfish. Its intensely bright, acidic, and herbaceous profile perfectly cuts through the richness of grilled meats, making it an ideal companion to balance the smoky char of a thick-cut veal chop.",
       "ingredients": [
@@ -464,7 +464,7 @@
       "category": "Side Dish",
       "time": "1 hr 35 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1595295333158-4742f28fbd85?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/italy-prosciutto-stuffing.png",
       "description": "A harmonious balance of sweet dried figs, salty crispy prosciutto, and toasted pecans mingled with aromatic herbs and hearty Italian bread, creating a deeply flavorful and textural side dish.",
       "culturalNote": "While stuffing is inherently tied to American Thanksgiving traditions, the flavor profile of this dish leans heavily into Italian culinary heritage. The pairing of cured pork and sweet figs dates back to ancient Roman banquets, balancing rich umami notes with concentrated fruit sugars. Using rustic Italian bread as the base elevates this holiday classic into a Mediterranean-inspired centerpiece.",
       "ingredients": [
@@ -610,7 +610,7 @@
       "category": "Dinner",
       "time": "1 hr 5 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/italy-turkey-bolognese.png",
       "description": "A lighter, nutrient-dense twist on the classic Italian ragu, featuring lean ground turkey and finely diced garden vegetables simmered in a rich tomato sauce, served over al dente spaghetti.",
       "culturalNote": "Originating from Bologna, Italy, traditional ragu alla Bolognese is a slow-cooked meat sauce typically made with a blend of beef, pork, and pancetta, and finished with milk. This modern, health-conscious adaptation retains the foundational Italian soffritto technique while utilizing lean turkey and additional garden vegetables to create a lighter, everyday family meal that still delivers comforting, deep flavors.",
       "ingredients": [
@@ -767,7 +767,7 @@
       "category": "Dinner",
       "time": "1 hr",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/italy-arrabbiata.png",
       "description": "A robust and fiery Italian classic elevated with a finely minced vegetable sofrito, delivering a deeply savory, rich tomato sauce that clings perfectly to al dente spaghetti.",
       "culturalNote": "Arrabbiata literally translates to angry in Italian, referring to the fiery heat of the chili peppers characteristic of this Roman classic. While traditional Arrabbiata is often a minimalist blend of garlic, tomatoes, and chili, introducing a finely minced vegetable sofrito pays homage to the broader Italian tradition of building slow, sweet, aromatic bases to balance intense spice.",
       "ingredients": [
@@ -891,7 +891,7 @@
       "category": "Dinner",
       "time": "3 hr 15 min",
       "difficulty": "Advanced",
-      "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/italy-stuffed-veal.png",
       "description": "A magnificent roasted veal breast pocket filled with a savory mixture of Italian sausage, herbs, and toasted breadcrumbs, surrounded by golden, pan-roasted potatoes.",
       "culturalNote": "Stuffed veal breast, or cima di vitello, is a traditional Italian and broader European technique used to elevate an otherwise humble and inexpensive cut of meat. By creating a pocket and packing it with rich ingredients like sausage, bread, and aromatics, home cooks transformed a tough cut into an impressive centerpiece for Sunday dinners and holidays.",
       "ingredients": [
@@ -1062,7 +1062,7 @@
       "category": "Lunch",
       "time": "1 hr",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1553621042-f6e147245754?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/japan-futomaki.png",
       "description": "A traditional thick Japanese sushi roll featuring a vibrant mosaic of sweet dashi-maki tamago, savory simmered shiitake mushrooms, and tender carrots, all encased in perfectly seasoned sushi rice and crisp nori.",
       "culturalNote": "Futomaki translates directly to thick roll in Japanese. Unlike slender hosomaki which typically feature a single filling, futomaki are celebrated for their elaborate, multi-colored cross-sections that balance sweet, savory, and tart flavors. They are a beloved staple at picnics, bento boxes, and special occasions like the Setsubun festival, where it is tradition to eat an entire uncut roll (Eho-maki) while facing the year's lucky direction in silence.",
       "ingredients": [
@@ -1253,7 +1253,7 @@
       "category": "Preserve",
       "time": "P28DT2H",
       "difficulty": "Advanced",
-      "image": "https://images.unsplash.com/photo-1580822184713-fc5400e7fe10?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/japan-hoshigaki.png",
       "description": "A traditional winter delicacy made by hanging and patiently massaging astringent Hachiya persimmons. The slow air-curing process transforms the firm, mouth-puckering fruit into a spectacularly tender, chewy treat with a delicate exterior sugar bloom and a core of concentrated, honeyed sweetness.",
       "culturalNote": "Hoshigaki is an ancient Japanese preservation method born from the necessity to store food for harsh winters, transforming intensely bitter, inedible raw fruit into a prized wagashi (confection). Hung from the eaves of rural homes, the striking orange curtains of drying persimmons are considered a classic symbol of autumn in Japan, often enjoyed with green tea during the New Year.",
       "ingredients": [
@@ -1333,7 +1333,7 @@
       "category": "Salad",
       "time": "20 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/japan-soba-salad.png",
       "description": "A vibrant, cooling Japanese-inspired noodle salad featuring earthy soba noodles tossed with crisp vegetables, savory nori strips, and a bright, tangy sesame-ginger dressing. Perfect for a quick, light meal.",
       "culturalNote": "Soba, thin Japanese noodles made from buckwheat flour, are deeply embedded in Japanese culinary traditions and are enjoyed both hot in broths and cold with dipping sauces (zaru soba). Cold noodle salads highlight the nutty, earthy flavor of the buckwheat and serve as a popular, cooling dish during hot, humid Japanese summers.",
       "ingredients": [
@@ -1440,7 +1440,7 @@
       "category": "Condiment",
       "time": "35 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/japan-miso-mayo.png",
       "description": "A consciousness-expanding condiment where the rich, creamy tang of Japanese mayonnaise meets the deep, savory complexity of fermented miso. This velvety sauce transforms simple vegetables, grilled proteins, or crispy fries into a transcendent culinary experience.",
       "culturalNote": "The marriage of mayonnaise and miso is a beloved staple of modern Japanese izakaya (pub) fare. It perfectly demonstrates the Japanese culinary philosophy of yoshoku, blending traditional domestic ingredients with Western imports to create entirely new, highly craveable flavor profiles. It is frequently served alongside raw vegetable sticks (morokyu) or as a dip for karaage.",
       "ingredients": [
@@ -1501,7 +1501,7 @@
       "category": "Dessert",
       "time": "4 hr 20 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/japan-coffee-jelly.png",
       "description": "A delicately set, bittersweet Japanese-style coffee jelly that melts instantly on the tongue, crowned with a rich, freshly whipped salted caramel cream for the perfect post-dinner pick-me-up.",
       "culturalNote": "Coffee jelly (kohī zerī) was popularized in Japanese coffee shops known as kissaten during the Taisho period and saw a massive boom in the 1960s. It represents the distinct Japanese culinary ethos of taking a Western ingredient and adapting it into a delicately balanced, texturally refined local favorite.",
       "ingredients": [
@@ -1594,7 +1594,7 @@
       "category": "Base",
       "time": "1 hr 10 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/japan-sushi-rice.png",
       "description": "Perfectly balanced, glossy, and sticky sushi rice. The foundation of any great sushi, this sumeshi combines premium short-grain rice with a sweet, salty, and acidic vinegar dressing.",
       "culturalNote": "The word 'sushi' originally referred to the sour, fermented rice used to preserve fish in ancient Japan, rather than the fish itself. Today, sumeshi (vinegared rice) remains the defining element of the cuisine. High-end sushi chefs (shokunin) spend years mastering the precise balance, temperature, and texture of their shari (sushi rice) before they are ever allowed to prepare the fish.",
       "ingredients": [
@@ -1683,7 +1683,7 @@
       "category": "Lunch",
       "time": "20 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1547592180-85f173990554?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/japan-tori-soba.png",
       "description": "A comforting Japanese noodle soup featuring earthy buckwheat noodles and tender chicken thighs, submerged in a delicate umami-rich dashi broth and finished with sharp green onions.",
       "culturalNote": "Tori Soba is a beloved and straightforward Japanese comfort food. Soba noodles, traditionally made from nutrient-rich buckwheat flour, have been a core staple in Japanese cuisine since the Edo period. Consuming soba is often associated with longevity and resilience due to the hardy, deeply rooted nature of the buckwheat plant.",
       "ingredients": [
@@ -1770,7 +1770,7 @@
       "category": "Dessert",
       "time": "45 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/japan-souffle-pancakes.png",
       "description": "Cloud-like, jiggly Japanese souffle pancakes served with vibrant, glossy strawberries soaked in orange liqueur. A sophisticated, airy summer dessert that melts in the mouth.",
       "culturalNote": "Souffle pancakes gained immense popularity in Japan as a highly visual, cafe-culture phenomenon, elevating the traditional Western breakfast staple into a delicate, cloud-like dessert. The technique borrows heavily from classic French souffle mechanics, utilizing a heavily aerated meringue base stabilized by a touch of flour, resulting in a distinctively soft, jiggly texture that demands to be eaten the moment it leaves the pan.",
       "ingredients": [
@@ -1896,7 +1896,7 @@
       "category": "Soup",
       "time": "1 hr 50 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/morocco-lamb-soup.png",
       "description": "A deeply comforting, vibrant North African soup featuring meltingly tender lamb shoulder, plump pearl barley, and the fiery warmth of harissa in a rich, spiced tomato broth.",
       "culturalNote": "Rooted in the diverse culinary landscape of the Maghreb, this soup draws heavy inspiration from traditional Moroccan Harira and Algerian Chorba. The use of harissa, a fundamental North African chili and garlic paste, provides a complex backbone of heat and aromatics that beautifully contrasts the richness of the slow-cooked lamb.",
       "ingredients": [
@@ -2024,7 +2024,7 @@
       "category": "Dinner",
       "time": "2 hr 45 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1511690743698-d9d18f7e20f1?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/morocco-lamb-tagine.png",
       "description": "A deeply comforting slow-cooked lamb stew featuring tender chunks of meat swimming in a fragrant broth of warming spices, bright preserved lemon, and briny olives. Served over golden aromatic rice to soak up the rich sauce.",
       "culturalNote": "The word tagine refers to both the iconic cone-shaped clay cooking vessel and the slow-simmered stews prepared within it. This quintessential Moroccan dish relies on the harmonious balance of savory, spiced, and bright elements, reflecting centuries of Berber, Arab, and Andalusian culinary influences. The conical lid of the traditional vessel is designed to trap steam, returning condensation to the braise and tenderizing tough cuts of meat in arid climates where water is historically scarce.",
       "ingredients": [
@@ -2189,7 +2189,7 @@
       "category": "Soup",
       "time": "1 hr 10 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/morocco-lentil-cod.png",
       "description": "A warming, aromatic Moroccan soup featuring an earthy base of tender lentils and plump chickpeas simmered in a rich tomato broth. Infused with cumin and cinnamon, it is finished with flaky cod fillets and bright fresh herbs.",
       "culturalNote": "Drawing deep inspiration from Harira, a cherished traditional Moroccan soup often enjoyed to break the fast during Ramadan, this variation incorporates the coastal bounty of North Africa. The signature Maghrebi spice profile of cumin, turmeric, and cinnamon creates a profoundly complex, earthy flavor base that balances perfectly with the delicate, flaky texture of the poached cod.",
       "ingredients": [
@@ -2337,7 +2337,7 @@
       "category": "Side Dish",
       "time": "15 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/morocco-couscous.png",
       "description": "A light, fluffy North African-inspired side dish where the warm, earthy notes of cumin perfectly balance the bright citrus of lemon and the subtle sweetness of plump raisins.",
       "culturalNote": "Couscous is the foundational carbohydrate of North African cuisine, traditionally steamed multiple times over a simmering stew in a special pot called a couscoussier. While this recipe utilizes quick-cooking couscous for modern weekday convenience, it honors the classic Moroccan flavor architecture of balancing savory, earthy spices with bright citrus and sweet dried fruits.",
       "ingredients": [
@@ -2435,7 +2435,7 @@
       "category": "Dinner",
       "time": "1 hr 45 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/morocco-cornish-hens.png",
       "description": "A fragrant North African-inspired feast featuring tender, juicy Cornish hens rubbed with an aromatic spice paste, served over light, fluffy couscous studded with sweet golden raisins and caramelized onions.",
       "culturalNote": "This dish draws heavy inspiration from classic Moroccan flavor profiles and the traditional sweet-and-savory condiment known as Tfaya, which consists of deeply caramelized onions, raisins, cinnamon, and honey. While roasting whole Cornish hens is a modern Western adaptation, the technique pays homage to the aromatic tagines of North Africa where savory meats are frequently paired with sweet dried fruits and warm spices.",
       "ingredients": [
@@ -2628,7 +2628,7 @@
       "category": "Dinner",
       "time": "45 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1540914124281-342587941389?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/morocco-chermoula-snapper.png",
       "description": "Tender red snapper fillets marinated in a vibrant chermoula of fresh herbs, earthy spices, and bright lemon, baked to flaky perfection alongside blistered tomatoes.",
       "culturalNote": "Chermoula is a foundational marinade and relish in North African cuisine, particularly central to the culinary traditions of Morocco, Algeria, and Tunisia. Historically utilized to flavor and preserve fresh catches from the Mediterranean and Atlantic coasts, it masterfully balances vibrant fresh herbs with deep, warming spices like cumin and paprika. Almost every family maintains their own nuanced variation, often tweaking the ratio of heat or acidity depending on the specific type of seafood being prepared.",
       "ingredients": [
@@ -2746,7 +2746,7 @@
       "category": "Dinner",
       "time": "1 hr 15 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/morocco-chicken-tagine.png",
       "description": "A fragrant, slow-simmered Moroccan braise featuring tender bone-in chicken thighs melting into a rich, heavily spiced sauce, balanced by the briny bite of green olives and the bright, floral acidity of preserved lemons.",
       "culturalNote": "The tagine is both the name of the iconic conical clay cooking vessel and the slow-simmered Maghrebi stews cooked within it. Historically, the shape of the lid was designed to promote condensation in arid climates where water was scarce, allowing tough cuts of meat to braise meltingly tender with minimal liquid. This specific combination of chicken, preserved lemons, and olives (Djej Makalli) is a beloved classic across Morocco, frequently served at gatherings alongside crusty khobz bread to soak up the spiced, aromatic oils.",
       "ingredients": [
@@ -2870,7 +2870,7 @@
       "category": "Dessert",
       "time": "1 hr 15 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/morocco-pastillas.png",
       "description": "Crisp, golden layers of delicate phyllo dough encase a rich, aromatic filling of sweet almond cream, toasted nuts, and warming spices paired with plump dried fruits.",
       "culturalNote": "These individual pastillas are a sweet, modernized nod to M'hancha (Moroccan snake pastry) and classic savory-sweet pastillas. They bring together the traditional Moroccan flavor profile of orange blossom, toasted nuts, and aromatic cinnamon, pairing it beautifully with French-influenced almond frangipane.",
       "ingredients": [
@@ -3013,7 +3013,7 @@
       "category": "Dinner",
       "time": "30 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/mexico-bean-stew.png",
       "description": "A robust and warming vegetarian stew combining earthy black beans, rich tomatoes, and a blend of traditional Mexican spices, perfect for a fast weeknight dinner.",
       "culturalNote": "Rooted in the diverse culinary traditions of Mexico, bean and tomato-based stews have long been a staple of indigenous diets. Frijoles de la olla and similar rustic preparations combine native ingredients to provide a complete, inexpensive, and deeply comforting meal. This modern weeknight adaptation honors those flavor profiles while optimizing for speed.",
       "ingredients": [
@@ -3130,7 +3130,7 @@
       "category": "Main Course",
       "time": "4 hr 45 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/mexico-pollo-asado.png",
       "description": "Vibrant, brick-red grilled chicken marinated in a fragrant adobo of earthy annatto seeds, toasted guajillo chiles, and bright citrus juices. Smoky, tender, and deeply flavorful with a perfect charred crust.",
       "culturalNote": "The use of achiote (annatto seeds) is a cornerstone of Yucatecan cuisine in Mexico, famously featured in slow-roasted dishes like Cochinita Pibil. When adapted for Pollo Asado, it produces the iconic, mouth-watering red hue seen at roadside chicken stands (rosticerias) throughout the country. This recipe reflects a beautiful fusion of pre-Hispanic indigenous ingredients like chiles and annatto, harmonized with Spanish-introduced citrus, garlic, and spices.",
       "ingredients": [
@@ -3265,7 +3265,7 @@
       "category": "Dinner",
       "time": "55 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/mexico-clam-chorizo.png",
       "description": "A vibrant, coastal-inspired pasta dish marrying the briny sweetness of fresh clams with the smoky, spicy richness of Mexican chorizo and a fiery kick of toasted chiles de arbol.",
       "culturalNote": "This dish draws profound inspiration from the vibrant coastal regions of Mexico, particularly the Gulf and Pacific coasts where fresh, local seafood is often married with the robust, earthy ingredients of the interior. It represents a modern culinary bridge, applying classic Mediterranean pasta techniques to the bold, unapologetic flavor profiles of traditional Mexican kitchens.",
       "ingredients": [
@@ -3396,7 +3396,7 @@
       "category": "Dinner",
       "time": "1 hr 15 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1625398407796-82650a8c135f?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/mexico-chile-chicken.png",
       "description": "Tender chicken thighs slow-braised in a deeply earthy, mildly spicy sauce made from toasted guajillo and ancho chiles, paired with creamy waxy potatoes and savory mushrooms.",
       "culturalNote": "Braised meats in dried chile sauces, often referred to broadly as Adobo or Chile Colorado depending on the region and specific chiles used, are a cornerstone of Mexican home cooking. The technique of toasting and hydrating dried chiles before blending them creates a foundational flavor base that dates back to pre-Hispanic Mesoamerica. Incorporating potatoes and mushrooms stretches the dish further while absorbing the intensely flavorful braising liquid.",
       "ingredients": [
@@ -3525,7 +3525,7 @@
       "category": "Dessert",
       "time": "1 hr 25 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/mexico-wedding-cookies.png",
       "description": "Melt-in-your-mouth buttery confections studded with finely ground pecans and coated in a double layer of snowy confectioners sugar. These delicate shortbreads are a globally cherished holiday staple.",
       "culturalNote": "Mexican Wedding Cookies are rich, buttery shortbreads that share a culinary lineage with Russian Tea Cakes, Viennese Crescents, and Spanish Polvorones. Originally brought to the Americas by European immigrants, these confections became a staple at weddings and celebrations in Mexico due to their festive, snowball-like appearance. Today, they are beloved globally as a holiday classic, famous for melting instantly on the tongue thanks to their eggless, high-fat dough.",
       "ingredients": [
@@ -3631,7 +3631,7 @@
       "category": "Soup",
       "time": "50 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/mexico-tortilla-soup.png",
       "description": "A hearty, vegetable-forward Mexican-inspired soup featuring a rich tomato-chili broth, spicy roasted cauliflower rice, and crispy corn tortilla strips.",
       "culturalNote": "Sopa de tortilla is a traditional Mexican soup originating from the Mexico City region, historically designed to use up leftover stale corn tortillas. This vegetable-forward variation honors the authentic pasilla and tomato base profile while introducing roasted cauliflower for added textural contrast and nutritional density.",
       "ingredients": [
@@ -3811,7 +3811,7 @@
       "category": "Breakfast",
       "time": "12 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1613514785940-daed07799d9b?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/mexico-huevos.png",
       "description": "A vibrant and comforting Mexican breakfast classic featuring fluffy scrambled eggs cooked with fresh tomatoes, onions, and spicy jalapenos, mimicking the colors of the Mexican flag.",
       "culturalNote": "Huevos a la Mexicana is an iconic and beloved staple in Mexican households, cherished for its simplicity and vibrant appearance. The dish features three core vegetables: green jalapeno, white onion, and red tomato. These ingredients deliberately mirror the colors of the Mexican flag, a culinary style traditionally referred to as a la bandera.",
       "ingredients": [
@@ -3894,7 +3894,7 @@
       "category": "Dessert",
       "time": "6 hr 10 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/mexico-paletas.png",
       "description": "A refreshing and creamy frozen treat inspired by traditional Mexican paletas de leche. Very ripe bananas are blended with rich milk, sweetened condensed milk, and warm cinnamon to create a perfectly smooth, naturally sweet dessert on a stick.",
       "culturalNote": "Paletas are iconic Mexican frozen treats, fundamentally different from standard ice pops. They are traditionally made with fresh fruit and minimal processing, falling into two main categories: paletas de agua (water-based) and paletas de leche (milk-based). This banana variation pays homage to the paletas de leche, offering a rich, comforting flavor profile often found in neighborhood paleterias across Mexico.",
       "ingredients": [
@@ -3985,7 +3985,7 @@
       "category": "Dinner",
       "time": "9 hr 25 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/india-dal-makhani.png",
       "description": "A deeply savory, velvety Indian dal made with whole black lentils and kidney beans. Cooked under high pressure and finished with a rich garlic, ginger, and ghee tarka alongside a splash of heavy cream for a luxurious, restaurant-quality texture.",
       "culturalNote": "Dal Makhani originated in the Punjab region of the Indian subcontinent. It was revolutionized and popularized in the mid-20th century by Kundan Lal Gujral at the Moti Mahal restaurant in Delhi. Historically cooked slowly over smoldering wood or coal fires overnight, this modern pressure-cooker adaptation retains the dish's signature buttery texture and deep, complex aromatics in a fraction of the time.",
       "ingredients": [
@@ -4113,7 +4113,7 @@
       "category": "Condiment",
       "time": "25 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/india-tomato-chutney.png",
       "description": "A vibrant, tangy, and mildly spiced South Indian condiment made with ripe tomatoes, roasted lentils, and aromatic spices. Perfect for pairing with dosa, idli, or flatbreads.",
       "culturalNote": "Thakkali (Tomato) Chutney is a beloved staple across South Indian households. It is traditionally served alongside breakfast classics like idli, dosa, uthappam, and vada. The final step of adding the 'tadka' or tempering is a quintessential Indian culinary technique known as 'chhaunk', which blooms the essential oils of the spices into the fat, acting as a crucial flavor delivery system.",
       "ingredients": [
@@ -4266,7 +4266,7 @@
       "category": "Dessert",
       "time": "1 hr 15 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/india-kheer.png",
       "description": "A rich, velvety traditional dessert featuring basmati rice slowly simmered in full-fat milk, infused with aromatic cardamom and saffron, and crowned with toasted pistachios.",
       "culturalNote": "Kheer is one of the most ancient and revered desserts in the Indian subcontinent, with roots tracing back to early Ayurvedic texts where it was considered a restorative food. It is an essential component of festive celebrations like Diwali, weddings, and religious ceremonies, symbolizing purity, joy, and prosperity. While regional variations exist throughout India, such as Payasam in the South, this slow-simmered basmati and milk preparation remains the quintessential classic.",
       "ingredients": [
@@ -4353,7 +4353,7 @@
       "category": "Dinner",
       "time": "1 hr 15 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/india-chicken-curry.png",
       "description": "A robust, deeply aromatic North Indian style chicken curry featuring toasted garlic and warm spices, paired with crisp, lacy-edged pancakes made from roasted chickpea flour for swiping through the rich sauce.",
       "culturalNote": "Lasooni, meaning garlic in Hindi, lends its name to this popular North Indian restaurant-style dish celebrated for its pungent, earthy flavor profile. Pairing deeply spiced curries with regional savory pancakes like the protein-rich Besan Chilla is a staple practice in Indian households, offering a wonderful textural contrast to rich gravies while acting as an edible utensil.",
       "ingredients": [
@@ -4539,7 +4539,7 @@
       "category": "Condiment",
       "time": "25 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/india-raita.png",
       "description": "A cooling, creamy Indian yogurt condiment that balances the vibrant, herbaceous punch of fresh mint and cilantro, accented by a subtle chili bite and the earthy aroma of roasted cumin.",
       "culturalNote": "Raita is an integral part of the South Asian culinary repertoire, specifically designed according to Ayurvedic principles to offer a cooling counterbalance to fiery, heavily spiced dishes. The dairy proteins and fats neutralize capsaicin, making this mint and cilantro variation the traditional pairing for intense biryanis, rich curries, and tandoori roasted meats.",
       "ingredients": [
@@ -4621,7 +4621,7 @@
       "category": "Dinner",
       "time": "35 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/india-grilled-halibut.png",
       "description": "Warm Indian spices crust tender, flaky halibut steaks, charred to perfection on the grill and brightened by a vibrant, sweet relish of fresh corn, sharp ginger, and crisp red onion.",
       "culturalNote": "While fish steaks are common in coastal Indian regions like Kerala and Bengal, they are traditionally pan-fried, baked in banana leaves, or simmered in rich curries. This recipe adapts those traditional, warming flavor profiles like cumin, turmeric, and garam masala into a rapid Western grilling technique. The fresh corn relish acts as a vibrant, textural substitute for a traditional chutney or kachumber salad, bridging seasonal fall ingredients with classic Indian aromatics.",
       "ingredients": [
@@ -4745,7 +4745,7 @@
       "category": "Condiment",
       "time": "40 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/india-mint-chutney.png",
       "description": "A vibrant, aromatic Indian condiment that perfectly balances the intense heat of raw green chiles with the cooling, tangy base of creamy yogurt and fresh herbs.",
       "culturalNote": "Known widely across the subcontinent as Dahi Pudina Chutney or Hari Chutney, this vibrant green condiment is an absolute staple in Indian cookery. It serves as the ultimate cooling counterpoint to fiery tandoori dishes, rich curries, and deep-fried snacks like samosas and pakoras. Every household boasts its own variation, carefully balancing the sharp pungency of raw garlic and ginger with the tartness of yogurt, the brightness of herbs, and the earthy sulfurous notes of chaat masala.",
       "ingredients": [
@@ -4847,7 +4847,7 @@
       "category": "Side Dish",
       "time": "15 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/india-tomato-yogurt.png",
       "description": "A vibrant and tangy Indian-inspired side dish featuring sweet ripe tomatoes simmered with warm spices, jalapeño, and scallions, then finished with creamy yogurt and fresh cilantro.",
       "culturalNote": "This preparation bridges the gap between a fresh raita and a cooked sabzi. In many regional Indian cuisines, tempering tomatoes with spices and finishing them with dairy creates a versatile accompaniment that cools the palate while delivering complex, warming spice notes.",
       "ingredients": [
@@ -4952,7 +4952,7 @@
       "category": "Dinner",
       "time": "1 hr 10 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/thailand-khao-soi.png",
       "description": "A mesmerizing Northern Thai specialty featuring tender, fall-off-the-bone chicken simmered in a complex, cardamom-laced coconut curry broth. It offers a symphony of textures with both slurpable soft egg noodles and a crowning nest of golden, crispy fried noodles.",
       "culturalNote": "Khao Soi is often considered the crown jewel of Northern Thai, or Lanna, cuisine. Its history is deeply intertwined with the Chin Haw, Chinese Muslim traders who traveled along the historical trade routes through Myanmar, Laos, and into Chiang Mai. This multicultural heritage explains the curry's departure from central Thai flavor profiles, leaning heavily on dried spices like cardamom and coriander in the coconut broth, and favoring wheat-based egg noodles over the standard Thai rice noodles.",
       "ingredients": [
@@ -5090,7 +5090,7 @@
       "category": "Dinner",
       "time": "12 hr 30 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/thailand-pineapple-rice.png",
       "description": "A vibrant, tropical masterpiece pairing savory, umami-rich chicken and smoky bacon with sweet, juicy pineapple. Wok-tossed jasmine rice absorbs aromatic curry spices, finished with crunchy roasted cashews for a spectacular textural contrast.",
       "culturalNote": "Khao Pad Sapparod is a beloved staple of Thai restaurant cuisine, famed for its dramatic presentation in a hollowed-out pineapple shell to signify tropical hospitality and celebration. The dish is an excellent representation of flavor balancing, intertwining the sweet acidity of fresh fruit, the savory depth of fish sauce, and the aromatic warmth of Indian-influenced curry powder. It beautifully showcases how traditional Chinese wok-frying techniques were adapted and localized using indigenous Southeast Asian ingredients.",
       "ingredients": [
@@ -5246,7 +5246,7 @@
       "category": "Dinner",
       "time": "30 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/thailand-curry-shrimp.png",
       "description": "A vibrant and aromatic Thai-inspired bowl featuring tender rice noodles bathed in a rich, sweet, and spicy coconut broth. Plump shrimp and an array of fresh, crunchy garnishes bring textural contrast and bright spring flavors to every bite.",
       "culturalNote": "This dish draws profound inspiration from classic Thai curries and noodle soups, echoing the flavor profiles of Northern Thailand's Khao Soi and central coconut-based soups like Tom Kha. Coconut milk acts as a rich, cooling canvas that bridges the fiery intensity of chilies with the oceanic depth of fish sauce and shrimp. Serving complex curries over noodles, rather than rice, highlights a Chinese culinary influence that has been fully integrated into Thai street food culture.",
       "ingredients": [
@@ -5396,7 +5396,7 @@
       "category": "Main Course",
       "time": "30 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1569562211093-4ed0d0758f12?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/thailand-prawn-cups.png",
       "description": "Plump, juicy prawns and crunchy toasted cashews tossed in a vibrant, fiery lime dressing. Served inside crisp, sweet cabbage leaves, this dish perfectly balances the sweet, salty, sour, and spicy notes iconic to Southeast Asian cuisine.",
       "culturalNote": "While stir-frying is originally a Chinese technique, the flavor profile of this dish is distinctively Thai, relying on the essential balance of sweet, salty, sour, and spicy. Serving highly seasoned fillings in crisp leaves is reminiscent of Miang Kham, a traditional Southeast Asian snack that wraps intensely flavorful ingredients in wild betel leaves.",
       "ingredients": [
@@ -5531,7 +5531,7 @@
       "category": "Dinner",
       "time": "15 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/thailand-scallop-cups.png",
       "description": "Zesty, sweet, and savory bay scallops quickly seared with fragrant lemongrass, garlic, and ginger, finished with lime juice and chili, served over crisp butter lettuce.",
       "culturalNote": "This dish is heavily inspired by Larb, a traditional minced meat salad from Laos and the Isan region of Thailand. While classically prepared with pork or chicken, using delicate bay scallops introduces a sweet, oceanic flavor profile to the beloved Southeast Asian combination of sharp citrus, pungent chili, and fresh aromatic herbs.",
       "ingredients": [
@@ -5650,7 +5650,7 @@
       "category": "Dinner",
       "time": "30 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/thailand-panang-curry.png",
       "description": "Rich with coconut milk and crushed peanuts, this aromatic Thai curry is subtly spiced with coriander and cumin. Tender chicken simmers in a vibrant, savory-sweet sauce infused with makrut lime leaves.",
       "culturalNote": "Panang curry is a rich, complex red Thai curry variety characterized by its thick, subtly sweet sauce and nutty undertones. Unlike traditional red curries, it prominently features crushed peanuts, coriander, and cumin in its flavor profile. Its name is believed to derive from the island of Penang in Malaysia, reflecting the cross-cultural pollination of spices across Southeast Asian borders.",
       "ingredients": [
@@ -5753,7 +5753,7 @@
       "category": "Dinner",
       "time": "35 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1536510344784-02f3424af570?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/thailand-basil-chicken.png",
       "description": "A fiery, aromatic street food classic featuring tender minced chicken breast stir-fried with fragrant holy basil, garlic, and chilies in a deeply savory, caramelized sauce.",
       "culturalNote": "Pad Kra Pao is arguably the most beloved everyday street food staple in Thailand, acting as the ultimate comfort food for locals. It translates directly to 'stir-fried holy basil' and is typically consumed for lunch or a late-night meal, always accompanied by jasmine rice and a crispy fried egg with a dash of fish sauce and chilies (Prik Nam Pla) on the side.",
       "ingredients": [
@@ -5888,7 +5888,7 @@
       "category": "Dinner",
       "time": "1 hr",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1600803907087-f56d462fd26b?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/thailand-fish-noodles.png",
       "description": "A fragrant, deeply savory coconut fish curry spooned generously over tender rice vermicelli nests. Earthy fingerroot and spicy red curry paste create a robust, aromatic base, beautifully balanced by the fresh crunch of raw vegetables and aromatic herbs.",
       "culturalNote": "Khanom Jeen refers to fresh, lightly fermented rice noodles that are a staple in Thai cuisine, particularly in central and southern Thailand. Nam Ya, which translates to medicine water or medicinal liquid, refers to the herbaceous, krachai-heavy fish curry served alongside it. This dish is fundamentally interactive, relying on an abundant platter of fresh, raw, and pickled vegetables to customize each bite.",
       "ingredients": [
@@ -6047,7 +6047,7 @@
       "category": "Dinner",
       "time": "30 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/spain-chorizo-pasta.png",
       "description": "A vibrant, lightning-fast pasta dish where rendered fat from cured Spanish chorizo meets caramelized tomato paste to create a deeply savory, smoky, and silky sauce with a spicy kick.",
       "culturalNote": "While pasta is fundamentally Italian, this dish embraces the Spanish culinary tradition of utilizing cured meats and pimenton to build profound flavor bases. Spanish chorizo is heavily seasoned with smoked paprika and garlic, which naturally infuses the cooking oil as it renders. This fusion technique creates a hybrid sauce that mirrors an Italian ragu but delivers the unmistakable smoky, fiery soul of the Iberian Peninsula.",
       "ingredients": [
@@ -6167,7 +6167,7 @@
       "category": "Brunch",
       "time": "25 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1515443961218-a51367888e4b?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/spain-poached-eggs.png",
       "description": "A striking balance of savory, smoky Spanish chorizo and the natural caramel sweetness of Medjool dates, serving as a rich bed for perfectly poached, runny-yolk eggs. Accompanied by crisp, olive oil-toasted sourdough.",
       "culturalNote": "The pairing of sweet and savory is a hallmark of Moorish influence on the Iberian Peninsula. Dates, a staple brought to Spain centuries ago, naturally temper the aggressive, smoky heat of pimenton-laced chorizo. This modern brunch application highlights those historic trade routes, translating traditional tapas flavor profiles into an elegant morning dish.",
       "ingredients": [
@@ -6285,7 +6285,7 @@
       "category": "Appetizer",
       "time": "30 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/spain-lobster.png",
       "description": "A luxurious interpretation of a traditional Spanish tapa, featuring sweet, tender lobster medallions warmed over tender potatoes. Generously bathed in peppery extra virgin olive oil and dusted with smoky paprika, it delivers a striking balance of coastal freshness and earthy warmth.",
       "culturalNote": "Inspired by 'Pulpo a la Gallega' or Galician-style octopus, this dish replaces the traditional cephalopod with sweet, luxurious lobster. Originating from the northwestern Spanish region of Galicia, the historical preparation method of boiling seafood and serving it over potatoes with heavy pours of olive oil, paprika, and salt was traditionally a celebratory feast for local fair-goers. This adaptation honors the minimalist essence of coastal Spanish cuisine, relying strictly on the unparalleled quality of its few core ingredients to deliver massive flavor.",
       "ingredients": [
@@ -6389,7 +6389,7 @@
       "category": "Dinner",
       "time": "45 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/spain-clams.png",
       "description": "Plump and tender littleneck clams steamed in a vibrant, smoky broth infused with Spanish chorizo, dry white wine, and aromatic garlic. Served alongside thick slices of charred crusty bread to soak up the savory, oceanic juices.",
       "culturalNote": "The pairing of local bivalves and cured pork is a cornerstone of Iberian coastal cooking. The smoky, sweet paprika from the chorizo beautifully complements the briny, delicate nature of the clams, creating a deeply savory profile that reflects the region's blended agricultural and maritime heritage.",
       "ingredients": [
@@ -6510,7 +6510,7 @@
       "category": "Appetizer",
       "time": "4 hr 45 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/spain-croquettes.png",
       "description": "Golden, crispy-coated Spanish-style croquettes yielding to a molten, savory béchamel center studded with sweet, tender morsels of shrimp.",
       "culturalNote": "Croquetas are a quintessential Spanish tapas bar staple, originally born as a resourceful way to utilize leftover roasted meats or fresh seafood. By binding the ingredients in a rich béchamel rather than the mashed potato base used in French or Japanese variations, the Spanish croqueta achieves an extraordinarily creamy, molten center that contrasts beautifully with its fried exterior.",
       "ingredients": [
@@ -6646,7 +6646,7 @@
       "category": "Dinner",
       "time": "45 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1610197361600-33a3a5073b07?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/spain-pork-chorizo.png",
       "description": "A robust Spanish-inspired dish featuring tender, pan-roasted pork fillet resting over a smoky stew of cured chorizo, creamy white beans, and blistered tomatoes.",
       "culturalNote": "This dish draws heavy inspiration from the rustic cooking of the Iberian Peninsula, where the pairing of cured pork and legumes has sustained communities for centuries. The use of smoked paprika and sherry vinegar nods specifically to Spanish culinary traditions, transforming humble pantry staples into a sophisticated, highly satisfying meal.",
       "ingredients": [
@@ -6782,7 +6782,7 @@
       "category": "Salad",
       "time": "30 min",
       "difficulty": "Easy",
-      "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/spain-potato-salad.png",
       "description": "A robust and comforting warm salad where crispy, smoky chorizo and tender waxy potatoes meet fresh baby spinach, all tossed in a vibrant pan-drippings vinaigrette.",
       "culturalNote": "Warm salads and the robust trio of potato, pork, and paprika have deep, historical roots across the Iberian peninsula. This dish draws direct inspiration from traditional Spanish tapas, elevating humble, rustic ingredients into a cohesive and satisfying meal. The pan-drippings vinaigrette mimics the resourceful, waste-nothing techniques used in rural Spanish kitchens, capturing every bit of the heavily spiced, rendered fat.",
       "ingredients": [
@@ -6885,7 +6885,7 @@
       "category": "Appetizer",
       "time": "1 hr 20 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/spain-pulpo.png",
       "description": "A rustic and aromatic Spanish tapa featuring melt-in-the-mouth slow-simmered octopus served over warm, earthy waxy potatoes. The dish is brought to life with a generous drizzle of robust extra virgin olive oil, a dusting of vibrant, smoky paprika, and the satisfying crunch of coarse sea salt.",
       "culturalNote": "Known locally as Polbo a feira, this dish is the cornerstone of fairs, markets, and pilgrimages in the Galicia region of northwestern Spain. Traditionally prepared by specialized female cooks called polbeiras in massive open-air copper cauldrons, it is an iconic tapa celebrated for its rustic simplicity and its profound respect for minimal, high-quality ingredients.",
       "ingredients": [
@@ -6977,7 +6977,7 @@
       "category": "Dinner",
       "time": "55 min",
       "difficulty": "Advanced",
-      "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/france-sea-bream.png",
       "description": "A dramatic and elegant French main course. The sea bream bakes gently inside a hermetic salt seal yielding incredibly succulent flesh, perfectly complemented by a rich, tangy beurre blanc and vibrant spring asparagus.",
       "culturalNote": "Baking in a salt crust is an ancient culinary technique that traces back to the Mediterranean, designed originally to preserve moisture and protect delicate foods from the intense, direct heat of open fires. When paired with beurre blanc, a classic reduction sauce that originated in the Loire Valley in the early 20th century, the dish marries rustic coastal methodology with refined French gastronomy.",
       "ingredients": [
@@ -7135,7 +7135,7 @@
       "category": "Dinner",
       "time": "P2DT3H45M",
       "difficulty": "Advanced",
-      "image": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/france-duck-confit.png",
       "description": "A timeless French masterpiece where duck legs and wings are salt-cured with aromatic herbs, then gently poached in their own rich fat until exceptionally tender. Finished with a shatteringly crisp skin, it offers unparalleled depth of flavor.",
       "culturalNote": "Originating in Gascony, France, confit is an ancient method of meat preservation born out of necessity before refrigeration. By salting the meat and cooking it submerged in its own rendered fat, the duck is sealed from oxygen and bacteria, allowing it to be stored in cool cellars for months. Today, it remains a pillar of classical French gastronomy, celebrated for its luxurious texture and rich flavor.",
       "ingredients": [
@@ -7234,7 +7234,7 @@
       "category": "Dessert",
       "time": "5 hr 10 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/france-creme-caramel.png",
       "description": "A classic French custard featuring a silky smooth texture and a rich caramel base, elegantly elevated with delicate floral notes of lavender and bright citrusy hints of sweet orange.",
       "culturalNote": "Creme Caramel, globally recognized in its many variations such as Spanish and Latin American flan, has deep roots in European culinary history originating from ancient Roman egg custards. The French refined the technique by pairing the delicate, silky custard with a layer of clear liquid caramel. Adding lavender and orange introduces a distinct Provencal profile, marrying traditional Parisian technique with classic regional southern French aromatics.",
       "ingredients": [
@@ -7361,7 +7361,7 @@
       "category": "Base",
       "time": "18 hr 45 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/france-beef-broth.png",
       "description": "A deeply flavorful, mahogany-hued beef broth rooted in classic French technique. Rich with caramelized marrow bones and aromatic vegetables, it serves as a robust base for sauces or a warming, soul-soothing winter sip.",
       "culturalNote": "Bouillon de Boeuf is the cornerstone of traditional French gastronomy, championed by culinary masters like Pierre Franey and Auguste Escoffier. Historically, this foundational fond was kept simmering perpetually on the back of cast-iron stoves in grand Parisian kitchens. During the winter months and the Christmas season, a clear, steaming cup of this enriched broth is often served on its own as a restorative elixir.",
       "ingredients": [
@@ -7498,7 +7498,7 @@
       "category": "Dinner",
       "time": "45 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1608855238293-a8853e7f7c98?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/france-steak-frites.png",
       "description": "Thick roasted portobello mushrooms mimic the satisfying bite of a classic bistro steak, paired with crispy oven-baked chunky fries. A rich, tangy mustard cream sauce ties the dish together, delivering a luxurious French-inspired vegetarian main.",
       "culturalNote": "Steak Frites is a cornerstone of French brasserie dining, traditionally featuring a pan-seared beef steak paired with deep-fried potatoes. This modern adaptation celebrates the robust, umami-rich qualities of portobello mushrooms, offering a plant-based alternative that retains the luxurious, comforting essence of the original dish through its classic Dijon cream sauce.",
       "ingredients": [
@@ -7642,7 +7642,7 @@
       "category": "Dessert",
       "time": "4 hr",
       "difficulty": "Advanced",
-      "image": "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/france-strawberry-tarts.png",
       "description": "Delicate buttery shortcrust cups filled with a rich, silky vanilla bean pastry cream, crowned with vibrant raw strawberries and a glistening apricot glaze.",
       "culturalNote": "The Tartelette aux Fraises is a quintessential hallmark of traditional French patisserie. Its brilliance lies in the harmony of sensory contrasts: the crisp, buttery snap of the shortcrust shell, the luscious vanilla comfort of the creme patissiere, and the bright, acidic burst of fresh raw strawberries on top.",
       "ingredients": [
@@ -7836,7 +7836,7 @@
       "category": "Dinner",
       "time": "2 hr 30 min",
       "difficulty": "Intermediate",
-      "image": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/france-rabbit-pasta.png",
       "description": "A countryside masterpiece featuring tender, slow-braised rabbit in a velvety white wine and Dijon mustard reduction. The rich, earthy ragu clings beautifully to wide ribbons of al dente pappardelle pasta, creating a deeply comforting and savory experience.",
       "culturalNote": "Rabbit, or lapin, is a quintessential ingredient in historical French countryside cooking, highly prized for its lean, delicate meat. The specific pairing of rabbit with sharp Dijon mustard, aromatic thyme, and dry white wine hails from the Burgundy region, where Lapin a la Moutarde stands as a beloved culinary pillar. By adapting this traditional regional braise into a rich ragu and serving it over wide ribbons of Italian-style pappardelle, this dish acts as a rustic fusion that honors the hearty, slow-cooked traditions spanning rural Western Europe.",
       "ingredients": [
@@ -8026,7 +8026,7 @@
       "category": "Soup",
       "time": "4 hr",
       "difficulty": "Advanced",
-      "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=900&q=85&fit=crop",
+      "image": "/api/images/recipes/france-onion-soup.png",
       "description": "This luxurious, deeply savory take on the bistro classic transforms a cold evening into a cozy Parisian retreat. Rich oxtail creates a gelatinous, beefy broth while yellow onions slowly caramelize to sweet, jammy perfection. The entire masterpiece is baked family-style in a single pot beneath a bubbling, golden crust of garlic-rubbed bread and aged Gruyere.",
       "culturalNote": "French Onion Soup, or Soupe a l'oignon, has origins stretching back to Roman times, historically viewed as peasant food due to the immense abundance and low cost of onions. The modern iteration, deeply caramelized and capped with a dramatic gratin of bread and cheese, emerged in the lively bistros of Paris, particularly around the bustling Les Halles market to feed late-night workers. Introducing oxtail elevates this humble classic into an incredibly rich, fortified winter dish, blending rustic tradition with deep, gelatinous beef flavor.",
       "ingredients": [

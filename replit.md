@@ -113,7 +113,10 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
 - **Discover tab (editorial homepage)**: Scrollable editorial landing page with hero section, "Curator's Method" 3-step concept, featured destination journal cards (horizontal scroll), testimonial quote, CTA, and footer
 - **Stack screens**: onboarding, country/[id], recipe/[id], cook-mode (modal)
 - **State**: AsyncStorage for saved recipes, grocery list, welcome-seen, selected countries, onboarding-completed via AppContext
-- **Data**: Static hardcoded content in constants/data.ts (Italy, Japan, Morocco, Mexico, India, Thailand with recipes)
+- **Data**: 64 recipes (8 per country × 8 countries) sourced from recipe-api.com, stored in constants/data.ts + PostgreSQL DB. AI-generated food photography for each recipe served from `/api/images/recipes/`
+- **Recipe Images**: AI-generated dish-specific photos stored in `artifacts/api-server/public/images/recipes/`, served as static files via Express. Image URLs resolved at runtime via `resolveImageUrl()` using `EXPO_PUBLIC_DOMAIN`
+- **Recipe API**: recipe-api.com via `/api/ninja/recipes` proxy (500 calls/day, 15k/month). Recipes fetched once and cached locally
+- **Instacart Integration**: `/api/instacart/shopping-list` endpoint for grocery ordering (sandbox: `connect.dev.instacart.tools`)
 - **Onboarding**: "Where do you want to go?" country picker grid with selectable cards, checkmark badges, and "Start Exploring" CTA
 - **Key files**:
   - `constants/colors.ts` — design system colors
