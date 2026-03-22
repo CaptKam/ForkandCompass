@@ -62,9 +62,18 @@ export default function LandingPage() {
             Fork <span className="text-[#9A4100]">&amp;</span> Compass
           </div>
           <div className="hidden md:flex items-center space-x-12">
-            {["Journal", "Ethos", "Destinations"].map((link) => (
-              <a key={link} href="#" className="text-white/80 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em]">
-                {link}
+            {[
+              { label: "Journal", target: "features-section" },
+              { label: "Ethos", target: "quote-section" },
+              { label: "Destinations", target: "destinations-section" },
+            ].map((link) => (
+              <a
+                key={link.label}
+                href={`#${link.target}`}
+                onClick={(e) => { e.preventDefault(); document.getElementById(link.target)?.scrollIntoView({ behavior: "smooth" }); }}
+                className="text-white/80 hover:text-white transition-colors text-xs font-bold uppercase tracking-[0.2em] cursor-pointer"
+              >
+                {link.label}
               </a>
             ))}
           </div>
@@ -134,7 +143,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="py-32 bg-[#FEF9F3]">
+        <section id="features-section" className="py-32 bg-[#FEF9F3]">
           <div className="max-w-[1536px] mx-auto px-8">
             <div className="text-center mb-24 space-y-6">
               <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">The Digital Experience</span>
@@ -159,7 +168,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="py-32 bg-[#1C1A17] text-[#FEF9F3]">
+        <section id="destinations-section" className="py-32 bg-[#1C1A17] text-[#FEF9F3]">
           <div className="max-w-[1536px] mx-auto px-8 flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
             <div className="space-y-4">
               <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">Global Portfolios</span>
@@ -192,7 +201,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="py-40 bg-[#FEF9F3] border-y border-[#8a7266]/10 overflow-hidden relative">
+        <section id="quote-section" className="py-40 bg-[#FEF9F3] border-y border-[#8a7266]/10 overflow-hidden relative">
           <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
             <span
               className="material-symbols-outlined text-[#9A4100]/20 block"
