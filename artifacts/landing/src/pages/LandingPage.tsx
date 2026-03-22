@@ -131,7 +131,7 @@ export default function LandingPage() {
               className="flex justify-center lg:justify-end"
               style={{ transform: `translateY(${scrollY * -0.08}px)`, willChange: "transform" }}
             >
-              <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative bg-[#121110]">
+              <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative bg-[#FEF9F3]">
                 <div
                   className="absolute left-0 top-0 w-full"
                   style={{
@@ -158,81 +158,89 @@ export default function LandingPage() {
                   </div>
 
                   <div className="px-4 pt-5 pb-3">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#9A4100] font-bold">Explore Destinations</p>
-                    <div className="flex gap-3 mt-3 overflow-hidden">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#725a3c] font-bold">Explore Destinations</p>
+                    <div className="flex gap-3 mt-3 overflow-hidden justify-center">
                       {[
-                        { flag: "🇫🇷", name: "France", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=200&q=80&fit=crop" },
-                        { flag: "🇮🇳", name: "India", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=200&q=80&fit=crop" },
-                        { flag: "🇲🇽", name: "Mexico", img: "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=200&q=80&fit=crop" },
-                        { flag: "🇹🇭", name: "Thailand", img: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=200&q=80&fit=crop" },
+                        { flag: "🇫🇷", code: "FR", name: "France", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=200&q=80&fit=crop", active: false },
+                        { flag: "🇮🇳", code: "IN", name: "India", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200&q=80&fit=crop", active: false },
+                        { flag: "🇮🇹", code: "IT", name: "Italy", img: "https://images.unsplash.com/photo-1498579150354-977475b7ea0b?w=200&q=80&fit=crop", active: true },
                       ].map((c) => (
                         <div key={c.name} className="flex flex-col items-center gap-1">
-                          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/20">
-                            <img alt={c.name} className="w-full h-full object-cover" src={c.img} />
+                          <div className="relative">
+                            <div className={`w-[72px] h-[72px] rounded-full overflow-hidden ${c.active ? "border-[3px] border-[#9A4100]" : "border-2 border-[#E6E2DC]"}`}>
+                              <img alt={c.name} className="w-full h-full object-cover" src={c.img} />
+                            </div>
+                            <span className="absolute -bottom-0.5 -right-0.5 text-[11px] bg-white rounded-full w-5 h-5 flex items-center justify-center shadow-sm border border-[#E6E2DC]">{c.flag}</span>
                           </div>
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-white/80">{c.name}</span>
+                          <span className={`text-[9px] font-bold uppercase tracking-wider ${c.active ? "text-[#9A4100]" : "text-[#725a3c]"}`}>{c.name}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="px-4 pt-3 pb-2">
-                    <p className="font-serif text-lg text-white font-bold">Popular Recipes</p>
-                  </div>
-                  <div className="px-4 flex gap-3">
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 shadow-md">
-                      <img alt="Pasta Carbonara" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400&q=80&fit=crop" />
-                      <div className="p-2.5">
-                        <p className="text-xs font-bold text-white">Pasta Carbonara</p>
-                        <p className="text-[9px] text-white/60 mt-0.5">35 min · Easy</p>
-                      </div>
-                    </div>
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 shadow-md">
-                      <img alt="Tiramisu" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&q=80&fit=crop" />
-                      <div className="p-2.5">
-                        <p className="text-xs font-bold text-white">Classic Tiramisu</p>
-                        <p className="text-[9px] text-white/60 mt-0.5">4 hrs · Medium</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="px-4 pt-5 pb-2">
-                    <p className="font-serif text-lg text-white font-bold">Featured Locations</p>
+                  <div className="px-4 pt-5 pb-3">
+                    <p className="font-serif text-xl text-[#1C1A17] font-bold">Featured Locations</p>
                   </div>
                   <div className="px-4 flex gap-3 pb-4">
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden relative h-[120px]">
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden relative h-[160px]">
                       <img alt="Tuscany" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1523528283115-9bf9b1699245?w=400&q=80&fit=crop" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      <p className="absolute bottom-2 left-3 text-white text-xs font-bold">Tuscany</p>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      <div className="absolute bottom-3 left-3">
+                        <p className="text-white text-sm font-bold">Tuscany</p>
+                        <p className="text-white/70 text-[9px]">The Eternal Countryside</p>
+                      </div>
                     </div>
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden relative h-[120px]">
-                      <img alt="Amalfi Coast" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=400&q=80&fit=crop" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      <p className="absolute bottom-2 left-3 text-white text-xs font-bold">Amalfi Coast</p>
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden relative h-[160px]">
+                      <img alt="Rome" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400&q=80&fit=crop" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      <div className="absolute bottom-3 left-3">
+                        <p className="text-white text-sm font-bold">Rome</p>
+                        <p className="text-white/70 text-[9px]">The Eternal City</p>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="px-4 pt-3 pb-2">
-                    <p className="font-serif text-lg text-white font-bold">Cook Tonight</p>
+                  <div className="px-4 pt-4 pb-3">
+                    <p className="font-serif text-xl text-[#1C1A17] font-bold">Tonight's Tasting Menu</p>
+                  </div>
+                  <div className="px-4 flex gap-3 pb-4">
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-sm border border-[#E6E2DC]">
+                      <img alt="Pasta Carbonara" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400&q=80&fit=crop" />
+                      <div className="p-2.5">
+                        <p className="text-[9px] text-[#9A4100] font-bold uppercase tracking-wider">Main Course</p>
+                        <p className="text-xs font-bold text-[#1C1A17] mt-0.5">Pasta Carbonara</p>
+                      </div>
+                    </div>
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-sm border border-[#E6E2DC]">
+                      <img alt="Tiramisu" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&q=80&fit=crop" />
+                      <div className="p-2.5">
+                        <p className="text-[9px] text-[#9A4100] font-bold uppercase tracking-wider">Dessert</p>
+                        <p className="text-xs font-bold text-[#1C1A17] mt-0.5">Classic Tiramisu</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="px-4 pt-4 pb-3">
+                    <p className="font-serif text-xl text-[#1C1A17] font-bold">The Spice Market</p>
                   </div>
                   <div className="px-4 flex gap-3 pb-6">
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 shadow-md">
-                      <img alt="Risotto" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80&fit=crop" />
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-sm border border-[#E6E2DC]">
+                      <img alt="Basil" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=400&q=80&fit=crop" />
                       <div className="p-2.5">
-                        <p className="text-xs font-bold text-white">Mushroom Risotto</p>
-                        <p className="text-[9px] text-white/60 mt-0.5">45 min · Easy</p>
+                        <p className="text-xs font-bold text-[#1C1A17]">Fresh Basil</p>
+                        <p className="text-[9px] text-[#725a3c] mt-0.5">Essential Italian herb</p>
                       </div>
                     </div>
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 shadow-md">
-                      <img alt="Bruschetta" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&q=80&fit=crop" />
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-sm border border-[#E6E2DC]">
+                      <img alt="Olive Oil" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&q=80&fit=crop" />
                       <div className="p-2.5">
-                        <p className="text-xs font-bold text-white">Bruschetta</p>
-                        <p className="text-[9px] text-white/60 mt-0.5">15 min · Easy</p>
+                        <p className="text-xs font-bold text-[#1C1A17]">Olive Oil</p>
+                        <p className="text-[9px] text-[#725a3c] mt-0.5">Extra virgin, cold-pressed</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-[#121110] border-t border-white/10 flex justify-around py-2.5 px-2">
+                  <div className="bg-[#F2EDE7] border-t border-[#E6E2DC] flex justify-around py-2.5 px-2">
                     {[
                       { icon: "explore", label: "Discover", active: true },
                       { icon: "calendar_today", label: "Itinerary", active: false },
@@ -241,13 +249,13 @@ export default function LandingPage() {
                       { icon: "more_horiz", label: "More", active: false },
                     ].map((tab) => (
                       <div key={tab.label} className="flex flex-col items-center gap-0.5">
-                        <span className={`material-symbols-outlined text-[18px] ${tab.active ? "text-[#9A4100]" : "text-[#725a3c]/50"}`} style={tab.active ? { fontVariationSettings: "'FILL' 1" } : {}}>{tab.icon}</span>
-                        <span className={`text-[8px] font-bold ${tab.active ? "text-[#9A4100]" : "text-[#725a3c]/50"}`}>{tab.label}</span>
+                        <span className={`material-symbols-outlined text-[18px] ${tab.active ? "text-[#9A4100]" : "text-[#725a3c]/40"}`} style={tab.active ? { fontVariationSettings: "'FILL' 1" } : {}}>{tab.icon}</span>
+                        <span className={`text-[8px] font-bold ${tab.active ? "text-[#9A4100]" : "text-[#725a3c]/40"}`}>{tab.label}</span>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#121110] rounded-b-2xl z-50" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1C1A17] rounded-b-2xl z-50" />
               </div>
             </div>
           </div>
