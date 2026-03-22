@@ -80,16 +80,15 @@ export default function LandingPage() {
       </nav>
 
       <main className="pt-24 overflow-x-hidden">
-        <section className="relative max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[750px] lg:min-h-[870px]">
-          <div className="absolute inset-0 -z-10 pointer-events-none">
-            <img
-              alt="Sun-drenched vineyard at golden hour"
-              className="w-full h-full object-cover opacity-60 brightness-110"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXoCF6VeBTnl2C4wT_J7lK2HbzrIex7d6vj6nlrdTTQhG2nKFQutiUavtPJosNmIwsVZQ8XLPOszdEedv7KkU5B2kvgorGAJZ0b80P2HKbaeHOoCMwFgwjUXbYMBSLld_WWJamxQIzq_PYUD8F4LgS0yDWQVMq4uaSbrxmQL2XmmybBjcYlPPXQlpybayR6corDd0-xwKm100fhGSS8VMbqkQFMz1sdfHVNAuZIhplnbaI2HyNksQXU47NfwxQdetDxz01Zn2-JL1X"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#fef9f3] via-[#fef9f3]/40 to-transparent" />
-          </div>
+        <section className="relative w-full min-h-[750px] lg:min-h-[870px]">
+          <img
+            alt="Sun-drenched vineyard at golden hour"
+            className="absolute inset-0 w-full h-full object-cover brightness-105"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXoCF6VeBTnl2C4wT_J7lK2HbzrIex7d6vj6nlrdTTQhG2nKFQutiUavtPJosNmIwsVZQ8XLPOszdEedv7KkU5B2kvgorGAJZ0b80P2HKbaeHOoCMwFgwjUXbYMBSLld_WWJamxQIzq_PYUD8F4LgS0yDWQVMq4uaSbrxmQL2XmmybBjcYlPPXQlpybayR6corDd0-xwKm100fhGSS8VMbqkQFMz1sdfHVNAuZIhplnbaI2HyNksQXU47NfwxQdetDxz01Zn2-JL1X"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#fef9f3]/80 via-[#fef9f3]/20 to-transparent" />
 
+          <div className="relative max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[750px] lg:min-h-[870px]">
           <div className="space-y-7 relative z-10 py-12 lg:py-0">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fbdab3]/80 backdrop-blur-sm text-[#775e3f] text-xs font-semibold tracking-widest uppercase">
               New: 8 Countries &amp; 97 Recipes
@@ -175,6 +174,7 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </section>
 
