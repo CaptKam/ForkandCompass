@@ -5,6 +5,7 @@ import React, { useMemo, useState } from "react";
 import {
   Alert,
   FlatList,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -96,6 +97,48 @@ export default function GroceryScreen() {
     ]);
   };
 
+  const [instacartLoading, setInstacartLoading] = useState(false);
+
+  const handleInstacart = async () => {
+    if (instacartLoading) return;
+    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+    const itemsToOrder = groceryItems.filter((i) => !i.checked);
+    if (itemsToOrder.length === 0) {
+      Alert.alert("Nothing to order", "All items are already checked off.");
+      return;
+    }
+
+    setInstacartLoading(true);
+    try {
+      const response = await fetch("/api/instacart/shopping-list", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: "My Culinary Editorial List",
+          items: itemsToOrder.map((i) => ({
+            name: i.name,
+            amount: i.amount,
+            recipeName: i.recipeName,
+          })),
+        }),
+      });
+
+      const data = await response.json() as { url?: string; error?: string };
+
+      if (!response.ok || !data.url) {
+        throw new Error(data.error ?? "Could not create shopping list");
+      }
+
+      await Linking.openURL(data.url);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Something went wrong";
+      Alert.alert("Instacart Error", message);
+    } finally {
+      setInstacartLoading(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TabHeader
@@ -174,13 +217,18 @@ export default function GroceryScreen() {
           ListHeaderComponent={
             <View style={styles.actionBar}>
               <Pressable
-                style={styles.actionButton}
-                onPress={() => {
-                  if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                }}
+                style={[styles.actionButton, instacartLoading && { opacity: 0.7 }]}
+                onPress={handleInstacart}
+                disabled={instacartLoading}
               >
-                <Ionicons name="cart-outline" size={18} color={Colors.light.onPrimary} />
-                <Text style={styles.actionButtonText}>Order on Instacart</Text>
+                <Ionicons
+                  name={instacartLoading ? "time-outline" : "cart-outline"}
+                  size={18}
+                  color={Colors.light.onPrimary}
+                />
+                <Text style={styles.actionButtonText}>
+                  {instacartLoading ? "Opening…" : "Order on Instacart"}
+                </Text>
               </Pressable>
               <Pressable style={styles.actionButtonOutline}>
                 <Ionicons name="copy-outline" size={18} color={Colors.light.secondary} />
