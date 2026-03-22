@@ -96,7 +96,7 @@ export default function LandingPage() {
 
           <div className="relative max-w-[1536px] mx-auto px-8 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
             <div className="text-left space-y-8">
-              <h1 className="font-serif text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.95] text-shadow-elegant text-white">
+              <h1 className="font-serif text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.95] text-shadow-elegant text-white mt-[16px]">
                 Explore the world.<br />
                 <span className="italic font-normal text-[#9A4100]">Cook it at home.</span>
               </h1>
