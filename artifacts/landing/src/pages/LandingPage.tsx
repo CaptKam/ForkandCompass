@@ -131,19 +131,122 @@ export default function LandingPage() {
               className="flex justify-center lg:justify-end"
               style={{ transform: `translateY(${scrollY * -0.08}px)`, willChange: "transform" }}
             >
-              <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative">
-                <img
-                  alt="Fork & Compass app discover page showing Japan"
-                  className="w-full absolute left-0 top-0"
+              <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative bg-[#FEF9F3]">
+                <div
+                  className="absolute left-0 top-0 w-full"
                   style={{
-                    height: "auto",
-                    minWidth: "100%",
-                    transform: `translateY(${Math.min(0, -(scrollY * 0.4))}px)`,
+                    transform: `translateY(${Math.min(0, -(scrollY * 0.35))}px)`,
                     willChange: "transform",
                     transition: "transform 0.1s linear",
                   }}
-                  src="/web/app-screenshot.png"
-                />
+                >
+                  <div className="relative w-full h-[360px] overflow-hidden">
+                    <img
+                      alt="Italian pasta dish"
+                      className="w-full h-full object-cover"
+                      src="https://images.unsplash.com/photo-1546549032-9571cd6b27df?w=700&q=85&fit=crop"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 p-5 text-white">
+                      <p className="text-[10px] uppercase tracking-[0.3em] text-[#9A4100] font-bold mb-1">Featured Destination</p>
+                      <h3 className="font-serif text-3xl font-bold leading-tight">Italy</h3>
+                      <p className="text-xs text-white/80 mt-1 max-w-[200px]">Sun-drenched kitchens, handmade pasta, and the art of la dolce vita.</p>
+                    </div>
+                    <div className="absolute top-4 right-4 flex gap-2">
+                      <span className="text-2xl">🇮🇹</span>
+                    </div>
+                  </div>
+
+                  <div className="px-4 pt-5 pb-3">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#9A4100] font-bold">Explore Destinations</p>
+                    <div className="flex gap-3 mt-3 overflow-hidden">
+                      {[
+                        { flag: "🇫🇷", name: "France", img: "https://images.unsplash.com/photo-1608855238293-a8853e7f7c98?w=200&q=80&fit=crop" },
+                        { flag: "🇮🇳", name: "India", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200&q=80&fit=crop" },
+                        { flag: "🇲🇽", name: "Mexico", img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=200&q=80&fit=crop" },
+                        { flag: "🇹🇭", name: "Thailand", img: "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=200&q=80&fit=crop" },
+                      ].map((c) => (
+                        <div key={c.name} className="flex flex-col items-center gap-1">
+                          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#9A4100]/20">
+                            <img alt={c.name} className="w-full h-full object-cover" src={c.img} />
+                          </div>
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-[#1C1A17]">{c.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="px-4 pt-3 pb-2">
+                    <p className="font-serif text-lg text-[#1C1A17] font-bold">Popular Recipes</p>
+                  </div>
+                  <div className="px-4 flex gap-3">
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-md">
+                      <img alt="Pasta Carbonara" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400&q=80&fit=crop" />
+                      <div className="p-2.5">
+                        <p className="text-xs font-bold text-[#1C1A17]">Pasta Carbonara</p>
+                        <p className="text-[9px] text-[#725a3c] mt-0.5">35 min · Easy</p>
+                      </div>
+                    </div>
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-md">
+                      <img alt="Tiramisu" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&q=80&fit=crop" />
+                      <div className="p-2.5">
+                        <p className="text-xs font-bold text-[#1C1A17]">Classic Tiramisu</p>
+                        <p className="text-[9px] text-[#725a3c] mt-0.5">4 hrs · Medium</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="px-4 pt-5 pb-2">
+                    <p className="font-serif text-lg text-[#1C1A17] font-bold">Featured Locations</p>
+                  </div>
+                  <div className="px-4 flex gap-3 pb-4">
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden relative h-[120px]">
+                      <img alt="Tuscany" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1523528283115-9bf9b1699245?w=400&q=80&fit=crop" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <p className="absolute bottom-2 left-3 text-white text-xs font-bold">Tuscany</p>
+                    </div>
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden relative h-[120px]">
+                      <img alt="Amalfi Coast" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=400&q=80&fit=crop" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <p className="absolute bottom-2 left-3 text-white text-xs font-bold">Amalfi Coast</p>
+                    </div>
+                  </div>
+
+                  <div className="px-4 pt-3 pb-2">
+                    <p className="font-serif text-lg text-[#1C1A17] font-bold">Cook Tonight</p>
+                  </div>
+                  <div className="px-4 flex gap-3 pb-6">
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-md">
+                      <img alt="Risotto" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80&fit=crop" />
+                      <div className="p-2.5">
+                        <p className="text-xs font-bold text-[#1C1A17]">Mushroom Risotto</p>
+                        <p className="text-[9px] text-[#725a3c] mt-0.5">45 min · Easy</p>
+                      </div>
+                    </div>
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-md">
+                      <img alt="Bruschetta" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&q=80&fit=crop" />
+                      <div className="p-2.5">
+                        <p className="text-xs font-bold text-[#1C1A17]">Bruschetta</p>
+                        <p className="text-[9px] text-[#725a3c] mt-0.5">15 min · Easy</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white border-t border-[#1C1A17]/10 flex justify-around py-2.5 px-2">
+                    {[
+                      { icon: "explore", label: "Discover", active: true },
+                      { icon: "calendar_today", label: "Itinerary", active: false },
+                      { icon: "search", label: "Search", active: false },
+                      { icon: "shopping_cart", label: "Grocery", active: false },
+                      { icon: "more_horiz", label: "More", active: false },
+                    ].map((tab) => (
+                      <div key={tab.label} className="flex flex-col items-center gap-0.5">
+                        <span className={`material-symbols-outlined text-[18px] ${tab.active ? "text-[#9A4100]" : "text-[#725a3c]/50"}`} style={tab.active ? { fontVariationSettings: "'FILL' 1" } : {}}>{tab.icon}</span>
+                        <span className={`text-[8px] font-bold ${tab.active ? "text-[#9A4100]" : "text-[#725a3c]/50"}`}>{tab.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1C1A17] rounded-b-2xl z-50" />
               </div>
             </div>
