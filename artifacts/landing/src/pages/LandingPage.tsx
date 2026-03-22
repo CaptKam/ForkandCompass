@@ -160,9 +160,9 @@ export default function LandingPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
               {[
-                { icon: "menu_book", title: "Curated Editorial", desc: "Deep-dives into culinary traditions across 8 countries, from the trattorias of Tuscany to the spice markets of Marrakech." },
-                { icon: "smart_toy", title: "AI Pantry Sync", desc: "Photograph your ingredients and our engine suggests recipes based on regional authenticity and what you have on hand." },
-                { icon: "share_location", title: "Local Sourcing", desc: "Traveling? We map out the farmers' markets and specialty shops to find your recipe's soul wherever you go." },
+                { icon: "photo_camera", title: "Snap & Cook", desc: "Photograph your pantry and our AI vision engine instantly matches what you have to authentic regional recipes — no typing, no guessing." },
+                { icon: "shopping_cart", title: "Smart Grocery Lists", desc: "One tap builds your ingredient list. Adjust servings, check off what you own, and order the rest through Instacart — all without leaving the app." },
+                { icon: "skillet", title: "Guided Cook Mode", desc: "Step-by-step instructions with built-in timers, hands-free voice control, and serving adjustments keep you in the moment while you cook." },
               ].map((feat) => (
                 <div key={feat.title} className="bg-[#fef9f3] p-8 lg:p-10 rounded-xl space-y-5 lg:space-y-6 hover:bg-white transition-colors group">
                   <div className="w-14 h-14 rounded-2xl bg-[#ece7e2] flex items-center justify-center text-[#9a4100] group-hover:scale-110 transition-transform">
