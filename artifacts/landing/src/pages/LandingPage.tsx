@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const API_BASE = import.meta.env.BASE_URL.replace(/\/$/, "").replace("/web", "") + "/api";
 
@@ -22,13 +22,32 @@ export default function LandingPage() {
   const [ctaEmail, setCtaEmail] = useState("");
   const [ctaSubmitted, setCtaSubmitted] = useState(false);
   const [ctaLoading, setCtaLoading] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const phoneFrameRef = useRef<HTMLDivElement>(null);
+  const phoneContentRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number>(0);
+
+  const updateParallax = useCallback(() => {
+    const sy = window.scrollY;
+    if (phoneFrameRef.current) {
+      phoneFrameRef.current.style.transform = `translate3d(0, ${sy * -0.08}px, 0)`;
+    }
+    if (phoneContentRef.current) {
+      phoneContentRef.current.style.transform = `translate3d(0, ${Math.min(0, -(sy * 0.35))}px, 0)`;
+    }
+  }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
+    const onScroll = () => {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(updateParallax);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    updateParallax();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, [updateParallax]);
 
   const handleHeroSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,17 +147,15 @@ export default function LandingPage() {
             </div>
 
             <div
+              ref={phoneFrameRef}
               className="flex justify-center lg:justify-end"
-              style={{ transform: `translateY(${scrollY * -0.08}px)`, willChange: "transform" }}
+              style={{ willChange: "transform" }}
             >
               <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative bg-[#FEF9F3]">
                 <div
+                  ref={phoneContentRef}
                   className="absolute left-0 top-0 w-full"
-                  style={{
-                    transform: `translateY(${Math.min(0, -(scrollY * 0.35))}px)`,
-                    willChange: "transform",
-                    transition: "transform 0.1s linear",
-                  }}
+                  style={{ willChange: "transform" }}
                 >
                   <div className="relative w-full h-[360px] overflow-hidden">
                     <img
