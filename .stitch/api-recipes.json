@@ -1,0 +1,3553 @@
+{
+  "italy": [
+    {
+      "id": "classic-garlic-bread",
+      "name": "Classic Garlic Bread",
+      "countryId": "italy",
+      "countryName": "Italy",
+      "countryFlag": "🇮🇹",
+      "category": "Side Dish",
+      "time": "20 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1498579150354-977475b7ea0b?w=900&q=85&fit=crop",
+      "description": "Golden and crispy on the outside while delightfully soft and buttery on the inside, this Italian-American side dish delivers a robust punch of savory garlic and bright, fresh parsley.",
+      "culturalNote": "While bread has been served with garlic and oil in Italy since ancient times, the buttery version known today is largely an Italian-American invention. Italian immigrants in the United States adapted their traditional bruschetta recipes by replacing olive oil, which was scarce and expensive, with readily available butter.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "french bread",
+          "amount": "1 whole loaf"
+        },
+        {
+          "id": "2",
+          "name": "unsalted butter",
+          "amount": "115 g softened to room temperature"
+        },
+        {
+          "id": "3",
+          "name": "garlic",
+          "amount": "4 finely minced"
+        },
+        {
+          "id": "4",
+          "name": "fresh parsley",
+          "amount": "10 g finely chopped"
+        },
+        {
+          "id": "5",
+          "name": "kosher salt",
+          "amount": "2 g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "pizzoccheri-alla-valtellinese",
+      "name": "Pizzoccheri alla Valtellinese",
+      "countryId": "italy",
+      "countryName": "Italy",
+      "countryFlag": "🇮🇹",
+      "category": "Dinner",
+      "time": "40 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=900&q=85&fit=crop",
+      "description": "A deeply comforting alpine Italian baked pasta featuring earthy buckwheat noodles, tender potatoes, and Swiss chard, bound together by a luxurious combination of melted mountain cheese and garlic-infused brown butter.",
+      "culturalNote": "Pizzoccheri alla Valtellinese originates from the Valtellina valley in Lombardy, northern Italy. The steep, high-altitude alpine climate makes it ideal for growing robust crops like buckwheat, hardy greens, and root vegetables. This culminated in the creation of an incredibly warming, energy-dense winter dish traditionally designed to sustain mountain farmers through long, bitterly cold days.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "buckwheat pasta",
+          "amount": "400 g pizzoccheri style short flat ribbons"
+        },
+        {
+          "id": "2",
+          "name": "potatoes",
+          "amount": "300 g peeled and cubed into 1.5cm pieces"
+        },
+        {
+          "id": "3",
+          "name": "swiss chard",
+          "amount": "250 g leaves and tender stems sliced into 3cm ribbons"
+        },
+        {
+          "id": "4",
+          "name": "valtellina casera cheese",
+          "amount": "250 g rind removed and cut into small cubes"
+        },
+        {
+          "id": "5",
+          "name": "parmigiano-reggiano",
+          "amount": "80 g freshly grated"
+        },
+        {
+          "id": "6",
+          "name": "unsalted butter",
+          "amount": "100 g cubed"
+        },
+        {
+          "id": "7",
+          "name": "garlic",
+          "amount": "3 peeled and lightly crushed"
+        },
+        {
+          "id": "8",
+          "name": "fresh sage",
+          "amount": "5 g whole leaves"
+        },
+        {
+          "id": "9",
+          "name": "fine sea salt",
+          "amount": "To taste"
+        },
+        {
+          "id": "10",
+          "name": "black pepper",
+          "amount": "To taste"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "fresh-fettuccine-with-salsa-cruda",
+      "name": "Fresh Fettuccine with Salsa Cruda",
+      "countryId": "italy",
+      "countryName": "Italy",
+      "countryFlag": "🇮🇹",
+      "category": "Dinner",
+      "time": "45 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=900&q=85&fit=crop",
+      "description": "A bright, no-cook tomato sauce featuring sweet cherry tomatoes, fragrant basil, and rich olive oil. Tossed with tender fresh fettuccine, this dish creates an effortless, flavor-packed Italian dinner that highlights seasonal produce.",
+      "culturalNote": "Known in Italy as Pasta alla Checca or simply Salsa Cruda, this dish is a classic Roman summer staple. It was designed to provide a hearty meal without needing to stand over a hot stove to simmer a traditional marinara, relying instead on the peak ripeness of seasonal tomatoes.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "cherry tomatoes",
+          "amount": "600 g halved or quartered depending on size"
+        },
+        {
+          "id": "2",
+          "name": "extra virgin olive oil",
+          "amount": "60 ml"
+        },
+        {
+          "id": "3",
+          "name": "garlic",
+          "amount": "2 peeled and lightly crushed"
+        },
+        {
+          "id": "4",
+          "name": "fresh basil",
+          "amount": "15 g hand-torn"
+        },
+        {
+          "id": "5",
+          "name": "kosher salt",
+          "amount": "5 g"
+        },
+        {
+          "id": "6",
+          "name": "black pepper",
+          "amount": "2 g freshly cracked"
+        },
+        {
+          "id": "7",
+          "name": "fresh egg fettuccine",
+          "amount": "500 g"
+        },
+        {
+          "id": "8",
+          "name": "water",
+          "amount": "4000 ml"
+        },
+        {
+          "id": "9",
+          "name": "kosher salt",
+          "amount": "40 g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "grilled-veal-loin-chops-with-salmoriglio",
+      "name": "Grilled Veal Loin Chops with Salmoriglio Sauce",
+      "countryId": "italy",
+      "countryName": "Italy",
+      "countryFlag": "🇮🇹",
+      "category": "Dinner",
+      "time": "2 hr 40 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900&q=85&fit=crop",
+      "description": "Thick-cut, bone-in veal chops infused with aromatic fennel and herbs, heavily seared over an open flame, and finished with a bright, herbaceous, and intensely citrusy Southern Italian dressing.",
+      "culturalNote": "Salmoriglio is a classic condiment native to Southern Italy, particularly prominent in the regions of Sicily and Calabria. Derived from the word salmurigghiu, meaning a light brine, it was historically used by fishermen to dress robust catches like swordfish. Its intensely bright, acidic, and herbaceous profile perfectly cuts through the richness of grilled meats, making it an ideal companion to balance the smoky char of a thick-cut veal chop.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "veal loin chops",
+          "amount": "4 bone-in"
+        },
+        {
+          "id": "2",
+          "name": "fennel seeds",
+          "amount": "4 g"
+        },
+        {
+          "id": "3",
+          "name": "fresh rosemary",
+          "amount": "5 g finely chopped"
+        },
+        {
+          "id": "4",
+          "name": "fresh thyme",
+          "amount": "5 g finely chopped"
+        },
+        {
+          "id": "5",
+          "name": "garlic",
+          "amount": "2 minced"
+        },
+        {
+          "id": "6",
+          "name": "extra virgin olive oil",
+          "amount": "45 ml"
+        },
+        {
+          "id": "7",
+          "name": "kosher salt",
+          "amount": "8 g"
+        },
+        {
+          "id": "8",
+          "name": "black pepper",
+          "amount": "4 g freshly ground"
+        },
+        {
+          "id": "9",
+          "name": "extra virgin olive oil",
+          "amount": "60 ml"
+        },
+        {
+          "id": "10",
+          "name": "lemon juice",
+          "amount": "30 ml freshly squeezed"
+        },
+        {
+          "id": "11",
+          "name": "fresh oregano",
+          "amount": "4 g finely chopped"
+        },
+        {
+          "id": "12",
+          "name": "fresh flat-leaf parsley",
+          "amount": "10 g finely chopped"
+        },
+        {
+          "id": "13",
+          "name": "garlic",
+          "amount": "1 minced into a paste"
+        },
+        {
+          "id": "14",
+          "name": "flaky sea salt",
+          "amount": "3 g"
+        },
+        {
+          "id": "15",
+          "name": "warm water",
+          "amount": "15 ml"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "savory-prosciutto-fig-and-pecan-stuffing",
+      "name": "Savory Prosciutto, Fig, and Pecan Stuffing",
+      "countryId": "italy",
+      "countryName": "Italy",
+      "countryFlag": "🇮🇹",
+      "category": "Side Dish",
+      "time": "1 hr 35 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1595295333158-4742f28fbd85?w=900&q=85&fit=crop",
+      "description": "A harmonious balance of sweet dried figs, salty crispy prosciutto, and toasted pecans mingled with aromatic herbs and hearty Italian bread, creating a deeply flavorful and textural side dish.",
+      "culturalNote": "While stuffing is inherently tied to American Thanksgiving traditions, the flavor profile of this dish leans heavily into Italian culinary heritage. The pairing of cured pork and sweet figs dates back to ancient Roman banquets, balancing rich umami notes with concentrated fruit sugars. Using rustic Italian bread as the base elevates this holiday classic into a Mediterranean-inspired centerpiece.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "rustic italian bread",
+          "amount": "450 g cut into cubes and dried"
+        },
+        {
+          "id": "2",
+          "name": "prosciutto",
+          "amount": "150 g roughly chopped"
+        },
+        {
+          "id": "3",
+          "name": "unsalted butter",
+          "amount": "115 g"
+        },
+        {
+          "id": "4",
+          "name": "yellow onion",
+          "amount": "1 diced"
+        },
+        {
+          "id": "5",
+          "name": "celery",
+          "amount": "3 diced"
+        },
+        {
+          "id": "6",
+          "name": "garlic",
+          "amount": "3 minced"
+        },
+        {
+          "id": "7",
+          "name": "dried figs",
+          "amount": "150 g stemmed and quartered"
+        },
+        {
+          "id": "8",
+          "name": "pecans",
+          "amount": "100 g toasted and chopped"
+        },
+        {
+          "id": "9",
+          "name": "fresh sage",
+          "amount": "10 g finely chopped"
+        },
+        {
+          "id": "10",
+          "name": "fresh thyme",
+          "amount": "5 g leaves only, chopped"
+        },
+        {
+          "id": "11",
+          "name": "fresh rosemary",
+          "amount": "5 g finely chopped"
+        },
+        {
+          "id": "12",
+          "name": "kosher salt",
+          "amount": "5 g"
+        },
+        {
+          "id": "13",
+          "name": "black pepper",
+          "amount": "3 g freshly ground"
+        },
+        {
+          "id": "14",
+          "name": "chicken broth",
+          "amount": "500 ml"
+        },
+        {
+          "id": "15",
+          "name": "eggs",
+          "amount": "2 beaten"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "healthier-turkey-and-vegetable-bolognese",
+      "name": "Healthier Turkey and Vegetable Bolognese",
+      "countryId": "italy",
+      "countryName": "Italy",
+      "countryFlag": "🇮🇹",
+      "category": "Dinner",
+      "time": "1 hr 5 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=900&q=85&fit=crop",
+      "description": "A lighter, nutrient-dense twist on the classic Italian ragu, featuring lean ground turkey and finely diced garden vegetables simmered in a rich tomato sauce, served over al dente spaghetti.",
+      "culturalNote": "Originating from Bologna, Italy, traditional ragu alla Bolognese is a slow-cooked meat sauce typically made with a blend of beef, pork, and pancetta, and finished with milk. This modern, health-conscious adaptation retains the foundational Italian soffritto technique while utilizing lean turkey and additional garden vegetables to create a lighter, everyday family meal that still delivers comforting, deep flavors.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "olive oil",
+          "amount": "15 ml extra virgin"
+        },
+        {
+          "id": "2",
+          "name": "yellow onion",
+          "amount": "1 finely diced"
+        },
+        {
+          "id": "3",
+          "name": "carrot",
+          "amount": "1 peeled and finely diced"
+        },
+        {
+          "id": "4",
+          "name": "celery",
+          "amount": "2 finely diced"
+        },
+        {
+          "id": "5",
+          "name": "zucchini",
+          "amount": "1 finely diced"
+        },
+        {
+          "id": "6",
+          "name": "garlic",
+          "amount": "3 minced"
+        },
+        {
+          "id": "7",
+          "name": "lean turkey mince",
+          "amount": "500 g raw"
+        },
+        {
+          "id": "8",
+          "name": "tomato paste",
+          "amount": "30 g"
+        },
+        {
+          "id": "9",
+          "name": "crushed tomatoes",
+          "amount": "800 g"
+        },
+        {
+          "id": "10",
+          "name": "chicken broth",
+          "amount": "120 ml"
+        },
+        {
+          "id": "11",
+          "name": "dried oregano",
+          "amount": "2 g"
+        },
+        {
+          "id": "12",
+          "name": "dried basil",
+          "amount": "2 g"
+        },
+        {
+          "id": "13",
+          "name": "salt",
+          "amount": "5 g"
+        },
+        {
+          "id": "14",
+          "name": "black pepper",
+          "amount": "2 g freshly ground"
+        },
+        {
+          "id": "15",
+          "name": "spaghetti",
+          "amount": "400 g dry"
+        },
+        {
+          "id": "16",
+          "name": "fresh parsley",
+          "amount": "10 g finely chopped"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "spicy-vegetable-arrabbiata-spaghetti",
+      "name": "Spicy Vegetable Arrabbiata Spaghetti",
+      "countryId": "italy",
+      "countryName": "Italy",
+      "countryFlag": "🇮🇹",
+      "category": "Dinner",
+      "time": "1 hr",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=900&q=85&fit=crop",
+      "description": "A robust and fiery Italian classic elevated with a finely minced vegetable sofrito, delivering a deeply savory, rich tomato sauce that clings perfectly to al dente spaghetti.",
+      "culturalNote": "Arrabbiata literally translates to angry in Italian, referring to the fiery heat of the chili peppers characteristic of this Roman classic. While traditional Arrabbiata is often a minimalist blend of garlic, tomatoes, and chili, introducing a finely minced vegetable sofrito pays homage to the broader Italian tradition of building slow, sweet, aromatic bases to balance intense spice.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "yellow onion",
+          "amount": "150 g finely brunoised (1-2mm dice)"
+        },
+        {
+          "id": "2",
+          "name": "carrot",
+          "amount": "100 g finely brunoised"
+        },
+        {
+          "id": "3",
+          "name": "celery",
+          "amount": "100 g finely brunoised"
+        },
+        {
+          "id": "4",
+          "name": "garlic",
+          "amount": "15 g minced"
+        },
+        {
+          "id": "5",
+          "name": "red chili flakes",
+          "amount": "5 g"
+        },
+        {
+          "id": "6",
+          "name": "extra virgin olive oil",
+          "amount": "45 ml"
+        },
+        {
+          "id": "7",
+          "name": "tomato paste",
+          "amount": "30 g"
+        },
+        {
+          "id": "8",
+          "name": "crushed tomatoes",
+          "amount": "800 g canned, high quality"
+        },
+        {
+          "id": "9",
+          "name": "vegetable broth",
+          "amount": "120 ml"
+        },
+        {
+          "id": "10",
+          "name": "dried spaghetti",
+          "amount": "400 g"
+        },
+        {
+          "id": "11",
+          "name": "kosher salt",
+          "amount": "To taste"
+        },
+        {
+          "id": "12",
+          "name": "black pepper",
+          "amount": "To taste"
+        },
+        {
+          "id": "13",
+          "name": "fresh basil",
+          "amount": "10 g torn"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "classic-stuffed-veal-breast-with-sausage",
+      "name": "Classic Stuffed Veal Breast with Sausage and Potatoes",
+      "countryId": "italy",
+      "countryName": "Italy",
+      "countryFlag": "🇮🇹",
+      "category": "Dinner",
+      "time": "3 hr 15 min",
+      "difficulty": "Advanced",
+      "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=900&q=85&fit=crop",
+      "description": "A magnificent roasted veal breast pocket filled with a savory mixture of Italian sausage, herbs, and toasted breadcrumbs, surrounded by golden, pan-roasted potatoes.",
+      "culturalNote": "Stuffed veal breast, or cima di vitello, is a traditional Italian and broader European technique used to elevate an otherwise humble and inexpensive cut of meat. By creating a pocket and packing it with rich ingredients like sausage, bread, and aromatics, home cooks transformed a tough cut into an impressive centerpiece for Sunday dinners and holidays.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "veal breast",
+          "amount": "1500 g boneless, pocket cut for stuffing"
+        },
+        {
+          "id": "2",
+          "name": "olive oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "3",
+          "name": "kosher salt",
+          "amount": "10 g"
+        },
+        {
+          "id": "4",
+          "name": "black pepper",
+          "amount": "5 g freshly ground"
+        },
+        {
+          "id": "5",
+          "name": "olive oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "6",
+          "name": "yellow onion",
+          "amount": "150 g finely diced"
+        },
+        {
+          "id": "7",
+          "name": "garlic",
+          "amount": "15 g minced"
+        },
+        {
+          "id": "8",
+          "name": "mild italian sausage",
+          "amount": "400 g casings removed"
+        },
+        {
+          "id": "9",
+          "name": "dairy-free breadcrumbs",
+          "amount": "100 g plain"
+        },
+        {
+          "id": "10",
+          "name": "fresh flat-leaf parsley",
+          "amount": "15 g chopped"
+        },
+        {
+          "id": "11",
+          "name": "eggs",
+          "amount": "2 lightly beaten"
+        },
+        {
+          "id": "12",
+          "name": "chicken stock",
+          "amount": "60 ml low-sodium"
+        },
+        {
+          "id": "13",
+          "name": "yukon gold potatoes",
+          "amount": "800 g peeled and quartered"
+        },
+        {
+          "id": "14",
+          "name": "olive oil",
+          "amount": "30 ml"
+        },
+        {
+          "id": "15",
+          "name": "dry white wine",
+          "amount": "120 ml"
+        },
+        {
+          "id": "16",
+          "name": "chicken stock",
+          "amount": "240 ml low-sodium"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "japan": [
+    {
+      "id": "classic-futomaki-thick-sushi-roll",
+      "name": "Classic Futomaki (Thick Sushi Roll)",
+      "countryId": "japan",
+      "countryName": "Japan",
+      "countryFlag": "🇯🇵",
+      "category": "Lunch",
+      "time": "1 hr",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1553621042-f6e147245754?w=900&q=85&fit=crop",
+      "description": "A traditional thick Japanese sushi roll featuring a vibrant mosaic of sweet dashi-maki tamago, savory simmered shiitake mushrooms, and tender carrots, all encased in perfectly seasoned sushi rice and crisp nori.",
+      "culturalNote": "Futomaki translates directly to thick roll in Japanese. Unlike slender hosomaki which typically feature a single filling, futomaki are celebrated for their elaborate, multi-colored cross-sections that balance sweet, savory, and tart flavors. They are a beloved staple at picnics, bento boxes, and special occasions like the Setsubun festival, where it is tradition to eat an entire uncut roll (Eho-maki) while facing the year's lucky direction in silence.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "short-grain sushi rice",
+          "amount": "200 g dry, uncooked"
+        },
+        {
+          "id": "2",
+          "name": "water",
+          "amount": "240 ml"
+        },
+        {
+          "id": "3",
+          "name": "rice vinegar",
+          "amount": "30 ml"
+        },
+        {
+          "id": "4",
+          "name": "white sugar",
+          "amount": "15 g"
+        },
+        {
+          "id": "5",
+          "name": "fine sea salt",
+          "amount": "5 g"
+        },
+        {
+          "id": "6",
+          "name": "dried shiitake mushrooms",
+          "amount": "15 g rehydrated in warm water, stems removed, sliced thinly"
+        },
+        {
+          "id": "7",
+          "name": "carrots",
+          "amount": "100 g peeled and julienned into long thin strips"
+        },
+        {
+          "id": "8",
+          "name": "dashi stock",
+          "amount": "100 ml"
+        },
+        {
+          "id": "9",
+          "name": "soy sauce",
+          "amount": "15 ml"
+        },
+        {
+          "id": "10",
+          "name": "white sugar",
+          "amount": "10 g"
+        },
+        {
+          "id": "11",
+          "name": "mirin",
+          "amount": "10 ml"
+        },
+        {
+          "id": "12",
+          "name": "eggs",
+          "amount": "3"
+        },
+        {
+          "id": "13",
+          "name": "dashi stock",
+          "amount": "30 ml"
+        },
+        {
+          "id": "14",
+          "name": "white sugar",
+          "amount": "10 g"
+        },
+        {
+          "id": "15",
+          "name": "mirin",
+          "amount": "5 ml"
+        },
+        {
+          "id": "16",
+          "name": "light soy sauce",
+          "amount": "5 ml"
+        },
+        {
+          "id": "17",
+          "name": "vegetable oil",
+          "amount": "10 ml for greasing the pan"
+        },
+        {
+          "id": "18",
+          "name": "nori sheets",
+          "amount": "2 whole sheets"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "traditional-japanese-hoshigaki",
+      "name": "Traditional Japanese Hoshigaki",
+      "countryId": "japan",
+      "countryName": "Japan",
+      "countryFlag": "🇯🇵",
+      "category": "Preserve",
+      "time": "P28DT2H",
+      "difficulty": "Advanced",
+      "image": "https://images.unsplash.com/photo-1580822184713-fc5400e7fe10?w=900&q=85&fit=crop",
+      "description": "A traditional winter delicacy made by hanging and patiently massaging astringent Hachiya persimmons. The slow air-curing process transforms the firm, mouth-puckering fruit into a spectacularly tender, chewy treat with a delicate exterior sugar bloom and a core of concentrated, honeyed sweetness.",
+      "culturalNote": "Hoshigaki is an ancient Japanese preservation method born from the necessity to store food for harsh winters, transforming intensely bitter, inedible raw fruit into a prized wagashi (confection). Hung from the eaves of rural homes, the striking orange curtains of drying persimmons are considered a classic symbol of autumn in Japan, often enjoyed with green tea during the New Year.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "hachiya persimmons",
+          "amount": "12 unripe and firm"
+        },
+        {
+          "id": "2",
+          "name": "water",
+          "amount": "3000 ml"
+        },
+        {
+          "id": "3",
+          "name": "shochu or vodka",
+          "amount": "50 ml"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "refreshing-soba-noodle-salad-with-tangy-",
+      "name": "Refreshing Soba Noodle Salad with Tangy Sesame Dressing",
+      "countryId": "japan",
+      "countryName": "Japan",
+      "countryFlag": "🇯🇵",
+      "category": "Salad",
+      "time": "20 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=900&q=85&fit=crop",
+      "description": "A vibrant, cooling Japanese-inspired noodle salad featuring earthy soba noodles tossed with crisp vegetables, savory nori strips, and a bright, tangy sesame-ginger dressing. Perfect for a quick, light meal.",
+      "culturalNote": "Soba, thin Japanese noodles made from buckwheat flour, are deeply embedded in Japanese culinary traditions and are enjoyed both hot in broths and cold with dipping sauces (zaru soba). Cold noodle salads highlight the nutty, earthy flavor of the buckwheat and serve as a popular, cooling dish during hot, humid Japanese summers.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "dried soba noodles",
+          "amount": "180 g"
+        },
+        {
+          "id": "2",
+          "name": "english cucumber",
+          "amount": "100 g julienned"
+        },
+        {
+          "id": "3",
+          "name": "carrot",
+          "amount": "80 g julienned"
+        },
+        {
+          "id": "4",
+          "name": "shelled edamame",
+          "amount": "100 g thawed if frozen"
+        },
+        {
+          "id": "5",
+          "name": "scallions",
+          "amount": "30 g thinly sliced"
+        },
+        {
+          "id": "6",
+          "name": "rice vinegar",
+          "amount": "45 ml unseasoned"
+        },
+        {
+          "id": "7",
+          "name": "soy sauce",
+          "amount": "45 ml"
+        },
+        {
+          "id": "8",
+          "name": "toasted sesame oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "9",
+          "name": "granulated sugar",
+          "amount": "10 g"
+        },
+        {
+          "id": "10",
+          "name": "fresh ginger",
+          "amount": "10 g finely grated"
+        },
+        {
+          "id": "11",
+          "name": "nori sheet",
+          "amount": "1 cut into thin strips"
+        },
+        {
+          "id": "12",
+          "name": "toasted sesame seeds",
+          "amount": "10 g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "umami-bomb-miso-mayonnaise",
+      "name": "Umami Bomb Miso Mayonnaise",
+      "countryId": "japan",
+      "countryName": "Japan",
+      "countryFlag": "🇯🇵",
+      "category": "Condiment",
+      "time": "35 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=900&q=85&fit=crop",
+      "description": "A consciousness-expanding condiment where the rich, creamy tang of Japanese mayonnaise meets the deep, savory complexity of fermented miso. This velvety sauce transforms simple vegetables, grilled proteins, or crispy fries into a transcendent culinary experience.",
+      "culturalNote": "The marriage of mayonnaise and miso is a beloved staple of modern Japanese izakaya (pub) fare. It perfectly demonstrates the Japanese culinary philosophy of yoshoku, blending traditional domestic ingredients with Western imports to create entirely new, highly craveable flavor profiles. It is frequently served alongside raw vegetable sticks (morokyu) or as a dip for karaage.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "japanese mayonnaise",
+          "amount": "100 g"
+        },
+        {
+          "id": "2",
+          "name": "white miso paste",
+          "amount": "20 g room temperature"
+        },
+        {
+          "id": "3",
+          "name": "rice vinegar",
+          "amount": "5 ml"
+        },
+        {
+          "id": "4",
+          "name": "toasted sesame oil",
+          "amount": "2 ml"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "soft-japanese-coffee-jelly-with-salted-c",
+      "name": "Soft Japanese Coffee Jelly With Salted Caramel Cream",
+      "countryId": "japan",
+      "countryName": "Japan",
+      "countryFlag": "🇯🇵",
+      "category": "Dessert",
+      "time": "4 hr 20 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=900&q=85&fit=crop",
+      "description": "A delicately set, bittersweet Japanese-style coffee jelly that melts instantly on the tongue, crowned with a rich, freshly whipped salted caramel cream for the perfect post-dinner pick-me-up.",
+      "culturalNote": "Coffee jelly (kohī zerī) was popularized in Japanese coffee shops known as kissaten during the Taisho period and saw a massive boom in the 1960s. It represents the distinct Japanese culinary ethos of taking a Western ingredient and adapting it into a delicately balanced, texturally refined local favorite.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "water",
+          "amount": "45 ml cold"
+        },
+        {
+          "id": "2",
+          "name": "unflavored gelatin powder",
+          "amount": "7 g"
+        },
+        {
+          "id": "3",
+          "name": "water",
+          "amount": "400 ml hot"
+        },
+        {
+          "id": "4",
+          "name": "espresso powder",
+          "amount": "15 g"
+        },
+        {
+          "id": "5",
+          "name": "granulated sugar",
+          "amount": "50 g"
+        },
+        {
+          "id": "6",
+          "name": "heavy cream",
+          "amount": "120 ml cold"
+        },
+        {
+          "id": "7",
+          "name": "salted caramel sauce",
+          "amount": "30 g chilled"
+        },
+        {
+          "id": "8",
+          "name": "flaky sea salt",
+          "amount": "1 g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "classic-japanese-sushi-rice",
+      "name": "Classic Japanese Sushi Rice",
+      "countryId": "japan",
+      "countryName": "Japan",
+      "countryFlag": "🇯🇵",
+      "category": "Base",
+      "time": "1 hr 10 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=900&q=85&fit=crop",
+      "description": "Perfectly balanced, glossy, and sticky sushi rice. The foundation of any great sushi, this sumeshi combines premium short-grain rice with a sweet, salty, and acidic vinegar dressing.",
+      "culturalNote": "The word 'sushi' originally referred to the sour, fermented rice used to preserve fish in ancient Japan, rather than the fish itself. Today, sumeshi (vinegared rice) remains the defining element of the cuisine. High-end sushi chefs (shokunin) spend years mastering the precise balance, temperature, and texture of their shari (sushi rice) before they are ever allowed to prepare the fish.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "short-grain japanese sushi rice",
+          "amount": "300 g"
+        },
+        {
+          "id": "2",
+          "name": "filtered water",
+          "amount": "330 ml cold"
+        },
+        {
+          "id": "3",
+          "name": "kombu (dried kelp)",
+          "amount": "5 g"
+        },
+        {
+          "id": "4",
+          "name": "unseasoned rice vinegar",
+          "amount": "45 ml"
+        },
+        {
+          "id": "5",
+          "name": "granulated sugar",
+          "amount": "30 g"
+        },
+        {
+          "id": "6",
+          "name": "sea salt",
+          "amount": "8 g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "tori-soba",
+      "name": "Tori Soba",
+      "countryId": "japan",
+      "countryName": "Japan",
+      "countryFlag": "🇯🇵",
+      "category": "Lunch",
+      "time": "20 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1547592180-85f173990554?w=900&q=85&fit=crop",
+      "description": "A comforting Japanese noodle soup featuring earthy buckwheat noodles and tender chicken thighs, submerged in a delicate umami-rich dashi broth and finished with sharp green onions.",
+      "culturalNote": "Tori Soba is a beloved and straightforward Japanese comfort food. Soba noodles, traditionally made from nutrient-rich buckwheat flour, have been a core staple in Japanese cuisine since the Edo period. Consuming soba is often associated with longevity and resilience due to the hardy, deeply rooted nature of the buckwheat plant.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "dashi stock",
+          "amount": "600 ml"
+        },
+        {
+          "id": "2",
+          "name": "soy sauce",
+          "amount": "60 ml"
+        },
+        {
+          "id": "3",
+          "name": "mirin",
+          "amount": "45 ml"
+        },
+        {
+          "id": "4",
+          "name": "sake",
+          "amount": "15 ml"
+        },
+        {
+          "id": "5",
+          "name": "sugar",
+          "amount": "5 g"
+        },
+        {
+          "id": "6",
+          "name": "dried soba noodles",
+          "amount": "200 g"
+        },
+        {
+          "id": "7",
+          "name": "boneless skinless chicken thighs",
+          "amount": "200 g cut into bite-sized pieces"
+        },
+        {
+          "id": "8",
+          "name": "green onions",
+          "amount": "4 thinly sliced on the diagonal"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "grand-marnier-souffle-pancakes-with-mace",
+      "name": "Grand Marnier Souffle Pancakes with Macerated Strawberries",
+      "countryId": "japan",
+      "countryName": "Japan",
+      "countryFlag": "🇯🇵",
+      "category": "Dessert",
+      "time": "45 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?w=900&q=85&fit=crop",
+      "description": "Cloud-like, jiggly Japanese souffle pancakes served with vibrant, glossy strawberries soaked in orange liqueur. A sophisticated, airy summer dessert that melts in the mouth.",
+      "culturalNote": "Souffle pancakes gained immense popularity in Japan as a highly visual, cafe-culture phenomenon, elevating the traditional Western breakfast staple into a delicate, cloud-like dessert. The technique borrows heavily from classic French souffle mechanics, utilizing a heavily aerated meringue base stabilized by a touch of flour, resulting in a distinctively soft, jiggly texture that demands to be eaten the moment it leaves the pan.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "strawberries",
+          "amount": "250 g fresh, hulled and quartered"
+        },
+        {
+          "id": "2",
+          "name": "caster sugar",
+          "amount": "30 g"
+        },
+        {
+          "id": "3",
+          "name": "grand marnier",
+          "amount": "30 ml orange liqueur"
+        },
+        {
+          "id": "4",
+          "name": "lemon juice",
+          "amount": "10 ml freshly squeezed"
+        },
+        {
+          "id": "5",
+          "name": "egg yolks",
+          "amount": "36 g room temperature"
+        },
+        {
+          "id": "6",
+          "name": "whole milk",
+          "amount": "20 ml"
+        },
+        {
+          "id": "7",
+          "name": "vanilla extract",
+          "amount": "3 ml"
+        },
+        {
+          "id": "8",
+          "name": "cake flour",
+          "amount": "30 g"
+        },
+        {
+          "id": "9",
+          "name": "baking powder",
+          "amount": "2 g"
+        },
+        {
+          "id": "10",
+          "name": "egg whites",
+          "amount": "60 g chilled"
+        },
+        {
+          "id": "11",
+          "name": "caster sugar",
+          "amount": "25 g"
+        },
+        {
+          "id": "12",
+          "name": "neutral oil",
+          "amount": "5 ml for greasing the pan"
+        },
+        {
+          "id": "13",
+          "name": "water",
+          "amount": "30 ml for steaming"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "morocco": [
+    {
+      "id": "hearty-moroccan-lamb-and-pearl-barley-so",
+      "name": "Hearty Moroccan Lamb and Pearl Barley Soup",
+      "countryId": "morocco",
+      "countryName": "Morocco",
+      "countryFlag": "🇲🇦",
+      "category": "Soup",
+      "time": "1 hr 50 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=900&q=85&fit=crop",
+      "description": "A deeply comforting, vibrant North African soup featuring meltingly tender lamb shoulder, plump pearl barley, and the fiery warmth of harissa in a rich, spiced tomato broth.",
+      "culturalNote": "Rooted in the diverse culinary landscape of the Maghreb, this soup draws heavy inspiration from traditional Moroccan Harira and Algerian Chorba. The use of harissa, a fundamental North African chili and garlic paste, provides a complex backbone of heat and aromatics that beautifully contrasts the richness of the slow-cooked lamb.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "lamb shoulder",
+          "amount": "400 g diced into 1.5cm cubes"
+        },
+        {
+          "id": "2",
+          "name": "olive oil",
+          "amount": "30 ml"
+        },
+        {
+          "id": "3",
+          "name": "brown onion",
+          "amount": "1 finely diced"
+        },
+        {
+          "id": "4",
+          "name": "carrot",
+          "amount": "100 g diced"
+        },
+        {
+          "id": "5",
+          "name": "celery",
+          "amount": "80 g diced"
+        },
+        {
+          "id": "6",
+          "name": "garlic",
+          "amount": "3 minced"
+        },
+        {
+          "id": "7",
+          "name": "harissa paste",
+          "amount": "45 g"
+        },
+        {
+          "id": "8",
+          "name": "tomato paste",
+          "amount": "30 g"
+        },
+        {
+          "id": "9",
+          "name": "ground cumin",
+          "amount": "3 g"
+        },
+        {
+          "id": "10",
+          "name": "kosher salt",
+          "amount": "8 g"
+        },
+        {
+          "id": "11",
+          "name": "canned crushed tomatoes",
+          "amount": "400 g"
+        },
+        {
+          "id": "12",
+          "name": "chicken stock",
+          "amount": "1200 ml"
+        },
+        {
+          "id": "13",
+          "name": "pearl barley",
+          "amount": "100 g rinsed"
+        },
+        {
+          "id": "14",
+          "name": "fresh cilantro",
+          "amount": "15 g roughly chopped"
+        },
+        {
+          "id": "15",
+          "name": "lemon juice",
+          "amount": "15 ml freshly squeezed"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "moroccan-lamb-tagine-with-preserved-lemo",
+      "name": "Moroccan Lamb Tagine with Preserved Lemon and Olives over Aromatic Rice",
+      "countryId": "morocco",
+      "countryName": "Morocco",
+      "countryFlag": "🇲🇦",
+      "category": "Dinner",
+      "time": "2 hr 45 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1511690743698-d9d18f7e20f1?w=900&q=85&fit=crop",
+      "description": "A deeply comforting slow-cooked lamb stew featuring tender chunks of meat swimming in a fragrant broth of warming spices, bright preserved lemon, and briny olives. Served over golden aromatic rice to soak up the rich sauce.",
+      "culturalNote": "The word tagine refers to both the iconic cone-shaped clay cooking vessel and the slow-simmered stews prepared within it. This quintessential Moroccan dish relies on the harmonious balance of savory, spiced, and bright elements, reflecting centuries of Berber, Arab, and Andalusian culinary influences. The conical lid of the traditional vessel is designed to trap steam, returning condensation to the braise and tenderizing tough cuts of meat in arid climates where water is historically scarce.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "boneless lamb shoulder",
+          "amount": "800 g trimmed of excess hard fat and cut into 4cm cubes"
+        },
+        {
+          "id": "2",
+          "name": "olive oil",
+          "amount": "30 ml"
+        },
+        {
+          "id": "3",
+          "name": "yellow onion",
+          "amount": "1 finely diced"
+        },
+        {
+          "id": "4",
+          "name": "garlic",
+          "amount": "4 minced"
+        },
+        {
+          "id": "5",
+          "name": "lamb stock",
+          "amount": "500 ml"
+        },
+        {
+          "id": "6",
+          "name": "ground cumin",
+          "amount": "5 g"
+        },
+        {
+          "id": "7",
+          "name": "ground coriander",
+          "amount": "5 g"
+        },
+        {
+          "id": "8",
+          "name": "sweet paprika",
+          "amount": "5 g"
+        },
+        {
+          "id": "9",
+          "name": "ground ginger",
+          "amount": "3 g"
+        },
+        {
+          "id": "10",
+          "name": "ground cinnamon",
+          "amount": "2 g"
+        },
+        {
+          "id": "11",
+          "name": "saffron threads",
+          "amount": "0.1 g crumbled"
+        },
+        {
+          "id": "12",
+          "name": "black pepper",
+          "amount": "2 g freshly ground"
+        },
+        {
+          "id": "13",
+          "name": "preserved lemon",
+          "amount": "1 pulp removed, rind finely chopped"
+        },
+        {
+          "id": "14",
+          "name": "green olives",
+          "amount": "100 g pitted"
+        },
+        {
+          "id": "15",
+          "name": "fresh cilantro",
+          "amount": "15 g roughly chopped"
+        },
+        {
+          "id": "16",
+          "name": "basmati rice",
+          "amount": "300 g rinsed until water runs clear"
+        },
+        {
+          "id": "17",
+          "name": "water",
+          "amount": "450 ml"
+        },
+        {
+          "id": "18",
+          "name": "olive oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "19",
+          "name": "ground turmeric",
+          "amount": "2 g"
+        },
+        {
+          "id": "20",
+          "name": "kosher salt",
+          "amount": "4 g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "moroccan-spiced-lentil-chickpea-and-cod-",
+      "name": "Moroccan Spiced Lentil, Chickpea, and Cod Soup",
+      "countryId": "morocco",
+      "countryName": "Morocco",
+      "countryFlag": "🇲🇦",
+      "category": "Soup",
+      "time": "1 hr 10 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=900&q=85&fit=crop",
+      "description": "A warming, aromatic Moroccan soup featuring an earthy base of tender lentils and plump chickpeas simmered in a rich tomato broth. Infused with cumin and cinnamon, it is finished with flaky cod fillets and bright fresh herbs.",
+      "culturalNote": "Drawing deep inspiration from Harira, a cherished traditional Moroccan soup often enjoyed to break the fast during Ramadan, this variation incorporates the coastal bounty of North Africa. The signature Maghrebi spice profile of cumin, turmeric, and cinnamon creates a profoundly complex, earthy flavor base that balances perfectly with the delicate, flaky texture of the poached cod.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "olive oil",
+          "amount": "30 ml"
+        },
+        {
+          "id": "2",
+          "name": "yellow onion",
+          "amount": "1 diced"
+        },
+        {
+          "id": "3",
+          "name": "garlic",
+          "amount": "4 minced"
+        },
+        {
+          "id": "4",
+          "name": "fresh ginger",
+          "amount": "15 g grated"
+        },
+        {
+          "id": "5",
+          "name": "ground cumin",
+          "amount": "4 g"
+        },
+        {
+          "id": "6",
+          "name": "ground coriander",
+          "amount": "4 g"
+        },
+        {
+          "id": "7",
+          "name": "smoked paprika",
+          "amount": "4 g"
+        },
+        {
+          "id": "8",
+          "name": "ground turmeric",
+          "amount": "3 g"
+        },
+        {
+          "id": "9",
+          "name": "ground cinnamon",
+          "amount": "1 g"
+        },
+        {
+          "id": "10",
+          "name": "crushed tomatoes",
+          "amount": "400 g canned"
+        },
+        {
+          "id": "11",
+          "name": "vegetable broth",
+          "amount": "900 ml"
+        },
+        {
+          "id": "12",
+          "name": "brown lentils",
+          "amount": "100 g rinsed and picked over"
+        },
+        {
+          "id": "13",
+          "name": "canned chickpeas",
+          "amount": "240 g drained and rinsed"
+        },
+        {
+          "id": "14",
+          "name": "cod fillet",
+          "amount": "450 g skinless, cut into 4cm chunks"
+        },
+        {
+          "id": "15",
+          "name": "fresh cilantro",
+          "amount": "15 g chopped"
+        },
+        {
+          "id": "16",
+          "name": "fresh parsley",
+          "amount": "15 g chopped"
+        },
+        {
+          "id": "17",
+          "name": "lemon juice",
+          "amount": "30 ml freshly squeezed"
+        },
+        {
+          "id": "18",
+          "name": "kosher salt",
+          "amount": "g"
+        },
+        {
+          "id": "19",
+          "name": "black pepper",
+          "amount": "g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "moroccan-lemon-cumin-couscous-with-raisi",
+      "name": "Moroccan Lemon-Cumin Couscous With Raisins",
+      "countryId": "morocco",
+      "countryName": "Morocco",
+      "countryFlag": "🇲🇦",
+      "category": "Side Dish",
+      "time": "15 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=900&q=85&fit=crop",
+      "description": "A light, fluffy North African-inspired side dish where the warm, earthy notes of cumin perfectly balance the bright citrus of lemon and the subtle sweetness of plump raisins.",
+      "culturalNote": "Couscous is the foundational carbohydrate of North African cuisine, traditionally steamed multiple times over a simmering stew in a special pot called a couscoussier. While this recipe utilizes quick-cooking couscous for modern weekday convenience, it honors the classic Moroccan flavor architecture of balancing savory, earthy spices with bright citrus and sweet dried fruits.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "olive oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "2",
+          "name": "ground cumin",
+          "amount": "3 g"
+        },
+        {
+          "id": "3",
+          "name": "vegetable broth",
+          "amount": "250 ml"
+        },
+        {
+          "id": "4",
+          "name": "kosher salt",
+          "amount": "3 g"
+        },
+        {
+          "id": "5",
+          "name": "golden raisins",
+          "amount": "50 g"
+        },
+        {
+          "id": "6",
+          "name": "couscous",
+          "amount": "200 g dry, quick-cooking"
+        },
+        {
+          "id": "7",
+          "name": "lemon juice",
+          "amount": "30 ml freshly squeezed"
+        },
+        {
+          "id": "8",
+          "name": "lemon zest",
+          "amount": "3 g finely grated"
+        },
+        {
+          "id": "9",
+          "name": "fresh parsley",
+          "amount": "10 g finely chopped"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "tangy-moroccan-spiced-couscous-salad",
+      "name": "Tangy Moroccan-Spiced Couscous Salad",
+      "countryId": "morocco",
+      "countryName": "Morocco",
+      "countryFlag": "🇲🇦",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "seven-vegetable-couscous",
+      "name": "Seven Vegetable Couscous",
+      "countryId": "morocco",
+      "countryName": "Morocco",
+      "countryFlag": "🇲🇦",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1540914124281-342587941389?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "moroccan-spiced-lamb-meatloaf",
+      "name": "Moroccan Spiced Lamb Meatloaf",
+      "countryId": "morocco",
+      "countryName": "Morocco",
+      "countryFlag": "🇲🇦",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "flavorful-cauliflower-tagine-with-chickp",
+      "name": "Flavorful Cauliflower Tagine with Chickpeas and Apricots",
+      "countryId": "morocco",
+      "countryName": "Morocco",
+      "countryFlag": "🇲🇦",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    }
+  ],
+  "mexico": [
+    {
+      "id": "quick-spiced-black-bean-and-tomato-stew",
+      "name": "Quick Spiced Black Bean and Tomato Stew",
+      "countryId": "mexico",
+      "countryName": "Mexico",
+      "countryFlag": "🇲🇽",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "pollo-asado-con-achiote-mexican-grilled-",
+      "name": "Pollo Asado con Achiote (Mexican Grilled Chicken)",
+      "countryId": "mexico",
+      "countryName": "Mexico",
+      "countryFlag": "🇲🇽",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "spicy-mexican-clam-and-chorizo-spaghetti",
+      "name": "Spicy Mexican Clam and Chorizo Spaghetti",
+      "countryId": "mexico",
+      "countryName": "Mexico",
+      "countryFlag": "🇲🇽",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "mexican-red-chile-braised-chicken-with-p",
+      "name": "Mexican Red Chile Braised Chicken with Potatoes and Mushrooms",
+      "countryId": "mexico",
+      "countryName": "Mexico",
+      "countryFlag": "🇲🇽",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1625398407796-82650a8c135f?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "mexican-wedding-cookies",
+      "name": "Mexican Wedding Cookies",
+      "countryId": "mexico",
+      "countryName": "Mexico",
+      "countryFlag": "🇲🇽",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "spicy-cauliflower-rice-tortilla-soup",
+      "name": "Spicy Cauliflower Rice Tortilla Soup",
+      "countryId": "mexico",
+      "countryName": "Mexico",
+      "countryFlag": "🇲🇽",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "huevos-a-la-mexicana",
+      "name": "Huevos A La Mexicana",
+      "countryId": "mexico",
+      "countryName": "Mexico",
+      "countryFlag": "🇲🇽",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1613514785940-daed07799d9b?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "creamy-mexican-banana-paletas",
+      "name": "Creamy Mexican Banana Paletas",
+      "countryId": "mexico",
+      "countryName": "Mexico",
+      "countryFlag": "🇲🇽",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    }
+  ],
+  "india": [
+    {
+      "id": "instant-pot-dal-makhani",
+      "name": "Instant Pot Dal Makhani",
+      "countryId": "india",
+      "countryName": "India",
+      "countryFlag": "🇮🇳",
+      "category": "Dinner",
+      "time": "9 hr 25 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=900&q=85&fit=crop",
+      "description": "A deeply savory, velvety Indian dal made with whole black lentils and kidney beans. Cooked under high pressure and finished with a rich garlic, ginger, and ghee tarka alongside a splash of heavy cream for a luxurious, restaurant-quality texture.",
+      "culturalNote": "Dal Makhani originated in the Punjab region of the Indian subcontinent. It was revolutionized and popularized in the mid-20th century by Kundan Lal Gujral at the Moti Mahal restaurant in Delhi. Historically cooked slowly over smoldering wood or coal fires overnight, this modern pressure-cooker adaptation retains the dish's signature buttery texture and deep, complex aromatics in a fraction of the time.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "whole black urad dal",
+          "amount": "150 g"
+        },
+        {
+          "id": "2",
+          "name": "dried kidney beans",
+          "amount": "50 g"
+        },
+        {
+          "id": "3",
+          "name": "water",
+          "amount": "1000 ml"
+        },
+        {
+          "id": "4",
+          "name": "tomato puree",
+          "amount": "200 g"
+        },
+        {
+          "id": "5",
+          "name": "ginger paste",
+          "amount": "15 g"
+        },
+        {
+          "id": "6",
+          "name": "garlic paste",
+          "amount": "15 g"
+        },
+        {
+          "id": "7",
+          "name": "kashmiri red chili powder",
+          "amount": "5 g"
+        },
+        {
+          "id": "8",
+          "name": "fine sea salt",
+          "amount": "6 g"
+        },
+        {
+          "id": "9",
+          "name": "ghee",
+          "amount": "45 g melted"
+        },
+        {
+          "id": "10",
+          "name": "cumin seeds",
+          "amount": "3 g"
+        },
+        {
+          "id": "11",
+          "name": "garlic",
+          "amount": "10 g finely minced"
+        },
+        {
+          "id": "12",
+          "name": "fresh ginger",
+          "amount": "10 g julienned into thin matchsticks"
+        },
+        {
+          "id": "13",
+          "name": "heavy cream",
+          "amount": "60 ml room temperature"
+        },
+        {
+          "id": "14",
+          "name": "garam masala",
+          "amount": "3 g"
+        },
+        {
+          "id": "15",
+          "name": "dried fenugreek leaves",
+          "amount": "2 g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "traditional-south-indian-tomato-chutney",
+      "name": "Traditional South Indian Tomato Chutney",
+      "countryId": "india",
+      "countryName": "India",
+      "countryFlag": "🇮🇳",
+      "category": "Condiment",
+      "time": "25 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=900&q=85&fit=crop",
+      "description": "A vibrant, tangy, and mildly spiced South Indian condiment made with ripe tomatoes, roasted lentils, and aromatic spices. Perfect for pairing with dosa, idli, or flatbreads.",
+      "culturalNote": "Thakkali (Tomato) Chutney is a beloved staple across South Indian households. It is traditionally served alongside breakfast classics like idli, dosa, uthappam, and vada. The final step of adding the 'tadka' or tempering is a quintessential Indian culinary technique known as 'chhaunk', which blooms the essential oils of the spices into the fat, acting as a crucial flavor delivery system.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "tomatoes",
+          "amount": "400 g roughly chopped"
+        },
+        {
+          "id": "2",
+          "name": "onion",
+          "amount": "100 g roughly chopped"
+        },
+        {
+          "id": "3",
+          "name": "garlic",
+          "amount": "3 peeled"
+        },
+        {
+          "id": "4",
+          "name": "dried red chilies",
+          "amount": "3"
+        },
+        {
+          "id": "5",
+          "name": "urad dal",
+          "amount": "15 g"
+        },
+        {
+          "id": "6",
+          "name": "chana dal",
+          "amount": "15 g"
+        },
+        {
+          "id": "7",
+          "name": "tamarind paste",
+          "amount": "5 g"
+        },
+        {
+          "id": "8",
+          "name": "salt",
+          "amount": "5 g"
+        },
+        {
+          "id": "9",
+          "name": "vegetable oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "10",
+          "name": "vegetable oil",
+          "amount": "5 ml"
+        },
+        {
+          "id": "11",
+          "name": "mustard seeds",
+          "amount": "3 g"
+        },
+        {
+          "id": "12",
+          "name": "urad dal",
+          "amount": "2 g"
+        },
+        {
+          "id": "13",
+          "name": "curry leaves",
+          "amount": "10 fresh"
+        },
+        {
+          "id": "14",
+          "name": "asafoetida",
+          "amount": "1 g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "classic-indian-rice-pudding",
+      "name": "Classic Indian Rice Pudding",
+      "countryId": "india",
+      "countryName": "India",
+      "countryFlag": "🇮🇳",
+      "category": "Dessert",
+      "time": "1 hr 15 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=900&q=85&fit=crop",
+      "description": "A rich, velvety traditional dessert featuring basmati rice slowly simmered in full-fat milk, infused with aromatic cardamom and saffron, and crowned with toasted pistachios.",
+      "culturalNote": "Kheer is one of the most ancient and revered desserts in the Indian subcontinent, with roots tracing back to early Ayurvedic texts where it was considered a restorative food. It is an essential component of festive celebrations like Diwali, weddings, and religious ceremonies, symbolizing purity, joy, and prosperity. While regional variations exist throughout India, such as Payasam in the South, this slow-simmered basmati and milk preparation remains the quintessential classic.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "basmati rice",
+          "amount": "50 g rinsed until water runs clear"
+        },
+        {
+          "id": "2",
+          "name": "whole milk",
+          "amount": "1000 ml cold or room temperature"
+        },
+        {
+          "id": "3",
+          "name": "granulated sugar",
+          "amount": "60 g"
+        },
+        {
+          "id": "4",
+          "name": "green cardamom powder",
+          "amount": "2 g"
+        },
+        {
+          "id": "5",
+          "name": "saffron threads",
+          "amount": "To taste"
+        },
+        {
+          "id": "6",
+          "name": "pistachios",
+          "amount": "15 g unsalted and roughly chopped"
+        },
+        {
+          "id": "7",
+          "name": "almonds",
+          "amount": "15 g blanched and slivered"
+        },
+        {
+          "id": "8",
+          "name": "rose water",
+          "amount": "5 ml"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "lasooni-chicken-curry-with-lacy-chickpea",
+      "name": "Lasooni Chicken Curry with Lacy Chickpea Pancakes",
+      "countryId": "india",
+      "countryName": "India",
+      "countryFlag": "🇮🇳",
+      "category": "Dinner",
+      "time": "1 hr 15 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=900&q=85&fit=crop",
+      "description": "A robust, deeply aromatic North Indian style chicken curry featuring toasted garlic and warm spices, paired with crisp, lacy-edged pancakes made from roasted chickpea flour for swiping through the rich sauce.",
+      "culturalNote": "Lasooni, meaning garlic in Hindi, lends its name to this popular North Indian restaurant-style dish celebrated for its pungent, earthy flavor profile. Pairing deeply spiced curries with regional savory pancakes like the protein-rich Besan Chilla is a staple practice in Indian households, offering a wonderful textural contrast to rich gravies while acting as an edible utensil.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "boneless skinless chicken thighs",
+          "amount": "600 g cut into bite-sized pieces"
+        },
+        {
+          "id": "2",
+          "name": "garlic paste",
+          "amount": "15 g"
+        },
+        {
+          "id": "3",
+          "name": "ginger paste",
+          "amount": "15 g"
+        },
+        {
+          "id": "4",
+          "name": "turmeric powder",
+          "amount": "3 g"
+        },
+        {
+          "id": "5",
+          "name": "kashmiri chili powder",
+          "amount": "5 g"
+        },
+        {
+          "id": "6",
+          "name": "lemon juice",
+          "amount": "15 ml"
+        },
+        {
+          "id": "7",
+          "name": "salt",
+          "amount": "5 g"
+        },
+        {
+          "id": "8",
+          "name": "ghee",
+          "amount": "30 g"
+        },
+        {
+          "id": "9",
+          "name": "garlic",
+          "amount": "30 g sliced very thinly"
+        },
+        {
+          "id": "10",
+          "name": "onion",
+          "amount": "200 g finely chopped"
+        },
+        {
+          "id": "11",
+          "name": "tomato puree",
+          "amount": "200 g smooth"
+        },
+        {
+          "id": "12",
+          "name": "coriander powder",
+          "amount": "8 g"
+        },
+        {
+          "id": "13",
+          "name": "cumin powder",
+          "amount": "4 g"
+        },
+        {
+          "id": "14",
+          "name": "garam masala",
+          "amount": "4 g"
+        },
+        {
+          "id": "15",
+          "name": "water",
+          "amount": "200 ml"
+        },
+        {
+          "id": "16",
+          "name": "fresh coriander",
+          "amount": "10 g chopped"
+        },
+        {
+          "id": "17",
+          "name": "besan",
+          "amount": "150 g"
+        },
+        {
+          "id": "18",
+          "name": "rice flour",
+          "amount": "30 g"
+        },
+        {
+          "id": "19",
+          "name": "water",
+          "amount": "250 ml"
+        },
+        {
+          "id": "20",
+          "name": "ajwain seeds",
+          "amount": "2 g"
+        },
+        {
+          "id": "21",
+          "name": "salt",
+          "amount": "3 g"
+        },
+        {
+          "id": "22",
+          "name": "turmeric powder",
+          "amount": "1 g"
+        },
+        {
+          "id": "23",
+          "name": "ghee",
+          "amount": "20 g melted"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "mint-and-cilantro-yogurt-raita",
+      "name": "Mint And Cilantro Yogurt Raita",
+      "countryId": "india",
+      "countryName": "India",
+      "countryFlag": "🇮🇳",
+      "category": "Condiment",
+      "time": "25 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=900&q=85&fit=crop",
+      "description": "A cooling, creamy Indian yogurt condiment that balances the vibrant, herbaceous punch of fresh mint and cilantro, accented by a subtle chili bite and the earthy aroma of roasted cumin.",
+      "culturalNote": "Raita is an integral part of the South Asian culinary repertoire, specifically designed according to Ayurvedic principles to offer a cooling counterbalance to fiery, heavily spiced dishes. The dairy proteins and fats neutralize capsaicin, making this mint and cilantro variation the traditional pairing for intense biryanis, rich curries, and tandoori roasted meats.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "fresh mint leaves",
+          "amount": "15 g washed, completely dried, tightly packed"
+        },
+        {
+          "id": "2",
+          "name": "fresh cilantro",
+          "amount": "15 g washed, completely dried, tender stems included"
+        },
+        {
+          "id": "3",
+          "name": "green chili",
+          "amount": "1 stemmed and roughly chopped"
+        },
+        {
+          "id": "4",
+          "name": "plain whole milk yogurt",
+          "amount": "200 g chilled"
+        },
+        {
+          "id": "5",
+          "name": "roasted cumin powder",
+          "amount": "2 g"
+        },
+        {
+          "id": "6",
+          "name": "black salt",
+          "amount": "1 g"
+        },
+        {
+          "id": "7",
+          "name": "sugar",
+          "amount": "1 g granulated"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "indian-spiced-grilled-halibut-with-sweet",
+      "name": "Indian-Spiced Grilled Halibut with Sweet Corn Relish",
+      "countryId": "india",
+      "countryName": "India",
+      "countryFlag": "🇮🇳",
+      "category": "Dinner",
+      "time": "35 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=900&q=85&fit=crop",
+      "description": "Warm Indian spices crust tender, flaky halibut steaks, charred to perfection on the grill and brightened by a vibrant, sweet relish of fresh corn, sharp ginger, and crisp red onion.",
+      "culturalNote": "While fish steaks are common in coastal Indian regions like Kerala and Bengal, they are traditionally pan-fried, baked in banana leaves, or simmered in rich curries. This recipe adapts those traditional, warming flavor profiles like cumin, turmeric, and garam masala into a rapid Western grilling technique. The fresh corn relish acts as a vibrant, textural substitute for a traditional chutney or kachumber salad, bridging seasonal fall ingredients with classic Indian aromatics.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "halibut steaks",
+          "amount": "680 g cut into 4 steaks, about 2.5cm thick"
+        },
+        {
+          "id": "2",
+          "name": "ghee",
+          "amount": "30 g melted"
+        },
+        {
+          "id": "3",
+          "name": "garam masala",
+          "amount": "5 g"
+        },
+        {
+          "id": "4",
+          "name": "ground cumin",
+          "amount": "3 g"
+        },
+        {
+          "id": "5",
+          "name": "ground turmeric",
+          "amount": "2 g"
+        },
+        {
+          "id": "6",
+          "name": "kosher salt",
+          "amount": "6 g"
+        },
+        {
+          "id": "7",
+          "name": "black pepper",
+          "amount": "2 g freshly ground"
+        },
+        {
+          "id": "8",
+          "name": "fresh sweet corn kernels",
+          "amount": "150 g cut from the cob"
+        },
+        {
+          "id": "9",
+          "name": "red onion",
+          "amount": "40 g finely diced"
+        },
+        {
+          "id": "10",
+          "name": "fresh ginger",
+          "amount": "10 g peeled and finely minced"
+        },
+        {
+          "id": "11",
+          "name": "fresh cilantro",
+          "amount": "15 g chopped"
+        },
+        {
+          "id": "12",
+          "name": "lime juice",
+          "amount": "15 ml freshly squeezed"
+        },
+        {
+          "id": "13",
+          "name": "kosher salt",
+          "amount": "2 g plus more to taste"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "fiery-mint-and-cilantro-yogurt-chutney",
+      "name": "Fiery Mint And Cilantro Yogurt Chutney",
+      "countryId": "india",
+      "countryName": "India",
+      "countryFlag": "🇮🇳",
+      "category": "Condiment",
+      "time": "40 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=900&q=85&fit=crop",
+      "description": "A vibrant, aromatic Indian condiment that perfectly balances the intense heat of raw green chiles with the cooling, tangy base of creamy yogurt and fresh herbs.",
+      "culturalNote": "Known widely across the subcontinent as Dahi Pudina Chutney or Hari Chutney, this vibrant green condiment is an absolute staple in Indian cookery. It serves as the ultimate cooling counterpoint to fiery tandoori dishes, rich curries, and deep-fried snacks like samosas and pakoras. Every household boasts its own variation, carefully balancing the sharp pungency of raw garlic and ginger with the tartness of yogurt, the brightness of herbs, and the earthy sulfurous notes of chaat masala.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "fresh cilantro",
+          "amount": "30 g washed, thick bottom stems removed"
+        },
+        {
+          "id": "2",
+          "name": "fresh mint",
+          "amount": "15 g washed, leaves only"
+        },
+        {
+          "id": "3",
+          "name": "green chiles",
+          "amount": "10 g roughly chopped"
+        },
+        {
+          "id": "4",
+          "name": "garlic",
+          "amount": "5 g peeled"
+        },
+        {
+          "id": "5",
+          "name": "ginger",
+          "amount": "5 g peeled and roughly chopped"
+        },
+        {
+          "id": "6",
+          "name": "plain whole milk yogurt",
+          "amount": "150 g cold"
+        },
+        {
+          "id": "7",
+          "name": "lemon juice",
+          "amount": "15 ml freshly squeezed"
+        },
+        {
+          "id": "8",
+          "name": "salt",
+          "amount": "3 g fine"
+        },
+        {
+          "id": "9",
+          "name": "chaat masala",
+          "amount": "2 g ground"
+        },
+        {
+          "id": "10",
+          "name": "roasted cumin powder",
+          "amount": "2 g ground"
+        },
+        {
+          "id": "11",
+          "name": "sugar",
+          "amount": "2 g granulated"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "spiced-indian-tomato-and-yogurt-side",
+      "name": "Spiced Indian Tomato And Yogurt Side",
+      "countryId": "india",
+      "countryName": "India",
+      "countryFlag": "🇮🇳",
+      "category": "Side Dish",
+      "time": "15 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=900&q=85&fit=crop",
+      "description": "A vibrant and tangy Indian-inspired side dish featuring sweet ripe tomatoes simmered with warm spices, jalapeño, and scallions, then finished with creamy yogurt and fresh cilantro.",
+      "culturalNote": "This preparation bridges the gap between a fresh raita and a cooked sabzi. In many regional Indian cuisines, tempering tomatoes with spices and finishing them with dairy creates a versatile accompaniment that cools the palate while delivering complex, warming spice notes.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "ripe tomatoes",
+          "amount": "400 g diced"
+        },
+        {
+          "id": "2",
+          "name": "jalapeño",
+          "amount": "15 g finely chopped"
+        },
+        {
+          "id": "3",
+          "name": "scallions",
+          "amount": "30 g thinly sliced"
+        },
+        {
+          "id": "4",
+          "name": "fresh cilantro",
+          "amount": "10 g chopped"
+        },
+        {
+          "id": "5",
+          "name": "ghee",
+          "amount": "15 ml"
+        },
+        {
+          "id": "6",
+          "name": "black mustard seeds",
+          "amount": "2 g"
+        },
+        {
+          "id": "7",
+          "name": "cumin seeds",
+          "amount": "2 g"
+        },
+        {
+          "id": "8",
+          "name": "turmeric powder",
+          "amount": "2 g"
+        },
+        {
+          "id": "9",
+          "name": "kosher salt",
+          "amount": "3 g"
+        },
+        {
+          "id": "10",
+          "name": "plain whole milk yogurt",
+          "amount": "150 g whisked until smooth"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "thailand": [
+    {
+      "id": "khao-soi-gai-northern-thai-curry-noodles",
+      "name": "Khao Soi Gai (Northern Thai Curry Noodles)",
+      "countryId": "thailand",
+      "countryName": "Thailand",
+      "countryFlag": "🇹🇭",
+      "category": "Dinner",
+      "time": "1 hr 10 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=900&q=85&fit=crop",
+      "description": "A mesmerizing Northern Thai specialty featuring tender, fall-off-the-bone chicken simmered in a complex, cardamom-laced coconut curry broth. It offers a symphony of textures with both slurpable soft egg noodles and a crowning nest of golden, crispy fried noodles.",
+      "culturalNote": "Khao Soi is often considered the crown jewel of Northern Thai, or Lanna, cuisine. Its history is deeply intertwined with the Chin Haw, Chinese Muslim traders who traveled along the historical trade routes through Myanmar, Laos, and into Chiang Mai. This multicultural heritage explains the curry's departure from central Thai flavor profiles, leaning heavily on dried spices like cardamom and coriander in the coconut broth, and favoring wheat-based egg noodles over the standard Thai rice noodles.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "khao soi paste",
+          "amount": "60 g"
+        },
+        {
+          "id": "2",
+          "name": "black cardamom pods",
+          "amount": "3 crushed"
+        },
+        {
+          "id": "3",
+          "name": "fresh ginger",
+          "amount": "15 g peeled and minced"
+        },
+        {
+          "id": "4",
+          "name": "garlic",
+          "amount": "10 g minced"
+        },
+        {
+          "id": "5",
+          "name": "ground turmeric",
+          "amount": "3 g"
+        },
+        {
+          "id": "6",
+          "name": "coconut milk",
+          "amount": "400 ml full-fat, unstirred"
+        },
+        {
+          "id": "7",
+          "name": "chicken broth",
+          "amount": "500 ml low sodium"
+        },
+        {
+          "id": "8",
+          "name": "bone-in skin-on chicken drumsticks",
+          "amount": "600 g"
+        },
+        {
+          "id": "9",
+          "name": "fish sauce",
+          "amount": "30 ml"
+        },
+        {
+          "id": "10",
+          "name": "palm sugar",
+          "amount": "20 g finely chopped"
+        },
+        {
+          "id": "11",
+          "name": "fresh flat egg noodles",
+          "amount": "400 g divided into 100g and 300g portions"
+        },
+        {
+          "id": "12",
+          "name": "neutral cooking oil",
+          "amount": "500 ml for frying"
+        },
+        {
+          "id": "13",
+          "name": "shallots",
+          "amount": "40 g thinly sliced"
+        },
+        {
+          "id": "14",
+          "name": "pickled mustard greens",
+          "amount": "50 g rinsed and chopped"
+        },
+        {
+          "id": "15",
+          "name": "fresh cilantro",
+          "amount": "10 g roughly chopped"
+        },
+        {
+          "id": "16",
+          "name": "lime wedges",
+          "amount": "4"
+        },
+        {
+          "id": "17",
+          "name": "roasted chili oil",
+          "amount": "To taste"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "thai-pineapple-chicken-fried-rice-in-a-s",
+      "name": "Thai Pineapple Chicken Fried Rice In A Shell",
+      "countryId": "thailand",
+      "countryName": "Thailand",
+      "countryFlag": "🇹🇭",
+      "category": "Dinner",
+      "time": "12 hr 30 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=900&q=85&fit=crop",
+      "description": "A vibrant, tropical masterpiece pairing savory, umami-rich chicken and smoky bacon with sweet, juicy pineapple. Wok-tossed jasmine rice absorbs aromatic curry spices, finished with crunchy roasted cashews for a spectacular textural contrast.",
+      "culturalNote": "Khao Pad Sapparod is a beloved staple of Thai restaurant cuisine, famed for its dramatic presentation in a hollowed-out pineapple shell to signify tropical hospitality and celebration. The dish is an excellent representation of flavor balancing, intertwining the sweet acidity of fresh fruit, the savory depth of fish sauce, and the aromatic warmth of Indian-influenced curry powder. It beautifully showcases how traditional Chinese wok-frying techniques were adapted and localized using indigenous Southeast Asian ingredients.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "pineapple",
+          "amount": "1 whole, ripe"
+        },
+        {
+          "id": "2",
+          "name": "jasmine rice",
+          "amount": "600 g cooked and chilled"
+        },
+        {
+          "id": "3",
+          "name": "cooking oil",
+          "amount": "30 ml neutral oil like canola or peanut"
+        },
+        {
+          "id": "4",
+          "name": "chicken thigh",
+          "amount": "250 g boneless, skinless, diced into 1.5cm cubes"
+        },
+        {
+          "id": "5",
+          "name": "bacon",
+          "amount": "100 g thick-cut, chopped"
+        },
+        {
+          "id": "6",
+          "name": "garlic",
+          "amount": "15 g minced"
+        },
+        {
+          "id": "7",
+          "name": "onion",
+          "amount": "50 g diced"
+        },
+        {
+          "id": "8",
+          "name": "red bell pepper",
+          "amount": "80 g diced"
+        },
+        {
+          "id": "9",
+          "name": "green peas",
+          "amount": "50 g frozen, thawed"
+        },
+        {
+          "id": "10",
+          "name": "green onions",
+          "amount": "20 g thinly sliced"
+        },
+        {
+          "id": "11",
+          "name": "curry powder",
+          "amount": "10 g yellow Thai or Madras style"
+        },
+        {
+          "id": "12",
+          "name": "fish sauce",
+          "amount": "15 ml"
+        },
+        {
+          "id": "13",
+          "name": "soy sauce",
+          "amount": "15 ml light soy sauce"
+        },
+        {
+          "id": "14",
+          "name": "oyster sauce",
+          "amount": "15 ml"
+        },
+        {
+          "id": "15",
+          "name": "sugar",
+          "amount": "10 g white or palm sugar"
+        },
+        {
+          "id": "16",
+          "name": "white pepper",
+          "amount": "2 g finely ground"
+        },
+        {
+          "id": "17",
+          "name": "cashews",
+          "amount": "60 g unsalted, roasted"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "thai-coconut-curry-shrimp-noodles",
+      "name": "Thai Coconut Curry Shrimp Noodles",
+      "countryId": "thailand",
+      "countryName": "Thailand",
+      "countryFlag": "🇹🇭",
+      "category": "Dinner",
+      "time": "30 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=900&q=85&fit=crop",
+      "description": "A vibrant and aromatic Thai-inspired bowl featuring tender rice noodles bathed in a rich, sweet, and spicy coconut broth. Plump shrimp and an array of fresh, crunchy garnishes bring textural contrast and bright spring flavors to every bite.",
+      "culturalNote": "This dish draws profound inspiration from classic Thai curries and noodle soups, echoing the flavor profiles of Northern Thailand's Khao Soi and central coconut-based soups like Tom Kha. Coconut milk acts as a rich, cooling canvas that bridges the fiery intensity of chilies with the oceanic depth of fish sauce and shrimp. Serving complex curries over noodles, rather than rice, highlights a Chinese culinary influence that has been fully integrated into Thai street food culture.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "rice noodles",
+          "amount": "250 g dry, medium width"
+        },
+        {
+          "id": "2",
+          "name": "shrimp",
+          "amount": "400 g peeled, deveined, tails removed"
+        },
+        {
+          "id": "3",
+          "name": "coconut oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "4",
+          "name": "garlic",
+          "amount": "3 minced"
+        },
+        {
+          "id": "5",
+          "name": "fresh ginger",
+          "amount": "15 g grated or finely minced"
+        },
+        {
+          "id": "6",
+          "name": "thai red curry paste",
+          "amount": "50 g"
+        },
+        {
+          "id": "7",
+          "name": "coconut milk",
+          "amount": "400 ml full-fat, well shaken"
+        },
+        {
+          "id": "8",
+          "name": "seafood broth",
+          "amount": "250 ml"
+        },
+        {
+          "id": "9",
+          "name": "fish sauce",
+          "amount": "15 ml"
+        },
+        {
+          "id": "10",
+          "name": "brown sugar",
+          "amount": "15 g"
+        },
+        {
+          "id": "11",
+          "name": "lime juice",
+          "amount": "30 ml freshly squeezed"
+        },
+        {
+          "id": "12",
+          "name": "bean sprouts",
+          "amount": "100 g washed and drained"
+        },
+        {
+          "id": "13",
+          "name": "fresh cilantro",
+          "amount": "20 g roughly chopped"
+        },
+        {
+          "id": "14",
+          "name": "scallions",
+          "amount": "30 g thinly sliced"
+        },
+        {
+          "id": "15",
+          "name": "roasted peanuts",
+          "amount": "40 g crushed"
+        },
+        {
+          "id": "16",
+          "name": "red chilies",
+          "amount": "10 g thinly sliced"
+        },
+        {
+          "id": "17",
+          "name": "lime wedges",
+          "amount": "4"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "thai-prawn-and-cashew-stir-fry-cabbage-c",
+      "name": "Thai Prawn And Cashew Stir-Fry Cabbage Cups",
+      "countryId": "thailand",
+      "countryName": "Thailand",
+      "countryFlag": "🇹🇭",
+      "category": "Main Course",
+      "time": "30 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1569562211093-4ed0d0758f12?w=900&q=85&fit=crop",
+      "description": "Plump, juicy prawns and crunchy toasted cashews tossed in a vibrant, fiery lime dressing. Served inside crisp, sweet cabbage leaves, this dish perfectly balances the sweet, salty, sour, and spicy notes iconic to Southeast Asian cuisine.",
+      "culturalNote": "While stir-frying is originally a Chinese technique, the flavor profile of this dish is distinctively Thai, relying on the essential balance of sweet, salty, sour, and spicy. Serving highly seasoned fillings in crisp leaves is reminiscent of Miang Kham, a traditional Southeast Asian snack that wraps intensely flavorful ingredients in wild betel leaves.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "savoy or green cabbage",
+          "amount": "1 leaves gently separated, washed and dried"
+        },
+        {
+          "id": "2",
+          "name": "fresh lime juice",
+          "amount": "45 ml"
+        },
+        {
+          "id": "3",
+          "name": "fish sauce",
+          "amount": "30 ml"
+        },
+        {
+          "id": "4",
+          "name": "palm sugar",
+          "amount": "20 g finely grated"
+        },
+        {
+          "id": "5",
+          "name": "raw tiger prawns",
+          "amount": "500 g peeled, deveined, tails removed"
+        },
+        {
+          "id": "6",
+          "name": "neutral oil",
+          "amount": "30 ml high smoke point"
+        },
+        {
+          "id": "7",
+          "name": "lemongrass",
+          "amount": "1 tender pale center only, finely minced"
+        },
+        {
+          "id": "8",
+          "name": "garlic",
+          "amount": "3 minced"
+        },
+        {
+          "id": "9",
+          "name": "ginger",
+          "amount": "10 g peeled and finely grated"
+        },
+        {
+          "id": "10",
+          "name": "bird's eye chilies",
+          "amount": "2 thinly sliced"
+        },
+        {
+          "id": "11",
+          "name": "red bell pepper",
+          "amount": "150 g finely diced"
+        },
+        {
+          "id": "12",
+          "name": "roasted unsalted cashews",
+          "amount": "80 g"
+        },
+        {
+          "id": "13",
+          "name": "fresh cilantro",
+          "amount": "15 g roughly chopped"
+        },
+        {
+          "id": "14",
+          "name": "fresh mint",
+          "amount": "10 g leaves torn"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "raw-coconut-pad-thai",
+      "name": "Raw Coconut Pad Thai",
+      "countryId": "thailand",
+      "countryName": "Thailand",
+      "countryFlag": "🇹🇭",
+      "category": "Dinner",
+      "time": "45 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?w=900&q=85&fit=crop",
+      "description": "A vibrant, no-cook interpretation of the classic Thai street food. Tender ribbons of young coconut meat and crisp vegetable noodles are tossed in a rich, tangy almond butter and tamarind sauce, delivering a complex harmony of sweet, sour, salty, and spicy notes.",
+      "culturalNote": "Pad Thai was popularized in the 1930s by Prime Minister Plaek Phibunsongkhram as a national dish to promote Thai identity. This modern raw interpretation honors the traditional flavor profile of sweet, sour, salty, and spicy, while replacing cooked rice noodles with young coconut meat, a refreshing staple ingredient deeply rooted in Southeast Asian agriculture.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "young coconut meat",
+          "amount": "200 g cut into thin strips"
+        },
+        {
+          "id": "2",
+          "name": "zucchini",
+          "amount": "250 g julienned"
+        },
+        {
+          "id": "3",
+          "name": "carrot",
+          "amount": "100 g julienned"
+        },
+        {
+          "id": "4",
+          "name": "red bell pepper",
+          "amount": "100 g thinly sliced"
+        },
+        {
+          "id": "5",
+          "name": "almond butter",
+          "amount": "60 g smooth and creamy"
+        },
+        {
+          "id": "6",
+          "name": "tamarind paste",
+          "amount": "30 g"
+        },
+        {
+          "id": "7",
+          "name": "lime juice",
+          "amount": "30 ml freshly squeezed"
+        },
+        {
+          "id": "8",
+          "name": "maple syrup",
+          "amount": "30 ml"
+        },
+        {
+          "id": "9",
+          "name": "coconut aminos",
+          "amount": "30 ml"
+        },
+        {
+          "id": "10",
+          "name": "garlic",
+          "amount": "1"
+        },
+        {
+          "id": "11",
+          "name": "fresh ginger",
+          "amount": "10 g peeled"
+        },
+        {
+          "id": "12",
+          "name": "bird's eye chili",
+          "amount": "1"
+        },
+        {
+          "id": "13",
+          "name": "water",
+          "amount": "30 ml warm"
+        },
+        {
+          "id": "14",
+          "name": "bean sprouts",
+          "amount": "50 g rinsed"
+        },
+        {
+          "id": "15",
+          "name": "fresh cilantro",
+          "amount": "10 g roughly chopped"
+        },
+        {
+          "id": "16",
+          "name": "roasted almonds",
+          "amount": "30 g crushed"
+        },
+        {
+          "id": "17",
+          "name": "lime",
+          "amount": "1 cut into wedges"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "authentic-thai-red-beef-curry-with-homem",
+      "name": "Authentic Thai Red Beef Curry with Homemade Paste",
+      "countryId": "thailand",
+      "countryName": "Thailand",
+      "countryFlag": "🇹🇭",
+      "category": "Dinner",
+      "time": "2 hr 45 min",
+      "difficulty": "Advanced",
+      "image": "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=900&q=85&fit=crop",
+      "description": "A vibrant and deeply aromatic Thai red curry featuring melt-in-your-mouth beef braised in a rich coconut broth, elevated by a fragrant, made-from-scratch red curry paste.",
+      "culturalNote": "Kaeng Phet, translating directly to 'spicy curry', is a staple of Thai cuisine. The vivid red color traditionally comes from copious amounts of dried red chilies, though modern variations often balance the heat with milder chilies to focus on the complex, layered aromatics of galangal, lemongrass, and native herbs. In Thailand, curries are considered soups to be spooned over individual portions of rice, rather than thick sauces.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "dried long red chilies",
+          "amount": "15 g deseeded and soaked in warm water"
+        },
+        {
+          "id": "2",
+          "name": "coarse salt",
+          "amount": "5 g"
+        },
+        {
+          "id": "3",
+          "name": "lemongrass",
+          "amount": "30 g tender bottom third only, finely sliced"
+        },
+        {
+          "id": "4",
+          "name": "galangal",
+          "amount": "15 g peeled and finely chopped"
+        },
+        {
+          "id": "5",
+          "name": "makrut lime leaves",
+          "amount": "2 g center vein removed, finely shredded"
+        },
+        {
+          "id": "6",
+          "name": "cilantro roots",
+          "amount": "10 g cleaned and chopped"
+        },
+        {
+          "id": "7",
+          "name": "shallots",
+          "amount": "40 g peeled and chopped"
+        },
+        {
+          "id": "8",
+          "name": "garlic",
+          "amount": "20 g peeled and chopped"
+        },
+        {
+          "id": "9",
+          "name": "shrimp paste",
+          "amount": "10 g"
+        },
+        {
+          "id": "10",
+          "name": "coriander seeds",
+          "amount": "3 g"
+        },
+        {
+          "id": "11",
+          "name": "cumin seeds",
+          "amount": "2 g"
+        },
+        {
+          "id": "12",
+          "name": "white peppercorns",
+          "amount": "2 g"
+        },
+        {
+          "id": "13",
+          "name": "beef chuck",
+          "amount": "600 g cut into 4cm pieces"
+        },
+        {
+          "id": "14",
+          "name": "coconut milk",
+          "amount": "400 ml full fat, unstirred"
+        },
+        {
+          "id": "15",
+          "name": "beef broth",
+          "amount": "250 ml"
+        },
+        {
+          "id": "16",
+          "name": "bamboo shoots",
+          "amount": "150 g canned, drained and sliced"
+        },
+        {
+          "id": "17",
+          "name": "palm sugar",
+          "amount": "20 g finely chopped"
+        },
+        {
+          "id": "18",
+          "name": "fish sauce",
+          "amount": "30 ml"
+        },
+        {
+          "id": "19",
+          "name": "makrut lime leaves",
+          "amount": "2 g lightly bruised and torn"
+        },
+        {
+          "id": "20",
+          "name": "fresh red chilies",
+          "amount": "10 g diagonally sliced"
+        },
+        {
+          "id": "21",
+          "name": "thai basil leaves",
+          "amount": "15 g picked from stems"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "simplified-thai-yellow-shrimp-curry",
+      "name": "Simplified Thai Yellow Shrimp Curry",
+      "countryId": "thailand",
+      "countryName": "Thailand",
+      "countryFlag": "🇹🇭",
+      "category": "Dinner",
+      "time": "30 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1536510344784-02f3424af570?w=900&q=85&fit=crop",
+      "description": "A vibrant, creamy, and mildly spiced weeknight curry combining succulent shrimp with the rich flavors of coconut milk, yellow curry powder, and fresh galangal.",
+      "culturalNote": "Yellow curry, or Kaeng Kari, is generally milder than its red and green counterparts, drawing heavy influence from Indian and British spice blends that traveled through trade routes. The use of dried spices like turmeric and coriander seed mixed with local fresh aromatics perfectly illustrates the harmonious fusion characteristic of classic Thai cooking. By utilizing pre-mixed yellow curry powder and nam pla, this recipe distills a complex, labor-intensive paste into an accessible weeknight format without sacrificing the foundational Southeast Asian flavor profile.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "peanut oil",
+          "amount": "30 ml"
+        },
+        {
+          "id": "2",
+          "name": "yellow onion",
+          "amount": "1 diced"
+        },
+        {
+          "id": "3",
+          "name": "garlic",
+          "amount": "3 minced"
+        },
+        {
+          "id": "4",
+          "name": "galangal",
+          "amount": "15 g peeled and finely grated"
+        },
+        {
+          "id": "5",
+          "name": "bird's eye chili",
+          "amount": "2 thinly sliced"
+        },
+        {
+          "id": "6",
+          "name": "yellow curry powder",
+          "amount": "15 g"
+        },
+        {
+          "id": "7",
+          "name": "full-fat coconut milk",
+          "amount": "400 ml"
+        },
+        {
+          "id": "8",
+          "name": "nam pla (fish sauce)",
+          "amount": "15 ml"
+        },
+        {
+          "id": "9",
+          "name": "light brown sugar",
+          "amount": "10 g"
+        },
+        {
+          "id": "10",
+          "name": "large shrimp",
+          "amount": "450 g peeled, deveined, tails removed"
+        },
+        {
+          "id": "11",
+          "name": "lime juice",
+          "amount": "15 ml freshly squeezed"
+        },
+        {
+          "id": "12",
+          "name": "cilantro",
+          "amount": "15 g roughly chopped"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "vegan-thai-hot-and-sour-noodle-soup",
+      "name": "Vegan Thai Hot And Sour Noodle Soup",
+      "countryId": "thailand",
+      "countryName": "Thailand",
+      "countryFlag": "🇹🇭",
+      "category": "Soup",
+      "time": "30 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1600803907087-f56d462fd26b?w=900&q=85&fit=crop",
+      "description": "A vibrant, aromatic vegetarian take on classic Tom Yum soup, brimming with zesty lemongrass, earthy galangal, and fragrant makrut lime. Silken tofu and tender vermicelli noodles make this a comforting, satisfying weeknight meal.",
+      "culturalNote": "Tom Yum is arguably Thailand's most famous soup, originating from Central Thailand. Traditionally characterized by its distinct hot and sour flavors and fragrant herbs, it typically features shrimp (Tom Yum Goong). This variation utilizes silken tofu and replaces fish sauce with tamari, respecting the core herbal triad of lemongrass, galangal, and makrut lime leaves while making it completely plant-based. The addition of vermicelli turns this light soup into a sustaining main course.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "vegetable broth",
+          "amount": "1200 ml low-sodium preferred"
+        },
+        {
+          "id": "2",
+          "name": "lemongrass",
+          "amount": "2 bruised and cut into 5cm pieces"
+        },
+        {
+          "id": "3",
+          "name": "galangal",
+          "amount": "20 g sliced into thick coins"
+        },
+        {
+          "id": "4",
+          "name": "makrut lime leaves",
+          "amount": "4 torn, stems removed"
+        },
+        {
+          "id": "5",
+          "name": "garlic",
+          "amount": "3 smashed"
+        },
+        {
+          "id": "6",
+          "name": "sambal oelek",
+          "amount": "30 g"
+        },
+        {
+          "id": "7",
+          "name": "straw mushrooms",
+          "amount": "200 g halved"
+        },
+        {
+          "id": "8",
+          "name": "cherry tomatoes",
+          "amount": "150 g halved"
+        },
+        {
+          "id": "9",
+          "name": "silken tofu",
+          "amount": "300 g carefully cubed"
+        },
+        {
+          "id": "10",
+          "name": "rice vermicelli noodles",
+          "amount": "150 g dry"
+        },
+        {
+          "id": "11",
+          "name": "lime juice",
+          "amount": "60 ml freshly squeezed"
+        },
+        {
+          "id": "12",
+          "name": "tamari",
+          "amount": "45 ml"
+        },
+        {
+          "id": "13",
+          "name": "coconut sugar",
+          "amount": "15 g"
+        },
+        {
+          "id": "14",
+          "name": "cilantro",
+          "amount": "15 g roughly chopped"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "spain": [
+    {
+      "id": "smoky-spanish-chorizo-and-tomato-pasta",
+      "name": "Smoky Spanish Chorizo And Tomato Pasta",
+      "countryId": "spain",
+      "countryName": "Spain",
+      "countryFlag": "🇪🇸",
+      "category": "Dinner",
+      "time": "30 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=900&q=85&fit=crop",
+      "description": "A vibrant, lightning-fast pasta dish where rendered fat from cured Spanish chorizo meets caramelized tomato paste to create a deeply savory, smoky, and silky sauce with a spicy kick.",
+      "culturalNote": "While pasta is fundamentally Italian, this dish embraces the Spanish culinary tradition of utilizing cured meats and pimenton to build profound flavor bases. Spanish chorizo is heavily seasoned with smoked paprika and garlic, which naturally infuses the cooking oil as it renders. This fusion technique creates a hybrid sauce that mirrors an Italian ragu but delivers the unmistakable smoky, fiery soul of the Iberian Peninsula.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "dry linguine",
+          "amount": "400 g"
+        },
+        {
+          "id": "2",
+          "name": "pasta water",
+          "amount": "240 ml hot and starchy"
+        },
+        {
+          "id": "3",
+          "name": "olive oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "4",
+          "name": "cured spanish chorizo",
+          "amount": "200 g diced into 5mm cubes"
+        },
+        {
+          "id": "5",
+          "name": "shallot",
+          "amount": "1 finely diced"
+        },
+        {
+          "id": "6",
+          "name": "garlic",
+          "amount": "4 minced"
+        },
+        {
+          "id": "7",
+          "name": "tomato paste",
+          "amount": "50 g"
+        },
+        {
+          "id": "8",
+          "name": "smoked paprika",
+          "amount": "2 g"
+        },
+        {
+          "id": "9",
+          "name": "red pepper flakes",
+          "amount": "1 g"
+        },
+        {
+          "id": "10",
+          "name": "manchego cheese",
+          "amount": "30 g finely grated"
+        },
+        {
+          "id": "11",
+          "name": "fresh flat-leaf parsley",
+          "amount": "10 g finely chopped"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "poached-eggs-with-spanish-chorizo-and-me",
+      "name": "Poached Eggs with Spanish Chorizo and Medjool Date Paste",
+      "countryId": "spain",
+      "countryName": "Spain",
+      "countryFlag": "🇪🇸",
+      "category": "Brunch",
+      "time": "25 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1515443961218-a51367888e4b?w=900&q=85&fit=crop",
+      "description": "A striking balance of savory, smoky Spanish chorizo and the natural caramel sweetness of Medjool dates, serving as a rich bed for perfectly poached, runny-yolk eggs. Accompanied by crisp, olive oil-toasted sourdough.",
+      "culturalNote": "The pairing of sweet and savory is a hallmark of Moorish influence on the Iberian Peninsula. Dates, a staple brought to Spain centuries ago, naturally temper the aggressive, smoky heat of pimenton-laced chorizo. This modern brunch application highlights those historic trade routes, translating traditional tapas flavor profiles into an elegant morning dish.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "spanish dry-cured chorizo",
+          "amount": "100 g casing removed, diced"
+        },
+        {
+          "id": "2",
+          "name": "medjool dates",
+          "amount": "60 g pitted and roughly chopped"
+        },
+        {
+          "id": "3",
+          "name": "garlic",
+          "amount": "1 minced"
+        },
+        {
+          "id": "4",
+          "name": "sherry vinegar",
+          "amount": "10 ml"
+        },
+        {
+          "id": "5",
+          "name": "smoked paprika",
+          "amount": "2 g"
+        },
+        {
+          "id": "6",
+          "name": "water",
+          "amount": "30 ml warm"
+        },
+        {
+          "id": "7",
+          "name": "eggs",
+          "amount": "4 large, very fresh"
+        },
+        {
+          "id": "8",
+          "name": "white vinegar",
+          "amount": "15 ml"
+        },
+        {
+          "id": "9",
+          "name": "sourdough bread",
+          "amount": "100 g cut into 2 thick slices"
+        },
+        {
+          "id": "10",
+          "name": "extra virgin olive oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "11",
+          "name": "flaky sea salt",
+          "amount": "To taste"
+        },
+        {
+          "id": "12",
+          "name": "black pepper",
+          "amount": "freshly cracked"
+        },
+        {
+          "id": "13",
+          "name": "fresh parsley",
+          "amount": "5 g finely chopped"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "galician-style-lobster-with-potatoes",
+      "name": "Galician-Style Lobster with Potatoes",
+      "countryId": "spain",
+      "countryName": "Spain",
+      "countryFlag": "🇪🇸",
+      "category": "Appetizer",
+      "time": "30 min",
+      "difficulty": "Intermediate",
+      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85&fit=crop",
+      "description": "A luxurious interpretation of a traditional Spanish tapa, featuring sweet, tender lobster medallions warmed over tender potatoes. Generously bathed in peppery extra virgin olive oil and dusted with smoky paprika, it delivers a striking balance of coastal freshness and earthy warmth.",
+      "culturalNote": "Inspired by 'Pulpo a la Gallega' or Galician-style octopus, this dish replaces the traditional cephalopod with sweet, luxurious lobster. Originating from the northwestern Spanish region of Galicia, the historical preparation method of boiling seafood and serving it over potatoes with heavy pours of olive oil, paprika, and salt was traditionally a celebratory feast for local fair-goers. This adaptation honors the minimalist essence of coastal Spanish cuisine, relying strictly on the unparalleled quality of its few core ingredients to deliver massive flavor.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "waxy potatoes",
+          "amount": "400 g peeled and sliced into 1cm thick rounds"
+        },
+        {
+          "id": "2",
+          "name": "water",
+          "amount": "2000 ml"
+        },
+        {
+          "id": "3",
+          "name": "bay leaf",
+          "amount": "1"
+        },
+        {
+          "id": "4",
+          "name": "coarse sea salt",
+          "amount": "15 g"
+        },
+        {
+          "id": "5",
+          "name": "lobster tails",
+          "amount": "400 g raw, in shell"
+        },
+        {
+          "id": "6",
+          "name": "extra virgin olive oil",
+          "amount": "60 ml"
+        },
+        {
+          "id": "7",
+          "name": "sweet smoked paprika",
+          "amount": "3 g"
+        },
+        {
+          "id": "8",
+          "name": "hot smoked paprika",
+          "amount": "1 g"
+        },
+        {
+          "id": "9",
+          "name": "flaky sea salt",
+          "amount": "4 g"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "steamed-littleneck-clams-with-chorizo-an",
+      "name": "Steamed Littleneck Clams with Chorizo and White Wine",
+      "countryId": "spain",
+      "countryName": "Spain",
+      "countryFlag": "🇪🇸",
+      "category": "Dinner",
+      "time": "45 min",
+      "difficulty": "Easy",
+      "image": "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=900&q=85&fit=crop",
+      "description": "Plump and tender littleneck clams steamed in a vibrant, smoky broth infused with Spanish chorizo, dry white wine, and aromatic garlic. Served alongside thick slices of charred crusty bread to soak up the savory, oceanic juices.",
+      "culturalNote": "The pairing of local bivalves and cured pork is a cornerstone of Iberian coastal cooking. The smoky, sweet paprika from the chorizo beautifully complements the briny, delicate nature of the clams, creating a deeply savory profile that reflects the region's blended agricultural and maritime heritage.",
+      "ingredients": [
+        {
+          "id": "1",
+          "name": "littleneck clams",
+          "amount": "1000 g scrubbed"
+        },
+        {
+          "id": "2",
+          "name": "spanish cured chorizo",
+          "amount": "150 g diced into 1cm cubes"
+        },
+        {
+          "id": "3",
+          "name": "yellow onion",
+          "amount": "100 g finely diced"
+        },
+        {
+          "id": "4",
+          "name": "garlic",
+          "amount": "15 g minced"
+        },
+        {
+          "id": "5",
+          "name": "fresh parsley",
+          "amount": "15 g finely chopped"
+        },
+        {
+          "id": "6",
+          "name": "lemon juice",
+          "amount": "30 ml freshly squeezed"
+        },
+        {
+          "id": "7",
+          "name": "dry white wine",
+          "amount": "120 ml"
+        },
+        {
+          "id": "8",
+          "name": "olive oil",
+          "amount": "15 ml"
+        },
+        {
+          "id": "9",
+          "name": "sea salt",
+          "amount": "35 g"
+        },
+        {
+          "id": "10",
+          "name": "sourdough bread",
+          "amount": "200 g thickly sliced"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "id": "crispy-creamy-shrimp-croquettes",
+      "name": "Crispy Creamy Shrimp Croquettes",
+      "countryId": "spain",
+      "countryName": "Spain",
+      "countryFlag": "🇪🇸",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "roasted-pork-fillet-with-chorizo-and-whi",
+      "name": "Roasted Pork Fillet with Chorizo and White Bean Sauce",
+      "countryId": "spain",
+      "countryName": "Spain",
+      "countryFlag": "🇪🇸",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1610197361600-33a3a5073b07?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "warm-spanish-style-potato-and-chorizo-sp",
+      "name": "Warm Spanish-Style Potato and Chorizo Spinach Salad",
+      "countryId": "spain",
+      "countryName": "Spain",
+      "countryFlag": "🇪🇸",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "traditional-pulpo-a-la-gallega",
+      "name": "Traditional Pulpo a la Gallega",
+      "countryId": "spain",
+      "countryName": "Spain",
+      "countryFlag": "🇪🇸",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    }
+  ],
+  "france": [
+    {
+      "id": "salt-crusted-sea-bream-with-beurre-blanc",
+      "name": "Salt-Crusted Sea Bream with Beurre Blanc and Asparagus",
+      "countryId": "france",
+      "countryName": "France",
+      "countryFlag": "🇫🇷",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "classic-french-duck-confit",
+      "name": "Classic French Duck Confit",
+      "countryId": "france",
+      "countryName": "France",
+      "countryFlag": "🇫🇷",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "lavender-orange-creme-caramel",
+      "name": "Lavender Orange Creme Caramel",
+      "countryId": "france",
+      "countryName": "France",
+      "countryFlag": "🇫🇷",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "classic-french-beef-broth",
+      "name": "Classic French Beef Broth",
+      "countryId": "france",
+      "countryName": "France",
+      "countryFlag": "🇫🇷",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "portobello-steak-frites-with-dijon-cream",
+      "name": "Portobello Steak Frites with Dijon Cream",
+      "countryId": "france",
+      "countryName": "France",
+      "countryFlag": "🇫🇷",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1608855238293-a8853e7f7c98?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "classic-french-strawberry-tartlets",
+      "name": "Classic French Strawberry Tartlets",
+      "countryId": "france",
+      "countryName": "France",
+      "countryFlag": "🇫🇷",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "rustic-french-rabbit-pappardelle",
+      "name": "Rustic French Rabbit Pappardelle",
+      "countryId": "france",
+      "countryName": "France",
+      "countryFlag": "🇫🇷",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    },
+    {
+      "id": "one-pot-oxtail-french-onion-soup",
+      "name": "One-Pot Oxtail French Onion Soup",
+      "countryId": "france",
+      "countryName": "France",
+      "countryFlag": "🇫🇷",
+      "category": "",
+      "time": "",
+      "difficulty": "Medium",
+      "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=900&q=85&fit=crop",
+      "description": "",
+      "culturalNote": "",
+      "ingredients": [],
+      "steps": []
+    }
+  ]
+}
