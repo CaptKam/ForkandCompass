@@ -19,6 +19,7 @@ import Colors from "@/constants/colors";
 import { useCountry } from "@/hooks/useCountry";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import type { Recipe } from "@/constants/data";
+import { getRecipesForRegion } from "@/constants/data";
 
 function groupByCategory(recipes: Recipe[]): { category: string; recipes: Recipe[] }[] {
   const map = new Map<string, Recipe[]>();
@@ -52,7 +53,8 @@ export default function RegionMenuScreen() {
   };
 
   const regionName = decodeURIComponent(region ?? "");
-  const sections = country ? groupByCategory(country.recipes) : [];
+  const regionRecipes = country ? getRecipesForRegion(country.recipes, regionName) : [];
+  const sections = groupByCategory(regionRecipes);
   const selectedCount = selected.size;
 
   if (!country) {

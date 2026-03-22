@@ -24,6 +24,7 @@ function mapApiRecipe(
     image: r.image,
     description: r.description,
     culturalNote: r.culturalNote ?? "",
+    region: r.region ?? undefined,
     ingredients: r.ingredients,
     steps: r.steps,
   };

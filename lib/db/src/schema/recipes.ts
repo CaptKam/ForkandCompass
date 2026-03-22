@@ -16,6 +16,7 @@ export const recipesTable = pgTable("recipes", {
   countryId: text("country_id")
     .notNull()
     .references(() => countriesTable.id, { onDelete: "cascade" }),
+  region: text("region"),
   title: text("title").notNull(),
   description: text("description").notNull(),
   image: text("image").notNull(),

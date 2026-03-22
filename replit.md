@@ -72,7 +72,7 @@ Database layer using Drizzle ORM with PostgreSQL. Exports a Drizzle client insta
 
 - `src/index.ts` — creates a `Pool` + Drizzle instance, exports schema
 - `src/schema/countries.ts` — `countriesTable` (id, name, flag, tagline, description, region, image, heroImage, cuisineLabel, rating, recipeCount, createdAt)
-- `src/schema/recipes.ts` — `recipesTable` (id, countryId FK, title, description, image, category, prepTime, cookTime, servings, difficulty, ingredients JSONB, steps JSONB, culturalNote, tips text[], createdAt)
+- `src/schema/recipes.ts` — `recipesTable` (id, countryId FK, region, title, description, image, category, prepTime, cookTime, servings, difficulty, ingredients JSONB, steps JSONB, culturalNote, tips text[], createdAt)
 - `src/schema/relations.ts` — Drizzle relations (countries hasMany recipes)
 - `drizzle.config.ts` — Drizzle Kit config (requires `DATABASE_URL`, automatically provided by Replit)
 - Exports: `.` (pool, db, all schema), `./schema` (schema only)
@@ -114,6 +114,7 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
 - **Stack screens**: onboarding, country/[id], recipe/[id], cook-mode (modal)
 - **State**: AsyncStorage for saved recipes, grocery list, welcome-seen, selected countries, onboarding-completed via AppContext
 - **Data**: 97 recipes across 8 countries sourced from recipe-api.com (Italy: 16, Japan: 16, Morocco: 10, Mexico: 13, India: 14, Thailand: 12, Spain: 8, France: 8), stored in constants/data.ts + PostgreSQL DB. Covers diverse categories: appetizers, desserts, beverages, salads, soups, breakfast, condiments, and main courses. AI-generated food photography for each recipe served from `/api/images/recipes/`
+- **Region-specific recipes**: Each recipe is assigned to a specific region within its country via `RECIPE_REGION_MAP` in data.ts and `region` column in DB. Region pages filter to show only that region's recipes. Regions: Italy (Tuscany/Rome/Amalfi Coast), Japan (Kyoto/Tokyo/Osaka), Morocco (Marrakech/Chefchaouen/Atlas Mountains), Mexico (Oaxaca/Yucatán/Mexico City), India (Delhi/Kerala/Rajasthan), Thailand (Bangkok/Chiang Mai/Phuket), Spain (Barcelona/Seville/San Sebastián), France (Paris/Provence/Lyon)
 - **Recipe Images**: AI-generated dish-specific photos stored in `artifacts/api-server/public/images/recipes/`, served as static files via Express. Image URLs resolved at runtime via `resolveImageUrl()` using `EXPO_PUBLIC_DOMAIN`
 - **Recipe API**: recipe-api.com via `/api/ninja/recipes` proxy (500 calls/day, 15k/month). Recipes fetched once and cached locally
 - **Instacart Integration**: `/api/instacart/shopping-list` endpoint for grocery ordering (sandbox: `connect.dev.instacart.tools`)

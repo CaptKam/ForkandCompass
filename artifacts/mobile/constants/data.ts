@@ -22,6 +22,7 @@ export interface Country {
     image: string;
     description: string;
     culturalNote: string;
+    region?: string;
     ingredients: Ingredient[];
     steps: CookStep[];
   }
@@ -3857,6 +3858,124 @@ const IMAGE_BASE = process.env.EXPO_PUBLIC_DOMAIN
 export function resolveImageUrl(url: string): string {
   if (!url || url.startsWith("http")) return url;
   return `${IMAGE_BASE}${url}`;
+}
+
+export const RECIPE_REGION_MAP: Record<string, string> = {
+  "classic-garlic-bread": "Rome",
+  "pizzoccheri-alla-valtellinese": "Tuscany",
+  "fresh-fettuccine-with-salsa-cruda": "Amalfi Coast",
+  "grilled-veal-loin-chops-with-salmoriglio-sauce": "Amalfi Coast",
+  "savory-prosciutto-fig-and-pecan-stuffing": "Tuscany",
+  "healthier-turkey-and-vegetable-bolognese": "Tuscany",
+  "spicy-vegetable-arrabbiata-spaghetti": "Rome",
+  "classic-stuffed-veal-breast-with-sausage-and-potat": "Rome",
+  "classic-individual-tiramisu": "Rome",
+  "limoncello-cocktail": "Amalfi Coast",
+  "classic-caprese-salad": "Amalfi Coast",
+  "hearty-minestrone-soup": "Tuscany",
+  "dulce-de-leche-panna-cotta": "Amalfi Coast",
+  "italian-roasted-peppers-with-anchovy-and-caper-dre": "Tuscany",
+  "classic-italian-tiramisu-cups": "Rome",
+  "white-bean-caprese-salad": "Tuscany",
+
+  "classic-futomaki-thick-sushi-roll": "Tokyo",
+  "traditional-japanese-hoshigaki": "Kyoto",
+  "refreshing-soba-noodle-salad-with-tangy-sesame-dre": "Kyoto",
+  "umami-bomb-miso-mayonnaise": "Kyoto",
+  "soft-japanese-coffee-jelly-with-salted-caramel-cre": "Kyoto",
+  "classic-japanese-sushi-rice": "Tokyo",
+  "tori-soba": "Tokyo",
+  "grand-marnier-souffle-pancakes-with-macerated-stra": "Tokyo",
+  "spicy-tofu-and-edamame-stir-fry": "Tokyo",
+  "vegetarian-japanese-miso-soup": "Kyoto",
+  "sesame-chile-ramen-noodle-salad-with-bok-choy": "Osaka",
+  "vibrant-trio-of-meal-prep-grain-bowls": "Tokyo",
+  "spring-chicken-miso-soup": "Osaka",
+  "classic-korean-army-stew-budae-jjigae": "Osaka",
+  "homemade-sushi-nigiri-and-maki-rolls": "Osaka",
+  "vegan-eggplant-and-tofu-zha-jiang-mian": "Osaka",
+
+  "hearty-moroccan-lamb-and-pearl-barley-soup": "The Atlas Mountains",
+  "moroccan-lamb-tagine-with-preserved-lemon-and-oliv": "Marrakech",
+  "moroccan-spiced-lentil-chickpea-and-cod-soup": "Chefchaouen",
+  "moroccan-lemon-cumin-couscous-with-raisins": "Chefchaouen",
+  "moroccan-spiced-cornish-hens-with-onion-and-raisin": "The Atlas Mountains",
+  "moroccan-chermoula-baked-red-snapper": "Chefchaouen",
+  "moroccan-chicken-tagine-with-preserved-lemon-and-o": "Marrakech",
+  "mini-moroccan-dried-fruit-and-almond-pastillas": "Marrakech",
+  "classic-moroccan-harira-soup": "Marrakech",
+  "classic-moroccan-couscous-with-roasted-vegetables-": "The Atlas Mountains",
+
+  "quick-spiced-black-bean-and-tomato-stew": "Oaxaca",
+  "pollo-asado-con-achiote-mexican-grilled-chicken": "Yucatán",
+  "spicy-mexican-clam-and-chorizo-spaghetti": "Mexico City",
+  "mexican-red-chile-braised-chicken-with-potatoes-an": "Oaxaca",
+  "mexican-wedding-cookies": "Mexico City",
+  "spicy-cauliflower-rice-tortilla-soup": "Oaxaca",
+  "huevos-a-la-mexicana": "Yucatán",
+  "creamy-mexican-banana-paletas": "Yucatán",
+  "crispy-fried-guacamole-bites": "Yucatán",
+  "classic-tres-leches-cake": "Oaxaca",
+  "crispy-clam-bacon-and-cheese-quesadillas": "Mexico City",
+  "spiced-fish-finger-tacos-with-pickled-onions": "Yucatán",
+  "cumin-lime-shredded-pork-nachos": "Mexico City",
+
+  "instant-pot-dal-makhani": "Delhi",
+  "traditional-south-indian-tomato-chutney": "Kerala",
+  "classic-indian-rice-pudding": "Kerala",
+  "lasooni-chicken-curry-with-lacy-chickpea-pancakes": "Delhi",
+  "mint-and-cilantro-yogurt-raita": "Delhi",
+  "indian-spiced-grilled-halibut-with-sweet-corn-reli": "Kerala",
+  "fiery-mint-and-cilantro-yogurt-chutney": "Rajasthan",
+  "spiced-indian-tomato-and-yogurt-side": "Rajasthan",
+  "classic-tamarind-chutney": "Rajasthan",
+  "gulab-jamun-cheesecake": "Rajasthan",
+  "mango-buttermilk-sherbet": "Kerala",
+  "chai-masala-spiced-apple-cake": "Delhi",
+  "hearty-vegetable-curry-with-homemade-naan": "Kerala",
+  "grilled-paneer-tikka-skewers": "Delhi",
+
+  "khao-soi-gai-northern-thai-curry-noodles": "Chiang Mai",
+  "thai-pineapple-chicken-fried-rice-in-a-shell": "Phuket",
+  "thai-coconut-curry-shrimp-noodles": "Phuket",
+  "thai-prawn-and-cashew-stir-fry-cabbage-cups": "Bangkok",
+  "thai-lemongrass-bay-scallop-lettuce-cups": "Phuket",
+  "panang-style-thai-peanut-chicken-curry": "Chiang Mai",
+  "thai-basil-chicken-stir-fry": "Bangkok",
+  "khanom-jeen-nam-ya-thai-fish-curry-noodles": "Phuket",
+  "classic-thai-mango-sticky-rice": "Chiang Mai",
+  "chicken-pad-see-ew": "Bangkok",
+  "khao-tang-na-tang-thai-rice-crackers-with-creamy-s": "Bangkok",
+  "warming-vegetarian-thai-tom-yum-soup-with-tofu-and": "Chiang Mai",
+
+  "smoky-spanish-chorizo-and-tomato-pasta": "Barcelona",
+  "poached-eggs-with-spanish-chorizo-and-medjool-date": "Seville",
+  "galician-style-lobster-with-potatoes": "San Sebastián",
+  "steamed-littleneck-clams-with-chorizo-and-white-wi": "Seville",
+  "crispy-creamy-shrimp-croquettes": "Barcelona",
+  "roasted-pork-fillet-with-chorizo-and-white-bean-sa": "Barcelona",
+  "warm-spanish-style-potato-and-chorizo-spinach-sala": "Seville",
+  "traditional-pulpo-a-la-gallega": "San Sebastián",
+
+  "salt-crusted-sea-bream-with-beurre-blanc-and-aspar": "Provence",
+  "classic-french-duck-confit": "Paris",
+  "lavender-orange-creme-caramel": "Provence",
+  "classic-french-beef-broth": "Lyon",
+  "portobello-steak-frites-with-dijon-cream": "Paris",
+  "classic-french-strawberry-tartlets": "Paris",
+  "rustic-french-rabbit-pappardelle": "Provence",
+  "one-pot-oxtail-french-onion-soup": "Lyon",
+};
+
+export function getRecipeRegion(recipeId: string): string | undefined {
+  return RECIPE_REGION_MAP[recipeId];
+}
+
+export function getRecipesForRegion(recipes: Recipe[], regionName: string): Recipe[] {
+  return recipes.filter((r) => {
+    const mapped = RECIPE_REGION_MAP[r.id];
+    return mapped === regionName || r.region === regionName;
+  });
 }
 
 function resolveRecipeImage(recipe: Recipe): Recipe {
