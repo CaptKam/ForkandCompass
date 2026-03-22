@@ -72,7 +72,7 @@ export default function LandingPage() {
             className="bg-[#9A4100] text-white px-8 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all"
             onClick={() => document.getElementById("cta-section")?.scrollIntoView({ behavior: "smooth" })}
           >
-            Early Access
+            Join Waitlist
           </button>
         </nav>
       </header>
