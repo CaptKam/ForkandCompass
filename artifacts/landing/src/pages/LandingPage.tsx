@@ -76,7 +76,6 @@ export default function LandingPage() {
           </button>
         </nav>
       </header>
-
       <main>
         <section className="relative min-h-screen w-full overflow-hidden flex items-center pt-24">
           <img
@@ -88,7 +87,7 @@ export default function LandingPage() {
 
           <div className="relative max-w-[1536px] mx-auto px-8 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
             <div className="text-left space-y-8">
-              <h1 className="font-serif text-white text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.95] text-shadow-elegant">
+              <h1 className="font-serif text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.95] text-shadow-elegant text-[#9A4100]">
                 Explore the world.<br />
                 <span className="italic font-normal">Cook it at home.</span>
               </h1>
@@ -255,7 +254,6 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-
       <footer className="w-full bg-[#F2EDE7] border-t border-[#8a7266]/10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-16 px-12 py-24 max-w-[1536px] mx-auto">
           <div className="md:col-span-5 space-y-8">
