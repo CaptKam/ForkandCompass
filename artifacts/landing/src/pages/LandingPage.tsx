@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function LandingPage() {
   const [heroEmail, setHeroEmail] = useState("");
@@ -6,6 +6,13 @@ export default function LandingPage() {
   const [ctaEmail, setCtaEmail] = useState("");
   const [ctaSubmitted, setCtaSubmitted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleHeroSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,40 +134,18 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="relative flex justify-center lg:justify-end py-10 lg:py-20 z-10">
-            <div className="relative w-full max-w-[320px] lg:max-w-[340px] aspect-[9/19.5] rounded-[3rem] p-[10px] bg-black shadow-2xl border-[8px] border-[#1d1b18]">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-7 bg-[#1d1b18] rounded-b-2xl z-30" />
-              <div className="w-full h-full rounded-[2.2rem] overflow-hidden bg-[#f2ede7] relative">
+          <div
+            className="relative flex justify-center lg:justify-end py-10 lg:py-20 z-10"
+            style={{ transform: `translateY(${scrollY * -0.12}px)`, willChange: "transform" }}
+          >
+            <div className="relative w-full max-w-[300px] lg:max-w-[320px] rounded-[3rem] p-[10px] bg-[#1a1a1a] shadow-2xl shadow-black/30 border-[3px] border-[#333]">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-7 bg-[#1a1a1a] rounded-b-2xl z-30" />
+              <div className="w-full h-full rounded-[2.2rem] overflow-hidden bg-[#1d1b18]">
                 <img
-                  alt="Fork & Compass app showing curated culinary travel experience"
-                  className="w-full h-full object-cover"
+                  alt="Fork & Compass app discover page"
+                  className="w-full h-full object-cover object-top"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQOqHGDc4JFp3_NUeIn0HiXxtnKzT-gjibC5ooZvQkZoBYju7agGflS36AsoRTKyVf9gqEI9J8fUbjmTTuoY191ZDg-WEslCX0E7Pts7PxA3tMT6hPFNDchTI_wA1c3V92czcYjp2ufvv8LbrysPUQCWE94sDARlVpgsCf3obHQQYqCtNTZJ_IK0KgF5LoHcK5rIDRh9XGHl227Vt3I4xDhnQZKg-RgOjPkFK50_G9OA1s1tBookbDv3eRWAbUcJuSAQpK3TPuUwEP"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1d1b18]/80 via-transparent to-transparent flex flex-col justify-end p-5">
-                  <div className="bg-[#fef9f3]/90 backdrop-blur-md p-4 rounded-xl space-y-2.5">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-bold text-[#9a4100] tracking-widest uppercase">Current Destination</span>
-                      <span className="material-symbols-outlined text-[#9a4100] text-sm">location_on</span>
-                    </div>
-                    <h3 className="font-serif text-base text-[#1d1b18]">San Sebastián, Spain</h3>
-                    <div className="space-y-1.5">
-                      <div className="flex items-center gap-2.5 p-2 bg-[#f2ede7] rounded-lg">
-                        <span className="material-symbols-outlined text-[#725a3c] text-sm">restaurant</span>
-                        <div className="text-[10px]">
-                          <p className="font-bold text-[#1d1b18]">Ganbara Pintxos</p>
-                          <p className="text-[#574238]">Recommended: Wild Mushrooms</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2.5 p-2 bg-[#f2ede7] rounded-lg">
-                        <span className="material-symbols-outlined text-[#725a3c] text-sm">explore</span>
-                        <div className="text-[10px]">
-                          <p className="font-bold text-[#1d1b18]">Market Tour</p>
-                          <p className="text-[#574238]">10:00 AM — La Bretxa</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
