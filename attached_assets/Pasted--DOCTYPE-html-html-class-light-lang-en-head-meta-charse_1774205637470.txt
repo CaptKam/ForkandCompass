@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Serif:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed-dim": "#9ccaff",
+              "surface-container-high": "#ece7e2",
+              "surface-bright": "#fef9f3",
+              "surface-dim": "#ded9d4",
+              "on-primary-fixed-variant": "#783100",
+              "on-primary": "#ffffff",
+              "on-primary-fixed": "#341100",
+              "tertiary": "#005f9c",
+              "secondary-fixed-dim": "#e1c19c",
+              "on-primary-container": "#fffbff",
+              "inverse-on-surface": "#f5f0ea",
+              "tertiary-fixed": "#d0e4ff",
+              "primary": "#9a4100",
+              "on-secondary-container": "#775e3f",
+              "surface-container": "#f2ede7",
+              "secondary-fixed": "#feddb6",
+              "surface-variant": "#e6e2dc",
+              "on-secondary-fixed": "#291802",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "on-background": "#1d1b18",
+              "on-error": "#ffffff",
+              "outline-variant": "#dec1b3",
+              "on-surface": "#1d1b18",
+              "on-surface-variant": "#574238",
+              "on-secondary-fixed-variant": "#584326",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#ffdbcb",
+              "surface-container-low": "#f8f3ed",
+              "surface": "#fef9f3",
+              "primary-fixed-dim": "#ffb690",
+              "primary-container": "#bf550a",
+              "on-tertiary-fixed-variant": "#00497a",
+              "surface-tint": "#9e4300",
+              "on-tertiary-fixed": "#001d35",
+              "surface-container-highest": "#e6e2dc",
+              "background": "#fef9f3",
+              "secondary": "#725a3c",
+              "inverse-primary": "#ffb690",
+              "error-container": "#ffdad6",
+              "outline": "#8a7266",
+              "on-tertiary-container": "#fdfcff",
+              "on-tertiary": "#ffffff",
+              "inverse-surface": "#32302c",
+              "secondary-container": "#fbdab3",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#0079c4"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .soft-bleed-mask {
+            mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#FEF9F3]/90 backdrop-blur-md">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 py-6">
+<div class="text-2xl font-semibold font-serif text-[#9A4100]">Fork &amp; Compass</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="font-serif text-lg tracking-tight text-[#725A3C] hover:text-[#9A4100] hover:opacity-80 transition-opacity duration-300" href="#">The Story</a>
+<a class="font-serif text-lg tracking-tight text-[#725A3C] hover:text-[#9A4100] hover:opacity-80 transition-opacity duration-300" href="#">Destinations</a>
+<a class="font-serif text-lg tracking-tight text-[#725A3C] hover:text-[#9A4100] hover:opacity-80 transition-opacity duration-300" href="#">Recipes</a>
+<a class="font-serif text-lg tracking-tight text-[#9A4100] border-b-2 border-[#9A4100] pb-1 hover:opacity-80 transition-opacity duration-300" href="#">The App</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-medium active:scale-95 transition-transform hover:opacity-90">
+                Download Now
+            </button>
+</div>
+</nav>
+<main class="pt-24 overflow-x-hidden">
+<!-- Hero Section -->
+<section class="relative max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[870px]">
+<!-- Sun-drenched Vineyard Background -->
+<div class="absolute inset-0 -z-10 pointer-events-none">
+<img alt="Sun-drenched vineyard at golden hour" class="w-full h-full object-cover opacity-60 brightness-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXoCF6VeBTnl2C4wT_J7lK2HbzrIex7d6vj6nlrdTTQhG2nKFQutiUavtPJosNmIwsVZQ8XLPOszdEedv7KkU5B2kvgorGAJZ0b80P2HKbaeHOoCMwFgwjUXbYMBSLld_WWJamxQIzq_PYUD8F4LgS0yDWQVMq4uaSbrxmQL2XmmybBjcYlPPXQlpybayR6corDd0-xwKm100fhGSS8VMbqkQFMz1sdfHVNAuZIhplnbaI2HyNksQXU47NfwxQdetDxz01Zn2-JL1X"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/40 to-transparent"></div>
+</div>
+<div class="space-y-8 relative z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/80 backdrop-blur-sm text-on-secondary-container text-xs font-semibold tracking-widest uppercase">
+                    New Feature: Dynamic Itineraries
+                </div>
+<h1 class="font-headline text-5xl md:text-7xl text-on-surface leading-[1.1] tracking-tight">
+                    Eat Your Way Across <span class="italic text-primary">The Globe</span>.
+                </h1>
+<p class="text-lg md:text-xl text-on-surface-variant leading-relaxed max-w-lg">
+                    More than a recipe book—a curated companion for the culinary explorer. Sync your kitchen with your wanderlust.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl text-lg font-semibold shadow-xl shadow-primary/10 hover:opacity-90 transition-opacity">
+                        Start Your Journey
+                    </button>
+<button class="bg-surface-container-high/80 backdrop-blur-sm text-on-surface px-8 py-4 rounded-xl text-lg font-semibold hover:bg-surface-variant transition-colors">
+                        Watch the Film
+                    </button>
+</div>
+</div>
+<div class="relative flex justify-center lg:justify-end py-20 z-10">
+<!-- Clean Single Phone Mockup -->
+<div class="relative w-full max-w-[380px] aspect-[9/19.5] rounded-[3rem] p-3 bg-black shadow-2xl border-[10px] border-[#1d1b18]">
+<!-- Notch -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-7 bg-[#1d1b18] rounded-b-2xl z-30"></div>
+<!-- Screen -->
+<div class="w-full h-full rounded-[2.2rem] overflow-hidden bg-surface-container relative">
+<img alt="Smartphone screen showing a curated culinary travel itinerary" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQOqHGDc4JFp3_NUeIn0HiXxtnKzT-gjibC5ooZvQkZoBYju7agGflS36AsoRTKyVf9gqEI9J8fUbjmTTuoY191ZDg-WEslCX0E7Pts7PxA3tMT6hPFNDchTI_wA1c3V92czcYjp2ufvv8LbrysPUQCWE94sDARlVpgsCf3obHQQYqCtNTZJ_IK0KgF5LoHcK5rIDRh9XGHl227Vt3I4xDhnQZKg-RgOjPkFK50_G9OA1s1tBookbDv3eRWAbUcJuSAQpK3TPuUwEP"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-transparent to-transparent flex flex-col justify-end p-6">
+<div class="bg-surface/90 backdrop-blur-md p-4 rounded-xl space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase">Current Destination</span>
+<span class="material-symbols-outlined text-primary text-sm">location_on</span>
+</div>
+<h3 class="font-headline text-lg text-on-surface">San Sebastian, Spain</h3>
+<div class="space-y-2">
+<div class="flex items-center gap-3 p-2 bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-secondary text-sm">restaurant</span>
+<div class="text-[10px]">
+<p class="font-bold">Ganbara Pinxtos</p>
+<p class="text-on-surface-variant">Recommended: Wild Mushrooms</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-secondary text-sm">explore</span>
+<div class="text-[10px]">
+<p class="font-bold">Market Tour</p>
+<p class="text-on-surface-variant">10:00 AM - La Bretxa</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Info Badge -->
+<div class="absolute -bottom-6 -left-12 bg-surface/90 backdrop-blur-md p-5 rounded-2xl shadow-xl hidden md:block z-30 border border-outline-variant/20">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">map</span>
+</div>
+<div>
+<p class="text-sm font-bold">Offline Access</p>
+<p class="text-xs text-on-surface-variant">Available in 42 Countries</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 1: Features -->
+<section class="bg-surface-container-low py-32 mt-20">
+<div class="max-w-7xl mx-auto px-8">
+<div class="max-w-2xl mb-20">
+<h2 class="font-headline text-4xl md:text-5xl text-on-surface mb-6">More than recipes.</h2>
+<p class="text-lg text-on-surface-variant">We built the tool we wanted: a curator that understands the context of a meal, the history of an ingredient, and the logistics of a journey.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-surface p-10 rounded-xl space-y-6 hover:bg-surface-bright transition-colors group">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">menu_book</span>
+</div>
+<h3 class="font-headline text-2xl text-on-surface">Curated Editorial</h3>
+<p class="text-on-surface-variant leading-relaxed">Daily deep-dives into culinary traditions, written by local chefs and food journalists.</p>
+</div>
+<div class="bg-surface p-10 rounded-xl space-y-6 hover:bg-surface-bright transition-colors group">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">smart_toy</span>
+</div>
+<h3 class="font-headline text-2xl text-on-surface">AI Pantry Sync</h3>
+<p class="text-on-surface-variant leading-relaxed">Photograph your ingredients and our engine suggests recipes based on regional authenticities.</p>
+</div>
+<div class="bg-surface p-10 rounded-xl space-y-6 hover:bg-surface-bright transition-colors group">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">share_location</span>
+</div>
+<h3 class="font-headline text-2xl text-on-surface">Local Sourcing</h3>
+<p class="text-on-surface-variant leading-relaxed">Traveling? We map out the farmers' markets and specialty shops to find your recipe's soul.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Global Collection -->
+<section class="py-32 overflow-hidden">
+<div class="max-w-7xl mx-auto px-8 mb-12 flex justify-between items-end">
+<div>
+<h2 class="font-headline text-4xl text-on-surface mb-4">A Global Collection</h2>
+<p class="text-on-surface-variant">Explore 1,200+ authentic experiences across 6 continents.</p>
+</div>
+<div class="flex gap-4">
+<button class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex gap-8 overflow-x-auto hide-scrollbar px-8 lg:px-[calc((100vw-80rem)/2+2rem)]">
+<!-- Card 1 -->
+<div class="flex-shrink-0 w-80 group cursor-pointer">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-4 relative">
+<img alt="Fresh spices and ingredients from Morocco" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCXbxqqNIcPA-Ij80rKI3T06DMHLM_bHIXDVqMtIxGsUousF2YKJ56rNXB-1vIWWS4Y632e71fmIKEW87bSdKI8z2cm20rRxY7RI4BnOdwZoYRfZkevYmHfHfq_gwXAyey7x39akc7yxVZBQbbyxfZH3tRQDp6DRp_5glF6VgWOxp8SKf_gsRXi-25Cgc8ZNp1g8bsKGmy6Cj4snjIywv5YfRyVLKgdP74ZLj6HloAsTy5bSVGVCVBZE6FUGYxFdyoQUcv0FAV-6Ym"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<h4 class="font-headline text-xl text-on-surface">The Maghreb Heart</h4>
+<p class="text-sm text-secondary tracking-wide uppercase">Marrakech, Morocco</p>
+</div>
+<!-- Card 2 -->
+<div class="flex-shrink-0 w-80 group cursor-pointer">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-4 relative">
+<img alt="Traditional Japanese breakfast set" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-2nQUWusCP2mzrBG6AI2EWlsQuZoudmPTxu7rLUFC5rvcaEoNSMekXAlNDfotX6toH6wJWO-zf5sGQ1bqXLM5UnWmJKe304Wu8xFko5i1RAyQutZK9BOwPhLXZZxqQgG6ULwizqoCDL47bXRP_BQ5L8f0MhWrqhCoeDZAJCzIRrskrBLQToS9_S2qEgMcQwz66qZhz0uiKUXTNBfPKaWCYDjXukSVjt7fQBMiwJ6ookBuw7W21lkxAd4AnUbVVMdqhIuYxoBXFSxe"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<h4 class="font-headline text-xl text-on-surface">Zen Kitchens</h4>
+<p class="text-sm text-secondary tracking-wide uppercase">Kyoto, Japan</p>
+</div>
+<!-- Card 3 -->
+<div class="flex-shrink-0 w-80 group cursor-pointer">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-4 relative">
+<img alt="Rustic Italian pasta and ingredients" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQWtI_OZ3ZXmR7pA6sX1kcQr6s-CDCctUtoO-rwotxhxcG-s-icdCCizlkBjv4aTOzjDztBh63phMqvyB6PAUR590qs1bFTDQQee4DgO242YJl1Ew0F3RH7er5dD_GeWA7yw9mVhm48KAigvVysLavC6RkTbUvjBwZNox9vnwSnkT5N3WVkUJo2FkZdxUH75hQoXz1NMXMGqewCA-CsTTQU9SdwzBqzi9d0VJeVmBuDw29cz2QuGgCBZoWrOAJ3UEx0rU-TY32OhoR"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<h4 class="font-headline text-xl text-on-surface">Flour &amp; Water</h4>
+<p class="text-sm text-secondary tracking-wide uppercase">Bologna, Italy</p>
+</div>
+<!-- Card 4 -->
+<div class="flex-shrink-0 w-80 group cursor-pointer">
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-4 relative">
+<img alt="Vibrant street food from Mexico" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr0PI2NYdINsGe-4oKwFvFTKv8LOmrzXTk7OJBp2iKSyjYDIK1I1Wl-h1xhDcRJF-oRLIQTnsBf3VvSL3QyPgGrXU_e3Po-rrq1VY4WlvGvMLDULWnDIe4nJU7lNocEZ7zm5AZO2uEPHG3XQJo4BwbkdtAoth0PgE5ENA2w_by5iF9K5XOLeQ-k9KpfgY-uCC3afr4Fa5Jd3lhfNdQv4or5HBOnpz8-c5uJYTWhjo4307dMgOCMiOKmZNxBigpDOOL_ECKpCk-zXVR"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<h4 class="font-headline text-xl text-on-surface">The Masa Trail</h4>
+<p class="text-sm text-secondary tracking-wide uppercase">Oaxaca, Mexico</p>
+</div>
+</div>
+</section>
+<!-- Section 3: Comparison -->
+<section class="py-32 bg-surface-container-high">
+<div class="max-w-5xl mx-auto px-8">
+<div class="text-center mb-20">
+<h2 class="font-headline text-4xl text-on-surface mb-4 italic">The New Paradigm</h2>
+<p class="text-on-surface-variant max-w-xl mx-auto leading-relaxed">
+                        We aren't just another app on your home screen. We are the bridge between the digital world and the tactile reality of food.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-0 rounded-[2.5rem] overflow-hidden shadow-2xl">
+<div class="bg-surface/50 p-12 flex flex-col items-center text-center space-y-6">
+<span class="material-symbols-outlined text-4xl text-secondary opacity-40">shopping_basket</span>
+<h4 class="font-bold text-lg">Not a subscription box</h4>
+<p class="text-sm text-on-surface-variant">No plastic waste or pre-measured packets. We teach you to source like a local.</p>
+</div>
+<div class="bg-primary text-on-primary p-12 flex flex-col items-center text-center space-y-6 transform scale-105 z-10 shadow-xl">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">travel_explore</span>
+<h4 class="font-bold text-xl uppercase tracking-widest">A Travel Experience</h4>
+<p class="text-sm opacity-90 leading-relaxed font-medium">Curated itineraries, historical context, and on-the-ground guides for the curious palate.</p>
+</div>
+<div class="bg-surface/50 p-12 flex flex-col items-center text-center space-y-6">
+<span class="material-symbols-outlined text-4xl text-secondary opacity-40">menu_book</span>
+<h4 class="font-bold text-lg">Not a recipe site</h4>
+<p class="text-sm text-on-surface-variant">Beyond simple instructions. We offer cultural storytelling and artisanal technique mastery.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Final CTA -->
+<section class="py-32 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-1/2 h-full bg-primary/5 rounded-l-[10rem] -z-10"></div>
+<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+<div>
+<h2 class="font-headline text-5xl text-on-surface mb-8 leading-tight">Your table is <br/>reserved. Globally.</h2>
+<p class="text-xl text-on-surface-variant mb-10 leading-relaxed">
+                        Join 200,000+ culinary explorers who have ditched the tourist traps for the authentic soul of food.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<a class="bg-on-background text-background px-6 py-3 rounded-xl flex items-center gap-3 hover:opacity-90 transition-opacity" href="#">
+<span class="material-symbols-outlined text-3xl">phone_iphone</span>
+<div class="text-left">
+<p class="text-[10px] uppercase font-bold tracking-tighter opacity-70">Download on the</p>
+<p class="text-lg font-bold leading-none">App Store</p>
+</div>
+</a>
+<a class="bg-on-background text-background px-6 py-3 rounded-xl flex items-center gap-3 hover:opacity-90 transition-opacity" href="#">
+<span class="material-symbols-outlined text-3xl">play_store_installed</span>
+<div class="text-left">
+<p class="text-[10px] uppercase font-bold tracking-tighter opacity-70">Get it on</p>
+<p class="text-lg font-bold leading-none">Google Play</p>
+</div>
+</a>
+</div>
+</div>
+<div class="relative">
+<img alt="Beautiful dish served in an outdoor setting" class="w-full aspect-[4/3] object-cover rounded-[3rem] shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY0uwXwRR-ZeT2sG43NBEx2eTJwZXxTlP2HAvB5Wbphcn08I-mUZkVILMv_QvEMyXEmIhts9TsdWlIOZCrGhsEjt3qMvzAP6FRIbH6phJxNGOp0114bEUV64C6VuOLv_CBSY1XFVXHImVe_O2L0lKl5OUlep_OkNtJRipmnKQBvD_v9miAWCdJgQFrw9eAnbt-1FB0pQSo6wK-GzESPls71PFD9bPjEKhKlQDuqRpHHYMd5snj0-pchKlW_yAa_bU2EKTxIrMX3-mf"/>
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-primary-fixed rounded-full flex items-center justify-center p-8 text-center rotate-12">
+<p class="font-headline text-on-primary-fixed text-lg">Voted App of the Year 2024</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-20 bg-[#F8F3ED]">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-8 gap-8">
+<div class="text-xl font-serif text-[#9A4100]">Fork &amp; Compass</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-sans text-sm tracking-wide leading-relaxed text-[#725A3C] hover:text-[#9A4100] transition-colors" href="#">Privacy Policy</a>
+<a class="font-sans text-sm tracking-wide leading-relaxed text-[#725A3C] hover:text-[#9A4100] transition-colors" href="#">Terms of Service</a>
+<a class="font-sans text-sm tracking-wide leading-relaxed text-[#725A3C] hover:text-[#9A4100] transition-colors" href="#">Press Kit</a>
+<a class="font-sans text-sm tracking-wide leading-relaxed text-[#725A3C] hover:text-[#9A4100] transition-colors" href="#">Contact</a>
+</div>
+<p class="font-sans text-sm tracking-wide leading-relaxed text-[#725A3C]">© 2024 The Culinary Editorial. All rights reserved.</p>
+</div>
+</footer>
+</body></html>
