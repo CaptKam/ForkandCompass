@@ -4,7 +4,7 @@ import type {
   Recipe as ApiRecipe,
 } from "@workspace/api-client-react";
 
-import { getCountryById } from "@/constants/data";
+import { getCountryById, resolveImageUrl } from "@/constants/data";
 import type { Country, Recipe } from "@/constants/data";
 
 function mapApiRecipe(
@@ -21,7 +21,7 @@ function mapApiRecipe(
     category: r.category ?? "",
     time: r.prepTime ?? "",
     difficulty: r.difficulty,
-    image: r.image,
+    image: resolveImageUrl(r.image),
     description: r.description,
     culturalNote: r.culturalNote ?? "",
     region: r.region ?? undefined,
