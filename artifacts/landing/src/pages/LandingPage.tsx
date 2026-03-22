@@ -131,7 +131,7 @@ export default function LandingPage() {
               className="flex justify-center lg:justify-end"
               style={{ transform: `translateY(${scrollY * -0.08}px)`, willChange: "transform" }}
             >
-              <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative bg-[#1C1A17]">
+              <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative bg-[#121110]">
                 <div
                   className="absolute left-0 top-0 w-full"
                   style={{
@@ -232,7 +232,7 @@ export default function LandingPage() {
                     </div>
                   </div>
 
-                  <div className="bg-[#1C1A17] border-t border-white/10 flex justify-around py-2.5 px-2">
+                  <div className="bg-[#121110] border-t border-white/10 flex justify-around py-2.5 px-2">
                     {[
                       { icon: "explore", label: "Discover", active: true },
                       { icon: "calendar_today", label: "Itinerary", active: false },
@@ -247,7 +247,7 @@ export default function LandingPage() {
                     ))}
                   </div>
                 </div>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1C1A17] rounded-b-2xl z-50" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#121110] rounded-b-2xl z-50" />
               </div>
             </div>
           </div>
