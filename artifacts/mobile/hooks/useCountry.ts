@@ -29,7 +29,34 @@ function mapApiRecipe(
   };
 }
 
-function mapApiCountryDetail(data: ApiCountryDetail): Country {
+function mergeRecipes(
+  localRecipes: Recipe[],
+  apiRecipes: Recipe[]
+): Recipe[] {
+  // Build a map from API recipes (API data wins when there's an ID collision)
+  const apiMap = new Map<string, Recipe>();
+  for (const r of apiRecipes) {
+    apiMap.set(r.id, r);
+  }
+
+  // Start with local recipes, replacing any that exist in the API
+  const merged = localRecipes.map((r) => apiMap.get(r.id) ?? r);
+  const localIds = new Set(localRecipes.map((r) => r.id));
+
+  // Append API-only recipes (not in local data.ts)
+  for (const r of apiRecipes) {
+    if (!localIds.has(r.id)) {
+      merged.push(r);
+    }
+  }
+
+  return merged;
+}
+
+function mergeWithApiData(local: Country, data: ApiCountryDetail): Country {
+  const apiRecipes = data.recipes.map((r) =>
+    mapApiRecipe(r, data.name, data.flag)
+  );
   return {
     id: data.id,
     name: data.name,
@@ -39,7 +66,7 @@ function mapApiCountryDetail(data: ApiCountryDetail): Country {
     region: data.region ?? "",
     image: data.image,
     heroImage: data.heroImage ?? data.image,
-    recipes: data.recipes.map((r) => mapApiRecipe(r, data.name, data.flag)),
+    recipes: mergeRecipes(local.recipes, apiRecipes),
   };
 }
 
@@ -48,7 +75,10 @@ export function useCountry(id: string) {
 
   const { data, isLoading } = useGetCountry(id);
 
-  const country: Country | undefined = data ? mapApiCountryDetail(data) : fallback;
+  const country: Country | undefined =
+    data && fallback
+      ? mergeWithApiData(fallback, data)
+      : fallback;
 
   return { country, isLoading: isLoading && !fallback };
 }
