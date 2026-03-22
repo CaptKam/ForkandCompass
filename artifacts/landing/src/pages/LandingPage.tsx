@@ -59,7 +59,7 @@ export default function LandingPage() {
       <header className="fixed top-0 w-full z-50 bg-white/5 backdrop-blur-md border-b border-white/10">
         <nav className="flex justify-between items-center px-8 py-5 max-w-[1536px] mx-auto">
           <div className="text-2xl font-serif font-bold text-white tracking-tight">
-            Fork &amp; Compass
+            Fork <span className="text-[#9A4100]">&amp;</span> Compass
           </div>
           <div className="hidden md:flex items-center space-x-12">
             {["Journal", "Ethos", "Destinations"].map((link) => (
