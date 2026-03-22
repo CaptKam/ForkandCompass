@@ -177,6 +177,7 @@ export default function DiscoverScreen() {
   const { isCountrySaved, toggleSavedCountry } = useApp();
   const { countries } = useCountries();
   const reducedMotion = useReducedMotion();
+  const heroScrollRef = useRef<ScrollView>(null);
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
 
   const activeCountry = countries[activeIndex] ?? countries[0];
