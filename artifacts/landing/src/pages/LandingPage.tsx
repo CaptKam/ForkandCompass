@@ -134,7 +134,14 @@ export default function LandingPage() {
               <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative">
                 <img
                   alt="Fork & Compass app discover page showing Japan"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full absolute left-0 top-0"
+                  style={{
+                    height: "auto",
+                    minWidth: "100%",
+                    transform: `translateY(${Math.min(0, -(scrollY * 0.4))}px)`,
+                    willChange: "transform",
+                    transition: "transform 0.1s linear",
+                  }}
                   src="/web/app-screenshot.png"
                 />
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1C1A17] rounded-b-2xl z-50" />
