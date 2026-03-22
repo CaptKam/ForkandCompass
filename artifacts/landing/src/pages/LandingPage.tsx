@@ -78,9 +78,9 @@ export default function LandingPage() {
             >
               <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative">
                 <img
-                  alt="Fork & Compass app discover page"
+                  alt="Fork & Compass app discover page showing Japan"
                   className="w-full h-full object-cover object-top"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQOqHGDc4JFp3_NUeIn0HiXxtnKzT-gjibC5ooZvQkZoBYju7agGflS36AsoRTKyVf9gqEI9J8fUbjmTTuoY191ZDg-WEslCX0E7Pts7PxA3tMT6hPFNDchTI_wA1c3V92czcYjp2ufvv8LbrysPUQCWE94sDARlVpgsCf3obHQQYqCtNTZJ_IK0KgF5LoHcK5rIDRh9XGHl227Vt3I4xDhnQZKg-RgOjPkFK50_G9OA1s1tBookbDv3eRWAbUcJuSAQpK3TPuUwEP"
+                  src="/web/app-screenshot.png"
                 />
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1C1A17] rounded-b-2xl z-50" />
               </div>
