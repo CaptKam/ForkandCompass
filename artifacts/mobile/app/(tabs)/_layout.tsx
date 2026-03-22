@@ -17,6 +17,10 @@ function NativeTabLayout() {
         <Icon sf={{ default: "safari", selected: "safari.fill" }} />
         <Label>Discover</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="itinerary">
+        <Icon sf={{ default: "calendar", selected: "calendar" }} />
+        <Label>Itinerary</Label>
+      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="search">
         <Icon sf={{ default: "magnifyingglass", selected: "magnifyingglass" }} />
         <Label>Search</Label>
@@ -100,6 +104,18 @@ function ClassicTabLayout() {
               <SymbolView name="safari" tintColor={color} size={24} />
             ) : (
               <MaterialIcons name="explore" size={24} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="itinerary"
+        options={{
+          title: "Itinerary",
+          tabBarIcon: ({ color }) =>
+            isIOS ? (
+              <SymbolView name="calendar" tintColor={color} size={24} />
+            ) : (
+              <MaterialIcons name="event-note" size={24} color={color} />
             ),
         }}
       />

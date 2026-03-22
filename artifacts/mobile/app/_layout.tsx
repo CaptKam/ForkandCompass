@@ -54,6 +54,10 @@ function RootLayoutNav() {
         options={{ animation: modalAnimation, presentation: "modal" }}
       />
       <Stack.Screen
+        name="itinerary-setup"
+        options={{ animation: modalAnimation, presentation: "modal" }}
+      />
+      <Stack.Screen
         name="kitchen-scanner"
         options={{ animation: modalAnimation, presentation: "modal" }}
       />
