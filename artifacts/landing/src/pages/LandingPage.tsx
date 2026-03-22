@@ -72,7 +72,7 @@ export default function LandingPage() {
             <div className="lg:w-1/2 text-left space-y-8">
               <span className="text-[#9A4100] font-bold uppercase tracking-[0.5em] text-sm block">Fork &amp; Compass</span>
               <h1 className="font-serif text-white text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.9] text-shadow-elegant">
-                Eat Your Way<br />Across the<br /><span className="italic font-normal">Globe.</span>
+                Explore the<br />world.<br /><span className="italic font-normal">Cook it at home.</span>
               </h1>
               <p className="text-white/80 text-xl md:text-2xl max-w-xl leading-relaxed text-shadow-elegant">
                 A curated journal through the world's most soul-stirring cuisines, delivered from your kitchen to your table.
