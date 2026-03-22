@@ -131,7 +131,7 @@ export default function LandingPage() {
               className="flex justify-center lg:justify-end"
               style={{ transform: `translateY(${scrollY * -0.08}px)`, willChange: "transform" }}
             >
-              <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative bg-[#FEF9F3]">
+              <div className="iphone-frame w-[320px] h-[650px] overflow-hidden relative bg-[#1C1A17]">
                 <div
                   className="absolute left-0 top-0 w-full"
                   style={{
@@ -167,37 +167,37 @@ export default function LandingPage() {
                         { flag: "🇹🇭", name: "Thailand", img: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=200&q=80&fit=crop" },
                       ].map((c) => (
                         <div key={c.name} className="flex flex-col items-center gap-1">
-                          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#9A4100]/20">
+                          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/20">
                             <img alt={c.name} className="w-full h-full object-cover" src={c.img} />
                           </div>
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-[#1C1A17]">{c.name}</span>
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-white/80">{c.name}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   <div className="px-4 pt-3 pb-2">
-                    <p className="font-serif text-lg text-[#1C1A17] font-bold">Popular Recipes</p>
+                    <p className="font-serif text-lg text-white font-bold">Popular Recipes</p>
                   </div>
                   <div className="px-4 flex gap-3">
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-md">
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 shadow-md">
                       <img alt="Pasta Carbonara" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400&q=80&fit=crop" />
                       <div className="p-2.5">
-                        <p className="text-xs font-bold text-[#1C1A17]">Pasta Carbonara</p>
-                        <p className="text-[9px] text-[#725a3c] mt-0.5">35 min · Easy</p>
+                        <p className="text-xs font-bold text-white">Pasta Carbonara</p>
+                        <p className="text-[9px] text-white/60 mt-0.5">35 min · Easy</p>
                       </div>
                     </div>
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-md">
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 shadow-md">
                       <img alt="Tiramisu" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&q=80&fit=crop" />
                       <div className="p-2.5">
-                        <p className="text-xs font-bold text-[#1C1A17]">Classic Tiramisu</p>
-                        <p className="text-[9px] text-[#725a3c] mt-0.5">4 hrs · Medium</p>
+                        <p className="text-xs font-bold text-white">Classic Tiramisu</p>
+                        <p className="text-[9px] text-white/60 mt-0.5">4 hrs · Medium</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="px-4 pt-5 pb-2">
-                    <p className="font-serif text-lg text-[#1C1A17] font-bold">Featured Locations</p>
+                    <p className="font-serif text-lg text-white font-bold">Featured Locations</p>
                   </div>
                   <div className="px-4 flex gap-3 pb-4">
                     <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden relative h-[120px]">
@@ -213,26 +213,26 @@ export default function LandingPage() {
                   </div>
 
                   <div className="px-4 pt-3 pb-2">
-                    <p className="font-serif text-lg text-[#1C1A17] font-bold">Cook Tonight</p>
+                    <p className="font-serif text-lg text-white font-bold">Cook Tonight</p>
                   </div>
                   <div className="px-4 flex gap-3 pb-6">
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-md">
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 shadow-md">
                       <img alt="Risotto" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80&fit=crop" />
                       <div className="p-2.5">
-                        <p className="text-xs font-bold text-[#1C1A17]">Mushroom Risotto</p>
-                        <p className="text-[9px] text-[#725a3c] mt-0.5">45 min · Easy</p>
+                        <p className="text-xs font-bold text-white">Mushroom Risotto</p>
+                        <p className="text-[9px] text-white/60 mt-0.5">45 min · Easy</p>
                       </div>
                     </div>
-                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-md">
+                    <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white/10 shadow-md">
                       <img alt="Bruschetta" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&q=80&fit=crop" />
                       <div className="p-2.5">
-                        <p className="text-xs font-bold text-[#1C1A17]">Bruschetta</p>
-                        <p className="text-[9px] text-[#725a3c] mt-0.5">15 min · Easy</p>
+                        <p className="text-xs font-bold text-white">Bruschetta</p>
+                        <p className="text-[9px] text-white/60 mt-0.5">15 min · Easy</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white border-t border-[#1C1A17]/10 flex justify-around py-2.5 px-2">
+                  <div className="bg-[#1C1A17] border-t border-white/10 flex justify-around py-2.5 px-2">
                     {[
                       { icon: "explore", label: "Discover", active: true },
                       { icon: "calendar_today", label: "Itinerary", active: false },
