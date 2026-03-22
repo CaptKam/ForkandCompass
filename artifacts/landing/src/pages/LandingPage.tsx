@@ -1,12 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function LandingPage() {
   const [heroEmail, setHeroEmail] = useState("");
   const [heroSubmitted, setHeroSubmitted] = useState(false);
-  const [ctaEmail, setCtaEmail] = useState("");
-  const [ctaSubmitted, setCtaSubmitted] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [footerEmail, setFooterEmail] = useState("");
+  const [footerSubmitted, setFooterSubmitted] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollCarousel = (dir: number) => {
+    carouselRef.current?.scrollBy({ left: dir * 440, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
@@ -22,311 +26,286 @@ export default function LandingPage() {
     }
   };
 
-  const handleCtaSubmit = (e: React.FormEvent) => {
+  const handleFooterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (ctaEmail.trim()) {
-      setCtaSubmitted(true);
-      setCtaEmail("");
+    if (footerEmail.trim()) {
+      setFooterSubmitted(true);
+      setFooterEmail("");
     }
   };
 
   return (
-    <div className="bg-[#fef9f3] text-[#1d1b18] font-sans">
-      <nav className="fixed top-0 w-full z-50 bg-[#FEF9F3]/90 backdrop-blur-md">
-        <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 py-5 md:py-6">
-          <div className="text-2xl font-semibold font-serif text-[#9A4100]">Fork &amp; Compass</div>
-          <div className="hidden md:flex items-center gap-10">
-            {[
-              { label: "The Story", active: false },
-              { label: "Destinations", active: false },
-              { label: "Recipes", active: false },
-              { label: "The App", active: true },
-            ].map((item) => (
-              <a
-                key={item.label}
-                href="#"
-                className={`font-serif text-lg tracking-tight transition-opacity duration-300 hover:opacity-80 ${
-                  item.active
-                    ? "text-[#9A4100] border-b-2 border-[#9A4100] pb-1"
-                    : "text-[#725A3C] hover:text-[#9A4100]"
-                }`}
-              >
-                {item.label}
+    <div className="bg-[#FEF9F3] text-[#1C1A17] font-sans selection:bg-[#9A4100]/20">
+      <header className="fixed top-0 w-full z-50 bg-transparent">
+        <nav className="flex justify-between items-center px-8 py-6 max-w-[1536px] mx-auto">
+          <div className="text-2xl font-serif font-bold text-white tracking-tight flex items-center gap-2">
+            <span className="material-symbols-outlined text-[#9A4100]">explore</span>
+            Fork &amp; Compass
+          </div>
+          <div className="hidden md:flex items-center space-x-12">
+            {["Journal", "Ethos", "Destinations"].map((link) => (
+              <a key={link} href="#" className="text-white/90 font-medium hover:text-white transition-colors text-xs uppercase tracking-[0.2em]">
+                {link}
               </a>
             ))}
           </div>
-          <div className="flex items-center gap-3">
-            <button
-              className="bg-[#9a4100] text-white px-6 py-2.5 rounded-xl font-medium active:scale-95 transition-transform hover:opacity-90"
-              onClick={() => document.getElementById("hero-signup")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              Join Waitlist
-            </button>
-            <button
-              className="md:hidden text-[#9A4100]"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Menu"
-            >
-              <span className="material-symbols-outlined text-2xl">{menuOpen ? "close" : "menu"}</span>
-            </button>
-          </div>
-        </div>
-        {menuOpen && (
-          <div className="md:hidden bg-[#FEF9F3] border-t border-[#ece7e2]">
-            {["The Story", "Destinations", "Recipes", "The App"].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="block px-8 py-4 font-serif text-lg text-[#725A3C] hover:text-[#9A4100] border-b border-[#f2ede7]"
-              >
-                {item}
-              </a>
-            ))}
-          </div>
-        )}
-      </nav>
-
-      <main className="pt-24 overflow-x-hidden">
-        <section className="relative w-full min-h-[750px] lg:min-h-[870px]">
-          <img
-            alt="Sun-drenched vineyard at golden hour"
-            className="absolute inset-0 w-full h-full object-cover brightness-105"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXoCF6VeBTnl2C4wT_J7lK2HbzrIex7d6vj6nlrdTTQhG2nKFQutiUavtPJosNmIwsVZQ8XLPOszdEedv7KkU5B2kvgorGAJZ0b80P2HKbaeHOoCMwFgwjUXbYMBSLld_WWJamxQIzq_PYUD8F4LgS0yDWQVMq4uaSbrxmQL2XmmybBjcYlPPXQlpybayR6corDd0-xwKm100fhGSS8VMbqkQFMz1sdfHVNAuZIhplnbaI2HyNksQXU47NfwxQdetDxz01Zn2-JL1X"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#fef9f3]/80 via-[#fef9f3]/20 to-transparent" />
-
-          <div className="relative max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[750px] lg:min-h-[870px]">
-          <div className="space-y-7 relative z-10 py-12 lg:py-0">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fbdab3]/80 backdrop-blur-sm text-[#775e3f] text-xs font-semibold tracking-widest uppercase">
-              New: 8 Countries &amp; 97 Recipes
-            </div>
-            <h1 className="font-serif text-5xl md:text-7xl text-[#1d1b18] leading-[1.1] tracking-tight">
-              Eat Your Way Across <span className="italic text-[#9a4100]">The Globe</span>.
-            </h1>
-            <p className="text-lg md:text-xl text-[#574238] leading-relaxed max-w-lg">
-              More than a recipe book—a curated companion for the culinary explorer. Sync your kitchen with your wanderlust.
-            </p>
-            <div id="hero-signup" className="pt-2 max-w-lg">
-              {heroSubmitted ? (
-                <div className="flex items-center gap-3 rounded-xl px-6 py-4 bg-[#fbdab3]/60 border border-[#dec1b3]">
-                  <span className="material-symbols-outlined text-[#9a4100]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                  <p className="font-serif italic text-[#1d1b18]">You're on the list — we'll be in touch soon.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleHeroSubmit} className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="email"
-                    required
-                    value={heroEmail}
-                    onChange={(e) => setHeroEmail(e.target.value)}
-                    placeholder="Enter your email for early access"
-                    className="flex-1 rounded-xl outline-none text-base bg-white/80 backdrop-blur-sm border border-[#dec1b3] text-[#1d1b18] px-5 py-4 focus:border-[#9a4100] focus:ring-1 focus:ring-[#9a4100] transition-colors placeholder:text-[#8a7266]"
-                  />
-                  <button
-                    type="submit"
-                    className="bg-[#9a4100] text-white px-7 py-4 rounded-xl text-base font-semibold shadow-xl shadow-[#9a4100]/10 hover:opacity-90 transition-opacity whitespace-nowrap active:scale-[0.98]"
-                  >
-                    Join Waitlist
-                  </button>
-                </form>
-              )}
-              <p className="text-[#8a7266] text-sm mt-3">Be first to explore the world from your kitchen. No spam, ever.</p>
-            </div>
-          </div>
-
-          <div
-            className="relative flex justify-center lg:justify-end py-10 lg:py-20 z-10"
-            style={{ transform: `translateY(${scrollY * -0.12}px)`, willChange: "transform" }}
+          <button
+            className="bg-[#9A4100] text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest text-[10px] hover:brightness-110 transition-all"
+            onClick={() => document.getElementById("hero-signup")?.scrollIntoView({ behavior: "smooth" })}
           >
-            <div className="relative w-full max-w-[300px] lg:max-w-[320px] rounded-[3rem] p-[10px] bg-[#1a1a1a] shadow-2xl shadow-black/30 border-[3px] border-[#333]">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-7 bg-[#1a1a1a] rounded-b-2xl z-30" />
-              <div className="w-full h-full rounded-[2.2rem] overflow-hidden bg-[#1d1b18]">
+            Early Access
+          </button>
+        </nav>
+      </header>
+
+      <main>
+        <section className="relative h-[110vh] min-h-[900px] w-full overflow-hidden bg-[#1C1A17]">
+          <img
+            alt="Vineyard at Sunset"
+            className="absolute inset-0 w-full h-full object-cover opacity-60"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuChMpRqdNeAh86v51t2nZOMRO-8OekmzcxLrhg3d0CQdSCMDSGahUD62M5cR0J8Askr07ZZc_FfOscn3tr6jsiO72jvdaCdwxA3THGVUW6LeQOfe61vXGnew_An8QWgEZnlnaFGyjXswlVLSNdfNLbw1u7AA9bYT-Ob_z2q5953Onne7Etj0jf_qV6YuLzMA-yZssD4-g_Q4rKDcCPVYZr47NIYhQEX0F_4dGJHiqnCk5WpA9BfspHOI_4x6SY5xem96iiAEPoQueCs"
+          />
+          <div className="absolute inset-0 hero-vignette" />
+          <div className="absolute bottom-0 left-0 w-full h-1/3 hero-bottom-fade" />
+
+          <div className="relative h-full max-w-[1536px] mx-auto px-8 flex flex-col lg:flex-row items-center justify-between pt-32 gap-16">
+            <div className="lg:w-1/2 text-left space-y-8">
+              <span className="text-[#9A4100] font-bold uppercase tracking-[0.5em] text-sm block">Fork &amp; Compass</span>
+              <h1 className="font-serif text-white text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.9] text-shadow-elegant">
+                Eat Your Way<br />Across the<br /><span className="italic font-normal">Globe.</span>
+              </h1>
+              <p className="text-white/80 text-xl md:text-2xl max-w-xl leading-relaxed text-shadow-elegant">
+                A curated journal through the world's most soul-stirring cuisines, delivered from your kitchen to your table.
+              </p>
+              <div id="hero-signup" className="flex flex-col sm:flex-row gap-4 pt-4">
+                {heroSubmitted ? (
+                  <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-4">
+                    <span className="material-symbols-outlined text-[#9A4100]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    <p className="font-serif italic text-white">You're on the list — we'll be in touch soon.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleHeroSubmit} className="bg-white/10 backdrop-blur-md border border-white/20 p-1 rounded-full flex items-center w-full max-w-md">
+                    <input
+                      type="email"
+                      required
+                      value={heroEmail}
+                      onChange={(e) => setHeroEmail(e.target.value)}
+                      placeholder="Your email for early access"
+                      className="bg-transparent border-none focus:ring-0 focus:outline-none text-white placeholder-white/50 px-6 py-3 flex-grow text-lg"
+                    />
+                    <button type="submit" className="bg-[#9A4100] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all">
+                      Join
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+
+            <div
+              className="lg:w-1/2 flex justify-center lg:justify-end"
+              style={{ transform: `translateY(${scrollY * -0.12}px)`, willChange: "transform" }}
+            >
+              <div className="iphone-frame w-[320px] h-[650px] overflow-hidden bg-black relative">
                 <img
                   alt="Fork & Compass app discover page"
                   className="w-full h-full object-cover object-top"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQOqHGDc4JFp3_NUeIn0HiXxtnKzT-gjibC5ooZvQkZoBYju7agGflS36AsoRTKyVf9gqEI9J8fUbjmTTuoY191ZDg-WEslCX0E7Pts7PxA3tMT6hPFNDchTI_wA1c3V92czcYjp2ufvv8LbrysPUQCWE94sDARlVpgsCf3obHQQYqCtNTZJ_IK0KgF5LoHcK5rIDRh9XGHl227Vt3I4xDhnQZKg-RgOjPkFK50_G9OA1s1tBookbDv3eRWAbUcJuSAQpK3TPuUwEP"
                 />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-[#1C1A17] rounded-b-2xl z-50" />
               </div>
             </div>
           </div>
-          </div>
         </section>
 
-        <section className="bg-[#f8f3ed] py-24 lg:py-32 mt-12 lg:mt-20">
-          <div className="max-w-7xl mx-auto px-6 md:px-8">
-            <div className="max-w-2xl mb-16 lg:mb-20">
-              <h2 className="font-serif text-4xl md:text-5xl text-[#1d1b18] mb-6">More than recipes.</h2>
-              <p className="text-lg text-[#574238]">We built the tool we wanted: a curator that understands the context of a meal, the history of an ingredient, and the logistics of a journey.</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-              {[
-                { icon: "photo_camera", title: "Snap & Cook", desc: "Photograph your pantry and our AI vision engine instantly matches what you have to authentic regional recipes — no typing, no guessing." },
-                { icon: "shopping_cart", title: "Smart Grocery Lists", desc: "One tap builds your ingredient list. Adjust servings, check off what you own, and order the rest through Instacart — all without leaving the app." },
-                { icon: "skillet", title: "Guided Cook Mode", desc: "Step-by-step instructions with built-in timers, hands-free voice control, and serving adjustments keep you in the moment while you cook." },
-              ].map((feat) => (
-                <div key={feat.title} className="bg-[#fef9f3] p-8 lg:p-10 rounded-xl space-y-5 lg:space-y-6 hover:bg-white transition-colors group">
-                  <div className="w-14 h-14 rounded-2xl bg-[#ece7e2] flex items-center justify-center text-[#9a4100] group-hover:scale-110 transition-transform">
-                    <span className="material-symbols-outlined text-3xl">{feat.icon}</span>
+        <section className="py-32 px-8 bg-[#FEF9F3]">
+          <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div className="space-y-12">
+              <div className="space-y-4">
+                <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">The Digital Curator</span>
+                <h2 className="font-serif text-5xl md:text-7xl leading-tight">A New Chapter in Every Meal.</h2>
+                <div className="w-20 h-1.5 bg-[#9A4100] rounded-full" />
+              </div>
+              <p className="text-[#725a3c] text-xl leading-relaxed italic">
+                "We strip away the noise of traditional recipe sites to bring you the narrative of flavor. Each issue is a passport to a culture's heart."
+              </p>
+              <div className="space-y-10">
+                {[
+                  { num: "01", title: "Snap Your Pantry", desc: "Photograph your ingredients and our AI vision engine matches what you have to authentic regional recipes — no typing, no guessing." },
+                  { num: "02", title: "Build Your List", desc: "One tap builds your grocery list. Adjust servings, check off what you own, and order the rest through Instacart — all without leaving the app." },
+                  { num: "03", title: "Follow the Journey", desc: "Step-by-step cook mode with built-in timers, hands-free voice control, and cultural context that transports you to the destination." },
+                ].map((step) => (
+                  <div key={step.num} className="flex gap-8 group">
+                    <span className="font-serif text-5xl text-[#9A4100]/20 group-hover:text-[#9A4100] transition-colors duration-500">{step.num}</span>
+                    <div>
+                      <h3 className="font-serif text-2xl mb-2">{step.title}</h3>
+                      <p className="text-[#725a3c] leading-relaxed">{step.desc}</p>
+                    </div>
                   </div>
-                  <h3 className="font-serif text-2xl text-[#1d1b18]">{feat.title}</h3>
-                  <p className="text-[#574238] leading-relaxed">{feat.desc}</p>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+            <div className="relative group">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+                <img
+                  alt="Cooking interface preview"
+                  className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB1Y6QQqOkqUdqr1Qh5C6yYOLzusGF4fT_R6zhwrCeI6dZNWsAlNNgqqE4FmnDBt6SuO5ObCrC3FYMiOxnG5W1nPUSeyx_TrUjqjzxcjW1cxSqvt7XINlNfjbGD-eEcIZUaIxp_SUgDwQCgjeO7pvg958WlWHw7yGhlr8yibInFs57Mj7SsMxAdohGhLrCRDaNuxPbycntgOJkrftQnUIMidI3tPH_gXHvAISJF2Nnyh-QyCcCyb48yWWdF5y_uwkwEwKcJli_wyqJ"
+                />
+              </div>
+              <div className="absolute -bottom-8 -right-8 bg-white p-8 rounded-xl shadow-xl max-w-xs border border-[#F2EDE7]">
+                <p className="font-serif text-lg mb-2">Cooking Now</p>
+                <p className="text-[#725a3c] text-sm">Tagine from Marrakech. Step 4 of 12. 45m remaining.</p>
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="py-24 lg:py-32 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6 md:px-8 mb-10 lg:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+        <section className="py-32 bg-[#1C1A17] text-[#FEF9F3] overflow-hidden">
+          <div className="max-w-[1536px] mx-auto px-8 mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
             <div>
-              <h2 className="font-serif text-4xl text-[#1d1b18] mb-3 lg:mb-4">A Global Collection</h2>
-              <p className="text-[#574238]">Explore curated culinary experiences across 8 countries and 24 regions.</p>
+              <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block mb-4">Global Portfolios</span>
+              <h2 className="font-serif text-5xl md:text-7xl">Current Destinations</h2>
             </div>
-            <div className="flex gap-3">
-              <button className="w-11 h-11 rounded-full border border-[#dec1b3]/40 flex items-center justify-center text-[#1d1b18] hover:bg-[#f2ede7] transition-colors">
-                <span className="material-symbols-outlined">arrow_back</span>
+            <div className="flex gap-4">
+              <button onClick={() => scrollCarousel(-1)} className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors">
+                <span className="material-symbols-outlined">chevron_left</span>
               </button>
-              <button className="w-11 h-11 rounded-full border border-[#dec1b3]/40 flex items-center justify-center text-[#1d1b18] hover:bg-[#f2ede7] transition-colors">
-                <span className="material-symbols-outlined">arrow_forward</span>
+              <button onClick={() => scrollCarousel(1)} className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors">
+                <span className="material-symbols-outlined">chevron_right</span>
               </button>
             </div>
           </div>
-          <div className="flex gap-6 lg:gap-8 overflow-x-auto px-6 md:px-8 pb-4" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          <div ref={carouselRef} className="flex gap-8 px-8 overflow-x-auto hide-scrollbar pb-12 snap-x">
             {[
-              { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDCXbxqqNIcPA-Ij80rKI3T06DMHLM_bHIXDVqMtIxGsUousF2YKJ56rNXB-1vIWWS4Y632e71fmIKEW87bSdKI8z2cm20rRxY7RI4BnOdwZoYRfZkevYmHfHfq_gwXAyey7x39akc7yxVZBQbbyxfZH3tRQDp6DRp_5glF6VgWOxp8SKf_gsRXi-25Cgc8ZNp1g8bsKGmy6Cj4snjIywv5YfRyVLKgdP74ZLj6HloAsTy5bSVGVCVBZE6FUGYxFdyoQUcv0FAV-6Ym", title: "The Maghreb Heart", loc: "Marrakech, Morocco" },
-              { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB-2nQUWusCP2mzrBG6AI2EWlsQuZoudmPTxu7rLUFC5rvcaEoNSMekXAlNDfotX6toH6wJWO-zf5sGQ1bqXLM5UnWmJKe304Wu8xFko5i1RAyQutZK9BOwPhLXZZxqQgG6ULwizqoCDL47bXRP_BQ5L8f0MhWrqhCoeDZAJCzIRrskrBLQToS9_S2qEgMcQwz66qZhz0uiKUXTNBfPKaWCYDjXukSVjt7fQBMiwJ6ookBuw7W21lkxAd4AnUbVVMdqhIuYxoBXFSxe", title: "Zen Kitchens", loc: "Kyoto, Japan" },
-              { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCQWtI_OZ3ZXmR7pA6sX1kcQr6s-CDCctUtoO-rwotxhxcG-s-icdCCizlkBjv4aTOzjDztBh63phMqvyB6PAUR590qs1bFTDQQee4DgO242YJl1Ew0F3RH7er5dD_GeWA7yw9mVhm48KAigvVysLavC6RkTbUvjBwZNox9vnwSnkT5N3WVkUJo2FkZdxUH75hQoXz1NMXMGqewCA-CsTTQU9SdwzBqzi9d0VJeVmBuDw29cz2QuGgCBZoWrOAJ3UEx0rU-TY32OhoR", title: "Flour & Water", loc: "Bologna, Italy" },
-              { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBr0PI2NYdINsGe-4oKwFvFTKv8LOmrzXTk7OJBp2iKSyjYDIK1I1Wl-h1xhDcRJF-oRLIQTnsBf3VvSL3QyPgGrXU_e3Po-rrq1VY4WlvGvMLDULWnDIe4nJU7lNocEZ7zm5AZO2uEPHG3XQJo4BwbkdtAoth0PgE5ENA2w_by5iF9K5XOLeQ-k9KpfgY-uCC3afr4Fa5Jd3lhfNdQv4or5HBOnpz8-c5uJYTWhjo4307dMgOCMiOKmZNxBigpDOOL_ECKpCk-zXVR", title: "The Masa Trail", loc: "Oaxaca, Mexico" },
+              {
+                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA94SdzbFiFlAxj25dZMw7DU-46gCPvqkzPdV7R_iBnJs6f5Al2ylegSwsnpE_S0uTTGv0vVtKrq_71OIgTUeXFUj-AMzEPRqXqdhxo-OhUf4NN-oOldqDcYEizeNYcpJQvAYliVoht2XgFWRCMJUiO3bihJIuBQU10P2frC00YjgPs6SQZ8f6Z7QUJr8EX6LHqgDZhVGXRVozc26HuqiUym6grarBypHcdvd8SsQSPuc0rauHHiXrmwifrP5cLMwj_3v5H6JlQItu_",
+                vol: "Volume I",
+                title: "Marrakech",
+                desc: "The Crimson Spice. A journey through the bustling medinas and ancient tagine traditions.",
+              },
+              {
+                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAu3-KSQOfwHCWcChqFrSLDuYSZn11EcTkI-WjvuBCRBwLrfc_att2ysaZiGf9TEjqOJqe5jDhBKo4cUQYBsucusseC_J7cw2JNnn2JsPYP9h-QlyarZJgZsAhoQSA5HJXE0AZyUmf4LD1Zam4qFkGgD02t9vCoYX9m-jfGPf4OndnxBR8jRCorDxQJGWEVdO0RjdSXOSzz65bHWBcqK9RCeue22e662NFBDIEBYYVnYbSxrmhnUbk7qD89s680Vdht1T_uS1oNMefR",
+                vol: "Volume II",
+                title: "Tuscany",
+                desc: "The Gold of the Earth. Rolling hills, heritage olive oils, and the soul of the Italian countryside.",
+              },
+              {
+                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBdWXrkKkUpRHGU2c5BUiOez13606j57cIEDzw02IdOlIqB7Ni04sCD4f1rvlYLHLzBreuvRazZPx-HB3usv_YCRDQRljlHc2UD8Ba81-oJTtgc1vBu_sKRZ47sjhDUgJpriwMZ5mjFKCP1RhH1lnIjnMnzLOS6jusL9RKfieFioO3wbquZpVxmFb7zlVzAGbR0qjeSOMXrdGP0K2ia8HalUlhO1hv-ogmOqta8P4n596XeIaaVAsh2wy7KgZpDjDgOAC1l0NxKNNmj",
+                vol: "Volume III",
+                title: "Kyoto",
+                desc: "The Art of Umami. Finding serenity in the precision of Kaiseki and the tradition of tea ceremony.",
+              },
             ].map((card) => (
-              <div key={card.title} className="flex-shrink-0 w-72 lg:w-80 group cursor-pointer">
-                <div className="aspect-[4/5] rounded-xl overflow-hidden mb-4 relative">
-                  <img alt={card.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={card.img} />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+              <div key={card.title} className="min-w-[400px] aspect-[3/4.5] group relative overflow-hidden rounded-2xl snap-center flex-shrink-0">
+                <img alt={card.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" src={card.img} />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80 p-12 flex flex-col justify-between">
+                  <span className="tracking-[0.4em] uppercase text-xs text-white border-l-2 border-[#9A4100] pl-4">{card.vol}</span>
+                  <div>
+                    <h3 className="font-serif text-5xl mb-4">{card.title}</h3>
+                    <p className="italic text-xl mb-8 text-white/80">{card.desc}</p>
+                    <button className="bg-white text-[#1C1A17] px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#9A4100] hover:text-white transition-colors">
+                      Explore Issue
+                    </button>
+                  </div>
                 </div>
-                <h4 className="font-serif text-xl text-[#1d1b18]">{card.title}</h4>
-                <p className="text-sm text-[#725a3c] tracking-wide uppercase">{card.loc}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="py-24 lg:py-32 bg-[#ece7e2]">
-          <div className="max-w-5xl mx-auto px-6 md:px-8">
-            <div className="text-center mb-16 lg:mb-20">
-              <h2 className="font-serif text-4xl text-[#1d1b18] mb-4 italic">The New Paradigm</h2>
-              <p className="text-[#574238] max-w-xl mx-auto leading-relaxed">
-                We aren't just another app on your home screen. We are the bridge between the digital world and the tactile reality of food.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-2xl">
-              <div className="bg-[#fef9f3]/50 p-10 lg:p-12 flex flex-col items-center text-center space-y-5 lg:space-y-6">
-                <span className="material-symbols-outlined text-4xl text-[#725a3c] opacity-40">shopping_basket</span>
-                <h4 className="font-bold text-lg text-[#1d1b18]">Not a subscription box</h4>
-                <p className="text-sm text-[#574238]">No plastic waste or pre-measured packets. We teach you to source like a local.</p>
-              </div>
-              <div className="bg-[#9a4100] text-white p-10 lg:p-12 flex flex-col items-center text-center space-y-5 lg:space-y-6 md:scale-105 z-10 shadow-xl">
-                <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>travel_explore</span>
-                <h4 className="font-bold text-xl uppercase tracking-widest">A Travel Experience</h4>
-                <p className="text-sm opacity-90 leading-relaxed font-medium">Curated itineraries, historical context, and on-the-ground guides for the curious palate.</p>
-              </div>
-              <div className="bg-[#fef9f3]/50 p-10 lg:p-12 flex flex-col items-center text-center space-y-5 lg:space-y-6">
-                <span className="material-symbols-outlined text-4xl text-[#725a3c] opacity-40">menu_book</span>
-                <h4 className="font-bold text-lg text-[#1d1b18]">Not a recipe site</h4>
-                <p className="text-sm text-[#574238]">Beyond simple instructions. We offer cultural storytelling and artisanal technique mastery.</p>
-              </div>
-            </div>
+        <section className="relative py-40 flex items-center justify-center px-8 overflow-hidden bg-[#1C1A17]">
+          <div className="absolute inset-0 z-0">
+            <img
+              alt="Spices background"
+              className="w-full h-full object-cover opacity-20 grayscale"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0bN96Jr4ck4sr4fw9hc5R5SN4P9WryPO53t3sCEuewxCAyW4zrlavGXNs2l5GeK7Wxmw5dCpu6YPX3mjavMcTTXuCYS5IJ7VOYE7i7eTbh-_dOYUNnaiVDir_8ZDfZIW7YkdtvKTkvHjlvMgXrzV-ZikQd4wJn8BzDrRi_dXyBmVGqfCOalVpfWRAWHMDc3rwIIJ4fpyOmSfIfzRM0WXLVUWrUrhej1IpxpcFwUo0LCpkJDnCNY8pqBKaGpDk-zfUGdrbilaO3u1z"
+            />
           </div>
-        </section>
-
-        <section className="py-20 sm:py-28 px-6 md:px-8 bg-white">
-          <div className="max-w-5xl mx-auto text-center space-y-10 sm:space-y-14">
-            <span
-              className="material-symbols-outlined block"
-              style={{ color: "rgba(154,65,0,0.3)", fontSize: "72px", fontVariationSettings: "'FILL' 1" }}
-            >
-              format_quote
-            </span>
-            <blockquote className="font-serif italic text-[#1d1b18] leading-tight" style={{ fontSize: "clamp(1.5rem, 4vw, 3rem)" }}>
-              "Fork &amp; Compass isn't just a recipe box. It's an evening of discovery that turns my Tuesday night kitchen into a sun-drenched bistro in Provence."
-            </blockquote>
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-4 border-white shadow-xl">
-                <img
-                  alt="Elena Rossi"
-                  className="w-full h-full object-cover"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXs9G1nR_upbGeTUL-OAwsbFi1M6S-hyddJSmSL_EbOLphn-ouho1YBojVCjoAjtyKkRbgVQrpBd566PEol9oE1LOIvRfeul-HtMGD7zof6n6TzXmZzq6OdlipAh4xE3F-0Q2siCQIs9Q_OzeFNXJFLAvLAM2OCAoX8wst90-GLdVUCxchKp6mrKuWq6YATpgmmP1V7MXmryO4pA1K03HnIKgOvkci5W857_nzgGlZ43DVA50lEC5CwOrS0zxuK7U1dPJnGd7eglle"
-                />
-              </div>
-              <div>
-                <p className="font-bold text-lg sm:text-xl">Elena Rossi</p>
-                <p className="text-sm uppercase mt-1 text-[#9a4100] tracking-[0.3em]">Travel Writer &amp; Home Chef</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-24 lg:py-32 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-[#9a4100]/5 rounded-l-[8rem] lg:rounded-l-[10rem] -z-10" />
-          <div className="max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div>
-              <h2 className="font-serif text-4xl lg:text-5xl text-[#1d1b18] mb-6 lg:mb-8 leading-tight">
-                Your table is<br />reserved. Globally.
-              </h2>
-              <p className="text-lg lg:text-xl text-[#574238] mb-8 lg:mb-10 leading-relaxed">
-                Join culinary explorers who have ditched the tourist traps for the authentic soul of food. Be the first to know when we launch.
-              </p>
-              <div className="max-w-lg">
-                {ctaSubmitted ? (
-                  <div className="flex items-center gap-3 rounded-xl px-6 py-4 bg-[#fbdab3]/60 border border-[#dec1b3]">
-                    <span className="material-symbols-outlined text-[#9a4100]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                    <p className="font-serif italic text-[#1d1b18]">You're on the list — we'll be in touch soon.</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleCtaSubmit} className="flex flex-col sm:flex-row gap-3">
-                    <input
-                      type="email"
-                      required
-                      value={ctaEmail}
-                      onChange={(e) => setCtaEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      className="flex-1 rounded-xl outline-none text-base bg-white border border-[#dec1b3] text-[#1d1b18] px-5 py-4 focus:border-[#9a4100] focus:ring-1 focus:ring-[#9a4100] transition-colors placeholder:text-[#8a7266]"
-                    />
-                    <button
-                      type="submit"
-                      className="bg-[#9a4100] text-white px-7 py-4 rounded-xl text-base font-semibold hover:opacity-90 transition-opacity whitespace-nowrap active:scale-[0.98]"
-                    >
-                      Join Waitlist
-                    </button>
-                  </form>
-                )}
-                <p className="text-[#8a7266] text-sm mt-3">No spam. Just recipes, destinations, and stories.</p>
-              </div>
-            </div>
-            <div className="relative">
-              <img
-                alt="Beautiful dish served in an outdoor setting"
-                className="w-full aspect-[4/3] object-cover rounded-[2rem] lg:rounded-[3rem] shadow-2xl"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY0uwXwRR-ZeT2sG43NBEx2eTJwZXxTlP2HAvB5Wbphcn08I-mUZkVILMv_QvEMyXEmIhts9TsdWlIOZCrGhsEjt3qMvzAP6FRIbH6phJxNGOp0114bEUV64C6VuOLv_CBSY1XFVXHImVe_O2L0lKl5OUlep_OkNtJRipmnKQBvD_v9miAWCdJgQFrw9eAnbt-1FB0pQSo6wK-GzESPls71PFD9bPjEKhKlQDuqRpHHYMd5snj0-pchKlW_yAa_bU2EKTxIrMX3-mf"
-              />
-              <div className="absolute -top-8 -right-4 lg:-top-12 lg:-right-12 w-36 h-36 lg:w-44 lg:h-44 bg-[#ffdbcb] rounded-full flex items-center justify-center p-6 lg:p-8 text-center rotate-12 shadow-lg">
-                <p className="font-serif text-[#341100] text-base lg:text-lg leading-snug">8 Countries 24 Regions</p>
-              </div>
+          <div className="relative z-10 max-w-4xl mx-auto text-center space-y-12">
+            <h2 className="font-serif text-6xl md:text-8xl text-white leading-tight">Bring the World to Your Table.</h2>
+            <p className="text-2xl text-white/70 max-w-2xl mx-auto font-light leading-relaxed italic">
+              Join our community of global explorers. 8 countries. 97 recipes. Launching soon.
+            </p>
+            <div className="flex flex-col md:flex-row gap-6 justify-center pt-8">
+              <button
+                className="bg-[#9A4100] text-white px-16 py-6 rounded-full text-xl font-bold shadow-2xl hover:brightness-110 transition-all"
+                onClick={() => document.getElementById("hero-signup")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Claim Early Access
+              </button>
+              <button className="bg-white/10 text-white border border-white/20 px-16 py-6 rounded-full text-xl font-bold backdrop-blur-md hover:bg-white/20 transition-all">
+                Gift an Issue
+              </button>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="w-full py-16 lg:py-20 bg-[#f8f3ed] border-t border-[#ece7e2]">
-        <div className="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-6 md:px-8 gap-6 lg:gap-8">
-          <div className="text-xl font-serif text-[#9A4100]">Fork &amp; Compass</div>
-          <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
-            {["Privacy Policy", "Terms of Service", "Press Kit", "Contact"].map((link) => (
-              <a key={link} href="#" className="text-sm tracking-wide text-[#725A3C] hover:text-[#9A4100] transition-colors">
-                {link}
-              </a>
-            ))}
+      <footer className="w-full bg-[#F2EDE7] border-t border-[#8a7266]/10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 px-12 py-24 max-w-[1536px] mx-auto">
+          <div className="md:col-span-5 space-y-8">
+            <div className="flex items-center gap-3 text-[#9A4100]">
+              <span className="material-symbols-outlined text-4xl">explore</span>
+              <span className="text-3xl font-serif font-bold block">Fork &amp; Compass</span>
+            </div>
+            <p className="text-lg leading-relaxed text-[#725a3c] max-w-md">
+              Curating the world's most evocative food stories and delivering the soul of global cuisines directly to your home.
+            </p>
+            <div className="flex gap-8">
+              {["Instagram", "Pinterest", "Twitter"].map((social) => (
+                <a key={social} href="#" className="text-[#9A4100] hover:opacity-70 font-bold text-xs uppercase tracking-[0.2em]">
+                  {social}
+                </a>
+              ))}
+            </div>
           </div>
-          <p className="text-sm tracking-wide text-[#725A3C]">© 2025 Fork &amp; Compass. All rights reserved.</p>
+          <div className="md:col-span-3 grid grid-cols-2 gap-12">
+            <div className="space-y-6">
+              <h4 className="font-bold uppercase tracking-widest text-xs text-[#9A4100]">Discover</h4>
+              <ul className="space-y-4 text-base text-[#725a3c]">
+                {["Journal", "Ethos", "Destinations"].map((link) => (
+                  <li key={link}><a href="#" className="hover:text-[#9A4100] transition-colors">{link}</a></li>
+                ))}
+              </ul>
+            </div>
+            <div className="space-y-6">
+              <h4 className="font-bold uppercase tracking-widest text-xs text-[#9A4100]">Company</h4>
+              <ul className="space-y-4 text-base text-[#725a3c]">
+                {["Privacy", "Terms", "Press"].map((link) => (
+                  <li key={link}><a href="#" className="hover:text-[#9A4100] transition-colors">{link}</a></li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="md:col-span-4 space-y-8">
+            <h4 className="font-bold uppercase tracking-widest text-xs text-[#9A4100]">The Newsletter</h4>
+            <p className="text-base text-[#725a3c]">Weekly stories of flavor and far-off places.</p>
+            {footerSubmitted ? (
+              <div className="flex items-center gap-3 bg-[#fbdab3]/60 border border-[#dec1b3] rounded-lg px-6 py-4">
+                <span className="material-symbols-outlined text-[#9A4100]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                <p className="font-serif italic text-[#1C1A17]">You're on the list — we'll be in touch soon.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleFooterSubmit} className="flex flex-col gap-4">
+                <input
+                  type="email"
+                  required
+                  value={footerEmail}
+                  onChange={(e) => setFooterEmail(e.target.value)}
+                  placeholder="Your email"
+                  className="bg-[#FEF9F3] border border-[#8a7266]/20 px-6 py-4 w-full focus:ring-2 focus:ring-[#9A4100] rounded-lg text-base outline-none"
+                />
+                <button type="submit" className="bg-[#9A4100] text-white px-8 py-4 rounded-lg text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-all">
+                  Join the Editorial
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+        <div className="px-12 py-12 border-t border-[#8a7266]/5 text-center">
+          <p className="text-sm text-[#725a3c]/60">
+            © 2025 Fork &amp; Compass. All rights reserved. Designed for the global explorer.
+          </p>
         </div>
       </footer>
     </div>
