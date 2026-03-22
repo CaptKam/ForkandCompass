@@ -87,9 +87,9 @@ export default function LandingPage() {
 
           <div className="relative max-w-[1536px] mx-auto px-8 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
             <div className="text-left space-y-8">
-              <h1 className="font-serif text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.95] text-shadow-elegant text-[#ffffff]">
+              <h1 className="font-serif text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.95] text-shadow-elegant text-white">
                 Explore the world.<br />
-                <span className="italic font-normal">Cook it at home.</span>
+                <span className="italic font-normal text-[#9A4100]">Cook it at home.</span>
               </h1>
               <p className="text-white/90 text-xl md:text-2xl max-w-xl leading-relaxed italic text-shadow-elegant">
                 The high-end digital journal for the global explorer and the curious chef.
