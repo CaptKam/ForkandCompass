@@ -67,23 +67,17 @@
 }
 
 .hero-vignette {
-  background: radial-gradient(circle, rgba(28,26,23,0.2) 0%, rgba(28,26,23,0.8) 100%);
-}
-
-.hero-bottom-fade {
-  background: linear-gradient(to bottom, transparent 0%, #FEF9F3 100%);
+  background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%),
+              linear-gradient(to bottom, rgba(28,26,23,0.8) 0%, rgba(28,26,23,0.1) 40%, rgba(28,26,23,0.1) 70%, #FEF9F3 100%);
 }
 
 .text-shadow-elegant {
-  text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  text-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 .iphone-frame {
-  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.6), 0 30px 60px -30px rgba(0,0,0,0.5);
+  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5), 0 30px 60px -30px rgba(0,0,0,0.6);
   border: 12px solid #1C1A17;
-  border-radius: 3.5rem;
-  position: relative;
+  border-radius: 3rem;
+  background: #000;
 }
-
-.hide-scrollbar::-webkit-scrollbar { display: none; }
-.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
