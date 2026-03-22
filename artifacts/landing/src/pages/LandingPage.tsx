@@ -298,7 +298,7 @@ export default function LandingPage() {
           </div>
           <div className="max-w-[1536px] mx-auto px-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12">
             {[
-              { name: "Morocco", img: "https://images.unsplash.com/photo-1541518763-a49d21d05039?w=600&q=85&fit=crop" },
+              { name: "Morocco", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=85&fit=crop" },
               { name: "Italy", img: "https://images.unsplash.com/photo-1498579150354-977475b7ea0b?w=600&q=85&fit=crop" },
               { name: "Japan", img: "https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=85&fit=crop" },
               { name: "Mexico", img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=85&fit=crop" },
