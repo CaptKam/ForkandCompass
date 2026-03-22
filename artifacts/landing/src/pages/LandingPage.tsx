@@ -163,17 +163,6 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-            <div className="absolute -bottom-4 -left-8 lg:-left-12 bg-[#fef9f3]/90 backdrop-blur-md p-4 lg:p-5 rounded-2xl shadow-xl hidden md:block z-30 border border-[#dec1b3]/20">
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div className="w-10 h-10 rounded-full bg-[#ffdbcb] flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#9a4100] text-xl">map</span>
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-[#1d1b18]">8 Countries</p>
-                  <p className="text-xs text-[#574238]">97 Curated Recipes</p>
-                </div>
-              </div>
-            </div>
           </div>
           </div>
         </section>
