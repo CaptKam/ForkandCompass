@@ -178,13 +178,13 @@ export default function LandingPage() {
               { name: "Japan", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBdWXrkKkUpRHGU2c5BUiOez13606j57cIEDzw02IdOlIqB7Ni04sCD4f1rvlYLHLzBreuvRazZPx-HB3usv_YCRDQRljlHc2UD8Ba81-oJTtgc1vBu_sKRZ47sjhDUgJpriwMZ5mjFKCP1RhH1lnIjnMnzLOS6jusL9RKfieFioO3wbquZpVxmFb7zlVzAGbR0qjeSOMXrdGP0K2ia8HalUlhO1hv-ogmOqta8P4n596XeIaaVAsh2wy7KgZpDjDgOAC1l0NxKNNmj" },
               { name: "Mexico", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBr0PI2NYdINsGe-4oKwFvFTKv8LOmrzXTk7OJBp2iKSyjYDIK1I1Wl-h1xhDcRJF-oRLIQTnsBf3VvSL3QyPgGrXU_e3Po-rrq1VY4WlvGvMLDULWnDIe4nJU7lNocEZ7zm5AZO2uEPHG3XQJo4BwbkdtAoth0PgE5ENA2w_by5iF9K5XOLeQ-k9KpfgY-uCC3afr4Fa5Jd3lhfNdQv4or5HBOnpz8-c5uJYTWhjo4307dMgOCMiOKmZNxBigpDOOL_ECKpCk-zXVR" },
               { name: "Thailand", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDCXbxqqNIcPA-Ij80rKI3T06DMHLM_bHIXDVqMtIxGsUousF2YKJ56rNXB-1vIWWS4Y632e71fmIKEW87bSdKI8z2cm20rRxY7RI4BnOdwZoYRfZkevYmHfHfq_gwXAyey7x39akc7yxVZBQbbyxfZH3tRQDp6DRp_5glF6VgWOxp8SKf_gsRXi-25Cgc8ZNp1g8bsKGmy6Cj4snjIywv5YfRyVLKgdP74ZLj6HloAsTy5bSVGVCVBZE6FUGYxFdyoQUcv0FAV-6Ym" },
-              { name: "France", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAXs9G1nR_upbGeTUL-OAwsbFi1M6S-hyddJSmSL_EbOLphn-ouho1YBojVCjoAjtyKkRbgVQrpBd566PEol9oE1LOIvRfeul-HtMGD7zof6n6TzXmZzq6OdlipAh4xE3F-0Q2siCQIs9Q_OzeFNXJFLAvLAM2OCAoX8wst90-GLdVUCxchKp6mrKuWq6YATpgmmP1V7MXmryO4pA1K03HnIKgOvkci5W857_nzgGlZ43DVA50lEC5CwOrS0zxuK7U1dPJnGd7eglle" },
+              { name: "France", img: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&q=85&fit=crop" },
             ].map((country) => (
               <div key={country.name} className="text-center group cursor-pointer">
                 <div className="aspect-square rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[#9A4100] transition-all mb-6">
                   <img
                     alt={country.name}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
                     src={country.img}
                   />
                 </div>
