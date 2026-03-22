@@ -56,8 +56,13 @@ router.post("/instacart/shopping-list", async (req: Request, res: Response) => {
   });
 
   try {
+    const isDev = !process.env["NODE_ENV"] || process.env["NODE_ENV"] !== "production";
+    const baseUrl = isDev
+      ? "https://connect.dev.instacart.tools"
+      : "https://connect.instacart.com";
+
     const response = await fetch(
-      "https://connect.instacart.com/idp/v1/products/products_link",
+      `${baseUrl}/idp/v1/products/products_link`,
       {
         method: "POST",
         headers: {
@@ -81,8 +86,20 @@ router.post("/instacart/shopping-list", async (req: Request, res: Response) => {
       return res.status(response.status).json({ error: errText });
     }
 
-    const data = (await response.json()) as { url: string };
-    return res.json({ url: data.url });
+    const raw = await response.text();
+    console.log("[Instacart] raw response:", raw);
+    const data = JSON.parse(raw) as Record<string, unknown>;
+    const url =
+      (data["products_link_url"] as string | undefined) ??
+      (data["url"] as string | undefined) ??
+      (data["shopping_url"] as string | undefined) ??
+      (data["link"] as string | undefined);
+
+    if (!url) {
+      return res.status(502).json({ error: "Instacart did not return a URL", raw: data });
+    }
+
+    return res.json({ url });
   } catch (err) {
     return res.status(500).json({ error: "Failed to reach Instacart API" });
   }
