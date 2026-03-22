@@ -161,10 +161,10 @@ export default function LandingPage() {
                     <p className="text-[10px] uppercase tracking-[0.3em] text-[#9A4100] font-bold">Explore Destinations</p>
                     <div className="flex gap-3 mt-3 overflow-hidden">
                       {[
-                        { flag: "🇫🇷", name: "France", img: "https://images.unsplash.com/photo-1608855238293-a8853e7f7c98?w=200&q=80&fit=crop" },
-                        { flag: "🇮🇳", name: "India", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200&q=80&fit=crop" },
-                        { flag: "🇲🇽", name: "Mexico", img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=200&q=80&fit=crop" },
-                        { flag: "🇹🇭", name: "Thailand", img: "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=200&q=80&fit=crop" },
+                        { flag: "🇫🇷", name: "France", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=200&q=80&fit=crop" },
+                        { flag: "🇮🇳", name: "India", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=200&q=80&fit=crop" },
+                        { flag: "🇲🇽", name: "Mexico", img: "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=200&q=80&fit=crop" },
+                        { flag: "🇹🇭", name: "Thailand", img: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=200&q=80&fit=crop" },
                       ].map((c) => (
                         <div key={c.name} className="flex flex-col items-center gap-1">
                           <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#9A4100]/20">
