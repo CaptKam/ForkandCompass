@@ -169,6 +169,9 @@ components:
           type: string
         countryId:
           type: string
+        region:
+          type: string
+          nullable: true
         title:
           type: string
         description:

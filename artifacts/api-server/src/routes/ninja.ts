@@ -1,4 +1,5 @@
 import { Router, type IRouter } from "express";
+import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 
@@ -65,7 +66,7 @@ router.get("/ninja/recipes", async (req, res) => {
 
     if (!upstream.ok) {
       const body = await upstream.text();
-      console.error("recipe-api error", upstream.status, body);
+      logger.error({ status: upstream.status, body }, "recipe-api error");
       res.status(upstream.status).json({ error: "Upstream error" });
       return;
     }
@@ -73,7 +74,7 @@ router.get("/ninja/recipes", async (req, res) => {
     const data = (await upstream.json()) as RecipeListResponse;
     res.json(data);
   } catch (err) {
-    console.error("ninja/recipes error", err);
+    logger.error(err, "ninja/recipes error");
     res.status(500).json({ error: "Failed to fetch recipes" });
   }
 });
@@ -100,7 +101,7 @@ router.get("/ninja/recipes/:id", async (req, res) => {
     const data = await upstream.json();
     res.json(data);
   } catch (err) {
-    console.error("ninja/recipes/:id error", err);
+    logger.error(err, "ninja/recipes/:id error");
     res.status(500).json({ error: "Failed to fetch recipe" });
   }
 });

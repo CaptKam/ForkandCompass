@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { db, countriesTable, recipesTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
+import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 
@@ -12,7 +13,7 @@ router.get("/countries", async (_req, res) => {
       .orderBy(countriesTable.name);
     res.json(countries);
   } catch (err) {
-    console.error(err);
+    logger.error(err, "countries route error");
     res.status(500).json({ error: "Failed to fetch countries" });
   }
 });
@@ -40,7 +41,7 @@ router.get("/countries/:id", async (req, res) => {
 
     res.json({ ...country, recipes });
   } catch (err) {
-    console.error(err);
+    logger.error(err, "countries route error");
     res.status(500).json({ error: "Failed to fetch country" });
   }
 });

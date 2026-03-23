@@ -1,5 +1,6 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
+import { logger } from "../lib/logger";
 
 const router = Router();
 
@@ -87,7 +88,7 @@ router.post("/instacart/shopping-list", async (req: Request, res: Response) => {
     }
 
     const raw = await response.text();
-    console.log("[Instacart] raw response:", raw);
+    logger.debug({ raw }, "Instacart response");
     const data = JSON.parse(raw) as Record<string, unknown>;
     const url =
       (data["products_link_url"] as string | undefined) ??

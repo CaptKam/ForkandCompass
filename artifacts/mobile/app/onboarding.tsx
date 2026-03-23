@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     right: 0,
     paddingHorizontal: 24,
     paddingTop: 16,
-    backdropFilter: "blur(20px)",
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
   },
   startButton: {
     paddingVertical: 16,

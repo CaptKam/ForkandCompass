@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { db, countriesTable, recipesTable } from "@workspace/db";
 import { ilike, or } from "drizzle-orm";
+import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 
@@ -45,7 +46,7 @@ router.get("/search", async (req, res) => {
 
     res.json({ countries, recipes });
   } catch (err) {
-    console.error(err);
+    logger.error(err, "Search failed");
     res.status(500).json({ error: "Search failed" });
   }
 });

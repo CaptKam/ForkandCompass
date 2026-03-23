@@ -44,7 +44,7 @@ const destinations = [
   {
     name: "India",
     flag: "🇮🇳",
-    img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=85&fit=crop",
+    img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&q=85&fit=crop",
     tagline: "A Continent of Cuisines",
     desc: "India is not one cuisine — it is dozens, divided by region, religion, season, and history. Fork & Compass focuses on three distinct culinary traditions: the Mughal grandeur of Delhi, the coconut-rich cooking of Kerala, and the desert spices of Rajasthan.",
     recipeCount: 14,

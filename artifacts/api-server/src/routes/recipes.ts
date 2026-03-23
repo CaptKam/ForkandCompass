@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { db, recipesTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
+import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 
@@ -21,7 +22,7 @@ router.get("/recipes/:id", async (req, res) => {
 
     res.json(recipe);
   } catch (err) {
-    console.error(err);
+    logger.error(err, "Failed to fetch recipe");
     res.status(500).json({ error: "Failed to fetch recipe" });
   }
 });
