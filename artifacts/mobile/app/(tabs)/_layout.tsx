@@ -17,13 +17,13 @@ function NativeTabLayout() {
         <Icon sf={{ default: "safari", selected: "safari.fill" }} />
         <Label>Discover</Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="plan">
-        <Icon sf={{ default: "calendar.badge.checkmark", selected: "calendar.badge.checkmark" }} />
-        <Label>Plan</Label>
-      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="search">
         <Icon sf={{ default: "magnifyingglass", selected: "magnifyingglass" }} />
         <Label>Search</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="plan">
+        <Icon sf={{ default: "calendar.badge.checkmark", selected: "calendar.badge.checkmark" }} />
+        <Label>Plan</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="cook">
         <Icon sf={{ default: "fork.knife", selected: "fork.knife" }} />
@@ -100,18 +100,6 @@ function ClassicTabLayout() {
         }}
       />
       <Tabs.Screen
-        name="plan"
-        options={{
-          title: "Plan",
-          tabBarIcon: ({ color }) =>
-            isIOS ? (
-              <SymbolView name="calendar.badge.checkmark" tintColor={color} size={24} />
-            ) : (
-              <MaterialIcons name="event-note" size={24} color={color} />
-            ),
-        }}
-      />
-      <Tabs.Screen
         name="search"
         options={{
           title: "Search",
@@ -120,6 +108,18 @@ function ClassicTabLayout() {
               <SymbolView name="magnifyingglass" tintColor={color} size={24} />
             ) : (
               <MaterialIcons name="search" size={24} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="plan"
+        options={{
+          title: "Plan",
+          tabBarIcon: ({ color }) =>
+            isIOS ? (
+              <SymbolView name="calendar.badge.checkmark" tintColor={color} size={24} />
+            ) : (
+              <MaterialIcons name="event-note" size={24} color={color} />
             ),
         }}
       />
