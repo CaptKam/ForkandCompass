@@ -22,6 +22,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { getCountryById, getRecipeById, type GroceryItem } from "@/constants/data";
 import { type PantryStaple } from "@/constants/pantry";
+import { PARTNER_CONFIG, PARTNER_LIST, type GroceryPartner } from "@/constants/partners";
 import { useApp } from "@/contexts/AppContext";
 import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItinerary";
 
@@ -83,12 +84,13 @@ export default function PlanScreen() {
     unexcludeGroceryItem,
     quickAddStaple,
     pantryStaples,
+    groceryPartner,
+    setGroceryPartner,
   } = useApp();
 
   const [segment, setSegment] = useState<PlanSegment>("week");
   const [toast, setToast] = useState<string | null>(null);
-  const [instacartLoading, setInstacartLoading] = useState(false);
-  const [showInstacartModal, setShowInstacartModal] = useState(false);
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
@@ -228,37 +230,34 @@ export default function PlanScreen() {
     ]);
   };
 
-  const handleInstacart = () => {
+  const handleFabPress = () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    const itemsToOrder = activeGroceryItems.filter((i) => !i.checked);
-    if (itemsToOrder.length === 0) {
-      Alert.alert("Nothing to order", "All items are already checked off.");
-      return;
-    }
-    setShowInstacartModal(true);
+    setShowCheckoutModal(true);
   };
 
-  const handleConfirmInstacart = async () => {
-    setShowInstacartModal(false);
-    if (instacartLoading) return;
-    setInstacartLoading(true);
+  const handleOpenPartner = async (partner: "instacart" | "kroger" | "walmart") => {
+    setShowCheckoutModal(false);
     const itemsToOrder = activeGroceryItems.filter((i) => !i.checked);
-    try {
-      const response = await fetch("/api/instacart/shopping-list", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: "My Fork & Compass List",
-          items: itemsToOrder.map((i) => ({ name: i.name, amount: i.amount, recipeName: i.recipeName })),
-        }),
-      });
-      const data = await response.json() as { url?: string; error?: string };
-      if (!response.ok || !data.url) throw new Error(data.error ?? "Could not create shopping list");
-      await Linking.openURL(data.url);
-    } catch (err: unknown) {
-      Alert.alert("Instacart Error", err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setInstacartLoading(false);
+    if (partner === "instacart") {
+      try {
+        const response = await fetch("/api/instacart/shopping-list", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: "My Fork & Compass List",
+            items: itemsToOrder.map((i) => ({ name: i.name, amount: i.amount, recipeName: i.recipeName })),
+          }),
+        });
+        const data = await response.json() as { url?: string; error?: string };
+        if (!response.ok || !data.url) throw new Error(data.error ?? "Could not create shopping list");
+        await Linking.openURL(data.url);
+      } catch (err: unknown) {
+        Alert.alert("Instacart Error", err instanceof Error ? err.message : "Something went wrong");
+      }
+    } else if (partner === "kroger") {
+      await Linking.openURL("https://www.kroger.com/stores/details/700/00100");
+    } else if (partner === "walmart") {
+      await Linking.openURL("https://www.walmart.com/grocery");
     }
   };
 
@@ -407,7 +406,7 @@ export default function PlanScreen() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={[
                 styles.groceryScrollContent,
-                { paddingBottom: Platform.OS === "web" ? 80 : insets.bottom + 80 },
+                { paddingBottom: Platform.OS === "web" ? 80 : insets.bottom + 140 },
               ]}
               ListHeaderComponent={
                 <View>
@@ -512,52 +511,121 @@ export default function PlanScreen() {
                 {activeGroceryItems.length} items · {activeGroceryItems.filter((i) => i.checked).length} checked
                 {excludedGroceryItems.length > 0 && ` · ${excludedGroceryItems.length} in kitchen`}
               </Text>
-              <Pressable
-                onPress={handleInstacart}
-                disabled={instacartLoading}
-                style={({ pressed }) => [styles.instacartBtn, (instacartLoading || pressed) && { opacity: 0.75 }]}
-              >
-                <Ionicons name="cart-outline" size={14} color={Colors.light.primary} />
-                <Text style={styles.instacartText}>{instacartLoading ? "Opening…" : "Instacart"}</Text>
-              </Pressable>
             </View>
+
+            {/* ── Checkout FAB ─────────────────────────────────────── */}
+            {uncheckedGroceryCount > 0 && groceryPartner !== "skip" && (
+              <View style={[styles.fabWrap, { bottom: Math.max(insets.bottom, 16) + 60 }]}>
+                <LinearGradient
+                  colors={["rgba(254,249,243,0)", "rgba(254,249,243,0.95)", CREAM]}
+                  style={styles.fabGradient}
+                  pointerEvents="none"
+                />
+                <Pressable
+                  onPress={handleFabPress}
+                  style={({ pressed }) => [
+                    styles.fab,
+                    { backgroundColor: groceryPartner ? PARTNER_CONFIG[groceryPartner].color : TERRACOTTA },
+                    pressed && { opacity: 0.88 },
+                  ]}
+                >
+                  <View style={styles.fabLogoWrap}>
+                    <Text style={styles.fabLogoText}>
+                      {groceryPartner ? PARTNER_CONFIG[groceryPartner].initial : "→"}
+                    </Text>
+                  </View>
+                  <Text style={styles.fabText}>
+                    {groceryPartner
+                      ? `Add ${uncheckedGroceryCount} item${uncheckedGroceryCount !== 1 ? "s" : ""} to ${PARTNER_CONFIG[groceryPartner].label}`
+                      : `Order ${uncheckedGroceryCount} item${uncheckedGroceryCount !== 1 ? "s" : ""}`}
+                  </Text>
+                  <Ionicons name="arrow-forward" size={16} color="#fff" />
+                </Pressable>
+              </View>
+            )}
           </View>
         )
       )}
 
-      {/* ── Instacart Interstitial Modal ─────────────────────────── */}
+      {/* ── Multi-partner Checkout Sheet ─────────────────────────── */}
       <Modal
-        visible={showInstacartModal}
+        visible={showCheckoutModal}
         transparent
         animationType="slide"
-        onRequestClose={() => setShowInstacartModal(false)}
+        onRequestClose={() => setShowCheckoutModal(false)}
       >
-        <Pressable style={styles.modalOverlay} onPress={() => setShowInstacartModal(false)}>
-          <Pressable style={[styles.modalSheet, { paddingBottom: Math.max(insets.bottom + 20, 32) }]}>
+        <Pressable style={styles.modalOverlay} onPress={() => setShowCheckoutModal(false)}>
+          <Pressable style={[styles.modalSheet, { paddingBottom: Math.max(insets.bottom + 16, 28) }]}>
             <View style={styles.modalHandle} />
-            <View style={styles.modalCartIcon}>
-              <Ionicons name="cart" size={32} color={TERRACOTTA} />
-            </View>
-            <Text style={styles.modalTitle}>
-              Sending {activeGroceryItems.filter((i) => !i.checked).length} items to Instacart
-            </Text>
+
+            {/* Active partner header */}
+            {groceryPartner && groceryPartner !== "skip" ? (
+              <>
+                <View style={[styles.modalPartnerBadge, { backgroundColor: PARTNER_CONFIG[groceryPartner].light }]}>
+                  <Text style={[styles.modalPartnerInitial, { color: PARTNER_CONFIG[groceryPartner].color }]}>
+                    {PARTNER_CONFIG[groceryPartner].initial}
+                  </Text>
+                </View>
+                <Text style={styles.modalTitle}>
+                  Sending {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} to {PARTNER_CONFIG[groceryPartner].label}
+                </Text>
+              </>
+            ) : (
+              <>
+                <View style={[styles.modalPartnerBadge, { backgroundColor: "rgba(154,65,0,0.1)" }]}>
+                  <Ionicons name="cart" size={28} color={TERRACOTTA} />
+                </View>
+                <Text style={styles.modalTitle}>
+                  {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} ready to order
+                </Text>
+              </>
+            )}
+
             {excludedGroceryItems.length > 0 && (
               <Text style={styles.modalSubtitle}>
-                {excludedGroceryItems.length} pantry staple{excludedGroceryItems.length !== 1 ? "s" : ""} excluded from your cart
+                {excludedGroceryItems.length} pantry staple{excludedGroceryItems.length !== 1 ? "s" : ""} already excluded
               </Text>
             )}
-            <Text style={styles.modalHint}>
-              You can add anything else once you're on Instacart.
-            </Text>
-            <Pressable
-              onPress={handleConfirmInstacart}
-              style={({ pressed }) => [styles.modalConfirmBtn, pressed && { opacity: 0.88 }]}
-            >
-              <Text style={styles.modalConfirmText}>Open Instacart →</Text>
-            </Pressable>
-            <Pressable onPress={() => setShowInstacartModal(false)} style={styles.modalCancelBtn}>
+            <Text style={styles.modalHint}>You can add anything else once you're in the store.</Text>
+
+            {/* Primary CTA */}
+            {groceryPartner && groceryPartner !== "skip" && (
+              <Pressable
+                onPress={() => handleOpenPartner(groceryPartner as "instacart" | "kroger" | "walmart")}
+                style={({ pressed }) => [
+                  styles.modalConfirmBtn,
+                  { backgroundColor: PARTNER_CONFIG[groceryPartner].color },
+                  pressed && { opacity: 0.88 },
+                ]}
+              >
+                <Text style={styles.modalConfirmText}>Open {PARTNER_CONFIG[groceryPartner].label} →</Text>
+              </Pressable>
+            )}
+
+            <Pressable onPress={() => setShowCheckoutModal(false)} style={styles.modalCancelBtn}>
               <Text style={styles.modalCancelText}>Edit list before sending</Text>
             </Pressable>
+
+            {/* Switch partner */}
+            <View style={styles.modalSwitchRow}>
+              <View style={styles.modalDividerLine} />
+              <Text style={styles.modalDividerText}>or checkout with</Text>
+              <View style={styles.modalDividerLine} />
+            </View>
+            <View style={styles.modalPartnerSwitch}>
+              {PARTNER_LIST.filter((p) => p.id !== groceryPartner).map((p) => (
+                <Pressable
+                  key={p.id}
+                  onPress={() => { setGroceryPartner(p.id); }}
+                  style={({ pressed }) => [styles.modalPartnerBtn, pressed && { opacity: 0.75 }]}
+                >
+                  <View style={[styles.modalPartnerCircle, { backgroundColor: p.light }]}>
+                    <Text style={[styles.modalPartnerCircleText, { color: p.color }]}>{p.initial}</Text>
+                  </View>
+                  <Text style={styles.modalPartnerLabel}>{p.label}</Text>
+                </Pressable>
+              ))}
+            </View>
           </Pressable>
         </Pressable>
       </Modal>
@@ -1267,23 +1335,54 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: TEXT_SECONDARY,
   },
-  instacartBtn: {
+  // Checkout FAB
+  fabWrap: {
+    position: "absolute",
+    left: 20,
+    right: 20,
+    alignItems: "stretch",
+  },
+  fabGradient: {
+    position: "absolute",
+    left: -20,
+    right: -20,
+    top: -40,
+    height: 60,
+  },
+  fab: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: TERRACOTTA,
+    height: 52,
+    borderRadius: 14,
+    paddingHorizontal: 16,
+    gap: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 6,
   },
-  instacartText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 12,
-    color: TERRACOTTA,
+  fabLogoWrap: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  fabLogoText: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 13,
+    color: "#fff",
+  },
+  fabText: {
+    flex: 1,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: "#fff",
   },
 
-  // Instacart modal
+  // Checkout modal
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.45)",
@@ -1293,10 +1392,10 @@ const styles = StyleSheet.create({
     backgroundColor: CREAM,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    paddingHorizontal: 28,
+    paddingHorizontal: 24,
     paddingTop: 16,
     alignItems: "center",
-    gap: 14,
+    gap: 12,
   },
   modalHandle: {
     width: 40,
@@ -1305,14 +1404,17 @@ const styles = StyleSheet.create({
     backgroundColor: BORDER,
     marginBottom: 8,
   },
-  modalCartIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: "rgba(154,65,0,0.08)",
+  modalPartnerBadge: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 4,
+  },
+  modalPartnerInitial: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 28,
   },
   modalTitle: {
     fontFamily: "NotoSerif_700Bold",
@@ -1335,13 +1437,12 @@ const styles = StyleSheet.create({
     lineHeight: 19,
   },
   modalConfirmBtn: {
-    backgroundColor: TERRACOTTA,
     borderRadius: 12,
     height: 52,
     alignSelf: "stretch",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 6,
+    marginTop: 4,
   },
   modalConfirmText: {
     fontFamily: "Inter_600SemiBold",
@@ -1349,13 +1450,56 @@ const styles = StyleSheet.create({
     color: CREAM,
   },
   modalCancelBtn: {
-    paddingVertical: 10,
+    paddingVertical: 8,
   },
   modalCancelText: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
     color: TEXT_SECONDARY,
     textDecorationLine: "underline",
+  },
+  modalSwitchRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    alignSelf: "stretch",
+    marginTop: 4,
+  },
+  modalDividerLine: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: BORDER,
+  },
+  modalDividerText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: "#B5AEA4",
+  },
+  modalPartnerSwitch: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 32,
+    paddingBottom: 4,
+  },
+  modalPartnerBtn: {
+    alignItems: "center",
+    gap: 6,
+  },
+  modalPartnerCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalPartnerCircleText: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 20,
+  },
+  modalPartnerLabel: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: TEXT_SECONDARY,
   },
 
   // Toast

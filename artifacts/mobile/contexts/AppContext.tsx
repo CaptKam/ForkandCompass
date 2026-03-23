@@ -10,6 +10,7 @@ import React, {
 import type { GroceryItem, Recipe } from "@/constants/data";
 import type { InventoryItem, ScanZone } from "@/constants/inventory";
 import type { ItineraryProfile, ItineraryDay } from "@/hooks/useItinerary";
+import type { GroceryPartner } from "@/constants/partners";
 
 /** Parse an amount string like "200g", "1 cup", "2 tbsp" into numeric + unit parts */
 function parseAmount(raw: string): { quantity: number; unit: string; parsed: boolean } {
@@ -46,6 +47,7 @@ import {
 export type CookingLevel = "beginner" | "intermediate" | "advanced";
 export type AppearanceMode = "system" | "light" | "dark";
 export type ExploreViewMode = "feed" | "grid";
+export type { GroceryPartner };
 
 interface AppContextType {
   savedRecipeIds: string[];
@@ -97,6 +99,8 @@ interface AppContextType {
   clearInventoryZone: (zone: ScanZone) => void;
   lastScanTimestamp: number | null;
   clearGrocery: () => void;
+  groceryPartner: GroceryPartner;
+  setGroceryPartner: (partner: GroceryPartner) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -117,6 +121,7 @@ const ITINERARY_HISTORY_KEY = "@culinary_itinerary_history";
 const INVENTORY_KEY = "@culinary_inventory";
 const LAST_SCAN_KEY = "@culinary_last_scan";
 const PANTRY_KEY = "@culinary_pantry_staples";
+const GROCERY_PARTNER_KEY = "@culinary_grocery_partner";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [savedRecipeIds, setSavedRecipeIds] = useState<string[]>([]);
@@ -135,12 +140,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
   const [lastScanTimestamp, setLastScanTimestamp] = useState<number | null>(null);
   const [pantryStaples, setPantryStaples] = useState<PantryStaple[]>(DEFAULT_PANTRY_STAPLES);
+  const [groceryPartner, setGroceryPartnerState] = useState<GroceryPartner>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan, pantry] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan, pantry, groceryPartnerRaw] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
@@ -157,6 +163,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(INVENTORY_KEY).catch(() => null),
           AsyncStorage.getItem(LAST_SCAN_KEY).catch(() => null),
           AsyncStorage.getItem(PANTRY_KEY).catch(() => null),
+          AsyncStorage.getItem(GROCERY_PARTNER_KEY).catch(() => null),
         ]);
         if (saved) {
           try {
@@ -242,6 +249,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
               );
             }
           } catch {}
+        }
+        if (groceryPartnerRaw && ["instacart", "kroger", "walmart", "skip"].includes(groceryPartnerRaw)) {
+          setGroceryPartnerState(groceryPartnerRaw as GroceryPartner);
         }
       } catch {}
       setLoaded(true);
@@ -401,6 +411,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const clearGrocery = useCallback(() => {
     setGroceryItems([]);
+  }, []);
+
+  const setGroceryPartner = useCallback((partner: GroceryPartner) => {
+    setGroceryPartnerState(partner);
+    AsyncStorage.setItem(GROCERY_PARTNER_KEY, partner ?? "").catch(() => {});
   }, []);
 
   const removeFromGrocery = useCallback((recipe: Recipe) => {
@@ -624,6 +639,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         lastScanTimestamp,
         clearGrocery,
         removeFromGrocery,
+        groceryPartner,
+        setGroceryPartner,
       }}
     >
       {children}

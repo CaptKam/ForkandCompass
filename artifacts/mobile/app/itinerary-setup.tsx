@@ -15,13 +15,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { getRecipeById } from "@/constants/data";
 import { CATEGORY_LABELS, type PantryStaple } from "@/constants/pantry";
+import { PARTNER_CONFIG, PARTNER_LIST, type GroceryPartner } from "@/constants/partners";
 import { useApp } from "@/contexts/AppContext";
 import {
   generateItinerary,
   type ItineraryProfile,
 } from "@/hooks/useItinerary";
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 6;
 
 const COOKING_DAYS_OPTIONS: { value: 3 | 5 | 7; label: string }[] = [
   { value: 3, label: "3" },
@@ -53,6 +54,8 @@ export default function ItinerarySetupScreen() {
     togglePantryStaple,
     addToGrocery,
     clearGrocery,
+    groceryPartner,
+    setGroceryPartner,
   } = useApp();
 
   const [step, setStep] = useState(0);
@@ -249,6 +252,55 @@ export default function ItinerarySetupScreen() {
     );
   };
 
+  const renderStep5 = () => (
+    <View style={styles.stepContent}>
+      <Text style={styles.stepTitle}>Where do you shop?</Text>
+      <Text style={styles.stepSubtitle}>
+        We'll send your grocery list there each week. You can always change this later.
+      </Text>
+      <View style={styles.partnerList}>
+        {PARTNER_LIST.map((p) => {
+          const selected = groceryPartner === p.id;
+          return (
+            <Pressable
+              key={p.id}
+              onPress={() => { haptic(); setGroceryPartner(p.id as GroceryPartner); }}
+              style={[styles.partnerRow, selected && styles.partnerRowSelected]}
+            >
+              <View style={[styles.partnerCircle, { backgroundColor: p.light }]}>
+                <Text style={[styles.partnerInitial, { color: p.color }]}>{p.initial}</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.partnerLabel, selected && styles.partnerLabelSelected]}>{p.label}</Text>
+                <Text style={styles.partnerSub}>{p.sub}</Text>
+              </View>
+              <View style={[styles.partnerRadio, selected && { borderColor: p.color }]}>
+                {selected && <View style={[styles.partnerRadioInner, { backgroundColor: p.color }]} />}
+              </View>
+            </Pressable>
+          );
+        })}
+        <Pressable
+          onPress={() => { haptic(); setGroceryPartner("skip"); }}
+          style={[styles.partnerRow, groceryPartner === "skip" && styles.partnerRowSelected]}
+        >
+          <View style={[styles.partnerCircle, { backgroundColor: Colors.light.surfaceContainerLow }]}>
+            <Ionicons name="close" size={18} color={Colors.light.secondary} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.partnerLabel, groceryPartner === "skip" && { color: Colors.light.onSurface }]}>
+              I'll shop myself
+            </Text>
+            <Text style={styles.partnerSub}>No store link — just the list</Text>
+          </View>
+          <View style={[styles.partnerRadio, groceryPartner === "skip" && { borderColor: Colors.light.primary }]}>
+            {groceryPartner === "skip" && <View style={[styles.partnerRadioInner, { backgroundColor: Colors.light.primary }]} />}
+          </View>
+        </Pressable>
+      </View>
+    </View>
+  );
+
   const renderCurrentStep = () => {
     switch (step) {
       case 0: return renderStep0();
@@ -256,6 +308,7 @@ export default function ItinerarySetupScreen() {
       case 2: return renderCardOptions(ADVENTURE_OPTIONS, adventurousness, (k) => setAdventurousness(k as ItineraryProfile["adventurousness"]), "How adventurous?");
       case 3: return renderStep3();
       case 4: return renderStep4();
+      case 5: return renderStep5();
       default: return null;
     }
   };
@@ -537,5 +590,65 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: "#FFFFFF",
     letterSpacing: 0.3,
+  },
+
+  /* Partner step */
+  partnerList: {
+    gap: 12,
+    marginTop: 8,
+  },
+  partnerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    padding: 16,
+    borderRadius: 14,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderWidth: 1.5,
+    borderColor: "transparent",
+  },
+  partnerRowSelected: {
+    backgroundColor: Colors.light.surface,
+    borderColor: Colors.light.primary,
+  },
+  partnerCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  partnerInitial: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 18,
+  },
+  partnerLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 15,
+    color: Colors.light.secondary,
+    marginBottom: 2,
+  },
+  partnerLabelSelected: {
+    color: Colors.light.onSurface,
+    fontFamily: "Inter_600SemiBold",
+  },
+  partnerSub: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12,
+    color: Colors.light.outlineVariant,
+  },
+  partnerRadio: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: Colors.light.outlineVariant,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  partnerRadioInner: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
 });
