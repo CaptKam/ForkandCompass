@@ -17,17 +17,13 @@ function NativeTabLayout() {
         <Icon sf={{ default: "safari", selected: "safari.fill" }} />
         <Label>Discover</Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="itinerary">
-        <Icon sf={{ default: "calendar", selected: "calendar" }} />
-        <Label>Itinerary</Label>
+      <NativeTabs.Trigger name="plan">
+        <Icon sf={{ default: "calendar.badge.checkmark", selected: "calendar.badge.checkmark" }} />
+        <Label>Plan</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="search">
         <Icon sf={{ default: "magnifyingglass", selected: "magnifyingglass" }} />
         <Label>Search</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="grocery">
-        <Icon sf={{ default: "cart", selected: "cart.fill" }} />
-        <Label>Grocery</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="cook">
         <Icon sf={{ default: "fork.knife", selected: "fork.knife" }} />
@@ -104,12 +100,12 @@ function ClassicTabLayout() {
         }}
       />
       <Tabs.Screen
-        name="itinerary"
+        name="plan"
         options={{
-          title: "Itinerary",
+          title: "Plan",
           tabBarIcon: ({ color }) =>
             isIOS ? (
-              <SymbolView name="calendar" tintColor={color} size={24} />
+              <SymbolView name="calendar.badge.checkmark" tintColor={color} size={24} />
             ) : (
               <MaterialIcons name="event-note" size={24} color={color} />
             ),
@@ -128,18 +124,6 @@ function ClassicTabLayout() {
         }}
       />
       <Tabs.Screen
-        name="grocery"
-        options={{
-          title: "Grocery",
-          tabBarIcon: ({ color }) =>
-            isIOS ? (
-              <SymbolView name="cart" tintColor={color} size={24} />
-            ) : (
-              <MaterialIcons name="shopping-cart" size={24} color={color} />
-            ),
-        }}
-      />
-      <Tabs.Screen
         name="cook"
         options={{
           title: "Cook",
@@ -151,18 +135,10 @@ function ClassicTabLayout() {
             ),
         }}
       />
-      <Tabs.Screen
-        name="saved"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          href: null,
-        }}
-      />
+      <Tabs.Screen name="itinerary" options={{ href: null }} />
+      <Tabs.Screen name="grocery" options={{ href: null }} />
+      <Tabs.Screen name="saved" options={{ href: null }} />
+      <Tabs.Screen name="settings" options={{ href: null }} />
     </Tabs>
   );
 }

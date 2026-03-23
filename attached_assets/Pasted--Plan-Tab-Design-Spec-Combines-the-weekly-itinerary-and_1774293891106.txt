@@ -1,0 +1,280 @@
+# Plan Tab — Design Spec
+
+> Combines the weekly itinerary and grocery list into a single tab. One workflow: plan meals → shop for ingredients.
+
+---
+
+## Overview
+
+The Plan tab has two modes controlled by a segment control at the top: **This Week** and **Grocery**. The segment control is always visible and sticky below the nav bar. Both views share state — adding recipes to the itinerary auto-populates the grocery list.
+
+---
+
+## Navigation Bar
+
+- **Left**: Screen title "Plan" (Noto Serif, 22pt, bold, #1C1A17)
+- **Right**: "Edit" text button (terracotta #9A4100) — navigates to Itinerary Setup wizard
+- No back button (it's a root tab screen)
+
+---
+
+## Segment Control (sticky, below nav)
+
+```
+┌─────────────────┬─────────────────┐
+│   This Week     │    Grocery      │
+└─────────────────┴─────────────────┘
+```
+
+- Standard iOS segmented control
+- Terracotta (#9A4100) active indicator on cream (#FEF9F3) background
+- Sticky below nav bar, does not scroll with content
+- Tapping switches between the two views with a crossfade (no slide animation)
+- Badge on "Grocery" segment showing unchecked item count (e.g. "12")
+
+---
+
+## This Week View
+
+### State 1: Empty (no itinerary set up)
+
+```
+┌──────────────────────────────────┐
+│                                  │
+│         [compass icon]           │
+│                                  │
+│    Plan your week of cooking     │
+│                                  │
+│  Choose how many nights to cook, │
+│  pick your cuisines, and we'll   │
+│  build your dinner schedule.     │
+│                                  │
+│    ┌──────────────────────┐      │
+│    │   Plan My Week →     │      │
+│    └──────────────────────┘      │
+│                                  │
+└──────────────────────────────────┘
+```
+
+- Centered layout, generous whitespace
+- Compass icon: SF Symbol `safari` or custom, 48pt, terracotta #9A4100
+- Headline: "Plan your week of cooking" — Noto Serif, 22pt, bold, #1C1A17
+- Body: Inter, 15pt, regular, #8A8279, max-width 280px, centered
+- CTA button: "Plan My Week →" — full-width (with 32px horizontal padding), 50pt height, terracotta background, cream text, 12px corner radius
+- Tapping CTA → pushes Itinerary Setup wizard onto navigation stack
+
+### State 2: Active Itinerary
+
+#### Tonight's Card (promoted, top of scroll)
+
+```
+┌──────────────────────────────────┐
+│  TONIGHT                         │
+│                                  │
+│  ┌────────────────────────────┐  │
+│  │                            │  │
+│  │     [recipe hero image]    │  │
+│  │                            │  │
+│  │  Cacio e Pepe              │  │
+│  │  Tuscany, Italy · 25 min   │  │
+│  │                            │  │
+│  │  ┌────────┐ ┌────────────┐ │  │
+│  │  │ Quick  │ │    Full    │ │  │
+│  │  └────────┘ └────────────┘ │  │
+│  │                            │  │
+│  │  ┌──────────────────────┐  │  │
+│  │  │  Start Cooking →     │  │  │
+│  │  └──────────────────────┘  │  │
+│  └────────────────────────────┘  │
+└──────────────────────────────────┘
+```
+
+- Section label: "TONIGHT" — Inter, 11pt, 500 weight, terracotta #9A4100, letter-spacing 2px, uppercase
+- Card: Full-width, 16px corner radius, surface color #FEF9F3, subtle border #E8DFD2 (1px)
+- Recipe image: Full-width within card, 200pt height, 12px top corner radius, cover fit
+- Recipe name: Noto Serif, 20pt, bold, #1C1A17
+- Subtitle: Inter, 13pt, regular, #8A8279 — "[Region], [Country] · [cook time]"
+- Mode toggle: Two-option pill/chip row — "Quick" and "Full Experience"
+  - Active: terracotta background, cream text
+  - Inactive: cream background, terracotta text, 1px terracotta border
+  - Height: 36pt, corner radius: 18pt (pill)
+- "Start Cooking →" button: terracotta background, cream text, full-width within card, 48pt height, 10px corner radius
+  - Tapping → pushes Recipe Detail for this recipe, with Cook Mode accessible from there
+- Tapping the card image or recipe name → Recipe Detail `/recipe/[id]`
+
+#### Rest of the Week
+
+```
+┌──────────────────────────────────┐
+│  THIS WEEK                       │
+│                                  │
+│  ┌────────┬───────────────────┐  │
+│  │ TUE    │ Pad Thai          │  │
+│  │ Mar 25 │ Bangkok · 30 min  │  │
+│  │        │           ↺  ✕   │  │
+│  ├────────┼───────────────────┤  │
+│  │ WED    │ Mole Negro        │  │
+│  │ Mar 26 │ Oaxaca · 4 hr    │  │
+│  │        │           ↺  ✕   │  │
+│  ├────────┼───────────────────┤  │
+│  │ THU    │ Tonkotsu Ramen    │  │
+│  │ Mar 27 │ Kyoto · 4h 30m   │  │
+│  │        │           ↺  ✕   │  │
+│  ├────────┼───────────────────┤  │
+│  │ FRI    │ [skipped]         │  │
+│  │ Mar 28 │ Restore           │  │
+│  └────────┴───────────────────┘  │
+│                                  │
+│  ┌──────────────────────┐        │
+│  │ Get All Ingredients  │        │
+│  └──────────────────────┘        │
+│                                  │
+│  Generate new week               │
+└──────────────────────────────────┘
+```
+
+- Section label: "THIS WEEK" — same style as "TONIGHT" label
+- Day rows: List layout, no card wrapping (flat list with dividers)
+  - Left column (fixed 64pt width): Day name (Inter, 13pt, 500 weight, #1C1A17) + date (Inter, 11pt, regular, #8A8279)
+  - Right column: Recipe name (Noto Serif, 16pt, bold, #1C1A17) + subtitle (Inter, 12pt, regular, #8A8279)
+  - Action buttons right-aligned: ↺ swap (SF Symbol `arrow.trianglehead.2.clockwise`, 20pt) and ✕ skip (SF Symbol `xmark`, 20pt), both #8A8279, 44x44pt tap target
+  - Row height: minimum 72pt
+  - Tapping recipe name or row → Recipe Detail `/recipe/[id]`
+- Skipped day: Row background slightly dimmed (opacity 0.5), recipe name replaced with "Skipped", "Restore" text button in terracotta
+- Dividers: 1px, #E8DFD2, full width with 16px left inset
+- "Get All Ingredients" button:
+  - Full-width, 50pt height, terracotta background, cream text, 10px corner radius
+  - Tapping → adds all active (non-skipped) recipe ingredients to grocery list, shows success toast "Added [n] ingredients", auto-switches segment to Grocery
+- "Generate new week" link: Inter, 13pt, regular, terracotta #9A4100, centered, tapping regenerates the itinerary
+
+### State 3: All Done (all days completed or skipped)
+
+- Celebratory message: "Great week!" — Noto Serif, 24pt, bold, centered
+- Subtitle: "You cooked [n] meals from [n] countries" — Inter, 14pt, #8A8279
+- CTA: "Plan Next Week" — same style as "Plan My Week" button
+
+---
+
+## Grocery View
+
+### State 1: Empty
+
+```
+┌──────────────────────────────────┐
+│                                  │
+│         [cart icon]              │
+│                                  │
+│    Your grocery list is empty    │
+│                                  │
+│  Add ingredients from recipes    │
+│  or your weekly plan.            │
+│                                  │
+└──────────────────────────────────┘
+```
+
+- Same centered empty-state pattern as itinerary empty state
+- Cart icon: SF Symbol `cart`, 48pt, terracotta
+- No CTA button needed — the action happens elsewhere (recipe detail or itinerary)
+
+### State 2: Has Items
+
+```
+┌──────────────────────────────────┐
+│  ┌──────────────────────┐        │
+│  │ 🔍 Scan Ingredients  │        │
+│  └──────────────────────┘        │
+│                                  │
+│  PRODUCE                         │
+│  ☐ Tomatoes (2)         Ramen   │
+│  ☑ Cilantro (1 bunch)   Tacos   │
+│  ☐ Lime (3)             Tacos   │
+│                                  │
+│  DAIRY                           │
+│  ☐ Pecorino Romano      Cacio   │
+│  ☐ Heavy cream          Ramen   │
+│                                  │
+│  PANTRY                          │
+│  ☑ Soy sauce            Ramen   │
+│  ☐ Black pepper          Cacio   │
+│                                  │
+│  ─────────────────────────────   │
+│  12 items · 5 checked            │
+└──────────────────────────────────┘
+```
+
+- "Scan Ingredients" button: Outlined style (1px terracotta border, terracotta text, cream background), full-width, 44pt height, 10px corner radius, SF Symbol `camera` leading icon
+  - Tapping → pushes Kitchen Scanner modal
+- Items grouped by category (aisle): PRODUCE, DAIRY, PANTRY, MEAT, SPICES, etc.
+  - Category header: Inter, 11pt, 500 weight, #8A8279, letter-spacing 2px, uppercase
+  - 16px top padding before each category, 8px after header
+- Each ingredient row:
+  - Checkbox: 24x24pt, terracotta fill when checked, cream border when unchecked, 44x44pt tap target
+  - Ingredient name: Inter, 15pt, regular, #1C1A17 (strikethrough + #8A8279 when checked)
+  - Quantity in parentheses: Inter, 15pt, regular, #8A8279
+  - Source recipe name: Inter, 11pt, regular, #B5AEA4, right-aligned — tells the user which recipe needs this ingredient
+  - Row height: 48pt minimum
+  - Swipe left to delete (standard iOS destructive swipe)
+- Summary footer (sticky at bottom): "12 items · 5 checked" — Inter, 12pt, regular, #8A8279, centered, 1px top border #E8DFD2
+
+---
+
+## Interactions & Transitions
+
+| Action | Result |
+|---|---|
+| Segment control tap | Crossfade between This Week and Grocery views (200ms) |
+| "Plan My Week" button | Push Itinerary Setup wizard onto nav stack |
+| "Edit" nav button | Push Itinerary Setup wizard (pre-filled with current preferences) |
+| Tonight's card tap | Push Recipe Detail |
+| "Start Cooking" button | Push Recipe Detail (user taps "Enter Cook Mode" from there) |
+| Day row tap | Push Recipe Detail for that day's recipe |
+| ↺ swap button | Animated swap — current recipe slides out, new one slides in (300ms) |
+| ✕ skip button | Row dims with crossfade (200ms), "Restore" appears |
+| "Get All Ingredients" | Success toast + auto-switch segment to Grocery |
+| "Scan Ingredients" | Push Kitchen Scanner as modal (slide up, 400ms) |
+| Checkbox tap | Instant toggle with haptic (UIImpactFeedbackGenerator .light) |
+| Ingredient swipe-left | Standard iOS destructive swipe with "Delete" action |
+
+---
+
+## Design System Tokens
+
+| Token | Value |
+|---|---|
+| Primary accent | #9A4100 (terracotta) |
+| Surface | #FEF9F3 (cream) |
+| Surface dark | #F5EDDF (cream dark) |
+| Text primary | #1C1A17 |
+| Text secondary | #8A8279 |
+| Text tertiary | #B5AEA4 |
+| Border | #E8DFD2 |
+| Headline font | Noto Serif, bold |
+| Body font | Inter, regular |
+| Label font | Inter, 500 weight |
+| Corner radius (cards) | 16px |
+| Corner radius (buttons) | 10px |
+| Corner radius (pills) | 18px (half height) |
+| Spacing unit | 8px grid |
+| Min tap target | 44x44pt |
+
+---
+
+## Accessibility
+
+- All tap targets 44x44pt minimum
+- Segment control supports VoiceOver with "This Week, tab 1 of 2" / "Grocery, tab 2 of 2"
+- Checkbox states announced: "Tomatoes, 2, unchecked" / "Cilantro, 1 bunch, checked"
+- Recipe source label on grocery items announced after ingredient name
+- Dynamic Type supported on all text — test at largest accessibility size
+- Reduce Motion: replace all slide/crossfade with instant cuts
+- Swipe-to-delete has visible alternative (edit mode or long-press context menu)
+
+---
+
+## Edge Cases
+
+- **Itinerary has recipes but grocery is empty**: User hasn't tapped "Get All Ingredients" yet. Show a hint banner at top of Grocery view: "Tap 'Get All Ingredients' on your weekly plan to populate this list."
+- **Recipe removed from itinerary after ingredients added**: Ingredients remain in grocery list (don't auto-delete — user may have already bought them). Source label updates to show "[removed]" in italic.
+- **All ingredients checked**: Show a subtle "All done!" message at the bottom of the list with a confetti-style checkmark animation.
+- **Same ingredient from multiple recipes**: Combine quantities and show multiple source labels. E.g. "Garlic (5 cloves)" with "Ramen, Mole" as source.
+- **No internet**: Itinerary and grocery list work fully offline (AsyncStorage). Only recipe detail images require network.
