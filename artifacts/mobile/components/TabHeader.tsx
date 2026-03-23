@@ -38,7 +38,7 @@ export default function TabHeader({ title, rightExtra }: TabHeaderProps) {
           <Pressable
             onPress={() => {
               haptic();
-              router.push("/(tabs)/settings" as any);
+              router.push("/settings");
             }}
             style={styles.avatar}
             hitSlop={8}
