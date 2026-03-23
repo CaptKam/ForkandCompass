@@ -446,14 +446,6 @@ export default function PlanScreen() {
                       </ScrollView>
                     </View>
                   )}
-                  {/* Scan button */}
-                  <Pressable
-                    onPress={() => { haptic(); router.push("/kitchen-scanner"); }}
-                    style={({ pressed }) => [styles.scanBtn, pressed && { opacity: 0.8 }]}
-                  >
-                    <Ionicons name="camera-outline" size={18} color={Colors.light.primary} />
-                    <Text style={styles.scanBtnText}>Scan Ingredients</Text>
-                  </Pressable>
                 </View>
               }
               renderItem={({ item: group }) => (
