@@ -507,34 +507,35 @@ export default function PlanScreen() {
               </Text>
             </View>
 
-            {/* ── Checkout FAB ─────────────────────────────────────── */}
-            {uncheckedGroceryCount > 0 && groceryPartner && groceryPartner !== "skip" && (
-              <View style={[styles.fabWrap, { bottom: Math.max(insets.bottom, 16) + 60 }]}>
-                <LinearGradient
-                  colors={["rgba(254,249,243,0)", "rgba(254,249,243,0.95)", CREAM]}
-                  style={styles.fabGradient}
-                  pointerEvents="none"
-                />
-                <Pressable
-                  onPress={handleCheckoutFab}
-                  style={({ pressed }) => [
-                    styles.fab,
-                    { backgroundColor: PARTNER_CONFIG[groceryPartner].color },
-                    pressed && { opacity: 0.88, transform: [{ scale: 0.97 }] },
-                  ]}
-                >
-                  <View style={styles.fabLogoWrap}>
-                    <Text style={styles.fabLogoText}>{PARTNER_CONFIG[groceryPartner].initial}</Text>
-                  </View>
-                  <Text style={styles.fabText}>
-                    Add {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} to {PARTNER_CONFIG[groceryPartner].label}
-                  </Text>
-                  <Ionicons name="arrow-forward" size={16} color="#fff" />
-                </Pressable>
-              </View>
-            )}
           </View>
         )
+      )}
+
+      {/* ── Checkout FAB — root-level so native doesn't clip it ───── */}
+      {segment === "grocery" && uncheckedGroceryCount > 0 && groceryPartner && groceryPartner !== "skip" && (
+        <View style={[styles.fabWrap, { bottom: Math.max(insets.bottom, 16) + 60 }]} pointerEvents="box-none">
+          <LinearGradient
+            colors={["rgba(254,249,243,0)", "rgba(254,249,243,0.95)", CREAM]}
+            style={styles.fabGradient}
+            pointerEvents="none"
+          />
+          <Pressable
+            onPress={handleCheckoutFab}
+            style={({ pressed }) => [
+              styles.fab,
+              { backgroundColor: PARTNER_CONFIG[groceryPartner].color },
+              pressed && { opacity: 0.88, transform: [{ scale: 0.97 }] },
+            ]}
+          >
+            <View style={styles.fabLogoWrap}>
+              <Text style={styles.fabLogoText}>{PARTNER_CONFIG[groceryPartner].initial}</Text>
+            </View>
+            <Text style={styles.fabText}>
+              Add {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} to {PARTNER_CONFIG[groceryPartner].label}
+            </Text>
+            <Ionicons name="arrow-forward" size={16} color="#fff" />
+          </Pressable>
+        </View>
       )}
 
       {/* ── Toast ────────────────────────────────────────────────── */}
@@ -1260,7 +1261,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: 52,
-    borderRadius: 14,
+    borderRadius: 26,
     paddingHorizontal: 16,
     gap: 10,
     shadowColor: "#000",
