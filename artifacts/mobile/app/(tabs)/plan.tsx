@@ -75,6 +75,7 @@ export default function PlanScreen() {
     itineraryHistory,
     addToItineraryHistory,
     addToGrocery,
+    removeFromGrocery,
     groceryItems,
     toggleGroceryItem,
     removeGroceryItem,
@@ -181,16 +182,27 @@ export default function PlanScreen() {
     haptic();
     const updated = reloadDay(day, currentItinerary, itineraryProfile!, selectedCountryIds);
     setCurrentItinerary(currentItinerary.map((d) => (d.id === day.id ? updated : d)));
+    // Swap grocery: remove old recipes, add new ones
+    const oldIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+    const newIds = updated.mode === "quick" ? updated.quickRecipeIds : updated.fullRecipeIds;
+    for (const rid of oldIds) { const r = getRecipeById(rid); if (r) removeFromGrocery(r); }
+    for (const rid of newIds) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
   };
 
   const handleSkipDay = (day: ItineraryDay) => {
     haptic();
     setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, status: "skipped" as const } : d));
+    // Remove this day's recipes from grocery
+    const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+    for (const rid of ids) { const r = getRecipeById(rid); if (r) removeFromGrocery(r); }
   };
 
   const handleRestoreDay = (day: ItineraryDay) => {
     haptic();
     setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, status: "active" as const } : d));
+    // Add this day's recipes back to grocery
+    const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+    for (const rid of ids) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
   };
 
   const handleToggleMode = (day: ItineraryDay) => {
@@ -201,16 +213,20 @@ export default function PlanScreen() {
 
   const handleGetAllIngredients = () => {
     haptic();
-    let added = 0;
+    const beforeCount = groceryItems.filter((i) => !i.excluded).length;
     for (const day of currentItinerary) {
       if (day.status !== "active") continue;
       const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
       for (const rid of ids) {
         const recipe = getRecipeById(rid);
-        if (recipe) { addToGrocery(recipe); added += recipe.ingredients.length; }
+        if (recipe) addToGrocery(recipe);
       }
     }
-    showToast(`Added ${added} ingredients`);
+    // Count is approximate since state updates are async — show recipe count instead
+    const recipeCount = currentItinerary
+      .filter((d) => d.status === "active")
+      .reduce((n, d) => n + (d.mode === "quick" ? d.quickRecipeIds : d.fullRecipeIds).length, 0);
+    showToast(`Synced ingredients for ${recipeCount} meal${recipeCount !== 1 ? "s" : ""}`);
     setTimeout(() => switchSegment("grocery"), 500);
   };
 

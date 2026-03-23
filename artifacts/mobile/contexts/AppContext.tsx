@@ -53,6 +53,7 @@ interface AppContextType {
   isSaved: (id: string) => boolean;
   groceryItems: GroceryItem[];
   addToGrocery: (recipe: Recipe) => void;
+  removeFromGrocery: (recipe: Recipe) => void;
   toggleGroceryItem: (id: string) => void;
   removeGroceryItem: (id: string) => void;
   clearGrocery: () => void;
@@ -285,7 +286,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         for (const ing of recipe.ingredients) {
           const normalizedName = ing.name.toLowerCase().trim();
           const stableId = `ingredient-${normalizedName.replace(/[^a-z0-9]+/g, "-")}`;
-          const existingIdx = updated.findIndex((i) => i.id === stableId);
+          // Match by stableId OR normalized name — handles old-format IDs from AsyncStorage
+          const existingIdx = updated.findIndex(
+            (i) => i.id === stableId || i.name.toLowerCase().trim() === normalizedName
+          );
 
           if (existingIdx >= 0) {
             // Merge into existing — sum amounts and add recipe source
@@ -310,6 +314,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
               const mergedNames = [...names, recipe.name];
               updated[existingIdx] = {
                 ...existing,
+                id: stableId, // Upgrade old-format IDs to stable format
                 amount: mergedAmount,
                 qty: mergedQty,
                 recipeNames: mergedNames,
@@ -396,6 +401,36 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const clearGrocery = useCallback(() => {
     setGroceryItems([]);
+  }, []);
+
+  const removeFromGrocery = useCallback((recipe: Recipe) => {
+    setGroceryItems((prev) => {
+      let updated = [...prev];
+      for (const ing of recipe.ingredients) {
+        const normalizedName = ing.name.toLowerCase().trim();
+        const stableId = `ingredient-${normalizedName.replace(/[^a-z0-9]+/g, "-")}`;
+        const idx = updated.findIndex(
+          (i) => i.id === stableId || i.name.toLowerCase().trim() === normalizedName
+        );
+        if (idx < 0) continue;
+        const item = updated[idx];
+        const qty = item.qty ?? 1;
+        const recipeNames = (item.recipeNames ?? [item.recipeName]).filter(
+          (n) => n !== recipe.name
+        );
+        if (qty <= 1 || recipeNames.length === 0) {
+          updated = updated.filter((_, i) => i !== idx);
+        } else {
+          updated[idx] = {
+            ...item,
+            qty: qty - 1,
+            recipeNames,
+            recipeName: recipeNames.join(", "),
+          };
+        }
+      }
+      return updated;
+    });
   }, []);
 
   const setHasSeenWelcome = useCallback((v: boolean) => {
@@ -588,6 +623,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         clearInventoryZone,
         lastScanTimestamp,
         clearGrocery,
+        removeFromGrocery,
       }}
     >
       {children}
