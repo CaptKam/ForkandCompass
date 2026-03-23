@@ -16,7 +16,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { COUNTRIES } from "@/constants/data";
+import { COUNTRIES, getAllRecipes, type Country, type Recipe } from "@/constants/data";
 import { useApp, type CookingLevel, type AppearanceMode } from "@/contexts/AppContext";
 
 const COOKING_LEVELS: { key: CookingLevel; label: string; icon: string }[] = [
@@ -44,6 +44,9 @@ export default function ProfileScreen() {
     setAppearanceMode,
     selectedCountryIds,
     itineraryProfile,
+    savedRecipeIds,
+    savedCountryIds,
+    toggleSaved,
   } = useApp();
 
   const haptic = () => {
@@ -75,6 +78,8 @@ export default function ProfileScreen() {
 
   const bucketListCountries = COUNTRIES.filter((c) => selectedCountryIds.includes(c.id));
   const currentLevel = COOKING_LEVELS.find((l) => l.key === cookingLevel);
+  const savedRecipes = getAllRecipes().filter((r) => savedRecipeIds.includes(r.id));
+  const savedCountries = COUNTRIES.filter((c) => savedCountryIds.includes(c.id));
 
   return (
     <View style={styles.container}>
@@ -122,6 +127,71 @@ export default function ProfileScreen() {
             <Text style={styles.statNumber}>{COUNTRIES.reduce((n, c) => n + c.recipes.length, 0)}</Text>
             <Text style={styles.statLabel}>Recipes</Text>
           </View>
+        </View>
+
+        {/* Saved */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Saved</Text>
+          {savedCountries.length === 0 && savedRecipes.length === 0 ? (
+            <View style={[styles.card, { paddingHorizontal: 16, paddingVertical: 20, alignItems: "center", gap: 6 }]}>
+              <Ionicons name="bookmark-outline" size={28} color={Colors.light.outlineVariant} />
+              <Text style={{ fontFamily: "Inter_400Regular", fontSize: 14, color: Colors.light.secondary, textAlign: "center" }}>
+                Nothing saved yet. Tap the bookmark on any recipe to save it here.
+              </Text>
+            </View>
+          ) : (
+            <>
+              {savedCountries.length > 0 && (
+                <View style={{ marginBottom: 12 }}>
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ gap: 16, paddingVertical: 4 }}
+                  >
+                    {savedCountries.map((country) => (
+                      <Pressable
+                        key={country.id}
+                        onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: country.id } }); }}
+                        style={{ alignItems: "center", gap: 6 }}
+                      >
+                        <View style={{ width: 72, height: 72, borderRadius: 12, overflow: "hidden", backgroundColor: Colors.light.surfaceContainerHigh }}>
+                          <Image source={{ uri: country.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" />
+                        </View>
+                        <Text style={{ fontFamily: "Inter_500Medium", fontSize: 10, color: Colors.light.secondary, letterSpacing: 1, textTransform: "uppercase" }}>
+                          {country.name} {country.flag}
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
+              {savedRecipes.length > 0 && (
+                <View style={styles.card}>
+                  {savedRecipes.map((recipe, index) => (
+                    <Pressable
+                      key={recipe.id}
+                      onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
+                      style={[
+                        styles.savedRecipeRow,
+                        index < savedRecipes.length - 1 && styles.savedRecipeRowBorder,
+                      ]}
+                    >
+                      <View style={styles.savedRecipeImage}>
+                        <Image source={{ uri: recipe.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={styles.savedRecipeName} numberOfLines={1}>{recipe.name}</Text>
+                        <Text style={styles.savedRecipeCuisine}>{recipe.category}</Text>
+                      </View>
+                      <Pressable onPress={() => { haptic(); toggleSaved(recipe.id); }} hitSlop={8}>
+                        <Ionicons name="bookmark" size={18} color={Colors.light.primary} />
+                      </Pressable>
+                    </Pressable>
+                  ))}
+                </View>
+              )}
+            </>
+          )}
         </View>
 
         {/* Cooking Level */}
@@ -511,6 +581,39 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     fontSize: 15,
     color: Colors.light.secondary,
+  },
+
+  /* Saved recipes */
+  savedRecipeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  savedRecipeRowBorder: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(222,193,179,0.15)",
+  },
+  savedRecipeImage: {
+    width: 52,
+    height: 52,
+    borderRadius: 10,
+    overflow: "hidden",
+    backgroundColor: Colors.light.surfaceContainerHigh,
+  },
+  savedRecipeName: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    color: Colors.light.onSurface,
+    marginBottom: 3,
+  },
+  savedRecipeCuisine: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: Colors.light.secondary,
+    letterSpacing: 0.5,
+    textTransform: "uppercase",
   },
 
   /* Reset */
