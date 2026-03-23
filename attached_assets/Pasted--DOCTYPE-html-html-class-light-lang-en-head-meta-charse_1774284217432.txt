@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,600;1,600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f8f3ed",
+                        "secondary-fixed-dim": "#e1c19c",
+                        "tertiary-fixed-dim": "#9ccaff",
+                        "on-tertiary-fixed-variant": "#00497a",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8a7266",
+                        "on-background": "#1d1b18",
+                        "error": "#ba1a1a",
+                        "tertiary": "#005f9c",
+                        "on-primary-fixed": "#341100",
+                        "primary-fixed-dim": "#ffb690",
+                        "on-tertiary-container": "#fdfcff",
+                        "secondary-container": "#fbdab3",
+                        "surface-container-high": "#ece7e2",
+                        "primary": "#9a4100",
+                        "on-surface-variant": "#574238",
+                        "on-secondary-fixed": "#291802",
+                        "surface-container": "#f2ede7",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "surface-variant": "#e6e2dc",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f5f0ea",
+                        "surface-container-highest": "#e6e2dc",
+                        "secondary": "#725a3c",
+                        "tertiary-fixed": "#d0e4ff",
+                        "surface": "#fef9f3",
+                        "outline-variant": "#dec1b3",
+                        "on-primary-fixed-variant": "#783100",
+                        "inverse-surface": "#32302c",
+                        "surface-bright": "#fef9f3",
+                        "surface-dim": "#ded9d4",
+                        "on-error": "#ffffff",
+                        "primary-container": "#bf550a",
+                        "tertiary-container": "#0079c4",
+                        "surface-tint": "#9e4300",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#feddb6",
+                        "on-secondary-fixed-variant": "#584326",
+                        "background": "#fef9f3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#001d35",
+                        "on-surface": "#1d1b18",
+                        "inverse-primary": "#ffb690",
+                        "primary-fixed": "#ffdbcb",
+                        "on-secondary-container": "#775e3f"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Anchor (Shared Component) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#FEF9F3] dark:bg-[#0D0D0D]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#9A4100] dark:text-[#FFB690] hover:opacity-80 transition-opacity">menu</span>
+</div>
+<h1 class="text-2xl font-semibold font-serif text-[#9A4100] dark:text-[#FFB690] italic tracking-tight">The Culinary Editorial</h1>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high ring-1 ring-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="User profile avatar close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWLN9nywZOvBhgfWXVVTBb9dNallI9CpG2vVcEmI2n9LjMxYfp1c_eGztD-pkk9vtUT2j6ALc4yghqcyL_LqYBka0i9DYntU2vsr0k9IRq_F0ekge6C20pq02nSlBqd2sQcduvF-Pv2bgGdldU_4FX1gnuAfyjb0jfhP6NWf4YKoKV60hd1_eEvegpvD8uYm5liLL8I_WBxWYbuRf8nbC3khUsUwWUat2spKA0LiKplF8VH3Z7HdcSQgfKOl23h1laNrvca7DXST4H"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 min-h-screen">
+<!-- Main Header -->
+<header class="mb-10">
+<h2 class="text-[28pt] font-headline font-semibold tracking-tight text-on-surface">Saved</h2>
+</header>
+<!-- Countries Section -->
+<section class="mb-14">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-on-surface font-headline text-lg">Countries (3)</h3>
+<span class="material-symbols-outlined text-secondary opacity-40">chevron_right</span>
+</div>
+<div class="flex gap-5 overflow-x-auto no-scrollbar pb-2">
+<!-- Italy -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-high ring-1 ring-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="Picturesque Italian coastal village at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTBuh6NyEPeaEBhScL5V3QDSLL1MsyiXbuaYZBI4jthFKZnYsvzBjYPphha6_OPfsQGHc5Q7FKKVw5QpwBDfakqr9JmJ-svcnQ5QcSZwx9iFhfUTL3v9g4dmXw_tU4BnRizPLXvqhuyoTOZOlkxIK_qjgE8IEtqs2DshFIayefo5YUdbGfPB553nmkN9WXdbZdU8zyTYrLNT_UNcbqCNYwCV75sjhgqlmrlam5Szd4M9e4GKvHkr1Wufu0e-tQ_350MevymAl7UuMr"/>
+</div>
+<div class="text-center">
+<p class="text-xs font-medium uppercase tracking-widest text-secondary">Italy 🇮🇹</p>
+</div>
+</div>
+<!-- Japan -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-high ring-1 ring-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="Traditional Japanese pagoda in Kyoto garden" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2pOXHYospoJv9Psg4yJsNUZ-dILHhaznxglhU8CTaWmR-p53nZbnFLg_S1Is5b_UkwPawKcDWglU9UAgWhkKaitr1RqeJYaEspYrAEO1fWyFP8X4-ioiCxQLLVZBL52zb3kS3kmWCSGXAIjfYUrA66bgLYmCO9nrDWxAIuwMElOdmPF_oBgnPxE-e7djV7HT6fgui-Zis0BZgCnkeGbftlhLJnUhMAqkUW62lzfBKF2ki7D2bsx9IE6saskZmHHErrMCTzD8qZYdE"/>
+</div>
+<div class="text-center">
+<p class="text-xs font-medium uppercase tracking-widest text-secondary">Japan 🇯🇵</p>
+</div>
+</div>
+<!-- Mexico -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-high ring-1 ring-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="Colorful colonial architecture in Mexico" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSvbTLP2gAm0-vhcLlu-a1FDOPt4QfBlVg7DgA21wA9JIqqdcD760-bHfO_nvvLD0XbHFSL23b59jpt8LcX4grRXE0J86gh9GxEdkRbFnjr7phgZlQvC1tAiOO1y8QMutNpIpNr8QMLYq1aAWFBof9Abjch0T1lHSzAnbyBhRxC-I-5bOpIsFpbW110uND10xFOFRl3a2brjqM8WCcf88znQoEsh4Q454U0Ac2UMMyT_LCMPdJORvhhthOs0NhfSUz0Pf6Vtsr6_Mx"/>
+</div>
+<div class="text-center">
+<p class="text-xs font-medium uppercase tracking-widest text-secondary">Mexico 🇲🇽</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Regions Section -->
+<section class="mb-14">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-on-surface font-headline text-lg">Regions (5)</h3>
+<span class="material-symbols-outlined text-secondary opacity-40">chevron_right</span>
+</div>
+<div class="flex gap-5 overflow-x-auto no-scrollbar pb-2">
+<!-- Tuscany -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-low ring-1 ring-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="Rolling hills of Tuscany vineyards" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKIDQD2upgf7QJQuX0uWpbklr4D-yTjfmXPN762kRps0i33uAzAYCeQ0K0JOOo3NcYSnASIdNp011UVaxYbQrGOyqazW7HV6MfSYqVbRTpX5p7Xp6JdxljR6NjtDIvLzc-snZmQ9uRFNfP23PFemNusd07BVnKmg0FLx7bWOW9PJyhi2_FvLVIay42XsaIvlz4IM4ML_xMsKfzGe_Mab6DpW18dvCeV3fu89XFQVRweXzBH8BIAGFPLvXdTMqFiwf3yAzv2xyapbWE"/>
+</div>
+<p class="text-[10px] font-medium uppercase tracking-widest text-secondary">Tuscany</p>
+</div>
+<!-- Provence -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-low ring-1 ring-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="Lavender fields in Provence France" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACBPkqC5ygCBBy3BeZO9uKVhLYcIQhOrHpfyHWh_oLi_5_RN7zCYopEG0yD0ZwPg87DDRlgitYtdz-OSwp8XzSTUrbmwhf4eFou-vourSl5Sxi0oSp7AjBhkenSfzzsiJQSpPk8p98T69bKLuxxYSZGSUwxIRMOAxP-RiWz4JiRM1HYz5z41cc9FxGFrveFSt0ladQX6SmobYIBA_vtXB056ALmy4PnL7RdeLlqU2_gA5csnMZVDDSSnd74Kkl41FWdoO0ykEXK1DF"/>
+</div>
+<p class="text-[10px] font-medium uppercase tracking-widest text-secondary">Provence</p>
+</div>
+<!-- Hokkaido -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-low ring-1 ring-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="Snowy mountain peaks in Hokkaido" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsKmvm9Pr42Ay_weHgLQeK2c_OWriftXvKEAOhrlj3adk8re4-KEBhvNHqb0LT9Pfs3S_QrP70gdDaMGbtkPhY1-crXNshSTR9l5e7bmtS1xhMY1X8jCehdOIbaq6YfJOUnwYoOLq7wEz5d5vNLPKqkgJb_an9i8nCSwKkIFARbP49L9JL4_o_D5faBT1cf_J1bZ1TX2On-BFav1wx9itAF1k5TuQ2DD7h-dxdDDG03jhNqejPUsjY0fhJr_tARSSNDvuRik_JDds0"/>
+</div>
+<p class="text-[10px] font-medium uppercase tracking-widest text-secondary">Hokkaido</p>
+</div>
+<!-- Oaxaca -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-low ring-1 ring-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="Market scene in Oaxaca Mexico" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAG4Tf_BLsUEA4ocZaSmMyem8qttwO7GZ56OPjYjGSHN7VC6iDEKmVd09KeTZa82v7iLK4dZbbUtPSVOUPnMSJtLBVupu4tP6v8LTKvi5FI63ScBHvHqCv268u9ua3_mNxdZrM_ZObp4CaH6YE_jjfAgBlNc0MHIUfTjt-_JUYalNZ4-7RT5w9BZSdGljQTsLImALfqawDCMYuMu2bcu9XvwOQL-tcI7XKIXG-tb7cr8GD138ywANQ0_W88ojFPWTrZpw293mh-vglN"/>
+</div>
+<p class="text-[10px] font-medium uppercase tracking-widest text-secondary">Oaxaca</p>
+</div>
+<!-- Catalonia -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-low ring-1 ring-outline-variant/10">
+<img class="w-full h-full object-cover" data-alt="Gothic Quarter street in Catalonia" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbPMtKqGtxVyHDKJ8uud43xylijvmuKQ20AknGNGLnn8DnqNYxvS9j30HKEbJfFtsxtL33ACWU9jU24WTWbilbzCiFk_UmGT-uNQh9zCpOco7pUjQPzxRWatrQ8LWnOMT5QzL4emLy9JIja6upAQJ90bVN39m326FNHgsxq8b7_Zp1JN15Lcf7Sd3cMQuJcOQEcBiZ-CfWEFz1IQhlX9K4EsHD83ThKxGyUOmOGgIgVZM3vsHNkrDiqbYfX2KBp4WGX59dyt4e0D_R"/>
+</div>
+<p class="text-[10px] font-medium uppercase tracking-widest text-secondary">Catalonia</p>
+</div>
+</div>
+</section>
+<!-- Recipes Section -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-on-surface font-headline text-lg">Recipes (12)</h3>
+<span class="text-xs font-medium uppercase tracking-widest text-primary">Sort By Date</span>
+</div>
+<div class="space-y-4">
+<!-- Recipe Card 1 -->
+<div class="flex items-center gap-4 bg-surface-container-low rounded-xl p-3 hover:bg-surface-container-high transition-colors">
+<div class="w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Artfully plated healthy salmon bowl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu2mSvoHXSPilNWqcpAvOzc8mY6YUBTa6LZAJysFw7Hy92Iyu9B2OLDIiIQgiuvKeu2Vwx-IqjXTZ4CRSGo8NQPH8eZc6vD8_gvk2vj8vBwdIrl_w8OYrnfRBpLWN0x4Yha5HvxHdnm9N3uXRTULN5x0rWBH7v7d7khbTV6NOCPEfJVbc8314Itsrn-JK6xUDXAvmRLSqEi4RA0Y0f0Ehwoc7EicRG1bViYusGEjLgcmyGDtgQdsCZHzzyozdO0yBTVBx7DD0uz-ko"/>
+</div>
+<div class="flex-grow min-w-0">
+<h4 class="text-on-surface font-semibold text-sm truncate">Salmon Confit with Dill</h4>
+<p class="text-xs text-secondary opacity-80 uppercase tracking-widest mt-1">Nordic Cuisine</p>
+</div>
+<button class="flex-shrink-0 ml-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<!-- Recipe Card 2 -->
+<div class="flex items-center gap-4 bg-surface-container-low rounded-xl p-3 hover:bg-surface-container-high transition-colors">
+<div class="w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Vibrant mediterranean garden salad" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaS2vrXYczEJ9IYs-FIYtHmir-_A8nJpAz2aC6f8Aib0p4bhnLRILrpKKZRc2OZb3ZZqWb_PZM-QrxOeB71tcwfpsUYtfkoVfaGQ6gAhOEZuvdxTDGrqD5tv1NFtx4SoiVx9HTDTPSPtcK1XY8aeO96rEnztmvSVoSpp9NBbK7E6nBik2aGzctJhtjb6yzhwgw6RhWe-vgZNT4fdV4Dcw6xSN437IPQWdAl1FsyZXbq2ZyrYb2rFfPayCZxgs6ed3H_hs0CgbDtZUU"/>
+</div>
+<div class="flex-grow min-w-0">
+<h4 class="text-on-surface font-semibold text-sm truncate">Heirloom Tomato Salad</h4>
+<p class="text-xs text-secondary opacity-80 uppercase tracking-widest mt-1">Mediterranean</p>
+</div>
+<button class="flex-shrink-0 ml-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<!-- Recipe Card 3 -->
+<div class="flex items-center gap-4 bg-surface-container-low rounded-xl p-3 hover:bg-surface-container-high transition-colors">
+<div class="w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Traditional homemade ramen bowl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFLkpuVCaNTKmTIZ1PB39xi6ITGXwTKpOfmaFPPIjPilMQJsZyaJav6DDTNfVwgocG7GWuw-1snfJI5oa23RyxInBgKyDAFkU4nO84edslFe20QVDlZAENwv9eh66dqgiT4k-RD0S17CDFf4GO5wAvaw5hnv6ol1Rg1cAC-upbBwJqGilSGNBMQ5nOjcowtC_ALwEoGKs86ZPqtXT0X3WBqaZEyEgL5mkz4uuC28cBepeCEeOXpLjGWo5iWyzc_cyWyfANzPnMn7Zx"/>
+</div>
+<div class="flex-grow min-w-0">
+<h4 class="text-on-surface font-semibold text-sm truncate">Shoyu Ramen from Scratch</h4>
+<p class="text-xs text-secondary opacity-80 uppercase tracking-widest mt-1">Japanese</p>
+</div>
+<button class="flex-shrink-0 ml-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<!-- Recipe Card 4 -->
+<div class="flex items-center gap-4 bg-surface-container-low rounded-xl p-3 hover:bg-surface-container-high transition-colors">
+<div class="w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Gourmet wood-fired margherita pizza" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOOtB3waS72yjG88pqPiUcl6CGMKa7x8DksU9DyuHvNO983iaLQrZLbzHsgRqrjrRyap70Nk3dZsgVpYnGVKxIKKY-ViZkpQjtEFiXFk3rH7PSoxHj4REorfDIUxjoa1j5LnAocdgnpyUtaZ4HPhuyQzJHRxHBaQGbHqifuwpVTbcYfZpAivYfucaxs3N6PqnDDp_xbKWiwvI8rhBVG905VADTMGSwhIn4VO_EzbmQ-0m3pYVwypi6YLPxPvN1vr-6paC35mOmqs8u"/>
+</div>
+<div class="flex-grow min-w-0">
+<h4 class="text-on-surface font-semibold text-sm truncate">Neapolitan Pizza Dough</h4>
+<p class="text-xs text-secondary opacity-80 uppercase tracking-widest mt-1">Italian</p>
+</div>
+<button class="flex-shrink-0 ml-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<!-- Placeholder for the rest of 12 -->
+<div class="py-4 text-center">
+<button class="px-6 py-2 rounded-full border border-outline-variant/30 text-xs font-medium uppercase tracking-widest text-secondary hover:bg-surface-container-high">Load 8 More</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell (Shared Component) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#FEF9F3]/90 dark:bg-[#0D0D0D]/90 backdrop-blur-md shadow-[0_-12px_40px_0_rgba(29,27,24,0.06)] rounded-t-3xl">
+<div class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] cursor-pointer">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Cook</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] cursor-pointer">
+<span class="material-symbols-outlined">shopping_basket</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Grocery</span>
+</div>
+<!-- Active Tab: Saved -->
+<div class="flex flex-col items-center justify-center bg-[#ECE7E2] dark:bg-[#252A32] text-[#9A4100] dark:text-[#FFB690] rounded-xl px-3 py-1 scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Saved</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Settings</span>
+</div>
+</nav>
+</body></html>

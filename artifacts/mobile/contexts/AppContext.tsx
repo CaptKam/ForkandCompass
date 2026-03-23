@@ -39,6 +39,9 @@ interface AppContextType {
   savedCountryIds: string[];
   toggleSavedCountry: (id: string) => void;
   isCountrySaved: (id: string) => boolean;
+  savedRegionIds: string[];
+  toggleSavedRegion: (id: string) => void;
+  isSavedRegion: (id: string) => boolean;
   // Culinary Itinerary
   itineraryProfile: ItineraryProfile | null;
   setItineraryProfile: (profile: ItineraryProfile) => void;
@@ -67,6 +70,7 @@ const COOKING_LEVEL_KEY = "@culinary_cooking_level";
 const APPEARANCE_KEY = "@culinary_appearance";
 const EXPLORE_VIEW_KEY = "@culinary_explore_view";
 const SAVED_COUNTRIES_KEY = "@culinary_saved_countries";
+const SAVED_REGIONS_KEY = "@culinary_saved_regions";
 const ITINERARY_PROFILE_KEY = "@culinary_itinerary_profile";
 const CURRENT_ITINERARY_KEY = "@culinary_current_itinerary";
 const ITINERARY_HISTORY_KEY = "@culinary_itinerary_history";
@@ -83,6 +87,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [appearanceMode, setAppearanceModeState] = useState<AppearanceMode>("light");
   const [exploreViewMode, setExploreViewModeState] = useState<ExploreViewMode>("feed");
   const [savedCountryIds, setSavedCountryIds] = useState<string[]>([]);
+  const [savedRegionIds, setSavedRegionIds] = useState<string[]>([]);
   const [itineraryProfile, setItineraryProfileState] = useState<ItineraryProfile | null>(null);
   const [currentItinerary, setCurrentItineraryState] = useState<ItineraryDay[]>([]);
   const [itineraryHistory, setItineraryHistoryState] = useState<ItineraryDay[][]>([]);
@@ -93,7 +98,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, itinProfile, itinCurrent, itinHistory, inventory, lastScan] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
@@ -103,6 +108,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(APPEARANCE_KEY).catch(() => null),
           AsyncStorage.getItem(EXPLORE_VIEW_KEY).catch(() => null),
           AsyncStorage.getItem(SAVED_COUNTRIES_KEY).catch(() => null),
+          AsyncStorage.getItem(SAVED_REGIONS_KEY).catch(() => null),
           AsyncStorage.getItem(ITINERARY_PROFILE_KEY).catch(() => null),
           AsyncStorage.getItem(CURRENT_ITINERARY_KEY).catch(() => null),
           AsyncStorage.getItem(ITINERARY_HISTORY_KEY).catch(() => null),
@@ -142,6 +148,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           try {
             const parsed = JSON.parse(savedCtries);
             if (Array.isArray(parsed)) setSavedCountryIds(parsed);
+          } catch {}
+        }
+        if (savedRegs) {
+          try {
+            const parsed = JSON.parse(savedRegs);
+            if (Array.isArray(parsed)) setSavedRegionIds(parsed);
           } catch {}
         }
         if (itinProfile) {
@@ -353,6 +365,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [savedCountryIds]
   );
 
+  const toggleSavedRegion = useCallback((id: string) => {
+    setSavedRegionIds((prev) => {
+      const next = prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id];
+      AsyncStorage.setItem(SAVED_REGIONS_KEY, JSON.stringify(next)).catch(() => {});
+      return next;
+    });
+  }, []);
+
+  const isSavedRegion = useCallback(
+    (id: string) => savedRegionIds.includes(id),
+    [savedRegionIds]
+  );
+
   if (!loaded) return null;
 
   return (
@@ -381,6 +406,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         savedCountryIds,
         toggleSavedCountry,
         isCountrySaved,
+        savedRegionIds,
+        toggleSavedRegion,
+        isSavedRegion,
         itineraryProfile,
         setItineraryProfile,
         currentItinerary,
