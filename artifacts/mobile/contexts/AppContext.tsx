@@ -253,24 +253,42 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const addToGrocery = useCallback(
     (recipe: Recipe) => {
       setGroceryItems((prev) => {
-        const existingIds = new Set(prev.map((i) => i.id));
-        const newItems = recipe.ingredients
-          .filter((ing) => !existingIds.has(`${recipe.id}-${ing.id}`))
-          .map((ing) => {
+        const updated = [...prev];
+        for (const ing of recipe.ingredients) {
+          const normalizedName = ing.name.toLowerCase().trim();
+          const stableId = `ingredient-${normalizedName.replace(/[^a-z0-9]+/g, "-")}`;
+          const existingIdx = updated.findIndex((i) => i.id === stableId);
+
+          if (existingIdx >= 0) {
+            // Merge into existing — increment qty, add recipe source
+            const existing = updated[existingIdx];
+            const names = existing.recipeNames ?? [existing.recipeName];
+            if (!names.includes(recipe.name)) {
+              updated[existingIdx] = {
+                ...existing,
+                qty: (existing.qty ?? 1) + 1,
+                recipeNames: [...names, recipe.name],
+                recipeName: [...names, recipe.name].join(", "),
+              };
+            }
+          } else {
             const matchedStaple = findMatchingStaple(ing.name, pantryStaples);
             const isPantryExcluded = matchedStaple?.inKitchen === true;
-            return {
-              id: `${recipe.id}-${ing.id}`,
+            updated.push({
+              id: stableId,
               name: ing.name,
               amount: ing.amount,
               checked: false,
               recipeName: recipe.name,
+              recipeNames: [recipe.name],
+              qty: 1,
               tier: (isPantryExcluded ? 1 : 3) as 1 | 3,
               excluded: isPantryExcluded,
               excludeReason: isPantryExcluded ? ("pantry_staple" as const) : null,
-            };
-          });
-        return [...prev, ...newItems];
+            });
+          }
+        }
+        return updated;
       });
     },
     [pantryStaples]

@@ -708,18 +708,29 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
 // ─── GroceryRow ───────────────────────────────────────────────────────────────
 
 function GroceryRow({ item, isLast, onToggle }: { item: GroceryItem; isLast: boolean; onToggle: () => void }) {
+  const qty = item.qty ?? 1;
+  const sources = item.recipeNames ?? [item.recipeName];
   return (
     <Pressable onPress={onToggle} style={[styles.groceryRow, !isLast && styles.groceryRowBorder]}>
       <View style={[styles.checkbox, item.checked && styles.checkboxChecked]}>
         {item.checked && <Ionicons name="checkmark" size={13} color="#FEF9F3" />}
       </View>
-      <View style={{ flex: 1 }}>
-        <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]}>
-          {item.name}{" "}
-          <Text style={styles.groceryAmount}>({item.amount})</Text>
+      <View style={{ flex: 1, gap: 2 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+          <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]}>
+            {item.name}
+            {item.amount ? <Text style={styles.groceryAmount}> ({item.amount})</Text> : null}
+          </Text>
+          {qty > 1 && (
+            <View style={styles.qtyBadge}>
+              <Text style={styles.qtyText}>×{qty}</Text>
+            </View>
+          )}
+        </View>
+        <Text style={styles.grocerySource} numberOfLines={1}>
+          {sources.join(" · ")}
         </Text>
       </View>
-      <Text style={styles.grocerySource} numberOfLines={1}>{item.recipeName}</Text>
     </Pressable>
   );
 }
@@ -1248,9 +1259,17 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     fontSize: 11,
     color: TEXT_TERTIARY,
-    maxWidth: 80,
-    textAlign: "right",
-    flexShrink: 0,
+  },
+  qtyBadge: {
+    backgroundColor: "#F0E8DE",
+    borderRadius: 10,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+  },
+  qtyText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 11,
+    color: TERRACOTTA,
   },
   clearCompletedBtn: {
     alignItems: "center",

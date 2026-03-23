@@ -46,6 +46,8 @@ export interface Country {
     amount: string;
     checked: boolean;
     recipeName: string;
+    recipeNames?: string[];
+    qty?: number;
     tier?: 1 | 2 | 3;
     excluded?: boolean;
     excludeReason?: "pantry_staple" | null;
