@@ -7,6 +7,7 @@ import AboutPage from "@/pages/AboutPage";
 import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
 import PressPage from "@/pages/PressPage";
+import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/privacy" component={PrivacyPage} />
       <Route path="/terms" component={TermsPage} />
       <Route path="/press" component={PressPage} />
+      <Route component={NotFound} />
     </Switch>
   );
 }

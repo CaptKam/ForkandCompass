@@ -1,3 +1,4 @@
+import { useLocation } from "wouter";
 import PageLayout from "@/components/PageLayout";
 
 const features = [
@@ -46,6 +47,7 @@ const features = [
 ];
 
 export default function FeaturesPage() {
+  const [, navigate] = useLocation();
   return (
     <PageLayout>
       <div className="pt-32 pb-24">
@@ -82,17 +84,18 @@ export default function FeaturesPage() {
             <p className="text-white/60 text-lg leading-relaxed">
               We're putting the finishing touches on the experience. Join the waitlist to be the first to know when Fork &amp; Compass opens its doors.
             </p>
-            <a
-              href="/"
+            <button
+              type="button"
               className="inline-block bg-[#9A4100] text-white px-12 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:brightness-110 transition-all"
-              onClick={(e) => {
-                e.preventDefault();
-                window.location.href = "/";
-                setTimeout(() => document.getElementById("cta-section")?.scrollIntoView({ behavior: "smooth" }), 100);
+              onClick={() => {
+                navigate("/");
+                requestAnimationFrame(() => {
+                  document.getElementById("cta-section")?.scrollIntoView({ behavior: "smooth" });
+                });
               }}
             >
               Join the Waitlist
-            </a>
+            </button>
           </div>
         </div>
       </div>
