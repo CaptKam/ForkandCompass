@@ -82,9 +82,9 @@ export default function LandingPage() {
           </div>
           <div className="hidden md:flex items-center space-x-12">
             {[
-              { label: "Journal", target: "features-section" },
-              { label: "Ethos", target: "quote-section" },
+              { label: "Features", target: "features-section" },
               { label: "Destinations", target: "destinations-section" },
+              { label: "About", target: "quote-section" },
             ].map((link) => (
               <a
                 key={link.label}
