@@ -270,6 +270,7 @@ export default function GroceryScreen() {
 }
 
 function GroceryRow({ item, onToggle }: { item: GroceryItem; onToggle: () => void }) {
+  const qty = item.qty ?? 1;
   return (
     <Pressable onPress={onToggle} style={styles.groceryRow}>
       <View style={[styles.checkbox, item.checked && styles.checkboxChecked]}>
@@ -278,10 +279,13 @@ function GroceryRow({ item, onToggle }: { item: GroceryItem; onToggle: () => voi
       <View style={styles.groceryInfo}>
         <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]}>
           {item.name}{" "}
-          <Text style={styles.groceryAmount}>({item.amount})</Text>
+          {item.amount ? <Text style={styles.groceryAmount}>({item.amount})</Text> : null}
+          {qty > 1 && (
+            <Text style={styles.groceryQty}> x{qty}</Text>
+          )}
         </Text>
         <Text style={[styles.recipeLabel, item.checked && { opacity: 0.6 }]}>
-          Recipe: {item.recipeName}
+          {qty > 1 ? `Recipes: ${item.recipeName}` : `Recipe: ${item.recipeName}`}
         </Text>
       </View>
     </Pressable>
@@ -447,6 +451,11 @@ const styles = StyleSheet.create({
   groceryAmount: {
     fontFamily: "Inter_400Regular",
     color: Colors.light.onSurfaceVariant,
+  },
+  groceryQty: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 13,
+    color: Colors.light.primary,
   },
   recipeLabel: {
     fontFamily: "Inter_400Regular",

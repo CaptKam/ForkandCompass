@@ -10,6 +10,33 @@ import React, {
 import type { GroceryItem, Recipe } from "@/constants/data";
 import type { InventoryItem, ScanZone } from "@/constants/inventory";
 import type { ItineraryProfile, ItineraryDay } from "@/hooks/useItinerary";
+
+/** Parse an amount string like "200g", "1 cup", "2 tbsp" into numeric + unit parts */
+function parseAmount(raw: string): { quantity: number; unit: string; parsed: boolean } {
+  const trimmed = raw.trim();
+  const match = trimmed.match(/^(\d+(?:[.,\/]\d+)?)\s*(.*)/);
+  if (match) {
+    let quantity: number;
+    const numStr = match[1];
+    if (numStr.includes("/")) {
+      const [num, den] = numStr.split("/");
+      quantity = parseInt(num, 10) / parseInt(den, 10);
+    } else {
+      quantity = parseFloat(numStr.replace(",", "."));
+    }
+    const unit = (match[2] ?? "").trim().toLowerCase();
+    if (!isNaN(quantity)) {
+      return { quantity, unit, parsed: true };
+    }
+  }
+  return { quantity: 1, unit: "", parsed: false };
+}
+
+/** Format a quantity + unit back into a display string */
+function formatAmount(quantity: number, unit: string): string {
+  const display = Number.isInteger(quantity) ? String(quantity) : quantity.toFixed(1).replace(/\.0$/, "");
+  return unit ? `${display} ${unit}` : display;
+}
 import {
   DEFAULT_PANTRY_STAPLES,
   findMatchingStaple,
@@ -260,15 +287,32 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           const existingIdx = updated.findIndex((i) => i.id === stableId);
 
           if (existingIdx >= 0) {
-            // Merge into existing — increment qty, add recipe source
+            // Merge into existing — sum amounts and add recipe source
             const existing = updated[existingIdx];
             const names = existing.recipeNames ?? [existing.recipeName];
             if (!names.includes(recipe.name)) {
+              const existingParsed = parseAmount(existing.amount);
+              const incomingParsed = parseAmount(ing.amount);
+              let mergedAmount = existing.amount;
+              let mergedQty = (existing.qty ?? 1) + 1;
+              // Sum amounts when both have the same unit
+              if (
+                existingParsed.parsed &&
+                incomingParsed.parsed &&
+                existingParsed.unit === incomingParsed.unit
+              ) {
+                mergedAmount = formatAmount(
+                  existingParsed.quantity + incomingParsed.quantity,
+                  existingParsed.unit
+                );
+              }
+              const mergedNames = [...names, recipe.name];
               updated[existingIdx] = {
                 ...existing,
-                qty: (existing.qty ?? 1) + 1,
-                recipeNames: [...names, recipe.name],
-                recipeName: [...names, recipe.name].join(", "),
+                amount: mergedAmount,
+                qty: mergedQty,
+                recipeNames: mergedNames,
+                recipeName: mergedNames.join(", "),
               };
             }
           } else {
