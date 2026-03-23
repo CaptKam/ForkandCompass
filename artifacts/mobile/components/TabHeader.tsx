@@ -1,9 +1,9 @@
-import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import React from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
 import Colors from "@/constants/colors";
 
@@ -27,15 +27,10 @@ export default function TabHeader({ title, rightExtra }: TabHeaderProps) {
       ]}
     >
       <View style={styles.row}>
-        {/* Left: hamburger + title */}
-        <View style={styles.left}>
-          <Pressable onPress={haptic} hitSlop={12}>
-            <Ionicons name="menu" size={24} color={Colors.light.primary} />
-          </Pressable>
-          <Text style={styles.title} numberOfLines={1}>
-            {title}
-          </Text>
-        </View>
+        {/* Title */}
+        <Text style={styles.title} numberOfLines={1}>
+          {title}
+        </Text>
 
         {/* Right: optional extra action + avatar */}
         <View style={styles.right}>
@@ -43,9 +38,10 @@ export default function TabHeader({ title, rightExtra }: TabHeaderProps) {
           <Pressable
             onPress={() => {
               haptic();
-              router.push("/(tabs)/settings");
+              router.push("/settings" as any);
             }}
             style={styles.avatar}
+            hitSlop={8}
           >
             <Ionicons name="person" size={14} color={Colors.light.outline} />
           </Pressable>
@@ -67,19 +63,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  left: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
-    flex: 1,
+    gap: 12,
   },
   title: {
+    flex: 1,
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 20,
     color: Colors.light.primary,
     letterSpacing: -0.3,
-    flex: 1,
   },
   right: {
     flexDirection: "row",

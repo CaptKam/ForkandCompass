@@ -287,11 +287,8 @@ export default function DiscoverScreen() {
 
           {/* Header rendered last so it sits on top of the ScrollView in the touch responder chain */}
           <View style={[styles.heroHeader, { paddingTop: Platform.OS === "web" ? 50 : topPadding + 8 }]}>
-            <Pressable onPress={() => haptic()} hitSlop={12}>
-              <Ionicons name="menu" size={26} color="#FFFFFF" />
-            </Pressable>
             <Pressable
-              onPress={() => { haptic(); router.push("/(tabs)/settings"); }}
+              onPress={() => { haptic(); router.push("/settings" as any); }}
               style={styles.heroAvatar}
             >
               <Ionicons name="person" size={15} color="rgba(255,255,255,0.8)" />
@@ -574,7 +571,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     alignItems: "center",
     paddingHorizontal: 24,
     paddingBottom: 8,
