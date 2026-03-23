@@ -16,7 +16,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import TabHeader from "@/components/TabHeader";
 import Colors from "@/constants/colors";
-import { COUNTRIES, getCountryById, getRecipeById } from "@/constants/data";
+import { getCountryById, getRecipeById } from "@/constants/data";
 import { useApp } from "@/contexts/AppContext";
 import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItinerary";
 
@@ -135,7 +135,7 @@ export default function ItineraryScreen() {
   if (!itineraryProfile) {
     return (
       <View style={styles.container}>
-        <TabHeader title="Itinerary" />
+        <TabHeader title="Culinary Itinerary" />
         <View style={styles.emptyState}>
           <View style={styles.emptyIconContainer}>
             <Ionicons name="map-outline" size={48} color={Colors.light.outlineVariant} />
@@ -145,10 +145,7 @@ export default function ItineraryScreen() {
             One tap, your whole week of dinners planned.{"\n"}Each night is a new destination.
           </Text>
           <Pressable
-            onPress={() => {
-              haptic();
-              router.push("/itinerary-setup");
-            }}
+            onPress={() => { haptic(); router.push("/itinerary-setup"); }}
             style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.85 }]}
           >
             <Text style={styles.ctaText}>Plan My Week</Text>
@@ -158,32 +155,32 @@ export default function ItineraryScreen() {
     );
   }
 
-  // State C: All past/completed
   const allDone = currentItinerary.length > 0 && currentItinerary.every(
     (d) => d.status === "completed" || d.status === "skipped"
   );
 
+  const weekAhead = currentItinerary.filter((d) => d.date !== today || d.status !== "active");
+
   return (
     <View style={styles.container}>
       <TabHeader
-        title="Itinerary"
+        title="Culinary Itinerary"
         rightExtra={
           <Pressable
-            onPress={() => {
-              haptic();
-              router.push("/itinerary-setup");
-            }}
+            onPress={() => { haptic(); router.push("/itinerary-setup"); }}
             hitSlop={8}
           >
-            <Text style={styles.editPrefText}>Edit preferences</Text>
+            <Text style={styles.editPrefText}>Edit</Text>
           </Pressable>
         }
       />
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 120,
+          paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + 140,
           paddingHorizontal: 20,
+          paddingTop: 8,
         }}
       >
         {/* Week label */}
@@ -203,93 +200,123 @@ export default function ItineraryScreen() {
         ) : (
           <>
             {/* Tonight's Dinner Card */}
-            {todayDay && <TonightCard day={todayDay} />}
+            {todayDay && (
+              <TonightCard
+                day={todayDay}
+                onToggleMode={() => handleToggleMode(todayDay)}
+              />
+            )}
 
-            {/* Week View */}
+            {/* The Week Ahead */}
             <View style={styles.weekSection}>
-              <Text style={styles.sectionLabel}>YOUR WEEK</Text>
-              {currentItinerary.map((day) => (
-                <DayCard
-                  key={day.id}
-                  day={day}
-                  isToday={day.date === today}
-                  onReload={() => handleReloadDay(day)}
-                  onSkip={() => handleSkipDay(day)}
-                  onRestore={() => handleRestoreDay(day)}
-                  onToggleMode={() => handleToggleMode(day)}
-                />
-              ))}
+              <Text style={styles.sectionLabel}>The Week Ahead</Text>
+              <View style={styles.weekList}>
+                {currentItinerary.map((day) => (
+                  <DayCard
+                    key={day.id}
+                    day={day}
+                    isToday={day.date === today}
+                    onReload={() => handleReloadDay(day)}
+                    onSkip={() => handleSkipDay(day)}
+                    onRestore={() => handleRestoreDay(day)}
+                    onToggleMode={() => handleToggleMode(day)}
+                  />
+                ))}
+              </View>
             </View>
 
-            {/* Bottom Actions */}
-            <View style={styles.bottomActions}>
-              <Pressable
-                onPress={handleGetAllIngredients}
-                style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.85 }]}
-              >
-                <Ionicons name="cart-outline" size={20} color="#FFFFFF" />
-                <Text style={styles.ctaText}>
-                  Get All Ingredients ({totalIngredientCount})
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={handleNewWeek}
-                style={({ pressed }) => [styles.secondaryButton, pressed && { opacity: 0.7 }]}
-              >
-                <Ionicons name="refresh-outline" size={18} color={Colors.light.primary} />
-                <Text style={styles.secondaryButtonText}>New Week</Text>
-              </Pressable>
-            </View>
+            {/* New week link */}
+            <Pressable
+              onPress={handleNewWeek}
+              style={({ pressed }) => [styles.newWeekRow, pressed && { opacity: 0.6 }]}
+            >
+              <Ionicons name="refresh-outline" size={15} color={Colors.light.secondary} />
+              <Text style={styles.newWeekText}>Generate new week</Text>
+            </Pressable>
           </>
         )}
       </ScrollView>
+
+      {/* Floating "Get All Ingredients" FAB */}
+      {!allDone && (
+        <View style={[styles.fabWrapper, { bottom: (Platform.OS === "web" ? 80 : insets.bottom + 80) }]}>
+          <Pressable
+            onPress={handleGetAllIngredients}
+            style={({ pressed }) => [styles.fab, pressed && { opacity: 0.9 }]}
+          >
+            <View style={styles.fabLeft}>
+              <Ionicons name="basket-outline" size={20} color="#FFFFFF" />
+              <Text style={styles.fabText}>Get All Ingredients</Text>
+            </View>
+            <View style={styles.fabBadge}>
+              <Text style={styles.fabBadgeText}>{totalIngredientCount}</Text>
+            </View>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }
 
-function TonightCard({ day }: { day: ItineraryDay }) {
+function TonightCard({ day, onToggleMode }: { day: ItineraryDay; onToggleMode: () => void }) {
   const country = getCountryById(day.countryId);
   const recipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
   const mainRecipe = getRecipeById(recipeIds[0]);
   const recipes = recipeIds.map(getRecipeById).filter(Boolean);
-  const totalTime = recipes.reduce((sum, r) => {
-    if (!r) return sum;
-    const match = r.time.match(/(\d+)/);
-    return sum + (match ? parseInt(match[1], 10) : 0);
-  }, 0);
 
   if (!country || !mainRecipe) return null;
+
+  const title = recipes.length > 1
+    ? recipes.map((r) => r?.name).join(" + ")
+    : mainRecipe.name;
 
   return (
     <Pressable
       onPress={() => router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } })}
-      style={({ pressed }) => [styles.tonightCard, pressed && { opacity: 0.95 }]}
+      style={({ pressed }) => [styles.tonightCard, pressed && { opacity: 0.96 }]}
     >
-      <Image
-        source={{ uri: mainRecipe.image }}
-        style={styles.tonightImage}
-        contentFit="cover"
-      />
-      <LinearGradient
-        colors={["transparent", "rgba(0,0,0,0.65)"]}
-        style={styles.tonightGradient}
-      />
-      <View style={styles.tonightContent}>
-        <Text style={styles.tonightLabel}>TONIGHT'S DINNER</Text>
-        <Text style={styles.tonightCountry}>
-          {country.flag} {country.name}
-        </Text>
-        <Text style={styles.tonightRecipes} numberOfLines={2}>
-          {recipes.map((r) => r?.name).join(" · ")}
-        </Text>
-        <View style={styles.tonightBottom}>
-          <View style={styles.timeChip}>
-            <Ionicons name="time-outline" size={14} color={Colors.light.secondary} />
-            <Text style={styles.timeChipText}>{totalTime} min</Text>
-          </View>
-          <View style={styles.startCookingButton}>
+      {/* Hero image */}
+      <View style={styles.tonightImageWrapper}>
+        <Image
+          source={{ uri: mainRecipe.image }}
+          style={styles.tonightImage}
+          contentFit="cover"
+        />
+        <LinearGradient
+          colors={["transparent", "rgba(0,0,0,0.62)"]}
+          style={StyleSheet.absoluteFillObject}
+        />
+        <View style={styles.tonightOverlayLabel}>
+          <Text style={styles.tonightSelectionLabel}>TONIGHT'S SELECTION</Text>
+        </View>
+      </View>
+
+      {/* Card body */}
+      <View style={styles.tonightBody}>
+        <Text style={styles.tonightTitle} numberOfLines={2}>{title}</Text>
+
+        <View style={styles.tonightMeta}>
+          <Pressable onPress={onToggleMode} style={styles.modeChip}>
+            <Text style={styles.modeChipText}>
+              {day.mode === "quick" ? "Quick Meal" : "Full Experience"}
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } })}
+            style={styles.viewLink}
+          >
+            <Text style={styles.viewLinkText}>View Full Experience</Text>
+            <Ionicons name="arrow-forward" size={12} color={Colors.light.primary} />
+          </Pressable>
+
+          <Pressable
+            onPress={() => router.push({ pathname: "/cook-mode", params: { id: mainRecipe.id } })}
+            style={styles.startCookingBtn}
+          >
             <Text style={styles.startCookingText}>Start Cooking</Text>
-          </View>
+            <Ionicons name="arrow-forward" size={14} color="#fff" />
+          </Pressable>
         </View>
       </View>
     </Pressable>
@@ -314,88 +341,65 @@ function DayCard({
   const country = getCountryById(day.countryId);
   const recipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
   const recipes = recipeIds.map(getRecipeById).filter(Boolean);
-  const totalTime = recipes.reduce((sum, r) => {
-    if (!r) return sum;
-    const match = r.time.match(/(\d+)/);
-    return sum + (match ? parseInt(match[1], 10) : 0);
-  }, 0);
   const isSkipped = day.status === "skipped";
 
   if (!country) return null;
 
+  const recipeTitle = recipes.map((r) => r?.name).join(" + ");
+
   return (
-    <View
-      style={[
+    <Pressable
+      onPress={() => {
+        if (!isSkipped && recipes[0]) {
+          router.push({ pathname: "/recipe/[id]", params: { id: recipes[0]!.id } });
+        }
+      }}
+      style={({ pressed }) => [
         styles.dayCard,
         isToday && styles.dayCardToday,
         isSkipped && styles.dayCardSkipped,
+        pressed && !isSkipped && { opacity: 0.9 },
       ]}
     >
-      <View style={styles.dayCardHeader}>
-        <View style={styles.dayCardLeft}>
-          <View style={styles.dayLabelRow}>
-            <Text style={[styles.dayLabel, isSkipped && styles.textSkipped]}>
-              {day.dayLabel.toUpperCase()}
-            </Text>
-            {isToday && (
-              <View style={styles.todayBadge}>
-                <Text style={styles.todayBadgeText}>Today</Text>
-              </View>
-            )}
-            {isSkipped && (
-              <View style={styles.skippedBadge}>
-                <Text style={styles.skippedBadgeText}>Skipped</Text>
-              </View>
-            )}
-          </View>
-          <Text style={[styles.dayCountry, isSkipped && styles.textSkipped]}>
-            {country.flag} {country.name}
-          </Text>
-          <Text style={[styles.dayRegion, isSkipped && styles.textSkipped]}>
-            {country.region}
-          </Text>
-        </View>
-
-        <View style={styles.dayCardActions}>
-          {isSkipped ? (
-            <Pressable onPress={onRestore} style={styles.restoreButton}>
-              <Ionicons name="add" size={20} color={Colors.light.primary} />
-            </Pressable>
-          ) : (
-            <>
-              <Pressable onPress={onReload} style={styles.actionButton} hitSlop={8}>
-                <Ionicons name="refresh" size={18} color={Colors.light.secondary} />
-              </Pressable>
-              <Pressable onPress={onSkip} style={styles.actionButton} hitSlop={8}>
-                <Ionicons name="close" size={18} color={Colors.light.secondary} />
-              </Pressable>
-            </>
-          )}
-        </View>
+      {/* Day label column */}
+      <View style={[styles.dayLabelCol, isToday && styles.dayLabelColActive]}>
+        <Text style={[styles.dayAbbrev, isToday && styles.dayAbbrevActive]}>
+          {day.dayLabel.slice(0, 3).toUpperCase()}
+        </Text>
       </View>
 
-      {!isSkipped && (
-        <>
-          <Text style={styles.dayRecipes} numberOfLines={2}>
-            {recipes.map((r) => r?.name).join(" · ")}
-          </Text>
-          <View style={styles.dayCardFooter}>
-            <View style={styles.timeChip}>
-              <Ionicons name="time-outline" size={12} color={Colors.light.secondary} />
-              <Text style={styles.timeChipTextSmall}>{totalTime} min</Text>
-            </View>
-            <Pressable onPress={onToggleMode} style={styles.modePill}>
-              <Text style={[
-                styles.modePillText,
-                day.mode === "full" && styles.modePillTextActive,
-              ]}>
-                {day.mode === "quick" ? "Quick Meal" : "Full Experience"}
-              </Text>
+      {/* Content */}
+      <View style={styles.dayContent}>
+        <Text style={[styles.dayCountryLabel, isSkipped && { opacity: 0.4 }]}>
+          {country.name.toUpperCase()}
+        </Text>
+        <Text style={[styles.dayRecipeTitle, isSkipped && { opacity: 0.4 }]} numberOfLines={2}>
+          {isSkipped ? "Day skipped" : recipeTitle}
+        </Text>
+
+        {!isSkipped && (
+          <View style={styles.dayActions}>
+            <Pressable onPress={onReload} style={styles.actionBtn} hitSlop={8}>
+              <Ionicons name="refresh" size={16} color={Colors.light.secondary} />
+            </Pressable>
+            <Pressable onPress={onSkip} style={styles.actionBtn} hitSlop={8}>
+              <Ionicons name="close" size={16} color={Colors.light.secondary} />
             </Pressable>
           </View>
-        </>
+        )}
+        {isSkipped && (
+          <Pressable onPress={onRestore} style={styles.restoreBtn} hitSlop={8}>
+            <Ionicons name="add" size={14} color={Colors.light.primary} />
+            <Text style={styles.restoreText}>Restore</Text>
+          </Pressable>
+        )}
+      </View>
+
+      {/* Chevron */}
+      {!isSkipped && (
+        <Ionicons name="chevron-forward" size={18} color={Colors.light.outlineVariant} style={styles.chevron} />
       )}
-    </View>
+    </Pressable>
   );
 }
 
@@ -412,10 +416,10 @@ const styles = StyleSheet.create({
   },
   weekLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 13,
+    fontSize: 12,
     color: Colors.light.secondary,
-    letterSpacing: 0.3,
-    marginBottom: 20,
+    letterSpacing: 0.4,
+    marginBottom: 16,
   },
 
   /* Empty State */
@@ -456,7 +460,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: Colors.light.primary,
-    borderRadius: 16,
+    borderRadius: 50,
     paddingVertical: 16,
     paddingHorizontal: 24,
     gap: 8,
@@ -465,98 +469,100 @@ const styles = StyleSheet.create({
   },
   ctaText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
+    fontSize: 16,
     color: "#FFFFFF",
     letterSpacing: 0.3,
   },
-  secondaryButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 16,
-    paddingVertical: 14,
-    borderWidth: 1.5,
-    borderColor: Colors.light.primary,
-    gap: 6,
-    width: "100%",
-  },
-  secondaryButtonText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
-    color: Colors.light.primary,
-  },
 
-  /* Tonight's Dinner */
+  /* Tonight Card */
   tonightCard: {
-    borderRadius: 20,
+    borderRadius: 24,
     overflow: "hidden",
-    marginBottom: 24,
-    backgroundColor: Colors.light.surfaceContainerLow,
+    marginBottom: 28,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    shadowColor: "#1D1B18",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.08,
+    shadowRadius: 20,
+    elevation: 4,
+  },
+  tonightImageWrapper: {
+    height: 190,
+    width: "100%",
+    position: "relative",
   },
   tonightImage: {
     width: "100%",
-    height: 180,
+    height: 190,
   },
-  tonightGradient: {
+  tonightOverlayLabel: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 180,
+    bottom: 14,
+    left: 18,
   },
-  tonightContent: {
-    padding: 16,
-    gap: 6,
-  },
-  tonightLabel: {
-    fontFamily: "Inter_700Bold",
+  tonightSelectionLabel: {
+    fontFamily: "Inter_600SemiBold",
     fontSize: 10,
-    color: Colors.light.primary,
-    letterSpacing: 2,
+    color: "rgba(255,255,255,0.90)",
+    letterSpacing: 2.2,
     textTransform: "uppercase",
   },
-  tonightCountry: {
+  tonightBody: {
+    padding: 20,
+    gap: 14,
+  },
+  tonightTitle: {
     fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 20,
+    fontSize: 22,
     color: Colors.light.onSurface,
     letterSpacing: -0.3,
+    lineHeight: 30,
   },
-  tonightRecipes: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    lineHeight: 20,
-  },
-  tonightBottom: {
+  tonightMeta: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 8,
+    gap: 8,
+    flexWrap: "wrap",
   },
-  timeChip: {
+  modeChip: {
+    backgroundColor: Colors.light.primaryContainer + "22",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: Colors.light.primary + "30",
+  },
+  modeChipText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 11,
+    color: Colors.light.primary,
+    letterSpacing: 0.3,
+  },
+  viewLink: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 20,
+    gap: 3,
+    flex: 1,
   },
-  timeChipText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: Colors.light.secondary,
+  viewLinkText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 11,
+    color: Colors.light.primary,
+    textDecorationLine: "underline",
   },
-  timeChipTextSmall: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 12,
-    color: Colors.light.secondary,
-  },
-  startCookingButton: {
+  startCookingBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
     backgroundColor: Colors.light.primary,
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    paddingVertical: 10,
+    borderRadius: 50,
+    shadowColor: Colors.light.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 3,
   },
   startCookingText: {
     fontFamily: "Inter_600SemiBold",
@@ -566,141 +572,163 @@ const styles = StyleSheet.create({
 
   /* Week Section */
   weekSection: {
-    gap: 12,
+    gap: 14,
   },
   sectionLabel: {
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Inter_500Medium",
     fontSize: 11,
     color: Colors.light.secondary,
-    letterSpacing: 1.5,
+    letterSpacing: 1.8,
     textTransform: "uppercase",
-    marginBottom: 4,
+  },
+  weekList: {
+    gap: 10,
   },
 
   /* Day Card */
   dayCard: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 18,
-    padding: 16,
-    gap: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    gap: 14,
   },
   dayCardToday: {
     borderWidth: 1.5,
-    borderColor: Colors.light.primary,
+    borderColor: Colors.light.primary + "50",
+    backgroundColor: Colors.light.surfaceContainerLow,
   },
   dayCardSkipped: {
+    opacity: 0.55,
     borderWidth: 1,
-    borderStyle: "dashed",
     borderColor: Colors.light.outlineVariant,
-    opacity: 0.6,
+    borderStyle: "dashed",
   },
-  dayCardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
-  dayCardLeft: {
-    flex: 1,
-    gap: 2,
-  },
-  dayLabelRow: {
-    flexDirection: "row",
+  dayLabelCol: {
+    width: 44,
     alignItems: "center",
-    gap: 8,
+    justifyContent: "center",
+    paddingRight: 4,
+    borderRightWidth: 1.5,
+    borderRightColor: Colors.light.outlineVariant + "40",
   },
-  dayLabel: {
+  dayLabelColActive: {
+    borderRightColor: Colors.light.primary + "50",
+  },
+  dayAbbrev: {
     fontFamily: "Inter_700Bold",
-    fontSize: 12,
+    fontSize: 11,
     color: Colors.light.secondary,
-    letterSpacing: 1,
+    letterSpacing: 1.2,
   },
-  todayBadge: {
-    backgroundColor: Colors.light.primary,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 6,
+  dayAbbrevActive: {
+    color: Colors.light.primary,
   },
-  todayBadgeText: {
+  dayContent: {
+    flex: 1,
+    gap: 3,
+  },
+  dayCountryLabel: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 10,
-    color: "#FFFFFF",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
+    color: Colors.light.primary,
+    letterSpacing: 1.5,
   },
-  skippedBadge: {
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 6,
-  },
-  skippedBadgeText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 10,
-    color: Colors.light.secondary,
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-  },
-  dayCountry: {
+  dayRecipeTitle: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 16,
     color: Colors.light.onSurface,
-    marginTop: 4,
+    letterSpacing: -0.2,
+    lineHeight: 22,
   },
-  dayRegion: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: Colors.light.secondary,
-  },
-  dayRecipes: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: Colors.light.secondary,
-    lineHeight: 19,
-  },
-  dayCardFooter: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 4,
-  },
-  dayCardActions: {
+  dayActions: {
     flexDirection: "row",
     gap: 8,
+    marginTop: 6,
   },
-  actionButton: {
+  actionBtn: {
     width: 32,
     height: 32,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: Colors.light.outlineVariant,
+    borderColor: Colors.light.outlineVariant + "60",
     alignItems: "center",
     justifyContent: "center",
   },
-  restoreButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: Colors.light.primary,
+  restoreBtn: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    gap: 4,
+    marginTop: 4,
   },
-  modePill: {
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 20,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-  },
-  modePillText: {
+  restoreText: {
     fontFamily: "Inter_500Medium",
     fontSize: 12,
-    color: Colors.light.secondary,
-  },
-  modePillTextActive: {
     color: Colors.light.primary,
   },
-  textSkipped: {
-    opacity: 0.5,
+  chevron: {
+    marginLeft: 4,
+  },
+
+  /* New week link */
+  newWeekRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    marginTop: 20,
+    paddingVertical: 8,
+  },
+  newWeekText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.secondary,
+  },
+
+  /* FAB */
+  fabWrapper: {
+    position: "absolute",
+    left: 20,
+    right: 20,
+    zIndex: 40,
+  },
+  fab: {
+    backgroundColor: Colors.light.primary,
+    borderRadius: 50,
+    paddingVertical: 16,
+    paddingHorizontal: 22,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    shadowColor: "#1D1B18",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.22,
+    shadowRadius: 20,
+    elevation: 8,
+  },
+  fabLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  fabText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: "#FFFFFF",
+    letterSpacing: 0.2,
+  },
+  fabBadge: {
+    backgroundColor: "rgba(255,255,255,0.22)",
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 50,
+  },
+  fabBadgeText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 12,
+    color: "#FFFFFF",
   },
 
   /* All Done */
@@ -719,11 +747,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: Colors.light.secondary,
     marginBottom: 8,
-  },
-
-  /* Bottom Actions */
-  bottomActions: {
-    marginTop: 28,
-    gap: 12,
   },
 });
