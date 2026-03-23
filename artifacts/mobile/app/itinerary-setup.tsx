@@ -13,6 +13,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
+import { getRecipeById } from "@/constants/data";
 import { CATEGORY_LABELS, type PantryStaple } from "@/constants/pantry";
 import { useApp } from "@/contexts/AppContext";
 import {
@@ -50,6 +51,8 @@ export default function ItinerarySetupScreen() {
     itineraryHistory,
     pantryStaples,
     togglePantryStaple,
+    addToGrocery,
+    clearGrocery,
   } = useApp();
 
   const [step, setStep] = useState(0);
@@ -79,6 +82,16 @@ export default function ItinerarySetupScreen() {
     setItineraryProfile(profile);
     const itinerary = generateItinerary(profile, selectedCountryIds, itineraryHistory);
     setCurrentItinerary(itinerary);
+    // Auto-populate grocery with the new week's recipes
+    clearGrocery();
+    for (const day of itinerary) {
+      if (day.status !== "active") continue;
+      const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+      for (const rid of ids) {
+        const recipe = getRecipeById(rid);
+        if (recipe) addToGrocery(recipe);
+      }
+    }
     router.back();
   };
 

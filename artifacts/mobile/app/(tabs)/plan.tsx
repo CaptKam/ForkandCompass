@@ -128,19 +128,6 @@ export default function PlanScreen() {
   const allDone = currentItinerary.length > 0 &&
     currentItinerary.every((d) => d.status === "completed" || d.status === "skipped");
 
-  const totalIngredientCount = useMemo(() => {
-    let count = 0;
-    for (const day of currentItinerary) {
-      if (day.status !== "active") continue;
-      const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
-      for (const rid of ids) {
-        const r = getRecipeById(rid);
-        if (r) count += r.ingredients.length;
-      }
-    }
-    return count;
-  }, [currentItinerary]);
-
   const activeGroceryItems = useMemo(
     () => groceryItems.filter((i) => !i.excluded),
     [groceryItems]
@@ -211,10 +198,14 @@ export default function PlanScreen() {
     setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, mode: newMode as "quick" | "full" } : d));
   };
 
-  const handleGetAllIngredients = () => {
+  const handleNewWeek = () => {
     haptic();
-    const beforeCount = groceryItems.filter((i) => !i.excluded).length;
-    for (const day of currentItinerary) {
+    if (currentItinerary.length > 0) addToItineraryHistory(currentItinerary);
+    const newItinerary = generateItinerary(itineraryProfile!, selectedCountryIds, itineraryHistory);
+    setCurrentItinerary(newItinerary);
+    // Auto-populate grocery with the new week's recipes
+    clearGrocery();
+    for (const day of newItinerary) {
       if (day.status !== "active") continue;
       const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
       for (const rid of ids) {
@@ -222,18 +213,6 @@ export default function PlanScreen() {
         if (recipe) addToGrocery(recipe);
       }
     }
-    // Count is approximate since state updates are async — show recipe count instead
-    const recipeCount = currentItinerary
-      .filter((d) => d.status === "active")
-      .reduce((n, d) => n + (d.mode === "quick" ? d.quickRecipeIds : d.fullRecipeIds).length, 0);
-    showToast(`Synced ingredients for ${recipeCount} meal${recipeCount !== 1 ? "s" : ""}`);
-    setTimeout(() => switchSegment("grocery"), 500);
-  };
-
-  const handleNewWeek = () => {
-    haptic();
-    if (currentItinerary.length > 0) addToItineraryHistory(currentItinerary);
-    setCurrentItinerary(generateItinerary(itineraryProfile!, selectedCountryIds, itineraryHistory));
   };
 
   // ─── Grocery actions ─────────────────────────────────────────────────────────
@@ -391,20 +370,6 @@ export default function PlanScreen() {
                 </View>
               </View>
             )}
-
-            {/* Get All Ingredients */}
-            <Pressable
-              onPress={handleGetAllIngredients}
-              style={({ pressed }) => [styles.getAllBtn, pressed && { opacity: 0.88 }]}
-            >
-              <Ionicons name="basket-outline" size={18} color="#FEF9F3" />
-              <Text style={styles.getAllText}>Get All Ingredients</Text>
-              {totalIngredientCount > 0 && (
-                <View style={styles.getAllBadge}>
-                  <Text style={styles.getAllBadgeText}>{totalIngredientCount}</Text>
-                </View>
-              )}
-            </Pressable>
 
             {/* Generate new week */}
             <Pressable
@@ -1084,34 +1049,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: TERRACOTTA,
     marginTop: 4,
-  },
-
-  // Get All Ingredients button
-  getAllBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    backgroundColor: TERRACOTTA,
-    height: 50,
-    borderRadius: 10,
-    marginTop: 6,
-  },
-  getAllText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
-    color: CREAM,
-  },
-  getAllBadge: {
-    backgroundColor: "rgba(255,255,255,0.22)",
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderRadius: 20,
-  },
-  getAllBadgeText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
-    color: CREAM,
   },
 
   // Generate new week
