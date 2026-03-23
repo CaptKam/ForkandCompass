@@ -9,7 +9,6 @@ import {
   Animated,
   FlatList,
   Linking,
-  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -22,7 +21,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { getCountryById, getRecipeById, type GroceryItem } from "@/constants/data";
 import { type PantryStaple } from "@/constants/pantry";
-import { PARTNER_CONFIG, PARTNER_LIST, type GroceryPartner } from "@/constants/partners";
+import { PARTNER_CONFIG } from "@/constants/partners";
 import { useApp } from "@/contexts/AppContext";
 import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItinerary";
 
@@ -90,7 +89,6 @@ export default function PlanScreen() {
 
   const [segment, setSegment] = useState<PlanSegment>("week");
   const [toast, setToast] = useState<string | null>(null);
-  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
@@ -230,15 +228,11 @@ export default function PlanScreen() {
     ]);
   };
 
-  const handleFabPress = () => {
+  const handleCheckoutFab = async () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    setShowCheckoutModal(true);
-  };
-
-  const handleOpenPartner = async (partner: "instacart" | "kroger" | "walmart") => {
-    setShowCheckoutModal(false);
+    if (!groceryPartner || groceryPartner === "skip") return;
     const itemsToOrder = activeGroceryItems.filter((i) => !i.checked);
-    if (partner === "instacart") {
+    if (groceryPartner === "instacart") {
       try {
         const response = await fetch("/api/instacart/shopping-list", {
           method: "POST",
@@ -254,9 +248,9 @@ export default function PlanScreen() {
       } catch (err: unknown) {
         Alert.alert("Instacart Error", err instanceof Error ? err.message : "Something went wrong");
       }
-    } else if (partner === "kroger") {
+    } else if (groceryPartner === "kroger") {
       await Linking.openURL("https://www.kroger.com/stores/details/700/00100");
-    } else if (partner === "walmart") {
+    } else if (groceryPartner === "walmart") {
       await Linking.openURL("https://www.walmart.com/grocery");
     }
   };
@@ -514,7 +508,7 @@ export default function PlanScreen() {
             </View>
 
             {/* ── Checkout FAB ─────────────────────────────────────── */}
-            {uncheckedGroceryCount > 0 && groceryPartner !== "skip" && (
+            {uncheckedGroceryCount > 0 && groceryPartner && groceryPartner !== "skip" && (
               <View style={[styles.fabWrap, { bottom: Math.max(insets.bottom, 16) + 60 }]}>
                 <LinearGradient
                   colors={["rgba(254,249,243,0)", "rgba(254,249,243,0.95)", CREAM]}
@@ -522,22 +516,18 @@ export default function PlanScreen() {
                   pointerEvents="none"
                 />
                 <Pressable
-                  onPress={handleFabPress}
+                  onPress={handleCheckoutFab}
                   style={({ pressed }) => [
                     styles.fab,
-                    { backgroundColor: groceryPartner ? PARTNER_CONFIG[groceryPartner].color : TERRACOTTA },
-                    pressed && { opacity: 0.88 },
+                    { backgroundColor: PARTNER_CONFIG[groceryPartner].color },
+                    pressed && { opacity: 0.88, transform: [{ scale: 0.97 }] },
                   ]}
                 >
                   <View style={styles.fabLogoWrap}>
-                    <Text style={styles.fabLogoText}>
-                      {groceryPartner ? PARTNER_CONFIG[groceryPartner].initial : "→"}
-                    </Text>
+                    <Text style={styles.fabLogoText}>{PARTNER_CONFIG[groceryPartner].initial}</Text>
                   </View>
                   <Text style={styles.fabText}>
-                    {groceryPartner
-                      ? `Add ${uncheckedGroceryCount} item${uncheckedGroceryCount !== 1 ? "s" : ""} to ${PARTNER_CONFIG[groceryPartner].label}`
-                      : `Order ${uncheckedGroceryCount} item${uncheckedGroceryCount !== 1 ? "s" : ""}`}
+                    Add {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} to {PARTNER_CONFIG[groceryPartner].label}
                   </Text>
                   <Ionicons name="arrow-forward" size={16} color="#fff" />
                 </Pressable>
@@ -546,89 +536,6 @@ export default function PlanScreen() {
           </View>
         )
       )}
-
-      {/* ── Multi-partner Checkout Sheet ─────────────────────────── */}
-      <Modal
-        visible={showCheckoutModal}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setShowCheckoutModal(false)}
-      >
-        <Pressable style={styles.modalOverlay} onPress={() => setShowCheckoutModal(false)}>
-          <Pressable style={[styles.modalSheet, { paddingBottom: Math.max(insets.bottom + 16, 28) }]}>
-            <View style={styles.modalHandle} />
-
-            {/* Active partner header */}
-            {groceryPartner && groceryPartner !== "skip" ? (
-              <>
-                <View style={[styles.modalPartnerBadge, { backgroundColor: PARTNER_CONFIG[groceryPartner].light }]}>
-                  <Text style={[styles.modalPartnerInitial, { color: PARTNER_CONFIG[groceryPartner].color }]}>
-                    {PARTNER_CONFIG[groceryPartner].initial}
-                  </Text>
-                </View>
-                <Text style={styles.modalTitle}>
-                  Sending {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} to {PARTNER_CONFIG[groceryPartner].label}
-                </Text>
-              </>
-            ) : (
-              <>
-                <View style={[styles.modalPartnerBadge, { backgroundColor: "rgba(154,65,0,0.1)" }]}>
-                  <Ionicons name="cart" size={28} color={TERRACOTTA} />
-                </View>
-                <Text style={styles.modalTitle}>
-                  {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} ready to order
-                </Text>
-              </>
-            )}
-
-            {excludedGroceryItems.length > 0 && (
-              <Text style={styles.modalSubtitle}>
-                {excludedGroceryItems.length} pantry staple{excludedGroceryItems.length !== 1 ? "s" : ""} already excluded
-              </Text>
-            )}
-            <Text style={styles.modalHint}>You can add anything else once you're in the store.</Text>
-
-            {/* Primary CTA */}
-            {groceryPartner && groceryPartner !== "skip" && (
-              <Pressable
-                onPress={() => handleOpenPartner(groceryPartner as "instacart" | "kroger" | "walmart")}
-                style={({ pressed }) => [
-                  styles.modalConfirmBtn,
-                  { backgroundColor: PARTNER_CONFIG[groceryPartner].color },
-                  pressed && { opacity: 0.88 },
-                ]}
-              >
-                <Text style={styles.modalConfirmText}>Open {PARTNER_CONFIG[groceryPartner].label} →</Text>
-              </Pressable>
-            )}
-
-            <Pressable onPress={() => setShowCheckoutModal(false)} style={styles.modalCancelBtn}>
-              <Text style={styles.modalCancelText}>Edit list before sending</Text>
-            </Pressable>
-
-            {/* Switch partner */}
-            <View style={styles.modalSwitchRow}>
-              <View style={styles.modalDividerLine} />
-              <Text style={styles.modalDividerText}>or checkout with</Text>
-              <View style={styles.modalDividerLine} />
-            </View>
-            <View style={styles.modalPartnerSwitch}>
-              {PARTNER_LIST.filter((p) => p.id !== groceryPartner).map((p) => (
-                <Pressable
-                  key={p.id}
-                  onPress={() => { setGroceryPartner(p.id); }}
-                  style={({ pressed }) => [styles.modalPartnerBtn, pressed && { opacity: 0.75 }]}
-                >
-                  <View style={[styles.modalPartnerCircle, { backgroundColor: p.light }]}>
-                    <Text style={[styles.modalPartnerCircleText, { color: p.color }]}>{p.initial}</Text>
-                  </View>
-                  <Text style={styles.modalPartnerLabel}>{p.label}</Text>
-                </Pressable>
-              ))}
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
 
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
@@ -1380,126 +1287,6 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 15,
     color: "#fff",
-  },
-
-  // Checkout modal
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.45)",
-    justifyContent: "flex-end",
-  },
-  modalSheet: {
-    backgroundColor: CREAM,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    paddingHorizontal: 24,
-    paddingTop: 16,
-    alignItems: "center",
-    gap: 12,
-  },
-  modalHandle: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: BORDER,
-    marginBottom: 8,
-  },
-  modalPartnerBadge: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 4,
-  },
-  modalPartnerInitial: {
-    fontFamily: "Inter_700Bold",
-    fontSize: 28,
-  },
-  modalTitle: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 20,
-    color: TEXT_PRIMARY,
-    textAlign: "center",
-    letterSpacing: -0.3,
-  },
-  modalSubtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: TEXT_SECONDARY,
-    textAlign: "center",
-  },
-  modalHint: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: TEXT_SECONDARY,
-    textAlign: "center",
-    lineHeight: 19,
-  },
-  modalConfirmBtn: {
-    borderRadius: 12,
-    height: 52,
-    alignSelf: "stretch",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 4,
-  },
-  modalConfirmText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: CREAM,
-  },
-  modalCancelBtn: {
-    paddingVertical: 8,
-  },
-  modalCancelText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: TEXT_SECONDARY,
-    textDecorationLine: "underline",
-  },
-  modalSwitchRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    alignSelf: "stretch",
-    marginTop: 4,
-  },
-  modalDividerLine: {
-    flex: 1,
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: BORDER,
-  },
-  modalDividerText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 11,
-    color: "#B5AEA4",
-  },
-  modalPartnerSwitch: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 32,
-    paddingBottom: 4,
-  },
-  modalPartnerBtn: {
-    alignItems: "center",
-    gap: 6,
-  },
-  modalPartnerCircle: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalPartnerCircleText: {
-    fontFamily: "Inter_700Bold",
-    fontSize: 20,
-  },
-  modalPartnerLabel: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 11,
-    color: TEXT_SECONDARY,
   },
 
   // Toast
