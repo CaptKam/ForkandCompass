@@ -10,6 +10,11 @@ import React, {
 import type { GroceryItem, Recipe } from "@/constants/data";
 import type { InventoryItem, ScanZone } from "@/constants/inventory";
 import type { ItineraryProfile, ItineraryDay } from "@/hooks/useItinerary";
+import {
+  DEFAULT_PANTRY_STAPLES,
+  findMatchingStaple,
+  type PantryStaple,
+} from "@/constants/pantry";
 
 export type CookingLevel = "beginner" | "intermediate" | "advanced";
 export type AppearanceMode = "system" | "light" | "dark";
@@ -24,6 +29,12 @@ interface AppContextType {
   toggleGroceryItem: (id: string) => void;
   removeGroceryItem: (id: string) => void;
   clearGrocery: () => void;
+  unexcludeGroceryItem: (id: string) => void;
+  quickAddStaple: (staple: PantryStaple) => void;
+  // Pantry staples
+  pantryStaples: PantryStaple[];
+  togglePantryStaple: (id: string) => void;
+  isInKitchen: (ingredientName: string) => boolean;
   hasSeenWelcome: boolean;
   setHasSeenWelcome: (v: boolean) => void;
   selectedCountryIds: string[];
@@ -76,6 +87,7 @@ const CURRENT_ITINERARY_KEY = "@culinary_current_itinerary";
 const ITINERARY_HISTORY_KEY = "@culinary_itinerary_history";
 const INVENTORY_KEY = "@culinary_inventory";
 const LAST_SCAN_KEY = "@culinary_last_scan";
+const PANTRY_KEY = "@culinary_pantry_staples";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [savedRecipeIds, setSavedRecipeIds] = useState<string[]>([]);
@@ -93,12 +105,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [itineraryHistory, setItineraryHistoryState] = useState<ItineraryDay[][]>([]);
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
   const [lastScanTimestamp, setLastScanTimestamp] = useState<number | null>(null);
+  const [pantryStaples, setPantryStaples] = useState<PantryStaple[]>(DEFAULT_PANTRY_STAPLES);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan, pantry] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
@@ -114,6 +127,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(ITINERARY_HISTORY_KEY).catch(() => null),
           AsyncStorage.getItem(INVENTORY_KEY).catch(() => null),
           AsyncStorage.getItem(LAST_SCAN_KEY).catch(() => null),
+          AsyncStorage.getItem(PANTRY_KEY).catch(() => null),
         ]);
         if (saved) {
           try {
@@ -184,6 +198,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           const ts = Number(lastScan);
           if (!Number.isNaN(ts)) setLastScanTimestamp(ts);
         }
+        if (pantry) {
+          try {
+            const parsed = JSON.parse(pantry) as PantryStaple[];
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              // Merge stored inKitchen states onto the canonical DEFAULT list
+              // so new staples added in future versions still appear
+              const storedMap = new Map(parsed.map((s) => [s.id, s.inKitchen]));
+              setPantryStaples(
+                DEFAULT_PANTRY_STAPLES.map((s) => ({
+                  ...s,
+                  inKitchen: storedMap.has(s.id) ? (storedMap.get(s.id) as boolean) : s.inKitchen,
+                }))
+              );
+            }
+          } catch {}
+        }
       } catch {}
       setLoaded(true);
     })();
@@ -197,6 +227,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (loaded) AsyncStorage.setItem(GROCERY_KEY, JSON.stringify(groceryItems)).catch(() => {});
   }, [groceryItems, loaded]);
 
+  useEffect(() => {
+    if (loaded) AsyncStorage.setItem(PANTRY_KEY, JSON.stringify(pantryStaples)).catch(() => {});
+  }, [pantryStaples, loaded]);
+
   const toggleSaved = useCallback((id: string) => {
     setSavedRecipeIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
@@ -208,20 +242,83 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [savedRecipeIds]
   );
 
-  const addToGrocery = useCallback((recipe: Recipe) => {
+  const isInKitchen = useCallback(
+    (ingredientName: string) => {
+      const staple = findMatchingStaple(ingredientName, pantryStaples);
+      return staple?.inKitchen === true;
+    },
+    [pantryStaples]
+  );
+
+  const addToGrocery = useCallback(
+    (recipe: Recipe) => {
+      setGroceryItems((prev) => {
+        const existingIds = new Set(prev.map((i) => i.id));
+        const newItems = recipe.ingredients
+          .filter((ing) => !existingIds.has(`${recipe.id}-${ing.id}`))
+          .map((ing) => {
+            const matchedStaple = findMatchingStaple(ing.name, pantryStaples);
+            const isPantryExcluded = matchedStaple?.inKitchen === true;
+            return {
+              id: `${recipe.id}-${ing.id}`,
+              name: ing.name,
+              amount: ing.amount,
+              checked: false,
+              recipeName: recipe.name,
+              tier: (isPantryExcluded ? 1 : 3) as 1 | 3,
+              excluded: isPantryExcluded,
+              excludeReason: isPantryExcluded ? ("pantry_staple" as const) : null,
+            };
+          });
+        return [...prev, ...newItems];
+      });
+    },
+    [pantryStaples]
+  );
+
+  const unexcludeGroceryItem = useCallback((id: string) => {
+    setGroceryItems((prev) =>
+      prev.map((i) => (i.id === id ? { ...i, excluded: false } : i))
+    );
+  }, []);
+
+  const quickAddStaple = useCallback((staple: PantryStaple) => {
     setGroceryItems((prev) => {
-      const existingIds = new Set(prev.map((i) => i.id));
-      const newItems = recipe.ingredients
-        .filter((ing) => !existingIds.has(`${recipe.id}-${ing.id}`))
-        .map((ing) => ({
-          id: `${recipe.id}-${ing.id}`,
-          name: ing.name,
-          amount: ing.amount,
-          checked: false,
-          recipeName: recipe.name,
-        }));
-      return [...prev, ...newItems];
+      // Check if there's already an excluded item matching this staple
+      const excludedMatch = prev.find(
+        (i) =>
+          i.excluded &&
+          staple.keywords.some((kw) => i.name.toLowerCase().includes(kw.toLowerCase()))
+      );
+      if (excludedMatch) {
+        // Unexclude it
+        return prev.map((i) => (i.id === excludedMatch.id ? { ...i, excluded: false } : i));
+      }
+      // Otherwise create a new item (if not already in active list)
+      const alreadyActive = prev.some(
+        (i) =>
+          !i.excluded &&
+          staple.keywords.some((kw) => i.name.toLowerCase().includes(kw.toLowerCase()))
+      );
+      if (alreadyActive) return prev;
+      const newItem: GroceryItem = {
+        id: `pantry-${staple.id}-${Date.now()}`,
+        name: staple.ingredient,
+        amount: "",
+        checked: false,
+        recipeName: "Kitchen Staple",
+        tier: 1,
+        excluded: false,
+        excludeReason: null,
+      };
+      return [...prev, newItem];
     });
+  }, []);
+
+  const togglePantryStaple = useCallback((id: string) => {
+    setPantryStaples((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, inKitchen: !s.inKitchen } : s))
+    );
   }, []);
 
   const toggleGroceryItem = useCallback((id: string) => {
@@ -391,6 +488,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         toggleGroceryItem,
         removeGroceryItem,
         clearGrocery,
+        unexcludeGroceryItem,
+        quickAddStaple,
+        pantryStaples,
+        togglePantryStaple,
+        isInKitchen,
         hasSeenWelcome,
         setHasSeenWelcome,
         selectedCountryIds,

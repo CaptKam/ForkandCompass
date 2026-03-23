@@ -9,6 +9,7 @@ import {
   Animated,
   FlatList,
   Linking,
+  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -20,6 +21,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
 import { getCountryById, getRecipeById, type GroceryItem } from "@/constants/data";
+import { type PantryStaple } from "@/constants/pantry";
 import { useApp } from "@/contexts/AppContext";
 import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItinerary";
 
@@ -77,11 +79,16 @@ export default function PlanScreen() {
     toggleGroceryItem,
     removeGroceryItem,
     clearGrocery,
+    unexcludeGroceryItem,
+    quickAddStaple,
+    pantryStaples,
   } = useApp();
 
   const [segment, setSegment] = useState<PlanSegment>("week");
   const [toast, setToast] = useState<string | null>(null);
   const [instacartLoading, setInstacartLoading] = useState(false);
+  const [showInstacartModal, setShowInstacartModal] = useState(false);
+  const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
 
@@ -133,21 +140,40 @@ export default function PlanScreen() {
     return count;
   }, [currentItinerary]);
 
-  const uncheckedGroceryCount = useMemo(
-    () => groceryItems.filter((i) => !i.checked).length,
+  const activeGroceryItems = useMemo(
+    () => groceryItems.filter((i) => !i.excluded),
     [groceryItems]
+  );
+
+  const excludedGroceryItems = useMemo(
+    () => groceryItems.filter((i) => i.excluded),
+    [groceryItems]
+  );
+
+  const uncheckedGroceryCount = useMemo(
+    () => activeGroceryItems.filter((i) => !i.checked).length,
+    [activeGroceryItems]
   );
 
   const categoryGroups = useMemo(() => {
     const groups: Record<string, CategoryGroup> = {};
-    for (const item of groceryItems) {
+    for (const item of activeGroceryItems) {
       const { emoji, label } = categorizeItem(item.name);
       if (!groups[label]) groups[label] = { emoji, label, items: [] };
       groups[label].items.push(item);
     }
     const order = CATEGORY_RULES.map((c) => c.label);
     return Object.values(groups).sort((a, b) => order.indexOf(a.label) - order.indexOf(b.label));
-  }, [groceryItems]);
+  }, [activeGroceryItems]);
+
+  const quickAddChips = useMemo(() => {
+    return pantryStaples.filter((s) => {
+      if (!s.inKitchen) return false;
+      return !activeGroceryItems.some((gi) =>
+        s.keywords.some((kw) => gi.name.toLowerCase().includes(kw.toLowerCase()))
+      );
+    });
+  }, [pantryStaples, activeGroceryItems]);
 
   // ─── Itinerary actions ──────────────────────────────────────────────────────
 
@@ -198,26 +224,38 @@ export default function PlanScreen() {
 
   const handleClearCompleted = () => {
     if (Platform.OS === "web") {
-      groceryItems.filter((i) => i.checked).forEach((i) => removeGroceryItem(i.id));
+      activeGroceryItems.filter((i) => i.checked).forEach((i) => removeGroceryItem(i.id));
       return;
     }
     Alert.alert("Clear Completed", "Remove all checked items?", [
       { text: "Cancel", style: "cancel" },
-      { text: "Clear", onPress: () => groceryItems.filter((i) => i.checked).forEach((i) => removeGroceryItem(i.id)) },
+      { text: "Clear", onPress: () => activeGroceryItems.filter((i) => i.checked).forEach((i) => removeGroceryItem(i.id)) },
     ]);
   };
 
-  const handleInstacart = async () => {
-    if (instacartLoading) return;
+  const handleInstacart = () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    const itemsToOrder = groceryItems.filter((i) => !i.checked);
-    if (itemsToOrder.length === 0) { Alert.alert("Nothing to order", "All items are already checked off."); return; }
+    const itemsToOrder = activeGroceryItems.filter((i) => !i.checked);
+    if (itemsToOrder.length === 0) {
+      Alert.alert("Nothing to order", "All items are already checked off.");
+      return;
+    }
+    setShowInstacartModal(true);
+  };
+
+  const handleConfirmInstacart = async () => {
+    setShowInstacartModal(false);
+    if (instacartLoading) return;
     setInstacartLoading(true);
+    const itemsToOrder = activeGroceryItems.filter((i) => !i.checked);
     try {
       const response = await fetch("/api/instacart/shopping-list", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: "My Fork & Compass List", items: itemsToOrder.map((i) => ({ name: i.name, amount: i.amount, recipeName: i.recipeName })) }),
+        body: JSON.stringify({
+          title: "My Fork & Compass List",
+          items: itemsToOrder.map((i) => ({ name: i.name, amount: i.amount, recipeName: i.recipeName })),
+        }),
       });
       const data = await response.json() as { url?: string; error?: string };
       if (!response.ok || !data.url) throw new Error(data.error ?? "Could not create shopping list");
@@ -382,20 +420,45 @@ export default function PlanScreen() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={[
                 styles.groceryScrollContent,
-                { paddingBottom: Platform.OS === "web" ? 60 : insets.bottom + 60 },
+                { paddingBottom: Platform.OS === "web" ? 80 : insets.bottom + 80 },
               ]}
               ListHeaderComponent={
-                <Pressable
-                  onPress={() => { haptic(); router.push("/kitchen-scanner"); }}
-                  style={({ pressed }) => [styles.scanBtn, pressed && { opacity: 0.8 }]}
-                >
-                  <Ionicons name="camera-outline" size={18} color={Colors.light.primary} />
-                  <Text style={styles.scanBtnText}>Scan Ingredients</Text>
-                </Pressable>
+                <View>
+                  {/* Quick Add chips */}
+                  {quickAddChips.length > 0 && (
+                    <View style={styles.quickAddWrap}>
+                      <Text style={styles.quickAddLabel}>Quick add:</Text>
+                      <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.quickAddScroll}
+                      >
+                        {quickAddChips.map((staple) => (
+                          <Pressable
+                            key={staple.id}
+                            onPress={() => { haptic(); quickAddStaple(staple); }}
+                            style={({ pressed }) => [styles.quickAddChip, pressed && { opacity: 0.75 }]}
+                          >
+                            <Ionicons name="add" size={14} color={TERRACOTTA} />
+                            <Text style={styles.quickAddChipText}>{staple.ingredient}</Text>
+                          </Pressable>
+                        ))}
+                      </ScrollView>
+                    </View>
+                  )}
+                  {/* Scan button */}
+                  <Pressable
+                    onPress={() => { haptic(); router.push("/kitchen-scanner"); }}
+                    style={({ pressed }) => [styles.scanBtn, pressed && { opacity: 0.8 }]}
+                  >
+                    <Ionicons name="camera-outline" size={18} color={Colors.light.primary} />
+                    <Text style={styles.scanBtnText}>Scan Ingredients</Text>
+                  </Pressable>
+                </View>
               }
               renderItem={({ item: group }) => (
                 <View style={styles.categoryGroup}>
-                  <Text style={styles.categoryHeader}>{group.label.toUpperCase()}</Text>
+                  <Text style={styles.categoryHeader}>{group.emoji} {group.label.toUpperCase()}</Text>
                   {group.items.map((item, idx) => (
                     <GroceryRow
                       key={item.id}
@@ -410,18 +473,55 @@ export default function PlanScreen() {
                 </View>
               )}
               ListFooterComponent={
-                groceryItems.filter((i) => i.checked).length > 0 ? (
-                  <Pressable onPress={handleClearCompleted} style={styles.clearCompletedBtn}>
-                    <Text style={styles.clearCompletedText}>Clear Completed</Text>
-                  </Pressable>
-                ) : null
+                <View>
+                  {activeGroceryItems.filter((i) => i.checked).length > 0 && (
+                    <Pressable onPress={handleClearCompleted} style={styles.clearCompletedBtn}>
+                      <Text style={styles.clearCompletedText}>Clear Completed</Text>
+                    </Pressable>
+                  )}
+                  {/* In your kitchen collapsible */}
+                  {excludedGroceryItems.length > 0 && (
+                    <View style={styles.kitchenSection}>
+                      <Pressable
+                        onPress={() => { haptic(); setKitchenExpanded((v) => !v); }}
+                        style={styles.kitchenHeader}
+                      >
+                        <Ionicons
+                          name={kitchenExpanded ? "chevron-down" : "chevron-forward"}
+                          size={14}
+                          color={TEXT_SECONDARY}
+                        />
+                        <Text style={styles.kitchenHeaderText}>
+                          In your kitchen ({excludedGroceryItems.length} items)
+                        </Text>
+                      </Pressable>
+                      {kitchenExpanded && (
+                        <View style={styles.kitchenList}>
+                          {excludedGroceryItems.map((item, idx) => (
+                            <Pressable
+                              key={item.id}
+                              onPress={() => { haptic(); unexcludeGroceryItem(item.id); showToast(`Added ${item.name} to list`); }}
+                              style={[styles.kitchenRow, idx < excludedGroceryItems.length - 1 && styles.kitchenRowBorder]}
+                            >
+                              <Ionicons name="add-circle-outline" size={18} color={TERRACOTTA} />
+                              <Text style={styles.kitchenItemName}>{item.name}</Text>
+                              <Text style={styles.kitchenItemSource} numberOfLines={1}>{item.recipeName}</Text>
+                            </Pressable>
+                          ))}
+                          <Text style={styles.kitchenHint}>Tap any item to add it back for this trip</Text>
+                        </View>
+                      )}
+                    </View>
+                  )}
+                </View>
               }
             />
 
             {/* Sticky summary footer */}
             <View style={[styles.grocerySummary, { paddingBottom: Math.max(insets.bottom, 12) }]}>
               <Text style={styles.grocerySummaryText}>
-                {groceryItems.length} items · {groceryItems.filter((i) => i.checked).length} checked
+                {activeGroceryItems.length} items · {activeGroceryItems.filter((i) => i.checked).length} checked
+                {excludedGroceryItems.length > 0 && ` · ${excludedGroceryItems.length} in kitchen`}
               </Text>
               <Pressable
                 onPress={handleInstacart}
@@ -435,6 +535,43 @@ export default function PlanScreen() {
           </View>
         )
       )}
+
+      {/* ── Instacart Interstitial Modal ─────────────────────────── */}
+      <Modal
+        visible={showInstacartModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowInstacartModal(false)}
+      >
+        <Pressable style={styles.modalOverlay} onPress={() => setShowInstacartModal(false)}>
+          <Pressable style={[styles.modalSheet, { paddingBottom: Math.max(insets.bottom + 20, 32) }]}>
+            <View style={styles.modalHandle} />
+            <View style={styles.modalCartIcon}>
+              <Ionicons name="cart" size={32} color={TERRACOTTA} />
+            </View>
+            <Text style={styles.modalTitle}>
+              Sending {activeGroceryItems.filter((i) => !i.checked).length} items to Instacart
+            </Text>
+            {excludedGroceryItems.length > 0 && (
+              <Text style={styles.modalSubtitle}>
+                {excludedGroceryItems.length} pantry staple{excludedGroceryItems.length !== 1 ? "s" : ""} excluded from your cart
+              </Text>
+            )}
+            <Text style={styles.modalHint}>
+              You can add anything else once you're on Instacart.
+            </Text>
+            <Pressable
+              onPress={handleConfirmInstacart}
+              style={({ pressed }) => [styles.modalConfirmBtn, pressed && { opacity: 0.88 }]}
+            >
+              <Text style={styles.modalConfirmText}>Open Instacart →</Text>
+            </Pressable>
+            <Pressable onPress={() => setShowInstacartModal(false)} style={styles.modalCancelBtn}>
+              <Text style={styles.modalCancelText}>Edit list before sending</Text>
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
 
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
@@ -960,6 +1097,96 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     gap: 4,
   },
+
+  // Quick Add
+  quickAddWrap: {
+    marginBottom: 14,
+    gap: 8,
+  },
+  quickAddLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 12,
+    color: TEXT_SECONDARY,
+    letterSpacing: 0.3,
+  },
+  quickAddScroll: {
+    gap: 8,
+    paddingRight: 4,
+  },
+  quickAddChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: TERRACOTTA,
+    backgroundColor: "rgba(154,65,0,0.05)",
+  },
+  quickAddChipText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: TERRACOTTA,
+  },
+
+  // In your kitchen
+  kitchenSection: {
+    marginTop: 16,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: BORDER,
+  },
+  kitchenHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 14,
+  },
+  kitchenHeaderText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: TEXT_SECONDARY,
+  },
+  kitchenList: {
+    backgroundColor: "#F7F1EA",
+    borderRadius: 12,
+    overflow: "hidden",
+    marginBottom: 8,
+  },
+  kitchenRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+  },
+  kitchenRowBorder: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: BORDER,
+  },
+  kitchenItemName: {
+    flex: 1,
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: TEXT_PRIMARY,
+  },
+  kitchenItemSource: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: TEXT_TERTIARY,
+    maxWidth: 80,
+    textAlign: "right",
+  },
+  kitchenHint: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12,
+    color: TEXT_SECONDARY,
+    textAlign: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    fontStyle: "italic",
+  },
+
   scanBtn: {
     flexDirection: "row",
     alignItems: "center",
@@ -1074,6 +1301,81 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 12,
     color: TERRACOTTA,
+  },
+
+  // Instacart modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    justifyContent: "flex-end",
+  },
+  modalSheet: {
+    backgroundColor: CREAM,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 28,
+    paddingTop: 16,
+    alignItems: "center",
+    gap: 14,
+  },
+  modalHandle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: BORDER,
+    marginBottom: 8,
+  },
+  modalCartIcon: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: "rgba(154,65,0,0.08)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 4,
+  },
+  modalTitle: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 20,
+    color: TEXT_PRIMARY,
+    textAlign: "center",
+    letterSpacing: -0.3,
+  },
+  modalSubtitle: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: TEXT_SECONDARY,
+    textAlign: "center",
+  },
+  modalHint: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: TEXT_SECONDARY,
+    textAlign: "center",
+    lineHeight: 19,
+  },
+  modalConfirmBtn: {
+    backgroundColor: TERRACOTTA,
+    borderRadius: 12,
+    height: 52,
+    alignSelf: "stretch",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 6,
+  },
+  modalConfirmText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: CREAM,
+  },
+  modalCancelBtn: {
+    paddingVertical: 10,
+  },
+  modalCancelText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: TEXT_SECONDARY,
+    textDecorationLine: "underline",
   },
 
   // Toast

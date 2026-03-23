@@ -1,0 +1,277 @@
+# Smart Grocery Intelligence — Spec
+
+> Don't make users buy salt every week. Track what they have, learn from Instacart history, and only surface what they actually need.
+
+---
+
+## Overview
+
+The grocery list should be smart about what the user already owns. Three systems work together:
+
+1. **Pantry staples** — a default set of common ingredients auto-excluded from every list
+2. **Purchase history** — Instacart order data tells us what was recently bought
+3. **Kitchen scanner** — camera-based check of what's physically in the kitchen (v2)
+
+---
+
+## 1. Pantry staples (ship in v1)
+
+### How it works
+
+On first use (or during onboarding), the user sees a "What's in your kitchen?" checklist of common staples. Checked items are stored locally and auto-excluded from future grocery lists.
+
+### Default staples list
+
+These are pre-checked by default (user unchecks what they DON'T have):
+
+| Category | Items |
+|---|---|
+| Basics | Salt, black pepper, olive oil, vegetable oil, butter |
+| Baking | All-purpose flour, sugar, baking powder |
+| Sauces | Soy sauce, vinegar (white/rice), hot sauce |
+| Spices | Garlic powder, onion powder, cumin, paprika, oregano, red pepper flakes |
+| Pantry | Rice, dried pasta, canned tomatoes, chicken/vegetable broth |
+
+### Where this lives in the app
+
+**Option A (recommended):** Add a "My Kitchen" step to the Itinerary Setup wizard, right after cuisine preferences. Three wizard steps become four:
+1. How many nights?
+2. Which cuisines?
+3. Servings?
+4. **What's already in your kitchen?** ← new
+
+**Option B:** Accessible from Profile > "Pantry Settings" at any time. First-time prompt on the Grocery tab when it's first populated.
+
+### Grocery list behavior
+
+When ingredients are added to the grocery list:
+
+- If the ingredient matches a pantry staple → **auto-excluded** (not shown in main list)
+- Excluded items shown in a collapsed "Already in your kitchen" section at the bottom
+- User can tap any excluded item to add it back for this trip
+- A "Quick Add" row at the top of the grocery list shows common staples as tappable chips:
+
+```
+┌──────────────────────────────────────┐
+│  Quick add:                          │
+│  [+ Salt] [+ Pepper] [+ Olive oil]  │
+│  [+ Butter] [+ Garlic] [+ Onion]    │
+└──────────────────────────────────────┘
+```
+
+- Quick Add chips are the user's most commonly re-added items (learned over time)
+- Tapping a chip adds it to the active grocery list instantly with haptic feedback
+
+---
+
+## 2. Instacart purchase history (ship in v1 if API supports it)
+
+### How it works
+
+When the user connects Instacart, we read their recent order history. Any ingredient ordered in the last 14 days is flagged as "likely in kitchen."
+
+### API requirement
+
+Check Instacart Connect API for:
+- `GET /orders` — recent order list
+- `GET /orders/{id}/items` — items in each order
+- We need: item name, quantity, order date
+
+If the Instacart sandbox (`connect.dev.instacart.tools`) doesn't expose order history, defer this to v2 and rely on pantry staples + manual tracking for now.
+
+### Grocery list behavior
+
+Items flagged as "recently purchased" show a subtle indicator:
+
+```
+☐ Soy sauce (3 tbsp)              Ramen
+  ↳ Bought 5 days ago — still have it?   [Keep] [Remove]
+```
+
+- "Keep" leaves it in the list
+- "Remove" moves it to the "Already have" section
+- After 2-3 "Remove" actions on the same ingredient, auto-exclude it going forward (learned preference)
+
+---
+
+## 3. Smart categorization logic
+
+Every ingredient from a recipe falls into one of three buckets:
+
+### Tier 1: Always exclude (pantry staples)
+Items the user has marked as "always in my kitchen." Never added to the cart unless explicitly quick-added.
+
+Examples: salt, pepper, olive oil, flour, sugar
+
+### Tier 2: Check recent purchases
+Items bought via Instacart in the last 14 days. Shown with a "recently bought" flag. User confirms keep or remove.
+
+Examples: garlic, onions, butter, eggs, soy sauce, rice
+
+### Tier 3: Always include
+Recipe-specific or fresh ingredients that spoil quickly or are uncommon. Always added to the cart.
+
+Examples: pecorino romano, lemongrass, fresh turmeric, tamarind paste, specific cuts of meat
+
+### How to determine the tier
+
+```
+if ingredient is in user's pantry staples list:
+    → Tier 1 (exclude)
+else if ingredient was purchased via Instacart in last 14 days:
+    → Tier 2 (flag as "recently bought")
+else:
+    → Tier 3 (always include)
+```
+
+Over time, the system learns:
+- If a user repeatedly removes an ingredient → suggest adding it to pantry staples
+- If a user repeatedly quick-adds a staple → suggest removing it from pantry staples
+- Purchase frequency from Instacart adjusts the 14-day window per ingredient
+
+---
+
+## 4. Grocery list UI updates
+
+### Updated Grocery view layout
+
+```
+┌──────────────────────────────────────┐
+│  Quick add staples:                  │
+│  [+ Salt] [+ Pepper] [+ Olive oil]  │
+│  [+ Butter] [+ Soy sauce]           │
+├──────────────────────────────────────┤
+│                                      │
+│  PRODUCE                             │
+│  ☐ Lemongrass (2 stalks)     Curry  │
+│  ☐ Lime (3)                  Tacos  │
+│  ☐ Cilantro (1 bunch)        Tacos  │
+│                                      │
+│  DAIRY                               │
+│  ☐ Pecorino Romano (150g)    Cacio  │
+│                                      │
+│  MEAT                                │
+│  ☐ Pork belly (500g)         Ramen  │
+│                                      │
+├──────────────────────────────────────┤
+│  Recently bought (tap to re-add)     │
+│  ◽ Garlic — 3 days ago              │
+│  ◽ Eggs — 5 days ago                │
+│  ◽ Butter — 5 days ago              │
+├──────────────────────────────────────┤
+│  ▸ In your kitchen (8 items)         │
+│    Salt, pepper, olive oil, flour,   │
+│    sugar, soy sauce, rice, vinegar   │
+└──────────────────────────────────────┘
+```
+
+### Section breakdown
+
+1. **Quick Add staples** — horizontal scrolling chip row, sticky at top. Personalized over time based on what the user frequently re-adds. Tap to instantly add to the active list.
+
+2. **Active grocery list** — items you actually need to buy. Grouped by aisle. Checkboxes for shopping. This is what gets sent to Instacart.
+
+3. **Recently bought** — collapsed by default, expandable. Shows items purchased via Instacart in the last 14 days that this recipe calls for. Tap to re-add if needed. Helps avoid duplicates without hiding information.
+
+4. **In your kitchen** — collapsed by default. Shows pantry staples that were auto-excluded. Expandable with a tap. Each item tappable to add back for this trip.
+
+---
+
+## 5. Instacart handoff
+
+When the user taps "Order on Instacart":
+
+1. Only send **active grocery list items** (not excluded or recently-bought)
+2. User lands on Instacart with their cart pre-populated
+3. They can add anything else they want directly on Instacart (staples, snacks, whatever)
+4. After order completes, we pull the order items back to update purchase history
+
+### The handoff message
+
+Show a brief interstitial before opening Instacart:
+
+```
+┌──────────────────────────────────────┐
+│                                      │
+│  Sending 12 items to Instacart       │
+│                                      │
+│  8 pantry staples excluded           │
+│  3 recently bought items skipped     │
+│                                      │
+│  You can add anything else once      │
+│  you're on Instacart.               │
+│                                      │
+│  ┌──────────────────────────┐        │
+│  │    Open Instacart →      │        │
+│  └──────────────────────────┘        │
+│                                      │
+│  Edit list before sending            │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+---
+
+## 6. Data model
+
+### Pantry staples (local — AsyncStorage)
+
+```typescript
+interface PantryStaple {
+  ingredient: string;       // normalized name
+  category: string;         // "basics" | "baking" | "sauces" | "spices" | "pantry"
+  inKitchen: boolean;       // user says they have it
+  addedAt: string;          // ISO date
+}
+```
+
+### Purchase history (local cache from Instacart)
+
+```typescript
+interface PurchaseRecord {
+  ingredient: string;       // normalized name
+  quantity: string;
+  purchasedAt: string;      // ISO date
+  instacartOrderId: string;
+  timesRemoved: number;     // how often user says "I still have this"
+}
+```
+
+### Grocery list item (extended)
+
+```typescript
+interface GroceryItem {
+  ingredient: string;
+  quantity: string;
+  unit: string;
+  recipeIds: string[];      // which recipes need this
+  tier: 1 | 2 | 3;         // staple | recently bought | always include
+  excluded: boolean;        // auto-excluded from active list
+  excludeReason: "pantry_staple" | "recently_bought" | null;
+  checked: boolean;         // user checked off while shopping
+}
+```
+
+---
+
+## 7. Privacy note
+
+Purchase history stays on-device (AsyncStorage). We cache Instacart order data locally but never send it to our own servers. The user can clear purchase history from Profile > Settings at any time.
+
+---
+
+## 8. v1 vs v2
+
+### Ship in v1
+- Pantry staples checklist (onboarding or first grocery use)
+- Auto-exclude staples from grocery list
+- Quick Add chips
+- "In your kitchen" collapsed section
+- Instacart handoff with pre-populated cart
+
+### Ship in v2 (requires Instacart order history API)
+- Purchase history tracking
+- "Recently bought" section with smart flags
+- Learned preferences (auto-adjust tiers over time)
+- Kitchen scanner integration
+- Per-ingredient purchase frequency analysis

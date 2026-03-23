@@ -13,13 +13,14 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
+import { CATEGORY_LABELS, type PantryStaple } from "@/constants/pantry";
 import { useApp } from "@/contexts/AppContext";
 import {
   generateItinerary,
   type ItineraryProfile,
 } from "@/hooks/useItinerary";
 
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = 5;
 
 const COOKING_DAYS_OPTIONS: { value: 3 | 5 | 7; label: string }[] = [
   { value: 3, label: "3" },
@@ -47,6 +48,8 @@ export default function ItinerarySetupScreen() {
     setItineraryProfile,
     setCurrentItinerary,
     itineraryHistory,
+    pantryStaples,
+    togglePantryStaple,
   } = useApp();
 
   const [step, setStep] = useState(0);
@@ -187,12 +190,59 @@ export default function ItinerarySetupScreen() {
     </View>
   );
 
+  const renderStep4 = () => {
+    const grouped: Partial<Record<PantryStaple["category"], PantryStaple[]>> = {};
+    for (const staple of pantryStaples) {
+      if (!grouped[staple.category]) grouped[staple.category] = [];
+      grouped[staple.category]!.push(staple);
+    }
+    const categoryOrder: PantryStaple["category"][] = ["basics", "baking", "sauces", "spices", "pantry"];
+
+    return (
+      <View style={styles.stepContent}>
+        <Text style={styles.stepTitle}>What's in your kitchen?</Text>
+        <Text style={styles.stepSubtitle}>
+          We'll skip these when building your grocery list. Uncheck anything you don't have.
+        </Text>
+        {categoryOrder.map((cat) => {
+          const items = grouped[cat];
+          if (!items || items.length === 0) return null;
+          return (
+            <View key={cat} style={styles.pantryCategory}>
+              <Text style={styles.pantryCategoryLabel}>{CATEGORY_LABELS[cat].toUpperCase()}</Text>
+              {items.map((staple, idx) => (
+                <Pressable
+                  key={staple.id}
+                  onPress={() => { haptic(); togglePantryStaple(staple.id); }}
+                  style={[
+                    styles.pantryRow,
+                    idx < items.length - 1 && styles.pantryRowBorder,
+                  ]}
+                >
+                  <View style={[styles.pantryCheckbox, staple.inKitchen && styles.pantryCheckboxChecked]}>
+                    {staple.inKitchen && (
+                      <Ionicons name="checkmark" size={13} color="#FFFFFF" />
+                    )}
+                  </View>
+                  <Text style={[styles.pantryIngredient, !staple.inKitchen && styles.pantryIngredientOff]}>
+                    {staple.ingredient}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          );
+        })}
+      </View>
+    );
+  };
+
   const renderCurrentStep = () => {
     switch (step) {
       case 0: return renderStep0();
       case 1: return renderCardOptions(TIME_OPTIONS, timePreference, (k) => setTimePreference(k as ItineraryProfile["timePreference"]), "Weeknight energy level?");
       case 2: return renderCardOptions(ADVENTURE_OPTIONS, adventurousness, (k) => setAdventurousness(k as ItineraryProfile["adventurousness"]), "How adventurous?");
       case 3: return renderStep3();
+      case 4: return renderStep4();
       default: return null;
     }
   };
@@ -274,6 +324,60 @@ const styles = StyleSheet.create({
     color: Colors.light.onSurface,
     letterSpacing: -0.3,
     lineHeight: 34,
+  },
+  stepSubtitle: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 15,
+    color: Colors.light.secondary,
+    lineHeight: 22,
+    marginTop: -20,
+  },
+  pantryCategory: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 16,
+    overflow: "hidden",
+  },
+  pantryCategoryLabel: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 11,
+    color: Colors.light.secondary,
+    letterSpacing: 1.2,
+    paddingHorizontal: 16,
+    paddingTop: 14,
+    paddingBottom: 6,
+  },
+  pantryRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  pantryRowBorder: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Colors.light.outlineVariant,
+  },
+  pantryCheckbox: {
+    width: 22,
+    height: 22,
+    borderRadius: 6,
+    borderWidth: 1.5,
+    borderColor: Colors.light.outlineVariant,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pantryCheckboxChecked: {
+    backgroundColor: Colors.light.primary,
+    borderColor: Colors.light.primary,
+  },
+  pantryIngredient: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+    flex: 1,
+  },
+  pantryIngredientOff: {
+    color: Colors.light.outlineVariant,
   },
 
   /* Step 0: Cooking Days */
