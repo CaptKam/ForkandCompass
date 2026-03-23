@@ -42,6 +42,10 @@ function RootLayoutNav() {
       />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen
+        name="(tabs)/settings"
+        options={{ animation: modalAnimation, presentation: "modal" }}
+      />
+      <Stack.Screen
         name="country/[id]"
         options={{ animation: slideAnimation }}
       />
