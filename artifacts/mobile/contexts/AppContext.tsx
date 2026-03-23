@@ -95,6 +95,7 @@ interface AppContextType {
   clearInventory: () => void;
   clearInventoryZone: (zone: ScanZone) => void;
   lastScanTimestamp: number | null;
+  clearGrocery: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -586,6 +587,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         clearInventory,
         clearInventoryZone,
         lastScanTimestamp,
+        clearGrocery,
       }}
     >
       {children}

@@ -397,6 +397,12 @@ export default function PlanScreen() {
             >
               <Text style={styles.newWeekText}>Generate new week</Text>
             </Pressable>
+            <Pressable
+              onPress={() => { haptic(); setCurrentItinerary([]); }}
+              style={({ pressed }) => [styles.newWeekLink, pressed && { opacity: 0.6 }]}
+            >
+              <Text style={[styles.newWeekText, { color: "#c0392b" }]}>Clear week</Text>
+            </Pressable>
 
           </ScrollView>
         )
@@ -466,11 +472,21 @@ export default function PlanScreen() {
               )}
               ListFooterComponent={
                 <View>
-                  {activeGroceryItems.filter((i) => i.checked).length > 0 && (
-                    <Pressable onPress={handleClearCompleted} style={styles.clearCompletedBtn}>
-                      <Text style={styles.clearCompletedText}>Clear Completed</Text>
-                    </Pressable>
-                  )}
+                  <View style={{ flexDirection: "row", justifyContent: "center", gap: 20 }}>
+                    {activeGroceryItems.filter((i) => i.checked).length > 0 && (
+                      <Pressable onPress={handleClearCompleted} style={styles.clearCompletedBtn}>
+                        <Text style={styles.clearCompletedText}>Clear Completed</Text>
+                      </Pressable>
+                    )}
+                    {activeGroceryItems.length > 0 && (
+                      <Pressable
+                        onPress={() => { haptic(); clearGrocery(); }}
+                        style={styles.clearCompletedBtn}
+                      >
+                        <Text style={[styles.clearCompletedText, { color: "#c0392b" }]}>Clear All</Text>
+                      </Pressable>
+                    )}
+                  </View>
                   {/* In your kitchen collapsible */}
                   {excludedGroceryItems.length > 0 && (
                     <View style={styles.kitchenSection}>
