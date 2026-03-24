@@ -21,7 +21,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
-import { COUNTRIES, ONBOARDING_IMAGES, getCountryLocations, type Country } from "@/constants/data";
+import { COUNTRIES, ONBOARDING_IMAGES, LANDMARK_IMAGES, getCountryLocations, type Country } from "@/constants/data";
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
@@ -177,14 +177,27 @@ export default function DiscoverScreen() {
   const { countries } = useCountries();
   const reducedMotion = useReducedMotion();
   const heroScrollRef = useRef<ScrollView>(null);
+  const destScrollRef = useRef<ScrollView>(null);
+  const isProgrammaticScroll = useRef(false);
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
   const { width: screenWidth } = useWindowDimensions();
+
+  const DEST_ITEM_WIDTH = 94; // ring width
+  const DEST_GAP = 24;
+  const DEST_PADDING = 24;
 
   useEffect(() => {
     if (screenWidth > 0) {
       heroScrollRef.current?.scrollTo({ x: activeIndex * screenWidth, animated: false });
     }
   }, [screenWidth]);
+
+  useEffect(() => {
+    // Center the active thumbnail in the strip
+    const itemCenter = DEST_PADDING + activeIndex * (DEST_ITEM_WIDTH + DEST_GAP) + DEST_ITEM_WIDTH / 2;
+    const scrollX = Math.max(0, itemCenter - screenWidth / 2);
+    destScrollRef.current?.scrollTo({ x: scrollX, animated: true });
+  }, [activeIndex, screenWidth]);
 
   const activeCountry = countries[activeIndex] ?? countries[0];
   const editorial = buildDiscoverData(activeCountry);
@@ -198,10 +211,15 @@ export default function DiscoverScreen() {
   };
 
   const scrollHeroTo = (idx: number) => {
+    isProgrammaticScroll.current = true;
     heroScrollRef.current?.scrollTo({ x: idx * screenWidth, animated: true });
+    // Clear the flag after the animation has fully settled
+    setTimeout(() => { isProgrammaticScroll.current = false; }, 600);
   };
 
   const onHeroScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    // Ignore events fired by our own programmatic scrollTo calls
+    if (isProgrammaticScroll.current) return;
     const idx = Math.round(e.nativeEvent.contentOffset.x / screenWidth);
     if (idx !== activeIndex && idx >= 0 && idx < countries.length) {
       haptic();
@@ -226,6 +244,7 @@ export default function DiscoverScreen() {
             pagingEnabled
             showsHorizontalScrollIndicator={false}
             onMomentumScrollEnd={onHeroScroll}
+            onScrollEndDrag={onHeroScroll}
             scrollEventThrottle={16}
             contentOffset={{ x: activeIndex * screenWidth, y: 0 }}
             style={styles.heroScroll}
@@ -304,6 +323,7 @@ export default function DiscoverScreen() {
             <Text style={styles.destTitle}>Explore Destinations</Text>
           </View>
           <ScrollView
+            ref={destScrollRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.destScroll}
@@ -321,7 +341,7 @@ export default function DiscoverScreen() {
                     {/* Inner circle — clips the image to a circle */}
                     <View style={styles.destCircle}>
                       <Image
-                        source={{ uri: ONBOARDING_IMAGES[country.id] || country.image }}
+                        source={{ uri: LANDMARK_IMAGES[country.id] || country.image }}
                         style={styles.destCircleImg}
                         contentFit="cover"
                       />

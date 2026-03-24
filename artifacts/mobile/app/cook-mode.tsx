@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
+import { useKeepAwake } from "expo-keep-awake";
 import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -23,7 +24,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { getRecipeById } from "@/constants/data";
+import { getRecipeById, resolveImageUrl } from "@/constants/data";
 import type { Ingredient } from "@/constants/data";
 import {
   parseActionVerbs,
@@ -34,15 +35,25 @@ import { findTechniqueForStep } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import type { CookSession, ActiveCookSession } from "@/contexts/AppContext";
 
-/* ── Helpers ───────────────────────────────────────────────────── */
+const TERRACOTTA = "#9A4100";
+const TEXT_SECONDARY = "#5C5549";
+const BORDER = "#E8DFD2";
+const CREAM = "#FEF9F3";
+
+const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
 
 function parseDurationFromText(text: string): number | null {
-  const m = text.match(/(\d+)\s*(minutes?|mins?|m)\b/i);
-  if (m) return parseInt(m[1], 10) * 60;
-  const s = text.match(/(\d+)\s*(seconds?|secs?|s)\b/i);
-  if (s) return parseInt(s[1], 10);
   const h = text.match(/(\d+)\s*(hours?|hrs?|h)\b/i);
+  const m = text.match(/(\d+)\s*(minutes?|mins?|m)\b/i);
+  const s = text.match(/(\d+)\s*(seconds?|secs?|s)\b/i);
+  let total = 0;
+  if (h) total += parseInt(h[1], 10) * 3600;
+  if (m) total += parseInt(m[1], 10) * 60;
+  if (s) total += parseInt(s[1], 10);
+  if (total > 0) return total;
   if (h) return parseInt(h[1], 10) * 3600;
+  if (m) return parseInt(m[1], 10) * 60;
+  if (s) return parseInt(s[1], 10);
   return null;
 }
 
@@ -66,11 +77,10 @@ function getIngredientsForStep(
   );
 }
 
-/** Map step title to phase */
 function getPhase(title: string): "prep" | "cook" | "finish" {
   const t = title.toLowerCase();
-  if (t.includes("finish") || t.includes("serve") || t.includes("plate")) return "finish";
-  if (t.includes("cook") || t.includes("bake") || t.includes("fry") || t.includes("boil") || t.includes("simmer") || t.includes("roast") || t.includes("grill") || t.includes("sear")) return "cook";
+  if (t.includes("finish") || t.includes("serve") || t.includes("plate") || t.includes("garnish")) return "finish";
+  if (t.includes("cook") || t.includes("bake") || t.includes("fry") || t.includes("boil") || t.includes("simmer") || t.includes("roast") || t.includes("grill") || t.includes("sear") || t.includes("braise") || t.includes("steam")) return "cook";
   return "prep";
 }
 
@@ -83,16 +93,87 @@ const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Underco
 function getDonenessCue(instruction: string): string | null {
   const match = instruction.match(/until\s+(.+?)(?:\.|,|$)/i);
   if (match && match[1].length > 10) {
-    // Capitalize first letter
     const cue = match[1].trim();
     return cue.charAt(0).toUpperCase() + cue.slice(1);
   }
   return null;
 }
 
-/* ── Component ─────────────────────────────────────────────────── */
+function generateTimerName(stepTitle: string, stepText: string, recipeName: string): string {
+  const action = stepTitle.charAt(0).toUpperCase() + stepTitle.slice(1).toLowerCase();
+  const ingredientMatch = stepText.match(/(?:the\s+)?(\w+(?:\s+\w+)?)\s+(?:for|until|over|in|on)/i);
+  const primary = ingredientMatch ? ingredientMatch[1] : recipeName;
+  return `${action} ${primary}`;
+}
+
+interface PrepWarning {
+  type: "overnight" | "advance_prep";
+  stepNumber: number;
+  message: string;
+  duration?: string;
+}
+
+function getAdvancePrepWarnings(steps: { title: string; instruction: string }[]): PrepWarning[] {
+  const warnings: PrepWarning[] = [];
+  for (let i = 0; i < steps.length; i++) {
+    const text = steps[i].instruction.toLowerCase();
+    if (text.includes("overnight") || text.includes("at least 4 hours") || text.includes("at least 6 hours") || text.includes("at least 8 hours")) {
+      const summary = steps[i].instruction.split(".")[0];
+      warnings.push({
+        type: text.includes("overnight") ? "overnight" : "advance_prep",
+        stepNumber: i + 1,
+        message: summary.length > 80 ? summary.slice(0, 77) + "..." : summary,
+        duration: text.includes("overnight") ? "overnight" : text.match(/(at least \d+ hours?)/i)?.[1],
+      });
+    }
+  }
+  return warnings;
+}
+
+const CONTEXTUAL_TIPS: Record<string, string> = {
+  sear: "Don't overcrowd the pan when searing — work in batches for a better crust.",
+  simmer: "A gentle simmer means small, occasional bubbles. If it's rolling, lower the heat.",
+  boil: "Always salt your water generously before adding pasta or vegetables.",
+  chop: "Keep your knife sharp — a dull blade is more dangerous than a sharp one.",
+  dice: "For even cooking, try to keep your dice uniform in size.",
+  mince: "Rock the knife blade in a curved motion for the finest mince.",
+  saute: "Have all ingredients prepped and ready before you heat the pan.",
+  sauté: "Have all ingredients prepped and ready before you heat the pan.",
+  knead: "Dough is ready when it springs back slowly after you poke it.",
+  fold: "Use a large spatula and gentle circular motions to keep the air in.",
+  whisk: "Whisk in a figure-8 pattern for the most even incorporation.",
+  roast: "Let the oven fully preheat before putting anything in.",
+  bake: "Avoid opening the oven door too often — it drops the temperature significantly.",
+  fry: "Test oil temperature by dropping in a tiny piece — it should sizzle immediately.",
+  marinate: "Always marinate in a non-reactive container (glass or stainless steel).",
+  blend: "Start blending on low speed, then gradually increase to avoid splashing.",
+  strain: "Press gently with the back of a spoon to extract maximum flavor.",
+  season: "Season in layers as you cook, not just at the end.",
+  rest: "Letting meat rest allows the juices to redistribute — don't skip this step.",
+  toast: "Watch closely when toasting — spices can go from fragrant to burnt in seconds.",
+  grill: "Oil the food, not the grates, for the best non-stick results.",
+  steam: "Don't lift the lid during steaming — you'll lose heat and moisture.",
+  reduce: "Taste as you reduce — the flavor concentrates so seasoning may need adjusting.",
+  caramelize: "Low heat and patience are the keys to deep, sweet caramelization.",
+  temper: "Add the hot liquid to the cold mixture slowly, whisking constantly.",
+  blanch: "Have an ice bath ready before you blanch — timing is everything.",
+};
+
+function getStepTips(instruction: string): string[] {
+  const lower = instruction.toLowerCase();
+  const tips: string[] = [];
+  for (const [keyword, tip] of Object.entries(CONTEXTUAL_TIPS)) {
+    const regex = new RegExp(`\\b${keyword}\\b`, "i");
+    if (regex.test(lower) && tips.length < 2) {
+      tips.push(tip);
+    }
+  }
+  return tips;
+}
 
 export default function CookModeScreen() {
+  useKeepAwake();
+
   const { recipeId, resumeStep } = useLocalSearchParams<{ recipeId: string; resumeStep?: string }>();
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(recipeId);
@@ -102,26 +183,38 @@ export default function CookModeScreen() {
   const [currentStep, setCurrentStep] = useState(isNaN(initialStep) ? 0 : initialStep);
   const [direction, setDirection] = useState<"forward" | "back">("forward");
   const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
-  const [showTroubleshooting, setShowTroubleshooting] = useState(false);
+  const [showHelpSheet, setShowHelpSheet] = useState(false);
+  const [helpSegment, setHelpSegment] = useState<"troubleshooting" | "tips">("troubleshooting");
   const [finished, setFinished] = useState(false);
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState<string[]>([]);
+  const [showPrepWarning, setShowPrepWarning] = useState(false);
+  const [prepWarningDismissed, setPrepWarningDismissed] = useState(false);
 
-  // Timer state
   const [timerTotal, setTimerTotal] = useState<number | null>(null);
   const [timerRemaining, setTimerRemaining] = useState<number>(0);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [timerName, setTimerName] = useState<string>("");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<string>(new Date().toISOString());
 
-  // Cleanup timer on unmount
+  const prepWarnings = useMemo(() => {
+    if (!recipe) return [];
+    return getAdvancePrepWarnings(recipe.steps);
+  }, [recipe]);
+
+  useEffect(() => {
+    if (prepWarnings.length > 0 && !resumeStep && !prepWarningDismissed) {
+      setShowPrepWarning(true);
+    }
+  }, [prepWarnings.length, resumeStep, prepWarningDismissed]);
+
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, []);
 
-  // Timer tick
   useEffect(() => {
     if (timerRunning && timerRemaining > 0) {
       timerRef.current = setInterval(() => {
@@ -142,7 +235,6 @@ export default function CookModeScreen() {
     }
   }, [timerRunning, timerRemaining]);
 
-  // Persist active cook session on step/timer changes
   useEffect(() => {
     if (!recipe || finished) return;
     const session: ActiveCookSession = {
@@ -180,7 +272,6 @@ export default function CookModeScreen() {
   const stepIngredients = getIngredientsForStep(adaptiveText, recipe.ingredients);
   const techniqueVideo = findTechniqueForStep(adaptiveText);
   const userLevel = cookingProfile.currentLevel;
-  // Show technique hints for beginners always, intermediate for complex actions only
   const showVideoHint = techniqueVideo && (userLevel <= 2 || (userLevel <= 4 && techniqueVideo.difficulty !== "Beginner"));
   // Parse action verbs for highlighting
   const instructionSegments = useMemo(() => parseActionVerbs(adaptiveText), [adaptiveText]);
@@ -200,7 +291,6 @@ export default function CookModeScreen() {
             text: "Exit",
             style: "destructive",
             onPress: () => {
-              // Save partial session
               const session: CookSession = {
                 id: `${Date.now()}-${recipeId}`,
                 recipeId: recipe.id,
@@ -233,10 +323,10 @@ export default function CookModeScreen() {
       return;
     }
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    // Reset timer for next step
     setTimerRunning(false);
     setTimerTotal(null);
     setTimerRemaining(0);
+    setTimerName("");
     setCheckedIngredients(new Set());
     setDirection("forward");
     setCurrentStep((s) => s + 1);
@@ -248,6 +338,7 @@ export default function CookModeScreen() {
     setTimerRunning(false);
     setTimerTotal(null);
     setTimerRemaining(0);
+    setTimerName("");
     setCheckedIngredients(new Set());
     setDirection("back");
     setCurrentStep((s) => s - 1);
@@ -258,6 +349,7 @@ export default function CookModeScreen() {
     setTimerTotal(stepDuration);
     setTimerRemaining(stepDuration);
     setTimerRunning(true);
+    setTimerName(generateTimerName(step.title, step.instruction, recipe.name));
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   };
 
@@ -295,7 +387,7 @@ export default function CookModeScreen() {
       totalSteps: recipe.steps.length,
     };
     completeCookSession(session);
-    setActiveCookSession(null); // Clear active session on completion
+    setActiveCookSession(null);
     if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     router.back();
   };
@@ -306,7 +398,66 @@ export default function CookModeScreen() {
     );
   };
 
-  /* ── Finish Screen ─────────────────────────────────────────── */
+  if (showPrepWarning && !prepWarningDismissed) {
+    return (
+      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: Colors.light.surface }]}>
+        <StatusBar style="dark" />
+        <ScrollView contentContainerStyle={styles.prepWarningContent}>
+          <Animated.View entering={FadeIn.duration(400)} style={styles.prepWarningInner}>
+            <View style={styles.prepWarningBanner}>
+              <Text style={styles.prepWarningLabel}>⏰ HEADS UP</Text>
+              <Text style={styles.prepWarningDesc}>This recipe needs advance prep:</Text>
+              {prepWarnings.map((w, i) => (
+                <View key={i} style={styles.prepWarningBullet}>
+                  <Text style={styles.prepWarningBulletText}>
+                    • {w.message}
+                  </Text>
+                  <Text style={styles.prepWarningBulletMeta}>
+                    Step {w.stepNumber} — {w.duration || "long wait"}
+                  </Text>
+                </View>
+              ))}
+              <Text style={styles.prepWarningFooter}>
+                Make sure you've done these before starting Cook Mode.
+              </Text>
+              <Pressable
+                style={({ pressed }) => [styles.prepWarningReadyBtn, pressed && { opacity: 0.88 }]}
+                onPress={() => {
+                  setPrepWarningDismissed(true);
+                  setShowPrepWarning(false);
+                  if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                }}
+              >
+                <Text style={styles.prepWarningReadyText}>I'm ready — Start Cooking</Text>
+              </Pressable>
+              <Pressable
+                style={({ pressed }) => [styles.prepWarningPrepBtn, pressed && { opacity: 0.88 }]}
+                onPress={() => {
+                  setPrepWarningDismissed(true);
+                  setShowPrepWarning(false);
+                  if (prepWarnings[0]) setCurrentStep(prepWarnings[0].stepNumber - 1);
+                  if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }}
+              >
+                <Text style={styles.prepWarningPrepText}>Start prep now</Text>
+              </Pressable>
+            </View>
+            <Pressable
+              onPress={() => {
+                setPrepWarningDismissed(true);
+                setShowPrepWarning(false);
+                router.back();
+              }}
+              hitSlop={8}
+            >
+              <Text style={styles.prepWarningBackText}>← Go back</Text>
+            </Pressable>
+          </Animated.View>
+        </ScrollView>
+      </View>
+    );
+  }
+
   if (finished) {
     return (
       <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: Colors.light.surface }]}>
@@ -323,7 +474,6 @@ export default function CookModeScreen() {
                 : ""}
             </Text>
 
-            {/* Star rating */}
             <View style={styles.finishCard}>
               <Text style={styles.finishCardLabel}>Rate this recipe</Text>
               <View style={styles.starRow}>
@@ -343,7 +493,6 @@ export default function CookModeScreen() {
               </View>
             </View>
 
-            {/* Feedback chips */}
             <View style={styles.finishCard}>
               <Text style={styles.finishCardLabel}>How did it turn out?</Text>
               <View style={styles.feedbackRow}>
@@ -369,7 +518,6 @@ export default function CookModeScreen() {
               </View>
             </View>
 
-            {/* Done button */}
             <Pressable
               style={({ pressed }) => [styles.doneButton, pressed && { opacity: 0.85 }]}
               onPress={handleFinishDone}
@@ -382,40 +530,42 @@ export default function CookModeScreen() {
     );
   }
 
-  /* ── Active Cook Mode ──────────────────────────────────────── */
   return (
     <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: phaseBg }]}>
       <StatusBar style="dark" />
 
       {/* Header */}
       <View style={styles.topBar}>
-        <Pressable onPress={handleClose} style={styles.headerButton}>
-          <Ionicons name="close" size={24} color={Colors.light.onSurface} />
-        </Pressable>
-        <Text style={styles.stepLabel}>Step {currentStep + 1} of {recipe.steps.length}</Text>
+        <View style={styles.headerLeft}>
+          <Pressable onPress={handleClose} style={styles.headerButton}>
+            <Ionicons name="close" size={24} color={Colors.light.onSurface} />
+          </Pressable>
+          <View style={styles.headerTitleCol}>
+            <Text style={styles.stepLabel}>Step {currentStep + 1} of {recipe.steps.length}</Text>
+            <Text style={styles.headerRecipeName} numberOfLines={1}>{recipe.name}</Text>
+          </View>
+        </View>
         <View style={styles.headerRight}>
           <Pressable
-            onPress={() => { setShowTroubleshooting(true); if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); }}
+            onPress={() => { setShowHelpSheet(true); if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); }}
             style={styles.headerButton}
           >
-            <Ionicons name="help-circle-outline" size={24} color={Colors.light.secondary} />
+            <Ionicons name="help-circle-outline" size={22} color={Colors.light.secondary} />
           </Pressable>
-          {stepDuration && !timerTotal && (
-            <Pressable onPress={startTimer} style={styles.headerButton}>
-              <Ionicons name="timer-outline" size={24} color={Colors.light.primary} />
+          {stepDuration && !timerTotal ? (
+            <Pressable onPress={startTimer} style={styles.timerPill}>
+              <Ionicons name="timer-outline" size={16} color={TERRACOTTA} />
+              <Text style={styles.timerPillText}>Start</Text>
             </Pressable>
-          )}
+          ) : timerTotal != null ? (
+            <Pressable onPress={toggleTimer} style={[styles.timerPill, timerRemaining === 0 && styles.timerPillDone]}>
+              <Ionicons name="timer-outline" size={16} color={timerRemaining === 0 ? "#2D7A4F" : TERRACOTTA} />
+              <Text style={[styles.timerPillText, timerRemaining === 0 && { color: "#2D7A4F" }]}>
+                {timerRemaining === 0 ? "Done!" : formatTimer(timerRemaining)}
+              </Text>
+            </Pressable>
+          ) : null}
         </View>
-      </View>
-
-      {/* Progress bar */}
-      <View style={styles.progressBarContainer}>
-        <View
-          style={[
-            styles.progressBarFill,
-            { width: `${((currentStep + 1) / recipe.steps.length) * 100}%` },
-          ]}
-        />
       </View>
 
       {/* Step content */}
@@ -429,8 +579,10 @@ export default function CookModeScreen() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
-          {/* Phase label */}
-          <Text style={[styles.phaseLabel, { color: phaseColor }]}>{phaseLabel}</Text>
+          {/* Phase pill */}
+          <View style={[styles.phasePill, phase === "finish" && styles.phasePillFinish]}>
+            <Text style={[styles.phasePillText, phase === "finish" && styles.phasePillTextFinish]}>{phaseLabel}</Text>
+          </View>
 
           {/* Step instruction with action verb highlighting */}
           <Text style={styles.stepInstruction} maxFontSizeMultiplier={2.0}>
@@ -443,9 +595,10 @@ export default function CookModeScreen() {
             )}
           </Text>
 
-          {/* Timer display */}
+          {/* Timer controls (when active) */}
           {timerTotal != null && (
             <View style={styles.timerSection}>
+              {timerName ? <Text style={styles.timerNameLabel}>{timerName}</Text> : null}
               <Text style={[styles.timerDigits, timerRemaining === 0 && styles.timerComplete]}>
                 {timerRemaining === 0 ? "Time's up!" : formatTimer(timerRemaining)}
               </Text>
@@ -480,11 +633,33 @@ export default function CookModeScreen() {
             </View>
           )}
 
-          {/* Chef note banner (first step only) */}
-          {currentStep === 0 && recipe.culturalNote && (
-            <View style={styles.chefNoteCard}>
-              <Ionicons name="chatbubble-ellipses-outline" size={16} color={TEXT_SECONDARY} style={{ marginTop: 2 }} />
-              <Text style={styles.chefNoteText}>{recipe.culturalNote}</Text>
+          {/* Bento grid: video + doneness cue side by side */}
+          {(showVideoHint || donenessCue) && (
+            <View style={styles.bentoGrid}>
+              {showVideoHint && techniqueVideo && (
+                <Pressable style={styles.videoCard}>
+                  <Image
+                    source={{ uri: techniqueVideo.thumbnailUrl }}
+                    style={StyleSheet.absoluteFill}
+                    contentFit="cover"
+                  />
+                  <View style={styles.videoGradient} />
+                  <View style={styles.videoPlayCircle}>
+                    <Ionicons name="play" size={24} color={TERRACOTTA} style={{ marginLeft: 2 }} />
+                  </View>
+                  <View style={styles.videoCardBottom}>
+                    <Text style={styles.videoCardLabel}>Video Technique</Text>
+                    <Text style={styles.videoCardTitle}>{techniqueVideo.title}</Text>
+                  </View>
+                </Pressable>
+              )}
+              {donenessCue && (
+                <View style={[styles.donenessCueCard, showVideoHint ? styles.donenessCueCardHalf : styles.donenessCueCardFull]}>
+                  <Ionicons name="alert-circle" size={28} color={TERRACOTTA} />
+                  <Text style={styles.donenessCueLabel}>Doneness Cue</Text>
+                  <Text style={styles.donenessCueText}>"{donenessCue}"</Text>
+                </View>
+              )}
             </View>
           )}
 
@@ -499,22 +674,20 @@ export default function CookModeScreen() {
             </View>
           )}
 
-          {/* Video hint card */}
-          {showVideoHint && techniqueVideo && (
-            <View style={styles.videoHintCard}>
-              <Ionicons name="play-circle" size={24} color={Colors.light.primary} />
-              <View style={styles.videoHintInfo}>
-                <Text style={styles.videoHintTitle}>Watch: {techniqueVideo.title}</Text>
-                <Text style={styles.videoHintSubtitle}>{techniqueVideo.subtitle}</Text>
-              </View>
-              <Text style={styles.videoHintDuration}>{techniqueVideo.duration}</Text>
+          {/* First-step chef note */}
+          {currentStep === 0 && (
+            <View style={styles.chefNoteCard}>
+              <Ionicons name="bulb-outline" size={16} color={TERRACOTTA} style={{ marginTop: 2 }} />
+              <Text style={styles.chefNoteText}>
+                Read all the steps before you start — it helps you time everything and avoid surprises.
+              </Text>
             </View>
           )}
 
           {/* Ingredients for this step */}
           {stepIngredients.length > 0 && (
             <View style={styles.ingredientsCard}>
-              <Text style={styles.ingredientsLabel}>INGREDIENTS FOR THIS STEP</Text>
+              <Text style={styles.ingredientsLabel}>Ingredients for this step</Text>
               {stepIngredients.map((ing) => {
                 const isChecked = checkedIngredients.has(ing.id);
                 return (
@@ -524,7 +697,7 @@ export default function CookModeScreen() {
                     onPress={() => toggleIngredient(ing.id)}
                   >
                     <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
-                      {isChecked && <Ionicons name="checkmark" size={14} color="#FFFFFF" />}
+                      {isChecked && <View style={styles.checkboxDot} />}
                     </View>
                     <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked]}>
                       {ing.name} — {ing.amount}
@@ -535,10 +708,10 @@ export default function CookModeScreen() {
             </View>
           )}
 
-          {/* Equipment / materials */}
+          {/* Equipment */}
           {step.materials.length > 0 && (
             <View style={styles.materialsCard}>
-              <Text style={styles.ingredientsLabel}>EQUIPMENT</Text>
+              <Text style={styles.ingredientsLabel}>Equipment</Text>
               {step.materials.map((mat, i) => (
                 <View key={i} style={styles.materialRow}>
                   <Ionicons name="construct-outline" size={16} color={Colors.light.secondary} />
@@ -552,32 +725,7 @@ export default function CookModeScreen() {
 
       {/* Bottom navigation */}
       <View style={[styles.bottomArea, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
-        <View style={styles.navRow}>
-          {!isFirst ? (
-            <Pressable
-              onPress={goPrev}
-              style={({ pressed }) => [styles.navBtnSecondary, pressed && { opacity: 0.7 }]}
-            >
-              <Text style={styles.navBtnSecondaryText}>← Prev</Text>
-            </Pressable>
-          ) : (
-            <View style={{ width: 140 }} />
-          )}
-
-          <Pressable
-            onPress={goNext}
-            style={({ pressed }) => [
-              isLast ? styles.navBtnFinish : styles.navBtnPrimary,
-              pressed && { opacity: 0.85 },
-            ]}
-          >
-            <Text style={styles.navBtnPrimaryText}>
-              {isLast ? "Finish Cooking ✓" : "Next →"}
-            </Text>
-          </Pressable>
-        </View>
-
-        {/* Step dots */}
+        {/* Progress dots — variable width */}
         <View style={styles.navDots}>
           {recipe.steps.map((_, i) => (
             <View
@@ -590,37 +738,135 @@ export default function CookModeScreen() {
             />
           ))}
         </View>
+
+        <View style={styles.navRow}>
+          {!isFirst ? (
+            <Pressable
+              onPress={goPrev}
+              style={({ pressed }) => [styles.navBtnSecondary, pressed && { opacity: 0.7 }]}
+            >
+              <Ionicons name="arrow-back" size={16} color={Colors.light.onSurface} />
+              <Text style={styles.navBtnSecondaryText}>Prev</Text>
+            </Pressable>
+          ) : (
+            <View style={{ width: 100 }} />
+          )}
+
+          <Pressable
+            onPress={goNext}
+            style={({ pressed }) => [
+              isLast ? styles.navBtnFinish : styles.navBtnPrimary,
+              pressed && { opacity: 0.85 },
+            ]}
+          >
+            <Text style={styles.navBtnPrimaryText}>
+              {isLast ? "Finish" : "Next"}
+            </Text>
+            <Ionicons name={isLast ? "checkmark" : "arrow-forward"} size={16} color={CREAM} />
+          </Pressable>
+        </View>
       </View>
 
-      {/* Troubleshooting overlay */}
-      {showTroubleshooting && (
+      {showHelpSheet && (
         <Pressable
-          style={styles.troubleshootOverlay}
-          onPress={() => setShowTroubleshooting(false)}
+          style={styles.helpOverlay}
+          onPress={() => setShowHelpSheet(false)}
         >
-          <Pressable style={styles.troubleshootSheet} onPress={(e) => e.stopPropagation()}>
-            <View style={styles.troubleshootHandle} />
-            <Text style={styles.troubleshootTitle}>Something not right?</Text>
-            <Text style={styles.troubleshootHint}>
-              Common issues and tips for {recipe.name}:
-            </Text>
-            <View style={styles.troubleshootItem}>
-              <Text style={styles.troubleshootSymptom}>Dish tastes bland?</Text>
-              <Text style={styles.troubleshootFix}>
-                Likely cause: Under-seasoned. Fix: Add salt in small increments, tasting between each addition. A squeeze of lemon can also brighten flavors.
-              </Text>
+          <Pressable style={styles.helpSheet} onPress={(e) => e.stopPropagation()}>
+            <View style={styles.helpHandle} />
+
+            <View style={styles.segmentControl}>
+              <Pressable
+                style={[styles.segmentBtn, helpSegment === "troubleshooting" && styles.segmentBtnActive]}
+                onPress={() => setHelpSegment("troubleshooting")}
+              >
+                <Text style={[styles.segmentText, helpSegment === "troubleshooting" && styles.segmentTextActive]}>
+                  Troubleshooting
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[styles.segmentBtn, helpSegment === "tips" && styles.segmentBtnActive]}
+                onPress={() => setHelpSegment("tips")}
+              >
+                <Text style={[styles.segmentText, helpSegment === "tips" && styles.segmentTextActive]}>
+                  Chef Tips
+                </Text>
+              </Pressable>
             </View>
-            <View style={styles.troubleshootItem}>
-              <Text style={styles.troubleshootSymptom}>Ingredients burning?</Text>
-              <Text style={styles.troubleshootFix}>
-                Likely cause: Heat is too high. Fix: Lower the heat immediately and add a splash of liquid (water, stock, or wine) to deglaze.
-              </Text>
-            </View>
+
+            <ScrollView style={styles.helpScrollArea} showsVerticalScrollIndicator={false}>
+              {helpSegment === "troubleshooting" ? (
+                <>
+                  <Text style={styles.helpTitle}>Something not right?</Text>
+                  <View style={styles.helpItem}>
+                    <Text style={styles.helpSymptom}>Dish tastes bland?</Text>
+                    <Text style={styles.helpFix}>
+                      Likely cause: Under-seasoned. Fix: Add salt in small increments, tasting between each addition. A squeeze of lemon can also brighten flavors.
+                    </Text>
+                  </View>
+                  <View style={styles.helpItem}>
+                    <Text style={styles.helpSymptom}>Ingredients burning?</Text>
+                    <Text style={styles.helpFix}>
+                      Likely cause: Heat is too high. Fix: Lower the heat immediately and add a splash of liquid (water, stock, or wine) to deglaze.
+                    </Text>
+                  </View>
+                  <View style={styles.helpItem}>
+                    <Text style={styles.helpSymptom}>Sauce too thin?</Text>
+                    <Text style={styles.helpFix}>
+                      Likely cause: Not enough reduction time. Fix: Continue simmering uncovered, stirring occasionally, until the sauce coats the back of a spoon.
+                    </Text>
+                  </View>
+                  <View style={styles.helpItem}>
+                    <Text style={styles.helpSymptom}>Texture is off?</Text>
+                    <Text style={styles.helpFix}>
+                      Likely cause: Overcooking or under-resting. Fix: Pull proteins slightly before done (carryover cooking will finish it). Let meat rest before cutting.
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.helpTitle}>Chef Tips</Text>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Taste as you go — adjust seasoning throughout the cooking process, not just at the end. A pinch of salt can transform a dish.
+                    </Text>
+                  </View>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Mise en place: Have all ingredients measured, chopped, and ready before you start. This reduces stress and prevents mistakes.
+                    </Text>
+                  </View>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Let your pan get properly hot before adding food. A cold pan leads to sticking and uneven cooking.
+                    </Text>
+                  </View>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Rest your proteins after cooking — it lets juices redistribute so every bite stays moist.
+                    </Text>
+                  </View>
+                  {recipe.culturalNote && (
+                    <>
+                      <Text style={styles.helpSectionDivider}>History & Culture</Text>
+                      <View style={styles.historyCard}>
+                        <Text style={styles.historyText}>{recipe.culturalNote}</Text>
+                      </View>
+                    </>
+                  )}
+                </>
+              )}
+            </ScrollView>
+
             <Pressable
-              style={({ pressed }) => [styles.troubleshootClose, pressed && { opacity: 0.7 }]}
-              onPress={() => setShowTroubleshooting(false)}
+              style={({ pressed }) => [styles.helpCloseBtn, pressed && { opacity: 0.7 }]}
+              onPress={() => setShowHelpSheet(false)}
             >
-              <Text style={styles.troubleshootCloseText}>Got it</Text>
+              <Text style={styles.helpCloseText}>Got it</Text>
             </Pressable>
           </Pressable>
         </Pressable>
@@ -629,7 +875,6 @@ export default function CookModeScreen() {
   );
 }
 
-/* ── Styles ────────────────────────────────────────────────────── */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -655,7 +900,6 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
 
-  /* ── Header ──────────────────────────────────────────────────── */
   topBar: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -663,90 +907,131 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    flex: 1,
+  },
+  headerTitleCol: {
+    flex: 1,
+  },
   headerButton: {
-    width: 48,
-    height: 48,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },
   headerRight: {
     flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
   stepLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 16,
+    fontSize: 10,
     color: Colors.light.secondary,
-    letterSpacing: 0.5,
-  },
-
-  /* ── Progress ────────────────────────────────────────────────── */
-  progressBarContainer: {
-    height: 4,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    borderRadius: 2,
-    marginHorizontal: 24,
-    overflow: "hidden",
-  },
-  progressBarFill: {
-    height: "100%",
-    backgroundColor: Colors.light.primary,
-    borderRadius: 2,
-  },
-
-  /* ── Step Content ────────────────────────────────────────────── */
-  stepContent: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 24,
-  },
-  scrollContent: {
-    paddingBottom: 20,
-    gap: 20,
-  },
-  phaseLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: Colors.light.primary,
     textTransform: "uppercase",
     letterSpacing: 2,
-    lineHeight: 20,
+    lineHeight: 14,
+  },
+  headerRecipeName: {
+    fontFamily: "NotoSerif_600SemiBold",
+    fontStyle: "italic",
+    fontSize: 18,
+    color: TERRACOTTA,
+    lineHeight: 24,
+  },
+  timerPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 99,
+  },
+  timerPillDone: {
+    backgroundColor: "#E0F5E8",
+  },
+  timerPillText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: Colors.light.onSurface,
+  },
+
+  stepContent: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    paddingBottom: 32,
+    gap: 20,
+  },
+  phasePill: {
+    alignSelf: "flex-start",
+    backgroundColor: "#FBDAB3",
+    paddingHorizontal: 14,
+    paddingVertical: 5,
+    borderRadius: 99,
+  },
+  phasePillFinish: {
+    backgroundColor: "#E0F5E8",
+  },
+  phasePillText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 10,
+    color: Colors.light.secondary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
+  },
+  phasePillTextFinish: {
+    color: "#2D7A4F",
   },
   stepInstruction: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 20,
+    fontFamily: "NotoSerif_600SemiBold",
+    fontSize: 28,
     color: Colors.light.onSurface,
-    lineHeight: 30,
+    lineHeight: 40,
+    letterSpacing: -0.3,
   },
   actionVerb: {
     fontFamily: "Inter_700Bold",
     color: Colors.light.primary,
   },
 
-  /* ── Timer ───────────────────────────────────────────────────── */
   timerSection: {
     alignItems: "center",
-    gap: 12,
+    gap: 10,
     paddingVertical: 8,
+  },
+  timerNameLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: TEXT_SECONDARY,
+    letterSpacing: 1,
+    textTransform: "uppercase",
   },
   timerDigits: {
     fontFamily: "Inter_700Bold",
     fontSize: 36,
-    color: Colors.light.primary,
-    textAlign: "center",
+    color: TERRACOTTA,
   },
   timerComplete: {
     color: "#2D7A4F",
   },
   timerBarTrack: {
-    height: 4,
     width: "100%",
-    backgroundColor: "#E8DFD2",
+    height: 4,
+    backgroundColor: BORDER,
     borderRadius: 2,
     overflow: "hidden",
   },
   timerBarFill: {
     height: "100%",
-    backgroundColor: Colors.light.primary,
+    backgroundColor: TERRACOTTA,
     borderRadius: 2,
   },
   timerControls: {
@@ -754,329 +1039,524 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   timerControlBtn: {
-    backgroundColor: Colors.light.primary,
-    paddingHorizontal: 24,
-    height: 52,
-    minWidth: 120,
-    borderRadius: 12,
+    backgroundColor: TERRACOTTA,
+    height: 44,
+    paddingHorizontal: 28,
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   timerControlText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
+    fontSize: 15,
     color: "#FFFFFF",
   },
   timerControlBtnSecondary: {
-    backgroundColor: "transparent",
+    backgroundColor: CREAM,
+    height: 44,
+    paddingHorizontal: 28,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: Colors.light.primary,
-    paddingHorizontal: 24,
-    height: 52,
-    minWidth: 120,
-    borderRadius: 12,
+    borderColor: BORDER,
     alignItems: "center",
     justifyContent: "center",
   },
   timerControlTextSecondary: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
-    color: Colors.light.primary,
+    fontFamily: "Inter_500Medium",
+    fontSize: 15,
+    color: TEXT_SECONDARY,
   },
 
-  /* ── Chef Note ──────────────────────────────────────────────── */
+  tipsContainer: {
+    gap: 8,
+  },
+  tipCard: {
+    backgroundColor: "#F5EDDF",
+    borderRadius: 12,
+    padding: 14,
+    gap: 6,
+  },
+  tipLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: "#9A7B00",
+  },
+  tipText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    lineHeight: 24,
+  },
+
   chefNoteCard: {
     flexDirection: "row",
     gap: 10,
-    backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: "#E8DFD2",
+    paddingLeft: 12,
   },
   chefNoteText: {
-    flex: 1,
-    fontFamily: "NotoSerif_400Regular_Italic",
-    fontSize: 16,
-    color: "#5C5549",
-    lineHeight: 24,
+    fontFamily: "NotoSerif_400Regular",
     fontStyle: "italic",
+    fontSize: 16,
+    color: TEXT_SECONDARY,
+    lineHeight: 24,
+    flex: 1,
   },
 
-  /* ── Doneness Cue ──────────────────────────────────────────── */
+  bentoGrid: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  videoCard: {
+    flex: 1,
+    aspectRatio: 4 / 5,
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  videoGradient: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.35)",
+  },
+  videoPlayCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "rgba(254,249,243,0.75)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  videoCardBottom: {
+    position: "absolute",
+    bottom: 14,
+    left: 14,
+    right: 14,
+  },
+  videoCardLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 10,
+    color: "rgba(255,255,255,0.8)",
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    marginBottom: 4,
+  },
+  videoCardTitle: {
+    fontFamily: "NotoSerif_600SemiBold",
+    fontStyle: "italic",
+    fontSize: 17,
+    color: "#FFFFFF",
+    lineHeight: 22,
+  },
   donenessCueCard: {
-    backgroundColor: "#FEF0E6",
-    borderRadius: 12,
-    padding: 14,
-    gap: 8,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 16,
+    padding: 20,
+    gap: 10,
+    justifyContent: "center",
+    borderWidth: 0.5,
+    borderColor: "rgba(222,193,179,0.1)",
+  },
+  donenessCueCardHalf: {
+    flex: 1,
+  },
+  donenessCueCardFull: {
+    flex: 1,
   },
   donenessCueLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: Colors.light.primary,
-    letterSpacing: 1.5,
-    lineHeight: 18,
-  },
-  donenessCueRow: {
-    flexDirection: "row",
-    gap: 8,
-    alignItems: "flex-start",
+    fontSize: 10,
+    color: Colors.light.secondary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
   },
   donenessCueText: {
-    flex: 1,
-    fontFamily: "Inter_400Regular",
-    fontSize: 17,
+    fontFamily: "NotoSerif_600SemiBold",
+    fontSize: 18,
     color: Colors.light.onSurface,
-    lineHeight: 24,
+    lineHeight: 26,
   },
 
-  /* ── Video Hint ──────────────────────────────────────────────── */
-  videoHintCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F5EDDF",
-    borderWidth: 1,
-    borderColor: "#E8DFD2",
-    borderRadius: 12,
-    padding: 14,
-    gap: 12,
-    minHeight: 56,
-  },
-  videoHintInfo: {
-    flex: 1,
-    gap: 2,
-  },
-  videoHintTitle: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 16,
-    color: Colors.light.onSurface,
-    lineHeight: 22,
-  },
-  videoHintSubtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: "#5C5549",
-    lineHeight: 20,
-  },
-  videoHintDuration: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: "#5C5549",
-    lineHeight: 18,
-    flexShrink: 0,
-  },
-
-  /* ── Ingredients Card ────────────────────────────────────────── */
   ingredientsCard: {
-    backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 12,
-    padding: 16,
-    gap: 12,
-    borderWidth: 1,
-    borderColor: "#E8DFD2",
+    gap: 14,
   },
   ingredientsLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: "#5C5549",
-    letterSpacing: 1.5,
-    lineHeight: 20,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 10,
+    color: Colors.light.secondary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
   },
   ingredientRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 14,
-    minHeight: 48,
+    minHeight: 40,
   },
   checkbox: {
     width: 24,
     height: 24,
-    borderRadius: 6,
+    borderRadius: 12,
     borderWidth: 2,
-    borderColor: Colors.light.outlineVariant,
+    borderColor: "#DEC1B3",
     alignItems: "center",
     justifyContent: "center",
   },
   checkboxChecked: {
-    backgroundColor: Colors.light.primary,
-    borderColor: Colors.light.primary,
+    borderColor: TERRACOTTA,
+  },
+  checkboxDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: TERRACOTTA,
   },
   ingredientText: {
-    flex: 1,
     fontFamily: "Inter_400Regular",
-    fontSize: 17,
+    fontSize: 16,
     color: Colors.light.onSurface,
-    lineHeight: 24,
+    lineHeight: 22,
+    flex: 1,
   },
   ingredientChecked: {
-    opacity: 0.5,
+    color: Colors.light.secondary,
     textDecorationLine: "line-through",
   },
 
-  /* ── Materials Card ──────────────────────────────────────────── */
   materialsCard: {
-    backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 12,
-    padding: 16,
-    gap: 12,
-    borderWidth: 1,
-    borderColor: "#E8DFD2",
+    gap: 14,
   },
   materialRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    minHeight: 32,
+    minHeight: 36,
   },
   materialText: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: Colors.light.onSurfaceVariant,
+    color: Colors.light.onSurface,
     lineHeight: 22,
   },
 
-  /* ── Bottom Navigation ───────────────────────────────────────── */
   bottomArea: {
     paddingHorizontal: 24,
-    paddingTop: 12,
-    alignItems: "center",
-    gap: 16,
+    paddingTop: 14,
+    backgroundColor: "rgba(254,249,243,0.8)",
+    borderTopWidth: 0.5,
+    borderTopColor: "rgba(222,193,179,0.2)",
   },
   navRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "100%",
-    gap: 16,
+    alignItems: "center",
+    gap: 12,
   },
   navBtnPrimary: {
-    backgroundColor: Colors.light.primary,
-    height: 52,
-    minWidth: 140,
-    flex: 1,
-    borderRadius: 12,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    gap: 8,
+    backgroundColor: TERRACOTTA,
+    paddingHorizontal: 36,
+    paddingVertical: 16,
+    borderRadius: 99,
+    shadowColor: TERRACOTTA,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 4,
   },
   navBtnFinish: {
-    backgroundColor: "#2D7A4F",
-    height: 52,
-    minWidth: 140,
-    flex: 1,
-    borderRadius: 12,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    gap: 8,
+    backgroundColor: "#2D7A4F",
+    paddingHorizontal: 36,
+    paddingVertical: 16,
+    borderRadius: 99,
+    shadowColor: "#2D7A4F",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 4,
   },
   navBtnPrimaryText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
-    color: "#FFFFFF",
-    letterSpacing: 0.3,
+    fontSize: 14,
+    color: CREAM,
+    textTransform: "uppercase",
+    letterSpacing: 1.5,
   },
   navBtnSecondary: {
-    backgroundColor: Colors.light.surface,
-    borderWidth: 1,
-    borderColor: Colors.light.primary,
-    height: 52,
-    minWidth: 140,
-    borderRadius: 12,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    gap: 6,
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    borderRadius: 99,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.3)",
   },
   navBtnSecondaryText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
-    color: Colors.light.primary,
-    letterSpacing: 0.3,
+    fontFamily: "Inter_500Medium",
+    fontSize: 12,
+    color: Colors.light.onSurface,
+    textTransform: "uppercase",
+    letterSpacing: 2,
   },
   navDots: {
     flexDirection: "row",
-    gap: 8,
-    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    marginBottom: 14,
   },
   navDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "rgba(29,27,24,0.15)",
-  },
-  navDotActive: {
-    width: 16,
-    backgroundColor: Colors.light.primary,
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: Colors.light.surfaceContainerHighest,
   },
   navDotCompleted: {
-    backgroundColor: Colors.light.primary,
+    width: 16,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: Colors.light.surfaceContainerHighest,
+  },
+  navDotActive: {
+    width: 24,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: TERRACOTTA,
   },
 
-  /* ── Troubleshooting ─────────────────────────────────────────── */
-  troubleshootOverlay: {
+  helpOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: "rgba(0,0,0,0.45)",
     justifyContent: "flex-end",
-    zIndex: 100,
   },
-  troubleshootSheet: {
+  helpSheet: {
     backgroundColor: Colors.light.surface,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    padding: 24,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: 24,
+    paddingTop: 16,
     paddingBottom: 40,
-    gap: 16,
+    maxHeight: "75%",
   },
-  troubleshootHandle: {
+  helpHandle: {
     width: 40,
     height: 4,
     backgroundColor: Colors.light.surfaceContainerHigh,
     borderRadius: 2,
     alignSelf: "center",
-    marginBottom: 8,
+    marginBottom: 16,
   },
-  troubleshootTitle: {
+  segmentControl: {
+    flexDirection: "row",
+    backgroundColor: "#F0EBE3",
+    borderRadius: 10,
+    padding: 3,
+    marginBottom: 16,
+  },
+  segmentBtn: {
+    flex: 1,
+    height: 36,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  segmentBtnActive: {
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  segmentText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: TEXT_SECONDARY,
+  },
+  segmentTextActive: {
+    color: Colors.light.onSurface,
+  },
+  helpScrollArea: {
+    maxHeight: 320,
+    marginBottom: 16,
+  },
+  helpTitle: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 22,
     color: Colors.light.onSurface,
     lineHeight: 28,
+    marginBottom: 16,
   },
-  troubleshootHint: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    lineHeight: 20,
-  },
-  troubleshootItem: {
+  helpItem: {
     backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 12,
     padding: 16,
     gap: 8,
     borderWidth: 1,
-    borderColor: "#E8DFD2",
+    borderColor: BORDER,
+    marginBottom: 12,
   },
-  troubleshootSymptom: {
+  helpSymptom: {
     fontFamily: "Inter_500Medium",
     fontSize: 17,
     color: Colors.light.onSurface,
     lineHeight: 24,
   },
-  troubleshootFix: {
+  helpFix: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: "#5C5549",
+    color: TEXT_SECONDARY,
     lineHeight: 24,
   },
-  troubleshootClose: {
+  chefTipItem: {
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 16,
+    paddingVertical: 4,
+  },
+  chefTipBorder: {
+    width: 3,
+    backgroundColor: TERRACOTTA,
+    borderRadius: 2,
+  },
+  chefTipText: {
+    fontFamily: "NotoSerif_400Regular",
+    fontStyle: "italic",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    lineHeight: 24,
+    flex: 1,
+  },
+  helpCloseBtn: {
     backgroundColor: Colors.light.primary,
     height: 52,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 8,
   },
-  troubleshootCloseText: {
+  helpCloseText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
     color: "#FFFFFF",
   },
+  helpSectionDivider: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: TERRACOTTA,
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  historyCard: {
+    backgroundColor: "#FEF0E6",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+  },
+  historyText: {
+    fontFamily: "NotoSerif_400Regular",
+    fontStyle: "italic",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+    lineHeight: 24,
+  },
 
-  /* ── Finish Screen ───────────────────────────────────────────── */
+  prepWarningContent: {
+    flexGrow: 1,
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    paddingBottom: 48,
+  },
+  prepWarningInner: {
+    alignItems: "center",
+    gap: 24,
+  },
+  prepWarningBanner: {
+    backgroundColor: "#FEF3E0",
+    borderWidth: 1,
+    borderColor: "#E8C868",
+    borderRadius: 16,
+    padding: 24,
+    gap: 16,
+    width: "100%",
+  },
+  prepWarningLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: "#9A7B00",
+    textTransform: "uppercase",
+    letterSpacing: 2,
+  },
+  prepWarningDesc: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    lineHeight: 24,
+  },
+  prepWarningBullet: {
+    paddingLeft: 8,
+    gap: 2,
+  },
+  prepWarningBulletText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    lineHeight: 24,
+  },
+  prepWarningBulletMeta: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: TEXT_SECONDARY,
+    paddingLeft: 14,
+    lineHeight: 20,
+  },
+  prepWarningFooter: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 15,
+    color: TEXT_SECONDARY,
+    lineHeight: 22,
+  },
+  prepWarningReadyBtn: {
+    backgroundColor: TERRACOTTA,
+    height: 52,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  prepWarningReadyText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 17,
+    color: CREAM,
+  },
+  prepWarningPrepBtn: {
+    backgroundColor: "transparent",
+    height: 52,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: TERRACOTTA,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  prepWarningPrepText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 17,
+    color: TERRACOTTA,
+  },
+  prepWarningBackText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 15,
+    color: TEXT_SECONDARY,
+    lineHeight: 22,
+  },
+
   finishContent: {
     flexGrow: 1,
     justifyContent: "center",
@@ -1111,12 +1591,11 @@ const styles = StyleSheet.create({
   finishRecipeMeta: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: "#5C5549",
+    color: TEXT_SECONDARY,
     textAlign: "center",
     lineHeight: 22,
     marginBottom: 24,
   },
-
   finishCard: {
     backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 16,
@@ -1124,7 +1603,7 @@ const styles = StyleSheet.create({
     gap: 16,
     width: "100%",
     borderWidth: 1,
-    borderColor: "#E8DFD2",
+    borderColor: BORDER,
     marginBottom: 16,
   },
   finishCardLabel: {
@@ -1151,7 +1630,7 @@ const styles = StyleSheet.create({
   },
   feedbackChip: {
     borderWidth: 1,
-    borderColor: "#E8DFD2",
+    borderColor: BORDER,
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -1169,6 +1648,24 @@ const styles = StyleSheet.create({
   },
   feedbackChipTextActive: {
     color: "#FFFFFF",
+  },
+  storageHintCard: {
+    flexDirection: "row",
+    gap: 10,
+    backgroundColor: "#FEF0E6",
+    borderRadius: 12,
+    padding: 14,
+    width: "100%",
+    marginBottom: 8,
+    alignItems: "flex-start",
+  },
+  storageHintText: {
+    fontFamily: "NotoSerif_400Regular",
+    fontStyle: "italic",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+    lineHeight: 22,
+    flex: 1,
   },
   doneButton: {
     backgroundColor: Colors.light.primary,

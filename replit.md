@@ -135,4 +135,6 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
   - `app/(tabs)/` — Tab screens (explore, grocery, saved, settings)
   - `app/country/[id].tsx` — Country detail
   - `app/recipe/[id].tsx` — Recipe detail with ingredients
-  - `app/cook-mode.tsx` — Step-by-step cooking mode
+  - `app/cook-mode.tsx` — Full guided Cook Mode with screen wake lock (expo-keep-awake), per-step contextual tips, named timers, doneness cues, segment-control help sheet (Troubleshooting + Chef Tips), pre-cook overnight prep warning interstitial, video technique hints (skill-level adapted), per-step ingredient checklist, equipment callouts, phase-aware backgrounds (prep/cook/finish), and finish screen with star rating + feedback chips
+  - `app/(tabs)/cook.tsx` — Cook hub with priority-based layout: active session resume card, tonight's recipe card, "What should we cook?" empty state, compact level progression bar, recently cooked horizontal scroll, beginner recipe suggestions, and collapsible technique video library
+  - `constants/techniques.ts` — 15 curated technique videos with action-keyword matching for Cook Mode contextual hints

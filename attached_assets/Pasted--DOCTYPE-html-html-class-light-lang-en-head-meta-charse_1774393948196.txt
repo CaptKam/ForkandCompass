@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Noto+Serif:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#fef9f3",
+              "secondary-fixed-dim": "#e1c19c",
+              "outline-variant": "#dec1b3",
+              "primary-fixed": "#ffdbcb",
+              "inverse-surface": "#32302c",
+              "inverse-on-surface": "#f5f0ea",
+              "on-error-container": "#93000a",
+              "surface-tint": "#9e4300",
+              "on-secondary-container": "#775e3f",
+              "on-tertiary-fixed-variant": "#00497a",
+              "surface-bright": "#fef9f3",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a",
+              "inverse-primary": "#ffb690",
+              "surface-variant": "#e6e2dc",
+              "tertiary": "#005f9c",
+              "surface-container-low": "#f8f3ed",
+              "primary": "#9a4100",
+              "secondary-fixed": "#feddb6",
+              "on-surface-variant": "#574238",
+              "on-secondary-fixed": "#291802",
+              "surface-container-lowest": "#ffffff",
+              "secondary": "#725a3c",
+              "primary-fixed-dim": "#ffb690",
+              "background": "#fef9f3",
+              "tertiary-fixed-dim": "#9ccaff",
+              "secondary-container": "#fbdab3",
+              "primary-container": "#bf550a",
+              "tertiary-container": "#0079c4",
+              "on-primary-container": "#fffbff",
+              "on-surface": "#1d1b18",
+              "outline": "#8a7266",
+              "on-background": "#1d1b18",
+              "tertiary-fixed": "#d0e4ff",
+              "surface-container": "#f2ede7",
+              "on-tertiary-fixed": "#001d35",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#e6e2dc",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed-variant": "#584326",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#ded9d4",
+              "on-primary-fixed-variant": "#783100",
+              "on-primary-fixed": "#341100",
+              "surface-container-high": "#ece7e2",
+              "on-tertiary-container": "#fdfcff",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .step-active { width: 24px; }
+        .glass-blur {
+            background: rgba(254, 249, 243, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 0.5px solid rgba(222, 193, 179, 0.15);
+        }
+        .serif-italic { font-style: italic; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed min-h-screen flex flex-col">
+<!-- Top Navigation Bar (Custom Shell) -->
+<header class="sticky top-0 z-50 bg-surface flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-on-surface" data-icon="close">close</span>
+</button>
+<div class="flex flex-col">
+<span class="text-[10px] font-medium uppercase tracking-[0.2em] text-secondary">Step 3 of 8</span>
+<h1 class="font-headline font-semibold text-primary italic text-lg leading-tight">Cacio e Pepe</h1>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-high px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="timer">timer</span>
+<span class="font-label text-sm font-medium text-on-surface">12:00</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow w-full max-w-2xl mx-auto px-6 pt-8 pb-32">
+<!-- Phase Label & Instruction -->
+<div class="mb-10">
+<span class="inline-block px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label text-[10px] font-bold tracking-widest uppercase mb-4">
+                Cook
+            </span>
+<h2 class="font-headline text-3xl md:text-4xl text-on-surface leading-tight tracking-tight">
+                Heat olive oil in a heavy skillet over medium-high heat. Brown the beef cubes on all sides until a crust forms.
+            </h2>
+</div>
+<!-- Asymmetric Bento Grid for Contextual Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+<!-- Video Hint Card (Magazine Style) -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl aspect-[4/5] md:aspect-square bg-surface-container-high">
+<img alt="Close-up of beef cubes searing in a hot cast iron pan with steam rising" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close-up of artisan beef cubes searing in a hot skillet with vibrant steam and golden oil sizzle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-BX0XzTiazPgZ87zKpDHdbD6mVhUXk4om_WwcDlb4nlZK_v_iYd-Tn9uhd41HjoOShHamKPjJ4OqW0e8LBnTp4wewRvLWHjGkWTn0qZk61seefXrPIx-be7Cb4qR30R1bn4xMZwPjc7fEVBvoHXt5AZrlQAh85jTCvG8Z3Wn9lbgmXV9Ky_LIlJ5kcBw19kbD21WknSNWl98XQorK_ftC67FRIMQOiU0npOW5DafWvDucVy_6spTUz2Vtf3vBtBKpFImcGin7kJEX"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="glass-blur w-16 h-16 rounded-full flex items-center justify-center text-primary transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="font-label text-white text-[10px] tracking-widest uppercase opacity-80 mb-1">Video Technique</p>
+<p class="font-headline text-white text-lg serif-italic">Searing for flavor</p>
+</div>
+</div>
+<!-- Doneness Cue Card -->
+<div class="bg-surface-container-low p-8 rounded-xl flex flex-col justify-center border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary mb-4 text-3xl" data-icon="priority_high">priority_high</span>
+<p class="font-label text-secondary text-[10px] tracking-widest uppercase mb-2">Doneness Cue</p>
+<p class="font-headline text-xl text-on-surface leading-snug">
+                    "Look for a deep, mahogany crust. The meat should release easily from the pan when ready to flip."
+                </p>
+</div>
+</div>
+<!-- Ingredients List Section -->
+<section class="mb-12">
+<h3 class="font-label text-[10px] font-bold tracking-[0.2em] uppercase text-secondary mb-6">Ingredients for this step</h3>
+<div class="space-y-4">
+<label class="flex items-center group cursor-pointer">
+<div class="relative flex items-center justify-center w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors">
+<input class="absolute opacity-0 w-full h-full cursor-pointer peer" type="checkbox"/>
+<div class="w-3 h-3 bg-primary rounded-full scale-0 peer-checked:scale-100 transition-transform duration-200"></div>
+</div>
+<span class="ml-4 font-body text-on-surface peer-checked:text-secondary peer-checked:line-through transition-all">2 tbsp High-quality Olive Oil</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<div class="relative flex items-center justify-center w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors">
+<input class="absolute opacity-0 w-full h-full cursor-pointer peer" type="checkbox"/>
+<div class="w-3 h-3 bg-primary rounded-full scale-0 peer-checked:scale-100 transition-transform duration-200"></div>
+</div>
+<span class="ml-4 font-body text-on-surface peer-checked:text-secondary peer-checked:line-through transition-all">500g Beef Cubes, patted dry</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<div class="relative flex items-center justify-center w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors">
+<input class="absolute opacity-0 w-full h-full cursor-pointer peer" type="checkbox"/>
+<div class="w-3 h-3 bg-primary rounded-full scale-0 peer-checked:scale-100 transition-transform duration-200"></div>
+</div>
+<span class="ml-4 font-body text-on-surface peer-checked:text-secondary peer-checked:line-through transition-all">Kosher salt and cracked pepper</span>
+</label>
+</div>
+</section>
+</main>
+<!-- Contextual Bottom Navigation (Customized Shell) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex flex-col items-center bg-surface/80 backdrop-blur-xl border-t border-outline-variant/20 px-6 pb-8 pt-4">
+<!-- Progress Dots -->
+<div class="flex gap-2 mb-6">
+<div class="h-1 w-4 rounded-full bg-surface-container-highest"></div>
+<div class="h-1 w-4 rounded-full bg-surface-container-highest"></div>
+<div class="h-1 step-active rounded-full bg-primary transition-all duration-500"></div>
+<div class="h-1 w-1 rounded-full bg-surface-container-highest"></div>
+<div class="h-1 w-1 rounded-full bg-surface-container-highest"></div>
+<div class="h-1 w-1 rounded-full bg-surface-container-highest"></div>
+<div class="h-1 w-1 rounded-full bg-surface-container-highest"></div>
+<div class="h-1 w-1 rounded-full bg-surface-container-highest"></div>
+</div>
+<div class="w-full max-w-2xl flex justify-between items-center">
+<button class="flex items-center gap-2 px-6 py-3 rounded-full border border-outline-variant/30 text-on-surface font-label text-xs uppercase tracking-widest hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+                Prev
+            </button>
+<button class="flex items-center gap-3 px-10 py-4 rounded-full bg-primary text-on-primary font-label text-sm font-bold uppercase tracking-[0.15em] shadow-lg shadow-primary/20 hover:opacity-90 transition-all active:scale-95">
+                Next
+                <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</nav>
+</body></html>

@@ -3786,20 +3786,20 @@ export interface Country {
   thailand: "https://lh3.googleusercontent.com/aida-public/AB6AXuC0kLX0wrOqVM8OYMZzQjhlOT9QkcfuiC83aGL_WpFkZ3Evb2Zd1X61QaShAQ_B_t4HyA4PJnLiCGatfauqjdXIrmI2tNBj6lrGO-dsaZS0DbQTHp-wAir35wa0wSp15F0DcEQlFyeydaNOIK8gYJHZmrMNFd_YOMeQQMNayZv1wIFAahpRNPkSXh8NaztGmLljxA60FD28RwFxzD_KXCTG4Y8xdeX0XE4fquIorYY9wDhR1oedLaHjMBaNY4cKu2oLWWmosUjo_lIs",
   morocco: "https://lh3.googleusercontent.com/aida-public/AB6AXuAMYYz9mb0GW2v6PQ1cC3Sd4tzONRLYgP1u8BV2LkBeJi9bsUsxK47Ma0DvHAG-UrxG5RRNDFfBdN4dZht-ZGIYbJSaoRt_S2ZD7GvIcHcyZZb5h0RVr8ZR2UpGzUj-CdSYw4kiUDnbfrSW_p1XnNUIX3RUPdUaH3MsVJ6C6Q4jV5UmeR-RCMk2S8Sf8ASZ-4fn9q3D7-83EP7dB6yugS_PoqtNFlWD2owzumen-a12RJJB7zJnToj9bRoDWrTZ7QNnZ6RXrGM_Y5kl",
   spain:   "https://images.unsplash.com/photo-1543785734-4b6e564642f8?w=1200&q=85&fit=crop",
-  france:  "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=1200&q=85&fit=crop",
+  france:  "https://images.unsplash.com/photo-1589985643480-6349ce1aba47?w=1200&q=85&fit=crop",
 };
 
 export const WELCOME_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuBNn6amxRklLOG69FpzFwcXZX5f0amiGLTlhj-OK4CKLAIjyld88eF-BtrHONmt69pF3NCPSHevwxzssyeJ5w5VEPOr_80X6OLvGsHb34IEqgiWpCiWubiMQhnstosxqXAbBBiQcEZU-D9RTzfI_NmGNh5z4lYEsg0anY3accSKOTqZq8eXDHA6YRz9F54mcDsybrvMxHqD1TGxK3VUSsKjgta2G468z9ttJssORTCBDgaEojDrgatyIZ3koBd5P5yOCQsaO7I5moy8";
 
 export const LANDMARK_IMAGES: Record<string, string> = {
-  italy:   "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1200&q=85&fit=crop",
-  japan:   "https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=1200&q=85&fit=crop",
-  morocco: "https://images.unsplash.com/photo-1517573847294-84690dbc5df8?w=1200&q=85&fit=crop",
-  mexico:  "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1200&q=85&fit=crop",
-  india:   "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200&q=85&fit=crop",
-  thailand:"https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&q=85&fit=crop",
-  spain:   "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=85&fit=crop",
-  france:  "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=85&fit=crop",
+  italy:   "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&q=90&fit=crop&crop=center",
+  japan:   "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=800&q=90&fit=crop&crop=center",
+  morocco: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=800&q=90&fit=crop&crop=center",
+  mexico:  "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=800&q=90&fit=crop&crop=center",
+  india:   "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800&q=90&fit=crop&crop=center",
+  thailand:"https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=800&q=90&fit=crop&crop=center",
+  spain:   "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800&q=90&fit=crop&crop=center",
+  france:  "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=90&fit=crop&crop=center",
 };
 
 export interface CountryLocation {
@@ -3820,9 +3820,9 @@ const REGION_IMAGES: Record<string, CountryLocation[]> = {
     { name: "Osaka", subtitle: "The Kitchen of Japan",   image: "https://images.unsplash.com/photo-1590559899731-a382839e5549?w=900&q=85&fit=crop" },
   ],
   morocco: [
-    { name: "Marrakech",         subtitle: "The Red City",    image: "https://images.unsplash.com/photo-1772580310425-63f2290c2ba7?w=900&q=85&fit=crop" },
-    { name: "Chefchaouen",       subtitle: "The Blue Pearl",  image: "https://images.unsplash.com/photo-1730581822492-8a55ce0b7fde?w=900&q=85&fit=crop" },
-    { name: "The Atlas Mountains",subtitle: "High Peaks",     image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=900&q=85&fit=crop" },
+    { name: "Marrakech",          subtitle: "The Red City",   image: "https://images.unsplash.com/photo-1559564918-d6d24e4bff88?w=900&q=85&fit=crop" },
+    { name: "Chefchaouen",        subtitle: "The Blue Pearl", image: "https://images.unsplash.com/photo-1553342385-111fd5bc8c41?w=900&q=85&fit=crop" },
+    { name: "The Atlas Mountains", subtitle: "High Peaks",    image: "https://images.unsplash.com/photo-1488085061387-422e29b40080?w=900&q=85&fit=crop" },
   ],
   mexico: [
     { name: "Oaxaca",       subtitle: "The Heart of Mole",   image: "https://images.unsplash.com/photo-1599596706606-70eae0feaa6b?w=900&q=85&fit=crop" },
