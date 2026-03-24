@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 24,
-    paddingVertical: 12,
+    paddingVertical: 14,
   },
   stepLabel: {
     fontFamily: "Inter_500Medium",

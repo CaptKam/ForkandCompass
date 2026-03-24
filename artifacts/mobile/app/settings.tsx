@@ -465,6 +465,7 @@ const styles = StyleSheet.create({
   heroLevel: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
+    lineHeight: 18,
     color: "rgba(255,255,255,0.8)",
     letterSpacing: 0.2,
   },
@@ -497,7 +498,8 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 1,
@@ -515,7 +517,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     letterSpacing: 1.5,
     textTransform: "uppercase",
@@ -552,7 +555,7 @@ const styles = StyleSheet.create({
   },
   levelLabel: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.onSurface,
   },
   levelLabelSelected: {
@@ -612,6 +615,7 @@ const styles = StyleSheet.create({
   bucketEmpty: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
   },
   editCountriesRow: {
@@ -625,7 +629,7 @@ const styles = StyleSheet.create({
   },
   editCountriesText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.onSurface,
   },
 
@@ -673,12 +677,12 @@ const styles = StyleSheet.create({
   },
   aboutLabel: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.onSurface,
   },
   aboutLabelDim: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.secondary,
   },
 
@@ -696,7 +700,8 @@ const styles = StyleSheet.create({
   },
   savedSortLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.primary,
     letterSpacing: 1,
     textTransform: "uppercase",
@@ -722,7 +727,8 @@ const styles = StyleSheet.create({
   },
   chipLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 10,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     letterSpacing: 1,
     textTransform: "uppercase",
@@ -736,7 +742,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 14,
   },
   savedRecipeRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -752,12 +758,14 @@ const styles = StyleSheet.create({
   savedRecipeName: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.onSurface,
     marginBottom: 3,
   },
   savedRecipeCuisine: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     letterSpacing: 0.5,
     textTransform: "uppercase",
@@ -775,7 +783,7 @@ const styles = StyleSheet.create({
   },
   resetText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.error,
   },
 
@@ -789,11 +797,12 @@ const styles = StyleSheet.create({
   },
   settingsPartnerInitial: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
   },
   settingsPartnerSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.outlineVariant,
     marginTop: 1,
   },

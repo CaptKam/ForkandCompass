@@ -300,7 +300,8 @@ const styles = StyleSheet.create({
   },
   promoBetaText: {
     fontFamily: "Inter_700Bold",
-    fontSize: 9,
+    fontSize: 13,
+    lineHeight: 18,
     color: "#FFFFFF",
     letterSpacing: 1,
   },
@@ -316,7 +317,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.light.secondary,
     textAlign: "center",
-    lineHeight: 19,
+    lineHeight: 18,
     marginBottom: 18,
   },
   promoButton: {
@@ -331,7 +332,7 @@ const styles = StyleSheet.create({
   },
   promoButtonText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: "#FFFFFF",
   },
   // Inventory header
@@ -363,7 +364,8 @@ const styles = StyleSheet.create({
   },
   countBadgeText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: "#FFFFFF",
   },
   inventoryHeaderRight: {
@@ -373,7 +375,8 @@ const styles = StyleSheet.create({
   },
   lastScanText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.outlineVariant,
   },
   // Zone sections
@@ -388,7 +391,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingVertical: 14,
   },
   zoneSectionLeft: {
     flexDirection: "row",
@@ -405,7 +408,8 @@ const styles = StyleSheet.create({
   },
   zoneSectionCount: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
   },
   zoneSectionRight: {
@@ -447,7 +451,8 @@ const styles = StyleSheet.create({
   },
   inventoryItemBrand: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.secondary,
     marginTop: 1,
   },
@@ -459,6 +464,7 @@ const styles = StyleSheet.create({
   inventoryItemQty: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.onSurfaceVariant,
   },
   // Re-scan
@@ -496,6 +502,7 @@ const styles = StyleSheet.create({
   catalogTitle: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.secondary,
   },
   catalogStatsRow: {
@@ -515,7 +522,8 @@ const styles = StyleSheet.create({
   },
   catalogStatLabel: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.secondary,
   },
   catalogStatDivider: {
@@ -531,7 +539,8 @@ const styles = StyleSheet.create({
   },
   catalogTopLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 0.5,
@@ -539,13 +548,15 @@ const styles = StyleSheet.create({
   },
   catalogTopItem: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.onSurfaceVariant,
     paddingVertical: 2,
   },
   catalogFooter: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.outlineVariant,
     textAlign: "center",
     fontStyle: "italic",

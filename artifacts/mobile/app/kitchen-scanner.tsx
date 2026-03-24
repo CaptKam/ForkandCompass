@@ -667,7 +667,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingVertical: 14,
   },
   headerCenter: {
     flexDirection: "row",
@@ -687,7 +687,7 @@ const styles = StyleSheet.create({
   },
   betaBadgeText: {
     fontFamily: "Inter_700Bold",
-    fontSize: 9,
+    fontSize: 13,
     color: "#FFFFFF",
     letterSpacing: 1,
   },
@@ -711,10 +711,10 @@ const styles = StyleSheet.create({
   },
   heroSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.secondary,
     textAlign: "center",
-    lineHeight: 22,
+    lineHeight: 26,
   },
   // Zone selection
   sectionLabel: {
@@ -780,7 +780,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     fontSize: 13,
     color: Colors.light.secondary,
-    lineHeight: 18,
+    lineHeight: 20,
   },
   // Bottom actions
   bottomActions: {
@@ -827,10 +827,10 @@ const styles = StyleSheet.create({
   },
   permissionSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.secondary,
     textAlign: "center",
-    lineHeight: 22,
+    lineHeight: 26,
     marginBottom: 28,
   },
   permissionButton: {
@@ -842,11 +842,11 @@ const styles = StyleSheet.create({
   },
   permissionButtonText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: "#FFFFFF",
   },
   backButtonSmall: {
-    paddingVertical: 10,
+    paddingVertical: 14,
   },
   backButtonSmallText: {
     fontFamily: "Inter_500Medium",
@@ -874,6 +874,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "rgba(255,255,255,0.35)",
   },
+
   // Corner brackets
   cornerTopLeft: {
     position: "absolute",
@@ -945,7 +946,7 @@ const styles = StyleSheet.create({
     left: 0,
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 8,
     backgroundColor: "rgba(0,0,0,0.75)",
     borderRadius: 4,
     paddingHorizontal: 8,
@@ -953,13 +954,13 @@ const styles = StyleSheet.create({
   },
   detectionLabelText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 11,
+    fontSize: 13,
     color: "#FFFFFF",
     maxWidth: 140,
   },
   detectionConfidence: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
     color: "#4ADE80",
   },
   // Scanner top bar
@@ -976,9 +977,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.4)",
   },
   scannerCloseButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: "rgba(0,0,0,0.5)",
     alignItems: "center",
     justifyContent: "center",
@@ -995,22 +996,22 @@ const styles = StyleSheet.create({
   },
   scannerZoneBadgeText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     color: "#FFFFFF",
   },
   scannerItemCount: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
     color: "rgba(255,255,255,0.7)",
   },
   scannerBadges: {
     alignItems: "flex-end",
-    gap: 4,
+    gap: 8,
   },
   scannerLiveBadge: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap: 8,
     backgroundColor: "rgba(239,68,68,0.9)",
     borderRadius: 6,
     paddingHorizontal: 10,
@@ -1027,7 +1028,7 @@ const styles = StyleSheet.create({
   },
   liveText: {
     fontFamily: "Inter_700Bold",
-    fontSize: 10,
+    fontSize: 13,
     color: "#FFFFFF",
     letterSpacing: 1,
   },
@@ -1053,7 +1054,7 @@ const styles = StyleSheet.create({
   },
   speedWarningText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: "#FFFFFF",
   },
   // Scanner bottom bar
@@ -1098,7 +1099,7 @@ const styles = StyleSheet.create({
   },
   progressText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     color: "rgba(255,255,255,0.7)",
     minWidth: 80,
     textAlign: "right",
@@ -1114,7 +1115,7 @@ const styles = StyleSheet.create({
   },
   stopButtonText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: "#FFFFFF",
   },
   // Review screen
@@ -1144,7 +1145,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 12,
+    paddingVertical: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.light.outlineVariant,
   },
@@ -1161,12 +1162,12 @@ const styles = StyleSheet.create({
   },
   reviewItemName: {
     fontFamily: "Inter_500Medium",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.onSurface,
   },
   reviewItemBrand: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.secondary,
     marginTop: 1,
   },
@@ -1180,7 +1181,7 @@ const styles = StyleSheet.create({
   },
   reviewItemConfidence: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.light.secondary,
   },
   // Review actions

@@ -505,8 +505,8 @@ const styles = StyleSheet.create({
   },
   tonightSelectionLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 14,
+    lineHeight: 20,
     color: "rgba(255,255,255,0.90)",
     letterSpacing: 2.2,
     textTransform: "uppercase",
@@ -644,8 +644,8 @@ const styles = StyleSheet.create({
   },
   dayCountryLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.primary,
     letterSpacing: 1.5,
   },
@@ -673,7 +673,7 @@ const styles = StyleSheet.create({
   restoreBtn: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 8,
     marginTop: 4,
   },
   restoreText: {

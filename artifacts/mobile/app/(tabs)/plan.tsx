@@ -762,7 +762,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 6,
-    paddingVertical: 9,
+    paddingVertical: 14,
     borderRadius: 8,
   },
   segmentBtnActive: {
@@ -860,6 +860,7 @@ const styles = StyleSheet.create({
   allDoneSub: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
+    lineHeight: 20,
     color: TEXT_SECONDARY,
     textAlign: "center",
   },
@@ -868,7 +869,7 @@ const styles = StyleSheet.create({
   weekScrollContent: {
     paddingHorizontal: 20,
     paddingTop: 20,
-    gap: 6,
+    gap: 8,
   },
   sectionLabel: {
     fontFamily: "Inter_600SemiBold",
@@ -1038,7 +1039,7 @@ const styles = StyleSheet.create({
   // Generate new week
   newWeekLink: {
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: 14,
     marginTop: 6,
   },
   newWeekText: {
@@ -1052,7 +1053,7 @@ const styles = StyleSheet.create({
   groceryScrollContent: {
     paddingHorizontal: 20,
     paddingTop: 16,
-    gap: 4,
+    gap: 8,
   },
 
   // Quick Add
@@ -1074,9 +1075,9 @@ const styles = StyleSheet.create({
   quickAddChip: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 8,
     paddingHorizontal: 12,
-    paddingVertical: 7,
+    paddingVertical: 14,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: TERRACOTTA,
@@ -1127,6 +1128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: "Inter_400Regular",
     fontSize: 14,
+    lineHeight: 20,
     color: TEXT_PRIMARY,
   },
   kitchenItemSource: {
@@ -1179,7 +1181,7 @@ const styles = StyleSheet.create({
   groceryRow: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: 14,
     gap: 12,
     minHeight: 48,
   },
@@ -1228,7 +1230,8 @@ const styles = StyleSheet.create({
   },
   qtyText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: TERRACOTTA,
   },
   clearCompletedBtn: {
@@ -1255,7 +1258,8 @@ const styles = StyleSheet.create({
   },
   grocerySummaryText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: TEXT_SECONDARY,
   },
   // Checkout FAB
@@ -1301,7 +1305,7 @@ const styles = StyleSheet.create({
   fabText: {
     flex: 1,
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: "#fff",
   },
 

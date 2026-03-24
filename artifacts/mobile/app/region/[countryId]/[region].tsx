@@ -218,8 +218,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(254,249,243,0.9)",
   },
   headerButton: {
-    width: 40,
-    height: 40,
+    width: 48,
+    height: 48,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   },
   regionLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 14,
     color: Colors.light.primary,
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
   },
   scrollHint: {
     fontFamily: "Inter_400Regular",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 1.5,
@@ -300,9 +300,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 12,
     right: 12,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: "rgba(254,249,243,0.92)",
     borderWidth: 1.5,
     borderColor: Colors.light.primary,
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
   },
   cardMeta: {
     marginTop: 14,
-    gap: 6,
+    gap: 8,
   },
   cardName: {
     fontFamily: "NotoSerif_600SemiBold",
@@ -335,14 +335,14 @@ const styles = StyleSheet.create({
   },
   badge: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 1,
   },
   badgeDot: {
     fontFamily: "Inter_400Regular",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.outlineVariant,
   },
   stickyBottom: {
@@ -386,14 +386,14 @@ const styles = StyleSheet.create({
   },
   backBtn: {
     backgroundColor: Colors.light.primary,
-    paddingVertical: 12,
+    paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 20,
     marginTop: 16,
   },
   backBtnText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: "#FFFFFF",
   },
 });

@@ -173,10 +173,10 @@ const styles = StyleSheet.create({
   },
   emptySubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.secondary,
     textAlign: "center",
-    lineHeight: 22,
+    lineHeight: 26,
   },
   // Sections
   section: {
@@ -196,10 +196,11 @@ const styles = StyleSheet.create({
   },
   sortLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.primary,
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    lineHeight: 20,
   },
   // Country chips
   horizontalScroll: {
@@ -221,10 +222,11 @@ const styles = StyleSheet.create({
   },
   countryChipLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.secondary,
     letterSpacing: 1,
     textTransform: "uppercase",
+    lineHeight: 18,
   },
   // Recipe rows
   recipeRow: {
@@ -232,7 +234,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 14,
     paddingHorizontal: 24,
-    paddingVertical: 10,
+    paddingVertical: 14,
     backgroundColor: Colors.light.surfaceContainerLow,
     marginHorizontal: 24,
     marginBottom: 8,
@@ -257,9 +259,10 @@ const styles = StyleSheet.create({
   },
   recipeCuisine: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.light.secondary,
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    lineHeight: 18,
   },
 });

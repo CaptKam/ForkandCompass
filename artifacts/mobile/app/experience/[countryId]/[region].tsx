@@ -218,15 +218,15 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.surface,
   },
   headerButton: {
-    width: 40,
-    height: 40,
+    width: 48,
+    height: 48,
     alignItems: "center",
     justifyContent: "center",
   },
   headerCenter: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 8,
   },
   headerFlag: {
     fontSize: 18,
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
   },
   courseLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.primary,
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -352,14 +352,14 @@ const styles = StyleSheet.create({
   },
   courseBadge: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 0.8,
   },
   courseBadgeDot: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.light.outlineVariant,
   },
   courseDesc: {
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
   },
   didYouKnowLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.primary,
     marginBottom: 6,
     textTransform: "uppercase",
@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
   },
   nextJourneyLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.secondary,
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -455,14 +455,14 @@ const styles = StyleSheet.create({
   },
   backBtn: {
     backgroundColor: Colors.light.primary,
-    paddingVertical: 12,
+    paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 20,
     marginTop: 16,
   },
   backBtnText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: "#FFFFFF",
   },
 });

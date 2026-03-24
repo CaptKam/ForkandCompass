@@ -298,9 +298,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.surface,
   },
   scanHeaderButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: Colors.light.surfaceContainerLow,
     alignItems: "center",
     justifyContent: "center",
@@ -319,8 +319,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 6,
-    paddingVertical: 10,
+    gap: 8,
+    paddingVertical: 14,
     borderRadius: 10,
   },
   tabActive: {
@@ -351,8 +351,9 @@ const styles = StyleSheet.create({
   },
   tabBadgeText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
     color: "#FFFFFF",
+    lineHeight: 18,
   },
   clearAllText: {
     fontFamily: "Inter_500Medium",
@@ -420,7 +421,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     gap: 14,
-    paddingVertical: 10,
+    paddingVertical: 14,
   },
   checkbox: {
     marginTop: 2,
@@ -441,7 +442,7 @@ const styles = StyleSheet.create({
   },
   groceryName: {
     fontFamily: "Inter_500Medium",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.onSurface,
   },
   groceryNameChecked: {
@@ -459,9 +460,10 @@ const styles = StyleSheet.create({
   },
   recipeLabel: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.secondary,
     marginTop: 2,
+    lineHeight: 20,
   },
   // Clear completed
   clearCompletedContainer: {
@@ -470,7 +472,7 @@ const styles = StyleSheet.create({
   },
   clearCompletedButton: {
     paddingHorizontal: 32,
-    paddingVertical: 12,
+    paddingVertical: 14,
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.3)",
     borderRadius: 24,
@@ -504,9 +506,9 @@ const styles = StyleSheet.create({
   },
   emptySubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.secondary,
     textAlign: "center",
-    lineHeight: 22,
+    lineHeight: 26,
   },
 });

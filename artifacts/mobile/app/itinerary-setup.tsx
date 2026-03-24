@@ -393,9 +393,9 @@ const styles = StyleSheet.create({
   },
   stepSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.secondary,
-    lineHeight: 22,
+    lineHeight: 26,
     marginTop: -20,
   },
   pantryCategory: {
@@ -405,7 +405,8 @@ const styles = StyleSheet.create({
   },
   pantryCategoryLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     letterSpacing: 1.2,
     paddingHorizontal: 16,
@@ -417,7 +418,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 14,
   },
   pantryRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -438,7 +439,7 @@ const styles = StyleSheet.create({
   },
   pantryIngredient: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.onSurface,
     flex: 1,
   },
@@ -475,7 +476,8 @@ const styles = StyleSheet.create({
   },
   dayLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 13,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 1,
@@ -520,6 +522,7 @@ const styles = StyleSheet.create({
   optionSub: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.secondary,
   },
   optionCheck: {
@@ -564,6 +567,7 @@ const styles = StyleSheet.create({
   stepperLabel: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 1,
@@ -583,7 +587,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.primary,
     borderRadius: 16,
     paddingVertical: 16,
-    gap: 6,
+    gap: 8,
   },
   ctaText: {
     fontFamily: "Inter_600SemiBold",
@@ -624,7 +628,7 @@ const styles = StyleSheet.create({
   },
   partnerLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.secondary,
     marginBottom: 2,
   },
@@ -634,7 +638,8 @@ const styles = StyleSheet.create({
   },
   partnerSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.outlineVariant,
   },
   partnerRadio: {

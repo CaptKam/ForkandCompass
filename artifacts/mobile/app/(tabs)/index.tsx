@@ -697,7 +697,7 @@ const styles = StyleSheet.create({
   },
   destItem: {
     alignItems: "center",
-    gap: 6,
+    gap: 8,
   },
   destRing: {
     width: 94,
