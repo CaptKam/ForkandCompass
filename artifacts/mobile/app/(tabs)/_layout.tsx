@@ -138,7 +138,6 @@ function ClassicTabLayout() {
       <Tabs.Screen name="itinerary" options={{ href: null }} />
       <Tabs.Screen name="grocery" options={{ href: null }} />
       <Tabs.Screen name="saved" options={{ href: null }} />
-      <Tabs.Screen name="settings" options={{ href: null }} />
     </Tabs>
   );
 }

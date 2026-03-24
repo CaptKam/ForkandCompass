@@ -42,7 +42,7 @@ function RootLayoutNav() {
       />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen
-        name="(tabs)/settings"
+        name="settings"
         options={{ animation: modalAnimation, presentation: "modal" }}
       />
       <Stack.Screen
