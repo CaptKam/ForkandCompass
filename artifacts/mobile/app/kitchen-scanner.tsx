@@ -577,7 +577,6 @@ export default function KitchenScannerScreen() {
             <Text style={styles.stopButtonText}>Done Scanning</Text>
           </Pressable>
         </View>
-
       </View>
     );
   }

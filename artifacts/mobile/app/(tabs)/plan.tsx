@@ -3,8 +3,7 @@ import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { fetchIngredientImage } from "@/utils/foodImage";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   Alert,
   Animated,
@@ -684,19 +683,6 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
 function GroceryRow({ item, isLast, onToggle }: { item: GroceryItem; isLast: boolean; onToggle: () => void }) {
   const sources = item.recipeNames ?? [item.recipeName];
   const sourceLabel = "for " + sources.join(", ");
-
-  const [productImage, setProductImage] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetchIngredientImage(item.name).then((url) => {
-      if (!cancelled) setProductImage(url);
-    });
-    return () => { cancelled = true; };
-  }, [item.name]);
-
-  const thumbUri = productImage ?? item.recipeImage ?? null;
-
   return (
     <Pressable
       onPress={onToggle}
@@ -708,9 +694,9 @@ function GroceryRow({ item, isLast, onToggle }: { item: GroceryItem; isLast: boo
     >
       {/* Thumbnail */}
       <View style={styles.groceryThumb}>
-        {thumbUri ? (
+        {item.recipeImage ? (
           <Image
-            source={{ uri: thumbUri }}
+            source={{ uri: item.recipeImage }}
             style={{ width: "100%", height: "100%" }}
             contentFit="cover"
             transition={200}
