@@ -1204,8 +1204,8 @@ const styles = StyleSheet.create({
   grocerySource: {
     fontFamily: "Inter_400Regular",
     fontSize: 12,
-    color: TEXT_SECONDARY,
-    opacity: 0.75,
+    color: TERRACOTTA,
+    opacity: 0.8,
   },
   qtyBadge: {
     backgroundColor: "#F0E8DE",
