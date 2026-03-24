@@ -419,15 +419,6 @@ export default function PlanScreen() {
               ]}
               ListHeaderComponent={
                 <View>
-                  {/* Scan Ingredients button */}
-                  <Pressable
-                    onPress={() => { haptic(); router.push("/kitchen-scanner"); }}
-                    style={({ pressed }) => [styles.scanBtn, pressed && { opacity: 0.75 }]}
-                  >
-                    <Ionicons name="camera-outline" size={18} color={TERRACOTTA} />
-                    <Text style={styles.scanBtnText}>Scan Ingredients</Text>
-                  </Pressable>
-
                   {/* Quick Add chips */}
                   {quickAddChips.length > 0 && (
                     <View style={styles.quickAddWrap}>
