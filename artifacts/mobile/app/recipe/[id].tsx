@@ -19,6 +19,35 @@ import Colors from "@/constants/colors";
 import { getRecipeById, getAllRecipes } from "@/constants/data";
 import { useApp } from "@/contexts/AppContext";
 
+const BASE_SERVINGS = 4;
+
+/** Scale an amount string like "200g", "2 cups", "1/2 tsp" by a ratio */
+function scaleAmount(raw: string, ratio: number): string {
+  if (ratio === 1) return raw;
+  const trimmed = raw.trim();
+
+  // Match fractions like "1/2 cup"
+  const fracMatch = trimmed.match(/^(\d+)\/(\d+)\s*(.*)/);
+  if (fracMatch) {
+    const val = (parseInt(fracMatch[1], 10) / parseInt(fracMatch[2], 10)) * ratio;
+    const rest = fracMatch[3];
+    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
+    return rest ? `${display} ${rest}` : display;
+  }
+
+  // Match decimals like "200g", "1.5 cups", "2 tbsp"
+  const numMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*(.*)/);
+  if (numMatch) {
+    const val = parseFloat(numMatch[1]) * ratio;
+    const rest = numMatch[2];
+    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
+    return rest ? `${display} ${rest}` : display;
+  }
+
+  // No numeric prefix (e.g. "a pinch of salt") — return unchanged
+  return raw;
+}
+
 export default function RecipeDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
@@ -151,6 +180,7 @@ export default function RecipeDetailScreen() {
           <View style={styles.ingredientsList}>
             {recipe.ingredients.map((ing) => {
               const isChecked = checkedIngredients.has(ing.id);
+              const scaledAmount = scaleAmount(ing.amount, servings / BASE_SERVINGS);
               return (
                 <Pressable
                   key={ing.id}
@@ -162,7 +192,7 @@ export default function RecipeDetailScreen() {
                   </View>
                   <Text style={[styles.ingredientText, isChecked && styles.ingredientTextChecked]}>
                     {ing.name}
-                    <Text style={styles.ingredientAmount}>{" \u2014 "}{ing.amount}</Text>
+                    <Text style={styles.ingredientAmount}>{" \u2014 "}{scaledAmount}</Text>
                   </Text>
                 </Pressable>
               );
