@@ -35,8 +35,8 @@ export default function CookModeScreen() {
       <View style={[styles.container, { alignItems: "center", justifyContent: "center", paddingHorizontal: 48 }]}>
         <Ionicons name="flame-outline" size={48} color={Colors.light.outlineVariant} />
         <Text style={{ fontFamily: "NotoSerif_600SemiBold", fontSize: 20, color: Colors.light.onSurface, marginTop: 16, marginBottom: 8 }}>Recipe not found</Text>
-        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 12, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
-          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 15, color: "#FFFFFF" }}>Go Back</Text>
+        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 14, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
+          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 16, color: "#FFFFFF" }}>Go Back</Text>
         </Pressable>
       </View>
     );
@@ -188,14 +188,15 @@ const styles = StyleSheet.create({
   },
   stepLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.light.secondary,
     letterSpacing: 0.5,
     textTransform: "uppercase",
   },
+
   closeButton: {
-    width: 40,
-    height: 40,
+    width: 48,
+    height: 48,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -236,7 +237,7 @@ const styles = StyleSheet.create({
   },
   ingredientsBoxLabel: {
     fontFamily: "Inter_700Bold",
-    fontSize: 11,
+    fontSize: 14,
     color: Colors.light.secondary,
     letterSpacing: 1.5,
     textTransform: "uppercase",
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     gap: 12,
-    paddingVertical: 6,
+    paddingVertical: 14,
   },
   ingredientCheck: {
     marginTop: 3,
@@ -269,6 +270,7 @@ const styles = StyleSheet.create({
     color: Colors.light.onSurfaceVariant,
     lineHeight: 22,
   },
+
   // Instruction
   instructionSection: {
     alignItems: "center",
@@ -276,18 +278,19 @@ const styles = StyleSheet.create({
   stepSubtitle: {
     fontFamily: "NotoSerif_600SemiBold",
     fontStyle: "italic",
-    fontSize: 18,
+    fontSize: 16,
     color: "rgba(154,65,0,0.8)",
     marginBottom: 14,
   },
   stepInstruction: {
     fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 26,
+    fontSize: 20,
     color: Colors.light.onSurface,
-    lineHeight: 38,
+    lineHeight: 30,
     letterSpacing: -0.3,
     textAlign: "center",
   },
+
   // Bottom area
   bottomArea: {
     paddingHorizontal: 24,
@@ -317,6 +320,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
     textTransform: "uppercase",
   },
+
   // Navigation
   navRow: {
     flexDirection: "row",
@@ -326,7 +330,7 @@ const styles = StyleSheet.create({
   },
   navDots: {
     flexDirection: "row",
-    gap: 6,
+    gap: 8,
     alignItems: "center",
   },
   navDot: {
@@ -341,7 +345,7 @@ const styles = StyleSheet.create({
   },
   swipeHint: {
     fontFamily: "Inter_700Bold",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.secondary,
     letterSpacing: 1.5,
     textTransform: "uppercase",

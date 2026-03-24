@@ -411,12 +411,14 @@ const styles = StyleSheet.create({
   editPrefText: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.primary,
     letterSpacing: 0.2,
   },
   weekLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     letterSpacing: 0.4,
     marginBottom: 16,
@@ -448,10 +450,10 @@ const styles = StyleSheet.create({
   },
   emptySubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.secondary,
     textAlign: "center",
-    lineHeight: 22,
+    lineHeight: 26,
   },
 
   /* CTA */
@@ -466,6 +468,7 @@ const styles = StyleSheet.create({
     gap: 8,
     width: "100%",
     marginTop: 8,
+    minHeight: 52,
   },
   ctaText: {
     fontFamily: "Inter_600SemiBold",
@@ -502,7 +505,8 @@ const styles = StyleSheet.create({
   },
   tonightSelectionLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
+    lineHeight: 18,
     color: "rgba(255,255,255,0.90)",
     letterSpacing: 2.2,
     textTransform: "uppercase",
@@ -531,29 +535,33 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     borderColor: Colors.light.primary + "30",
+    minHeight: 48,
+    justifyContent: "center",
   },
   modeChipText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.primary,
     letterSpacing: 0.3,
   },
   viewLink: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 3,
+    gap: 8,
     flex: 1,
   },
   viewLinkText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.primary,
     textDecorationLine: "underline",
   },
   startCookingBtn: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 8,
     backgroundColor: Colors.light.primary,
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -563,10 +571,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 8,
     elevation: 3,
+    minHeight: 48,
   },
   startCookingText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
+    lineHeight: 18,
     color: "#FFFFFF",
   },
 
@@ -576,7 +586,8 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     letterSpacing: 1.8,
     textTransform: "uppercase",
@@ -619,7 +630,8 @@ const styles = StyleSheet.create({
   },
   dayAbbrev: {
     fontFamily: "Inter_700Bold",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.secondary,
     letterSpacing: 1.2,
   },
@@ -628,11 +640,12 @@ const styles = StyleSheet.create({
   },
   dayContent: {
     flex: 1,
-    gap: 3,
+    gap: 8,
   },
   dayCountryLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.primary,
     letterSpacing: 1.5,
   },
@@ -649,9 +662,9 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   actionBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     borderWidth: 1,
     borderColor: Colors.light.outlineVariant + "60",
     alignItems: "center",
@@ -665,7 +678,8 @@ const styles = StyleSheet.create({
   },
   restoreText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.primary,
   },
   chevron: {
@@ -677,13 +691,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 6,
+    gap: 8,
     marginTop: 20,
-    paddingVertical: 8,
+    paddingVertical: 14,
   },
   newWeekText: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
+    lineHeight: 18,
     color: Colors.light.secondary,
   },
 
@@ -715,7 +730,7 @@ const styles = StyleSheet.create({
   },
   fabText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: "#FFFFFF",
     letterSpacing: 0.2,
   },
@@ -727,7 +742,8 @@ const styles = StyleSheet.create({
   },
   fabBadgeText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: "#FFFFFF",
   },
 
@@ -744,7 +760,8 @@ const styles = StyleSheet.create({
   },
   allDoneSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
+    lineHeight: 26,
     color: Colors.light.secondary,
     marginBottom: 8,
   },

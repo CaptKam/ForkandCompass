@@ -738,7 +738,7 @@ const styles = StyleSheet.create({
   },
   navEdit: {
     fontFamily: "Inter_500Medium",
-    fontSize: 15,
+    fontSize: 16,
     color: TERRACOTTA,
   },
 
@@ -796,7 +796,8 @@ const styles = StyleSheet.create({
   },
   segmentBadgeText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: CREAM,
   },
   segmentBadgeTextActive: {
@@ -829,16 +830,16 @@ const styles = StyleSheet.create({
   },
   emptyBody: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: TEXT_SECONDARY,
     textAlign: "center",
-    lineHeight: 22,
+    lineHeight: 26,
     maxWidth: 280,
   },
   ctaButton: {
     backgroundColor: TERRACOTTA,
     borderRadius: 12,
-    height: 50,
+    height: 52,
     paddingHorizontal: 32,
     alignItems: "center",
     justifyContent: "center",
@@ -871,7 +872,8 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: TERRACOTTA,
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -909,6 +911,7 @@ const styles = StyleSheet.create({
   tonightSubtitle: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
+    lineHeight: 18,
     color: TEXT_SECONDARY,
     marginTop: -4,
   },
@@ -918,8 +921,8 @@ const styles = StyleSheet.create({
   },
   modePill: {
     flex: 1,
-    height: 36,
-    borderRadius: 18,
+    height: 48,
+    borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: CREAM,
@@ -932,6 +935,7 @@ const styles = StyleSheet.create({
   modePillText: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
+    lineHeight: 18,
     color: TERRACOTTA,
   },
   modePillTextActive: {
@@ -946,7 +950,7 @@ const styles = StyleSheet.create({
   },
   startCookingText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: CREAM,
   },
 
@@ -981,18 +985,20 @@ const styles = StyleSheet.create({
   weekRowDay: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
+    lineHeight: 18,
     color: TEXT_PRIMARY,
     letterSpacing: 0.5,
   },
   weekRowDate: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: TEXT_SECONDARY,
     marginTop: 2,
   },
   weekRowRight: {
     flex: 1,
-    gap: 3,
+    gap: 8,
   },
   weekRowRecipe: {
     fontFamily: "NotoSerif_600SemiBold",
@@ -1002,18 +1008,19 @@ const styles = StyleSheet.create({
   },
   weekRowSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: TEXT_SECONDARY,
   },
   weekRowActions: {
     flexDirection: "row",
-    gap: 6,
+    gap: 8,
     marginTop: 4,
   },
   rowActionBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     borderWidth: 1,
     borderColor: BORDER,
     alignItems: "center",
@@ -1022,7 +1029,8 @@ const styles = StyleSheet.create({
   },
   restoreText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: TERRACOTTA,
     marginTop: 4,
   },
@@ -1036,6 +1044,7 @@ const styles = StyleSheet.create({
   newWeekText: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
+    lineHeight: 18,
     color: TERRACOTTA,
   },
 
@@ -1053,7 +1062,8 @@ const styles = StyleSheet.create({
   },
   quickAddLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: TEXT_SECONDARY,
     letterSpacing: 0.3,
   },
@@ -1075,6 +1085,7 @@ const styles = StyleSheet.create({
   quickAddChipText: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
+    lineHeight: 18,
     color: TERRACOTTA,
   },
 
@@ -1106,7 +1117,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
     paddingHorizontal: 14,
-    paddingVertical: 11,
+    paddingVertical: 14,
   },
   kitchenRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -1120,14 +1131,16 @@ const styles = StyleSheet.create({
   },
   kitchenItemSource: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: TEXT_TERTIARY,
     maxWidth: 80,
     textAlign: "right",
   },
   kitchenHint: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight: 20,
     color: TEXT_SECONDARY,
     textAlign: "center",
     paddingVertical: 10,
@@ -1140,7 +1153,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    height: 44,
+    height: 48,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: TERRACOTTA,
@@ -1156,7 +1169,8 @@ const styles = StyleSheet.create({
   },
   categoryHeader: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 14,
+    lineHeight: 20,
     color: TEXT_SECONDARY,
     letterSpacing: 2,
     marginBottom: 8,
@@ -1189,7 +1203,7 @@ const styles = StyleSheet.create({
   },
   groceryName: {
     fontFamily: "Inter_500Medium",
-    fontSize: 15,
+    fontSize: 16,
     color: TEXT_PRIMARY,
   },
   groceryNameChecked: {
@@ -1202,7 +1216,8 @@ const styles = StyleSheet.create({
   },
   grocerySource: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
+    lineHeight: 18,
     color: TEXT_TERTIARY,
   },
   qtyBadge: {
