@@ -505,13 +505,6 @@ export default function CookModeScreen() {
               </View>
             </View>
 
-            {recipe.culturalNote && (
-              <View style={styles.storageHintCard}>
-                <Ionicons name="information-circle-outline" size={18} color={TERRACOTTA} />
-                <Text style={styles.storageHintText}>{recipe.culturalNote}</Text>
-              </View>
-            )}
-
             <Pressable
               style={({ pressed }) => [styles.doneButton, pressed && { opacity: 0.85 }]}
               onPress={handleFinishDone}
@@ -619,10 +612,12 @@ export default function CookModeScreen() {
             </View>
           )}
 
-          {currentStep === 0 && recipe.culturalNote && (
+          {currentStep === 0 && (
             <View style={styles.chefNoteCard}>
-              <Ionicons name="chatbubble-ellipses-outline" size={16} color={TEXT_SECONDARY} style={{ marginTop: 2 }} />
-              <Text style={styles.chefNoteText}>{recipe.culturalNote}</Text>
+              <Ionicons name="bulb-outline" size={16} color={TERRACOTTA} style={{ marginTop: 2 }} />
+              <Text style={styles.chefNoteText}>
+                Read all the steps before you start — it helps you time everything and avoid surprises.
+              </Text>
             </View>
           )}
 
@@ -783,30 +778,38 @@ export default function CookModeScreen() {
               ) : (
                 <>
                   <Text style={styles.helpTitle}>Chef Tips</Text>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Taste as you go — adjust seasoning throughout the cooking process, not just at the end. A pinch of salt can transform a dish.
+                    </Text>
+                  </View>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Mise en place: Have all ingredients measured, chopped, and ready before you start. This reduces stress and prevents mistakes.
+                    </Text>
+                  </View>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Let your pan get properly hot before adding food. A cold pan leads to sticking and uneven cooking.
+                    </Text>
+                  </View>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Rest your proteins after cooking — it lets juices redistribute so every bite stays moist.
+                    </Text>
+                  </View>
                   {recipe.culturalNote && (
-                    <View style={styles.chefTipItem}>
-                      <View style={styles.chefTipBorder} />
-                      <Text style={styles.chefTipText}>{recipe.culturalNote}</Text>
-                    </View>
+                    <>
+                      <Text style={styles.helpSectionDivider}>History & Culture</Text>
+                      <View style={styles.historyCard}>
+                        <Text style={styles.historyText}>{recipe.culturalNote}</Text>
+                      </View>
+                    </>
                   )}
-                  <View style={styles.chefTipItem}>
-                    <View style={styles.chefTipBorder} />
-                    <Text style={styles.chefTipText}>
-                      Taste as you go — the best chefs adjust seasoning throughout the cooking process, not just at the end.
-                    </Text>
-                  </View>
-                  <View style={styles.chefTipItem}>
-                    <View style={styles.chefTipBorder} />
-                    <Text style={styles.chefTipText}>
-                      Mise en place: Have all your ingredients measured, chopped, and ready before you start cooking. This reduces stress and prevents mistakes.
-                    </Text>
-                  </View>
-                  <View style={styles.chefTipItem}>
-                    <View style={styles.chefTipBorder} />
-                    <Text style={styles.chefTipText}>
-                      Don't be afraid to make it your own — recipes are guides, not rules. Adjust spice levels, swap herbs, and adapt to your taste.
-                    </Text>
-                  </View>
                 </>
               )}
             </ScrollView>
@@ -1304,6 +1307,28 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
     color: "#FFFFFF",
+  },
+  helpSectionDivider: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: TERRACOTTA,
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  historyCard: {
+    backgroundColor: "#FEF0E6",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+  },
+  historyText: {
+    fontFamily: "NotoSerif_400Regular",
+    fontStyle: "italic",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+    lineHeight: 24,
   },
 
   prepWarningContent: {
