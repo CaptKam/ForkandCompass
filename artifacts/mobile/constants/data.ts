@@ -3775,14 +3775,14 @@ export interface Country {
   ];
 
   export const ONBOARDING_IMAGES: Record<string, string> = {
-  italy:    "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=1200&q=85&fit=crop",
-  mexico:   "https://images.unsplash.com/photo-1512813195386-6cf811ad3542?w=1200&q=85&fit=crop",
-  japan:    "https://images.unsplash.com/photo-1480796927426-f609979314bd?w=1200&q=85&fit=crop",
-  india:    "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&q=85&fit=crop",
-  thailand: "https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=1200&q=85&fit=crop",
-  morocco:  "https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=1200&q=85&fit=crop",
-  spain:    "https://images.unsplash.com/photo-1543785734-4b6e564642f8?w=1200&q=85&fit=crop",
-  france:   "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=1200&q=85&fit=crop",
+  italy: "https://lh3.googleusercontent.com/aida-public/AB6AXuCJDB34UJXPxMjbCaYXhdUC3fRLLgckUtpkB5F6xPFk_1AtCb0XyQn1MpHrssK9NdHBNDFaS1DSooLnS3TZZ1sjWf4IMGX69_FjkctyiIO2dGw5wXf0fw-dTwBWCWBa6sVBMi2WVhgH8Fk1dBKI4h2x7vU9aJmVD15PCMCAl05ZUGNkn35pXR_AwgpeuVhE6xSA_CxZrFyhJo670VADW_cgVL502jX3eosPEn1tjU7DFfVZVtr0hi34m4GoGifoi9_NgZYvrXXSFM1T",
+  mexico: "https://lh3.googleusercontent.com/aida-public/AB6AXuAtoqyyc3XD3hRpl58bhpFpq6iJKPkECGUmqKaGrEQZolLYbuqx5Oq--a6aeLNmvZzf88HzUoYmZyM1ocL8uWl5WC38SQAuMZX6jOfZvH6yJeY80z3IrWam19iqVQT6RDIF_o-e2dUatQfW0uPEUMnSXFjHa7kbaevyG8j3nBIGd5VTORwff5csR6SuL7bFhqHaqOjdDdP2y83YeEruOLQTzDWwTlmOajyn43xeO7GnvPjJ3lR4btCXWDbtPICvMW8f4EvvIkOiYwW0",
+  japan: "https://lh3.googleusercontent.com/aida-public/AB6AXuCK_ZWwYqPLU-SpoOD6puIxCK6dtgmGicW2gz35Kmgwql9jP6lzcVCOT0u5biWq5khXUDOqXJN3di-2TYAtOPKNj68X6oTZUr-TlozzbU_JYp7EuI1jFdY29Za1_9imwTOTks-VBw85riWQjwaMkmQXpMq5tegwK7VTvgnDlENPZDmhIcarrUHANA_rC9MLwkHmCTM0KWwRvn-cZFDiLxUa5DqGqqAE-af_KxxNtSE_lrmYhpUyuZvaJG4ZSFzB6lxowf9zE4Fwl3lt",
+  india: "https://lh3.googleusercontent.com/aida-public/AB6AXuBN1otg8SY3H_Dxl5JDkMhBhlxkUNAMmtNPZumgtv7NEHzaxNjBID2NvUbMf59nTvrecTodf3buW7xhkdqc2nE7si05Xcu0lALwuYI1LVtG3s0JfdO7l9tyazx5Wau28Rvc5-BJPyoT3TSnoS9icE8oyOdqt6mAgaChjPnK27ln3g7Mpp582waPmuvXGNZJ9AU9kn7VKa_UGt2z4DiSqpveKJ2e-Ge8RohrT3tnHt7Le--79e06APS_NuqVNMo01HzEdBAwCFtcI3pR",
+  thailand: "https://lh3.googleusercontent.com/aida-public/AB6AXuC0kLX0wrOqVM8OYMZzQjhlOT9QkcfuiC83aGL_WpFkZ3Evb2Zd1X61QaShAQ_B_t4HyA4PJnLiCGatfauqjdXIrmI2tNBj6lrGO-dsaZS0DbQTHp-wAir35wa0wSp15F0DcEQlFyeydaNOIK8gYJHZmrMNFd_YOMeQQMNayZv1wIFAahpRNPkSXh8NaztGmLljxA60FD28RwFxzD_KXCTG4Y8xdeX0XE4fquIorYY9wDhR1oedLaHjMBaNY4cKu2oLWWmosUjo_lIs",
+  morocco: "https://lh3.googleusercontent.com/aida-public/AB6AXuAMYYz9mb0GW2v6PQ1cC3Sd4tzONRLYgP1u8BV2LkBeJi9bsUsxK47Ma0DvHAG-UrxG5RRNDFfBdN4dZht-ZGIYbJSaoRt_S2ZD7GvIcHcyZZb5h0RVr8ZR2UpGzUj-CdSYw4kiUDnbfrSW_p1XnNUIX3RUPdUaH3MsVJ6C6Q4jV5UmeR-RCMk2S8Sf8ASZ-4fn9q3D7-83EP7dB6yugS_PoqtNFlWD2owzumen-a12RJJB7zJnToj9bRoDWrTZ7QNnZ6RXrGM_Y5kl",
+  spain:   "https://images.unsplash.com/photo-1543785734-4b6e564642f8?w=1200&q=85&fit=crop",
+  france:  "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=1200&q=85&fit=crop",
 };
 
 export const WELCOME_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuBNn6amxRklLOG69FpzFwcXZX5f0amiGLTlhj-OK4CKLAIjyld88eF-BtrHONmt69pF3NCPSHevwxzssyeJ5w5VEPOr_80X6OLvGsHb34IEqgiWpCiWubiMQhnstosxqXAbBBiQcEZU-D9RTzfI_NmGNh5z4lYEsg0anY3accSKOTqZq8eXDHA6YRz9F54mcDsybrvMxHqD1TGxK3VUSsKjgta2G468z9ttJssORTCBDgaEojDrgatyIZ3koBd5P5yOCQsaO7I5moy8";
