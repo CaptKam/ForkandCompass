@@ -681,28 +681,47 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
 // ─── GroceryRow ───────────────────────────────────────────────────────────────
 
 function GroceryRow({ item, isLast, onToggle }: { item: GroceryItem; isLast: boolean; onToggle: () => void }) {
-  const qty = item.qty ?? 1;
   const sources = item.recipeNames ?? [item.recipeName];
+  const sourceLabel = "for " + sources.join(", ");
   return (
-    <Pressable onPress={onToggle} style={[styles.groceryRow, !isLast && styles.groceryRowBorder]}>
+    <Pressable
+      onPress={onToggle}
+      style={[
+        styles.groceryRow,
+        !isLast && styles.groceryRowBorder,
+        item.checked && { opacity: 0.4 },
+      ]}
+    >
+      {/* Thumbnail */}
+      <View style={styles.groceryThumb}>
+        {item.recipeImage ? (
+          <Image
+            source={{ uri: item.recipeImage }}
+            style={{ width: "100%", height: "100%" }}
+            contentFit="cover"
+            transition={200}
+          />
+        ) : (
+          <View style={styles.groceryThumbPlaceholder}>
+            <Text style={styles.groceryThumbInitial}>
+              {item.name.charAt(0).toUpperCase()}
+            </Text>
+          </View>
+        )}
+      </View>
+
+      {/* Text content */}
+      <View style={{ flex: 1, gap: 3 }}>
+        <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]} numberOfLines={1}>
+          {item.name}
+          {item.amount ? <Text style={styles.groceryAmount}> ({item.amount})</Text> : null}
+        </Text>
+        <Text style={styles.grocerySource} numberOfLines={1}>{sourceLabel}</Text>
+      </View>
+
+      {/* Checkbox */}
       <View style={[styles.checkbox, item.checked && styles.checkboxChecked]}>
         {item.checked && <Ionicons name="checkmark" size={13} color="#FEF9F3" />}
-      </View>
-      <View style={{ flex: 1, gap: 2 }}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-          <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]}>
-            {item.name}
-            {item.amount ? <Text style={styles.groceryAmount}> ({item.amount})</Text> : null}
-          </Text>
-          {qty > 1 && (
-            <View style={styles.qtyBadge}>
-              <Text style={styles.qtyText}>×{qty}</Text>
-            </View>
-          )}
-        </View>
-        <Text style={styles.grocerySource} numberOfLines={1}>
-          {sources.join(" · ")}
-        </Text>
       </View>
     </Pressable>
   );
@@ -1167,11 +1186,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
     gap: 12,
-    minHeight: 48,
+    minHeight: 64,
   },
   groceryRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: BORDER,
+  },
+  groceryThumb: {
+    width: 48,
+    height: 48,
+    borderRadius: 10,
+    overflow: "hidden",
+    flexShrink: 0,
+    backgroundColor: "#F0E8DF",
+  },
+  groceryThumbPlaceholder: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#EDE5DC",
+  },
+  groceryThumbInitial: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 18,
+    color: TERRACOTTA,
   },
   checkbox: {
     width: 24,
@@ -1188,7 +1226,7 @@ const styles = StyleSheet.create({
     borderColor: TERRACOTTA,
   },
   groceryName: {
-    fontFamily: "Inter_500Medium",
+    fontFamily: "Inter_600SemiBold",
     fontSize: 15,
     color: TEXT_PRIMARY,
   },
@@ -1202,8 +1240,9 @@ const styles = StyleSheet.create({
   },
   grocerySource: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
-    color: TEXT_TERTIARY,
+    fontSize: 12,
+    color: TEXT_SECONDARY,
+    opacity: 0.75,
   },
   qtyBadge: {
     backgroundColor: "#F0E8DE",

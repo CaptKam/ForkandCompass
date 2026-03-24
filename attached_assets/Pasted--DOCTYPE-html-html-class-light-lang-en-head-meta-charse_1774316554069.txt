@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface": "#1d1b18",
+              "on-tertiary-fixed-variant": "#00497a",
+              "tertiary-fixed": "#d0e4ff",
+              "secondary-container": "#fbdab3",
+              "primary-fixed-dim": "#ffb690",
+              "inverse-surface": "#32302c",
+              "surface-container-highest": "#e6e2dc",
+              "primary": "#9a4100",
+              "surface-container-lowest": "#ffffff",
+              "on-surface-variant": "#574238",
+              "on-primary-container": "#fffbff",
+              "surface": "#fef9f3",
+              "surface-bright": "#fef9f3",
+              "error-container": "#ffdad6",
+              "on-tertiary-container": "#fdfcff",
+              "on-secondary-fixed-variant": "#584326",
+              "on-tertiary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "tertiary": "#005f9c",
+              "primary-fixed": "#ffdbcb",
+              "on-error": "#ffffff",
+              "surface-container-high": "#ece7e2",
+              "on-background": "#1d1b18",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#ffb690",
+              "surface-variant": "#e6e2dc",
+              "background": "#fef9f3",
+              "secondary-fixed": "#feddb6",
+              "on-primary-fixed": "#341100",
+              "surface-container": "#f2ede7",
+              "on-secondary-container": "#775e3f",
+              "on-primary-fixed-variant": "#783100",
+              "tertiary-container": "#0079c4",
+              "outline": "#8a7266",
+              "outline-variant": "#dec1b3",
+              "surface-tint": "#9e4300",
+              "secondary": "#725a3c",
+              "on-error-container": "#93000a",
+              "surface-dim": "#ded9d4",
+              "on-tertiary-fixed": "#001d35",
+              "secondary-fixed-dim": "#e1c19c",
+              "on-secondary-fixed": "#291802",
+              "inverse-on-surface": "#f5f0ea",
+              "error": "#ba1a1a",
+              "surface-container-low": "#f8f3ed",
+              "primary-container": "#bf550a",
+              "tertiary-fixed-dim": "#9ccaff"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .scrim-bottom {
+            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 100%);
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#FEF9F3] dark:bg-[#0D0D0D]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#9A4100] dark:text-[#FFB690] cursor-pointer" data-icon="menu">menu</span>
+<h1 class="font-['Noto_Serif'] font-bold text-[#9A4100] dark:text-[#FFB690] text-lg tracking-tight">Grocery List from Instacart</h1>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="minimalist close-up portrait of a user with warm natural lighting and clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFgdA6sAFsACWBokHxaiMOT_Q7YCl9rK-7LaeCIPc5x_K-lpPDNKYCFWmi7oRxo4N428EiJmZoziyM0HwahfCTyqEG8wlQXUWohuoNTj79bdeWRl9o7to-ZnvBo6UIR9CGgGs-Qx4bSH_LKv7XeCEh5fUU-PQwQgyuUkyw87Inn4Tve3K2KLp_-jOBfEYynn45EzLymlVHBkqDxczDEKzNN9NxZx__d7Rh-aUD0tmoO19RQlRJl1RURFNF8_UrLZ2yTWT2-SNVa3M7"/>
+</div>
+</header>
+<!-- Content Area -->
+<main class="pt-20 px-6 max-w-2xl mx-auto">
+<!-- Segmented Control (Sticky) -->
+<div class="sticky top-16 bg-surface z-40 py-4 flex gap-2">
+<button class="flex-1 py-2 rounded-full font-medium text-sm transition-all text-secondary hover:bg-surface-container-high">
+            This Week
+        </button>
+<button class="flex-1 py-2 rounded-full font-medium text-sm transition-all bg-primary text-on-primary shadow-sm">
+            Grocery
+        </button>
+</div>
+<!-- Grocery List Categories -->
+<section class="space-y-10 mt-4">
+<!-- Category: PRODUCE -->
+<div>
+<h3 class="font-label text-[10px] font-bold tracking-[0.15em] text-secondary uppercase mb-4 opacity-70">Produce</h3>
+<div class="space-y-1">
+<!-- Item -->
+<div class="flex items-center min-h-[64px] py-3 group border-b border-outline-variant/10">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden mr-4">
+<img alt="Fresh Tomatoes" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBsly_RdGDraKcOxqHy0mkWyjvtfnXtWYL6lPrrZ98ICFw7PJcpM876Zj05quq_kFu0X9vTOqAlOmbdENtkiSH6tzhWkyDk_K9DVOlXXhk4oQPiFyOVdmJLJYVIReEEQ1xJ-g8uQ9t6rlhRyeRN3gwvsLUNq3H-U5GRFW7YOxB-NJu4aFlhLYPUGQ0W7EUzPdtZsI6ZoXu2NWcsPnBAp8f0u9Fq2jgqHa-bHP3KW1UmBaK680ZGxEJnf3Nnro8tLg3l10VzcDD0MqU"/>
+</div>
+<div class="flex-grow flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-on-surface font-bold">Tomatoes (1LB)</span>
+<span class="text-xs text-secondary/70">for Tacos</span>
+</div>
+<div class="flex-shrink-0 ml-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-primary">
+<span class="material-symbols-outlined text-primary text-sm opacity-0 group-hover:opacity-20" data-icon="check">check</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Item -->
+<div class="flex items-center min-h-[64px] py-3 group border-b border-outline-variant/10">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden mr-4">
+<img alt="Cilantro" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6k_kLdcS44JemupJuUZdRKjBcU2wz-J4_yqFnLlzMJTdYrjFjWyiyvU5HhrtHQkYfHAn5JEckcH5U1zDdsLXgBey8E-Ah3QenrmzGMHfxV9DzONPTpWb481Y0b7BCYa3lCyb_ZoEliFnhS2CH7rqMi4e9AGT-5p363DzlzT5r2EianDYOj8erzWEsBKmpOZwtm5mU_IRdPCzLaoPpQVPeBVu-VOD_zC2bM_a0GRDbvl25qY4J1TLg94VgwdbNUZkOZ-JlommUrj_1"/>
+</div>
+<div class="flex-grow flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-on-surface font-bold">Cilantro (1 each)</span>
+<span class="text-xs text-secondary/70">for Tacos, Ramen</span>
+</div>
+<div class="flex-shrink-0 ml-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-primary">
+<span class="material-symbols-outlined text-primary text-sm opacity-0 group-hover:opacity-20" data-icon="check">check</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Item (Checked) -->
+<div class="flex items-center min-h-[64px] py-3 opacity-40 border-b border-outline-variant/10">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden mr-4 grayscale">
+<img alt="Lime" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuJg1c4dmtmbfx2cJimY9dFhNejmipHVQwGGowQUndWmZcFTEAnR5evmjzEtVq7JU7F8uxENKZVPi59rCYyBbeJHdrL3qfr4HIvqGdDAYZr6wM9-VDjCEYcmpRbshhaEQhqc2WECkOl5Swg26ba6y9OYGPoRxSBNBDDfEYeGNMLBCTOG6XgYxG8y3GB3Cex8J3NZC0obLELXM03PUkPJZ-1ETPbGvzx_NGNoqjmu1nOJ2Vgveb0uB4KI1sQdFkq7tRcSPVtxHEwJcn"/>
+</div>
+<div class="flex-grow flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-on-surface font-bold line-through">Lime (2 pcs)</span>
+<span class="text-xs text-secondary/70">for Tacos</span>
+</div>
+<div class="flex-shrink-0 ml-4">
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Category: DAIRY -->
+<div>
+<h3 class="font-label text-[10px] font-bold tracking-[0.15em] text-secondary uppercase mb-4 opacity-70">Dairy</h3>
+<div class="space-y-1">
+<!-- Item -->
+<div class="flex items-center min-h-[64px] py-3 group border-b border-outline-variant/10">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden mr-4">
+<img alt="Pecorino Romano" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAANc-RYTn0eAwXVscibN5yIQjvfs06JFTEdPjWrcWcyPPuuD0xzFfzUJBGKIkMcr-lOwthq2Q3VMg8vgeh8-7OLP3S3Lv3KNGwXoi8RTW1RN9hqu2uk2xORI55chgPgKJsyi2OsznBTQC4vlsIcJQz8hPaGykFVG3BmqwQykzlMJThQmBiw8C4kPBCgvjvyIzM6w16YUPZJ94jgmk6DSksN9Jbukrg6cQKrcaq-dV1ynND9Z0LiNW3m9MoUSH2abXJFsfus37kMBO"/>
+</div>
+<div class="flex-grow flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-on-surface font-bold">Pecorino Romano (50g)</span>
+<span class="text-xs text-secondary/70">for Carbonara</span>
+</div>
+<div class="flex-shrink-0 ml-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-primary">
+<span class="material-symbols-outlined text-primary text-sm opacity-0 group-hover:opacity-20" data-icon="check">check</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Item (Checked) -->
+<div class="flex items-center min-h-[64px] py-3 opacity-40 border-b border-outline-variant/10">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden mr-4 grayscale">
+<img alt="Heavy Cream" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEhVEF1FwX8Qw5uH5TyjYivVZU5CB676O1KIIsWDnjH3ZXrY03u-4vc-GcvDqu7eaeaDtKc0bjU9z99FlsuWtmjnQfvp6AeVE8kaK729e7xYa6X_h005cvT_TwbVvnYjY96BTc5KbPLL3xBLOrKy3j-5GPF9a0GfFXkeEIuD5gI0QZU6TqvFgJ34f9ytc8Sx_RS5u2Mih00YXw8Q5-4SODFXwkOMynVZ_zAH8kPTklQarsh3by4ZZu--Gb9xr-jGEfQK2WxpZr3qzA"/>
+</div>
+<div class="flex-grow flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-on-surface font-bold line-through">Heavy cream (200ml)</span>
+<span class="text-xs text-secondary/70">for Dessert</span>
+</div>
+<div class="flex-shrink-0 ml-4">
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Category: PANTRY -->
+<div>
+<h3 class="font-label text-[10px] font-bold tracking-[0.15em] text-secondary uppercase mb-4 opacity-70">Pantry</h3>
+<div class="space-y-1">
+<!-- Item -->
+<div class="flex items-center min-h-[64px] py-3 group border-b border-outline-variant/10">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden mr-4">
+<img alt="Soy Sauce" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIXXi4wFhOD1bkujAZ6Y6t7QXpQcZxAQLyGht5OI1ETJkXFr-SGBhOengVqMh2y-fc4XZ5qf1yNHmgJwQpU8cCB-Oz9f7h7y_QNiZiC-zdaEvbYY6s5bcZUEul77LHc3oAGJm0kSQUOvX_bpggfim6T3QOVL-CePzwLWL_h7_TJl2zkUv0sFJhBDn0CVvP8KH-fSTtgzqrHSFhqCfZu3qvusfWPppk200BDaDB2CBJfEsWkghXGpaco63tVuznjJN9FGffAcoEjHjQ"/>
+</div>
+<div class="flex-grow flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-on-surface font-bold">Soy sauce (1 bottle)</span>
+<span class="text-xs text-secondary/70">for Ramen</span>
+</div>
+<div class="flex-shrink-0 ml-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-primary">
+<span class="material-symbols-outlined text-primary text-sm opacity-0 group-hover:opacity-20" data-icon="check">check</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Item (Checked) -->
+<div class="flex items-center min-h-[64px] py-3 opacity-40 border-b border-outline-variant/10">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden mr-4 grayscale">
+<img alt="Black Pepper" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwqgxp4OEdTkJ2QnN6sVFNPCE-iqAROzwsF0JuXSXCIxSAFu-nZ4PGuoqfy4nbPCY-gpkAExDnZ17kymclpmCjpBkd9epFZgwHrCYQyKT032ifBIFQdxlozNPRFLeh6eI6OA5hbNWGLJFbnI514r8sCo6H22Cqq7LknNAtGfgxcczqwQZtXNaFFVK4RreJPi8oO7bW9fQlp1j8aO505LxyJqYtRxfV6PF0mYpV9JjfuJvtyOFXeSxafnt8Vmt2cKz4K-H8GW-xGu9T"/>
+</div>
+<div class="flex-grow flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-on-surface font-bold line-through">Black pepper (Freshly ground)</span>
+<span class="text-xs text-secondary/70">for Ramen</span>
+</div>
+<div class="flex-shrink-0 ml-4">
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Summary Footer -->
+<footer class="fixed bottom-[96px] left-1/2 -translate-x-1/2 w-[90%] max-w-md z-40">
+<div class="bg-surface-container-high/90 backdrop-blur-xl py-3 px-6 rounded-full shadow-lg flex justify-between items-center border border-outline-variant/10">
+<span class="text-sm font-medium text-secondary">12 items · 5 checked</span>
+<button class="text-primary font-bold text-sm tracking-tight hover:underline">Clear checked</button>
+</div>
+</footer>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#FEF9F3]/90 dark:bg-[#0D0D0D]/90 backdrop-blur-xl shadow-[0_-12px_40px_0_rgba(29,27,24,0.06)] rounded-t-3xl">
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-3 py-1 hover:bg-[#ECE7E2] dark:hover:bg-[#252A32] rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide uppercase mt-1">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#9A4100]/10 dark:bg-[#FFB690]/10 text-[#9A4100] dark:text-[#FFB690] rounded-xl px-3 py-1 transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide uppercase mt-1">Plan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-3 py-1 hover:bg-[#ECE7E2] dark:hover:bg-[#252A32] rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="import_contacts">import_contacts</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide uppercase mt-1">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-3 py-1 hover:bg-[#ECE7E2] dark:hover:bg-[#252A32] rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide uppercase mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
