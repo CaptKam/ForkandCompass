@@ -177,6 +177,7 @@ export default function DiscoverScreen() {
   const reducedMotion = useReducedMotion();
   const heroScrollRef = useRef<ScrollView>(null);
   const destScrollRef = useRef<ScrollView>(null);
+  const isProgrammaticScroll = useRef(false);
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
   const { width: screenWidth } = useWindowDimensions();
 
@@ -209,10 +210,15 @@ export default function DiscoverScreen() {
   };
 
   const scrollHeroTo = (idx: number) => {
+    isProgrammaticScroll.current = true;
     heroScrollRef.current?.scrollTo({ x: idx * screenWidth, animated: true });
+    // Clear the flag after the animation has fully settled
+    setTimeout(() => { isProgrammaticScroll.current = false; }, 600);
   };
 
   const onHeroScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    // Ignore events fired by our own programmatic scrollTo calls
+    if (isProgrammaticScroll.current) return;
     const idx = Math.round(e.nativeEvent.contentOffset.x / screenWidth);
     if (idx !== activeIndex && idx >= 0 && idx < countries.length) {
       haptic();
