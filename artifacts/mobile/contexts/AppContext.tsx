@@ -340,6 +340,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
               checked: false,
               recipeName: recipe.name,
               recipeNames: [recipe.name],
+              recipeImage: recipe.image,
               qty: 1,
               tier: (isPantryExcluded ? 1 : 3) as 1 | 3,
               excluded: isPantryExcluded,

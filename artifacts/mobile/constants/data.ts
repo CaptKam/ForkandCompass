@@ -47,6 +47,7 @@ export interface Country {
     checked: boolean;
     recipeName: string;
     recipeNames?: string[];
+    recipeImage?: string;
     qty?: number;
     tier?: 1 | 2 | 3;
     excluded?: boolean;

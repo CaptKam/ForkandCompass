@@ -681,28 +681,29 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
 // ─── GroceryRow ───────────────────────────────────────────────────────────────
 
 function GroceryRow({ item, isLast, onToggle }: { item: GroceryItem; isLast: boolean; onToggle: () => void }) {
-  const qty = item.qty ?? 1;
   const sources = item.recipeNames ?? [item.recipeName];
+  const sourceLabel = "for " + sources.join(", ");
   return (
-    <Pressable onPress={onToggle} style={[styles.groceryRow, !isLast && styles.groceryRowBorder]}>
+    <Pressable
+      onPress={onToggle}
+      style={[
+        styles.groceryRow,
+        !isLast && styles.groceryRowBorder,
+        item.checked && { opacity: 0.4 },
+      ]}
+    >
+      {/* Checkbox */}
       <View style={[styles.checkbox, item.checked && styles.checkboxChecked]}>
         {item.checked && <Ionicons name="checkmark" size={13} color="#FEF9F3" />}
       </View>
-      <View style={{ flex: 1, gap: 2 }}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-          <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]}>
-            {item.name}
-            {item.amount ? <Text style={styles.groceryAmount}> ({item.amount})</Text> : null}
-          </Text>
-          {qty > 1 && (
-            <View style={styles.qtyBadge}>
-              <Text style={styles.qtyText}>×{qty}</Text>
-            </View>
-          )}
-        </View>
-        <Text style={styles.grocerySource} numberOfLines={1}>
-          {sources.join(" · ")}
+
+      {/* Text content */}
+      <View style={{ flex: 1, gap: 3 }}>
+        <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]} numberOfLines={1}>
+          {item.name}
+          {item.amount ? <Text style={styles.groceryAmount}> ({item.amount})</Text> : null}
         </Text>
+        <Text style={styles.grocerySource} numberOfLines={1}>{sourceLabel}</Text>
       </View>
     </Pressable>
   );
@@ -1184,7 +1185,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 14,
     gap: 12,
-    minHeight: 48,
+    minHeight: 52,
   },
   groceryRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -1207,6 +1208,8 @@ const styles = StyleSheet.create({
   groceryName: {
     fontFamily: "Inter_500Medium",
     fontSize: 16,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
     color: TEXT_PRIMARY,
   },
   groceryNameChecked: {
@@ -1222,6 +1225,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 18,
     color: TEXT_TERTIARY,
+    fontSize: 12,
+    color: TERRACOTTA,
+    opacity: 0.8,
   },
   qtyBadge: {
     backgroundColor: "#F0E8DE",
