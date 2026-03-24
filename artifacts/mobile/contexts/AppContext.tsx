@@ -71,6 +71,17 @@ export interface CookingProfile {
   lastCookDate: string | null;
 }
 
+export interface ActiveCookSession {
+  recipeId: string;
+  recipeName: string;
+  currentStep: number;
+  totalSteps: number;
+  timerRemaining: number | null;
+  timerRunning: boolean;
+  startedAt: string;
+  servings: number;
+}
+
 const DEFAULT_COOKING_PROFILE: CookingProfile = {
   recipesCompleted: [],
   cuisinesExplored: [],
@@ -178,6 +189,9 @@ interface AppContextType {
   cookSessions: CookSession[];
   completeCookSession: (session: CookSession) => void;
   recentCookSessions: CookSession[];
+  // Active cook session (resume)
+  activeCookSession: ActiveCookSession | null;
+  setActiveCookSession: (session: ActiveCookSession | null) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -201,6 +215,7 @@ const PANTRY_KEY = "@culinary_pantry_staples";
 const GROCERY_PARTNER_KEY = "@culinary_grocery_partner";
 const COOKING_PROFILE_KEY_V2 = "@culinary_cooking_profile_v2";
 const COOK_SESSIONS_KEY = "@culinary_cook_sessions";
+const ACTIVE_COOK_SESSION_KEY = "@culinary_active_cook_session";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [savedRecipeIds, setSavedRecipeIds] = useState<string[]>([]);
@@ -222,12 +237,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [groceryPartner, setGroceryPartnerState] = useState<GroceryPartner>(null);
   const [cookingProfile, setCookingProfileState] = useState<CookingProfile>(DEFAULT_COOKING_PROFILE);
   const [cookSessions, setCookSessions] = useState<CookSession[]>([]);
+  const [activeCookSession, setActiveCookSessionState] = useState<ActiveCookSession | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan, pantry, groceryPartnerRaw, cookProfileRaw, cookSessionsRaw] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan, pantry, groceryPartnerRaw, cookProfileRaw, cookSessionsRaw, activeCookRaw] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
@@ -247,6 +263,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(GROCERY_PARTNER_KEY).catch(() => null),
           AsyncStorage.getItem(COOKING_PROFILE_KEY_V2).catch(() => null),
           AsyncStorage.getItem(COOK_SESSIONS_KEY).catch(() => null),
+          AsyncStorage.getItem(ACTIVE_COOK_SESSION_KEY).catch(() => null),
         ]);
         if (saved) {
           try {
@@ -348,6 +365,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             if (Array.isArray(parsed)) setCookSessions(parsed);
           } catch {}
         }
+        if (activeCookRaw) {
+          try {
+            const parsed = JSON.parse(activeCookRaw);
+            if (parsed && typeof parsed === "object" && parsed.recipeId) setActiveCookSessionState(parsed);
+          } catch {}
+        }
       } catch {}
       setLoaded(true);
     })();
@@ -373,6 +396,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (loaded) AsyncStorage.setItem(COOK_SESSIONS_KEY, JSON.stringify(cookSessions)).catch(() => {});
   }, [cookSessions, loaded]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    if (activeCookSession) {
+      AsyncStorage.setItem(ACTIVE_COOK_SESSION_KEY, JSON.stringify(activeCookSession)).catch(() => {});
+    } else {
+      AsyncStorage.removeItem(ACTIVE_COOK_SESSION_KEY).catch(() => {});
+    }
+  }, [activeCookSession, loaded]);
+
+  const setActiveCookSession = useCallback((session: ActiveCookSession | null) => {
+    setActiveCookSessionState(session);
+  }, []);
 
   const completeCookSession = useCallback((session: CookSession) => {
     setCookSessions((prev) => [session, ...prev].slice(0, 50)); // keep last 50
@@ -795,6 +831,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         cookSessions,
         completeCookSession,
         recentCookSessions: cookSessions.filter((s) => s.completedAt).slice(0, 5),
+        activeCookSession,
+        setActiveCookSession,
       }}
     >
       {children}
