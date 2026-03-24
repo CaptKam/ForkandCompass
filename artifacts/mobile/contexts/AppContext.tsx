@@ -12,6 +12,79 @@ import type { InventoryItem, ScanZone } from "@/constants/inventory";
 import type { ItineraryProfile, ItineraryDay } from "@/hooks/useItinerary";
 import type { GroceryPartner } from "@/constants/partners";
 
+/* ── Cooking Profile Types ─────────────────────────────────── */
+
+export interface CookSession {
+  id: string;
+  recipeId: string;
+  recipeName: string;
+  cuisine: string;
+  difficulty: string;
+  startedAt: string;
+  completedAt: string | null;
+  totalTime: number;
+  rating: number | null;
+  feedback: string[];
+  stepsCompleted: number;
+  totalSteps: number;
+}
+
+const LEVEL_THRESHOLDS: { level: number; name: string; recipes: number; cuisines: number }[] = [
+  { level: 1, name: "Kitchen Curious", recipes: 0, cuisines: 0 },
+  { level: 2, name: "Apprentice", recipes: 3, cuisines: 0 },
+  { level: 3, name: "Home Chef", recipes: 10, cuisines: 0 },
+  { level: 4, name: "Skilled Cook", recipes: 25, cuisines: 0 },
+  { level: 5, name: "Culinary Explorer", recipes: 50, cuisines: 6 },
+  { level: 6, name: "Kitchen Master", recipes: 100, cuisines: 8 },
+];
+
+function computeLevel(recipesCount: number, cuisinesCount: number) {
+  let level = LEVEL_THRESHOLDS[0];
+  for (const t of LEVEL_THRESHOLDS) {
+    if (recipesCount >= t.recipes && cuisinesCount >= t.cuisines) {
+      level = t;
+    }
+  }
+  // Progress to next level
+  const nextIdx = LEVEL_THRESHOLDS.findIndex((t) => t.level === level.level + 1);
+  let progressToNext = 1;
+  if (nextIdx >= 0) {
+    const next = LEVEL_THRESHOLDS[nextIdx];
+    const recipesNeeded = Math.max(next.recipes - level.recipes, 1);
+    const recipeProgress = Math.min((recipesCount - level.recipes) / recipesNeeded, 1);
+    progressToNext = recipeProgress;
+  }
+  return { level: level.level, levelName: level.name, progressToNext };
+}
+
+export interface CookingProfile {
+  recipesCompleted: string[];
+  cuisinesExplored: string[];
+  totalCookTime: number;
+  sessionsStarted: number;
+  sessionsCompleted: number;
+  averageRating: number;
+  currentLevel: number;
+  currentLevelName: string;
+  progressToNext: number;
+  streakDays: number;
+  lastCookDate: string | null;
+}
+
+const DEFAULT_COOKING_PROFILE: CookingProfile = {
+  recipesCompleted: [],
+  cuisinesExplored: [],
+  totalCookTime: 0,
+  sessionsStarted: 0,
+  sessionsCompleted: 0,
+  averageRating: 0,
+  currentLevel: 1,
+  currentLevelName: "Kitchen Curious",
+  progressToNext: 0,
+  streakDays: 0,
+  lastCookDate: null,
+};
+
 /** Parse an amount string like "200g", "1 cup", "2 tbsp" into numeric + unit parts */
 function parseAmount(raw: string): { quantity: number; unit: string; parsed: boolean } {
   const trimmed = raw.trim();
@@ -100,6 +173,11 @@ interface AppContextType {
   lastScanTimestamp: number | null;
   groceryPartner: GroceryPartner;
   setGroceryPartner: (partner: GroceryPartner) => void;
+  // Cooking profile
+  cookingProfile: CookingProfile;
+  cookSessions: CookSession[];
+  completeCookSession: (session: CookSession) => void;
+  recentCookSessions: CookSession[];
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -121,6 +199,8 @@ const INVENTORY_KEY = "@culinary_inventory";
 const LAST_SCAN_KEY = "@culinary_last_scan";
 const PANTRY_KEY = "@culinary_pantry_staples";
 const GROCERY_PARTNER_KEY = "@culinary_grocery_partner";
+const COOKING_PROFILE_KEY_V2 = "@culinary_cooking_profile_v2";
+const COOK_SESSIONS_KEY = "@culinary_cook_sessions";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [savedRecipeIds, setSavedRecipeIds] = useState<string[]>([]);
@@ -140,12 +220,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [lastScanTimestamp, setLastScanTimestamp] = useState<number | null>(null);
   const [pantryStaples, setPantryStaples] = useState<PantryStaple[]>(DEFAULT_PANTRY_STAPLES);
   const [groceryPartner, setGroceryPartnerState] = useState<GroceryPartner>(null);
+  const [cookingProfile, setCookingProfileState] = useState<CookingProfile>(DEFAULT_COOKING_PROFILE);
+  const [cookSessions, setCookSessions] = useState<CookSession[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan, pantry, groceryPartnerRaw] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan, pantry, groceryPartnerRaw, cookProfileRaw, cookSessionsRaw] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
@@ -163,6 +245,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(LAST_SCAN_KEY).catch(() => null),
           AsyncStorage.getItem(PANTRY_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_PARTNER_KEY).catch(() => null),
+          AsyncStorage.getItem(COOKING_PROFILE_KEY_V2).catch(() => null),
+          AsyncStorage.getItem(COOK_SESSIONS_KEY).catch(() => null),
         ]);
         if (saved) {
           try {
@@ -252,6 +336,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         if (groceryPartnerRaw && ["instacart", "kroger", "walmart", "skip"].includes(groceryPartnerRaw)) {
           setGroceryPartnerState(groceryPartnerRaw as GroceryPartner);
         }
+        if (cookProfileRaw) {
+          try {
+            const parsed = JSON.parse(cookProfileRaw);
+            if (parsed && typeof parsed === "object") setCookingProfileState({ ...DEFAULT_COOKING_PROFILE, ...parsed });
+          } catch {}
+        }
+        if (cookSessionsRaw) {
+          try {
+            const parsed = JSON.parse(cookSessionsRaw);
+            if (Array.isArray(parsed)) setCookSessions(parsed);
+          } catch {}
+        }
       } catch {}
       setLoaded(true);
     })();
@@ -268,6 +364,61 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (loaded) AsyncStorage.setItem(PANTRY_KEY, JSON.stringify(pantryStaples)).catch(() => {});
   }, [pantryStaples, loaded]);
+
+  // Cooking profile persistence
+  useEffect(() => {
+    if (loaded) AsyncStorage.setItem(COOKING_PROFILE_KEY_V2, JSON.stringify(cookingProfile)).catch(() => {});
+  }, [cookingProfile, loaded]);
+
+  useEffect(() => {
+    if (loaded) AsyncStorage.setItem(COOK_SESSIONS_KEY, JSON.stringify(cookSessions)).catch(() => {});
+  }, [cookSessions, loaded]);
+
+  const completeCookSession = useCallback((session: CookSession) => {
+    setCookSessions((prev) => [session, ...prev].slice(0, 50)); // keep last 50
+    setCookingProfileState((prev) => {
+      const newCompleted = session.completedAt
+        ? [...new Set([...prev.recipesCompleted, session.recipeId])]
+        : prev.recipesCompleted;
+      const newCuisines = session.cuisine
+        ? [...new Set([...prev.cuisinesExplored, session.cuisine])]
+        : prev.cuisinesExplored;
+      const newTotalTime = prev.totalCookTime + session.totalTime;
+      const newSessionsCompleted = session.completedAt ? prev.sessionsCompleted + 1 : prev.sessionsCompleted;
+      const newSessionsStarted = prev.sessionsStarted + 1;
+      const ratings = [session, ...cookSessions].filter((s) => s.rating != null).map((s) => s.rating!);
+      const newAvg = ratings.length > 0 ? ratings.reduce((a, b) => a + b, 0) / ratings.length : 0;
+      const today = new Date().toISOString().slice(0, 10);
+      const lastDate = prev.lastCookDate;
+      let newStreak = prev.streakDays;
+      if (lastDate) {
+        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        if (lastDate === today) {
+          // same day, no change
+        } else if (lastDate === yesterday) {
+          newStreak += 1;
+        } else {
+          newStreak = 1;
+        }
+      } else {
+        newStreak = 1;
+      }
+      const { level, levelName, progressToNext } = computeLevel(newCompleted.length, newCuisines.length);
+      return {
+        recipesCompleted: newCompleted,
+        cuisinesExplored: newCuisines,
+        totalCookTime: newTotalTime,
+        sessionsStarted: newSessionsStarted,
+        sessionsCompleted: newSessionsCompleted,
+        averageRating: newAvg,
+        currentLevel: level,
+        currentLevelName: levelName,
+        progressToNext,
+        streakDays: newStreak,
+        lastCookDate: today,
+      };
+    });
+  }, [cookSessions]);
 
   const toggleSaved = useCallback((id: string) => {
     setSavedRecipeIds((prev) =>
@@ -640,6 +791,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         removeFromGrocery,
         groceryPartner,
         setGroceryPartner,
+        cookingProfile,
+        cookSessions,
+        completeCookSession,
+        recentCookSessions: cookSessions.filter((s) => s.completedAt).slice(0, 5),
       }}
     >
       {children}

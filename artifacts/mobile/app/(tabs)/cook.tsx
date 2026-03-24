@@ -3,57 +3,107 @@ import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
-  ActivityIndicator,
+  FlatList,
   Platform,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { COUNTRIES, resolveImageUrl } from "@/constants/data";
+import { COUNTRIES, getRecipeById, resolveImageUrl } from "@/constants/data";
+import type { Recipe } from "@/constants/data";
+import { TECHNIQUE_VIDEOS } from "@/constants/techniques";
+import { useApp } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { useNinjaRecipes } from "@/hooks/useNinjaRecipes";
 import TabHeader from "@/components/TabHeader";
 
-const DIFFICULTY_ORDER = ["Easy", "Medium", "Hard"];
+const haptic = () => {
+  if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+};
 
-function getAllRecipesGrouped() {
-  const byDifficulty: Record<string, { recipe: (typeof COUNTRIES)[0]["recipes"][0]; country: (typeof COUNTRIES)[0] }[]> = {
-    Easy: [],
-    Medium: [],
-    Hard: [],
-  };
+function getAllRecipes(): Recipe[] {
+  const recipes: Recipe[] = [];
   for (const country of COUNTRIES) {
     for (const recipe of country.recipes) {
-      const key = recipe.difficulty ?? "Easy";
-      if (!byDifficulty[key]) byDifficulty[key] = [];
-      byDifficulty[key].push({ recipe: { ...recipe, image: resolveImageUrl(recipe.image) }, country });
+      recipes.push({ ...recipe, image: resolveImageUrl(recipe.image) });
     }
   }
-  return byDifficulty;
+  return recipes;
 }
 
 export default function CookScreen() {
   const insets = useSafeAreaInsets();
   const reducedMotion = useReducedMotion();
-  const grouped = getAllRecipesGrouped();
-  const [query, setQuery] = useState("");
-  const { results, isLoading, error } = useNinjaRecipes(query);
+  const {
+    cookingProfile,
+    currentItinerary,
+    recentCookSessions,
+    savedRecipeIds,
+  } = useApp();
 
-  const haptic = () => {
-    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  };
+  const [recentSheetOpen, setRecentSheetOpen] = useState(false);
+  const [savedSheetOpen, setSavedSheetOpen] = useState(false);
 
-  const featuredRecipe = COUNTRIES[0]?.recipes[0];
-  const featuredCountry = COUNTRIES[0];
-  const isSearching = query.trim().length > 0;
+  const allRecipes = useMemo(() => getAllRecipes(), []);
+
+  // Tonight's recipe: find today's itinerary entry
+  const tonightsRecipe = useMemo(() => {
+    if (!currentItinerary || currentItinerary.length === 0) return null;
+    const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
+    const todayEntry = currentItinerary.find(
+      (d) => d.dayLabel.toLowerCase() === today.toLowerCase()
+    );
+    if (!todayEntry) return null;
+    const recipeIds = todayEntry.mode === "quick" ? todayEntry.quickRecipeIds : todayEntry.fullRecipeIds;
+    if (!recipeIds || recipeIds.length === 0) return null;
+    return getRecipeById(recipeIds[0]);
+  }, [currentItinerary]);
+
+  // Recent recipes from cook sessions
+  const recentRecipes = useMemo(() => {
+    return recentCookSessions
+      .map((s) => getRecipeById(s.recipeId))
+      .filter(Boolean) as Recipe[];
+  }, [recentCookSessions]);
+
+  // Saved recipes
+  const savedRecipes = useMemo(() => {
+    return savedRecipeIds
+      .map((id) => getRecipeById(id))
+      .filter(Boolean) as Recipe[];
+  }, [savedRecipeIds]);
+
+  const handleStartCooking = useCallback((recipeId: string) => {
+    haptic();
+    router.push({ pathname: "/cook-mode", params: { recipeId } });
+  }, []);
+
+  const handleRandomRecipe = useCallback(() => {
+    haptic();
+    const level = cookingProfile.currentLevel;
+    let pool = allRecipes;
+    if (level <= 2) {
+      pool = allRecipes.filter((r) => r.difficulty === "Easy");
+    } else if (level <= 4) {
+      pool = allRecipes.filter((r) => r.difficulty !== "Hard");
+    }
+    if (pool.length === 0) pool = allRecipes;
+    const random = pool[Math.floor(Math.random() * pool.length)];
+    if (random) {
+      router.push({ pathname: "/cook-mode", params: { recipeId: random.id } });
+    }
+  }, [allRecipes, cookingProfile.currentLevel]);
+
+  const handleRecipePress = useCallback((id: string) => {
+    haptic();
+    router.push({ pathname: "/recipe/[id]", params: { id } });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -61,183 +111,183 @@ export default function CookScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 120 }}
-        keyboardShouldPersistTaps="handled"
       >
-
-        {/* Search bar */}
-        <View style={styles.searchWrap}>
-          <View style={styles.searchBar}>
-            <Ionicons name="search" size={18} color={Colors.light.secondary} style={styles.searchIcon} />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search any dish worldwide…"
-              placeholderTextColor={Colors.light.secondary}
-              value={query}
-              onChangeText={setQuery}
-              returnKeyType="search"
-              autoCapitalize="none"
-              autoCorrect={false}
+        {/* ── Cooking Level Card ──────────────────────────────────── */}
+        <View style={styles.levelCard}>
+          <Text style={styles.levelLabel}>YOUR COOKING LEVEL</Text>
+          <Text style={styles.levelName}>{cookingProfile.currentLevelName}</Text>
+          <View style={styles.progressTrack}>
+            <View
+              style={[
+                styles.progressFill,
+                { width: `${Math.max(cookingProfile.progressToNext * 100, 4)}%` },
+              ]}
             />
-            {query.length > 0 && (
-              <Pressable onPress={() => { haptic(); setQuery(""); }} hitSlop={8}>
-                <Ionicons name="close-circle" size={18} color={Colors.light.outlineVariant} />
-              </Pressable>
-            )}
           </View>
+          <Text style={styles.levelMeta}>Level {cookingProfile.currentLevel}</Text>
+          <Text style={styles.levelStats}>
+            {cookingProfile.recipesCompleted.length} recipes cooked{" "}
+            {cookingProfile.cuisinesExplored.length > 0
+              ? `\u00b7 ${cookingProfile.cuisinesExplored.length} cuisines`
+              : ""}
+          </Text>
         </View>
 
-        {/* ── Search results ────────────────────────────────────────── */}
-        {isSearching && (
-          <View style={styles.searchResults}>
-            {isLoading && (
-              <View style={styles.centeredState}>
-                <ActivityIndicator color={Colors.light.primary} />
-                <Text style={styles.stateText}>Finding recipes…</Text>
+        {/* ── Tonight's Recipe ────────────────────────────────────── */}
+        {tonightsRecipe && (
+          <View style={styles.section}>
+            <Text style={styles.sectionLabel}>TONIGHT'S RECIPE</Text>
+            <Pressable
+              style={({ pressed }) => [styles.tonightCard, pressed && { opacity: 0.92 }]}
+              onPress={() => handleRecipePress(tonightsRecipe.id)}
+            >
+              <Image
+                source={{ uri: resolveImageUrl(tonightsRecipe.image) }}
+                style={styles.tonightImage}
+                contentFit="cover"
+                transition={reducedMotion ? 0 : 400}
+              />
+              <View style={styles.tonightContent}>
+                <Text style={styles.tonightName}>{tonightsRecipe.name}</Text>
+                <Text style={styles.tonightMeta}>
+                  {tonightsRecipe.region ?? tonightsRecipe.countryName} · {tonightsRecipe.time} · {tonightsRecipe.difficulty}
+                </Text>
+                <Pressable
+                  style={({ pressed }) => [styles.startButton, pressed && { opacity: 0.85 }]}
+                  onPress={() => handleStartCooking(tonightsRecipe.id)}
+                >
+                  <Text style={styles.startButtonText}>Start Cooking</Text>
+                </Pressable>
               </View>
-            )}
-            {!isLoading && error && (
-              <View style={styles.centeredState}>
-                <Ionicons name="alert-circle-outline" size={32} color={Colors.light.outlineVariant} />
-                <Text style={styles.stateText}>{error}</Text>
-              </View>
-            )}
-            {!isLoading && !error && results.length === 0 && (
-              <View style={styles.centeredState}>
-                <Ionicons name="restaurant-outline" size={32} color={Colors.light.outlineVariant} />
-                <Text style={styles.stateText}>No recipes found for "{query}"</Text>
-              </View>
-            )}
-            {!isLoading && results.map((recipe, idx) => (
-              <View key={idx} style={[styles.ninjaCard, idx < results.length - 1 && styles.ninjaCardBorder]}>
-                {/* Title + difficulty badge */}
-                <View style={styles.ninjaCardHeader}>
-                  <Text style={styles.ninjaTitle}>{recipe.title}</Text>
-                  <View style={styles.ninjaBadgeRow}>
-                    {recipe.difficulty ? (
-                      <View style={[styles.servingsBadge, { backgroundColor: "rgba(154,65,0,0.1)" }]}>
-                        <Text style={[styles.servingsBadgeText, { color: Colors.light.primary }]}>{recipe.difficulty}</Text>
-                      </View>
-                    ) : null}
-                  </View>
-                </View>
-
-                {/* Meta: cuisine · servings · time · calories */}
-                <View style={styles.ninjaMetaRow}>
-                  {recipe.cuisine ? <Text style={styles.ninjaMeta}>{recipe.cuisine}</Text> : null}
-                  {recipe.servings && recipe.servings !== "–" ? <Text style={styles.ninjaMeta}>{recipe.servings}</Text> : null}
-                  {recipe.active_time ? <Text style={styles.ninjaMeta}>⏱ {recipe.active_time}</Text> : null}
-                  {recipe.total_time ? <Text style={styles.ninjaMeta}>Total {recipe.total_time}</Text> : null}
-                  {recipe.calories ? <Text style={styles.ninjaMeta}>{Math.round(recipe.calories)} cal</Text> : null}
-                </View>
-
-                {/* Description */}
-                {recipe.description ? (
-                  <Text style={styles.ninjaInstructions} numberOfLines={2}>{recipe.description}</Text>
-                ) : null}
-
-                {/* Dietary flags */}
-                {recipe.dietary_flags && recipe.dietary_flags.length > 0 ? (
-                  <View style={styles.ninjaFlagRow}>
-                    {recipe.dietary_flags.slice(0, 5).map((flag) => (
-                      <View key={flag} style={styles.ninjaFlag}>
-                        <Text style={styles.ninjaFlagText}>{flag}</Text>
-                      </View>
-                    ))}
-                  </View>
-                ) : null}
-              </View>
-            ))}
+            </Pressable>
           </View>
         )}
 
-        {/* ── Local recipe browser (shown when not searching) ────── */}
-        {!isSearching && (
-          <>
-            {/* Featured Hero Recipe */}
-            {featuredRecipe && (
+        {/* ── Quick Start ─────────────────────────────────────────── */}
+        <View style={styles.section}>
+          <Text style={styles.sectionLabel}>QUICK START</Text>
+          <View style={styles.quickStartRow}>
+            <Pressable
+              style={({ pressed }) => [styles.quickPill, pressed && { opacity: 0.8 }]}
+              onPress={() => {
+                haptic();
+                setRecentSheetOpen(!recentSheetOpen);
+                setSavedSheetOpen(false);
+              }}
+            >
+              <Ionicons name="time-outline" size={18} color={Colors.light.onSurface} />
+              <Text style={styles.quickPillText}>Recent</Text>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [styles.quickPill, pressed && { opacity: 0.8 }]}
+              onPress={() => {
+                haptic();
+                setSavedSheetOpen(!savedSheetOpen);
+                setRecentSheetOpen(false);
+              }}
+            >
+              <Ionicons name="bookmark-outline" size={18} color={Colors.light.onSurface} />
+              <Text style={styles.quickPillText}>Saved</Text>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [styles.quickPill, pressed && { opacity: 0.8 }]}
+              onPress={handleRandomRecipe}
+            >
+              <Ionicons name="shuffle-outline" size={18} color={Colors.light.onSurface} />
+              <Text style={styles.quickPillText}>Random</Text>
+            </Pressable>
+          </View>
+
+          {/* Recent recipes inline list */}
+          {recentSheetOpen && (
+            <View style={styles.inlineSheet}>
+              {recentRecipes.length === 0 ? (
+                <Text style={styles.inlineSheetEmpty}>No recent cook sessions yet. Start cooking!</Text>
+              ) : (
+                recentRecipes.map((r) => (
+                  <Pressable
+                    key={r.id}
+                    style={({ pressed }) => [styles.inlineRecipeRow, pressed && { opacity: 0.7 }]}
+                    onPress={() => handleStartCooking(r.id)}
+                  >
+                    <Image
+                      source={{ uri: resolveImageUrl(r.image) }}
+                      style={styles.inlineRecipeImage}
+                      contentFit="cover"
+                    />
+                    <View style={styles.inlineRecipeInfo}>
+                      <Text style={styles.inlineRecipeName} numberOfLines={1}>{r.name}</Text>
+                      <Text style={styles.inlineRecipeMeta}>{r.countryName} · {r.time}</Text>
+                    </View>
+                    <Ionicons name="play-circle" size={28} color={Colors.light.primary} />
+                  </Pressable>
+                ))
+              )}
+            </View>
+          )}
+
+          {/* Saved recipes inline list */}
+          {savedSheetOpen && (
+            <View style={styles.inlineSheet}>
+              {savedRecipes.length === 0 ? (
+                <Text style={styles.inlineSheetEmpty}>No saved recipes yet. Bookmark recipes to see them here.</Text>
+              ) : (
+                savedRecipes.slice(0, 5).map((r) => (
+                  <Pressable
+                    key={r.id}
+                    style={({ pressed }) => [styles.inlineRecipeRow, pressed && { opacity: 0.7 }]}
+                    onPress={() => handleStartCooking(r.id)}
+                  >
+                    <Image
+                      source={{ uri: resolveImageUrl(r.image) }}
+                      style={styles.inlineRecipeImage}
+                      contentFit="cover"
+                    />
+                    <View style={styles.inlineRecipeInfo}>
+                      <Text style={styles.inlineRecipeName} numberOfLines={1}>{r.name}</Text>
+                      <Text style={styles.inlineRecipeMeta}>{r.countryName} · {r.time}</Text>
+                    </View>
+                    <Ionicons name="play-circle" size={28} color={Colors.light.primary} />
+                  </Pressable>
+                ))
+              )}
+            </View>
+          )}
+        </View>
+
+        {/* ── Level Up Your Skills ────────────────────────────────── */}
+        <View style={styles.section}>
+          <Text style={styles.sectionLabel}>LEVEL UP YOUR SKILLS</Text>
+          <View style={styles.techniqueList}>
+            {TECHNIQUE_VIDEOS.map((video) => (
               <Pressable
-                style={({ pressed }) => [styles.featuredCard, pressed && { opacity: 0.92 }]}
+                key={video.id}
+                style={({ pressed }) => [styles.techniqueRow, pressed && { opacity: 0.7 }]}
                 onPress={() => {
                   haptic();
-                  router.push({ pathname: "/recipe/[id]", params: { id: featuredRecipe.id } });
+                  // In v1 this would open a video player; for now navigate to the technique
                 }}
               >
-                <Image
-                  source={{ uri: featuredRecipe.image }}
-                  style={StyleSheet.absoluteFill}
-                  contentFit="cover"
-                  transition={reducedMotion ? 0 : 400}
-                />
-                <LinearGradient
-                  colors={["transparent", "rgba(0,0,0,0.72)"]}
-                  locations={[0.4, 1]}
-                  style={StyleSheet.absoluteFill}
-                />
-                <View style={styles.featuredBadge}>
-                  <Text style={styles.featuredBadgeText}>Chef's Pick</Text>
-                </View>
-                <View style={styles.featuredContent}>
-                  <Text style={styles.featuredFlag}>{featuredCountry.flag}</Text>
-                  <Text style={styles.featuredName}>{featuredRecipe.name}</Text>
-                  <View style={styles.featuredMeta}>
-                    <Ionicons name="time-outline" size={13} color="rgba(255,255,255,0.8)" />
-                    <Text style={styles.featuredMetaText}>{featuredRecipe.time}</Text>
-                    <View style={styles.featuredDot} />
-                    <Text style={styles.featuredMetaText}>{featuredRecipe.difficulty}</Text>
+                <View style={styles.techniqueThumbnailWrap}>
+                  <Image
+                    source={{ uri: video.thumbnailUrl }}
+                    style={styles.techniqueThumbnail}
+                    contentFit="cover"
+                    transition={reducedMotion ? 0 : 200}
+                  />
+                  <View style={styles.playOverlay}>
+                    <Ionicons name="play" size={16} color="#FFFFFF" />
                   </View>
                 </View>
+                <View style={styles.techniqueInfo}>
+                  <Text style={styles.techniqueTitle} numberOfLines={1}>{video.title}</Text>
+                  <Text style={styles.techniqueSubtitle} numberOfLines={1}>{video.subtitle}</Text>
+                </View>
+                <Text style={styles.techniqueDuration}>{video.duration}</Text>
               </Pressable>
-            )}
-
-            {/* Recipes by difficulty */}
-            {DIFFICULTY_ORDER.map((diff) => {
-              const entries = grouped[diff] ?? [];
-              if (entries.length === 0) return null;
-              return (
-                <View key={diff} style={styles.section}>
-                  <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionTitle}>{diff}</Text>
-                    <Text style={styles.sectionCount}>{entries.length} recipes</Text>
-                  </View>
-                  <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.recipeRow}
-                    snapToInterval={180 + 16}
-                    decelerationRate="fast"
-                  >
-                    {entries.map(({ recipe, country }) => (
-                      <Pressable
-                        key={`${country.id}-${recipe.id}`}
-                        style={({ pressed }) => [styles.recipeCard, pressed && { opacity: 0.88 }]}
-                        onPress={() => {
-                          haptic();
-                          router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } });
-                        }}
-                      >
-                        <View style={styles.recipeImageWrap}>
-                          <Image
-                            source={{ uri: recipe.image }}
-                            style={StyleSheet.absoluteFill}
-                            contentFit="cover"
-                            transition={reducedMotion ? 0 : 300}
-                          />
-                          <View style={styles.recipeFlag}>
-                            <Text style={styles.recipeFlagText}>{country.flag}</Text>
-                          </View>
-                        </View>
-                        <View style={styles.recipeMeta}>
-                          <Text style={styles.recipeName} numberOfLines={2}>{recipe.name}</Text>
-                          <Text style={styles.recipeTime}>{recipe.time}</Text>
-                        </View>
-                      </Pressable>
-                    ))}
-                  </ScrollView>
-                </View>
-              );
-            })}
-          </>
-        )}
+            ))}
+          </View>
+        </View>
       </ScrollView>
     </View>
   );
@@ -248,267 +298,244 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.light.surface,
   },
-  /* Search */
-  searchWrap: {
-    paddingHorizontal: 24,
-    marginBottom: 24,
-  },
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Colors.light.surfaceContainerLow,
+
+  /* ── Level Card ──────────────────────────────────────────────── */
+  levelCard: {
+    marginHorizontal: 24,
+    marginBottom: 28,
+    backgroundColor: "#F5EDDF",
     borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 10,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+    padding: 20,
+    gap: 8,
   },
-  searchIcon: {
-    flexShrink: 0,
+  levelLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.primary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    lineHeight: 18,
   },
-  searchInput: {
-    flex: 1,
-    fontFamily: "Inter_400Regular",
-    fontSize: 17,
+  levelName: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 22,
     color: Colors.light.onSurface,
-    padding: 0,
-    lineHeight: 26,
+    lineHeight: 28,
+  },
+  progressTrack: {
+    height: 6,
+    backgroundColor: "#E8DFD2",
+    borderRadius: 4,
+    overflow: "hidden",
+    marginTop: 4,
+  },
+  progressFill: {
+    height: "100%",
+    backgroundColor: Colors.light.primary,
+    borderRadius: 4,
+  },
+  levelMeta: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: Colors.light.secondary,
+    lineHeight: 20,
+    marginTop: 2,
+  },
+  levelStats: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: "#8A8279",
+    lineHeight: 20,
   },
 
-  /* Ninja results */
-  searchResults: {
+  /* ── Sections ────────────────────────────────────────────────── */
+  section: {
+    marginBottom: 28,
     paddingHorizontal: 24,
   },
-  centeredState: {
+  sectionLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: Colors.light.primary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    marginBottom: 16,
+    lineHeight: 20,
+  },
+
+  /* ── Tonight's Recipe ────────────────────────────────────────── */
+  tonightCard: {
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+  },
+  tonightImage: {
+    width: "100%",
+    height: 180,
+  },
+  tonightContent: {
+    padding: 16,
+    gap: 8,
+  },
+  tonightName: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 18,
+    color: Colors.light.onSurface,
+    lineHeight: 24,
+  },
+  tonightMeta: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: "#8A8279",
+    lineHeight: 22,
+  },
+  startButton: {
+    backgroundColor: Colors.light.primary,
+    borderRadius: 12,
+    height: 52,
     alignItems: "center",
-    paddingTop: 48,
+    justifyContent: "center",
+    marginTop: 8,
+  },
+  startButtonText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 17,
+    color: "#FFFFFF",
+    letterSpacing: 0.3,
+  },
+
+  /* ── Quick Start ─────────────────────────────────────────────── */
+  quickStartRow: {
+    flexDirection: "row",
     gap: 12,
   },
-  stateText: {
+  quickPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: "#F5EDDF",
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+    borderRadius: 24,
+    paddingHorizontal: 20,
+    height: 48,
+    minWidth: 100,
+  },
+  quickPillText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: Colors.light.onSurface,
+    lineHeight: 20,
+  },
+
+  /* ── Inline Sheet (Recent / Saved) ───────────────────────────── */
+  inlineSheet: {
+    marginTop: 16,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+    overflow: "hidden",
+  },
+  inlineSheetEmpty: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
     color: Colors.light.secondary,
     textAlign: "center",
-  },
-  ninjaCard: {
-    paddingVertical: 20,
-    gap: 10,
-  },
-  ninjaCardBorder: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "rgba(222,193,179,0.3)",
-  },
-  ninjaCardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    gap: 12,
-  },
-  ninjaTitle: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 18,
-    color: Colors.light.onSurface,
-    flex: 1,
-    lineHeight: 24,
-  },
-  servingsBadge: {
-    backgroundColor: Colors.light.surfaceContainerLow,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 20,
-    flexShrink: 0,
-  },
-  servingsBadgeText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: Colors.light.secondary,
-    lineHeight: 18,
-  },
-  ninjaIngredients: {
-    gap: 8,
-  },
-  ninjaIngredientsLabel: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
-    color: Colors.light.primary,
-    textTransform: "uppercase",
-    letterSpacing: 1,
-    lineHeight: 18,
-  },
-  ninjaIngredientsList: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: Colors.light.secondary,
-    lineHeight: 19,
-  },
-  ninjaInstructions: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: Colors.light.onSurfaceVariant,
+    padding: 24,
     lineHeight: 20,
   },
-  ninjaBadgeRow: {
-    flexDirection: "row",
-    gap: 8,
-    flexShrink: 0,
-  },
-  ninjaMetaRow: {
-    flexDirection: "row",
-    gap: 12,
-    flexWrap: "wrap",
-  },
-  ninjaMeta: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    lineHeight: 20,
-  },
-  ninjaFlagRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
-  },
-  ninjaFlag: {
-    backgroundColor: "rgba(154,65,0,0.07)",
-    borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-  },
-  ninjaFlagText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: Colors.light.primary,
-    lineHeight: 18,
-  },
-
-  /* Featured */
-  featuredCard: {
-    marginHorizontal: 24,
-    borderRadius: 20,
-    overflow: "hidden",
-    height: 260,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    marginBottom: 36,
-    position: "relative",
-  },
-  featuredBadge: {
-    position: "absolute",
-    top: 16,
-    left: 16,
-    backgroundColor: Colors.light.primary,
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 20,
-  },
-  featuredBadgeText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
-    color: "#FFFFFF",
-    letterSpacing: 0.5,
-    textTransform: "uppercase",
-    lineHeight: 18,
-  },
-  featuredContent: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 20,
-  },
-  featuredFlag: {
-    fontSize: 20,
-    marginBottom: 6,
-  },
-  featuredName: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 24,
-    color: "#FFFFFF",
-    lineHeight: 30,
-    marginBottom: 8,
-  },
-  featuredMeta: {
+  inlineRecipeRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    padding: 14,
+    gap: 14,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#E8DFD2",
   },
-  featuredMetaText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: "rgba(255,255,255,0.8)",
-    lineHeight: 20,
+  inlineRecipeImage: {
+    width: 48,
+    height: 48,
+    borderRadius: 10,
+    backgroundColor: Colors.light.surfaceContainerHigh,
   },
-  featuredDot: {
-    width: 3,
-    height: 3,
-    borderRadius: 1.5,
-    backgroundColor: "rgba(255,255,255,0.4)",
+  inlineRecipeInfo: {
+    flex: 1,
+    gap: 2,
   },
-
-  /* Sections */
-  section: {
-    marginBottom: 36,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "baseline",
-    paddingHorizontal: 24,
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontStyle: "italic",
-    fontSize: 20,
+  inlineRecipeName: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
     color: Colors.light.onSurface,
+    lineHeight: 22,
   },
-  sectionCount: {
+  inlineRecipeMeta: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
     color: Colors.light.secondary,
     lineHeight: 20,
   },
-  recipeRow: {
-    paddingHorizontal: 24,
-    gap: 16,
-  },
-  recipeCard: {
-    width: 180,
-  },
-  recipeImageWrap: {
-    width: 180,
-    height: 180,
+
+  /* ── Technique Library ───────────────────────────────────────── */
+  techniqueList: {
+    backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
     overflow: "hidden",
-    backgroundColor: Colors.light.surfaceContainerHigh,
+  },
+  techniqueRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 12,
+    gap: 14,
+    minHeight: 72,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#E8DFD2",
+  },
+  techniqueThumbnailWrap: {
+    width: 56,
+    height: 56,
+    borderRadius: 8,
+    overflow: "hidden",
     position: "relative",
+    backgroundColor: Colors.light.surfaceContainerHigh,
   },
-  recipeFlag: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    backgroundColor: "rgba(0,0,0,0.3)",
-    borderRadius: 10,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+  techniqueThumbnail: {
+    width: 56,
+    height: 56,
   },
-  recipeFlagText: {
-    fontSize: 14,
+  playOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.35)",
   },
-  recipeMeta: {
-    marginTop: 12,
-    gap: 8,
+  techniqueInfo: {
+    flex: 1,
+    gap: 2,
   },
-  recipeName: {
+  techniqueTitle: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 16,
     color: Colors.light.onSurface,
-    lineHeight: 21,
+    lineHeight: 22,
   },
-  recipeTime: {
-    fontFamily: "Inter_500Medium",
+  techniqueSubtitle: {
+    fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: Colors.light.secondary,
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
+    color: "#8A8279",
     lineHeight: 20,
+  },
+  techniqueDuration: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: "#8A8279",
+    lineHeight: 18,
+    flexShrink: 0,
   },
 });
