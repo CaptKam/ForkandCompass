@@ -26,7 +26,7 @@ const TERRACOTTA = "#9A4100";
 const CREAM = "#FEF9F3";
 const BORDER = "#E8DFD2";
 const TEXT_PRIMARY = "#1C1A17";
-const TEXT_SECONDARY = "#8A8279";
+const TEXT_SECONDARY = "#5C5549";
 
 const haptic = () => {
   if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);

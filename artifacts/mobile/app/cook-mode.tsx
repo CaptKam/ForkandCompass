@@ -70,7 +70,7 @@ function getPhase(title: string): "prep" | "cook" | "finish" {
 }
 
 const TERRACOTTA = "#9A4100";
-const TEXT_SECONDARY = "#8A8279";
+const TEXT_SECONDARY = "#5C5549";
 
 const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
 
@@ -777,7 +777,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: "NotoSerif_400Regular_Italic",
     fontSize: 16,
-    color: "#8A8279",
+    color: "#5C5549",
     lineHeight: 24,
     fontStyle: "italic",
   },
@@ -834,13 +834,13 @@ const styles = StyleSheet.create({
   videoHintSubtitle: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: "#8A8279",
+    color: "#5C5549",
     lineHeight: 20,
   },
   videoHintDuration: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
-    color: "#8A8279",
+    color: "#5C5549",
     lineHeight: 18,
     flexShrink: 0,
   },
@@ -856,10 +856,10 @@ const styles = StyleSheet.create({
   },
   ingredientsLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: "#8A8279",
+    fontSize: 14,
+    color: "#5C5549",
     letterSpacing: 1.5,
-    lineHeight: 18,
+    lineHeight: 20,
   },
   ingredientRow: {
     flexDirection: "row",
@@ -1038,7 +1038,7 @@ const styles = StyleSheet.create({
   troubleshootFix: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: "#8A8279",
+    color: "#5C5549",
     lineHeight: 24,
   },
   troubleshootClose: {
@@ -1090,7 +1090,7 @@ const styles = StyleSheet.create({
   finishRecipeMeta: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: "#8A8279",
+    color: "#5C5549",
     textAlign: "center",
     lineHeight: 22,
     marginBottom: 24,

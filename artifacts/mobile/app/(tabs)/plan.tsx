@@ -844,7 +844,7 @@ const swapStyles = StyleSheet.create({
   subtitle: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: "#8A8279",
+    color: "#5C5549",
     lineHeight: 22,
     marginBottom: 24,
   },
@@ -1045,8 +1045,7 @@ const TERRACOTTA = "#9A4100";
 const CREAM = "#FEF9F3";
 const BORDER = "#E8DFD2";
 const TEXT_PRIMARY = "#1C1A17";
-const TEXT_SECONDARY = "#8A8279";
-const TEXT_TERTIARY = "#B5AEA4";
+const TEXT_SECONDARY = "#5C5549";
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: CREAM },
@@ -1069,7 +1068,7 @@ const styles = StyleSheet.create({
   },
   navEdit: {
     fontFamily: "Inter_500Medium",
-    fontSize: 16,
+    fontSize: 17,
     color: TERRACOTTA,
   },
 
@@ -1106,7 +1105,7 @@ const styles = StyleSheet.create({
   },
   segmentText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 14,
+    fontSize: 15,
     color: TEXT_SECONDARY,
   },
   segmentTextActive: {
@@ -1301,8 +1300,8 @@ const styles = StyleSheet.create({
   },
   weekRowDate: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
-    lineHeight: 16,
+    fontSize: 13,
+    lineHeight: 18,
     color: TEXT_SECONDARY,
     marginTop: 2,
   },
@@ -1318,8 +1317,8 @@ const styles = StyleSheet.create({
   },
   weekRowSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 14,
+    lineHeight: 20,
     color: TEXT_SECONDARY,
   },
   weekRowActions: {
@@ -1406,8 +1405,8 @@ const styles = StyleSheet.create({
   },
   quickAddChipText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 14,
+    lineHeight: 20,
     color: TERRACOTTA,
   },
 
@@ -1455,10 +1454,10 @@ const styles = StyleSheet.create({
   },
   kitchenItemSource: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    lineHeight: 18,
-    color: TEXT_TERTIARY,
-    maxWidth: 80,
+    fontSize: 14,
+    lineHeight: 20,
+    color: TEXT_SECONDARY,
+    maxWidth: 100,
     textAlign: "right",
   },
   kitchenHint: {
@@ -1494,8 +1493,8 @@ const styles = StyleSheet.create({
   },
   categoryHeader: {
     fontFamily: "Inter_500Medium",
-    fontSize: 11,
-    lineHeight: 16,
+    fontSize: 14,
+    lineHeight: 20,
     color: TEXT_SECONDARY,
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -1505,9 +1504,9 @@ const styles = StyleSheet.create({
   groceryRow: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: 14,
     gap: 12,
-    minHeight: 48,
+    minHeight: 56,
   },
   groceryRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -1528,8 +1527,8 @@ const styles = StyleSheet.create({
     borderColor: TERRACOTTA,
   },
   groceryName: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontFamily: "Inter_500Medium",
+    fontSize: 17,
     color: TEXT_PRIMARY,
   },
   groceryNameChecked: {
@@ -1542,10 +1541,10 @@ const styles = StyleSheet.create({
   },
   grocerySource: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
-    lineHeight: 16,
-    color: TEXT_TERTIARY,
-    maxWidth: 80,
+    fontSize: 14,
+    lineHeight: 20,
+    color: TEXT_SECONDARY,
+    maxWidth: 100,
     textAlign: "right",
   },
   qtyBadge: {
@@ -1583,7 +1582,7 @@ const styles = StyleSheet.create({
   },
   grocerySummaryText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 13,
     lineHeight: 18,
     color: TEXT_SECONDARY,
     textAlign: "center",
