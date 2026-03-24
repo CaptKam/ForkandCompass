@@ -15,7 +15,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { COUNTRIES, getRecipeById, resolveImageUrl } from "@/constants/data";
+import { getRecipeById, getAllRecipes as getAllRecipesResolved } from "@/constants/data";
 import type { Recipe } from "@/constants/data";
 import { TECHNIQUE_VIDEOS } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
@@ -32,15 +32,8 @@ const haptic = () => {
   if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 };
 
-function getAllRecipes(): Recipe[] {
-  const recipes: Recipe[] = [];
-  for (const country of COUNTRIES) {
-    for (const recipe of country.recipes) {
-      recipes.push({ ...recipe, image: resolveImageUrl(recipe.image) });
-    }
-  }
-  return recipes;
-}
+// Use the centralized getAllRecipes which already resolves image URLs once
+const getAllRecipes = getAllRecipesResolved;
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -222,7 +215,7 @@ export default function CookScreen() {
                 }}
               >
                 <Image
-                  source={{ uri: resolveImageUrl(tonightsRecipe.image) }}
+                  source={{ uri: tonightsRecipe.image }}
                   style={styles.tonightImage}
                   contentFit="cover"
                   transition={reducedMotion ? 0 : 400}
@@ -315,7 +308,7 @@ export default function CookScreen() {
                   }}
                 >
                   <Image
-                    source={{ uri: resolveImageUrl(recipe.image) }}
+                    source={{ uri: recipe.image }}
                     style={styles.recentImage}
                     contentFit="cover"
                     transition={reducedMotion ? 0 : 200}
@@ -347,7 +340,7 @@ export default function CookScreen() {
                   }}
                 >
                   <Image
-                    source={{ uri: resolveImageUrl(recipe.image) }}
+                    source={{ uri: recipe.image }}
                     style={styles.beginnerImage}
                     contentFit="cover"
                   />
