@@ -20,7 +20,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
-import { COUNTRIES, ONBOARDING_IMAGES, getCountryLocations, type Country } from "@/constants/data";
+import { COUNTRIES, ONBOARDING_IMAGES, LANDMARK_IMAGES, getCountryLocations, type Country } from "@/constants/data";
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
@@ -333,7 +333,7 @@ export default function DiscoverScreen() {
                     {/* Inner circle — clips the image to a circle */}
                     <View style={styles.destCircle}>
                       <Image
-                        source={{ uri: ONBOARDING_IMAGES[country.id] || country.image }}
+                        source={{ uri: LANDMARK_IMAGES[country.id] || country.image }}
                         style={styles.destCircleImg}
                         contentFit="cover"
                       />
