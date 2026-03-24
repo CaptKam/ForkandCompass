@@ -98,7 +98,6 @@ interface AppContextType {
   clearInventory: () => void;
   clearInventoryZone: (zone: ScanZone) => void;
   lastScanTimestamp: number | null;
-  clearGrocery: () => void;
   groceryPartner: GroceryPartner;
   setGroceryPartner: (partner: GroceryPartner) => void;
 }
@@ -637,7 +636,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         clearInventory,
         clearInventoryZone,
         lastScanTimestamp,
-        clearGrocery,
         removeFromGrocery,
         groceryPartner,
         setGroceryPartner,
