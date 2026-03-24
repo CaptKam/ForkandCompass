@@ -657,6 +657,7 @@ const styles = StyleSheet.create({
   appearanceText: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
+    lineHeight: 20,
     color: "rgba(29,27,24,0.5)",
   },
   appearanceTextActive: {

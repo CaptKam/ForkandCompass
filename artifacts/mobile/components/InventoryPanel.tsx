@@ -404,6 +404,7 @@ const styles = StyleSheet.create({
   zoneSectionLabel: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.onSurface,
   },
   zoneSectionCount: {
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 8,
+    paddingVertical: 14,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Colors.light.outlineVariant,
   },
@@ -447,6 +448,7 @@ const styles = StyleSheet.create({
   inventoryItemName: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.onSurface,
   },
   inventoryItemBrand: {
@@ -482,6 +484,7 @@ const styles = StyleSheet.create({
   rescanText: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
+    lineHeight: 20,
     color: Colors.light.primary,
   },
   // Product Catalog stats
@@ -496,7 +499,7 @@ const styles = StyleSheet.create({
   catalogHeader: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 8,
     marginBottom: 10,
   },
   catalogTitle: {
