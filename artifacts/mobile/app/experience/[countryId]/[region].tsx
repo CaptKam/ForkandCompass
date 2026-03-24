@@ -186,7 +186,7 @@ export default function ExperienceScreen() {
           style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
           onPress={() => {
             haptic();
-            router.push({ pathname: "/(tabs)/grocery" });
+            router.push({ pathname: "/(tabs)/plan" });
           }}
         >
           <Ionicons name="basket-outline" size={20} color="#fff" />
