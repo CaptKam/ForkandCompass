@@ -297,9 +297,10 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.onSurface,
     padding: 0,
+    lineHeight: 26,
   },
 
   // Section
@@ -320,8 +321,9 @@ const styles = StyleSheet.create({
   },
   clearAll: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.primary,
+    lineHeight: 20,
   },
 
   // Recent searches
@@ -334,9 +336,9 @@ const styles = StyleSheet.create({
   recentChip: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 8,
     paddingHorizontal: 14,
-    paddingVertical: 9,
+    paddingVertical: 14,
     backgroundColor: Colors.light.surfaceContainerHigh,
     borderRadius: 20,
   },
@@ -353,7 +355,7 @@ const styles = StyleSheet.create({
   },
   countryChip: {
     alignItems: "center",
-    gap: 6,
+    gap: 8,
     width: 84,
   },
   countryThumb: {
@@ -371,15 +373,17 @@ const styles = StyleSheet.create({
   },
   countryLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.onSurface,
     textAlign: "center",
+    lineHeight: 20,
   },
   countryCount: {
     fontFamily: "Inter_400Regular",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.secondary,
     textAlign: "center",
+    lineHeight: 18,
   },
 
   // Mood chips
@@ -460,7 +464,7 @@ const styles = StyleSheet.create({
   },
   resultInfo: {
     flex: 1,
-    gap: 2,
+    gap: 8,
   },
   resultTitle: {
     fontFamily: "Inter_600SemiBold",
@@ -469,8 +473,9 @@ const styles = StyleSheet.create({
   },
   resultSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.onSurfaceVariant,
+    lineHeight: 20,
   },
 
   // No results

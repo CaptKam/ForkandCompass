@@ -209,9 +209,9 @@ const styles = StyleSheet.create({
   topButton: {
     position: "absolute",
     right: 16,
-    width: 44,
-    height: 44,
-    borderRadius: 8,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -261,8 +261,8 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   closeButton: {
-    width: 44,
-    height: 44,
+    width: 48,
+    height: 48,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -279,8 +279,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   errorText: {
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 14,
+    lineHeight: 20,
     width: "100%",
   },
 });

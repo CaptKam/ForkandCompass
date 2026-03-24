@@ -33,8 +33,8 @@ export default function CountryDetailScreen() {
       <View style={[styles.container, { alignItems: "center", justifyContent: "center", paddingHorizontal: 48 }]}>
         <Ionicons name="earth-outline" size={48} color={Colors.light.outlineVariant} />
         <Text style={{ fontFamily: "NotoSerif_600SemiBold", fontSize: 20, color: Colors.light.onSurface, marginTop: 16, marginBottom: 8 }}>Country not found</Text>
-        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 12, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
-          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 15, color: "#FFFFFF" }}>Go Back</Text>
+        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 14, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
+          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 16, color: "#FFFFFF" }}>Go Back</Text>
         </Pressable>
       </View>
     );
@@ -162,8 +162,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "rgba(222,193,179,0.15)",
   },
   headerButton: {
-    width: 40,
-    height: 40,
+    width: 48,
+    height: 48,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -207,15 +207,15 @@ const styles = StyleSheet.create({
   },
   description: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.secondary,
-    lineHeight: 24,
+    lineHeight: 26,
     marginBottom: 32,
   },
   // Region heading
   regionHeading: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.primary,
     letterSpacing: 1,
     textTransform: "uppercase",
@@ -235,9 +235,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 16,
     right: 16,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: "rgba(254,249,243,0.7)",
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.15)",
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   },
   regionCardSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
     color: "rgba(255,255,255,0.75)",
     letterSpacing: 0.5,
     textTransform: "uppercase",
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   },
   regionDots: {
     flexDirection: "row",
-    gap: 6,
+    gap: 8,
   },
   regionDot: {
     width: 6,

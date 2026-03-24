@@ -74,8 +74,8 @@ export default function RecipeDetailScreen() {
       <View style={[styles.container, { alignItems: "center", justifyContent: "center", paddingHorizontal: 48 }]}>
         <Ionicons name="restaurant-outline" size={48} color={Colors.light.outlineVariant} />
         <Text style={{ fontFamily: "NotoSerif_600SemiBold", fontSize: 20, color: Colors.light.onSurface, marginTop: 16, marginBottom: 8 }}>Recipe not found</Text>
-        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 12, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
-          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 15, color: "#FFFFFF" }}>Go Back</Text>
+        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 14, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
+          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 16, color: "#FFFFFF" }}>Go Back</Text>
         </Pressable>
       </View>
     );
@@ -333,9 +333,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   iconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: "rgba(254,249,243,0.7)",
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.15)",
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
   metaChip: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 8,
     paddingHorizontal: 16,
     paddingVertical: 10,
     backgroundColor: Colors.light.surfaceContainerHigh,
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
   },
   metaText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.onSurface,
     letterSpacing: 0.5,
     textTransform: "uppercase",
@@ -420,8 +420,8 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   stepperButton: {
-    width: 32,
-    height: 32,
+    width: 48,
+    height: 48,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     gap: 14,
-    paddingVertical: 10,
+    paddingVertical: 14,
   },
   ingredientCircle: {
     marginTop: 2,
@@ -465,9 +465,9 @@ const styles = StyleSheet.create({
   ingredientText: {
     flex: 1,
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.onSurface,
-    lineHeight: 22,
+    lineHeight: 24,
   },
   ingredientTextChecked: {
     color: Colors.light.onSurfaceVariant,
@@ -507,9 +507,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   stepNumber: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: Colors.light.primary,
     alignItems: "center",
     justifyContent: "center",
@@ -526,9 +526,9 @@ const styles = StyleSheet.create({
   },
   stepInstruction: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 24,
+    lineHeight: 26,
     marginBottom: 10,
   },
   stepMaterials: {
@@ -540,7 +540,7 @@ const styles = StyleSheet.create({
   },
   stepMaterialsLabel: {
     fontFamily: "Inter_700Bold",
-    fontSize: 11,
+    fontSize: 14,
     color: Colors.light.secondary,
     letterSpacing: 1,
     textTransform: "uppercase",
@@ -551,6 +551,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.light.onSurface,
   },
+
   // Did You Know
   didYouKnow: {
     padding: 16,
@@ -562,13 +563,14 @@ const styles = StyleSheet.create({
   },
   didYouKnowLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.primary,
     marginBottom: 6,
   },
   didYouKnowText: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
+
     color: Colors.light.secondary,
     fontStyle: "italic",
     lineHeight: 22,
@@ -618,12 +620,13 @@ const styles = StyleSheet.create({
   },
   nextJourneyLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 14,
     color: Colors.light.secondary,
     letterSpacing: 2,
     textTransform: "uppercase",
     marginBottom: 12,
   },
+
   nextJourneyCard: {
     borderRadius: 20,
     overflow: "hidden",
@@ -655,4 +658,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "rgba(255,255,255,0.7)",
   },
+
 });

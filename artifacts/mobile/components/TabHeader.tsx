@@ -78,9 +78,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: Colors.light.surfaceContainerHigh,
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.25)",

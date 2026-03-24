@@ -578,8 +578,8 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   heroAvatar: {
-    width: 32,
-    height: 32,
+    width: 48,
+    height: 48,
     borderRadius: 16,
     backgroundColor: "rgba(255,255,255,0.15)",
     borderWidth: 1,
@@ -639,9 +639,9 @@ const styles = StyleSheet.create({
   },
   heroBlurb: {
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: "rgba(255,255,255,0.85)",
-    lineHeight: 22,
+    lineHeight: 26,
     marginBottom: 28,
   },
   letsGoButton: {
@@ -673,14 +673,14 @@ const styles = StyleSheet.create({
   },
   destTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
     color: "rgba(87,66,56,0.6)",
     letterSpacing: 1.5,
     textTransform: "uppercase",
   },
   destDots: {
     flexDirection: "row",
-    gap: 4,
+    gap: 8,
   },
   destDot: {
     width: 4,
@@ -697,7 +697,7 @@ const styles = StyleSheet.create({
   },
   destItem: {
     alignItems: "center",
-    gap: 6,
+    gap: 8,
   },
   destRing: {
     width: 94,
@@ -732,11 +732,11 @@ const styles = StyleSheet.create({
     zIndex: 5,
   },
   destFlagEmoji: {
-    fontSize: 12,
+    fontSize: 14,
   },
   destLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 9,
+    fontSize: 13,
     color: Colors.light.onSurface,
     letterSpacing: 0.5,
     textTransform: "uppercase",
@@ -770,7 +770,7 @@ const styles = StyleSheet.create({
 
   viewAll: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.primary,
     letterSpacing: 1.5,
     textTransform: "uppercase",
@@ -802,7 +802,7 @@ const styles = StyleSheet.create({
   },
   locSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
     color: "rgba(255,255,255,0.8)",
   },
 
@@ -833,11 +833,11 @@ const styles = StyleSheet.create({
   },
   tastingInfo: {
     flex: 1,
-    gap: 2,
+    gap: 8,
   },
   tastingCourse: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 9,
+    fontSize: 13,
     color: Colors.light.primary,
     letterSpacing: 1.5,
     textTransform: "uppercase",
@@ -845,13 +845,13 @@ const styles = StyleSheet.create({
   },
   tastingName: {
     fontFamily: "NotoSerif_700Bold",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.onSurface,
     lineHeight: 20,
   },
   tastingDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.light.onSurfaceVariant,
     fontStyle: "italic",
     marginTop: 2,
@@ -883,7 +883,7 @@ const styles = StyleSheet.create({
   },
   quoteAttrib: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 9,
+    fontSize: 13,
     color: "rgba(87,66,56,0.7)",
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -912,9 +912,9 @@ const styles = StyleSheet.create({
   },
   spiceDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 14,
+    lineHeight: 18,
   },
 
   // Cultural etiquette
@@ -941,7 +941,7 @@ const styles = StyleSheet.create({
   },
   etiquetteTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.onSurface,
     letterSpacing: 0.8,
     textTransform: "uppercase",
@@ -951,7 +951,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     fontSize: 13,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 20,
+    lineHeight: 18,
   },
 
   // Heritage spices
@@ -962,7 +962,7 @@ const styles = StyleSheet.create({
   heritageSubtitle: {
     fontFamily: "Inter_400Regular",
     fontStyle: "italic",
-    fontSize: 11,
+    fontSize: 13,
     color: "rgba(87,66,56,0.8)",
     marginTop: -8,
     marginBottom: 16,
@@ -993,9 +993,9 @@ const styles = StyleSheet.create({
   },
   heritageDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 16,
+    lineHeight: 18,
     marginBottom: 12,
   },
   heritageBadgeRow: {
@@ -1011,7 +1011,7 @@ const styles = StyleSheet.create({
   },
   heritageBadge: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 9,
+    fontSize: 13,
     color: Colors.light.primary,
     letterSpacing: 1.5,
     textTransform: "uppercase",
@@ -1020,7 +1020,7 @@ const styles = StyleSheet.create({
   // Cook's ledger
   starsRow: {
     flexDirection: "row",
-    gap: 2,
+    gap: 8,
     alignItems: "center",
   },
   reviewList: {
@@ -1037,7 +1037,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     fontSize: 13,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 20,
+    lineHeight: 18,
     marginBottom: 12,
   },
   reviewAuthorRow: {
@@ -1055,12 +1055,12 @@ const styles = StyleSheet.create({
   },
   reviewInitials: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 8,
+    fontSize: 13,
     color: Colors.light.secondary,
   },
   reviewAuthor: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 9,
+    fontSize: 13,
     color: Colors.light.onSurface,
     letterSpacing: 1.2,
     textTransform: "uppercase",
@@ -1073,7 +1073,7 @@ const styles = StyleSheet.create({
   },
   streetSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.light.onSurfaceVariant,
     marginTop: 2,
     marginBottom: 16,
@@ -1104,7 +1104,7 @@ const styles = StyleSheet.create({
   },
   streetDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
     color: "rgba(255,255,255,0.8)",
   },
 
@@ -1115,11 +1115,12 @@ const styles = StyleSheet.create({
   },
   relatedLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 9,
+    fontSize: 13,
     color: "rgba(87,66,56,0.6)",
     letterSpacing: 3,
     textTransform: "uppercase",
     marginBottom: 16,
+    lineHeight: 18,
   },
   relatedScroll: {
     gap: 16,
@@ -1137,13 +1138,14 @@ const styles = StyleSheet.create({
   },
   relatedCountry: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.onSurface,
+    lineHeight: 20,
   },
   relatedDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 14,
+    lineHeight: 18,
   },
 });

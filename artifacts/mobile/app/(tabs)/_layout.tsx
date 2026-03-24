@@ -48,7 +48,7 @@ function ClassicTabLayout() {
         tabBarInactiveTintColor: colors.secondary,
         tabBarLabelStyle: {
           fontFamily: "Inter_500Medium",
-          fontSize: 10,
+          fontSize: 13,
           letterSpacing: 0.5,
           textTransform: "uppercase" as const,
         },

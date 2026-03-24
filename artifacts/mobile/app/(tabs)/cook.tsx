@@ -268,9 +268,10 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontFamily: "Inter_400Regular",
-    fontSize: 15,
+    fontSize: 17,
     color: Colors.light.onSurface,
     padding: 0,
+    lineHeight: 26,
   },
 
   /* Ninja results */
@@ -318,18 +319,20 @@ const styles = StyleSheet.create({
   },
   servingsBadgeText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.light.secondary,
+    lineHeight: 18,
   },
   ninjaIngredients: {
-    gap: 4,
+    gap: 8,
   },
   ninjaIngredientsLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 13,
     color: Colors.light.primary,
     textTransform: "uppercase",
     letterSpacing: 1,
+    lineHeight: 18,
   },
   ninjaIngredientsList: {
     fontFamily: "Inter_400Regular",
@@ -345,7 +348,7 @@ const styles = StyleSheet.create({
   },
   ninjaBadgeRow: {
     flexDirection: "row",
-    gap: 6,
+    gap: 8,
     flexShrink: 0,
   },
   ninjaMetaRow: {
@@ -355,13 +358,14 @@ const styles = StyleSheet.create({
   },
   ninjaMeta: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.secondary,
+    lineHeight: 20,
   },
   ninjaFlagRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 6,
+    gap: 8,
   },
   ninjaFlag: {
     backgroundColor: "rgba(154,65,0,0.07)",
@@ -371,8 +375,9 @@ const styles = StyleSheet.create({
   },
   ninjaFlagText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 11,
+    fontSize: 13,
     color: Colors.light.primary,
+    lineHeight: 18,
   },
 
   /* Featured */
@@ -396,10 +401,11 @@ const styles = StyleSheet.create({
   },
   featuredBadgeText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
+    fontSize: 13,
     color: "#FFFFFF",
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    lineHeight: 18,
   },
   featuredContent: {
     position: "absolute",
@@ -422,12 +428,13 @@ const styles = StyleSheet.create({
   featuredMeta: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: 8,
   },
   featuredMetaText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     color: "rgba(255,255,255,0.8)",
+    lineHeight: 20,
   },
   featuredDot: {
     width: 3,
@@ -455,8 +462,9 @@ const styles = StyleSheet.create({
   },
   sectionCount: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.secondary,
+    lineHeight: 20,
   },
   recipeRow: {
     paddingHorizontal: 24,
@@ -487,19 +495,20 @@ const styles = StyleSheet.create({
   },
   recipeMeta: {
     marginTop: 12,
-    gap: 4,
+    gap: 8,
   },
   recipeName: {
     fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: Colors.light.onSurface,
     lineHeight: 21,
   },
   recipeTime: {
     fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 0.5,
+    lineHeight: 20,
   },
 });
