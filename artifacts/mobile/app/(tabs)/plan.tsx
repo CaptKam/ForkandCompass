@@ -11,15 +11,17 @@ import {
   Linking,
   Platform,
   Pressable,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { getCountryById, getRecipeById, type GroceryItem } from "@/constants/data";
+import { COUNTRIES, getCountryById, getRecipeById, type GroceryItem, type Recipe } from "@/constants/data";
 import { type PantryStaple } from "@/constants/pantry";
 import { PARTNER_CONFIG } from "@/constants/partners";
 import { useApp } from "@/contexts/AppContext";
@@ -85,11 +87,13 @@ export default function PlanScreen() {
     pantryStaples,
     groceryPartner,
     setGroceryPartner,
+    savedRecipeIds,
   } = useApp();
 
   const [segment, setSegment] = useState<PlanSegment>("week");
   const [toast, setToast] = useState<string | null>(null);
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
+  const [swapDay, setSwapDay] = useState<ItineraryDay | null>(null);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
 
@@ -192,12 +196,6 @@ export default function PlanScreen() {
     for (const rid of ids) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
   };
 
-  const handleToggleMode = (day: ItineraryDay) => {
-    haptic();
-    const newMode = day.mode === "quick" ? "full" : "quick";
-    setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, mode: newMode as "quick" | "full" } : d));
-  };
-
   const handleNewWeek = () => {
     haptic();
     if (currentItinerary.length > 0) addToItineraryHistory(currentItinerary);
@@ -213,6 +211,20 @@ export default function PlanScreen() {
         if (recipe) addToGrocery(recipe);
       }
     }
+  };
+
+  const handleGetAllIngredients = () => {
+    haptic();
+    let count = 0;
+    for (const day of currentItinerary) {
+      if (day.status !== "active") continue;
+      const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+      for (const rid of ids) {
+        const recipe = getRecipeById(rid);
+        if (recipe) { addToGrocery(recipe); count += recipe.ingredients.length; }
+      }
+    }
+    showToast(`Added ${count} ingredients`);
   };
 
   // ─── Grocery actions ─────────────────────────────────────────────────────────
@@ -319,15 +331,16 @@ export default function PlanScreen() {
         ) : allDone ? (
           /* All Done */
           <View style={styles.emptyState}>
-            <Text style={styles.allDoneTitle}>Great week! 🎉</Text>
+            <Text style={styles.allDoneTitle}>Great week!</Text>
             <Text style={styles.allDoneSub}>
-              You cooked {currentItinerary.filter((d) => d.status === "completed").length} meals this week.
+              You cooked {currentItinerary.filter((d) => d.status === "completed").length} meals from{" "}
+              {new Set(currentItinerary.filter((d) => d.status === "completed").map((d) => d.countryId)).size} countries
             </Text>
             <Pressable
               onPress={handleNewWeek}
               style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
             >
-              <Text style={styles.ctaText}>Plan Next Week →</Text>
+              <Text style={styles.ctaText}>Plan Next Week</Text>
             </Pressable>
           </View>
         ) : (
@@ -341,7 +354,7 @@ export default function PlanScreen() {
             {todayDay && (
               <View>
                 <Text style={styles.sectionLabel}>TONIGHT</Text>
-                <TonightCard day={todayDay} onToggleMode={() => handleToggleMode(todayDay)} />
+                <TonightCard day={todayDay} servings={itineraryProfile?.defaultServings ?? 4} />
               </View>
             )}
 
@@ -355,7 +368,7 @@ export default function PlanScreen() {
                       key={day.id}
                       day={day}
                       isLast={index === weekAhead.length - 1}
-                      onReload={() => handleReloadDay(day)}
+                      onReload={() => { haptic(); setSwapDay(day); }}
                       onSkip={() => handleSkipDay(day)}
                       onRestore={() => handleRestoreDay(day)}
                     />
@@ -364,18 +377,20 @@ export default function PlanScreen() {
               </View>
             )}
 
+            {/* Get All Ingredients */}
+            <Pressable
+              onPress={handleGetAllIngredients}
+              style={({ pressed }) => [styles.getAllIngredientsBtn, pressed && { opacity: 0.88 }]}
+            >
+              <Text style={styles.getAllIngredientsText}>Get All Ingredients</Text>
+            </Pressable>
+
             {/* Generate new week */}
             <Pressable
               onPress={handleNewWeek}
               style={({ pressed }) => [styles.newWeekLink, pressed && { opacity: 0.6 }]}
             >
               <Text style={styles.newWeekText}>Generate new week</Text>
-            </Pressable>
-            <Pressable
-              onPress={() => { haptic(); setCurrentItinerary([]); }}
-              style={({ pressed }) => [styles.newWeekLink, pressed && { opacity: 0.6 }]}
-            >
-              <Text style={[styles.newWeekText, { color: "#c0392b" }]}>Clear week</Text>
             </Pressable>
 
           </ScrollView>
@@ -404,6 +419,15 @@ export default function PlanScreen() {
               ]}
               ListHeaderComponent={
                 <View>
+                  {/* Scan Ingredients button */}
+                  <Pressable
+                    onPress={() => { haptic(); router.push("/kitchen-scanner"); }}
+                    style={({ pressed }) => [styles.scanBtn, pressed && { opacity: 0.75 }]}
+                  >
+                    <Ionicons name="camera-outline" size={18} color={TERRACOTTA} />
+                    <Text style={styles.scanBtnText}>Scan Ingredients</Text>
+                  </Pressable>
+
                   {/* Quick Add chips */}
                   {quickAddChips.length > 0 && (
                     <View style={styles.quickAddWrap}>
@@ -430,7 +454,7 @@ export default function PlanScreen() {
               }
               renderItem={({ item: group }) => (
                 <View style={styles.categoryGroup}>
-                  <Text style={styles.categoryHeader}>{group.emoji} {group.label.toUpperCase()}</Text>
+                  <Text style={styles.categoryHeader}>{group.label.toUpperCase()}</Text>
                   {group.items.map((item, idx) => (
                     <GroceryRow
                       key={item.id}
@@ -511,8 +535,8 @@ export default function PlanScreen() {
         )
       )}
 
-      {/* ── Checkout FAB — root-level so native doesn't clip it ───── */}
-      {segment === "grocery" && uncheckedGroceryCount > 0 && groceryPartner && groceryPartner !== "skip" && (
+      {/* ── Checkout FAB — shown on both This Week and Grocery views ───── */}
+      {uncheckedGroceryCount > 0 && groceryPartner && groceryPartner !== "skip" && (
         <View style={[styles.fabWrap, { bottom: Math.max(insets.bottom, 16) + 60 }]} pointerEvents="box-none">
           <LinearGradient
             colors={["rgba(254,249,243,0)", "rgba(254,249,243,0.95)", CREAM]}
@@ -538,6 +562,38 @@ export default function PlanScreen() {
         </View>
       )}
 
+      {/* ── Swap Sheet ─────────────────────────────────────────── */}
+      <Modal visible={!!swapDay} transparent animationType="slide" onRequestClose={() => setSwapDay(null)}>
+        {swapDay && (
+          <SwapSheet
+            day={swapDay}
+            onSelectRecipe={(recipe) => {
+              // Replace the day with the selected recipe
+              const updated: ItineraryDay = {
+                ...swapDay,
+                countryId: recipe.countryId,
+                regionId: recipe.region ?? "",
+                quickRecipeIds: [recipe.id],
+                fullRecipeIds: [recipe.id],
+                status: "active",
+              };
+              // Swap grocery
+              const oldIds = swapDay.mode === "quick" ? swapDay.quickRecipeIds : swapDay.fullRecipeIds;
+              for (const rid of oldIds) { const r = getRecipeById(rid); if (r) removeFromGrocery(r); }
+              addToGrocery(recipe);
+              setCurrentItinerary(currentItinerary.map((d) => (d.id === swapDay.id ? updated : d)));
+              setSwapDay(null);
+            }}
+            onSurprise={() => {
+              handleReloadDay(swapDay);
+              setSwapDay(null);
+            }}
+            onClose={() => setSwapDay(null)}
+            savedRecipeIds={savedRecipeIds}
+          />
+        )}
+      </Modal>
+
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
         <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 90 : insets.bottom + 90) }]}>
@@ -552,7 +608,7 @@ export default function PlanScreen() {
 
 // ─── TonightCard ──────────────────────────────────────────────────────────────
 
-function TonightCard({ day, onToggleMode }: { day: ItineraryDay; onToggleMode: () => void }) {
+function TonightCard({ day, servings }: { day: ItineraryDay; servings: number }) {
   const country = getCountryById(day.countryId);
   const recipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
   const mainRecipe = getRecipeById(recipeIds[0]);
@@ -562,10 +618,11 @@ function TonightCard({ day, onToggleMode }: { day: ItineraryDay; onToggleMode: (
   if (!country || !mainRecipe) return null;
 
   const title = recipes.length > 1 ? recipes.map((r) => r?.name).join(" + ") : mainRecipe.name;
+  const region = mainRecipe.region || country.name;
 
   return (
     <View style={styles.tonightCard}>
-      {/* Hero image */}
+      {/* Hero image — tapping goes to Recipe Detail for reading */}
       <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } }); }}>
         <View style={styles.tonightImageWrap}>
           <Image source={{ uri: mainRecipe.image }} style={styles.tonightImage} contentFit="cover" />
@@ -575,34 +632,17 @@ function TonightCard({ day, onToggleMode }: { day: ItineraryDay; onToggleMode: (
 
       {/* Body */}
       <View style={styles.tonightBody}>
-        <Text style={styles.tonightTitle} numberOfLines={2}>{title}</Text>
+        <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } }); }}>
+          <Text style={styles.tonightTitle} numberOfLines={2}>{title}</Text>
+        </Pressable>
         <Text style={styles.tonightSubtitle}>
-          {country.name} · {mainRecipe.time}
+          {region}, {country.name} · {mainRecipe.time}
         </Text>
+        <Text style={styles.tonightServing}>Serving {servings}</Text>
 
-        {/* Mode toggle */}
-        <View style={styles.modeRow}>
-          <Pressable
-            onPress={onToggleMode}
-            style={[styles.modePill, day.mode === "quick" && styles.modePillActive]}
-          >
-            <Text style={[styles.modePillText, day.mode === "quick" && styles.modePillTextActive]}>
-              Quick
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={onToggleMode}
-            style={[styles.modePill, day.mode === "full" && styles.modePillActive]}
-          >
-            <Text style={[styles.modePillText, day.mode === "full" && styles.modePillTextActive]}>
-              Full Experience
-            </Text>
-          </Pressable>
-        </View>
-
-        {/* Start Cooking */}
+        {/* Start Cooking → goes DIRECTLY to Cook Mode */}
         <Pressable
-          onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } }); }}
+          onPress={() => { haptic(); router.push({ pathname: "/cook-mode", params: { recipeId: mainRecipe.id } }); }}
           style={({ pressed }) => [styles.startCookingBtn, pressed && { opacity: 0.88 }]}
         >
           <Text style={styles.startCookingText}>Start Cooking →</Text>
@@ -611,6 +651,292 @@ function TonightCard({ day, onToggleMode }: { day: ItineraryDay; onToggleMode: (
     </View>
   );
 }
+
+// ─── SwapSheet ────────────────────────────────────────────────────────────────
+
+function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds }: {
+  day: ItineraryDay;
+  onSelectRecipe: (recipe: Recipe) => void;
+  onSurprise: () => void;
+  onClose: () => void;
+  savedRecipeIds: string[];
+}) {
+  const [showSaved, setShowSaved] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+
+  const currentRecipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+  const currentRecipes = currentRecipeIds.map(getRecipeById).filter(Boolean);
+  const currentName = currentRecipes.map((r) => r?.name).join(", ");
+
+  // Suggestions: 3 recipes from different cuisines, same difficulty
+  const suggestions = useMemo(() => {
+    const currentDifficulty = currentRecipes[0]?.difficulty ?? "Easy";
+    const allRecipes: Recipe[] = [];
+    for (const country of COUNTRIES) {
+      for (const recipe of country.recipes) {
+        if (!currentRecipeIds.includes(recipe.id) && recipe.difficulty === currentDifficulty) {
+          allRecipes.push(recipe);
+        }
+      }
+    }
+    // Shuffle and take 3
+    const shuffled = [...allRecipes].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 3);
+  }, [currentRecipeIds, currentRecipes]);
+
+  const savedRecipes = useMemo(() => {
+    return savedRecipeIds.map(getRecipeById).filter(Boolean) as Recipe[];
+  }, [savedRecipeIds]);
+
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const q = searchQuery.toLowerCase();
+    const results: Recipe[] = [];
+    for (const country of COUNTRIES) {
+      for (const recipe of country.recipes) {
+        if (recipe.name.toLowerCase().includes(q)) {
+          results.push(recipe);
+        }
+      }
+    }
+    return results.slice(0, 5);
+  }, [searchQuery]);
+
+  const haptic = () => { if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); };
+
+  return (
+    <Pressable style={swapStyles.overlay} onPress={onClose}>
+      <Pressable style={swapStyles.sheet} onPress={(e) => e.stopPropagation()}>
+        <View style={swapStyles.handle} />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={swapStyles.title}>Replace {day.dayLabel}'s meal</Text>
+          <Text style={swapStyles.subtitle}>Currently: {currentName || "Empty"}</Text>
+
+          {/* Suggestions */}
+          <Text style={swapStyles.sectionLabel}>SUGGESTIONS</Text>
+          <View style={swapStyles.suggestionsCard}>
+            {suggestions.map((recipe) => (
+              <Pressable
+                key={recipe.id}
+                style={({ pressed }) => [swapStyles.suggestionRow, pressed && { opacity: 0.7 }]}
+                onPress={() => { haptic(); onSelectRecipe(recipe); }}
+              >
+                <View style={swapStyles.suggestionInfo}>
+                  <Text style={swapStyles.suggestionName} numberOfLines={1}>{recipe.name}</Text>
+                  <Text style={swapStyles.suggestionMeta}>{recipe.countryName} · {recipe.time}</Text>
+                </View>
+                <Ionicons name="add-circle-outline" size={24} color={Colors.light.primary} />
+              </Pressable>
+            ))}
+          </View>
+
+          {/* Pick from saved */}
+          <Pressable
+            style={({ pressed }) => [swapStyles.optionBtn, pressed && { opacity: 0.7 }]}
+            onPress={() => { haptic(); setShowSaved(!showSaved); setShowSearch(false); }}
+          >
+            <Ionicons name="bookmark-outline" size={20} color={Colors.light.onSurface} />
+            <Text style={swapStyles.optionBtnText}>Pick from saved recipes</Text>
+            <Ionicons name={showSaved ? "chevron-up" : "chevron-down"} size={18} color={Colors.light.secondary} />
+          </Pressable>
+          {showSaved && (
+            <View style={swapStyles.suggestionsCard}>
+              {savedRecipes.length === 0 ? (
+                <Text style={swapStyles.emptyText}>No saved recipes yet</Text>
+              ) : (
+                savedRecipes.slice(0, 5).map((recipe) => (
+                  <Pressable
+                    key={recipe.id}
+                    style={({ pressed }) => [swapStyles.suggestionRow, pressed && { opacity: 0.7 }]}
+                    onPress={() => { haptic(); onSelectRecipe(recipe); }}
+                  >
+                    <View style={swapStyles.suggestionInfo}>
+                      <Text style={swapStyles.suggestionName} numberOfLines={1}>{recipe.name}</Text>
+                      <Text style={swapStyles.suggestionMeta}>{recipe.countryName} · {recipe.time}</Text>
+                    </View>
+                    <Ionicons name="add-circle-outline" size={24} color={Colors.light.primary} />
+                  </Pressable>
+                ))
+              )}
+            </View>
+          )}
+
+          {/* Search */}
+          <Pressable
+            style={({ pressed }) => [swapStyles.optionBtn, pressed && { opacity: 0.7 }]}
+            onPress={() => { haptic(); setShowSearch(!showSearch); setShowSaved(false); }}
+          >
+            <Ionicons name="search-outline" size={20} color={Colors.light.onSurface} />
+            <Text style={swapStyles.optionBtnText}>Search for a recipe</Text>
+            <Ionicons name={showSearch ? "chevron-up" : "chevron-down"} size={18} color={Colors.light.secondary} />
+          </Pressable>
+          {showSearch && (
+            <View style={swapStyles.searchArea}>
+              <TextInput
+                style={swapStyles.searchInput}
+                placeholder="Search recipes…"
+                placeholderTextColor={Colors.light.secondary}
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                autoFocus
+              />
+              {searchResults.map((recipe) => (
+                <Pressable
+                  key={recipe.id}
+                  style={({ pressed }) => [swapStyles.suggestionRow, pressed && { opacity: 0.7 }]}
+                  onPress={() => { haptic(); onSelectRecipe(recipe); }}
+                >
+                  <View style={swapStyles.suggestionInfo}>
+                    <Text style={swapStyles.suggestionName} numberOfLines={1}>{recipe.name}</Text>
+                    <Text style={swapStyles.suggestionMeta}>{recipe.countryName} · {recipe.time}</Text>
+                  </View>
+                  <Ionicons name="add-circle-outline" size={24} color={Colors.light.primary} />
+                </Pressable>
+              ))}
+            </View>
+          )}
+
+          {/* Surprise me */}
+          <Pressable
+            style={({ pressed }) => [swapStyles.optionBtn, pressed && { opacity: 0.7 }]}
+            onPress={() => { haptic(); onSurprise(); }}
+          >
+            <Ionicons name="shuffle-outline" size={20} color={Colors.light.onSurface} />
+            <Text style={swapStyles.optionBtnText}>Surprise me</Text>
+          </Pressable>
+        </ScrollView>
+      </Pressable>
+    </Pressable>
+  );
+}
+
+const swapStyles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "flex-end",
+  },
+  sheet: {
+    backgroundColor: Colors.light.surface,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: "80%",
+    paddingHorizontal: 24,
+    paddingBottom: 40,
+  },
+  handle: {
+    width: 40,
+    height: 4,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderRadius: 2,
+    alignSelf: "center",
+    marginTop: 12,
+    marginBottom: 16,
+  },
+  title: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 22,
+    color: Colors.light.onSurface,
+    lineHeight: 28,
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: "#8A8279",
+    lineHeight: 22,
+    marginBottom: 24,
+  },
+  sectionLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.primary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    marginBottom: 12,
+    lineHeight: 18,
+  },
+  suggestionsCard: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+    overflow: "hidden",
+    marginBottom: 16,
+  },
+  suggestionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    gap: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#E8DFD2",
+    minHeight: 56,
+  },
+  suggestionInfo: {
+    flex: 1,
+    gap: 2,
+  },
+  suggestionName: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    lineHeight: 22,
+  },
+  suggestionMeta: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.secondary,
+    lineHeight: 20,
+  },
+  optionBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    marginBottom: 12,
+    minHeight: 56,
+  },
+  optionBtnText: {
+    flex: 1,
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    lineHeight: 22,
+  },
+  emptyText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.secondary,
+    textAlign: "center",
+    padding: 20,
+    lineHeight: 20,
+  },
+  searchArea: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+    overflow: "hidden",
+    marginBottom: 16,
+  },
+  searchInput: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#E8DFD2",
+  },
+});
 
 // ─── WeekRow ──────────────────────────────────────────────────────────────────
 
@@ -648,8 +974,8 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
         <Text style={styles.weekRowDate}>{formatDayDate(day.date)}</Text>
       </View>
 
-      {/* Right: recipe info + actions */}
-      <View style={styles.weekRowRight}>
+      {/* Center: recipe info */}
+      <View style={styles.weekRowCenter}>
         <Text style={styles.weekRowRecipe} numberOfLines={1}>
           {isSkipped ? "Skipped" : recipeTitle}
         </Text>
@@ -658,22 +984,24 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
             {country.name} · {mainRecipe.time}
           </Text>
         )}
-
-        {isSkipped ? (
+        {isSkipped && (
           <Pressable onPress={onRestore} hitSlop={8}>
             <Text style={styles.restoreText}>Restore</Text>
           </Pressable>
-        ) : (
-          <View style={styles.weekRowActions}>
-            <Pressable onPress={onReload} hitSlop={10} style={styles.rowActionBtn}>
-              <Ionicons name="refresh" size={17} color={Colors.light.secondary} />
-            </Pressable>
-            <Pressable onPress={onSkip} hitSlop={10} style={styles.rowActionBtn}>
-              <Ionicons name="close" size={17} color={Colors.light.secondary} />
-            </Pressable>
-          </View>
         )}
       </View>
+
+      {/* Right: actions */}
+      {!isSkipped && (
+        <View style={styles.weekRowActions}>
+          <Pressable onPress={onReload} hitSlop={10} style={styles.rowActionBtn}>
+            <Ionicons name="refresh" size={20} color={TEXT_SECONDARY} />
+          </Pressable>
+          <Pressable onPress={onSkip} hitSlop={10} style={styles.rowActionBtn}>
+            <Ionicons name="close" size={20} color={TEXT_SECONDARY} />
+          </Pressable>
+        </View>
+      )}
     </Pressable>
   );
 }
@@ -682,7 +1010,7 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
 
 function GroceryRow({ item, isLast, onToggle }: { item: GroceryItem; isLast: boolean; onToggle: () => void }) {
   const sources = item.recipeNames ?? [item.recipeName];
-  const sourceLabel = "for " + sources.join(", ");
+  const sourceLabel = sources.join(", ");
   return (
     <Pressable
       onPress={onToggle}
@@ -697,14 +1025,16 @@ function GroceryRow({ item, isLast, onToggle }: { item: GroceryItem; isLast: boo
         {item.checked && <Ionicons name="checkmark" size={13} color="#FEF9F3" />}
       </View>
 
-      {/* Text content */}
-      <View style={{ flex: 1, gap: 3 }}>
+      {/* Ingredient name + amount */}
+      <View style={{ flex: 1 }}>
         <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]} numberOfLines={1}>
           {item.name}
           {item.amount ? <Text style={styles.groceryAmount}> ({item.amount})</Text> : null}
         </Text>
-        <Text style={styles.grocerySource} numberOfLines={1}>{sourceLabel}</Text>
       </View>
+
+      {/* Source recipe — right-aligned */}
+      <Text style={styles.grocerySource} numberOfLines={1}>{sourceLabel}</Text>
     </Pressable>
   );
 }
@@ -873,7 +1203,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   sectionLabel: {
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
     color: TERRACOTTA,
@@ -912,41 +1242,22 @@ const styles = StyleSheet.create({
   },
   tonightSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 22,
     color: TEXT_SECONDARY,
     marginTop: -4,
   },
-  modeRow: {
-    flexDirection: "row",
-    gap: 10,
-  },
-  modePill: {
-    flex: 1,
-    height: 48,
-    borderRadius: 24,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: CREAM,
-    borderWidth: 1,
-    borderColor: TERRACOTTA,
-  },
-  modePillActive: {
-    backgroundColor: TERRACOTTA,
-  },
-  modePillText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    lineHeight: 18,
-    color: TERRACOTTA,
-  },
-  modePillTextActive: {
-    color: CREAM,
+  tonightServing: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    lineHeight: 20,
+    color: TEXT_SECONDARY,
+    marginTop: -4,
   },
   startCookingBtn: {
-    height: 48,
+    height: 52,
     backgroundColor: TERRACOTTA,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -968,73 +1279,82 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingLeft: 16,
+    paddingRight: 12,
     minHeight: 72,
     backgroundColor: CREAM,
   },
   weekRowBorder: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
     borderBottomColor: BORDER,
   },
   weekRowLeft: {
-    width: 56,
+    width: 64,
     alignItems: "flex-start",
     paddingRight: 12,
-    borderRightWidth: StyleSheet.hairlineWidth,
-    borderRightColor: BORDER,
-    marginRight: 14,
   },
   weekRowDay: {
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Inter_500Medium",
     fontSize: 13,
     lineHeight: 18,
     color: TEXT_PRIMARY,
-    letterSpacing: 0.5,
   },
   weekRowDate: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 11,
+    lineHeight: 16,
     color: TEXT_SECONDARY,
     marginTop: 2,
   },
-  weekRowRight: {
+  weekRowCenter: {
     flex: 1,
-    gap: 8,
+    gap: 2,
   },
   weekRowRecipe: {
-    fontFamily: "NotoSerif_600SemiBold",
+    fontFamily: "NotoSerif_700Bold",
     fontSize: 16,
     color: TEXT_PRIMARY,
     letterSpacing: -0.2,
   },
   weekRowSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 12,
+    lineHeight: 18,
     color: TEXT_SECONDARY,
   },
   weekRowActions: {
     flexDirection: "row",
-    gap: 8,
-    marginTop: 4,
+    gap: 4,
+    marginLeft: 8,
   },
   rowActionBtn: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: BORDER,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: CREAM,
   },
   restoreText: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
     color: TERRACOTTA,
-    marginTop: 4,
+    marginTop: 2,
+  },
+
+  // Get All Ingredients
+  getAllIngredientsBtn: {
+    height: 52,
+    backgroundColor: TERRACOTTA,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 16,
+  },
+  getAllIngredientsText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: CREAM,
   },
 
   // Generate new week
@@ -1157,11 +1477,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    height: 48,
+    height: 44,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: TERRACOTTA,
-    marginBottom: 20,
+    backgroundColor: CREAM,
+    marginBottom: 16,
   },
   scanBtnText: {
     fontFamily: "Inter_500Medium",
@@ -1172,20 +1493,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   categoryHeader: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
-    lineHeight: 20,
+    fontFamily: "Inter_500Medium",
+    fontSize: 11,
+    lineHeight: 16,
     color: TEXT_SECONDARY,
     letterSpacing: 2,
+    textTransform: "uppercase",
     marginBottom: 8,
-    paddingTop: 4,
+    paddingTop: 16,
   },
   groceryRow: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 14,
+    paddingVertical: 12,
     gap: 12,
-    minHeight: 52,
+    minHeight: 48,
   },
   groceryRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -1206,9 +1528,7 @@ const styles = StyleSheet.create({
     borderColor: TERRACOTTA,
   },
   groceryName: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 16,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Inter_400Regular",
     fontSize: 15,
     color: TEXT_PRIMARY,
   },
@@ -1222,12 +1542,11 @@ const styles = StyleSheet.create({
   },
   grocerySource: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 11,
+    lineHeight: 16,
     color: TEXT_TERTIARY,
-    fontSize: 12,
-    color: TERRACOTTA,
-    opacity: 0.8,
+    maxWidth: 80,
+    textAlign: "right",
   },
   qtyBadge: {
     backgroundColor: "#F0E8DE",
@@ -1254,20 +1573,20 @@ const styles = StyleSheet.create({
 
   // Grocery summary footer
   grocerySummary: {
-    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingHorizontal: 20,
     paddingTop: 12,
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: 1,
     borderTopColor: BORDER,
     backgroundColor: CREAM,
   },
   grocerySummaryText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 12,
+    lineHeight: 18,
     color: TEXT_SECONDARY,
+    textAlign: "center",
   },
   // Checkout FAB
   fabWrap: {

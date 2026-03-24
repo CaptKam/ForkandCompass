@@ -6,6 +6,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useCallback } from "react";
 import {
+  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -18,6 +19,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { getRecipeById, getAllRecipes } from "@/constants/data";
 import { useApp } from "@/contexts/AppContext";
+import ScheduleSheet from "@/components/ScheduleSheet";
 
 const BASE_SERVINGS = 4;
 
@@ -55,6 +57,7 @@ export default function RecipeDetailScreen() {
   const { isSaved, toggleSaved, addToGrocery } = useApp();
   const [servings, setServings] = useState(4);
   const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
+  const [showSchedule, setShowSchedule] = useState(false);
 
   const toggleIngredient = useCallback((ingredientId: string) => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -199,6 +202,30 @@ export default function RecipeDetailScreen() {
             })}
           </View>
 
+          {/* Schedule + Cook Now row */}
+          <View style={styles.scheduleRow}>
+            <Pressable
+              onPress={() => {
+                if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                setShowSchedule(true);
+              }}
+              style={({ pressed }) => [styles.scheduleBtn, pressed && { opacity: 0.85 }]}
+            >
+              <Ionicons name="calendar-outline" size={18} color={Colors.light.primary} />
+              <Text style={styles.scheduleBtnText}>Schedule This</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                router.push({ pathname: "/cook-mode", params: { recipeId: recipe.id } });
+              }}
+              style={({ pressed }) => [styles.cookNowBtn, pressed && { opacity: 0.85 }]}
+            >
+              <Ionicons name="restaurant" size={18} color="#FFFFFF" />
+              <Text style={styles.cookNowBtnText}>Cook Now</Text>
+            </Pressable>
+          </View>
+
           {/* Add to Grocery CTA */}
           <Pressable
             onPress={() => {
@@ -306,6 +333,11 @@ export default function RecipeDetailScreen() {
           )}
         </View>
       </ScrollView>
+
+      {/* Schedule Sheet */}
+      <Modal visible={showSchedule && !!recipe} transparent animationType="slide" onRequestClose={() => setShowSchedule(false)}>
+        {recipe && <ScheduleSheet recipe={recipe} onClose={() => setShowSchedule(false)} />}
+      </Modal>
     </View>
   );
 }
@@ -476,6 +508,44 @@ const styles = StyleSheet.create({
   },
   ingredientAmount: {
     color: Colors.light.secondary,
+  },
+  // Schedule + Cook Now row
+  scheduleRow: {
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 12,
+  },
+  scheduleBtn: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    height: 52,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.light.primary,
+    backgroundColor: "transparent",
+  },
+  scheduleBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: Colors.light.primary,
+  },
+  cookNowBtn: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    height: 52,
+    borderRadius: 12,
+    backgroundColor: Colors.light.primary,
+  },
+  cookNowBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: "#FFFFFF",
   },
   // Grocery CTA
   groceryCta: {

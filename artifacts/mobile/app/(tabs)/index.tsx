@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import RecipeContextMenu from "@/components/RecipeContextMenu";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -390,19 +391,20 @@ export default function DiscoverScreen() {
           <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>Tonight's Tasting Menu</Text>
           <View style={styles.tastingList}>
             {activeCountry.recipes.slice(0, 3).map((recipe, idx) => (
-              <Pressable
-                key={recipe.id}
-                onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
-                style={({ pressed }) => [styles.tastingCard, pressed && { opacity: 0.85 }]}
-              >
-                <Image source={{ uri: recipe.image }} style={styles.tastingThumb} contentFit="cover" />
-                <View style={styles.tastingInfo}>
-                  <Text style={styles.tastingCourse}>{TASTING_COURSES[idx] || recipe.category}</Text>
-                  <Text style={styles.tastingName} numberOfLines={2}>{recipe.name}</Text>
-                  <Text style={styles.tastingDesc} numberOfLines={1}>{recipe.description}</Text>
-                </View>
-                <Ionicons name="chevron-forward" size={16} color={Colors.light.outline} />
-              </Pressable>
+              <RecipeContextMenu key={recipe.id} recipe={recipe}>
+                <Pressable
+                  onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
+                  style={({ pressed }) => [styles.tastingCard, pressed && { opacity: 0.85 }]}
+                >
+                  <Image source={{ uri: recipe.image }} style={styles.tastingThumb} contentFit="cover" />
+                  <View style={styles.tastingInfo}>
+                    <Text style={styles.tastingCourse}>{TASTING_COURSES[idx] || recipe.category}</Text>
+                    <Text style={styles.tastingName} numberOfLines={2}>{recipe.name}</Text>
+                    <Text style={styles.tastingDesc} numberOfLines={1}>{recipe.description}</Text>
+                  </View>
+                  <Ionicons name="chevron-forward" size={16} color={Colors.light.outline} />
+                </Pressable>
+              </RecipeContextMenu>
             ))}
           </View>
         </View>
@@ -718,12 +720,13 @@ const styles = StyleSheet.create({
   destItem: {
     alignItems: "center",
     gap: 8,
+    position: "relative",
   },
   destRing: {
-    width: 94,
-    height: 94,
-    borderRadius: 47,
-    borderWidth: 2.5,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3,
     borderColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
@@ -732,27 +735,35 @@ const styles = StyleSheet.create({
     borderColor: Colors.light.primary,
   },
   destCircle: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
+    width: 72,
+    height: 72,
+    borderRadius: 36,
     overflow: "hidden",
   },
   destCircleImg: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
+    width: 72,
+    height: 72,
+    borderRadius: 36,
   },
   destFlagBadge: {
     position: "absolute",
-    bottom: -2,
-    right: -2,
+    bottom: 0,
+    right: 0,
     backgroundColor: "#FFFFFF",
-    borderRadius: 10,
-    padding: 1,
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
     zIndex: 5,
   },
   destFlagEmoji: {
-    fontSize: 14,
+    fontSize: 13,
   },
   destLabel: {
     fontFamily: "Inter_600SemiBold",
@@ -760,7 +771,7 @@ const styles = StyleSheet.create({
     color: Colors.light.onSurface,
     letterSpacing: 0.5,
     textTransform: "uppercase",
-    maxWidth: 64,
+    maxWidth: 80,
     textAlign: "center",
   },
   destLabelActive: {
