@@ -53,9 +53,9 @@ export default function FeaturesPage() {
       <div className="pt-32 pb-24">
         <div className="max-w-[1536px] mx-auto px-8">
           <div className="text-center mb-24 space-y-6 max-w-3xl mx-auto">
-            <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">The App</span>
+            <span className="text-[#8A3800] font-bold uppercase tracking-[0.4em] text-sm block">The App</span>
             <h1 className="font-serif text-6xl md:text-7xl leading-tight text-[#1C1A17]">Everything you need to cook the world.</h1>
-            <div className="w-20 h-1 bg-[#9A4100] mx-auto rounded-full" />
+            <div className="w-20 h-1 bg-[#8A3800] mx-auto rounded-full" />
             <p className="text-[#725a3c] text-xl leading-relaxed">
               Fork &amp; Compass is built for the curious home cook — someone who wants more than a recipe. Someone who wants the story, the technique, and the confidence to bring it all together.
             </p>
@@ -64,15 +64,15 @@ export default function FeaturesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
             {features.map((feat) => (
               <div key={feat.title} className="space-y-5 group">
-                <div className="bg-[#9A4100]/5 text-[#9A4100] w-16 h-16 flex items-center justify-center rounded-full transition-colors group-hover:bg-[#9A4100] group-hover:text-white">
+                <div className="bg-[#8A3800]/5 text-[#8A3800] w-16 h-16 flex items-center justify-center rounded-full transition-colors group-hover:bg-[#8A3800] group-hover:text-white">
                   <span className="material-symbols-outlined text-3xl">{feat.icon}</span>
                 </div>
                 <div>
                   <h3 className="font-serif text-2xl text-[#1C1A17] font-bold">{feat.title}</h3>
-                  <p className="text-[#9A4100] text-xs font-bold uppercase tracking-[0.2em] mt-1">{feat.subtitle}</p>
+                  <p className="text-[#8A3800] text-[13px] font-bold uppercase tracking-[0.2em] mt-1">{feat.subtitle}</p>
                 </div>
                 <p className="text-[#725a3c] text-base leading-relaxed">{feat.desc}</p>
-                <p className="text-[#1C1A17]/50 text-sm italic leading-relaxed border-l-2 border-[#9A4100]/20 pl-4">{feat.detail}</p>
+                <p className="text-[#1C1A17]/50 text-sm italic leading-relaxed border-l-2 border-[#8A3800]/20 pl-4">{feat.detail}</p>
               </div>
             ))}
           </div>
@@ -86,7 +86,7 @@ export default function FeaturesPage() {
             </p>
             <button
               type="button"
-              className="inline-block bg-[#9A4100] text-white px-12 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:brightness-110 transition-all"
+              className="inline-block bg-[#8A3800] text-white px-12 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:brightness-110 transition-all"
               onClick={() => {
                 navigate("/");
                 requestAnimationFrame(() => {

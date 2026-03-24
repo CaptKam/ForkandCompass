@@ -6,9 +6,9 @@ export default function TermsPage() {
       <div className="pt-32 pb-24">
         <div className="max-w-3xl mx-auto px-8">
           <div className="space-y-4 mb-16">
-            <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">Legal</span>
+            <span className="text-[#8A3800] font-bold uppercase tracking-[0.4em] text-sm block">Legal</span>
             <h1 className="font-serif text-5xl md:text-6xl text-[#1C1A17]">Terms of Service</h1>
-            <div className="w-20 h-1 bg-[#9A4100] rounded-full" />
+            <div className="w-20 h-1 bg-[#8A3800] rounded-full" />
             <p className="text-[#725a3c] text-sm">Last updated: March 2025</p>
           </div>
 
@@ -80,7 +80,7 @@ export default function TermsPage() {
             <section className="space-y-4">
               <h2 className="font-serif text-2xl text-[#1C1A17]">11. Contact Us</h2>
               <p className="leading-relaxed">If you have any questions about these Terms, please contact us:</p>
-              <a href="mailto:hello@forkandcompass.com" className="inline-block text-[#9A4100] font-bold text-lg border-b-2 border-[#9A4100]/20 hover:border-[#9A4100] transition-all pb-1">
+              <a href="mailto:hello@forkandcompass.com" className="inline-block text-[#8A3800] font-bold text-lg border-b-2 border-[#8A3800]/20 hover:border-[#8A3800] transition-all pb-1">
                 hello@forkandcompass.com
               </a>
             </section>

@@ -89,9 +89,9 @@ export default function DestinationsPage() {
       <div className="pt-32 pb-24">
         <div className="max-w-[1536px] mx-auto px-8">
           <div className="text-center mb-20 space-y-6 max-w-3xl mx-auto">
-            <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">8 Countries</span>
+            <span className="text-[#8A3800] font-bold uppercase tracking-[0.4em] text-sm block">8 Countries</span>
             <h1 className="font-serif text-6xl md:text-7xl leading-tight text-[#1C1A17]">Current Destinations</h1>
-            <div className="w-20 h-1 bg-[#9A4100] mx-auto rounded-full" />
+            <div className="w-20 h-1 bg-[#8A3800] mx-auto rounded-full" />
             <p className="text-[#725a3c] text-xl leading-relaxed">
               Each destination is a deep dive into a culinary culture — its regions, its rituals, and its most essential recipes.
             </p>
@@ -101,7 +101,7 @@ export default function DestinationsPage() {
             {destinations.map((dest, i) => (
               <div
                 key={dest.name}
-                className="group grid grid-cols-1 md:grid-cols-12 gap-0 rounded-3xl overflow-hidden border border-[#E6E2DC] hover:border-[#9A4100]/30 transition-all"
+                className="group grid grid-cols-1 md:grid-cols-12 gap-0 rounded-3xl overflow-hidden border border-[#E6E2DC] hover:border-[#8A3800]/30 transition-all"
               >
                 <div className="md:col-span-4 h-64 md:h-auto overflow-hidden">
                   <img
@@ -114,7 +114,7 @@ export default function DestinationsPage() {
                   <div className="flex items-center gap-4">
                     <span className="text-4xl">{dest.flag}</span>
                     <div>
-                      <p className="text-[#9A4100] text-xs font-bold uppercase tracking-[0.3em]">{dest.tagline}</p>
+                      <p className="text-[#8A3800] text-[13px] font-bold uppercase tracking-[0.3em]">{dest.tagline}</p>
                       <h2 className="font-serif text-4xl text-[#1C1A17] font-bold">{dest.name}</h2>
                     </div>
                     <span className="ml-auto text-[#725a3c]/40 font-serif text-6xl font-bold leading-none select-none">
@@ -124,15 +124,15 @@ export default function DestinationsPage() {
                   <p className="text-[#725a3c] text-base leading-relaxed max-w-2xl">{dest.desc}</p>
                   <div className="flex flex-wrap gap-x-8 gap-y-3 pt-2">
                     <div>
-                      <p className="text-[#9A4100] text-[10px] font-bold uppercase tracking-[0.3em] mb-1">Regions</p>
+                      <p className="text-[#8A3800] text-[13px] font-bold uppercase tracking-[0.3em] mb-1">Regions</p>
                       <div className="flex gap-2 flex-wrap">
                         {dest.regions.map((r) => (
-                          <span key={r} className="text-xs bg-[#FEF9F3] border border-[#E6E2DC] rounded-full px-3 py-1 text-[#725a3c]">{r}</span>
+                          <span key={r} className="text-[13px] bg-[#FEF9F3] border border-[#E6E2DC] rounded-full px-3 py-1 text-[#725a3c]">{r}</span>
                         ))}
                       </div>
                     </div>
                     <div>
-                      <p className="text-[#9A4100] text-[10px] font-bold uppercase tracking-[0.3em] mb-1">Recipes</p>
+                      <p className="text-[#8A3800] text-[13px] font-bold uppercase tracking-[0.3em] mb-1">Recipes</p>
                       <span className="text-sm font-bold text-[#1C1A17]">{dest.recipeCount} curated dishes</span>
                     </div>
                   </div>

@@ -88,7 +88,7 @@ export default function LandingPage() {
           <div className="text-left space-y-8">
             <h1 className="font-serif text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.95] text-shadow-elegant text-white mt-[16px]">
               Explore the world.<br />
-              <span className="italic font-normal text-[#9A4100]">Cook it at home.</span>
+              <span className="italic font-normal text-[#8A3800]">Cook it at home.</span>
             </h1>
             <p className="text-white/90 text-xl md:text-2xl max-w-xl leading-relaxed italic text-shadow-elegant">
               A premium cooking app for the curious home cook.
@@ -96,7 +96,7 @@ export default function LandingPage() {
             <div id="hero-signup" className="pt-4">
               {heroSubmitted ? (
                 <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-4 max-w-md">
-                  <span className="material-symbols-outlined text-[#9A4100]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  <span className="material-symbols-outlined text-[#8A3800]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                   <p className="font-serif italic text-white">You're on the list — we'll be in touch soon.</p>
                 </div>
               ) : (
@@ -109,7 +109,7 @@ export default function LandingPage() {
                     placeholder="Your email for early access"
                     className="bg-transparent border-none focus:ring-0 focus:outline-none text-white placeholder-white/50 px-4 sm:px-6 py-3 flex-grow min-w-0 text-base sm:text-lg"
                   />
-                  <button type="submit" disabled={heroLoading} className="bg-[#9A4100] text-white px-6 sm:px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all disabled:opacity-60 flex-shrink-0">
+                  <button type="submit" disabled={heroLoading} className="bg-[#8A3800] text-white px-6 sm:px-8 py-4 rounded-full font-bold uppercase tracking-widest text-[13px] hover:brightness-110 transition-all disabled:opacity-60 flex-shrink-0">
                     {heroLoading ? "..." : "Join"}
                   </button>
                 </form>
@@ -136,9 +136,9 @@ export default function LandingPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 p-5 text-white">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#9A4100] font-bold mb-1">Featured Destination</p>
+                    <p className="text-[13px] uppercase tracking-[0.3em] text-[#8A3800] font-bold mb-1">Featured Destination</p>
                     <h3 className="font-serif text-3xl font-bold leading-tight">Italy</h3>
-                    <p className="text-xs text-white/80 mt-1 max-w-[200px]">Sun-drenched kitchens, handmade pasta, and the art of la dolce vita.</p>
+                    <p className="text-[13px] text-white/80 mt-1 max-w-[200px]">Sun-drenched kitchens, handmade pasta, and the art of la dolce vita.</p>
                   </div>
                   <div className="absolute top-4 right-4 flex gap-2">
                     <span className="text-2xl">🇮🇹</span>
@@ -146,7 +146,7 @@ export default function LandingPage() {
                 </div>
 
                 <div className="px-4 pt-5 pb-3">
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#725a3c] font-bold">Explore Destinations</p>
+                  <p className="text-[13px] uppercase tracking-[0.3em] text-[#725a3c] font-bold">Explore Destinations</p>
                   <div className="flex gap-3 mt-3 overflow-hidden justify-center">
                     {[
                       { flag: "🇫🇷", code: "FR", name: "France", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=200&q=80&fit=crop", active: false },
@@ -155,12 +155,12 @@ export default function LandingPage() {
                     ].map((c) => (
                       <div key={c.name} className="flex flex-col items-center gap-1">
                         <div className="relative">
-                          <div className={`w-[72px] h-[72px] rounded-full overflow-hidden ${c.active ? "border-[3px] border-[#9A4100]" : "border-2 border-[#E6E2DC]"}`}>
+                          <div className={`w-[72px] h-[72px] rounded-full overflow-hidden ${c.active ? "border-[3px] border-[#8A3800]" : "border-2 border-[#E6E2DC]"}`}>
                             <img alt={c.name} className="w-full h-full object-cover" src={c.img} />
                           </div>
-                          <span className="absolute -bottom-0.5 -right-0.5 text-[11px] bg-white rounded-full w-5 h-5 flex items-center justify-center shadow-sm border border-[#E6E2DC]">{c.flag}</span>
+                          <span className="absolute -bottom-0.5 -right-0.5 text-[13px] bg-white rounded-full w-5 h-5 flex items-center justify-center shadow-sm border border-[#E6E2DC]">{c.flag}</span>
                         </div>
-                        <span className={`text-[9px] font-bold uppercase tracking-wider ${c.active ? "text-[#9A4100]" : "text-[#725a3c]"}`}>{c.name}</span>
+                        <span className={`text-[13px] font-bold uppercase tracking-wider ${c.active ? "text-[#8A3800]" : "text-[#725a3c]"}`}>{c.name}</span>
                       </div>
                     ))}
                   </div>
@@ -175,7 +175,7 @@ export default function LandingPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                     <div className="absolute bottom-3 left-3">
                       <p className="text-white text-sm font-bold">Tuscany</p>
-                      <p className="text-white/70 text-[9px]">The Eternal Countryside</p>
+                      <p className="text-white/70 text-[13px]">The Eternal Countryside</p>
                     </div>
                   </div>
                   <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden relative h-[160px]">
@@ -183,7 +183,7 @@ export default function LandingPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                     <div className="absolute bottom-3 left-3">
                       <p className="text-white text-sm font-bold">Rome</p>
-                      <p className="text-white/70 text-[9px]">The Eternal City</p>
+                      <p className="text-white/70 text-[13px]">The Eternal City</p>
                     </div>
                   </div>
                 </div>
@@ -195,15 +195,15 @@ export default function LandingPage() {
                   <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-sm border border-[#E6E2DC]">
                     <img alt="Pasta Carbonara" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400&q=80&fit=crop" />
                     <div className="p-2.5">
-                      <p className="text-[9px] text-[#9A4100] font-bold uppercase tracking-wider">Main Course</p>
-                      <p className="text-xs font-bold text-[#1C1A17] mt-0.5">Pasta Carbonara</p>
+                      <p className="text-[13px] text-[#8A3800] font-bold uppercase tracking-wider">Main Course</p>
+                      <p className="text-[13px] font-bold text-[#1C1A17] mt-0.5">Pasta Carbonara</p>
                     </div>
                   </div>
                   <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-sm border border-[#E6E2DC]">
                     <img alt="Tiramisu" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&q=80&fit=crop" />
                     <div className="p-2.5">
-                      <p className="text-[9px] text-[#9A4100] font-bold uppercase tracking-wider">Dessert</p>
-                      <p className="text-xs font-bold text-[#1C1A17] mt-0.5">Classic Tiramisu</p>
+                      <p className="text-[13px] text-[#8A3800] font-bold uppercase tracking-wider">Dessert</p>
+                      <p className="text-[13px] font-bold text-[#1C1A17] mt-0.5">Classic Tiramisu</p>
                     </div>
                   </div>
                 </div>
@@ -215,15 +215,15 @@ export default function LandingPage() {
                   <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-sm border border-[#E6E2DC]">
                     <img alt="Basil" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=400&q=80&fit=crop" />
                     <div className="p-2.5">
-                      <p className="text-xs font-bold text-[#1C1A17]">Fresh Basil</p>
-                      <p className="text-[9px] text-[#725a3c] mt-0.5">Essential Italian herb</p>
+                      <p className="text-[13px] font-bold text-[#1C1A17]">Fresh Basil</p>
+                      <p className="text-[13px] text-[#725a3c] mt-0.5">Essential Italian herb</p>
                     </div>
                   </div>
                   <div className="w-[140px] flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-sm border border-[#E6E2DC]">
                     <img alt="Olive Oil" className="w-full h-[100px] object-cover" src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&q=80&fit=crop" />
                     <div className="p-2.5">
-                      <p className="text-xs font-bold text-[#1C1A17]">Olive Oil</p>
-                      <p className="text-[9px] text-[#725a3c] mt-0.5">Extra virgin, cold-pressed</p>
+                      <p className="text-[13px] font-bold text-[#1C1A17]">Olive Oil</p>
+                      <p className="text-[13px] text-[#725a3c] mt-0.5">Extra virgin, cold-pressed</p>
                     </div>
                   </div>
                 </div>
@@ -237,8 +237,8 @@ export default function LandingPage() {
                     { icon: "more_horiz", label: "More", active: false },
                   ].map((tab) => (
                     <div key={tab.label} className="flex flex-col items-center gap-0.5">
-                      <span className={`material-symbols-outlined text-[18px] ${tab.active ? "text-[#9A4100]" : "text-[#725a3c]/40"}`} style={tab.active ? { fontVariationSettings: "'FILL' 1" } : {}}>{tab.icon}</span>
-                      <span className={`text-[8px] font-bold ${tab.active ? "text-[#9A4100]" : "text-[#725a3c]/40"}`}>{tab.label}</span>
+                      <span className={`material-symbols-outlined text-[18px] ${tab.active ? "text-[#8A3800]" : "text-[#725a3c]/40"}`} style={tab.active ? { fontVariationSettings: "'FILL' 1" } : {}}>{tab.icon}</span>
+                      <span className={`text-[13px] font-bold ${tab.active ? "text-[#8A3800]" : "text-[#725a3c]/40"}`}>{tab.label}</span>
                     </div>
                   ))}
                 </div>
@@ -252,9 +252,9 @@ export default function LandingPage() {
       <section id="features-section" className="py-32 bg-[#FEF9F3]">
         <div className="max-w-[1536px] mx-auto px-8">
           <div className="text-center mb-24 space-y-6">
-            <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">The Digital Experience</span>
+            <span className="text-[#8A3800] font-bold uppercase tracking-[0.4em] text-sm block">The Digital Experience</span>
             <h2 className="font-serif text-5xl md:text-7xl leading-tight">Your Passport to Global Flavor.</h2>
-            <div className="w-20 h-1 bg-[#9A4100] mx-auto rounded-full" />
+            <div className="w-20 h-1 bg-[#8A3800] mx-auto rounded-full" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {[
@@ -263,7 +263,7 @@ export default function LandingPage() {
               { icon: "shopping_basket", title: "Grocery lists", desc: "Smart ingredient lists that find the authentic spices and essentials you need near you." },
             ].map((feat) => (
               <div key={feat.title} className="space-y-6 group">
-                <div className="bg-[#9A4100]/5 text-[#9A4100] w-16 h-16 flex items-center justify-center rounded-full transition-colors group-hover:bg-[#9A4100] group-hover:text-white">
+                <div className="bg-[#8A3800]/5 text-[#8A3800] w-16 h-16 flex items-center justify-center rounded-full transition-colors group-hover:bg-[#8A3800] group-hover:text-white">
                   <span className="material-symbols-outlined text-3xl">{feat.icon}</span>
                 </div>
                 <h4 className="font-serif text-3xl">{feat.title}</h4>
@@ -277,10 +277,10 @@ export default function LandingPage() {
       <section id="destinations-section" className="py-32 bg-[#1C1A17] text-[#FEF9F3]">
         <div className="max-w-[1536px] mx-auto px-8 flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="space-y-4">
-            <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">Global Portfolios</span>
+            <span className="text-[#8A3800] font-bold uppercase tracking-[0.4em] text-sm block">Global Portfolios</span>
             <h2 className="font-serif text-5xl md:text-7xl">Current Destinations</h2>
           </div>
-          <a href="/destinations" className="text-[#9A4100] font-bold flex items-center gap-2 group text-xl border-b border-[#9A4100]/30 pb-2">
+          <a href="/destinations" className="text-[#8A3800] font-bold flex items-center gap-2 group text-xl border-b border-[#8A3800]/30 pb-2">
             View All <span className="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
           </a>
         </div>
@@ -294,7 +294,7 @@ export default function LandingPage() {
             { name: "France", img: "https://images.unsplash.com/photo-1608855238293-a8853e7f7c98?w=600&q=85&fit=crop" },
           ].map((country) => (
             <a key={country.name} href="/destinations" className="text-center group cursor-pointer">
-              <div className="aspect-square rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[#9A4100] transition-all mb-6">
+              <div className="aspect-square rounded-full overflow-hidden border-2 border-white/10 group-hover:border-[#8A3800] transition-all mb-6">
                 <img
                   alt={country.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
@@ -310,7 +310,7 @@ export default function LandingPage() {
       <section id="quote-section" className="py-40 bg-[#FEF9F3] border-y border-[#8a7266]/10 overflow-hidden relative">
         <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
           <span
-            className="material-symbols-outlined text-[#9A4100]/20 block"
+            className="material-symbols-outlined text-[#8A3800]/20 block"
             style={{ fontSize: "144px", fontVariationSettings: "'FILL' 1" }}
           >
             format_quote
@@ -327,7 +327,7 @@ export default function LandingPage() {
               />
             </div>
             <p className="font-bold text-xl">Elena Rossi</p>
-            <p className="text-[#9A4100] text-xs uppercase tracking-[0.3em] font-bold mt-2">Travel Writer &amp; Home Chef</p>
+            <p className="text-[#8A3800] text-[13px] uppercase tracking-[0.3em] font-bold mt-2">Travel Writer &amp; Home Chef</p>
           </div>
         </div>
       </section>
@@ -342,12 +342,12 @@ export default function LandingPage() {
         </div>
         <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
           <h2 className="font-serif text-6xl md:text-8xl text-white leading-none">Bring the World to Your Table.</h2>
-          <p className="text-2xl text-white/70 max-w-2xl mx-auto font-light leading-relaxed italic">
+          <p className="text-2xl text-white/70 max-w-2xl mx-auto font-normal leading-relaxed italic">
             Join a community of thousands exploring the intersection of culture and cuisine.
           </p>
           {ctaSubmitted ? (
             <div className="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-8 py-5 max-w-2xl mx-auto">
-              <span className="material-symbols-outlined text-[#9A4100]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+              <span className="material-symbols-outlined text-[#8A3800]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
               <p className="font-serif italic text-white text-lg">You're on the list — we'll be in touch soon.</p>
             </div>
           ) : (
@@ -358,9 +358,9 @@ export default function LandingPage() {
                 value={ctaEmail}
                 onChange={(e) => setCtaEmail(e.target.value)}
                 placeholder="Enter your email address"
-                className="bg-white/10 border border-white/20 text-white placeholder-white/50 px-8 py-5 flex-grow rounded-full text-lg backdrop-blur-md focus:ring-2 focus:ring-[#9A4100] focus:border-transparent outline-none"
+                className="bg-white/10 border border-white/20 text-white placeholder-white/50 px-8 py-5 flex-grow rounded-full text-lg backdrop-blur-md focus:ring-2 focus:ring-[#8A3800] focus:border-transparent outline-none"
               />
-              <button type="submit" disabled={ctaLoading} className="bg-[#9A4100] text-white px-10 py-5 rounded-full text-lg font-bold hover:brightness-110 transition-all whitespace-nowrap disabled:opacity-60">
+              <button type="submit" disabled={ctaLoading} className="bg-[#8A3800] text-white px-10 py-5 rounded-full text-lg font-bold hover:brightness-110 transition-all whitespace-nowrap disabled:opacity-60">
                 {ctaLoading ? "Saving..." : "Claim Early Access"}
               </button>
             </form>
