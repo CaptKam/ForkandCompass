@@ -1,0 +1,264 @@
+# Multi-Partner Grocery Checkout — Spec
+
+> Let users choose their grocery store. One default, fast checkout. Affiliate revenue from all three.
+
+---
+
+## Overview
+
+Instead of locking users into Instacart, Fork & Compass supports three grocery partners: **Instacart**, **Kroger**, and **Walmart**. The user picks a preferred store once. The grocery tab shows a single branded checkout button for their chosen partner. Switching is always available but never forced.
+
+---
+
+## 1. Partner selection (one-time setup)
+
+### Where it lives
+
+**Primary:** Added to the Itinerary Setup wizard as part of the onboarding flow, after "What's in your kitchen?"
+
+Wizard steps become:
+1. How many nights per week?
+2. Which cuisines?
+3. Servings?
+4. What's already in your kitchen? (pantry staples)
+5. **Where do you shop?** ← new
+
+**Secondary:** Profile > Settings > "Grocery store" — changeable at any time.
+
+### The selection screen
+
+```
+┌──────────────────────────────────────┐
+│                                      │
+│  Where do you shop?                  │
+│                                      │
+│  We'll send your ingredients         │
+│  straight to your store.             │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  [Instacart logo]             │  │
+│  │  Instacart                    │  │
+│  │  Delivery from local stores   │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  [Kroger logo]                │  │
+│  │  Kroger                       │  │
+│  │  Pickup or delivery           │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  [Walmart logo]               │  │
+│  │  Walmart                      │  │
+│  │  Pickup or delivery           │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  Skip — I'll shop myself      │  │
+│  └────────────────────────────────┘  │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+- Three cards, each with partner logo, name, and one-line description
+- Tapping a card selects it (checkmark appears, card gets terracotta border)
+- "Skip" option for users who don't want digital grocery checkout
+- Selection stored in AsyncStorage and synced to user profile if authenticated
+
+---
+
+## 2. Grocery tab — floating checkout button
+
+### The FAB (floating action button)
+
+When the user has items in their grocery list and has selected a partner, show a floating button anchored to the bottom of the Grocery view, above the tab bar:
+
+```
+┌──────────────────────────────────────┐
+│                                      │
+│  [grocery list content scrolls]      │
+│                                      │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │ [logo] Add 12 items to cart →  │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌─────┬─────┬─────┬─────┐          │
+│  │ Exp │ Src │ Pln │ Cok │  tab bar │
+│  └─────┴─────┴─────┴─────┘          │
+└──────────────────────────────────────┘
+```
+
+### FAB design
+
+- **Width:** Full width minus 40px horizontal padding (20px each side)
+- **Height:** 52pt
+- **Corner radius:** 14px
+- **Position:** Fixed at bottom, 12px above tab bar, with a subtle cream-to-transparent gradient behind it so content doesn't visually collide
+- **Content:**
+  - Partner logo (20x20pt, left side)
+  - Text: "Add [n] items to cart" — Inter, 15pt, 600 weight
+  - Arrow "→" right-aligned
+- **Colors by partner:**
+  - Instacart: #003D29 background, white text, Instacart carrot logo
+  - Kroger: #0468BF background, white text, Kroger logo
+  - Walmart: #0071DC background, white text, Walmart spark logo
+- **Badge:** The item count ([n]) updates in real time as items are checked/unchecked. Only counts unchecked items.
+- **Hidden when:** Grocery list is empty, or user selected "Skip" for grocery partner
+- **Haptic:** Medium impact on tap
+
+### FAB behavior
+
+Tapping the FAB → opens the **handoff interstitial** (see below), NOT the partner app directly. The interstitial gives the user a summary and chance to switch stores.
+
+---
+
+## 3. Handoff interstitial (before opening partner app)
+
+```
+┌──────────────────────────────────────┐
+│                                      │
+│        [Instacart logo, 40pt]        │
+│                                      │
+│     Sending 12 items to Instacart    │
+│                                      │
+│     6 pantry staples excluded        │
+│     2 recently bought skipped        │
+│                                      │
+│     You can add anything else        │
+│     once you're on Instacart.        │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │   Open Instacart →            │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │   Edit list before sending    │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ─── or checkout with ───            │
+│                                      │
+│  [Kroger logo]     [Walmart logo]    │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+### Interstitial design
+
+- **Presented as:** Bottom sheet (slide up, 400ms, drag handle at top)
+- **Primary CTA:** "Open [Partner] →" — partner brand color background, white text, full width, 50pt height
+- **Secondary CTA:** "Edit list before sending" — text button, terracotta, returns to grocery list
+- **Partner switch section:**
+  - Thin divider with "or checkout with" centered label (Inter, 11pt, #B5AEA4)
+  - Two circular partner logo buttons (the two NOT currently selected), 44x44pt each
+  - Tapping a different logo switches the default and updates the primary CTA
+  - New selection persists (saved to AsyncStorage) — user doesn't have to re-choose next time
+- **Summary stats:** Item count, excluded staples, skipped recent purchases — gives the user confidence about what's being sent
+
+### Deep link / API behavior per partner
+
+| Partner | Method | Notes |
+|---|---|---|
+| Instacart | Instacart Connect SDK | Use existing `/api/instacart/shopping-list` endpoint. Sandbox: `connect.dev.instacart.tools` |
+| Kroger | Kroger API `POST /cart/add` | Requires Kroger Developer API key. OAuth2 for user auth. Map ingredient names to Kroger product IDs via search. |
+| Walmart | Walmart Connect / Affiliate links | Item-level affiliate links or Walmart+ API for cart population. May require URL scheme deep linking. |
+
+---
+
+## 4. Tab bar badge
+
+The Plan tab (or Grocery segment) already shows a badge with unchecked item count. No change needed here — the badge counts items in the active grocery list (Tier 3 items + any Tier 2 items the user kept).
+
+The FAB itself acts as the checkout badge — it shows the count and the partner logo in one element. No need for a separate badge on the tab.
+
+---
+
+## 5. Profile > Settings
+
+### Grocery settings section
+
+```
+┌──────────────────────────────────────┐
+│  GROCERY                             │
+│                                      │
+│  Preferred store                     │
+│  [Instacart logo] Instacart      >  │
+│                                      │
+│  Pantry staples                      │
+│  8 items in your kitchen         >  │
+│                                      │
+│  Purchase history                    │
+│  Clear saved purchase data       >  │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+- "Preferred store" → opens partner selection sheet (same UI as onboarding)
+- "Pantry staples" → opens checklist for editing
+- "Purchase history" → clear button with confirmation dialog
+
+---
+
+## 6. Affiliate tracking
+
+### How it works
+
+Each checkout carries an affiliate tag in the deep link or API call:
+
+| Partner | Affiliate mechanism |
+|---|---|
+| Instacart | Instacart Connect partner ID embedded in SDK config |
+| Kroger | Kroger Affiliate Network tracking parameter in API calls |
+| Walmart | Walmart affiliate link with Impact Radius tracking ID |
+
+### Revenue model
+
+- Instacart Connect: revenue share on completed orders (typically 5-10% of order value)
+- Kroger: affiliate commission on items purchased
+- Walmart: affiliate commission via Impact Radius
+
+### Tracking what to store
+
+```typescript
+interface CheckoutEvent {
+  partnerId: "instacart" | "kroger" | "walmart";
+  itemCount: number;
+  timestamp: string;
+  recipeIds: string[];
+  // Don't store cart value — the affiliate network handles revenue tracking
+}
+```
+
+Log checkout events to your own API for analytics (which partner is most popular, avg items per checkout, which recipes drive the most grocery orders). Revenue tracking happens on the affiliate network side.
+
+---
+
+## 7. Edge cases
+
+| Scenario | Behavior |
+|---|---|
+| User hasn't picked a store | FAB shows generic "Order ingredients →" in terracotta. Tapping opens partner selection. |
+| User picked "Skip" | No FAB shown. Grocery list is still usable for manual shopping (checkboxes). |
+| Partner app not installed | Open partner's mobile website instead (universal link fallback). |
+| 0 unchecked items in list | FAB hidden — nothing to order. |
+| User switches partner mid-trip | Immediate switch. No confirmation needed — it's just a preference. |
+| Partner API is down | Show error toast: "Couldn't connect to [Partner]. Try again or switch stores." Offer the other two partners as alternatives. |
+
+---
+
+## 8. v1 vs v2
+
+### v1
+- Partner selection in onboarding + settings
+- Branded FAB on grocery tab with item count
+- Handoff interstitial with summary + partner switch
+- Instacart Connect integration (already started)
+- Affiliate tracking setup for all three partners
+- Deep link fallback to mobile web
+
+### v2
+- Kroger API integration (cart population, product search)
+- Walmart API integration
+- Price comparison across partners ("Cheaper at Walmart")
+- Preferred store per recipe/cuisine (e.g. always use Kroger for Mexican ingredients)
+- Order confirmation callback — mark items as purchased

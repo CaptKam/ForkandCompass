@@ -9,7 +9,6 @@ import {
   Animated,
   FlatList,
   Linking,
-  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -22,6 +21,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { getCountryById, getRecipeById, type GroceryItem } from "@/constants/data";
 import { type PantryStaple } from "@/constants/pantry";
+import { PARTNER_CONFIG } from "@/constants/partners";
 import { useApp } from "@/contexts/AppContext";
 import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItinerary";
 
@@ -75,6 +75,7 @@ export default function PlanScreen() {
     itineraryHistory,
     addToItineraryHistory,
     addToGrocery,
+    removeFromGrocery,
     groceryItems,
     toggleGroceryItem,
     removeGroceryItem,
@@ -82,12 +83,12 @@ export default function PlanScreen() {
     unexcludeGroceryItem,
     quickAddStaple,
     pantryStaples,
+    groceryPartner,
+    setGroceryPartner,
   } = useApp();
 
   const [segment, setSegment] = useState<PlanSegment>("week");
   const [toast, setToast] = useState<string | null>(null);
-  const [instacartLoading, setInstacartLoading] = useState(false);
-  const [showInstacartModal, setShowInstacartModal] = useState(false);
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
@@ -126,19 +127,6 @@ export default function PlanScreen() {
 
   const allDone = currentItinerary.length > 0 &&
     currentItinerary.every((d) => d.status === "completed" || d.status === "skipped");
-
-  const totalIngredientCount = useMemo(() => {
-    let count = 0;
-    for (const day of currentItinerary) {
-      if (day.status !== "active") continue;
-      const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
-      for (const rid of ids) {
-        const r = getRecipeById(rid);
-        if (r) count += r.ingredients.length;
-      }
-    }
-    return count;
-  }, [currentItinerary]);
 
   const activeGroceryItems = useMemo(
     () => groceryItems.filter((i) => !i.excluded),
@@ -181,16 +169,27 @@ export default function PlanScreen() {
     haptic();
     const updated = reloadDay(day, currentItinerary, itineraryProfile!, selectedCountryIds);
     setCurrentItinerary(currentItinerary.map((d) => (d.id === day.id ? updated : d)));
+    // Swap grocery: remove old recipes, add new ones
+    const oldIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+    const newIds = updated.mode === "quick" ? updated.quickRecipeIds : updated.fullRecipeIds;
+    for (const rid of oldIds) { const r = getRecipeById(rid); if (r) removeFromGrocery(r); }
+    for (const rid of newIds) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
   };
 
   const handleSkipDay = (day: ItineraryDay) => {
     haptic();
     setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, status: "skipped" as const } : d));
+    // Remove this day's recipes from grocery
+    const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+    for (const rid of ids) { const r = getRecipeById(rid); if (r) removeFromGrocery(r); }
   };
 
   const handleRestoreDay = (day: ItineraryDay) => {
     haptic();
     setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, status: "active" as const } : d));
+    // Add this day's recipes back to grocery
+    const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+    for (const rid of ids) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
   };
 
   const handleToggleMode = (day: ItineraryDay) => {
@@ -199,25 +198,21 @@ export default function PlanScreen() {
     setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, mode: newMode as "quick" | "full" } : d));
   };
 
-  const handleGetAllIngredients = () => {
+  const handleNewWeek = () => {
     haptic();
-    let added = 0;
-    for (const day of currentItinerary) {
+    if (currentItinerary.length > 0) addToItineraryHistory(currentItinerary);
+    const newItinerary = generateItinerary(itineraryProfile!, selectedCountryIds, itineraryHistory);
+    setCurrentItinerary(newItinerary);
+    // Auto-populate grocery with the new week's recipes
+    clearGrocery();
+    for (const day of newItinerary) {
       if (day.status !== "active") continue;
       const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
       for (const rid of ids) {
         const recipe = getRecipeById(rid);
-        if (recipe) { addToGrocery(recipe); added += recipe.ingredients.length; }
+        if (recipe) addToGrocery(recipe);
       }
     }
-    showToast(`Added ${added} ingredients`);
-    setTimeout(() => switchSegment("grocery"), 500);
-  };
-
-  const handleNewWeek = () => {
-    haptic();
-    if (currentItinerary.length > 0) addToItineraryHistory(currentItinerary);
-    setCurrentItinerary(generateItinerary(itineraryProfile!, selectedCountryIds, itineraryHistory));
   };
 
   // ─── Grocery actions ─────────────────────────────────────────────────────────
@@ -233,37 +228,30 @@ export default function PlanScreen() {
     ]);
   };
 
-  const handleInstacart = () => {
+  const handleCheckoutFab = async () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (!groceryPartner || groceryPartner === "skip") return;
     const itemsToOrder = activeGroceryItems.filter((i) => !i.checked);
-    if (itemsToOrder.length === 0) {
-      Alert.alert("Nothing to order", "All items are already checked off.");
-      return;
-    }
-    setShowInstacartModal(true);
-  };
-
-  const handleConfirmInstacart = async () => {
-    setShowInstacartModal(false);
-    if (instacartLoading) return;
-    setInstacartLoading(true);
-    const itemsToOrder = activeGroceryItems.filter((i) => !i.checked);
-    try {
-      const response = await fetch("/api/instacart/shopping-list", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: "My Fork & Compass List",
-          items: itemsToOrder.map((i) => ({ name: i.name, amount: i.amount, recipeName: i.recipeName })),
-        }),
-      });
-      const data = await response.json() as { url?: string; error?: string };
-      if (!response.ok || !data.url) throw new Error(data.error ?? "Could not create shopping list");
-      await Linking.openURL(data.url);
-    } catch (err: unknown) {
-      Alert.alert("Instacart Error", err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setInstacartLoading(false);
+    if (groceryPartner === "instacart") {
+      try {
+        const response = await fetch("/api/instacart/shopping-list", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: "My Fork & Compass List",
+            items: itemsToOrder.map((i) => ({ name: i.name, amount: i.amount, recipeName: i.recipeName })),
+          }),
+        });
+        const data = await response.json() as { url?: string; error?: string };
+        if (!response.ok || !data.url) throw new Error(data.error ?? "Could not create shopping list");
+        await Linking.openURL(data.url);
+      } catch (err: unknown) {
+        Alert.alert("Instacart Error", err instanceof Error ? err.message : "Something went wrong");
+      }
+    } else if (groceryPartner === "kroger") {
+      await Linking.openURL("https://www.kroger.com/stores/details/700/00100");
+    } else if (groceryPartner === "walmart") {
+      await Linking.openURL("https://www.walmart.com/grocery");
     }
   };
 
@@ -376,26 +364,18 @@ export default function PlanScreen() {
               </View>
             )}
 
-            {/* Get All Ingredients */}
-            <Pressable
-              onPress={handleGetAllIngredients}
-              style={({ pressed }) => [styles.getAllBtn, pressed && { opacity: 0.88 }]}
-            >
-              <Ionicons name="basket-outline" size={18} color="#FEF9F3" />
-              <Text style={styles.getAllText}>Get All Ingredients</Text>
-              {totalIngredientCount > 0 && (
-                <View style={styles.getAllBadge}>
-                  <Text style={styles.getAllBadgeText}>{totalIngredientCount}</Text>
-                </View>
-              )}
-            </Pressable>
-
             {/* Generate new week */}
             <Pressable
               onPress={handleNewWeek}
               style={({ pressed }) => [styles.newWeekLink, pressed && { opacity: 0.6 }]}
             >
               <Text style={styles.newWeekText}>Generate new week</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => { haptic(); setCurrentItinerary([]); }}
+              style={({ pressed }) => [styles.newWeekLink, pressed && { opacity: 0.6 }]}
+            >
+              <Text style={[styles.newWeekText, { color: "#c0392b" }]}>Clear week</Text>
             </Pressable>
 
           </ScrollView>
@@ -420,7 +400,7 @@ export default function PlanScreen() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={[
                 styles.groceryScrollContent,
-                { paddingBottom: Platform.OS === "web" ? 80 : insets.bottom + 80 },
+                { paddingBottom: Platform.OS === "web" ? 80 : insets.bottom + 140 },
               ]}
               ListHeaderComponent={
                 <View>
@@ -466,11 +446,21 @@ export default function PlanScreen() {
               )}
               ListFooterComponent={
                 <View>
-                  {activeGroceryItems.filter((i) => i.checked).length > 0 && (
-                    <Pressable onPress={handleClearCompleted} style={styles.clearCompletedBtn}>
-                      <Text style={styles.clearCompletedText}>Clear Completed</Text>
-                    </Pressable>
-                  )}
+                  <View style={{ flexDirection: "row", justifyContent: "center", gap: 20 }}>
+                    {activeGroceryItems.filter((i) => i.checked).length > 0 && (
+                      <Pressable onPress={handleClearCompleted} style={styles.clearCompletedBtn}>
+                        <Text style={styles.clearCompletedText}>Clear Completed</Text>
+                      </Pressable>
+                    )}
+                    {activeGroceryItems.length > 0 && (
+                      <Pressable
+                        onPress={() => { haptic(); clearGrocery(); }}
+                        style={styles.clearCompletedBtn}
+                      >
+                        <Text style={[styles.clearCompletedText, { color: "#c0392b" }]}>Clear All</Text>
+                      </Pressable>
+                    )}
+                  </View>
                   {/* In your kitchen collapsible */}
                   {excludedGroceryItems.length > 0 && (
                     <View style={styles.kitchenSection}>
@@ -515,55 +505,38 @@ export default function PlanScreen() {
                 {activeGroceryItems.length} items · {activeGroceryItems.filter((i) => i.checked).length} checked
                 {excludedGroceryItems.length > 0 && ` · ${excludedGroceryItems.length} in kitchen`}
               </Text>
-              <Pressable
-                onPress={handleInstacart}
-                disabled={instacartLoading}
-                style={({ pressed }) => [styles.instacartBtn, (instacartLoading || pressed) && { opacity: 0.75 }]}
-              >
-                <Ionicons name="cart-outline" size={14} color={Colors.light.primary} />
-                <Text style={styles.instacartText}>{instacartLoading ? "Opening…" : "Instacart"}</Text>
-              </Pressable>
             </View>
+
           </View>
         )
       )}
 
-      {/* ── Instacart Interstitial Modal ─────────────────────────── */}
-      <Modal
-        visible={showInstacartModal}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setShowInstacartModal(false)}
-      >
-        <Pressable style={styles.modalOverlay} onPress={() => setShowInstacartModal(false)}>
-          <Pressable style={[styles.modalSheet, { paddingBottom: Math.max(insets.bottom + 20, 32) }]}>
-            <View style={styles.modalHandle} />
-            <View style={styles.modalCartIcon}>
-              <Ionicons name="cart" size={32} color={TERRACOTTA} />
+      {/* ── Checkout FAB — root-level so native doesn't clip it ───── */}
+      {segment === "grocery" && uncheckedGroceryCount > 0 && groceryPartner && groceryPartner !== "skip" && (
+        <View style={[styles.fabWrap, { bottom: Math.max(insets.bottom, 16) + 60 }]} pointerEvents="box-none">
+          <LinearGradient
+            colors={["rgba(254,249,243,0)", "rgba(254,249,243,0.95)", CREAM]}
+            style={styles.fabGradient}
+            pointerEvents="none"
+          />
+          <Pressable
+            onPress={handleCheckoutFab}
+            style={({ pressed }) => [
+              styles.fab,
+              { backgroundColor: PARTNER_CONFIG[groceryPartner].color },
+              pressed && { opacity: 0.88, transform: [{ scale: 0.97 }] },
+            ]}
+          >
+            <View style={styles.fabLogoWrap}>
+              <Text style={styles.fabLogoText}>{PARTNER_CONFIG[groceryPartner].initial}</Text>
             </View>
-            <Text style={styles.modalTitle}>
-              Sending {activeGroceryItems.filter((i) => !i.checked).length} items to Instacart
+            <Text style={styles.fabText}>
+              Add {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} to {PARTNER_CONFIG[groceryPartner].label}
             </Text>
-            {excludedGroceryItems.length > 0 && (
-              <Text style={styles.modalSubtitle}>
-                {excludedGroceryItems.length} pantry staple{excludedGroceryItems.length !== 1 ? "s" : ""} excluded from your cart
-              </Text>
-            )}
-            <Text style={styles.modalHint}>
-              You can add anything else once you're on Instacart.
-            </Text>
-            <Pressable
-              onPress={handleConfirmInstacart}
-              style={({ pressed }) => [styles.modalConfirmBtn, pressed && { opacity: 0.88 }]}
-            >
-              <Text style={styles.modalConfirmText}>Open Instacart →</Text>
-            </Pressable>
-            <Pressable onPress={() => setShowInstacartModal(false)} style={styles.modalCancelBtn}>
-              <Text style={styles.modalCancelText}>Edit list before sending</Text>
-            </Pressable>
+            <Ionicons name="arrow-forward" size={16} color="#fff" />
           </Pressable>
-        </Pressable>
-      </Modal>
+        </View>
+      )}
 
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
@@ -1054,34 +1027,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
-  // Get All Ingredients button
-  getAllBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    backgroundColor: TERRACOTTA,
-    height: 50,
-    borderRadius: 10,
-    marginTop: 6,
-  },
-  getAllText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
-    color: CREAM,
-  },
-  getAllBadge: {
-    backgroundColor: "rgba(255,255,255,0.22)",
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderRadius: 20,
-  },
-  getAllBadgeText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
-    color: CREAM,
-  },
-
   // Generate new week
   newWeekLink: {
     alignItems: "center",
@@ -1298,95 +1243,51 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: TEXT_SECONDARY,
   },
-  instacartBtn: {
+  // Checkout FAB
+  fabWrap: {
+    position: "absolute",
+    left: 20,
+    right: 20,
+    alignItems: "stretch",
+  },
+  fabGradient: {
+    position: "absolute",
+    left: -20,
+    right: -20,
+    top: -40,
+    height: 60,
+  },
+  fab: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: TERRACOTTA,
-  },
-  instacartText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 12,
-    color: TERRACOTTA,
-  },
-
-  // Instacart modal
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.45)",
-    justifyContent: "flex-end",
-  },
-  modalSheet: {
-    backgroundColor: CREAM,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    paddingHorizontal: 28,
-    paddingTop: 16,
-    alignItems: "center",
-    gap: 14,
-  },
-  modalHandle: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: BORDER,
-    marginBottom: 8,
-  },
-  modalCartIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: "rgba(154,65,0,0.08)",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 4,
-  },
-  modalTitle: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 20,
-    color: TEXT_PRIMARY,
-    textAlign: "center",
-    letterSpacing: -0.3,
-  },
-  modalSubtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: TEXT_SECONDARY,
-    textAlign: "center",
-  },
-  modalHint: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: TEXT_SECONDARY,
-    textAlign: "center",
-    lineHeight: 19,
-  },
-  modalConfirmBtn: {
-    backgroundColor: TERRACOTTA,
-    borderRadius: 12,
     height: 52,
-    alignSelf: "stretch",
+    borderRadius: 26,
+    paddingHorizontal: 16,
+    gap: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 6,
+  },
+  fabLogoWrap: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "rgba(255,255,255,0.2)",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 6,
   },
-  modalConfirmText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: CREAM,
-  },
-  modalCancelBtn: {
-    paddingVertical: 10,
-  },
-  modalCancelText: {
-    fontFamily: "Inter_400Regular",
+  fabLogoText: {
+    fontFamily: "Inter_700Bold",
     fontSize: 13,
-    color: TEXT_SECONDARY,
-    textDecorationLine: "underline",
+    color: "#fff",
+  },
+  fabText: {
+    flex: 1,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: "#fff",
   },
 
   // Toast

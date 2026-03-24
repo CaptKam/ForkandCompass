@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
 import { COUNTRIES, getAllRecipes, getCountryLocations, type Country, type Recipe } from "@/constants/data";
+import { PARTNER_CONFIG, PARTNER_LIST } from "@/constants/partners";
 import { useApp, type CookingLevel, type AppearanceMode } from "@/contexts/AppContext";
 
 const COOKING_LEVELS: { key: CookingLevel; label: string; icon: string }[] = [
@@ -49,6 +50,8 @@ export default function ProfileScreen() {
     toggleSaved,
     savedRegionIds,
     toggleSavedRegion,
+    groceryPartner,
+    setGroceryPartner,
   } = useApp();
 
   const haptic = () => {
@@ -289,6 +292,58 @@ export default function ProfileScreen() {
             </Pressable>
           </View>
         )}
+
+        {/* Grocery Store */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Grocery Store</Text>
+          <View style={styles.card}>
+            {PARTNER_LIST.map((p, index) => {
+              const isSelected = groceryPartner === p.id;
+              const isLast = index === PARTNER_LIST.length - 1 && groceryPartner !== "skip" && groceryPartner !== null;
+              return (
+                <Pressable
+                  key={p.id}
+                  onPress={() => { haptic(); setGroceryPartner(p.id); }}
+                  style={[
+                    styles.levelRow,
+                    index < PARTNER_LIST.length - 1 && styles.levelRowBorder,
+                    isSelected && styles.levelRowSelected,
+                  ]}
+                >
+                  <View style={styles.levelLeft}>
+                    <View style={[styles.settingsPartnerCircle, { backgroundColor: p.light }]}>
+                      <Text style={[styles.settingsPartnerInitial, { color: p.color }]}>{p.initial}</Text>
+                    </View>
+                    <View>
+                      <Text style={[styles.levelLabel, isSelected && styles.levelLabelSelected]}>{p.label}</Text>
+                      <Text style={styles.settingsPartnerSub}>{p.sub}</Text>
+                    </View>
+                  </View>
+                  <View style={[styles.radio, isSelected && styles.radioSelected]}>
+                    {isSelected && <View style={styles.radioInner} />}
+                  </View>
+                </Pressable>
+              );
+            })}
+            <Pressable
+              onPress={() => { haptic(); setGroceryPartner("skip"); }}
+              style={[styles.levelRow, (groceryPartner === "skip" || groceryPartner === null) && styles.levelRowSelected]}
+            >
+              <View style={styles.levelLeft}>
+                <View style={[styles.settingsPartnerCircle, { backgroundColor: Colors.light.surfaceContainerLow }]}>
+                  <Ionicons name="close" size={16} color={Colors.light.secondary} />
+                </View>
+                <View>
+                  <Text style={[styles.levelLabel, (groceryPartner === "skip" || groceryPartner === null) && styles.levelLabelSelected]}>I'll shop myself</Text>
+                  <Text style={styles.settingsPartnerSub}>No store link — just the list</Text>
+                </View>
+              </View>
+              <View style={[styles.radio, (groceryPartner === "skip" || groceryPartner === null) && styles.radioSelected]}>
+                {(groceryPartner === "skip" || groceryPartner === null) && <View style={styles.radioInner} />}
+              </View>
+            </Pressable>
+          </View>
+        </View>
 
         {/* Bucket List */}
         <View style={styles.section}>
@@ -722,5 +777,24 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 15,
     color: Colors.light.error,
+  },
+
+  /* Grocery partner */
+  settingsPartnerCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  settingsPartnerInitial: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+  },
+  settingsPartnerSub: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: Colors.light.outlineVariant,
+    marginTop: 1,
   },
 });
