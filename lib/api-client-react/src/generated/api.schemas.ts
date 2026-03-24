@@ -19,6 +19,8 @@ export interface CookStep {
   id: string;
   title: string;
   instruction: string;
+  instructionFirstSteps?: string;
+  instructionChefsTable?: string;
   materials: string[];
 }
 

@@ -4,7 +4,7 @@ import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import {
   Modal,
   Platform,
@@ -18,6 +18,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
 import { getRecipeById, getAllRecipes } from "@/constants/data";
+import {
+  parseActionVerbs,
+  getAdaptiveInstruction,
+  levelToTier,
+} from "@/constants/adaptive-language";
 import { useApp } from "@/contexts/AppContext";
 import ScheduleSheet from "@/components/ScheduleSheet";
 
@@ -54,7 +59,7 @@ export default function RecipeDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(id);
-  const { isSaved, toggleSaved, addToGrocery } = useApp();
+  const { isSaved, toggleSaved, addToGrocery, cookingLevel } = useApp();
   const [servings, setServings] = useState(4);
   const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
   const [showSchedule, setShowSchedule] = useState(false);
@@ -248,23 +253,36 @@ export default function RecipeDetailScreen() {
 
           {/* Instructions */}
           <Text style={[styles.sectionTitle, { marginTop: 32 }]}>Instructions</Text>
-          {recipe.steps.map((step, index) => (
-            <View key={step.id} style={styles.stepCard}>
-              <View style={styles.stepHeader}>
-                <View style={styles.stepNumber}>
-                  <Text style={styles.stepNumberText}>{index + 1}</Text>
+          {recipe.steps.map((step, index) => {
+            const tier = levelToTier(cookingLevel);
+            const text = getAdaptiveInstruction(step, tier);
+            const segments = parseActionVerbs(text);
+            return (
+              <View key={step.id} style={styles.stepCard}>
+                <View style={styles.stepHeader}>
+                  <View style={styles.stepNumber}>
+                    <Text style={styles.stepNumberText}>{index + 1}</Text>
+                  </View>
+                  <Text style={styles.stepTitle}>{step.title}</Text>
                 </View>
-                <Text style={styles.stepTitle}>{step.title}</Text>
+                <Text style={styles.stepInstruction}>
+                  {segments.map((seg, i) =>
+                    seg.type === "action" ? (
+                      <Text key={i} style={styles.actionVerb}>{seg.value}</Text>
+                    ) : (
+                      seg.value
+                    )
+                  )}
+                </Text>
+                {step.materials.length > 0 && (
+                  <View style={styles.stepMaterials}>
+                    <Text style={styles.stepMaterialsLabel}>You'll need:</Text>
+                    <Text style={styles.stepMaterialsText}>{step.materials.join(", ")}</Text>
+                  </View>
+                )}
               </View>
-              <Text style={styles.stepInstruction}>{step.instruction}</Text>
-              {step.materials.length > 0 && (
-                <View style={styles.stepMaterials}>
-                  <Text style={styles.stepMaterialsLabel}>You'll need:</Text>
-                  <Text style={styles.stepMaterialsText}>{step.materials.join(", ")}</Text>
-                </View>
-              )}
-            </View>
-          ))}
+            );
+          })}
 
           {/* Cultural Note / "Did You Know?" */}
           {recipe.culturalNote && (
@@ -603,6 +621,10 @@ const styles = StyleSheet.create({
     color: Colors.light.onSurfaceVariant,
     lineHeight: 26,
     marginBottom: 10,
+  },
+  actionVerb: {
+    fontFamily: "Inter_700Bold",
+    color: Colors.light.primary,
   },
   stepMaterials: {
     padding: 14,
