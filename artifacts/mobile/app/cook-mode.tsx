@@ -27,7 +27,7 @@ import { getRecipeById } from "@/constants/data";
 import type { Ingredient } from "@/constants/data";
 import { findTechniqueForStep } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
-import type { CookSession } from "@/contexts/AppContext";
+import type { CookSession, ActiveCookSession } from "@/contexts/AppContext";
 
 /* ── Helpers ───────────────────────────────────────────────────── */
 
@@ -69,17 +69,32 @@ function getPhase(title: string): "prep" | "cook" | "finish" {
   return "prep";
 }
 
+const TERRACOTTA = "#9A4100";
+const TEXT_SECONDARY = "#8A8279";
+
 const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
+
+/** Extract doneness cues from instruction text — looks for "until" phrases */
+function getDonenessCue(instruction: string): string | null {
+  const match = instruction.match(/until\s+(.+?)(?:\.|,|$)/i);
+  if (match && match[1].length > 10) {
+    // Capitalize first letter
+    const cue = match[1].trim();
+    return cue.charAt(0).toUpperCase() + cue.slice(1);
+  }
+  return null;
+}
 
 /* ── Component ─────────────────────────────────────────────────── */
 
 export default function CookModeScreen() {
-  const { recipeId } = useLocalSearchParams<{ recipeId: string }>();
+  const { recipeId, resumeStep } = useLocalSearchParams<{ recipeId: string; resumeStep?: string }>();
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(recipeId);
-  const { completeCookSession, cookingProfile } = useApp();
+  const { completeCookSession, cookingProfile, activeCookSession, setActiveCookSession } = useApp();
 
-  const [currentStep, setCurrentStep] = useState(0);
+  const initialStep = resumeStep ? parseInt(resumeStep, 10) : 0;
+  const [currentStep, setCurrentStep] = useState(isNaN(initialStep) ? 0 : initialStep);
   const [direction, setDirection] = useState<"forward" | "back">("forward");
   const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
   const [showTroubleshooting, setShowTroubleshooting] = useState(false);
@@ -121,6 +136,22 @@ export default function CookModeScreen() {
       };
     }
   }, [timerRunning, timerRemaining]);
+
+  // Persist active cook session on step/timer changes
+  useEffect(() => {
+    if (!recipe || finished) return;
+    const session: ActiveCookSession = {
+      recipeId: recipe.id,
+      recipeName: recipe.name,
+      currentStep,
+      totalSteps: recipe.steps.length,
+      timerRemaining: timerRunning ? timerRemaining : null,
+      timerRunning,
+      startedAt: startTimeRef.current,
+      servings: 4,
+    };
+    setActiveCookSession(session);
+  }, [currentStep, timerRemaining, timerRunning, finished]);
 
   if (!recipe) {
     return (
@@ -255,6 +286,7 @@ export default function CookModeScreen() {
       totalSteps: recipe.steps.length,
     };
     completeCookSession(session);
+    setActiveCookSession(null); // Clear active session on completion
     if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     router.back();
   };
@@ -277,6 +309,9 @@ export default function CookModeScreen() {
             <Text style={styles.finishRecipeOrigin}>{recipe.countryName}</Text>
             <Text style={styles.finishRecipeMeta}>
               {recipe.time} · {recipe.difficulty}
+              {!cookingProfile.cuisinesExplored.includes(recipe.countryName)
+                ? ` · Cuisine #${cookingProfile.cuisinesExplored.length + 1} explored`
+                : ""}
             </Text>
 
             {/* Star rating */}
@@ -424,6 +459,25 @@ export default function CookModeScreen() {
                 >
                   <Text style={styles.timerControlTextSecondary}>Reset</Text>
                 </Pressable>
+              </View>
+            </View>
+          )}
+
+          {/* Chef note banner (first step only) */}
+          {currentStep === 0 && recipe.culturalNote && (
+            <View style={styles.chefNoteCard}>
+              <Ionicons name="chatbubble-ellipses-outline" size={16} color={TEXT_SECONDARY} style={{ marginTop: 2 }} />
+              <Text style={styles.chefNoteText}>{recipe.culturalNote}</Text>
+            </View>
+          )}
+
+          {/* Doneness cue card — parse from instruction text */}
+          {getDonenessCue(step.instruction) && (
+            <View style={styles.donenessCueCard}>
+              <Text style={styles.donenessCueLabel}>DONENESS CUE</Text>
+              <View style={styles.donenessCueRow}>
+                <Ionicons name="eye-outline" size={16} color={TERRACOTTA} style={{ marginTop: 2 }} />
+                <Text style={styles.donenessCueText}>{getDonenessCue(step.instruction)}</Text>
               </View>
             </View>
           )}
@@ -707,6 +761,52 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
     color: Colors.light.primary,
+  },
+
+  /* ── Chef Note ──────────────────────────────────────────────── */
+  chefNoteCard: {
+    flexDirection: "row",
+    gap: 10,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 12,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+  },
+  chefNoteText: {
+    flex: 1,
+    fontFamily: "NotoSerif_400Regular_Italic",
+    fontSize: 16,
+    color: "#8A8279",
+    lineHeight: 24,
+    fontStyle: "italic",
+  },
+
+  /* ── Doneness Cue ──────────────────────────────────────────── */
+  donenessCueCard: {
+    backgroundColor: "#FEF0E6",
+    borderRadius: 12,
+    padding: 14,
+    gap: 8,
+  },
+  donenessCueLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.primary,
+    letterSpacing: 1.5,
+    lineHeight: 18,
+  },
+  donenessCueRow: {
+    flexDirection: "row",
+    gap: 8,
+    alignItems: "flex-start",
+  },
+  donenessCueText: {
+    flex: 1,
+    fontFamily: "Inter_400Regular",
+    fontSize: 17,
+    color: Colors.light.onSurface,
+    lineHeight: 24,
   },
 
   /* ── Video Hint ──────────────────────────────────────────────── */

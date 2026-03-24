@@ -1,12 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
-import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import RecipeContextMenu from "@/components/RecipeContextMenu";
 import React, { useCallback, useMemo, useState } from "react";
 import {
-  FlatList,
+  Alert,
   Platform,
   Pressable,
   ScrollView,
@@ -24,6 +22,12 @@ import { useApp } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import TabHeader from "@/components/TabHeader";
 
+const TERRACOTTA = "#9A4100";
+const CREAM = "#FEF9F3";
+const BORDER = "#E8DFD2";
+const TEXT_PRIMARY = "#1C1A17";
+const TEXT_SECONDARY = "#8A8279";
+
 const haptic = () => {
   if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 };
@@ -38,6 +42,27 @@ function getAllRecipes(): Recipe[] {
   return recipes;
 }
 
+function timeAgo(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const days = Math.floor(diff / 86400000);
+  if (days === 0) return "Today";
+  if (days === 1) return "Yesterday";
+  if (days < 7) return `${days}d ago`;
+  const weeks = Math.floor(days / 7);
+  if (weeks < 4) return `${weeks}w ago`;
+  return `${Math.floor(days / 30)}mo ago`;
+}
+
+// Beginner-friendly curated recipes
+const BEGINNER_RECIPE_IDS = [
+  "pasta-aglio-olio",
+  "pad-thai",
+  "guacamole",
+  "cacio-e-pepe",
+  "miso-soup",
+  "chicken-tikka-masala",
+];
+
 export default function CookScreen() {
   const insets = useSafeAreaInsets();
   const reducedMotion = useReducedMotion();
@@ -45,20 +70,21 @@ export default function CookScreen() {
     cookingProfile,
     currentItinerary,
     recentCookSessions,
-    savedRecipeIds,
+    activeCookSession,
+    setActiveCookSession,
+    itineraryProfile,
   } = useApp();
 
-  const [recentSheetOpen, setRecentSheetOpen] = useState(false);
-  const [savedSheetOpen, setSavedSheetOpen] = useState(false);
+  const [techniquesExpanded, setTechniquesExpanded] = useState(false);
 
   const allRecipes = useMemo(() => getAllRecipes(), []);
 
-  // Tonight's recipe: find today's itinerary entry
+  // Tonight's recipe from itinerary
   const tonightsRecipe = useMemo(() => {
     if (!currentItinerary || currentItinerary.length === 0) return null;
-    const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
+    const today = new Date().toISOString().split("T")[0];
     const todayEntry = currentItinerary.find(
-      (d) => d.dayLabel.toLowerCase() === today.toLowerCase()
+      (d) => d.date === today && d.status === "active"
     );
     if (!todayEntry) return null;
     const recipeIds = todayEntry.mode === "quick" ? todayEntry.quickRecipeIds : todayEntry.fullRecipeIds;
@@ -66,19 +92,34 @@ export default function CookScreen() {
     return getRecipeById(recipeIds[0]);
   }, [currentItinerary]);
 
-  // Recent recipes from cook sessions
+  // Recent completed recipes
   const recentRecipes = useMemo(() => {
     return recentCookSessions
-      .map((s) => getRecipeById(s.recipeId))
-      .filter(Boolean) as Recipe[];
+      .filter((s) => s.completedAt)
+      .slice(0, 5)
+      .map((s) => ({ session: s, recipe: getRecipeById(s.recipeId) }))
+      .filter((r) => r.recipe != null) as { session: typeof recentCookSessions[0]; recipe: Recipe }[];
   }, [recentCookSessions]);
 
-  // Saved recipes
-  const savedRecipes = useMemo(() => {
-    return savedRecipeIds
-      .map((id) => getRecipeById(id))
-      .filter(Boolean) as Recipe[];
-  }, [savedRecipeIds]);
+  // Beginner recipes for new users
+  const beginnerRecipes = useMemo(() => {
+    if (cookingProfile.recipesCompleted.length >= 3) return [];
+    const recipes: Recipe[] = [];
+    for (const id of BEGINNER_RECIPE_IDS) {
+      const r = getRecipeById(id);
+      if (r) recipes.push(r);
+    }
+    // Fallback: grab easy recipes if curated IDs don't match
+    if (recipes.length < 3) {
+      for (const recipe of allRecipes) {
+        if (recipe.difficulty === "Easy" && !recipes.find((r) => r.id === recipe.id)) {
+          recipes.push(recipe);
+          if (recipes.length >= 3) break;
+        }
+      }
+    }
+    return recipes.slice(0, 3);
+  }, [cookingProfile.recipesCompleted.length, allRecipes]);
 
   const handleStartCooking = useCallback((recipeId: string) => {
     haptic();
@@ -101,10 +142,31 @@ export default function CookScreen() {
     }
   }, [allRecipes, cookingProfile.currentLevel]);
 
-  const handleRecipePress = useCallback((id: string) => {
-    haptic();
-    router.push({ pathname: "/recipe/[id]", params: { id } });
-  }, []);
+  const handleAbandonSession = useCallback(() => {
+    if (Platform.OS === "web") {
+      setActiveCookSession(null);
+      return;
+    }
+    Alert.alert(
+      `Stop cooking ${activeCookSession?.recipeName}?`,
+      "Your progress won't be saved.",
+      [
+        { text: "Keep Cooking", style: "cancel" },
+        {
+          text: "Abandon",
+          style: "destructive",
+          onPress: () => setActiveCookSession(null),
+        },
+      ]
+    );
+  }, [activeCookSession, setActiveCookSession]);
+
+  const servings = itineraryProfile?.defaultServings ?? 4;
+
+  // Determine which priority card to show
+  const hasActiveSession = activeCookSession != null;
+  const hasTonightsRecipe = !hasActiveSession && tonightsRecipe != null;
+  const showWhatToCook = !hasActiveSession && !hasTonightsRecipe;
 
   return (
     <View style={styles.container}>
@@ -113,258 +175,314 @@ export default function CookScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 120 }}
       >
-        {/* ── Cooking Level Card ──────────────────────────────────── */}
-        <View style={styles.levelCard}>
-          <Text style={styles.levelLabel}>YOUR COOKING LEVEL</Text>
-          <Text style={styles.levelName}>{cookingProfile.currentLevelName}</Text>
-          <View style={styles.progressTrack}>
+        {/* ── PRIORITY 1: Active Cook Session ──────────────────────── */}
+        {hasActiveSession && (
+          <View style={styles.section}>
+            <Text style={styles.sectionLabel}>IN PROGRESS</Text>
+            <View style={styles.continueCard}>
+              <Text style={styles.continueRecipeName}>{activeCookSession.recipeName}</Text>
+              <Text style={styles.continueProgress}>
+                Step {activeCookSession.currentStep + 1} of {activeCookSession.totalSteps}
+                {activeCookSession.timerRemaining != null && activeCookSession.timerRemaining > 0
+                  ? ` · Timer: ${formatSeconds(activeCookSession.timerRemaining)}`
+                  : ""}
+              </Text>
+              <Pressable
+                onPress={() => {
+                  haptic();
+                  router.push({
+                    pathname: "/cook-mode",
+                    params: {
+                      recipeId: activeCookSession.recipeId,
+                      resumeStep: String(activeCookSession.currentStep),
+                    },
+                  });
+                }}
+                style={({ pressed }) => [styles.continueBtn, pressed && { opacity: 0.88 }]}
+              >
+                <Text style={styles.continueBtnText}>Continue Cooking →</Text>
+              </Pressable>
+              <Pressable onPress={handleAbandonSession} hitSlop={8}>
+                <Text style={styles.abandonText}>Abandon this session</Text>
+              </Pressable>
+            </View>
+          </View>
+        )}
+
+        {/* ── PRIORITY 1: Tonight's Recipe ─────────────────────────── */}
+        {hasTonightsRecipe && tonightsRecipe && (
+          <View style={styles.section}>
+            <Text style={styles.sectionLabel}>TONIGHT</Text>
+            <View style={styles.tonightCard}>
+              <Pressable
+                onPress={() => {
+                  haptic();
+                  router.push({ pathname: "/recipe/[id]", params: { id: tonightsRecipe.id } });
+                }}
+              >
+                <Image
+                  source={{ uri: resolveImageUrl(tonightsRecipe.image) }}
+                  style={styles.tonightImage}
+                  contentFit="cover"
+                  transition={reducedMotion ? 0 : 400}
+                />
+              </Pressable>
+              <View style={styles.tonightContent}>
+                <Pressable
+                  onPress={() => {
+                    haptic();
+                    router.push({ pathname: "/recipe/[id]", params: { id: tonightsRecipe.id } });
+                  }}
+                >
+                  <Text style={styles.tonightName}>{tonightsRecipe.name}</Text>
+                </Pressable>
+                <Text style={styles.tonightMeta}>
+                  {tonightsRecipe.region ?? tonightsRecipe.countryName}, {tonightsRecipe.countryName} · {tonightsRecipe.time}
+                </Text>
+                <Text style={styles.tonightServing}>Serving {servings}</Text>
+                <Pressable
+                  style={({ pressed }) => [styles.startButton, pressed && { opacity: 0.88 }]}
+                  onPress={() => handleStartCooking(tonightsRecipe.id)}
+                >
+                  <Text style={styles.startButtonText}>Start Cooking →</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        )}
+
+        {/* ── PRIORITY 1: What should we cook? ─────────────────────── */}
+        {showWhatToCook && (
+          <View style={styles.section}>
+            <View style={styles.whatToCookCard}>
+              <Text style={styles.whatToCookTitle}>What should we cook?</Text>
+              <View style={styles.whatToCookRow}>
+                <Pressable
+                  style={({ pressed }) => [styles.whatToCookBtn, pressed && { opacity: 0.88 }]}
+                  onPress={handleRandomRecipe}
+                >
+                  <Text style={styles.whatToCookBtnText}>Surprise me</Text>
+                </Pressable>
+                <Pressable
+                  style={({ pressed }) => [styles.whatToCookBtnOutline, pressed && { opacity: 0.88 }]}
+                  onPress={() => { haptic(); router.push("/(tabs)"); }}
+                >
+                  <Text style={styles.whatToCookBtnOutlineText}>Browse</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        )}
+
+        {/* ── PRIORITY 2: Your Level (compact inline) ──────────────── */}
+        <View style={styles.levelRow}>
+          <Text style={styles.levelName}>
+            {cookingProfile.currentLevelName} · Level {cookingProfile.currentLevel}
+          </Text>
+          <View style={styles.levelTrack}>
             <View
               style={[
-                styles.progressFill,
+                styles.levelFill,
                 { width: `${Math.max(cookingProfile.progressToNext * 100, 4)}%` },
               ]}
             />
           </View>
-          <Text style={styles.levelMeta}>Level {cookingProfile.currentLevel}</Text>
           <Text style={styles.levelStats}>
-            {cookingProfile.recipesCompleted.length} recipes cooked{" "}
+            {cookingProfile.recipesCompleted.length} cooked
             {cookingProfile.cuisinesExplored.length > 0
-              ? `\u00b7 ${cookingProfile.cuisinesExplored.length} cuisines`
+              ? ` · ${cookingProfile.cuisinesExplored.length} cuisines`
               : ""}
           </Text>
         </View>
 
-        {/* ── Tonight's Recipe ────────────────────────────────────── */}
-        {tonightsRecipe && (
-          <View style={styles.section}>
-            <Text style={styles.sectionLabel}>TONIGHT'S RECIPE</Text>
-            <Pressable
-              style={({ pressed }) => [styles.tonightCard, pressed && { opacity: 0.92 }]}
-              onPress={() => handleRecipePress(tonightsRecipe.id)}
+        {/* ── PRIORITY 3: Recently Cooked (horizontal scroll) ──────── */}
+        {recentRecipes.length > 0 && (
+          <View style={styles.sectionNoHPad}>
+            <Text style={[styles.sectionLabel, { paddingHorizontal: 24 }]}>RECENTLY COOKED</Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentScroll}
             >
-              <Image
-                source={{ uri: resolveImageUrl(tonightsRecipe.image) }}
-                style={styles.tonightImage}
-                contentFit="cover"
-                transition={reducedMotion ? 0 : 400}
-              />
-              <View style={styles.tonightContent}>
-                <Text style={styles.tonightName}>{tonightsRecipe.name}</Text>
-                <Text style={styles.tonightMeta}>
-                  {tonightsRecipe.region ?? tonightsRecipe.countryName} · {tonightsRecipe.time} · {tonightsRecipe.difficulty}
-                </Text>
+              {recentRecipes.map(({ session, recipe }) => (
                 <Pressable
-                  style={({ pressed }) => [styles.startButton, pressed && { opacity: 0.85 }]}
-                  onPress={() => handleStartCooking(tonightsRecipe.id)}
+                  key={session.id}
+                  style={({ pressed }) => [styles.recentCard, pressed && { opacity: 0.88 }]}
+                  onPress={() => {
+                    haptic();
+                    router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } });
+                  }}
                 >
-                  <Text style={styles.startButtonText}>Start Cooking</Text>
-                </Pressable>
-              </View>
-            </Pressable>
-          </View>
-        )}
-
-        {/* ── Quick Start ─────────────────────────────────────────── */}
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>QUICK START</Text>
-          <View style={styles.quickStartRow}>
-            <Pressable
-              style={({ pressed }) => [styles.quickPill, pressed && { opacity: 0.8 }]}
-              onPress={() => {
-                haptic();
-                setRecentSheetOpen(!recentSheetOpen);
-                setSavedSheetOpen(false);
-              }}
-            >
-              <Ionicons name="time-outline" size={18} color={Colors.light.onSurface} />
-              <Text style={styles.quickPillText}>Recent</Text>
-            </Pressable>
-            <Pressable
-              style={({ pressed }) => [styles.quickPill, pressed && { opacity: 0.8 }]}
-              onPress={() => {
-                haptic();
-                setSavedSheetOpen(!savedSheetOpen);
-                setRecentSheetOpen(false);
-              }}
-            >
-              <Ionicons name="bookmark-outline" size={18} color={Colors.light.onSurface} />
-              <Text style={styles.quickPillText}>Saved</Text>
-            </Pressable>
-            <Pressable
-              style={({ pressed }) => [styles.quickPill, pressed && { opacity: 0.8 }]}
-              onPress={handleRandomRecipe}
-            >
-              <Ionicons name="shuffle-outline" size={18} color={Colors.light.onSurface} />
-              <Text style={styles.quickPillText}>Random</Text>
-            </Pressable>
-          </View>
-
-          {/* Recent recipes inline list */}
-          {recentSheetOpen && (
-            <View style={styles.inlineSheet}>
-              {recentRecipes.length === 0 ? (
-                <Text style={styles.inlineSheetEmpty}>No recent cook sessions yet. Start cooking!</Text>
-              ) : (
-                recentRecipes.map((r) => (
-                  <RecipeContextMenu key={r.id} recipe={r}>
-                    <Pressable
-                      style={({ pressed }) => [styles.inlineRecipeRow, pressed && { opacity: 0.7 }]}
-                      onPress={() => handleStartCooking(r.id)}
-                    >
-                      <Image
-                        source={{ uri: resolveImageUrl(r.image) }}
-                        style={styles.inlineRecipeImage}
-                        contentFit="cover"
-                      />
-                      <View style={styles.inlineRecipeInfo}>
-                        <Text style={styles.inlineRecipeName} numberOfLines={1}>{r.name}</Text>
-                        <Text style={styles.inlineRecipeMeta}>{r.countryName} · {r.time}</Text>
-                      </View>
-                      <Ionicons name="play-circle" size={28} color={Colors.light.primary} />
-                    </Pressable>
-                  </RecipeContextMenu>
-                ))
-              )}
-            </View>
-          )}
-
-          {/* Saved recipes inline list */}
-          {savedSheetOpen && (
-            <View style={styles.inlineSheet}>
-              {savedRecipes.length === 0 ? (
-                <Text style={styles.inlineSheetEmpty}>No saved recipes yet. Bookmark recipes to see them here.</Text>
-              ) : (
-                savedRecipes.slice(0, 5).map((r) => (
-                  <RecipeContextMenu key={r.id} recipe={r}>
-                    <Pressable
-                      style={({ pressed }) => [styles.inlineRecipeRow, pressed && { opacity: 0.7 }]}
-                      onPress={() => handleStartCooking(r.id)}
-                    >
-                      <Image
-                        source={{ uri: resolveImageUrl(r.image) }}
-                        style={styles.inlineRecipeImage}
-                        contentFit="cover"
-                      />
-                      <View style={styles.inlineRecipeInfo}>
-                        <Text style={styles.inlineRecipeName} numberOfLines={1}>{r.name}</Text>
-                        <Text style={styles.inlineRecipeMeta}>{r.countryName} · {r.time}</Text>
-                      </View>
-                      <Ionicons name="play-circle" size={28} color={Colors.light.primary} />
-                    </Pressable>
-                  </RecipeContextMenu>
-                ))
-              )}
-            </View>
-          )}
-        </View>
-
-        {/* ── Level Up Your Skills ────────────────────────────────── */}
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>LEVEL UP YOUR SKILLS</Text>
-          <View style={styles.techniqueList}>
-            {TECHNIQUE_VIDEOS.map((video) => (
-              <Pressable
-                key={video.id}
-                style={({ pressed }) => [styles.techniqueRow, pressed && { opacity: 0.7 }]}
-                onPress={() => {
-                  haptic();
-                  // In v1 this would open a video player; for now navigate to the technique
-                }}
-              >
-                <View style={styles.techniqueThumbnailWrap}>
                   <Image
-                    source={{ uri: video.thumbnailUrl }}
-                    style={styles.techniqueThumbnail}
+                    source={{ uri: resolveImageUrl(recipe.image) }}
+                    style={styles.recentImage}
                     contentFit="cover"
                     transition={reducedMotion ? 0 : 200}
                   />
-                  <View style={styles.playOverlay}>
-                    <Ionicons name="play" size={16} color="#FFFFFF" />
-                  </View>
-                </View>
-                <View style={styles.techniqueInfo}>
-                  <Text style={styles.techniqueTitle} numberOfLines={1}>{video.title}</Text>
-                  <Text style={styles.techniqueSubtitle} numberOfLines={1}>{video.subtitle}</Text>
-                </View>
-                <Text style={styles.techniqueDuration}>{video.duration}</Text>
-              </Pressable>
-            ))}
+                  <Text style={styles.recentName} numberOfLines={1}>{recipe.name}</Text>
+                  <Text style={styles.recentTime}>{timeAgo(session.completedAt!)}</Text>
+                </Pressable>
+              ))}
+            </ScrollView>
           </View>
+        )}
+
+        {/* ── START WITH THESE (new users, < 3 recipes cooked) ─────── */}
+        {beginnerRecipes.length > 0 && recentRecipes.length === 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionLabel}>START WITH THESE</Text>
+            <View style={styles.beginnerList}>
+              {beginnerRecipes.map((recipe, idx) => (
+                <Pressable
+                  key={recipe.id}
+                  style={({ pressed }) => [
+                    styles.beginnerRow,
+                    idx < beginnerRecipes.length - 1 && styles.beginnerRowBorder,
+                    pressed && { opacity: 0.7 },
+                  ]}
+                  onPress={() => {
+                    haptic();
+                    router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } });
+                  }}
+                >
+                  <Image
+                    source={{ uri: resolveImageUrl(recipe.image) }}
+                    style={styles.beginnerImage}
+                    contentFit="cover"
+                  />
+                  <View style={styles.beginnerInfo}>
+                    <Text style={styles.beginnerName} numberOfLines={1}>{recipe.name}</Text>
+                    <Text style={styles.beginnerMeta}>
+                      {recipe.countryName} · {recipe.time} · {recipe.difficulty}
+                    </Text>
+                  </View>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {/* ── PRIORITY 4: Techniques (collapsed) ──────────────────── */}
+        <View style={styles.section}>
+          <Pressable
+            onPress={() => { haptic(); setTechniquesExpanded((v) => !v); }}
+            style={styles.techniquesHeader}
+          >
+            <Ionicons
+              name={techniquesExpanded ? "chevron-down" : "chevron-forward"}
+              size={18}
+              color={TEXT_PRIMARY}
+            />
+            <Text style={styles.techniquesHeaderText}>
+              Techniques ({TECHNIQUE_VIDEOS.length} videos)
+            </Text>
+          </Pressable>
+
+          {techniquesExpanded && (
+            <View style={styles.techniqueList}>
+              {TECHNIQUE_VIDEOS.map((video) => (
+                <Pressable
+                  key={video.id}
+                  style={({ pressed }) => [styles.techniqueRow, pressed && { opacity: 0.7 }]}
+                  onPress={() => {
+                    haptic();
+                    // v1: placeholder — would open video player
+                  }}
+                >
+                  <View style={styles.techniqueThumbnailWrap}>
+                    <Image
+                      source={{ uri: video.thumbnailUrl }}
+                      style={styles.techniqueThumbnail}
+                      contentFit="cover"
+                      transition={reducedMotion ? 0 : 200}
+                    />
+                    <View style={styles.playOverlay}>
+                      <Ionicons name="play-circle" size={20} color="rgba(255,255,255,0.8)" />
+                    </View>
+                  </View>
+                  <View style={styles.techniqueInfo}>
+                    <Text style={styles.techniqueTitle} numberOfLines={1}>{video.title}</Text>
+                    <Text style={styles.techniqueSubtitle} numberOfLines={1}>{video.subtitle}</Text>
+                  </View>
+                  <Text style={styles.techniqueDuration}>{video.duration}</Text>
+                </Pressable>
+              ))}
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
   );
 }
 
+function formatSeconds(totalSeconds: number): string {
+  const mins = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.light.surface,
-  },
-
-  /* ── Level Card ──────────────────────────────────────────────── */
-  levelCard: {
-    marginHorizontal: 24,
-    marginBottom: 28,
-    backgroundColor: "#F5EDDF",
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: "#E8DFD2",
-    padding: 20,
-    gap: 8,
-  },
-  levelLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: Colors.light.primary,
-    textTransform: "uppercase",
-    letterSpacing: 2,
-    lineHeight: 18,
-  },
-  levelName: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 22,
-    color: Colors.light.onSurface,
-    lineHeight: 28,
-  },
-  progressTrack: {
-    height: 6,
-    backgroundColor: "#E8DFD2",
-    borderRadius: 4,
-    overflow: "hidden",
-    marginTop: 4,
-  },
-  progressFill: {
-    height: "100%",
-    backgroundColor: Colors.light.primary,
-    borderRadius: 4,
-  },
-  levelMeta: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    lineHeight: 20,
-    marginTop: 2,
-  },
-  levelStats: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: "#8A8279",
-    lineHeight: 20,
+    backgroundColor: CREAM,
   },
 
   /* ── Sections ────────────────────────────────────────────────── */
   section: {
-    marginBottom: 28,
+    marginBottom: 24,
     paddingHorizontal: 24,
+  },
+  sectionNoHPad: {
+    marginBottom: 24,
   },
   sectionLabel: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
-    color: Colors.light.primary,
+    color: TERRACOTTA,
     textTransform: "uppercase",
     letterSpacing: 2,
-    marginBottom: 16,
+    marginBottom: 12,
+    lineHeight: 20,
+  },
+
+  /* ── Continue Cooking Card (Active Session) ──────────────────── */
+  continueCard: {
+    backgroundColor: "#FEF0E6",
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "rgba(154,65,0,0.3)",
+    padding: 20,
+    gap: 12,
+  },
+  continueRecipeName: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 20,
+    color: TEXT_PRIMARY,
+    lineHeight: 28,
+  },
+  continueProgress: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: TEXT_SECONDARY,
+    lineHeight: 22,
+  },
+  continueBtn: {
+    backgroundColor: TERRACOTTA,
+    height: 52,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  continueBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 17,
+    color: CREAM,
+  },
+  abandonText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: TEXT_SECONDARY,
+    textAlign: "center",
     lineHeight: 20,
   },
 
@@ -372,9 +490,9 @@ const styles = StyleSheet.create({
   tonightCard: {
     borderRadius: 16,
     overflow: "hidden",
-    backgroundColor: Colors.light.surfaceContainerLow,
+    backgroundColor: CREAM,
     borderWidth: 1,
-    borderColor: "#E8DFD2",
+    borderColor: BORDER,
   },
   tonightImage: {
     width: "100%",
@@ -386,110 +504,218 @@ const styles = StyleSheet.create({
   },
   tonightName: {
     fontFamily: "NotoSerif_700Bold",
-    fontSize: 18,
-    color: Colors.light.onSurface,
-    lineHeight: 24,
+    fontSize: 20,
+    color: TEXT_PRIMARY,
+    lineHeight: 28,
   },
   tonightMeta: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: "#8A8279",
+    color: TEXT_SECONDARY,
     lineHeight: 22,
   },
+  tonightServing: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: TEXT_SECONDARY,
+    lineHeight: 20,
+  },
   startButton: {
-    backgroundColor: Colors.light.primary,
+    backgroundColor: TERRACOTTA,
     borderRadius: 12,
     height: 52,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 8,
+    marginTop: 4,
   },
   startButtonText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
-    letterSpacing: 0.3,
+    color: CREAM,
   },
 
-  /* ── Quick Start ─────────────────────────────────────────────── */
-  quickStartRow: {
+  /* ── What should we cook? ────────────────────────────────────── */
+  whatToCookCard: {
+    backgroundColor: "#F5EDDF",
+    borderRadius: 16,
+    padding: 24,
+    alignItems: "center",
+    gap: 20,
+  },
+  whatToCookTitle: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 22,
+    color: TEXT_PRIMARY,
+    textAlign: "center",
+  },
+  whatToCookRow: {
     flexDirection: "row",
     gap: 12,
+    width: "100%",
   },
-  quickPill: {
-    flexDirection: "row",
+  whatToCookBtn: {
+    flex: 1,
+    height: 52,
+    backgroundColor: TERRACOTTA,
+    borderRadius: 12,
     alignItems: "center",
-    gap: 8,
-    backgroundColor: "#F5EDDF",
-    borderWidth: 1,
-    borderColor: "#E8DFD2",
-    borderRadius: 24,
-    paddingHorizontal: 20,
-    height: 48,
-    minWidth: 100,
+    justifyContent: "center",
   },
-  quickPillText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: Colors.light.onSurface,
-    lineHeight: 20,
+  whatToCookBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: CREAM,
+  },
+  whatToCookBtnOutline: {
+    flex: 1,
+    height: 52,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: TERRACOTTA,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: CREAM,
+  },
+  whatToCookBtnOutlineText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: TERRACOTTA,
   },
 
-  /* ── Inline Sheet (Recent / Saved) ───────────────────────────── */
-  inlineSheet: {
-    marginTop: 16,
-    backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: "#E8DFD2",
-    overflow: "hidden",
-  },
-  inlineSheetEmpty: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    textAlign: "center",
-    padding: 24,
-    lineHeight: 20,
-  },
-  inlineRecipeRow: {
+  /* ── Your Level (compact inline) ─────────────────────────────── */
+  levelRow: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 14,
-    gap: 14,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#E8DFD2",
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: BORDER,
+    marginBottom: 24,
+    gap: 10,
+    flexWrap: "wrap",
   },
-  inlineRecipeImage: {
-    width: 48,
-    height: 48,
+  levelName: {
+    fontFamily: "NotoSerif_600SemiBold",
+    fontSize: 16,
+    color: TEXT_PRIMARY,
+    lineHeight: 22,
+  },
+  levelTrack: {
+    width: 100,
+    height: 4,
+    backgroundColor: BORDER,
+    borderRadius: 2,
+    overflow: "hidden",
+  },
+  levelFill: {
+    height: "100%",
+    backgroundColor: TERRACOTTA,
+    borderRadius: 2,
+  },
+  levelStats: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: TEXT_SECONDARY,
+    lineHeight: 18,
+  },
+
+  /* ── Recently Cooked ─────────────────────────────────────────── */
+  recentScroll: {
+    paddingHorizontal: 24,
+    gap: 12,
+  },
+  recentCard: {
+    width: 100,
     borderRadius: 10,
-    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderWidth: 1,
+    borderColor: BORDER,
+    overflow: "hidden",
+    backgroundColor: CREAM,
   },
-  inlineRecipeInfo: {
+  recentImage: {
+    width: 100,
+    height: 80,
+  },
+  recentName: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: TEXT_PRIMARY,
+    lineHeight: 20,
+    paddingHorizontal: 8,
+    paddingTop: 6,
+  },
+  recentTime: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: TEXT_SECONDARY,
+    lineHeight: 18,
+    paddingHorizontal: 8,
+    paddingBottom: 8,
+  },
+
+  /* ── Start With These (Beginner) ─────────────────────────────── */
+  beginnerList: {
+    backgroundColor: CREAM,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: BORDER,
+    overflow: "hidden",
+  },
+  beginnerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 12,
+    gap: 14,
+    minHeight: 72,
+  },
+  beginnerRowBorder: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: BORDER,
+  },
+  beginnerImage: {
+    width: 56,
+    height: 56,
+    borderRadius: 8,
+    backgroundColor: "#F5EDDF",
+  },
+  beginnerInfo: {
     flex: 1,
     gap: 2,
   },
-  inlineRecipeName: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: Colors.light.onSurface,
-    lineHeight: 22,
+  beginnerName: {
+    fontFamily: "NotoSerif_600SemiBold",
+    fontSize: 17,
+    color: TEXT_PRIMARY,
+    lineHeight: 24,
   },
-  inlineRecipeMeta: {
+  beginnerMeta: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: Colors.light.secondary,
+    color: TEXT_SECONDARY,
     lineHeight: 20,
   },
 
-  /* ── Technique Library ───────────────────────────────────────── */
+  /* ── Techniques (collapsed) ──────────────────────────────────── */
+  techniquesHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 4,
+  },
+  techniquesHeaderText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
+    color: TEXT_PRIMARY,
+    lineHeight: 22,
+  },
   techniqueList: {
-    backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
+    backgroundColor: CREAM,
+    borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#E8DFD2",
+    borderColor: BORDER,
     overflow: "hidden",
+    marginTop: 12,
   },
   techniqueRow: {
     flexDirection: "row",
@@ -498,7 +724,7 @@ const styles = StyleSheet.create({
     gap: 14,
     minHeight: 72,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#E8DFD2",
+    borderBottomColor: BORDER,
   },
   techniqueThumbnailWrap: {
     width: 56,
@@ -506,7 +732,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: "hidden",
     position: "relative",
-    backgroundColor: Colors.light.surfaceContainerHigh,
+    backgroundColor: "#F5EDDF",
   },
   techniqueThumbnail: {
     width: 56,
@@ -516,28 +742,28 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.35)",
+    backgroundColor: "rgba(0,0,0,0.25)",
   },
   techniqueInfo: {
     flex: 1,
     gap: 2,
   },
   techniqueTitle: {
-    fontFamily: "NotoSerif_600SemiBold",
+    fontFamily: "Inter_500Medium",
     fontSize: 16,
-    color: Colors.light.onSurface,
+    color: TEXT_PRIMARY,
     lineHeight: 22,
   },
   techniqueSubtitle: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: "#8A8279",
+    color: TEXT_SECONDARY,
     lineHeight: 20,
   },
   techniqueDuration: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
-    color: "#8A8279",
+    color: TEXT_SECONDARY,
     lineHeight: 18,
     flexShrink: 0,
   },
