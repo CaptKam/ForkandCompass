@@ -1105,6 +1105,7 @@ const styles = StyleSheet.create({
   kitchenHeaderText: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
+    lineHeight: 20,
     color: TEXT_SECONDARY,
   },
   kitchenList: {

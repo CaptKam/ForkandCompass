@@ -531,7 +531,7 @@ const styles = StyleSheet.create({
   modeChip: {
     backgroundColor: Colors.light.primaryContainer + "22",
     paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingVertical: 14,
     borderRadius: 50,
     borderWidth: 1,
     borderColor: Colors.light.primary + "30",
