@@ -176,14 +176,26 @@ export default function DiscoverScreen() {
   const { countries } = useCountries();
   const reducedMotion = useReducedMotion();
   const heroScrollRef = useRef<ScrollView>(null);
+  const destScrollRef = useRef<ScrollView>(null);
   const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
   const { width: screenWidth } = useWindowDimensions();
+
+  const DEST_ITEM_WIDTH = 94;
+  const DEST_GAP = 24;
+  const DEST_PADDING = 24;
 
   useEffect(() => {
     if (screenWidth > 0) {
       heroScrollRef.current?.scrollTo({ x: activeIndex * screenWidth, animated: false });
     }
   }, [screenWidth]);
+
+  // Sync the circle row to keep the active item centered whenever activeIndex changes
+  useEffect(() => {
+    const itemCenter = DEST_PADDING + activeIndex * (DEST_ITEM_WIDTH + DEST_GAP) + DEST_ITEM_WIDTH / 2;
+    const scrollX = itemCenter - screenWidth / 2;
+    destScrollRef.current?.scrollTo({ x: Math.max(0, scrollX), animated: true });
+  }, [activeIndex, screenWidth]);
 
   const activeCountry = countries[activeIndex] ?? countries[0];
   const editorial = buildDiscoverData(activeCountry);
@@ -302,6 +314,7 @@ export default function DiscoverScreen() {
             <Text style={styles.destTitle}>Explore Destinations</Text>
           </View>
           <ScrollView
+            ref={destScrollRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.destScroll}
