@@ -3782,7 +3782,7 @@ export interface Country {
   thailand: "https://lh3.googleusercontent.com/aida-public/AB6AXuC0kLX0wrOqVM8OYMZzQjhlOT9QkcfuiC83aGL_WpFkZ3Evb2Zd1X61QaShAQ_B_t4HyA4PJnLiCGatfauqjdXIrmI2tNBj6lrGO-dsaZS0DbQTHp-wAir35wa0wSp15F0DcEQlFyeydaNOIK8gYJHZmrMNFd_YOMeQQMNayZv1wIFAahpRNPkSXh8NaztGmLljxA60FD28RwFxzD_KXCTG4Y8xdeX0XE4fquIorYY9wDhR1oedLaHjMBaNY4cKu2oLWWmosUjo_lIs",
   morocco: "https://lh3.googleusercontent.com/aida-public/AB6AXuAMYYz9mb0GW2v6PQ1cC3Sd4tzONRLYgP1u8BV2LkBeJi9bsUsxK47Ma0DvHAG-UrxG5RRNDFfBdN4dZht-ZGIYbJSaoRt_S2ZD7GvIcHcyZZb5h0RVr8ZR2UpGzUj-CdSYw4kiUDnbfrSW_p1XnNUIX3RUPdUaH3MsVJ6C6Q4jV5UmeR-RCMk2S8Sf8ASZ-4fn9q3D7-83EP7dB6yugS_PoqtNFlWD2owzumen-a12RJJB7zJnToj9bRoDWrTZ7QNnZ6RXrGM_Y5kl",
   spain:   "https://images.unsplash.com/photo-1543785734-4b6e564642f8?w=1200&q=85&fit=crop",
-  france:  "https://images.unsplash.com/photo-1476124369162-f4978670ba04?w=1200&q=85&fit=crop",
+  france:  "https://images.unsplash.com/photo-1589985643480-6349ce1aba47?w=1200&q=85&fit=crop",
 };
 
 export const WELCOME_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuBNn6amxRklLOG69FpzFwcXZX5f0amiGLTlhj-OK4CKLAIjyld88eF-BtrHONmt69pF3NCPSHevwxzssyeJ5w5VEPOr_80X6OLvGsHb34IEqgiWpCiWubiMQhnstosxqXAbBBiQcEZU-D9RTzfI_NmGNh5z4lYEsg0anY3accSKOTqZq8eXDHA6YRz9F54mcDsybrvMxHqD1TGxK3VUSsKjgta2G468z9ttJssORTCBDgaEojDrgatyIZ3koBd5P5yOCQsaO7I5moy8";
