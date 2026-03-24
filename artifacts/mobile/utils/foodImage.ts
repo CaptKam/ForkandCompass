@@ -1,4 +1,8 @@
-const cache = new Map<string, string | null>();
+import ingredientImages from "@/constants/ingredientImages.json";
+
+const STATIC_MAP = ingredientImages as Record<string, string>;
+
+const runtimeCache = new Map<string, string | null>();
 const inFlight = new Map<string, Promise<string | null>>();
 
 const STRIP_WORDS = new Set([
@@ -8,111 +12,79 @@ const STRIP_WORDS = new Set([
   "extra", "virgin", "organic", "unsalted", "salted", "low", "reduced",
   "light", "heavy", "full", "half", "a", "an", "of", "with", "and",
   "the", "to", "taste", "as", "needed", "or", "more", "less", "about",
-  "approximately", "roughly", "finely", "thinly", "thickly", "freshly",
+  "freshly", "thinly", "thickly", "finely", "roughly", "approximately",
 ]);
 
-const CORRECTIONS: Record<string, string> = {
-  "all-purpose flour": "all-purpose flour",
-  "all purpose flour": "flour",
-  "plain flour": "flour",
-  "bread flour": "flour",
-  "self-rising flour": "flour",
-  "heavy cream": "heavy cream",
-  "heavy whipping cream": "heavy cream",
-  "double cream": "clotted cream",
-  "tomato paste": "tomato paste",
-  "tomato puree": "tomato purée",
-  "spring onion": "scallion",
-  "spring onions": "scallion",
-  "green onion": "scallion",
-  "green onions": "scallion",
-  "scallions": "scallion",
-  "cilantro": "coriander",
-  "bell pepper": "bell pepper",
-  "capsicum": "bell pepper",
-  "stock": "broth",
-  "chicken stock": "chicken broth",
-  "vegetable stock": "vegetable broth",
-  "beef stock": "beef broth",
-};
-
-function normalizeForWikipedia(name: string): string {
-  const lower = name.toLowerCase().replace(/[()]/g, "").trim();
-
-  if (CORRECTIONS[lower]) return CORRECTIONS[lower];
-
-  const words = lower
+function normalize(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[()'']/g, "")
     .replace(/[^a-z0-9\s-]/g, " ")
     .split(/\s+/)
-    .filter((w) => w.length > 1 && !STRIP_WORDS.has(w));
+    .filter((w) => w.length > 1 && !STRIP_WORDS.has(w))
+    .slice(0, 4)
+    .join(" ")
+    .trim();
+}
 
-  return words.slice(0, 3).join(" ").trim();
+function lookupStatic(name: string): string | null {
+  const lower = name.toLowerCase().trim();
+
+  // Exact match
+  if (STATIC_MAP[lower]) return STATIC_MAP[lower];
+
+  // Normalized match
+  const norm = normalize(name);
+  if (norm && STATIC_MAP[norm]) return STATIC_MAP[norm];
+
+  // Partial prefix match (e.g. "yellow onion" → "onion")
+  const words = norm.split(" ");
+  for (let len = words.length - 1; len >= 1; len--) {
+    const partial = words.slice(-len).join(" ");
+    if (STATIC_MAP[partial]) return STATIC_MAP[partial];
+  }
+
+  return null;
 }
 
 async function fetchFromWikipedia(query: string): Promise<string | null> {
-  const encoded = encodeURIComponent(query);
-  const res = await fetch(
-    `https://en.wikipedia.org/api/rest_v1/page/summary/${encoded}`,
-    {
-      headers: {
-        "Api-User-Agent": "ForkAndCompass/1.0 (culinary travel app)",
-      },
-    }
-  );
-  if (!res.ok) return null;
-  const data = (await res.json()) as {
-    type?: string;
-    thumbnail?: { source?: string };
-    originalimage?: { source?: string };
-  };
-  if (data.type === "disambiguation") return null;
-  const img =
-    data.thumbnail?.source ??
-    data.originalimage?.source ??
-    null;
-  return img && img.startsWith("http") ? img : null;
-}
-
-async function fetchFromOpenFoodFacts(query: string): Promise<string | null> {
-  const res = await fetch(
-    `https://world.openfoodfacts.org/cgi/search.pl` +
-    `?action=process&search_terms=${encodeURIComponent(query)}` +
-    `&json=1&page_size=5&fields=image_front_small_url`,
-    { headers: { "User-Agent": "ForkAndCompass/1.0" } }
-  );
-  if (!res.ok) return null;
-  const data = (await res.json()) as {
-    products: { image_front_small_url?: string }[];
-  };
-  for (const p of data.products ?? []) {
-    const img = p.image_front_small_url ?? null;
-    if (img && img.startsWith("http")) return img;
+  try {
+    const res = await fetch(
+      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`,
+      { headers: { "Api-User-Agent": "ForkAndCompass/1.0" } }
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      type?: string;
+      thumbnail?: { source?: string };
+    };
+    if (data.type === "disambiguation") return null;
+    const img = data.thumbnail?.source ?? null;
+    return img && img.startsWith("http") ? img : null;
+  } catch {
+    return null;
   }
-  return null;
 }
 
 export async function fetchIngredientImage(name: string): Promise<string | null> {
   const key = name.toLowerCase().trim();
 
-  if (cache.has(key)) return cache.get(key)!;
+  // 1. Static map — instant, no network
+  const staticUrl = lookupStatic(name);
+  if (staticUrl) return staticUrl;
+
+  // 2. Runtime cache for live lookups
+  if (runtimeCache.has(key)) return runtimeCache.get(key)!;
   if (inFlight.has(key)) return inFlight.get(key)!;
 
   const promise = (async (): Promise<string | null> => {
     try {
-      const query = normalizeForWikipedia(name);
-      if (!query) return null;
-
-      const wikiImg = await fetchFromWikipedia(query);
-      if (wikiImg) {
-        cache.set(key, wikiImg);
-        return wikiImg;
-      }
-
-      const offImg = await fetchFromOpenFoodFacts(query);
-      cache.set(key, offImg);
-      return offImg;
+      const norm = normalize(name);
+      const wikiImg = norm ? await fetchFromWikipedia(norm) : null;
+      runtimeCache.set(key, wikiImg);
+      return wikiImg;
     } catch {
-      cache.set(key, null);
+      runtimeCache.set(key, null);
       return null;
     } finally {
       inFlight.delete(key);
