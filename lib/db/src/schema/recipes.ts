@@ -8,6 +8,10 @@ export type CookStep = {
   id: string;
   title: string;
   instruction: string;
+  /** Beginner-adapted instruction (First Steps tier) */
+  instructionFirstSteps?: string;
+  /** Advanced-adapted instruction (Chef's Table tier) */
+  instructionChefsTable?: string;
   materials: string[];
 };
 

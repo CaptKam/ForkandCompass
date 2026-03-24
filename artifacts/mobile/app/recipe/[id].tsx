@@ -4,7 +4,7 @@ import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import {
   Modal,
   Platform,
@@ -18,6 +18,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
 import { getRecipeById, getAllRecipes } from "@/constants/data";
+import {
+  parseActionVerbs,
+  getAdaptiveInstruction,
+  levelToTier,
+} from "@/constants/adaptive-language";
 import { useApp } from "@/contexts/AppContext";
 import ScheduleSheet from "@/components/ScheduleSheet";
 
@@ -54,7 +59,7 @@ export default function RecipeDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(id);
-  const { isSaved, toggleSaved, addToGrocery } = useApp();
+  const { isSaved, toggleSaved, addToGrocery, cookingLevel } = useApp();
   const [servings, setServings] = useState(4);
   const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
   const [showSchedule, setShowSchedule] = useState(false);
@@ -248,23 +253,36 @@ export default function RecipeDetailScreen() {
 
           {/* Instructions */}
           <Text style={[styles.sectionTitle, { marginTop: 32 }]}>Instructions</Text>
-          {recipe.steps.map((step, index) => (
-            <View key={step.id} style={styles.stepCard}>
-              <View style={styles.stepHeader}>
-                <View style={styles.stepNumber}>
-                  <Text style={styles.stepNumberText}>{index + 1}</Text>
+          {recipe.steps.map((step, index) => {
+            const tier = levelToTier(cookingLevel);
+            const text = getAdaptiveInstruction(step, tier);
+            const segments = parseActionVerbs(text);
+            return (
+              <View key={step.id} style={styles.stepCard}>
+                <View style={styles.stepHeader}>
+                  <View style={styles.stepNumber}>
+                    <Text style={styles.stepNumberText}>{index + 1}</Text>
+                  </View>
+                  <Text style={styles.stepTitle}>{step.title}</Text>
                 </View>
-                <Text style={styles.stepTitle}>{step.title}</Text>
+                <Text style={styles.stepInstruction}>
+                  {segments.map((seg, i) =>
+                    seg.type === "action" ? (
+                      <Text key={i} style={styles.actionVerb}>{seg.value}</Text>
+                    ) : (
+                      seg.value
+                    )
+                  )}
+                </Text>
+                {step.materials.length > 0 && (
+                  <View style={styles.stepMaterials}>
+                    <Text style={styles.stepMaterialsLabel}>You'll need:</Text>
+                    <Text style={styles.stepMaterialsText}>{step.materials.join(", ")}</Text>
+                  </View>
+                )}
               </View>
-              <Text style={styles.stepInstruction}>{step.instruction}</Text>
-              {step.materials.length > 0 && (
-                <View style={styles.stepMaterials}>
-                  <Text style={styles.stepMaterialsLabel}>You'll need:</Text>
-                  <Text style={styles.stepMaterialsText}>{step.materials.join(", ")}</Text>
-                </View>
-              )}
-            </View>
-          ))}
+            );
+          })}
 
           {/* Cultural Note / "Did You Know?" */}
           {recipe.culturalNote && (
@@ -392,9 +410,10 @@ const styles = StyleSheet.create({
   },
   recipeSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.light.secondary,
     letterSpacing: 0.3,
+    lineHeight: 22,
     marginBottom: 20,
   },
   // Meta chips
@@ -421,6 +440,7 @@ const styles = StyleSheet.create({
     color: Colors.light.onSurface,
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    lineHeight: 20,
   },
   // Servings
   servingsContainer: {
@@ -434,7 +454,7 @@ const styles = StyleSheet.create({
   },
   servingsLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
+    fontSize: 17,
     color: Colors.light.onSurface,
   },
   servingsStepper: {
@@ -459,7 +479,7 @@ const styles = StyleSheet.create({
   },
   servingsValue: {
     fontFamily: "Inter_700Bold",
-    fontSize: 14,
+    fontSize: 17,
     color: Colors.light.onSurface,
     paddingHorizontal: 12,
   },
@@ -479,6 +499,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     gap: 14,
     paddingVertical: 14,
+    minHeight: 56,
   },
   ingredientCircle: {
     marginTop: 2,
@@ -529,7 +550,7 @@ const styles = StyleSheet.create({
   },
   scheduleBtnText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: Colors.light.primary,
   },
   cookNowBtn: {
@@ -544,7 +565,7 @@ const styles = StyleSheet.create({
   },
   cookNowBtnText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: "#FFFFFF",
   },
   // Grocery CTA
@@ -563,7 +584,7 @@ const styles = StyleSheet.create({
   },
   groceryCtaText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: "#FFFFFF",
   },
   // Steps
@@ -601,6 +622,10 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     marginBottom: 10,
   },
+  actionVerb: {
+    fontFamily: "Inter_700Bold",
+    color: Colors.light.primary,
+  },
   stepMaterials: {
     padding: 14,
     backgroundColor: Colors.light.surfaceContainerLow,
@@ -618,8 +643,9 @@ const styles = StyleSheet.create({
   },
   stepMaterialsText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurface,
+    lineHeight: 20,
   },
 
   // Did You Know
@@ -639,8 +665,7 @@ const styles = StyleSheet.create({
   },
   didYouKnowText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
-
+    fontSize: 16,
     color: Colors.light.secondary,
     fontStyle: "italic",
     lineHeight: 22,
@@ -663,7 +688,7 @@ const styles = StyleSheet.create({
   },
   cookModeText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: "#FFFFFF",
     letterSpacing: -0.3,
   },
@@ -724,9 +749,10 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   nextJourneySubtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
     color: "rgba(255,255,255,0.7)",
+    lineHeight: 20,
   },
 
 });

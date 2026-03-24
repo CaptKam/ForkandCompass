@@ -26,6 +26,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { getRecipeById, resolveImageUrl } from "@/constants/data";
 import type { Ingredient } from "@/constants/data";
+import {
+  parseActionVerbs,
+  getAdaptiveInstruction,
+  levelToTier,
+} from "@/constants/adaptive-language";
 import { findTechniqueForStep } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import type { CookSession, ActiveCookSession } from "@/contexts/AppContext";
@@ -79,6 +84,12 @@ function getPhase(title: string): "prep" | "cook" | "finish" {
   return "prep";
 }
 
+const TERRACOTTA = "#8A3800";
+const TEXT_SECONDARY = "#5C5549";
+
+const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
+
+/** Extract doneness cues from instruction text — looks for "until" phrases */
 function getDonenessCue(instruction: string): string | null {
   const match = instruction.match(/until\s+(.+?)(?:\.|,|$)/i);
   if (match && match[1].length > 10) {
@@ -166,7 +177,7 @@ export default function CookModeScreen() {
   const { recipeId, resumeStep } = useLocalSearchParams<{ recipeId: string; resumeStep?: string }>();
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(recipeId);
-  const { completeCookSession, cookingProfile, activeCookSession, setActiveCookSession } = useApp();
+  const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession } = useApp();
 
   const initialStep = resumeStep ? parseInt(resumeStep, 10) : 0;
   const [currentStep, setCurrentStep] = useState(isNaN(initialStep) ? 0 : initialStep);
@@ -255,13 +266,15 @@ export default function CookModeScreen() {
   const isFirst = currentStep === 0;
   const isLast = currentStep === recipe.steps.length - 1;
   const phase = getPhase(step.title);
-  const stepDuration = parseDurationFromText(step.instruction);
-  const stepIngredients = getIngredientsForStep(step.instruction, recipe.ingredients);
-  const techniqueVideo = findTechniqueForStep(step.instruction);
+  const tier = levelToTier(cookingLevel);
+  const adaptiveText = getAdaptiveInstruction(step, tier);
+  const stepDuration = parseDurationFromText(adaptiveText);
+  const stepIngredients = getIngredientsForStep(adaptiveText, recipe.ingredients);
+  const techniqueVideo = findTechniqueForStep(adaptiveText);
   const userLevel = cookingProfile.currentLevel;
   const showVideoHint = techniqueVideo && (userLevel <= 2 || (userLevel <= 4 && techniqueVideo.difficulty !== "Beginner"));
-  const donenessCue = getDonenessCue(step.instruction);
-  const stepTips = getStepTips(step.instruction);
+  // Parse action verbs for highlighting
+  const instructionSegments = useMemo(() => parseActionVerbs(adaptiveText), [adaptiveText]);
 
   const phaseLabel = phase.toUpperCase();
   const phaseColor = phase === "finish" ? "#2D7A4F" : Colors.light.primary;
@@ -571,8 +584,16 @@ export default function CookModeScreen() {
             <Text style={[styles.phasePillText, phase === "finish" && styles.phasePillTextFinish]}>{phaseLabel}</Text>
           </View>
 
-          {/* Instruction — large editorial headline */}
-          <Text style={styles.stepInstruction}>{step.instruction}</Text>
+          {/* Step instruction with action verb highlighting */}
+          <Text style={styles.stepInstruction} maxFontSizeMultiplier={2.0}>
+            {instructionSegments.map((seg, i) =>
+              seg.type === "action" ? (
+                <Text key={i} style={styles.actionVerb}>{seg.value}</Text>
+              ) : (
+                seg.value
+              )
+            )}
+          </Text>
 
           {/* Timer controls (when active) */}
           {timerTotal != null && (
@@ -642,15 +663,14 @@ export default function CookModeScreen() {
             </View>
           )}
 
-          {/* Tips */}
-          {stepTips.length > 0 && (
-            <View style={styles.tipsContainer}>
-              {stepTips.map((tip, i) => (
-                <View key={i} style={styles.tipCard}>
-                  <Text style={styles.tipLabel}>💡 TIP</Text>
-                  <Text style={styles.tipText}>{tip}</Text>
-                </View>
-              ))}
+          {/* Doneness cue card — parse from instruction text */}
+          {getDonenessCue(adaptiveText) && (
+            <View style={styles.donenessCueCard}>
+              <Text style={styles.donenessCueLabel}>DONENESS CUE</Text>
+              <View style={styles.donenessCueRow}>
+                <Ionicons name="eye-outline" size={16} color={TERRACOTTA} style={{ marginTop: 2 }} />
+                <Text style={styles.donenessCueText}>{getDonenessCue(adaptiveText)}</Text>
+              </View>
             </View>
           )}
 
@@ -976,6 +996,10 @@ const styles = StyleSheet.create({
     color: Colors.light.onSurface,
     lineHeight: 40,
     letterSpacing: -0.3,
+  },
+  actionVerb: {
+    fontFamily: "Inter_700Bold",
+    color: Colors.light.primary,
   },
 
   timerSection: {

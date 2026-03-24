@@ -321,9 +321,9 @@ const styles = StyleSheet.create({
   },
   clearAll: {
     fontFamily: "Inter_500Medium",
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.light.primary,
-    lineHeight: 20,
+    lineHeight: 22,
   },
 
   // Recent searches
@@ -344,8 +344,9 @@ const styles = StyleSheet.create({
   },
   recentText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurface,
+    lineHeight: 20,
   },
 
   // Featured countries horizontal scroll
@@ -373,17 +374,17 @@ const styles = StyleSheet.create({
   },
   countryLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.light.onSurface,
     textAlign: "center",
-    lineHeight: 20,
+    lineHeight: 22,
   },
   countryCount: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.secondary,
     textAlign: "center",
-    lineHeight: 18,
+    lineHeight: 20,
   },
 
   // Mood chips
@@ -405,8 +406,9 @@ const styles = StyleSheet.create({
   },
   moodLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurface,
+    lineHeight: 20,
   },
 
   // Top cuisines vertical list
@@ -438,7 +440,7 @@ const styles = StyleSheet.create({
   cuisineLabel: {
     flex: 1,
     fontFamily: "Inter_500Medium",
-    fontSize: 16,
+    fontSize: 17,
     color: Colors.light.onSurface,
   },
 
@@ -469,14 +471,14 @@ const styles = StyleSheet.create({
   },
   resultTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
+    fontSize: 17,
     color: Colors.light.onSurface,
   },
   resultSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 20,
+    lineHeight: 22,
   },
 
   // No results
@@ -494,7 +496,8 @@ const styles = StyleSheet.create({
   },
   noResultsSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.outline,
+    lineHeight: 20,
   },
 });

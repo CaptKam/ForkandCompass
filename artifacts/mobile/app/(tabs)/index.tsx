@@ -678,7 +678,7 @@ const styles = StyleSheet.create({
   },
   letsGoText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: "#1D1B18",
   },
 
@@ -698,7 +698,7 @@ const styles = StyleSheet.create({
   },
   destTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
+    fontSize: 14,
     color: "rgba(87,66,56,0.6)",
     letterSpacing: 1.5,
     textTransform: "uppercase",
@@ -804,7 +804,7 @@ const styles = StyleSheet.create({
 
   viewAll: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.primary,
     letterSpacing: 1.5,
     textTransform: "uppercase",
@@ -835,9 +835,10 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   locSub: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
     color: "rgba(255,255,255,0.8)",
+    lineHeight: 20,
   },
 
   // Tasting menu
@@ -871,7 +872,7 @@ const styles = StyleSheet.create({
   },
   tastingCourse: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.primary,
     letterSpacing: 1.5,
     textTransform: "uppercase",
@@ -879,16 +880,17 @@ const styles = StyleSheet.create({
   },
   tastingName: {
     fontFamily: "NotoSerif_700Bold",
-    fontSize: 16,
+    fontSize: 17,
     color: Colors.light.onSurface,
-    lineHeight: 20,
+    lineHeight: 24,
   },
   tastingDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurfaceVariant,
     fontStyle: "italic",
     marginTop: 2,
+    lineHeight: 20,
   },
 
   // Editorial quote
@@ -917,7 +919,7 @@ const styles = StyleSheet.create({
   },
   quoteAttrib: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
+    fontSize: 14,
     color: "rgba(87,66,56,0.7)",
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -941,14 +943,15 @@ const styles = StyleSheet.create({
   },
   spiceName: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurface,
+    lineHeight: 20,
   },
   spiceDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 18,
+    lineHeight: 20,
   },
 
   // Cultural etiquette
@@ -983,9 +986,9 @@ const styles = StyleSheet.create({
   },
   etiquetteDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 18,
+    lineHeight: 20,
   },
 
   // Heritage spices
@@ -996,10 +999,11 @@ const styles = StyleSheet.create({
   heritageSubtitle: {
     fontFamily: "Inter_400Regular",
     fontStyle: "italic",
-    fontSize: 13,
+    fontSize: 14,
     color: "rgba(87,66,56,0.8)",
     marginTop: -8,
     marginBottom: 16,
+    lineHeight: 20,
   },
   heritageScroll: {
     gap: 24,
@@ -1027,9 +1031,9 @@ const styles = StyleSheet.create({
   },
   heritageDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 18,
+    lineHeight: 20,
     marginBottom: 12,
   },
   heritageBadgeRow: {
@@ -1069,9 +1073,9 @@ const styles = StyleSheet.create({
   reviewText: {
     fontFamily: "Inter_400Regular",
     fontStyle: "italic",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 18,
+    lineHeight: 20,
     marginBottom: 12,
   },
   reviewAuthorRow: {
@@ -1107,8 +1111,9 @@ const styles = StyleSheet.create({
   },
   streetSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurfaceVariant,
+    lineHeight: 20,
     marginTop: 2,
     marginBottom: 16,
   },
@@ -1137,9 +1142,10 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   streetDesc: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
     color: "rgba(255,255,255,0.8)",
+    lineHeight: 20,
   },
 
   // Related stories
@@ -1149,12 +1155,12 @@ const styles = StyleSheet.create({
   },
   relatedLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
+    fontSize: 14,
     color: "rgba(87,66,56,0.6)",
     letterSpacing: 3,
     textTransform: "uppercase",
     marginBottom: 16,
-    lineHeight: 18,
+    lineHeight: 20,
   },
   relatedScroll: {
     gap: 16,
@@ -1178,8 +1184,8 @@ const styles = StyleSheet.create({
   },
   relatedDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurfaceVariant,
-    lineHeight: 18,
+    lineHeight: 20,
   },
 });

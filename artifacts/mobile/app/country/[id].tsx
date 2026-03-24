@@ -252,12 +252,13 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   regionCardSubtitle: {
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Inter_500Medium",
     fontSize: 14,
-    color: "rgba(255,255,255,0.75)",
+    color: "rgba(255,255,255,0.85)",
     letterSpacing: 0.5,
     textTransform: "uppercase",
     marginBottom: 6,
+    lineHeight: 20,
   },
   regionCardTitle: {
     fontFamily: "NotoSerif_600SemiBold",

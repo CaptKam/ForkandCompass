@@ -24,9 +24,9 @@ const light = {
   primaryFixedDim: "#FFB690",
   text: "#1D1B18",
   background: "#FEF9F3",
-  tint: "#9A4100",
+  tint: "#8A3800",
   tabIconDefault: "#725A3C",
-  tabIconSelected: "#9A4100",
+  tabIconSelected: "#8A3800",
 };
 
 const dark: typeof light = {

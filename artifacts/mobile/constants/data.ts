@@ -37,6 +37,10 @@ export interface Country {
     id: string;
     title: string;
     instruction: string;
+    /** Beginner-adapted instruction (First Steps tier) */
+    instructionFirstSteps?: string;
+    /** Advanced-adapted instruction (Chef's Table tier) */
+    instructionChefsTable?: string;
     materials: string[];
   }
 
@@ -3862,7 +3866,10 @@ const IMAGE_BASE = process.env.EXPO_PUBLIC_DOMAIN
   : "";
 
 export function resolveImageUrl(url: string): string {
-  if (!url || url.startsWith("http")) return url;
+  if (!url) return url;
+  // Already a full URL — don't prepend again (prevents double-resolution)
+  if (url.startsWith("http")) return url;
+  if (!IMAGE_BASE) return url;
   return `${IMAGE_BASE}${url}`;
 }
 
