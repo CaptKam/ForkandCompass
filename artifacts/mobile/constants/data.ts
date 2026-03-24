@@ -3788,14 +3788,14 @@ export interface Country {
 export const WELCOME_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuBNn6amxRklLOG69FpzFwcXZX5f0amiGLTlhj-OK4CKLAIjyld88eF-BtrHONmt69pF3NCPSHevwxzssyeJ5w5VEPOr_80X6OLvGsHb34IEqgiWpCiWubiMQhnstosxqXAbBBiQcEZU-D9RTzfI_NmGNh5z4lYEsg0anY3accSKOTqZq8eXDHA6YRz9F54mcDsybrvMxHqD1TGxK3VUSsKjgta2G468z9ttJssORTCBDgaEojDrgatyIZ3koBd5P5yOCQsaO7I5moy8";
 
 export const LANDMARK_IMAGES: Record<string, string> = {
-  italy:   "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1200&q=85&fit=crop",
-  japan:   "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1200&q=85&fit=crop",
-  morocco: "https://images.unsplash.com/photo-1569596116178-bda4e2db89d3?w=1200&q=85&fit=crop",
-  mexico:  "https://images.unsplash.com/photo-1518998053901-5348d3961af0?w=1200&q=85&fit=crop",
-  india:   "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200&q=85&fit=crop",
-  thailand:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=85&fit=crop",
-  spain:   "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1200&q=85&fit=crop",
-  france:  "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=85&fit=crop",
+  italy:   "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&q=90&fit=crop&crop=center",
+  japan:   "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=800&q=90&fit=crop&crop=center",
+  morocco: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=800&q=90&fit=crop&crop=center",
+  mexico:  "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=800&q=90&fit=crop&crop=center",
+  india:   "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800&q=90&fit=crop&crop=center",
+  thailand:"https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=800&q=90&fit=crop&crop=center",
+  spain:   "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800&q=90&fit=crop&crop=center",
+  france:  "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=90&fit=crop&crop=center",
 };
 
 export interface CountryLocation {
