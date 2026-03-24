@@ -3789,12 +3789,12 @@ export const WELCOME_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public
 
 export const LANDMARK_IMAGES: Record<string, string> = {
   italy:   "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1200&q=85&fit=crop",
-  japan:   "https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?w=1200&q=85&fit=crop",
-  morocco: "https://images.unsplash.com/photo-1517573847294-84690dbc5df8?w=1200&q=85&fit=crop",
-  mexico:  "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1200&q=85&fit=crop",
+  japan:   "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1200&q=85&fit=crop",
+  morocco: "https://images.unsplash.com/photo-1569596116178-bda4e2db89d3?w=1200&q=85&fit=crop",
+  mexico:  "https://images.unsplash.com/photo-1518998053901-5348d3961af0?w=1200&q=85&fit=crop",
   india:   "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200&q=85&fit=crop",
-  thailand:"https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&q=85&fit=crop",
-  spain:   "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=85&fit=crop",
+  thailand:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=85&fit=crop",
+  spain:   "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1200&q=85&fit=crop",
   france:  "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=85&fit=crop",
 };
 
