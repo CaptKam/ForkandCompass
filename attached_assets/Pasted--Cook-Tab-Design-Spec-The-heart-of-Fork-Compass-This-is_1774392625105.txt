@@ -1,0 +1,922 @@
+# Cook Tab — Design Spec
+
+> The heart of Fork & Compass. This is where cooking actually happens. Guided step-by-step experience with timers, technique videos, doneness cues, and skill-level adaptation.
+
+---
+
+## Overview
+
+The Cook tab is NOT a recipe browser (that's Explore and Search). It's an **active cooking companion** — a screen you use with flour on your hands and a pan on the stove. It has two modes:
+
+1. **Cook hub** — the landing state. Shows your skill level, tonight's recipe, quick-start options, and technique library.
+2. **Cook mode** — the full-screen guided cooking experience. Step-by-step instructions, timers, video hints, ingredient callouts.
+
+---
+
+## 1. Cook Hub (tab landing screen)
+
+The Cook hub is priority-based — what you see depends on your state. The screen always answers one question first: **"What are you cooking right now?"**
+
+### Layout priority (top to bottom)
+
+The page builds itself based on the user's current state. Not every section shows every time.
+
+```
+PRIORITY 1 (show only one — whichever applies):
+
+  IF active cook session exists (user left mid-recipe):
+    → CONTINUE COOKING card
+
+  ELSE IF tonight's itinerary recipe exists:
+    → TONIGHT'S RECIPE card
+
+  ELSE:
+    → WHAT SHOULD WE COOK card (random + search)
+
+PRIORITY 2 (always show):
+  → YOUR LEVEL (compact inline, not a hero card)
+
+PRIORITY 3 (show if data exists):
+  → RECENTLY COOKED (horizontal scroll)
+
+PRIORITY 4 (always show):
+  → TECHNIQUES (collapsed, expandable)
+```
+
+---
+
+### State A: Active cook session (user left mid-recipe)
+
+This is the most important state. The user was cooking, got a phone call, switched apps, whatever. When they come back to the Cook tab, the first thing they see is how to resume.
+
+```
+┌──────────────────────────────────────┐
+│  Cook                      [avatar]  │
+├──────────────────────────────────────┤
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  IN PROGRESS                   │  │
+│  │                                │  │
+│  │  Cacio e Pepe                  │  │
+│  │  Step 4 of 8 · Timer: 12:30   │  │
+│  │                                │  │
+│  │  ┌──────────────────────────┐  │  │
+│  │  │  Continue Cooking →      │  │  │
+│  │  └──────────────────────────┘  │  │
+│  │                                │  │
+│  │  Abandon this session          │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  Home Chef · Level 3 ████████░░ ··  │
+│                                      │
+│  RECENTLY COOKED                     │
+│  ┌──────┐ ┌──────┐ ┌──────┐        │
+│  │      │ │      │ │      │        │
+│  └──────┘ └──────┘ └──────┘        │
+│                                      │
+│  ▸ Techniques (5 videos)             │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+#### Continue Cooking card design
+
+- Card background: subtle terracotta tint (#FEF0E6) — visually distinct from other cards, signals urgency
+- Border: 1px terracotta (#9A4100) at 30% opacity
+- Corner radius: 16px
+- "IN PROGRESS" label: 14pt Inter Medium, terracotta, uppercase, letter-spacing 2px
+- Recipe name: 20pt Noto Serif Bold, #1C1A17
+- Progress line: 16pt Inter Regular, #8A8279 — "Step 4 of 8 · Timer: 12:30" (if timer was running, show remaining time)
+- "Continue Cooking →" button: terracotta bg, cream text, full-width, 52pt height, 12px corner radius
+  - Tapping → resumes Cook Mode at the exact step where the user left off, timer resumes if it was running
+- "Abandon this session" link: 14pt Inter Regular, #8A8279, centered below button
+  - Tapping → confirmation dialog: "Stop cooking Cacio e Pepe? Your progress won't be saved."
+  - Confirming → clears the active session, page falls through to State B or C
+
+#### How active session is tracked
+
+```typescript
+interface ActiveCookSession {
+  recipeId: string;
+  recipeName: string;
+  currentStep: number;
+  totalSteps: number;
+  timerRemaining: number | null;  // seconds, null if no timer on current step
+  timerRunning: boolean;
+  startedAt: string;              // ISO timestamp
+  servings: number;
+}
+```
+
+Stored in AsyncStorage. Cleared when the user completes the recipe (taps "Finish Cooking") or abandons.
+
+---
+
+### State B: Tonight's recipe (no active session, has itinerary)
+
+The user has a meal planned for today but hasn't started cooking yet.
+
+```
+┌──────────────────────────────────────┐
+│  Cook                      [avatar]  │
+├──────────────────────────────────────┤
+│                                      │
+│  TONIGHT                             │
+│  ┌────────────────────────────────┐  │
+│  │                                │  │
+│  │      [recipe hero image]       │  │
+│  │                                │  │
+│  │  Cacio e Pepe                  │  │
+│  │  Tuscany, Italy · 25 min      │  │
+│  │  Serving 4                     │  │
+│  │                                │  │
+│  │  ┌──────────────────────────┐  │  │
+│  │  │  Start Cooking →         │  │  │
+│  │  └──────────────────────────┘  │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  Home Chef · Level 3 ████████░░ ··  │
+│                                      │
+│  RECENTLY COOKED                     │
+│  ┌──────┐ ┌──────┐ ┌──────┐        │
+│  │      │ │      │ │      │        │
+│  └──────┘ └──────┘ └──────┘        │
+│                                      │
+│  ▸ Techniques (5 videos)             │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+#### Tonight's card design
+
+- "TONIGHT" label: 14pt Inter Medium, terracotta, uppercase, letter-spacing 2px
+- Card: full-width, 16px corner radius, cream surface, 1px border #E8DFD2
+- Recipe image: full-width within card, 180pt height, 12px top corners, cover fit
+- Recipe name: 20pt Noto Serif Bold, #1C1A17
+- Subtitle: 16pt Inter Regular, #8A8279 — "[Region], [Country] · [cook time]"
+- Serving count: 14pt Inter Regular, #8A8279 — "Serving [n]"
+- "Start Cooking →" button: terracotta bg, cream text, full-width within card, 52pt height, 12px corner radius
+  - **Goes directly to Cook Mode** — not Recipe Detail
+- Tapping the image or recipe name → Recipe Detail (for reading)
+- No Quick/Full toggle. No serving size question. Just start.
+
+---
+
+### State C: No plan, no active session (new user or off-schedule day)
+
+The user has nothing planned. The page should still make them want to cook.
+
+```
+┌──────────────────────────────────────┐
+│  Cook                      [avatar]  │
+├──────────────────────────────────────┤
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │                                │  │
+│  │     What should we cook?       │  │
+│  │                                │  │
+│  │  ┌────────────┐ ┌──────────┐  │  │
+│  │  │ Surprise me│ │  Browse  │  │  │
+│  │  └────────────┘ └──────────┘  │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  Kitchen Curious · Level 1 █░░░ ··  │
+│                                      │
+│  START WITH THESE                    │
+│  ┌──────────────────────────────┐    │
+│  │  [img] Pasta Aglio e Olio    │    │
+│  │  Italy · 20 min · Easy       │    │
+│  ├──────────────────────────────┤    │
+│  │  [img] Pad Thai              │    │
+│  │  Thailand · 30 min · Easy    │    │
+│  ├──────────────────────────────┤    │
+│  │  [img] Guacamole             │    │
+│  │  Mexico · 10 min · Easy      │    │
+│  └──────────────────────────────┘    │
+│                                      │
+│  ▸ Techniques (5 videos)             │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+#### "What should we cook?" card
+
+- Card: cream dark bg (#F5EDDF), 16px corner radius, centered text
+- Headline: 22pt Noto Serif Bold, #1C1A17, centered
+- Two buttons side by side, equal width:
+  - "Surprise me": terracotta bg, cream text — picks a random recipe matched to skill level, goes directly to Cook Mode
+  - "Browse": outlined, terracotta border + text — switches to Explore tab
+- 52pt height each, 12px corner radius
+
+#### "Start with these" section (new users only)
+
+Shows when `recipesCompleted.length < 3`. A curated list of 3 beginner-friendly recipes to get the user started. Handpicked — not random.
+
+- Section label: "START WITH THESE" — 14pt Inter Medium, terracotta, uppercase, letter-spacing 2px
+- Recipe rows: 72pt height, recipe image (56x56pt, 8px corner radius) + name (17pt Noto Serif Medium) + subtitle (14pt Inter Regular, #8A8279)
+- Tapping a row → Recipe Detail (they can read first, then choose to Cook)
+- After 3+ recipes cooked, this section is replaced by "Recently Cooked"
+
+---
+
+### Section: Your level (compact — always visible)
+
+**This is no longer the hero card.** It's a compact inline element between the main action card and the secondary content.
+
+```
+Home Chef · Level 3 ████████████░░░░  12 cooked · 4 cuisines
+```
+
+- Single line, not a card
+- Left: Level name — 16pt Noto Serif Medium, #1C1A17
+- Center: Progress bar — 100pt wide, 4pt height, terracotta fill on #E8DFD2 track
+- Right: Stats — 13pt Inter Regular, #8A8279
+- Tapping anywhere on this line → opens level detail bottom sheet (full history, cuisines explored, what's needed for next level)
+- Horizontal padding: 20px each side
+- Vertical padding: 16px top, 16px bottom, with a subtle 1px divider above and below
+
+---
+
+### Section: Recently cooked (horizontal scroll)
+
+Shows the last 4-5 recipes the user has completed. Only visible when `recipesCompleted.length >= 1`.
+
+```
+RECENTLY COOKED
+┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐
+│[img] │ │[img] │ │[img] │ │[img] │
+│Cacio │ │Ramen │ │Tacos │ │Pho   │
+│3d ago│ │1w ago│ │1w ago│ │2w ago│
+└──────┘ └──────┘ └──────┘ └──────┘
+```
+
+- Section label: "RECENTLY COOKED" — 14pt Inter Medium, terracotta, uppercase, letter-spacing 2px
+- Horizontal scroll, no wrapping
+- Each card: 100pt wide, 130pt tall
+  - Recipe image: 100x80pt, 10px top corners, cover fit
+  - Recipe name: 14pt Inter Medium, #1C1A17, truncate to 1 line
+  - Time ago: 13pt Inter Regular, #8A8279
+- Card corner radius: 10px, 1px border #E8DFD2
+- Tapping a card → Recipe Detail (user can choose to cook again from there)
+- Long-press → context menu with "Cook again", "Schedule", "Share"
+
+---
+
+### Section: Techniques (collapsed by default)
+
+The technique videos are valuable but they're not the primary action. Collapse them behind an expandable header.
+
+```
+▸ Techniques (5 videos)
+```
+
+Tapping expands to show the video list:
+
+```
+▾ Techniques (5 videos)
+┌────────────────────────────────────┐
+│  [thumb] Knife Skills        4:30 │
+│  Master the basic cuts             │
+├────────────────────────────────────┤
+│  [thumb] The Perfect Sear    3:15 │
+│  Golden crust, juicy interior      │
+├────────────────────────────────────┤
+│  [thumb] Heat Control        5:00 │
+│  Searing vs sautéing               │
+└────────────────────────────────────┘
+```
+
+- Collapsed header: 16pt Inter Medium, #1C1A17, with chevron (▸/▾) and count badge
+- Remembers expanded/collapsed state in AsyncStorage
+- Video rows: same design as current (72pt height, thumbnail + title + subtitle + duration)
+- The videos should use Fork & Compass branded thumbnails — terracotta tint overlay on food photography, consistent typography. Not random YouTube screenshots of different people. Even if the videos are YouTube embeds, the thumbnails should feel like your app.
+
+#### Technique thumbnails design
+
+- 56x56pt, 8px corner radius
+- Terracotta gradient overlay (bottom 40% of image) for text legibility
+- Small play circle icon centered (SF Symbol `play.circle.fill`, 20pt, white at 80% opacity)
+- If self-produced in v2: consistent lighting, same kitchen, same hands, same color grade
+
+---
+
+## 2. Cook Mode (full-screen guided experience)
+
+This is the hero feature. When the user taps "Start Cooking" anywhere in the app, they enter Cook Mode — a focused, distraction-free cooking interface.
+
+### Entry points
+
+Cook Mode can be launched from:
+- Cook hub → "Start Cooking" (tonight's recipe)
+- Cook hub → Quick start → Recent/Saved/Random
+- Recipe detail → "Enter Cook Mode" button
+- Itinerary → "Start Cooking" on tonight's card
+
+### Screen structure
+
+```
+┌──────────────────────────────────────┐
+│  ✕ Close          Step 3 of 8       │
+│                         [timer icon] │
+├──────────────────────────────────────┤
+│                                      │
+│  COOK                                │
+│                                      │
+│  Heat olive oil in a heavy           │
+│  skillet over medium-high            │
+│  heat. Brown the beef cubes          │
+│  on all sides until a crust          │
+│  forms.                              │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  🎬 Watch: Searing technique  │  │
+│  │  Learn the perfect sear  1:20 │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  DONENESS CUE                  │  │
+│  │  👁 Beef is deeply browned    │  │
+│  │     on all sides               │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  INGREDIENTS FOR THIS STEP     │  │
+│  │  ☐ Olive oil — 15ml           │  │
+│  │  ☐ Stewing beef — 910g        │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│                                      │
+│  ┌────────┐          ┌────────────┐  │
+│  │  ← Prev│          │  Next →    │  │
+│  └────────┘          └────────────┘  │
+│                                      │
+│  ● ● ●○○○○○                         │
+└──────────────────────────────────────┘
+```
+
+### Header
+
+- Close button (✕): top-left, 48x48pt tap target — dismisses Cook Mode with confirmation ("Exit cooking? Your progress will be saved.")
+- Step indicator: "Step 3 of 8" — 16pt Inter Medium, centered
+- Timer icon: top-right, 48x48pt — tapping opens/starts the timer for this step (if the step has a duration)
+
+### Step instruction
+
+- Phase label: "COOK" or "PREP" or "FINISH" — 14pt Inter Medium, uppercase, terracotta, letter-spacing 2px
+- Instruction text: **20pt Inter Regular**, #1C1A17, line-height 1.5x (30pt) — this is the accessibility-friendly cook mode size
+- Max width: full screen minus 40px horizontal padding
+- Text comes from `instructions[n].text` in the recipe API response
+
+### Video hint card
+
+Shows when a technique video is relevant to the current step. Matched by the step's `structured.action` field.
+
+| API action | Suggested video |
+|---|---|
+| SEAR | "Searing technique" |
+| SOAK | "Hydrating dried ingredients" |
+| PUREE | "Blender safety & technique" |
+| SIMMER | "Low and slow: controlling heat" |
+| BOIL | "Rolling boil vs gentle boil" |
+| SAUTE | "Sauté fundamentals" |
+| CHOP / DICE / MINCE | "Knife skills: the basic cuts" |
+| KNEAD | "Dough kneading technique" |
+| FOLD | "Folding technique for batters" |
+| TEMPER | "Tempering chocolate / eggs" |
+
+- Card: cream dark bg, 1px border, 12px corner radius, 56pt height
+- Left: play icon (SF Symbol `play.circle.fill`, 24pt, terracotta)
+- Title: 16pt Inter Medium, #1C1A17 — "Watch: Searing technique"
+- Subtitle: 14pt Inter Regular, #8A8279 — "Learn the perfect sear"
+- Duration badge: right-aligned, 13pt Inter Medium
+- Tapping → opens video player inline (half-screen overlay) or picture-in-picture so user can watch while reading the step
+- If no matching video for this step's action → hide the card entirely (don't show empty state)
+
+### Doneness cue card
+
+Shows when the step has doneness_cues in the API response. This is what makes Cook Mode magical — it tells you what to look for instead of just saying "cook for 5 minutes."
+
+- Card: subtle terracotta tint background (#FEF0E6), 12px corner radius
+- Label: "DONENESS CUE" — 13pt Inter Medium, terracotta
+- Visual cue: prefixed with eye icon — "Beef is deeply browned on all sides"
+- Tactile cue: prefixed with hand icon — "Beef cubes are fork-tender"
+- Text: 17pt Inter Regular, #1C1A17
+- Only show cues that are non-null. If both visual and tactile exist, show both. If neither exists, hide the card.
+
+### Ingredients for this step
+
+Shows which ingredients from the recipe are used in the current step. Determined by matching ingredient names mentioned in the step text against the recipe's ingredient list.
+
+- Section label: "INGREDIENTS FOR THIS STEP" — 13pt Inter Medium, #8A8279
+- Each ingredient: checkbox (24x24pt visual, 48x48pt tap) + name + quantity
+- Text: 17pt Inter Regular
+- Checked ingredients dim (opacity 0.5, strikethrough)
+- This is a convenience — the user doesn't have to scroll back to the ingredient list
+
+```typescript
+function getIngredientsForStep(
+  stepText: string, 
+  ingredients: IngredientGroup[]
+): IngredientItem[] {
+  const allItems = ingredients.flatMap(g => g.items);
+  return allItems.filter(item => 
+    stepText.toLowerCase().includes(item.name.toLowerCase())
+  );
+}
+```
+
+### Timer
+
+When a step has a `structured.duration` value (e.g. "PT30M"), show a timer.
+
+- Timer display: **36pt Inter Bold**, centered, terracotta color
+- Format: "29:45" (mm:ss) or "1:29:45" (h:mm:ss) for long durations
+- Controls: Start / Pause / Reset — large buttons (52pt height, 120pt+ width)
+- When timer completes: haptic (UINotificationFeedbackGenerator .success) + visual pulse + "Time's up!" text
+- Timer runs in background (use iOS background timer or local notification)
+- Timer bar: thin progress bar below the timer digits, terracotta fill, 4pt height
+
+The timer auto-starts when the user navigates to a step with a duration. Pause/resume with a single tap on the timer itself.
+
+### Step navigation
+
+- Two buttons anchored to the bottom: "← Prev" and "Next →"
+- Both: 52pt height, 140pt+ width
+- "Next →": terracotta bg, cream text (primary)
+- "← Prev": cream bg, 1px terracotta border, terracotta text (secondary)
+- On the first step: "← Prev" is hidden
+- On the last step: "Next →" changes to "Finish Cooking ✓" (green bg #2D7A4F, cream text)
+- Step dots below: small circles (8pt), filled = completed, outlined = upcoming, terracotta = current
+
+### Step phases
+
+The API gives each step a `phase` field: "prep", "cook", or "finish". Use this to visually differentiate sections:
+
+| Phase | Label color | Background hint |
+|---|---|---|
+| prep | Terracotta | None (standard) |
+| cook | Terracotta | Subtle warm tint (#FEF9F3 → #FEF0E6) |
+| finish | Green (#2D7A4F) | Subtle green tint |
+
+### Finishing screen
+
+When the user taps "Finish Cooking ✓" on the last step:
+
+```
+┌──────────────────────────────────────┐
+│                                      │
+│                                      │
+│          Well done.                  │
+│                                      │
+│     Cacio e Pepe                     │
+│     Tuscany, Italy                   │
+│                                      │
+│     25 minutes · Easy                │
+│     Cuisine #5 explored              │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  ★ Rate this recipe            │  │
+│  │  ○ ○ ○ ○ ○                     │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  💡 How did it turn out?       │  │
+│  │  [Too salty] [Perfect] [Bland] │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  Done                          │  │
+│  └────────────────────────────────┘  │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+- "Well done." — 28pt Noto Serif Bold, #1C1A17, centered
+- Recipe name and origin below
+- Star rating: 5 tappable stars, 32pt each, terracotta filled
+- Quick feedback chips: "Too salty", "Perfect", "Bland", "Too spicy", "Undercooked" — pre-set options, multi-select
+- "Done" button: full-width, 52pt, terracotta bg — dismisses Cook Mode
+- On dismiss: updates cooking profile (adds to recipesCompleted, recalculates level, updates cuisinesExplored)
+- Subtle confetti or checkmark animation on the "Well done" text (respect Reduce Motion setting)
+
+---
+
+## 3. Troubleshooting (accessible during Cook Mode)
+
+The recipe API gives troubleshooting data: symptom, likely cause, prevention, and fix. Surface this as a help button during Cook Mode.
+
+### Access
+
+- Small "?" or "Help" button in the Cook Mode header (top area, between close and timer)
+- Tapping → opens a bottom sheet with troubleshooting tips for this recipe
+
+### Bottom sheet content
+
+```
+┌──────────────────────────────────────┐
+│  ─── (drag handle)                   │
+│                                      │
+│  Something not right?                │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  Beef is tough or chewy        │  │
+│  │                                │  │
+│  │  Likely cause: The meat hasn't │  │
+│  │  simmered long enough.         │  │
+│  │                                │  │
+│  │  Fix: Continue simmering in    │  │
+│  │  15-min increments until       │  │
+│  │  tender.                       │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  Chili is too watery           │  │
+│  │  ...                           │  │
+│  └────────────────────────────────┘  │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+- Title: "Something not right?" — 22pt Noto Serif Bold
+- Each troubleshooting item: card with symptom as title (17pt Inter Medium, #1C1A17), cause and fix as body (16pt Inter Regular, #8A8279)
+- Only show troubleshooting items from the current recipe's `troubleshooting` array
+
+---
+
+## 4. Chef notes (accessible during Cook Mode)
+
+The recipe API includes chef_notes — pro tips from the recipe creator. Show these contextually.
+
+### When to surface
+
+- As a dismissible banner at the top of Cook Mode when entering (first step only)
+- Or as a collapsible section below the step instruction
+
+### Design
+
+- Italic text, slightly indented, with a small quote icon
+- 16pt Noto Serif Italic, #8A8279
+- Shows one random chef note per cook session. Tap "More tips" to see all.
+
+---
+
+## 5. Video content strategy
+
+### Where videos come from
+
+For v1, curate 15-20 technique videos covering the most common cooking actions. These can be:
+- **Self-produced** (best for brand identity — film short 1-2 min technique clips)
+- **Licensed from creators** (partner with food YouTubers for technique content)
+- **YouTube embeds** (free but less polished, and you're sending users to YouTube)
+
+### Video placement
+
+| Location | Type | When shown |
+|---|---|---|
+| Cook hub → technique library | Standalone technique videos | Always visible |
+| Cook mode → video hint card | Contextual technique clip | When step action matches a technique |
+| Recipe detail → "Watch technique" | Preview before cooking | Optional, for users who want to preview |
+
+### Video hosting recommendation
+
+- **v1:** YouTube embeds (free, fast to set up, works everywhere)
+- **v2:** Self-hosted on Cloudflare Stream or Mux (branded, no YouTube ads, picture-in-picture support, analytics)
+
+---
+
+## 6. Skill level adaptation
+
+The user's cooking level subtly adjusts what they see:
+
+| Level | Adaptation |
+|---|---|
+| 1-2 (beginner) | Show ALL video hints, even for basic actions like BOIL. Show extra detail in doneness cues. Default to "Quick" mode on itinerary. |
+| 3-4 (intermediate) | Show video hints only for complex actions (TEMPER, SEAR, FOLD). Normal doneness cues. |
+| 5-6 (advanced) | Hide video hints by default (user can tap "Show tips" to reveal). Compact step layout. |
+
+This is a soft adaptation — the content is always accessible, just surfaced more or less aggressively based on experience level.
+
+---
+
+## 7. Data model additions
+
+### Cooking history (AsyncStorage)
+
+```typescript
+interface CookSession {
+  id: string;                     // UUID
+  recipeId: string;
+  recipeName: string;
+  cuisine: string;
+  difficulty: string;
+  startedAt: string;              // ISO timestamp
+  completedAt: string | null;     // null if abandoned
+  totalTime: number;              // actual minutes spent
+  rating: number | null;          // 1-5 stars
+  feedback: string[];             // ["Perfect", "Too salty"]
+  stepsCompleted: number;
+  totalSteps: number;
+}
+```
+
+### Cooking profile (AsyncStorage)
+
+```typescript
+interface CookingProfile {
+  recipesCompleted: string[];
+  cuisinesExplored: string[];
+  totalCookTime: number;
+  sessionsStarted: number;
+  sessionsCompleted: number;
+  averageRating: number;
+  currentLevel: number;
+  currentLevelName: string;
+  progressToNext: number;
+  streakDays: number;
+  lastCookDate: string | null;
+}
+```
+
+---
+
+## 8. API field mapping
+
+Which recipe-api.com fields power which Cook Mode elements:
+
+| Cook Mode element | API field |
+|---|---|
+| Step instruction text | `instructions[n].text` |
+| Step phase label | `instructions[n].phase` |
+| Timer duration | `instructions[n].structured.duration` |
+| Timer temperature display | `instructions[n].structured.temperature` |
+| Video hint matching | `instructions[n].structured.action` |
+| Doneness cue (visual) | `instructions[n].structured.doneness_cues.visual` |
+| Doneness cue (tactile) | `instructions[n].structured.doneness_cues.tactile` |
+| Ingredients for step | Match `instructions[n].text` against `ingredients[].items[].name` |
+| Troubleshooting | `troubleshooting[]` |
+| Chef notes | `chef_notes[]` |
+| Cultural context | `cultural_context` (show on recipe detail, not in Cook Mode) |
+| Equipment needed | `equipment[]` (show on recipe detail pre-cook checklist) |
+| Storage info | `storage` (show on finish screen — "Keeps 4 days in fridge") |
+| Difficulty badge | `difficulty` |
+| Total time | `meta.total_time` |
+| Servings | `meta.yields` |
+| Nutrition | `nutrition.per_serving` (show on recipe detail, not Cook Mode) |
+
+---
+
+## 9. Typography in Cook Mode (accessibility spec)
+
+All sizes follow the Typography Accessibility Spec. Cook Mode specific overrides:
+
+| Element | Size | Weight | Notes |
+|---|---|---|---|
+| Step instruction | 20pt Inter | Regular | Readable at arm's length |
+| Phase label | 14pt Inter | Medium | Uppercase, terracotta |
+| Timer digits | 36pt Inter | Bold | Glanceable from across kitchen |
+| Doneness cue text | 17pt Inter | Regular | |
+| Ingredient name | 17pt Inter | Medium | |
+| Video hint title | 16pt Inter | Medium | |
+| Step counter | 16pt Inter | Medium | "Step 3 of 8" |
+| Navigation buttons | 17pt Inter | Semi-bold | "← Prev" / "Next →" |
+| Finish screen headline | 28pt Noto Serif | Bold | "Well done." |
+| Dynamic Type max | 2.0x | — | Cook Mode allows extra scaling |
+
+---
+
+## 10. Pre-Cook Tips & Warnings
+
+Before the user enters Cook Mode, surface critical information they need to know BEFORE they start. The recipe API gives us everything we need.
+
+### Overnight / advance prep warning
+
+The API provides `meta.overnight_required` (boolean) and step phases. If a recipe requires advance prep (marinating, brining, soaking, fermenting), the user needs to know before they tap "Start Cooking" — not when they hit step 3 and read "marinate overnight."
+
+#### Where it shows
+
+1. **Recipe Detail page** — a prominent warning banner above the "Enter Cook Mode" button
+2. **Plan tab → tonight's card** — if tonight's recipe has overnight prep, show a warning the day before
+3. **Cook Mode entry** — interstitial before step 1 begins
+
+#### Warning banner design
+
+```
+┌──────────────────────────────────────┐
+│  ⏰ HEADS UP                         │
+│                                      │
+│  This recipe needs advance prep:     │
+│                                      │
+│  • Marinate the beef overnight       │
+│    (Step 2 — 8 hours minimum)        │
+│  • Soak dried chilies for 30 min     │
+│    (Step 1 — before cooking starts)  │
+│                                      │
+│  Make sure you've done these         │
+│  before starting Cook Mode.          │
+│                                      │
+│  ┌────────────────────────────────┐  │
+│  │  I'm ready — Start Cooking    │  │
+│  └────────────────────────────────┘  │
+│  ┌────────────────────────────────┐  │
+│  │  Start prep now               │  │
+│  └────────────────────────────────┘  │
+└──────────────────────────────────────┘
+```
+
+- Banner background: warm amber tint (#FEF3E0), 1px border #E8C868
+- "HEADS UP" label: 14pt Inter Medium, #9A7B00, uppercase
+- Bullet points: extracted from prep-phase steps with long durations
+- "I'm ready" button: terracotta bg — enters Cook Mode at step 1
+- "Start prep now" button: outlined — jumps to the first prep step
+
+#### How to detect advance prep
+
+```typescript
+function getAdvancePrepWarnings(recipe: Recipe): PrepWarning[] {
+  const warnings: PrepWarning[] = [];
+  
+  if (recipe.meta.overnight_required) {
+    warnings.push({
+      type: "overnight",
+      message: "This recipe requires overnight preparation",
+    });
+  }
+  
+  // Check for long passive durations in prep-phase steps
+  for (const step of recipe.instructions) {
+    if (step.phase === "prep" && step.structured.duration) {
+      const minutes = parseDuration(step.structured.duration);
+      if (minutes >= 30) {
+        warnings.push({
+          type: "advance_prep",
+          stepNumber: step.step_number,
+          action: step.structured.action,
+          duration: step.structured.duration,
+          message: extractPrepSummary(step.text),
+        });
+      }
+    }
+  }
+  
+  return warnings;
+}
+```
+
+#### Day-before notification
+
+If a recipe with `overnight_required: true` is scheduled for tomorrow in the itinerary, send a local notification the evening before:
+
+```
+"Heads up — tomorrow's Mole Negro needs overnight marination.
+Start the prep tonight! Tap to see the steps."
+```
+
+- Sent at 6:00 PM the day before
+- Tapping the notification → opens Recipe Detail for that recipe with the prep steps highlighted
+
+### Per-step tips
+
+The API gives `instructions[n].tips[]` per step. Surface these inline during Cook Mode as hint cards.
+
+```
+┌──────────────────────────────────────┐
+│  💡 TIP                              │
+│  Don't overcrowd the skillet when    │
+│  browning — sear in batches for a    │
+│  better crust.                       │
+└──────────────────────────────────────┘
+```
+
+- Card: cream dark bg (#F5EDDF), 12px corner radius
+- "TIP" label: 13pt Inter Medium, #9A7B00
+- Tip text: 16pt Inter Regular, #1C1A17
+- Shows below the step instruction, above the doneness cue
+- Multiple tips per step → show all, stacked
+- If no tips for this step → hide entirely
+
+### Chef notes in the help sheet
+
+The "?" button in the Cook Mode header now opens a sheet with two segments: **Troubleshooting** and **Chef Tips**.
+
+```
+┌──────────────────────────────────────┐
+│  ─── (drag handle)                   │
+│                                      │
+│  ┌─── segment control ────────────┐  │
+│  │  Troubleshooting  │  Chef Tips │  │
+│  └────────────────────────────────┘  │
+│                                      │
+│  [content based on selected segment] │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+- Troubleshooting: symptom/cause/fix cards (already spec'd above)
+- Chef Tips: `chef_notes[]` array as a vertical list, 16pt Noto Serif Italic, #1C1A17, with a subtle left border in terracotta
+
+---
+
+## 11. Named Timers with Background Notifications (v1)
+
+### Named timer format
+
+Every timer gets a human-readable name derived from the step action and primary ingredient:
+
+| Step text | Timer name |
+|---|---|
+| "Soak dried chilies for 30 minutes" | "Soak chilies — 30:00" |
+| "Simmer for 1 hour" | "Simmer chili — 1:00:00" |
+| "Bake at 350°F for 35 minutes" | "Bake cake — 35:00" |
+
+```typescript
+function generateTimerName(step: InstructionStep, recipe: Recipe): string {
+  const action = step.structured.action || "Cook";
+  const ingredients = getIngredientsForStep(step.text, recipe.ingredients);
+  const primaryIngredient = ingredients[0]?.name || recipe.name;
+  const actionWord = action.charAt(0).toUpperCase() + action.slice(1).toLowerCase();
+  return `${actionWord} ${primaryIngredient}`;
+}
+```
+
+### Background behavior
+
+When the user leaves the app with a timer running:
+
+1. Schedule a `UNUserNotificationCenter` local notification at the absolute end-time
+2. Mark it as **Time Sensitive** (breaks through Focus modes)
+3. Notification title: timer name (e.g. "Soak chilies")
+4. Notification body: "Timer complete — ready for the next step"
+5. Notification actions: "Open Cook Mode" and "Dismiss"
+
+### Timer persistence
+
+```typescript
+interface TimerState {
+  stepNumber: number;
+  name: string;                // "Soak chilies"
+  endTime: string;             // absolute ISO timestamp — NOT remaining seconds
+  durationTotal: number;       // original duration in seconds
+  notificationId: string;      // to cancel if timer is manually stopped
+  recipeId: string;
+}
+```
+
+Store in AsyncStorage. On app relaunch, recalculate remaining time from `endTime - now`. If `endTime` has passed, show "Timer complete" state.
+
+### Multiple concurrent timers
+
+Support up to 3 concurrent timers. Display as a stacked bar at the top of Cook Mode:
+
+```
+┌──────────────────────────────────────┐
+│  Soak chilies    12:30  [pause]      │
+│  Simmer stock    45:12  [pause]      │
+└──────────────────────────────────────┘
+```
+
+- Each timer row: 40pt height, timer name left-aligned, countdown right-aligned, pause button far right
+- Active timer for the current step is highlighted (terracotta text)
+- Other timers are muted (#8A8279)
+- Timer bar slides down from the header, always visible regardless of which step the user is on
+
+---
+
+## 12. v1 vs v2
+
+### v1 (ship — non-negotiable)
+- Screen wake lock (`isIdleTimerDisabled`) during Cook Mode
+- One-step-at-a-time paginated display with 20pt+ text
+- Per-step ingredient list (matched from step text)
+- Inline tappable timers auto-detected from API duration data
+- State persistence across app switches (never lose your place)
+- Step navigation with progress dots
+- Doneness cues (visual + tactile) from API — our differentiator
+- Finish screen with rating and feedback
+- Cooking profile and level progression (local)
+
+### v1 (ship — high value)
+- Named timers with background Time Sensitive notifications
+- Pre-cook tips: overnight prep warnings, day-before notifications
+- Per-step tips from API `instructions[n].tips[]`
+- Troubleshooting + Chef Tips help sheet (? button with segment control)
+- Cook hub: state-driven (active session → tonight's recipe → what should we cook?)
+- Cook hub: compact level card, recently cooked horizontal scroll, collapsed techniques
+- Skill level adaptation (show/hide hints based on level)
+
+### v1 (ship — if time allows)
+- Technique video hints matched to step actions (YouTube embeds)
+- Technique video library on Cook hub (10-15 videos)
+- Video hint cards in Cook Mode
+
+### v2 (later)
+- Voice navigation: "Next" and "Back" commands (SFSpeechRecognizer)
+- Live Activities on Lock Screen / Dynamic Island for timer tracking
+- Apple Watch companion: timer haptics and step text on wrist
+- Self-hosted video with picture-in-picture during Cook Mode
+- Multi-recipe orchestration (cooking two dishes simultaneously)
+- Smart hardware integration (Bluetooth thermometers, connected scales)
+- Social sharing: "I just cooked Cacio e Pepe!" shareable cards
+- Cooking streaks and weekly stats
+- Server-side cooking profile (sync across devices)
+- SharePlay for remote cooking together
+- Step photos (show what the dish should look like at each stage)
