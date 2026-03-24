@@ -237,6 +237,7 @@ export default function DiscoverScreen() {
             pagingEnabled
             showsHorizontalScrollIndicator={false}
             onMomentumScrollEnd={onHeroScroll}
+            onScrollEndDrag={onHeroScroll}
             scrollEventThrottle={16}
             contentOffset={{ x: activeIndex * screenWidth, y: 0 }}
             style={styles.heroScroll}
