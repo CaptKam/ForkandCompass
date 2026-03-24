@@ -271,6 +271,9 @@ export default function CookModeScreen() {
   // Parse action verbs for highlighting
   const instructionSegments = useMemo(() => parseActionVerbs(adaptiveText), [adaptiveText]);
 
+  const donenessCue = getDonenessCue(adaptiveText);
+  const stepTips = getStepTips(adaptiveText);
+
   const phaseLabel = phase.toUpperCase();
   const phaseColor = phase === "finish" ? "#2D7A4F" : Colors.light.primary;
   const phaseBg = phase === "cook" ? "#FEF0E6" : phase === "finish" ? "#EEFAF2" : Colors.light.surface;
@@ -655,17 +658,6 @@ export default function CookModeScreen() {
                   <Text style={styles.donenessCueText}>"{donenessCue}"</Text>
                 </View>
               )}
-            </View>
-          )}
-
-          {/* Doneness cue card — parse from instruction text */}
-          {getDonenessCue(adaptiveText) && (
-            <View style={styles.donenessCueCard}>
-              <Text style={styles.donenessCueLabel}>DONENESS CUE</Text>
-              <View style={styles.donenessCueRow}>
-                <Ionicons name="eye-outline" size={16} color={TERRACOTTA} style={{ marginTop: 2 }} />
-                <Text style={styles.donenessCueText}>{getDonenessCue(adaptiveText)}</Text>
-              </View>
             </View>
           )}
 
