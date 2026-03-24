@@ -521,35 +521,41 @@ export default function CookModeScreen() {
     <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: phaseBg }]}>
       <StatusBar style="dark" />
 
+      {/* Header */}
       <View style={styles.topBar}>
-        <Pressable onPress={handleClose} style={styles.headerButton}>
-          <Ionicons name="close" size={24} color={Colors.light.onSurface} />
-        </Pressable>
-        <Text style={styles.stepLabel}>Step {currentStep + 1} of {recipe.steps.length}</Text>
+        <View style={styles.headerLeft}>
+          <Pressable onPress={handleClose} style={styles.headerButton}>
+            <Ionicons name="close" size={24} color={Colors.light.onSurface} />
+          </Pressable>
+          <View style={styles.headerTitleCol}>
+            <Text style={styles.stepLabel}>Step {currentStep + 1} of {recipe.steps.length}</Text>
+            <Text style={styles.headerRecipeName} numberOfLines={1}>{recipe.name}</Text>
+          </View>
+        </View>
         <View style={styles.headerRight}>
           <Pressable
             onPress={() => { setShowHelpSheet(true); if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); }}
             style={styles.headerButton}
           >
-            <Ionicons name="help-circle-outline" size={24} color={Colors.light.secondary} />
+            <Ionicons name="help-circle-outline" size={22} color={Colors.light.secondary} />
           </Pressable>
-          {stepDuration && !timerTotal && (
-            <Pressable onPress={startTimer} style={styles.headerButton}>
-              <Ionicons name="timer-outline" size={24} color={Colors.light.primary} />
+          {stepDuration && !timerTotal ? (
+            <Pressable onPress={startTimer} style={styles.timerPill}>
+              <Ionicons name="timer-outline" size={16} color={TERRACOTTA} />
+              <Text style={styles.timerPillText}>Start</Text>
             </Pressable>
-          )}
+          ) : timerTotal != null ? (
+            <Pressable onPress={toggleTimer} style={[styles.timerPill, timerRemaining === 0 && styles.timerPillDone]}>
+              <Ionicons name="timer-outline" size={16} color={timerRemaining === 0 ? "#2D7A4F" : TERRACOTTA} />
+              <Text style={[styles.timerPillText, timerRemaining === 0 && { color: "#2D7A4F" }]}>
+                {timerRemaining === 0 ? "Done!" : formatTimer(timerRemaining)}
+              </Text>
+            </Pressable>
+          ) : null}
         </View>
       </View>
 
-      <View style={styles.progressBarContainer}>
-        <View
-          style={[
-            styles.progressBarFill,
-            { width: `${((currentStep + 1) / recipe.steps.length) * 100}%` },
-          ]}
-        />
-      </View>
-
+      {/* Step content */}
       <Animated.View
         key={`step-${currentStep}`}
         entering={direction === "forward" ? FadeInRight.duration(250) : FadeInLeft.duration(250)}
@@ -560,10 +566,15 @@ export default function CookModeScreen() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
-          <Text style={[styles.phaseLabel, { color: phaseColor }]}>{phaseLabel}</Text>
+          {/* Phase pill */}
+          <View style={[styles.phasePill, phase === "finish" && styles.phasePillFinish]}>
+            <Text style={[styles.phasePillText, phase === "finish" && styles.phasePillTextFinish]}>{phaseLabel}</Text>
+          </View>
 
+          {/* Instruction — large editorial headline */}
           <Text style={styles.stepInstruction}>{step.instruction}</Text>
 
+          {/* Timer controls (when active) */}
           {timerTotal != null && (
             <View style={styles.timerSection}>
               {timerName ? <Text style={styles.timerNameLabel}>{timerName}</Text> : null}
@@ -601,6 +612,37 @@ export default function CookModeScreen() {
             </View>
           )}
 
+          {/* Bento grid: video + doneness cue side by side */}
+          {(showVideoHint || donenessCue) && (
+            <View style={styles.bentoGrid}>
+              {showVideoHint && techniqueVideo && (
+                <Pressable style={styles.videoCard}>
+                  <Image
+                    source={{ uri: techniqueVideo.thumbnailUrl }}
+                    style={StyleSheet.absoluteFill}
+                    contentFit="cover"
+                  />
+                  <View style={styles.videoGradient} />
+                  <View style={styles.videoPlayCircle}>
+                    <Ionicons name="play" size={24} color={TERRACOTTA} style={{ marginLeft: 2 }} />
+                  </View>
+                  <View style={styles.videoCardBottom}>
+                    <Text style={styles.videoCardLabel}>Video Technique</Text>
+                    <Text style={styles.videoCardTitle}>{techniqueVideo.title}</Text>
+                  </View>
+                </Pressable>
+              )}
+              {donenessCue && (
+                <View style={[styles.donenessCueCard, showVideoHint ? styles.donenessCueCardHalf : styles.donenessCueCardFull]}>
+                  <Ionicons name="alert-circle" size={28} color={TERRACOTTA} />
+                  <Text style={styles.donenessCueLabel}>Doneness Cue</Text>
+                  <Text style={styles.donenessCueText}>"{donenessCue}"</Text>
+                </View>
+              )}
+            </View>
+          )}
+
+          {/* Tips */}
           {stepTips.length > 0 && (
             <View style={styles.tipsContainer}>
               {stepTips.map((tip, i) => (
@@ -612,6 +654,7 @@ export default function CookModeScreen() {
             </View>
           )}
 
+          {/* First-step chef note */}
           {currentStep === 0 && (
             <View style={styles.chefNoteCard}>
               <Ionicons name="bulb-outline" size={16} color={TERRACOTTA} style={{ marginTop: 2 }} />
@@ -621,30 +664,10 @@ export default function CookModeScreen() {
             </View>
           )}
 
-          {donenessCue && (
-            <View style={styles.donenessCueCard}>
-              <Text style={styles.donenessCueLabel}>DONENESS CUE</Text>
-              <View style={styles.donenessCueRow}>
-                <Ionicons name="eye-outline" size={16} color={TERRACOTTA} style={{ marginTop: 2 }} />
-                <Text style={styles.donenessCueText}>{donenessCue}</Text>
-              </View>
-            </View>
-          )}
-
-          {showVideoHint && techniqueVideo && (
-            <View style={styles.videoHintCard}>
-              <Ionicons name="play-circle" size={24} color={Colors.light.primary} />
-              <View style={styles.videoHintInfo}>
-                <Text style={styles.videoHintTitle}>Watch: {techniqueVideo.title}</Text>
-                <Text style={styles.videoHintSubtitle}>{techniqueVideo.subtitle}</Text>
-              </View>
-              <Text style={styles.videoHintDuration}>{techniqueVideo.duration}</Text>
-            </View>
-          )}
-
+          {/* Ingredients for this step */}
           {stepIngredients.length > 0 && (
             <View style={styles.ingredientsCard}>
-              <Text style={styles.ingredientsLabel}>INGREDIENTS FOR THIS STEP</Text>
+              <Text style={styles.ingredientsLabel}>Ingredients for this step</Text>
               {stepIngredients.map((ing) => {
                 const isChecked = checkedIngredients.has(ing.id);
                 return (
@@ -654,7 +677,7 @@ export default function CookModeScreen() {
                     onPress={() => toggleIngredient(ing.id)}
                   >
                     <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
-                      {isChecked && <Ionicons name="checkmark" size={14} color="#FFFFFF" />}
+                      {isChecked && <View style={styles.checkboxDot} />}
                     </View>
                     <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked]}>
                       {ing.name} — {ing.amount}
@@ -665,9 +688,10 @@ export default function CookModeScreen() {
             </View>
           )}
 
+          {/* Equipment */}
           {step.materials.length > 0 && (
             <View style={styles.materialsCard}>
-              <Text style={styles.ingredientsLabel}>EQUIPMENT</Text>
+              <Text style={styles.ingredientsLabel}>Equipment</Text>
               {step.materials.map((mat, i) => (
                 <View key={i} style={styles.materialRow}>
                   <Ionicons name="construct-outline" size={16} color={Colors.light.secondary} />
@@ -679,32 +703,9 @@ export default function CookModeScreen() {
         </ScrollView>
       </Animated.View>
 
+      {/* Bottom navigation */}
       <View style={[styles.bottomArea, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
-        <View style={styles.navRow}>
-          {!isFirst ? (
-            <Pressable
-              onPress={goPrev}
-              style={({ pressed }) => [styles.navBtnSecondary, pressed && { opacity: 0.7 }]}
-            >
-              <Text style={styles.navBtnSecondaryText}>← Prev</Text>
-            </Pressable>
-          ) : (
-            <View style={{ width: 140 }} />
-          )}
-
-          <Pressable
-            onPress={goNext}
-            style={({ pressed }) => [
-              isLast ? styles.navBtnFinish : styles.navBtnPrimary,
-              pressed && { opacity: 0.85 },
-            ]}
-          >
-            <Text style={styles.navBtnPrimaryText}>
-              {isLast ? "Finish Cooking ✓" : "Next →"}
-            </Text>
-          </Pressable>
-        </View>
-
+        {/* Progress dots — variable width */}
         <View style={styles.navDots}>
           {recipe.steps.map((_, i) => (
             <View
@@ -716,6 +717,33 @@ export default function CookModeScreen() {
               ]}
             />
           ))}
+        </View>
+
+        <View style={styles.navRow}>
+          {!isFirst ? (
+            <Pressable
+              onPress={goPrev}
+              style={({ pressed }) => [styles.navBtnSecondary, pressed && { opacity: 0.7 }]}
+            >
+              <Ionicons name="arrow-back" size={16} color={Colors.light.onSurface} />
+              <Text style={styles.navBtnSecondaryText}>Prev</Text>
+            </Pressable>
+          ) : (
+            <View style={{ width: 100 }} />
+          )}
+
+          <Pressable
+            onPress={goNext}
+            style={({ pressed }) => [
+              isLast ? styles.navBtnFinish : styles.navBtnPrimary,
+              pressed && { opacity: 0.85 },
+            ]}
+          >
+            <Text style={styles.navBtnPrimaryText}>
+              {isLast ? "Finish" : "Next"}
+            </Text>
+            <Ionicons name={isLast ? "checkmark" : "arrow-forward"} size={16} color={CREAM} />
+          </Pressable>
         </View>
       </View>
 
@@ -859,33 +887,58 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    flex: 1,
+  },
+  headerTitleCol: {
+    flex: 1,
+  },
   headerButton: {
-    width: 48,
-    height: 48,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },
   headerRight: {
     flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
   stepLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 16,
+    fontSize: 10,
+    color: Colors.light.secondary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    lineHeight: 14,
+  },
+  headerRecipeName: {
+    fontFamily: "NotoSerif_600SemiBold",
+    fontStyle: "italic",
+    fontSize: 18,
+    color: TERRACOTTA,
+    lineHeight: 24,
+  },
+  timerPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 99,
+  },
+  timerPillDone: {
+    backgroundColor: "#E0F5E8",
+  },
+  timerPillText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
     color: Colors.light.onSurface,
-    lineHeight: 22,
-  },
-
-  progressBarContainer: {
-    height: 3,
-    backgroundColor: BORDER,
-    marginHorizontal: 20,
-    borderRadius: 2,
-    overflow: "hidden",
-  },
-  progressBarFill: {
-    height: "100%",
-    backgroundColor: TERRACOTTA,
-    borderRadius: 2,
   },
 
   stepContent: {
@@ -893,22 +946,36 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingTop: 24,
-    paddingBottom: 24,
-    gap: 16,
+    paddingTop: 32,
+    paddingBottom: 32,
+    gap: 20,
   },
-  phaseLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
+  phasePill: {
+    alignSelf: "flex-start",
+    backgroundColor: "#FBDAB3",
+    paddingHorizontal: 14,
+    paddingVertical: 5,
+    borderRadius: 99,
+  },
+  phasePillFinish: {
+    backgroundColor: "#E0F5E8",
+  },
+  phasePillText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 10,
+    color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 2,
-    lineHeight: 20,
+  },
+  phasePillTextFinish: {
+    color: "#2D7A4F",
   },
   stepInstruction: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 20,
+    fontFamily: "NotoSerif_600SemiBold",
+    fontSize: 28,
     color: Colors.light.onSurface,
-    lineHeight: 30,
+    lineHeight: 40,
+    letterSpacing: -0.3,
   },
 
   timerSection: {
@@ -1011,106 +1078,129 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  bentoGrid: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  videoCard: {
+    flex: 1,
+    aspectRatio: 4 / 5,
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  videoGradient: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.35)",
+  },
+  videoPlayCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "rgba(254,249,243,0.75)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  videoCardBottom: {
+    position: "absolute",
+    bottom: 14,
+    left: 14,
+    right: 14,
+  },
+  videoCardLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 10,
+    color: "rgba(255,255,255,0.8)",
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    marginBottom: 4,
+  },
+  videoCardTitle: {
+    fontFamily: "NotoSerif_600SemiBold",
+    fontStyle: "italic",
+    fontSize: 17,
+    color: "#FFFFFF",
+    lineHeight: 22,
+  },
   donenessCueCard: {
-    backgroundColor: "#FEF0E6",
-    borderRadius: 12,
-    padding: 14,
-    gap: 8,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 16,
+    padding: 20,
+    gap: 10,
+    justifyContent: "center",
+    borderWidth: 0.5,
+    borderColor: "rgba(222,193,179,0.1)",
+  },
+  donenessCueCardHalf: {
+    flex: 1,
+  },
+  donenessCueCardFull: {
+    flex: 1,
   },
   donenessCueLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: TERRACOTTA,
-    letterSpacing: 1,
-  },
-  donenessCueRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 8,
+    fontSize: 10,
+    color: Colors.light.secondary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
   },
   donenessCueText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 17,
+    fontFamily: "NotoSerif_600SemiBold",
+    fontSize: 18,
     color: Colors.light.onSurface,
-    lineHeight: 24,
-    flex: 1,
-  },
-
-  videoHintCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    backgroundColor: "#F5EDDF",
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: BORDER,
-    padding: 14,
-    minHeight: 56,
-  },
-  videoHintInfo: {
-    flex: 1,
-    gap: 2,
-  },
-  videoHintTitle: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 16,
-    color: Colors.light.onSurface,
-    lineHeight: 22,
-  },
-  videoHintSubtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: TEXT_SECONDARY,
-    lineHeight: 20,
-  },
-  videoHintDuration: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: TEXT_SECONDARY,
+    lineHeight: 26,
   },
 
   ingredientsCard: {
-    gap: 10,
+    gap: 14,
   },
   ingredientsLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: TEXT_SECONDARY,
-    letterSpacing: 1,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 10,
+    color: Colors.light.secondary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
   },
   ingredientRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
-    minHeight: 48,
+    gap: 14,
+    minHeight: 40,
   },
   checkbox: {
     width: 24,
     height: 24,
-    borderRadius: 6,
+    borderRadius: 12,
     borderWidth: 2,
-    borderColor: BORDER,
+    borderColor: "#DEC1B3",
     alignItems: "center",
     justifyContent: "center",
   },
   checkboxChecked: {
-    backgroundColor: TERRACOTTA,
     borderColor: TERRACOTTA,
   },
+  checkboxDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: TERRACOTTA,
+  },
   ingredientText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 17,
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
     color: Colors.light.onSurface,
-    lineHeight: 24,
+    lineHeight: 22,
     flex: 1,
   },
   ingredientChecked: {
-    opacity: 0.5,
+    color: Colors.light.secondary,
     textDecorationLine: "line-through",
   },
 
   materialsCard: {
-    gap: 10,
+    gap: 14,
   },
   materialRow: {
     flexDirection: "row",
@@ -1126,70 +1216,92 @@ const styles = StyleSheet.create({
   },
 
   bottomArea: {
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: BORDER,
-    backgroundColor: Colors.light.surface,
+    paddingHorizontal: 24,
+    paddingTop: 14,
+    backgroundColor: "rgba(254,249,243,0.8)",
+    borderTopWidth: 0.5,
+    borderTopColor: "rgba(222,193,179,0.2)",
   },
   navRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     gap: 12,
   },
   navBtnPrimary: {
-    flex: 1,
-    height: 52,
-    backgroundColor: TERRACOTTA,
-    borderRadius: 12,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    gap: 8,
+    backgroundColor: TERRACOTTA,
+    paddingHorizontal: 36,
+    paddingVertical: 16,
+    borderRadius: 99,
+    shadowColor: TERRACOTTA,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 4,
   },
   navBtnFinish: {
-    flex: 1,
-    height: 52,
-    backgroundColor: "#2D7A4F",
-    borderRadius: 12,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    gap: 8,
+    backgroundColor: "#2D7A4F",
+    paddingHorizontal: 36,
+    paddingVertical: 16,
+    borderRadius: 99,
+    shadowColor: "#2D7A4F",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 4,
   },
   navBtnPrimaryText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
+    fontSize: 14,
     color: CREAM,
+    textTransform: "uppercase",
+    letterSpacing: 1.5,
   },
   navBtnSecondary: {
-    flex: 1,
-    height: 52,
-    backgroundColor: CREAM,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: TERRACOTTA,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    gap: 6,
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    borderRadius: 99,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.3)",
   },
   navBtnSecondaryText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
-    color: TERRACOTTA,
+    fontFamily: "Inter_500Medium",
+    fontSize: 12,
+    color: Colors.light.onSurface,
+    textTransform: "uppercase",
+    letterSpacing: 2,
   },
   navDots: {
     flexDirection: "row",
     justifyContent: "center",
     gap: 6,
-    marginTop: 12,
+    marginBottom: 14,
   },
   navDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: BORDER,
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: Colors.light.surfaceContainerHighest,
   },
   navDotCompleted: {
-    backgroundColor: TERRACOTTA,
-    opacity: 0.5,
+    width: 16,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: Colors.light.surfaceContainerHighest,
   },
   navDotActive: {
+    width: 24,
+    height: 4,
+    borderRadius: 2,
     backgroundColor: TERRACOTTA,
   },
 
