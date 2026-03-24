@@ -84,8 +84,6 @@ function getPhase(title: string): "prep" | "cook" | "finish" {
   return "prep";
 }
 
-const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
-
 /** Extract doneness cues from instruction text — looks for "until" phrases */
 function getDonenessCue(instruction: string): string | null {
   const match = instruction.match(/until\s+(.+?)(?:\.|,|$)/i);
