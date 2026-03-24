@@ -398,17 +398,9 @@ export default function ProfileScreen() {
               <Text style={styles.aboutLabel}>Terms of Service</Text>
               <Ionicons name="open-outline" size={16} color={Colors.light.secondary} />
             </Pressable>
-            <View style={[styles.aboutRow, styles.aboutRowBorder]}>
+            <View style={styles.aboutRow}>
               <Text style={styles.aboutLabelDim}>Version</Text>
               <Text style={styles.aboutLabelDim}>1.0</Text>
-            </View>
-            <View style={styles.aboutRow}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.aboutLabelDim}>Food product data by Open Food Facts</Text>
-                <Text style={{ fontFamily: "Inter_400Regular", fontSize: 11, color: Colors.light.onSurfaceVariant, marginTop: 2 }}>
-                  Licensed under ODbL. Images under CC BY-SA.
-                </Text>
-              </View>
             </View>
           </View>
         </View>
