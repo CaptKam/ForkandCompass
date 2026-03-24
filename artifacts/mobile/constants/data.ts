@@ -3816,9 +3816,9 @@ const REGION_IMAGES: Record<string, CountryLocation[]> = {
     { name: "Osaka", subtitle: "The Kitchen of Japan",   image: "https://images.unsplash.com/photo-1590559899731-a382839e5549?w=900&q=85&fit=crop" },
   ],
   morocco: [
-    { name: "Marrakech",         subtitle: "The Red City",    image: "https://images.unsplash.com/photo-1772580310425-63f2290c2ba7?w=900&q=85&fit=crop" },
-    { name: "Chefchaouen",       subtitle: "The Blue Pearl",  image: "https://images.unsplash.com/photo-1730581822492-8a55ce0b7fde?w=900&q=85&fit=crop" },
-    { name: "The Atlas Mountains",subtitle: "High Peaks",     image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=900&q=85&fit=crop" },
+    { name: "Marrakech",          subtitle: "The Red City",   image: "https://images.unsplash.com/photo-1559564918-d6d24e4bff88?w=900&q=85&fit=crop" },
+    { name: "Chefchaouen",        subtitle: "The Blue Pearl", image: "https://images.unsplash.com/photo-1553342385-111fd5bc8c41?w=900&q=85&fit=crop" },
+    { name: "The Atlas Mountains", subtitle: "High Peaks",    image: "https://images.unsplash.com/photo-1488085061387-422e29b40080?w=900&q=85&fit=crop" },
   ],
   mexico: [
     { name: "Oaxaca",       subtitle: "The Heart of Mole",   image: "https://images.unsplash.com/photo-1599596706606-70eae0feaa6b?w=900&q=85&fit=crop" },
