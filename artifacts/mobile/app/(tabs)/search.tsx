@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   // Search bar (replaces TabHeader + topBar)
   searchBarWrap: {
     backgroundColor: Colors.light.surface,
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingBottom: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "rgba(222,193,179,0.3)",
@@ -396,9 +396,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    minHeight: 48,
     backgroundColor: Colors.light.surfaceContainerHigh,
-    borderRadius: 20,
+    borderRadius: 24,
   },
   moodEmoji: {
     fontSize: 16,
@@ -444,17 +444,18 @@ const styles = StyleSheet.create({
 
   // Search results
   resultsContent: {
-    paddingHorizontal: 16,
-    paddingTop: 12,
-    gap: 8,
+    paddingHorizontal: 24,
+    paddingTop: 16,
+    gap: 12,
   },
   resultRow: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: Colors.light.surfaceContainer,
     borderRadius: 12,
-    padding: 10,
-    gap: 12,
+    padding: 14,
+    gap: 14,
+    minHeight: 56,
   },
   resultThumb: {
     width: 52,

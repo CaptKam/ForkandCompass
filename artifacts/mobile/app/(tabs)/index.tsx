@@ -279,7 +279,8 @@ export default function DiscoverScreen() {
               <Pressable
                 key={idx}
                 onPress={() => { haptic(); setActiveIndex(idx); scrollHeroTo(idx); }}
-                hitSlop={8}
+                hitSlop={18}
+                style={({ pressed }) => [pressed && { opacity: 0.6 }]}
               >
                 <View style={[styles.heroDot, idx === activeIndex && styles.heroDotActive]} />
               </Pressable>
@@ -649,9 +650,11 @@ const styles = StyleSheet.create({
   letsGoButton: {
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 32,
-    paddingVertical: 14,
-    borderRadius: 28,
+    height: 52,
+    borderRadius: 26,
     alignSelf: "flex-start",
+    alignItems: "center",
+    justifyContent: "center",
   },
   letsGoText: {
     fontFamily: "Inter_600SemiBold",
@@ -985,7 +988,7 @@ const styles = StyleSheet.create({
   heritageCard: {
     width: 240,
     backgroundColor: "#FFFFFF",
-    borderRadius: 20,
+    borderRadius: 16,
     overflow: "hidden",
   },
   heritageImg: {
@@ -1096,7 +1099,7 @@ const styles = StyleSheet.create({
   streetCard: {
     width: 272,
     height: 176,
-    borderRadius: 20,
+    borderRadius: 16,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
   },

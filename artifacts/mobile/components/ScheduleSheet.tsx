@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
   sheetRecipeName: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: "#8A8279",
+    color: "#5C5549",
     lineHeight: 22,
     marginBottom: 24,
   },
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "#E8DFD2",
-    minHeight: 52,
+    minHeight: 56,
   },
   dayRowToday: {
     borderLeftWidth: 3,
@@ -375,9 +375,9 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   servingsBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: "#F5EDDF",
     borderWidth: 1,
     borderColor: "#E8DFD2",
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
   servingsHelper: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: "#8A8279",
+    color: "#5C5549",
     lineHeight: 20,
   },
 

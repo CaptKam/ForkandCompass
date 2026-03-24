@@ -590,7 +590,7 @@ export default function PlanScreen() {
 
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
-        <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 90 : insets.bottom + 90) }]}>
+        <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 150 : insets.bottom + 140) }]}>
           <Ionicons name="checkmark-circle" size={16} color="#FEF9F3" />
           <Text style={styles.toastText}>{toast}</Text>
         </View>
@@ -1068,7 +1068,7 @@ const styles = StyleSheet.create({
 
   // Segment control
   segmentWrap: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingVertical: 12,
     backgroundColor: CREAM,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -1191,7 +1191,7 @@ const styles = StyleSheet.create({
 
   // This Week scroll
   weekScrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingTop: 20,
     gap: 8,
   },
@@ -1321,9 +1321,9 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   rowActionBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -1365,7 +1365,7 @@ const styles = StyleSheet.create({
 
   // Grocery
   groceryScrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingTop: 16,
     gap: 8,
   },
