@@ -16,7 +16,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { COUNTRIES, getAllRecipes, getCountryLocations, type Country, type Recipe } from "@/constants/data";
+import { COUNTRIES, getAllRecipes, getCountryLocations, LANDMARK_IMAGES, type Country, type Recipe } from "@/constants/data";
 import { PARTNER_CONFIG, PARTNER_LIST } from "@/constants/partners";
 import { useApp, type CookingLevel, type AppearanceMode } from "@/contexts/AppContext";
 
@@ -170,7 +170,7 @@ export default function ProfileScreen() {
                   style={styles.chip}
                 >
                   <View style={styles.chipImage}>
-                    <Image source={{ uri: country.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} />
+                    <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} />
                   </View>
                   <Text style={styles.chipLabel}>{country.name} {country.flag}</Text>
                 </Pressable>

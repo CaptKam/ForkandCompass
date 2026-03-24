@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { COUNTRIES, getAllRecipes } from "@/constants/data";
+import { COUNTRIES, getAllRecipes, LANDMARK_IMAGES } from "@/constants/data";
 import Colors from "@/constants/colors";
 import { useSearch } from "@/hooks/useSearch";
 
@@ -126,7 +126,7 @@ export default function SearchScreen() {
                     style={({ pressed }) => [styles.resultRow, pressed && { opacity: 0.8 }]}
                     onPress={() => { haptic(); router.push(`/country/${country.id}`); }}
                   >
-                    <Image source={{ uri: country.image }} style={styles.resultThumb} contentFit="cover" />
+                    <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={styles.resultThumb} contentFit="cover" />
                     <View style={styles.resultInfo}>
                       <Text style={styles.resultTitle}>{country.flag} {country.name}</Text>
                       <Text style={styles.resultSub} numberOfLines={1}>{country.tagline}</Text>
@@ -203,7 +203,7 @@ export default function SearchScreen() {
                   style={styles.countryChip}
                 >
                   <View style={styles.countryThumb}>
-                    <Image source={{ uri: country.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} />
+                    <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} />
                     <LinearGradient
                       colors={["transparent", "rgba(0,0,0,0.45)"]}
                       style={StyleSheet.absoluteFill}
