@@ -112,6 +112,15 @@ export default function ProfileScreen() {
             style={StyleSheet.absoluteFill}
           />
 
+          {/* Back button */}
+          <Pressable
+            onPress={() => { haptic(); router.back(); }}
+            style={[styles.heroBack, { top: (Platform.OS === "web" ? 16 : insets.top + 4) }]}
+            hitSlop={12}
+          >
+            <Ionicons name="chevron-back" size={22} color="#FEF9F3" />
+          </Pressable>
+
           {/* Avatar + name overlay */}
           <View style={styles.heroContent}>
             <View style={styles.avatarRing}>
@@ -432,6 +441,16 @@ const styles = StyleSheet.create({
     height: 260,
     position: "relative",
     justifyContent: "flex-end",
+  },
+  heroBack: {
+    position: "absolute",
+    left: 16,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "rgba(0,0,0,0.28)",
+    alignItems: "center",
+    justifyContent: "center",
   },
   heroContent: {
     alignItems: "center",
