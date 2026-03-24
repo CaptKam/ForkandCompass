@@ -27,11 +27,6 @@ import {
 } from "@/constants/inventory";
 import { useApp } from "@/contexts/AppContext";
 import { detectItemsWithVision, isVisionAvailable } from "@/services/visionService";
-import {
-  lookupBarcode,
-  matchProductToGrocery,
-  type OFFProduct,
-} from "@/services/openFoodFacts";
 
 
 // Fallback mock detection when no AI API key is configured
@@ -49,15 +44,9 @@ const AI_ENABLED = isVisionAvailable();
 
 export default function KitchenScannerScreen() {
   const insets = useSafeAreaInsets();
-  const { addInventoryItems, groceryItems, toggleGroceryItem } = useApp();
+  const { addInventoryItems } = useApp();
   const { height: screenH } = useWindowDimensions();
   const [permission, requestPermission] = useCameraPermissions();
-
-  // Barcode scanning state
-  const [scannedProduct, setScannedProduct] = useState<OFFProduct | null>(null);
-  const [barcodeLoading, setBarcodeLoading] = useState(false);
-  const [showProductConfirm, setShowProductConfirm] = useState(false);
-  const lastScannedBarcode = useRef<string | null>(null);
 
   // Scanner state
   const [phase, setPhase] = useState<"zone_select" | "scanning" | "review">("zone_select");
@@ -301,79 +290,6 @@ export default function KitchenScannerScreen() {
     setDetectedItems([]);
     setFrameCount(0);
     setScanProgress(0);
-    setScannedProduct(null);
-    setShowProductConfirm(false);
-    lastScannedBarcode.current = null;
-  }, []);
-
-  // Handle barcode detection from camera
-  const handleBarcodeScanned = useCallback(
-    async (barcode: string) => {
-      // Prevent re-scanning same barcode
-      if (barcode === lastScannedBarcode.current || barcodeLoading) return;
-      lastScannedBarcode.current = barcode;
-      setBarcodeLoading(true);
-
-      if (Platform.OS !== "web") {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      }
-
-      const product = await lookupBarcode(barcode);
-      setBarcodeLoading(false);
-
-      if (product && product.name) {
-        setScannedProduct(product);
-        setShowProductConfirm(true);
-      } else {
-        // Product not found — allow re-scan after brief delay
-        setTimeout(() => {
-          lastScannedBarcode.current = null;
-        }, 2000);
-      }
-    },
-    [barcodeLoading],
-  );
-
-  // Confirm scanned product — check off matching grocery item and add to inventory
-  const confirmScannedProduct = useCallback(() => {
-    if (!scannedProduct) return;
-
-    // Try to match to grocery list
-    const matchedGrocery = matchProductToGrocery(scannedProduct, groceryItems);
-    if (matchedGrocery && !matchedGrocery.checked) {
-      toggleGroceryItem(matchedGrocery.id);
-    }
-
-    // Add to kitchen inventory
-    const inventoryItem: InventoryItem = {
-      id: `barcode-${scannedProduct.barcode}-${Date.now()}`,
-      name: scannedProduct.name ?? "Unknown product",
-      brand: scannedProduct.brand,
-      quantity: 1,
-      unit: scannedProduct.quantity ?? "item",
-      zone: selectedZone,
-      confidence: 1,
-      scannedAt: Date.now(),
-      expiresAt: null,
-      imageUri: scannedProduct.imageSmallUrl,
-    };
-    addInventoryItems([inventoryItem]);
-
-    if (Platform.OS !== "web") {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    }
-
-    // Reset for next scan
-    setShowProductConfirm(false);
-    setScannedProduct(null);
-    lastScannedBarcode.current = null;
-  }, [scannedProduct, groceryItems, toggleGroceryItem, addInventoryItems, selectedZone]);
-
-  // Dismiss product confirmation and scan another
-  const dismissProductConfirm = useCallback(() => {
-    setShowProductConfirm(false);
-    setScannedProduct(null);
-    lastScannedBarcode.current = null;
   }, []);
 
   // Permission screen
@@ -501,19 +417,7 @@ export default function KitchenScannerScreen() {
       <View style={styles.scannerContainer}>
         {/* Camera view */}
         {Platform.OS !== "web" && permission?.granted ? (
-          <CameraView
-            ref={cameraRef}
-            style={StyleSheet.absoluteFill}
-            facing="back"
-            barcodeScannerSettings={{ barcodeTypes: ["ean13", "ean8", "upc_a", "upc_e"] }}
-            onBarcodeScanned={
-              showProductConfirm || barcodeLoading
-                ? undefined
-                : (result) => {
-                    if (result.data) handleBarcodeScanned(result.data);
-                  }
-            }
-          />
+          <CameraView ref={cameraRef} style={StyleSheet.absoluteFill} facing="back" />
         ) : (
           <View style={[StyleSheet.absoluteFill, styles.mockCamera]}>
             <Text style={styles.mockCameraText}>
@@ -674,80 +578,6 @@ export default function KitchenScannerScreen() {
           </Pressable>
         </View>
 
-        {/* Barcode loading indicator */}
-        {barcodeLoading && (
-          <View style={styles.barcodeLoadingOverlay} pointerEvents="none">
-            <View style={styles.barcodeLoadingBox}>
-              <Ionicons name="barcode-outline" size={28} color="#FFFFFF" />
-              <Text style={styles.barcodeLoadingText}>Looking up product...</Text>
-            </View>
-          </View>
-        )}
-
-        {/* Product confirmation overlay */}
-        {showProductConfirm && scannedProduct && (
-          <View style={styles.productConfirmOverlay}>
-            <Pressable style={StyleSheet.absoluteFill} onPress={dismissProductConfirm} />
-            <View style={[styles.productConfirmCard, { paddingBottom: insets.bottom + 20 }]}>
-              <View style={styles.productConfirmHeader}>
-                <View style={styles.productConfirmHandle} />
-              </View>
-
-              <View style={styles.productConfirmContent}>
-                {scannedProduct.imageSmallUrl && (
-                  <View style={styles.productImageContainer}>
-                    <Animated.Image
-                      source={{ uri: scannedProduct.imageSmallUrl }}
-                      style={styles.productImage}
-                      resizeMode="contain"
-                    />
-                  </View>
-                )}
-                <View style={styles.productInfo}>
-                  {scannedProduct.brand && (
-                    <Text style={styles.productBrand}>{scannedProduct.brand}</Text>
-                  )}
-                  <Text style={styles.productName}>{scannedProduct.name}</Text>
-                  {scannedProduct.quantity && (
-                    <Text style={styles.productQuantity}>{scannedProduct.quantity}</Text>
-                  )}
-                </View>
-              </View>
-
-              {/* Grocery list match */}
-              {(() => {
-                const match = matchProductToGrocery(scannedProduct, groceryItems);
-                if (match) {
-                  return (
-                    <View style={styles.groceryMatchBanner}>
-                      <Ionicons name="checkmark-circle" size={20} color="#4ADE80" />
-                      <Text style={styles.groceryMatchText}>
-                        Matches "{match.name}" in your grocery list
-                        {match.recipeName ? ` (from ${match.recipeName})` : ""}
-                      </Text>
-                    </View>
-                  );
-                }
-                return null;
-              })()}
-
-              <View style={styles.productConfirmActions}>
-                <Pressable style={styles.confirmButton} onPress={confirmScannedProduct}>
-                  <Ionicons name="checkmark" size={20} color="#FFFFFF" />
-                  <Text style={styles.confirmButtonText}>I have this</Text>
-                </Pressable>
-                <Pressable style={styles.scanAnotherButton} onPress={dismissProductConfirm}>
-                  <Ionicons name="scan-outline" size={18} color={Colors.light.secondary} />
-                  <Text style={styles.scanAnotherButtonText}>Scan another item</Text>
-                </Pressable>
-              </View>
-
-              <Text style={styles.offAttribution}>
-                Product data by Open Food Facts (ODbL)
-              </Text>
-            </View>
-          </View>
-        )}
       </View>
     );
   }
@@ -1387,149 +1217,5 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     color: Colors.light.secondary,
-  },
-  // Barcode loading overlay
-  barcodeLoadingOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  barcodeLoadingBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    backgroundColor: "rgba(0,0,0,0.75)",
-    borderRadius: 16,
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-  },
-  barcodeLoadingText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: "#FFFFFF",
-  },
-  // Product confirmation overlay
-  productConfirmOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "flex-end",
-  },
-  productConfirmCard: {
-    backgroundColor: Colors.light.surface,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    paddingHorizontal: 24,
-  },
-  productConfirmHeader: {
-    alignItems: "center",
-    paddingVertical: 12,
-  },
-  productConfirmHandle: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: Colors.light.outlineVariant,
-  },
-  productConfirmContent: {
-    flexDirection: "row",
-    gap: 16,
-    alignItems: "center",
-    paddingVertical: 16,
-  },
-  productImageContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 14,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1,
-    borderColor: "rgba(222,193,179,0.2)",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-  },
-  productImage: {
-    width: 72,
-    height: 72,
-  },
-  productInfo: {
-    flex: 1,
-    gap: 2,
-  },
-  productBrand: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
-    color: Colors.light.secondary,
-    letterSpacing: 0.5,
-    textTransform: "uppercase",
-  },
-  productName: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 20,
-    color: Colors.light.onSurface,
-    letterSpacing: -0.3,
-  },
-  productQuantity: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    marginTop: 2,
-  },
-  groceryMatchBanner: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    backgroundColor: "rgba(74,222,128,0.1)",
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    marginBottom: 16,
-  },
-  groceryMatchText: {
-    flex: 1,
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: Colors.light.onSurface,
-    lineHeight: 20,
-  },
-  productConfirmActions: {
-    gap: 10,
-    marginTop: 4,
-  },
-  confirmButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    backgroundColor: Colors.light.primary,
-    borderRadius: 14,
-    height: 52,
-  },
-  confirmButtonText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: "#FFFFFF",
-  },
-  scanAnotherButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    borderWidth: 1,
-    borderColor: "rgba(222,193,179,0.3)",
-    borderRadius: 14,
-    height: 48,
-  },
-  scanAnotherButtonText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: Colors.light.secondary,
-  },
-  offAttribution: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 11,
-    color: Colors.light.onSurfaceVariant,
-    textAlign: "center",
-    marginTop: 12,
-    opacity: 0.6,
   },
 });
