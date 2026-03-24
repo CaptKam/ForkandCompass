@@ -30,7 +30,10 @@ import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItin
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function toISODate(d: Date): string {
-  return d.toISOString().split("T")[0];
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
 function formatDayDate(isoDate: string): string {
@@ -419,15 +422,6 @@ export default function PlanScreen() {
               ]}
               ListHeaderComponent={
                 <View>
-                  {/* Scan Ingredients button */}
-                  <Pressable
-                    onPress={() => { haptic(); router.push("/kitchen-scanner"); }}
-                    style={({ pressed }) => [styles.scanBtn, pressed && { opacity: 0.75 }]}
-                  >
-                    <Ionicons name="camera-outline" size={18} color={TERRACOTTA} />
-                    <Text style={styles.scanBtnText}>Scan Ingredients</Text>
-                  </Pressable>
-
                   {/* Quick Add chips */}
                   {quickAddChips.length > 0 && (
                     <View style={styles.quickAddWrap}>
@@ -596,7 +590,7 @@ export default function PlanScreen() {
 
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
-        <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 90 : insets.bottom + 90) }]}>
+        <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 150 : insets.bottom + 140) }]}>
           <Ionicons name="checkmark-circle" size={16} color="#FEF9F3" />
           <Text style={styles.toastText}>{toast}</Text>
         </View>
@@ -1074,7 +1068,7 @@ const styles = StyleSheet.create({
 
   // Segment control
   segmentWrap: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingVertical: 12,
     backgroundColor: CREAM,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -1197,7 +1191,7 @@ const styles = StyleSheet.create({
 
   // This Week scroll
   weekScrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingTop: 20,
     gap: 8,
   },
@@ -1327,9 +1321,9 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   rowActionBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -1371,7 +1365,7 @@ const styles = StyleSheet.create({
 
   // Grocery
   groceryScrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingTop: 16,
     gap: 8,
   },
@@ -1471,23 +1465,6 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
 
-  scanBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    height: 44,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: TERRACOTTA,
-    backgroundColor: CREAM,
-    marginBottom: 16,
-  },
-  scanBtnText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: TERRACOTTA,
-  },
   categoryGroup: {
     marginBottom: 20,
   },

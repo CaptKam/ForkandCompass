@@ -82,7 +82,8 @@ export default function CookScreen() {
   // Tonight's recipe from itinerary
   const tonightsRecipe = useMemo(() => {
     if (!currentItinerary || currentItinerary.length === 0) return null;
-    const today = new Date().toISOString().split("T")[0];
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     const todayEntry = currentItinerary.find(
       (d) => d.date === today && d.status === "active"
     );
@@ -180,7 +181,7 @@ export default function CookScreen() {
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>IN PROGRESS</Text>
             <View style={styles.continueCard}>
-              <Text style={styles.continueRecipeName}>{activeCookSession.recipeName}</Text>
+              <Text style={styles.continueRecipeName} numberOfLines={2}>{activeCookSession.recipeName}</Text>
               <Text style={styles.continueProgress}>
                 Step {activeCookSession.currentStep + 1} of {activeCookSession.totalSteps}
                 {activeCookSession.timerRemaining != null && activeCookSession.timerRemaining > 0
@@ -499,7 +500,7 @@ const styles = StyleSheet.create({
     height: 180,
   },
   tonightContent: {
-    padding: 16,
+    padding: 20,
     gap: 8,
   },
   tonightName: {
@@ -586,7 +587,7 @@ const styles = StyleSheet.create({
   levelRow: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingVertical: 16,
     borderTopWidth: 1,
     borderBottomWidth: 1,
