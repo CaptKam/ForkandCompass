@@ -183,6 +183,10 @@ interface AppContextType {
   // Active cook session (resume)
   activeCookSession: ActiveCookSession | null;
   setActiveCookSession: (session: ActiveCookSession | null) => void;
+  // Pending cook request (triggers inline cook mode on Cook tab)
+  pendingCookRecipeId: string | null;
+  requestCook: (recipeId: string) => void;
+  clearPendingCook: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -225,6 +229,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [cookingProfile, setCookingProfileState] = useState<CookingProfile>(DEFAULT_COOKING_PROFILE);
   const [cookSessions, setCookSessions] = useState<CookSession[]>([]);
   const [activeCookSession, setActiveCookSessionState] = useState<ActiveCookSession | null>(null);
+  const [pendingCookRecipeId, setPendingCookRecipeId] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -383,6 +388,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const setActiveCookSession = useCallback((session: ActiveCookSession | null) => {
     setActiveCookSessionState(session);
+  }, []);
+
+  const requestCook = useCallback((recipeId: string) => {
+    setPendingCookRecipeId(recipeId);
+  }, []);
+
+  const clearPendingCook = useCallback(() => {
+    setPendingCookRecipeId(null);
   }, []);
 
   const completeCookSession = useCallback((session: CookSession) => {
@@ -755,6 +768,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         recentCookSessions: cookSessions.filter((s) => s.completedAt).slice(0, 5),
         activeCookSession,
         setActiveCookSession,
+        pendingCookRecipeId,
+        requestCook,
+        clearPendingCook,
       }}
     >
       {children}
