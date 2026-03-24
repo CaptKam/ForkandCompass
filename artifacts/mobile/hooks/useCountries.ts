@@ -29,11 +29,21 @@ function mapApiCountry(apiCountry: ApiCountry): Country {
   });
 }
 
+// Canonical order defined by the local COUNTRIES array
+const LOCAL_ORDER = COUNTRIES.map((c) => c.id);
+
 export function useCountries() {
   const { data, isLoading, isError } = useListCountries();
 
   const countries: Country[] = data && !isError
-    ? data.map(mapApiCountry)
+    ? data
+        .map(mapApiCountry)
+        .sort((a, b) => {
+          const ai = LOCAL_ORDER.indexOf(a.id);
+          const bi = LOCAL_ORDER.indexOf(b.id);
+          // Unknown countries go to the end
+          return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+        })
     : COUNTRIES.map(resolveCountryRecipeImages);
 
   return { countries, isLoading, isFromApi: !!data && !isError };
