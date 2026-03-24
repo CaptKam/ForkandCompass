@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
 import { getCountryLocations } from "@/constants/data";
+import { useApp } from "@/contexts/AppContext";
 import { useCountry } from "@/hooks/useCountry";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -32,6 +33,7 @@ export default function ExperienceScreen() {
   const insets = useSafeAreaInsets();
   const { country } = useCountry(countryId ?? "");
   const reducedMotion = useReducedMotion();
+  const { addToGrocery } = useApp();
   const [etiquetteOpen, setEtiquetteOpen] = useState(false);
 
   const haptic = () => {
@@ -186,6 +188,7 @@ export default function ExperienceScreen() {
           style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
           onPress={() => {
             haptic();
+            selectedRecipes.forEach((r) => addToGrocery(r));
             router.push({ pathname: "/(tabs)/plan" });
           }}
         >
