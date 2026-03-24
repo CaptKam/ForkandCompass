@@ -30,7 +30,10 @@ import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItin
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function toISODate(d: Date): string {
-  return d.toISOString().split("T")[0];
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
 function formatDayDate(isoDate: string): string {
@@ -1462,23 +1465,6 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
 
-  scanBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    height: 44,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: TERRACOTTA,
-    backgroundColor: CREAM,
-    marginBottom: 16,
-  },
-  scanBtnText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: TERRACOTTA,
-  },
   categoryGroup: {
     marginBottom: 20,
   },

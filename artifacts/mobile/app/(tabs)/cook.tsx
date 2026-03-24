@@ -82,7 +82,8 @@ export default function CookScreen() {
   // Tonight's recipe from itinerary
   const tonightsRecipe = useMemo(() => {
     if (!currentItinerary || currentItinerary.length === 0) return null;
-    const today = new Date().toISOString().split("T")[0];
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     const todayEntry = currentItinerary.find(
       (d) => d.date === today && d.status === "active"
     );

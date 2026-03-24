@@ -8,7 +8,6 @@ import React, {
 } from "react";
 
 import type { GroceryItem, Recipe } from "@/constants/data";
-import type { InventoryItem, ScanZone } from "@/constants/inventory";
 import type { ItineraryProfile, ItineraryDay } from "@/hooks/useItinerary";
 import type { GroceryPartner } from "@/constants/partners";
 
@@ -174,14 +173,6 @@ interface AppContextType {
   setCurrentItinerary: (itinerary: ItineraryDay[]) => void;
   itineraryHistory: ItineraryDay[][];
   addToItineraryHistory: (week: ItineraryDay[]) => void;
-  // Kitchen Inventory Scanner (Beta)
-  inventoryItems: InventoryItem[];
-  addInventoryItems: (items: InventoryItem[]) => void;
-  removeInventoryItem: (id: string) => void;
-  updateInventoryItem: (id: string, updates: Partial<InventoryItem>) => void;
-  clearInventory: () => void;
-  clearInventoryZone: (zone: ScanZone) => void;
-  lastScanTimestamp: number | null;
   groceryPartner: GroceryPartner;
   setGroceryPartner: (partner: GroceryPartner) => void;
   // Cooking profile
@@ -209,8 +200,6 @@ const SAVED_REGIONS_KEY = "@culinary_saved_regions";
 const ITINERARY_PROFILE_KEY = "@culinary_itinerary_profile";
 const CURRENT_ITINERARY_KEY = "@culinary_current_itinerary";
 const ITINERARY_HISTORY_KEY = "@culinary_itinerary_history";
-const INVENTORY_KEY = "@culinary_inventory";
-const LAST_SCAN_KEY = "@culinary_last_scan";
 const PANTRY_KEY = "@culinary_pantry_staples";
 const GROCERY_PARTNER_KEY = "@culinary_grocery_partner";
 const COOKING_PROFILE_KEY_V2 = "@culinary_cooking_profile_v2";
@@ -231,8 +220,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [itineraryProfile, setItineraryProfileState] = useState<ItineraryProfile | null>(null);
   const [currentItinerary, setCurrentItineraryState] = useState<ItineraryDay[]>([]);
   const [itineraryHistory, setItineraryHistoryState] = useState<ItineraryDay[][]>([]);
-  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
-  const [lastScanTimestamp, setLastScanTimestamp] = useState<number | null>(null);
   const [pantryStaples, setPantryStaples] = useState<PantryStaple[]>(DEFAULT_PANTRY_STAPLES);
   const [groceryPartner, setGroceryPartnerState] = useState<GroceryPartner>(null);
   const [cookingProfile, setCookingProfileState] = useState<CookingProfile>(DEFAULT_COOKING_PROFILE);
@@ -243,7 +230,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, inventory, lastScan, pantry, groceryPartnerRaw, cookProfileRaw, cookSessionsRaw, activeCookRaw] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, pantry, groceryPartnerRaw, cookProfileRaw, cookSessionsRaw, activeCookRaw] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
@@ -257,8 +244,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(ITINERARY_PROFILE_KEY).catch(() => null),
           AsyncStorage.getItem(CURRENT_ITINERARY_KEY).catch(() => null),
           AsyncStorage.getItem(ITINERARY_HISTORY_KEY).catch(() => null),
-          AsyncStorage.getItem(INVENTORY_KEY).catch(() => null),
-          AsyncStorage.getItem(LAST_SCAN_KEY).catch(() => null),
           AsyncStorage.getItem(PANTRY_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_PARTNER_KEY).catch(() => null),
           AsyncStorage.getItem(COOKING_PROFILE_KEY_V2).catch(() => null),
@@ -323,16 +308,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             const parsed = JSON.parse(itinHistory);
             if (Array.isArray(parsed)) setItineraryHistoryState(parsed);
           } catch {}
-        }
-        if (inventory) {
-          try {
-            const parsed = JSON.parse(inventory);
-            if (Array.isArray(parsed)) setInventoryItems(parsed);
-          } catch {}
-        }
-        if (lastScan) {
-          const ts = Number(lastScan);
-          if (!Number.isNaN(ts)) setLastScanTimestamp(ts);
         }
         if (pantry) {
           try {
@@ -424,11 +399,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const newSessionsStarted = prev.sessionsStarted + 1;
       const ratings = [session, ...cookSessions].filter((s) => s.rating != null).map((s) => s.rating!);
       const newAvg = ratings.length > 0 ? ratings.reduce((a, b) => a + b, 0) / ratings.length : 0;
-      const today = new Date().toISOString().slice(0, 10);
+      const now = new Date();
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
       const lastDate = prev.lastCookDate;
       let newStreak = prev.streakDays;
       if (lastDate) {
-        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        const yd = new Date(Date.now() - 86400000);
+        const yesterday = `${yd.getFullYear()}-${String(yd.getMonth() + 1).padStart(2, "0")}-${String(yd.getDate()).padStart(2, "0")}`;
         if (lastDate === today) {
           // same day, no change
         } else if (lastDate === yesterday) {
@@ -700,54 +677,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  // Inventory persistence
-  useEffect(() => {
-    if (loaded) AsyncStorage.setItem(INVENTORY_KEY, JSON.stringify(inventoryItems)).catch(() => {});
-  }, [inventoryItems, loaded]);
-
-  useEffect(() => {
-    if (loaded && lastScanTimestamp !== null) {
-      AsyncStorage.setItem(LAST_SCAN_KEY, String(lastScanTimestamp)).catch(() => {});
-    }
-  }, [lastScanTimestamp, loaded]);
-
-  const addInventoryItems = useCallback((items: InventoryItem[]) => {
-    setInventoryItems((prev) => {
-      // Merge: update existing items by name+zone, add new ones
-      const updated = [...prev];
-      for (const item of items) {
-        const existingIdx = updated.findIndex(
-          (e) => e.name.toLowerCase() === item.name.toLowerCase() && e.zone === item.zone
-        );
-        if (existingIdx >= 0) {
-          updated[existingIdx] = { ...updated[existingIdx], ...item, quantity: item.quantity };
-        } else {
-          updated.push(item);
-        }
-      }
-      return updated;
-    });
-    setLastScanTimestamp(Date.now());
-  }, []);
-
-  const removeInventoryItem = useCallback((id: string) => {
-    setInventoryItems((prev) => prev.filter((i) => i.id !== id));
-  }, []);
-
-  const updateInventoryItem = useCallback((id: string, updates: Partial<InventoryItem>) => {
-    setInventoryItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, ...updates } : i))
-    );
-  }, []);
-
-  const clearInventory = useCallback(() => {
-    setInventoryItems([]);
-    setLastScanTimestamp(null);
-  }, []);
-
-  const clearInventoryZone = useCallback((zone: ScanZone) => {
-    setInventoryItems((prev) => prev.filter((i) => i.zone !== zone));
-  }, []);
 
   const toggleSavedCountry = useCallback((id: string) => {
     setSavedCountryIds((prev) => {
@@ -817,13 +746,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setCurrentItinerary,
         itineraryHistory,
         addToItineraryHistory,
-        inventoryItems,
-        addInventoryItems,
-        removeInventoryItem,
-        updateInventoryItem,
-        clearInventory,
-        clearInventoryZone,
-        lastScanTimestamp,
         removeFromGrocery,
         groceryPartner,
         setGroceryPartner,

@@ -61,10 +61,6 @@ function RootLayoutNav() {
         name="itinerary-setup"
         options={{ animation: modalAnimation, presentation: "modal" }}
       />
-      <Stack.Screen
-        name="kitchen-scanner"
-        options={{ animation: modalAnimation, presentation: "modal" }}
-      />
     </Stack>
   );
 }
