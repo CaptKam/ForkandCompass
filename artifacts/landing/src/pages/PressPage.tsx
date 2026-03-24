@@ -12,7 +12,7 @@ const facts = [
 ];
 
 const brandColors = [
-  { name: "Terracotta", hex: "#9A4100", bg: "bg-[#9A4100]", text: "text-white" },
+  { name: "Terracotta", hex: "#8A3800", bg: "bg-[#8A3800]", text: "text-white" },
   { name: "Dark Espresso", hex: "#1C1A17", bg: "bg-[#1C1A17]", text: "text-white" },
   { name: "Warm Cream", hex: "#FEF9F3", bg: "bg-[#FEF9F3] border border-[#E6E2DC]", text: "text-[#1C1A17]" },
   { name: "Aged Leather", hex: "#725a3c", bg: "bg-[#725a3c]", text: "text-white" },
@@ -24,15 +24,15 @@ export default function PressPage() {
       <div className="pt-32 pb-24">
         <div className="max-w-[1536px] mx-auto px-8">
           <div className="space-y-6 mb-20 max-w-3xl">
-            <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">Media</span>
+            <span className="text-[#8A3800] font-bold uppercase tracking-[0.4em] text-sm block">Media</span>
             <h1 className="font-serif text-6xl md:text-7xl text-[#1C1A17] leading-tight">Press &amp; Media Kit</h1>
-            <div className="w-20 h-1 bg-[#9A4100] rounded-full" />
+            <div className="w-20 h-1 bg-[#8A3800] rounded-full" />
             <p className="text-[#725a3c] text-xl leading-relaxed">
               Fork &amp; Compass is a premium culinary travel app for the curious home cook — 97 curated recipes across 8 countries, with editorial storytelling, cook mode, and smart grocery lists.
             </p>
             <a
               href="mailto:hello@forkandcompass.com?subject=Press Inquiry"
-              className="inline-flex items-center gap-2 bg-[#9A4100] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all"
+              className="inline-flex items-center gap-2 bg-[#8A3800] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-[13px] hover:brightness-110 transition-all"
             >
               <span className="material-symbols-outlined text-sm">mail</span>
               Media Inquiries
@@ -88,13 +88,13 @@ export default function PressPage() {
             <h2 className="font-serif text-3xl text-[#1C1A17]">Typography</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="border border-[#E6E2DC] rounded-2xl p-8 space-y-4">
-                <p className="text-[#9A4100] text-xs font-bold uppercase tracking-[0.3em]">Headlines</p>
+                <p className="text-[#8A3800] text-[13px] font-bold uppercase tracking-[0.3em]">Headlines</p>
                 <p className="font-serif text-5xl text-[#1C1A17] leading-tight">Noto Serif</p>
                 <p className="text-[#725a3c]">Used for all display text, headings, and editorial pull quotes. Available from Google Fonts.</p>
               </div>
               <div className="border border-[#E6E2DC] rounded-2xl p-8 space-y-4">
-                <p className="text-[#9A4100] text-xs font-bold uppercase tracking-[0.3em]">Body Text</p>
-                <p className="font-sans text-4xl text-[#1C1A17] font-light leading-tight">Inter</p>
+                <p className="text-[#8A3800] text-[13px] font-bold uppercase tracking-[0.3em]">Body Text</p>
+                <p className="font-sans text-4xl text-[#1C1A17] font-normal leading-tight">Inter</p>
                 <p className="text-[#725a3c]">Used for all body copy, UI labels, and navigation. Available from Google Fonts.</p>
               </div>
             </div>
@@ -108,7 +108,7 @@ export default function PressPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <a
                 href="mailto:hello@forkandcompass.com?subject=Press Inquiry"
-                className="inline-flex items-center gap-2 bg-[#9A4100] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:brightness-110 transition-all"
+                className="inline-flex items-center gap-2 bg-[#8A3800] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-[13px] hover:brightness-110 transition-all"
               >
                 <span className="material-symbols-outlined text-sm">mail</span>
                 hello@forkandcompass.com

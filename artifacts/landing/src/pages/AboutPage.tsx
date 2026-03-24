@@ -6,9 +6,9 @@ export default function AboutPage() {
       <div className="pt-32 pb-0">
         <div className="max-w-[1536px] mx-auto px-8 mb-24">
           <div className="max-w-3xl space-y-6">
-            <span className="text-[#9A4100] font-bold uppercase tracking-[0.4em] text-sm block">Our Story</span>
+            <span className="text-[#8A3800] font-bold uppercase tracking-[0.4em] text-sm block">Our Story</span>
             <h1 className="font-serif text-6xl md:text-8xl leading-tight text-[#1C1A17]">The compass always points to the table.</h1>
-            <div className="w-20 h-1 bg-[#9A4100] rounded-full" />
+            <div className="w-20 h-1 bg-[#8A3800] rounded-full" />
           </div>
         </div>
 
@@ -63,7 +63,7 @@ export default function AboutPage() {
               { number: "1", label: "Guiding Principle" },
             ].map((stat) => (
               <div key={stat.label} className="space-y-3">
-                <p className="font-serif text-6xl text-[#9A4100] font-bold">{stat.number}</p>
+                <p className="font-serif text-6xl text-[#8A3800] font-bold">{stat.number}</p>
                 <p className="text-white/60 text-sm uppercase tracking-[0.2em] font-bold">{stat.label}</p>
               </div>
             ))}
@@ -72,11 +72,11 @@ export default function AboutPage() {
 
         <div className="max-w-[1536px] mx-auto px-8 py-24">
           <div className="max-w-2xl mx-auto text-center space-y-8">
-            <span className="material-symbols-outlined text-[#9A4100]/20 block" style={{ fontSize: "100px", fontVariationSettings: "'FILL' 1" }}>format_quote</span>
+            <span className="material-symbols-outlined text-[#8A3800]/20 block" style={{ fontSize: "100px", fontVariationSettings: "'FILL' 1" }}>format_quote</span>
             <blockquote className="font-serif text-4xl italic text-[#1C1A17] leading-tight">
               "The fork is how we reach the world. The compass is how we find our way back to ourselves."
             </blockquote>
-            <p className="text-[#9A4100] text-xs font-bold uppercase tracking-[0.3em]">The Fork &amp; Compass Ethos</p>
+            <p className="text-[#8A3800] text-[13px] font-bold uppercase tracking-[0.3em]">The Fork &amp; Compass Ethos</p>
           </div>
         </div>
       </div>
