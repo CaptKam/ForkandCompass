@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import RecipeContextMenu from "@/components/RecipeContextMenu";
 import React, { useCallback, useMemo, useState } from "react";
 import {
   FlatList,
@@ -205,22 +206,23 @@ export default function CookScreen() {
                 <Text style={styles.inlineSheetEmpty}>No recent cook sessions yet. Start cooking!</Text>
               ) : (
                 recentRecipes.map((r) => (
-                  <Pressable
-                    key={r.id}
-                    style={({ pressed }) => [styles.inlineRecipeRow, pressed && { opacity: 0.7 }]}
-                    onPress={() => handleStartCooking(r.id)}
-                  >
-                    <Image
-                      source={{ uri: resolveImageUrl(r.image) }}
-                      style={styles.inlineRecipeImage}
-                      contentFit="cover"
-                    />
-                    <View style={styles.inlineRecipeInfo}>
-                      <Text style={styles.inlineRecipeName} numberOfLines={1}>{r.name}</Text>
-                      <Text style={styles.inlineRecipeMeta}>{r.countryName} · {r.time}</Text>
-                    </View>
-                    <Ionicons name="play-circle" size={28} color={Colors.light.primary} />
-                  </Pressable>
+                  <RecipeContextMenu key={r.id} recipe={r}>
+                    <Pressable
+                      style={({ pressed }) => [styles.inlineRecipeRow, pressed && { opacity: 0.7 }]}
+                      onPress={() => handleStartCooking(r.id)}
+                    >
+                      <Image
+                        source={{ uri: resolveImageUrl(r.image) }}
+                        style={styles.inlineRecipeImage}
+                        contentFit="cover"
+                      />
+                      <View style={styles.inlineRecipeInfo}>
+                        <Text style={styles.inlineRecipeName} numberOfLines={1}>{r.name}</Text>
+                        <Text style={styles.inlineRecipeMeta}>{r.countryName} · {r.time}</Text>
+                      </View>
+                      <Ionicons name="play-circle" size={28} color={Colors.light.primary} />
+                    </Pressable>
+                  </RecipeContextMenu>
                 ))
               )}
             </View>
@@ -233,22 +235,23 @@ export default function CookScreen() {
                 <Text style={styles.inlineSheetEmpty}>No saved recipes yet. Bookmark recipes to see them here.</Text>
               ) : (
                 savedRecipes.slice(0, 5).map((r) => (
-                  <Pressable
-                    key={r.id}
-                    style={({ pressed }) => [styles.inlineRecipeRow, pressed && { opacity: 0.7 }]}
-                    onPress={() => handleStartCooking(r.id)}
-                  >
-                    <Image
-                      source={{ uri: resolveImageUrl(r.image) }}
-                      style={styles.inlineRecipeImage}
-                      contentFit="cover"
-                    />
-                    <View style={styles.inlineRecipeInfo}>
-                      <Text style={styles.inlineRecipeName} numberOfLines={1}>{r.name}</Text>
-                      <Text style={styles.inlineRecipeMeta}>{r.countryName} · {r.time}</Text>
-                    </View>
-                    <Ionicons name="play-circle" size={28} color={Colors.light.primary} />
-                  </Pressable>
+                  <RecipeContextMenu key={r.id} recipe={r}>
+                    <Pressable
+                      style={({ pressed }) => [styles.inlineRecipeRow, pressed && { opacity: 0.7 }]}
+                      onPress={() => handleStartCooking(r.id)}
+                    >
+                      <Image
+                        source={{ uri: resolveImageUrl(r.image) }}
+                        style={styles.inlineRecipeImage}
+                        contentFit="cover"
+                      />
+                      <View style={styles.inlineRecipeInfo}>
+                        <Text style={styles.inlineRecipeName} numberOfLines={1}>{r.name}</Text>
+                        <Text style={styles.inlineRecipeMeta}>{r.countryName} · {r.time}</Text>
+                      </View>
+                      <Ionicons name="play-circle" size={28} color={Colors.light.primary} />
+                    </Pressable>
+                  </RecipeContextMenu>
                 ))
               )}
             </View>

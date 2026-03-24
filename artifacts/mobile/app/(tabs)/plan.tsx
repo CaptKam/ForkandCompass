@@ -11,15 +11,17 @@ import {
   Linking,
   Platform,
   Pressable,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { getCountryById, getRecipeById, type GroceryItem } from "@/constants/data";
+import { COUNTRIES, getCountryById, getRecipeById, type GroceryItem, type Recipe } from "@/constants/data";
 import { type PantryStaple } from "@/constants/pantry";
 import { PARTNER_CONFIG } from "@/constants/partners";
 import { useApp } from "@/contexts/AppContext";
@@ -85,11 +87,13 @@ export default function PlanScreen() {
     pantryStaples,
     groceryPartner,
     setGroceryPartner,
+    savedRecipeIds,
   } = useApp();
 
   const [segment, setSegment] = useState<PlanSegment>("week");
   const [toast, setToast] = useState<string | null>(null);
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
+  const [swapDay, setSwapDay] = useState<ItineraryDay | null>(null);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
 
@@ -355,7 +359,7 @@ export default function PlanScreen() {
                       key={day.id}
                       day={day}
                       isLast={index === weekAhead.length - 1}
-                      onReload={() => handleReloadDay(day)}
+                      onReload={() => { haptic(); setSwapDay(day); }}
                       onSkip={() => handleSkipDay(day)}
                       onRestore={() => handleRestoreDay(day)}
                     />
@@ -538,6 +542,38 @@ export default function PlanScreen() {
         </View>
       )}
 
+      {/* ── Swap Sheet ─────────────────────────────────────────── */}
+      <Modal visible={!!swapDay} transparent animationType="slide" onRequestClose={() => setSwapDay(null)}>
+        {swapDay && (
+          <SwapSheet
+            day={swapDay}
+            onSelectRecipe={(recipe) => {
+              // Replace the day with the selected recipe
+              const updated: ItineraryDay = {
+                ...swapDay,
+                countryId: recipe.countryId,
+                regionId: recipe.region ?? "",
+                quickRecipeIds: [recipe.id],
+                fullRecipeIds: [recipe.id],
+                status: "active",
+              };
+              // Swap grocery
+              const oldIds = swapDay.mode === "quick" ? swapDay.quickRecipeIds : swapDay.fullRecipeIds;
+              for (const rid of oldIds) { const r = getRecipeById(rid); if (r) removeFromGrocery(r); }
+              addToGrocery(recipe);
+              setCurrentItinerary(currentItinerary.map((d) => (d.id === swapDay.id ? updated : d)));
+              setSwapDay(null);
+            }}
+            onSurprise={() => {
+              handleReloadDay(swapDay);
+              setSwapDay(null);
+            }}
+            onClose={() => setSwapDay(null)}
+            savedRecipeIds={savedRecipeIds}
+          />
+        )}
+      </Modal>
+
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
         <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 90 : insets.bottom + 90) }]}>
@@ -611,6 +647,292 @@ function TonightCard({ day, onToggleMode }: { day: ItineraryDay; onToggleMode: (
     </View>
   );
 }
+
+// ─── SwapSheet ────────────────────────────────────────────────────────────────
+
+function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds }: {
+  day: ItineraryDay;
+  onSelectRecipe: (recipe: Recipe) => void;
+  onSurprise: () => void;
+  onClose: () => void;
+  savedRecipeIds: string[];
+}) {
+  const [showSaved, setShowSaved] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+
+  const currentRecipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+  const currentRecipes = currentRecipeIds.map(getRecipeById).filter(Boolean);
+  const currentName = currentRecipes.map((r) => r?.name).join(", ");
+
+  // Suggestions: 3 recipes from different cuisines, same difficulty
+  const suggestions = useMemo(() => {
+    const currentDifficulty = currentRecipes[0]?.difficulty ?? "Easy";
+    const allRecipes: Recipe[] = [];
+    for (const country of COUNTRIES) {
+      for (const recipe of country.recipes) {
+        if (!currentRecipeIds.includes(recipe.id) && recipe.difficulty === currentDifficulty) {
+          allRecipes.push(recipe);
+        }
+      }
+    }
+    // Shuffle and take 3
+    const shuffled = [...allRecipes].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 3);
+  }, [currentRecipeIds, currentRecipes]);
+
+  const savedRecipes = useMemo(() => {
+    return savedRecipeIds.map(getRecipeById).filter(Boolean) as Recipe[];
+  }, [savedRecipeIds]);
+
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const q = searchQuery.toLowerCase();
+    const results: Recipe[] = [];
+    for (const country of COUNTRIES) {
+      for (const recipe of country.recipes) {
+        if (recipe.name.toLowerCase().includes(q)) {
+          results.push(recipe);
+        }
+      }
+    }
+    return results.slice(0, 5);
+  }, [searchQuery]);
+
+  const haptic = () => { if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); };
+
+  return (
+    <Pressable style={swapStyles.overlay} onPress={onClose}>
+      <Pressable style={swapStyles.sheet} onPress={(e) => e.stopPropagation()}>
+        <View style={swapStyles.handle} />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={swapStyles.title}>Replace {day.dayLabel}'s meal</Text>
+          <Text style={swapStyles.subtitle}>Currently: {currentName || "Empty"}</Text>
+
+          {/* Suggestions */}
+          <Text style={swapStyles.sectionLabel}>SUGGESTIONS</Text>
+          <View style={swapStyles.suggestionsCard}>
+            {suggestions.map((recipe) => (
+              <Pressable
+                key={recipe.id}
+                style={({ pressed }) => [swapStyles.suggestionRow, pressed && { opacity: 0.7 }]}
+                onPress={() => { haptic(); onSelectRecipe(recipe); }}
+              >
+                <View style={swapStyles.suggestionInfo}>
+                  <Text style={swapStyles.suggestionName} numberOfLines={1}>{recipe.name}</Text>
+                  <Text style={swapStyles.suggestionMeta}>{recipe.countryName} · {recipe.time}</Text>
+                </View>
+                <Ionicons name="add-circle-outline" size={24} color={Colors.light.primary} />
+              </Pressable>
+            ))}
+          </View>
+
+          {/* Pick from saved */}
+          <Pressable
+            style={({ pressed }) => [swapStyles.optionBtn, pressed && { opacity: 0.7 }]}
+            onPress={() => { haptic(); setShowSaved(!showSaved); setShowSearch(false); }}
+          >
+            <Ionicons name="bookmark-outline" size={20} color={Colors.light.onSurface} />
+            <Text style={swapStyles.optionBtnText}>Pick from saved recipes</Text>
+            <Ionicons name={showSaved ? "chevron-up" : "chevron-down"} size={18} color={Colors.light.secondary} />
+          </Pressable>
+          {showSaved && (
+            <View style={swapStyles.suggestionsCard}>
+              {savedRecipes.length === 0 ? (
+                <Text style={swapStyles.emptyText}>No saved recipes yet</Text>
+              ) : (
+                savedRecipes.slice(0, 5).map((recipe) => (
+                  <Pressable
+                    key={recipe.id}
+                    style={({ pressed }) => [swapStyles.suggestionRow, pressed && { opacity: 0.7 }]}
+                    onPress={() => { haptic(); onSelectRecipe(recipe); }}
+                  >
+                    <View style={swapStyles.suggestionInfo}>
+                      <Text style={swapStyles.suggestionName} numberOfLines={1}>{recipe.name}</Text>
+                      <Text style={swapStyles.suggestionMeta}>{recipe.countryName} · {recipe.time}</Text>
+                    </View>
+                    <Ionicons name="add-circle-outline" size={24} color={Colors.light.primary} />
+                  </Pressable>
+                ))
+              )}
+            </View>
+          )}
+
+          {/* Search */}
+          <Pressable
+            style={({ pressed }) => [swapStyles.optionBtn, pressed && { opacity: 0.7 }]}
+            onPress={() => { haptic(); setShowSearch(!showSearch); setShowSaved(false); }}
+          >
+            <Ionicons name="search-outline" size={20} color={Colors.light.onSurface} />
+            <Text style={swapStyles.optionBtnText}>Search for a recipe</Text>
+            <Ionicons name={showSearch ? "chevron-up" : "chevron-down"} size={18} color={Colors.light.secondary} />
+          </Pressable>
+          {showSearch && (
+            <View style={swapStyles.searchArea}>
+              <TextInput
+                style={swapStyles.searchInput}
+                placeholder="Search recipes…"
+                placeholderTextColor={Colors.light.secondary}
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                autoFocus
+              />
+              {searchResults.map((recipe) => (
+                <Pressable
+                  key={recipe.id}
+                  style={({ pressed }) => [swapStyles.suggestionRow, pressed && { opacity: 0.7 }]}
+                  onPress={() => { haptic(); onSelectRecipe(recipe); }}
+                >
+                  <View style={swapStyles.suggestionInfo}>
+                    <Text style={swapStyles.suggestionName} numberOfLines={1}>{recipe.name}</Text>
+                    <Text style={swapStyles.suggestionMeta}>{recipe.countryName} · {recipe.time}</Text>
+                  </View>
+                  <Ionicons name="add-circle-outline" size={24} color={Colors.light.primary} />
+                </Pressable>
+              ))}
+            </View>
+          )}
+
+          {/* Surprise me */}
+          <Pressable
+            style={({ pressed }) => [swapStyles.optionBtn, pressed && { opacity: 0.7 }]}
+            onPress={() => { haptic(); onSurprise(); }}
+          >
+            <Ionicons name="shuffle-outline" size={20} color={Colors.light.onSurface} />
+            <Text style={swapStyles.optionBtnText}>Surprise me</Text>
+          </Pressable>
+        </ScrollView>
+      </Pressable>
+    </Pressable>
+  );
+}
+
+const swapStyles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "flex-end",
+  },
+  sheet: {
+    backgroundColor: Colors.light.surface,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: "80%",
+    paddingHorizontal: 24,
+    paddingBottom: 40,
+  },
+  handle: {
+    width: 40,
+    height: 4,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderRadius: 2,
+    alignSelf: "center",
+    marginTop: 12,
+    marginBottom: 16,
+  },
+  title: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 22,
+    color: Colors.light.onSurface,
+    lineHeight: 28,
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: "#8A8279",
+    lineHeight: 22,
+    marginBottom: 24,
+  },
+  sectionLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.primary,
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    marginBottom: 12,
+    lineHeight: 18,
+  },
+  suggestionsCard: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+    overflow: "hidden",
+    marginBottom: 16,
+  },
+  suggestionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    gap: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#E8DFD2",
+    minHeight: 56,
+  },
+  suggestionInfo: {
+    flex: 1,
+    gap: 2,
+  },
+  suggestionName: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    lineHeight: 22,
+  },
+  suggestionMeta: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.secondary,
+    lineHeight: 20,
+  },
+  optionBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    marginBottom: 12,
+    minHeight: 56,
+  },
+  optionBtnText: {
+    flex: 1,
+    fontFamily: "Inter_500Medium",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    lineHeight: 22,
+  },
+  emptyText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.secondary,
+    textAlign: "center",
+    padding: 20,
+    lineHeight: 20,
+  },
+  searchArea: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#E8DFD2",
+    overflow: "hidden",
+    marginBottom: 16,
+  },
+  searchInput: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#E8DFD2",
+  },
+});
 
 // ─── WeekRow ──────────────────────────────────────────────────────────────────
 

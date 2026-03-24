@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import RecipeContextMenu from "@/components/RecipeContextMenu";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -370,19 +371,20 @@ export default function DiscoverScreen() {
           <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>Tonight's Tasting Menu</Text>
           <View style={styles.tastingList}>
             {activeCountry.recipes.slice(0, 3).map((recipe, idx) => (
-              <Pressable
-                key={recipe.id}
-                onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
-                style={({ pressed }) => [styles.tastingCard, pressed && { opacity: 0.85 }]}
-              >
-                <Image source={{ uri: recipe.image }} style={styles.tastingThumb} contentFit="cover" />
-                <View style={styles.tastingInfo}>
-                  <Text style={styles.tastingCourse}>{TASTING_COURSES[idx] || recipe.category}</Text>
-                  <Text style={styles.tastingName} numberOfLines={2}>{recipe.name}</Text>
-                  <Text style={styles.tastingDesc} numberOfLines={1}>{recipe.description}</Text>
-                </View>
-                <Ionicons name="chevron-forward" size={16} color={Colors.light.outline} />
-              </Pressable>
+              <RecipeContextMenu key={recipe.id} recipe={recipe}>
+                <Pressable
+                  onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
+                  style={({ pressed }) => [styles.tastingCard, pressed && { opacity: 0.85 }]}
+                >
+                  <Image source={{ uri: recipe.image }} style={styles.tastingThumb} contentFit="cover" />
+                  <View style={styles.tastingInfo}>
+                    <Text style={styles.tastingCourse}>{TASTING_COURSES[idx] || recipe.category}</Text>
+                    <Text style={styles.tastingName} numberOfLines={2}>{recipe.name}</Text>
+                    <Text style={styles.tastingDesc} numberOfLines={1}>{recipe.description}</Text>
+                  </View>
+                  <Ionicons name="chevron-forward" size={16} color={Colors.light.outline} />
+                </Pressable>
+              </RecipeContextMenu>
             ))}
           </View>
         </View>
