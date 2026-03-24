@@ -84,9 +84,6 @@ function getPhase(title: string): "prep" | "cook" | "finish" {
   return "prep";
 }
 
-const TERRACOTTA = "#8A3800";
-const TEXT_SECONDARY = "#5C5549";
-
 const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
 
 /** Extract doneness cues from instruction text — looks for "until" phrases */
