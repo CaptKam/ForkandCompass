@@ -392,9 +392,10 @@ const styles = StyleSheet.create({
   },
   recipeSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.light.secondary,
     letterSpacing: 0.3,
+    lineHeight: 22,
     marginBottom: 20,
   },
   // Meta chips
@@ -421,6 +422,7 @@ const styles = StyleSheet.create({
     color: Colors.light.onSurface,
     letterSpacing: 0.5,
     textTransform: "uppercase",
+    lineHeight: 20,
   },
   // Servings
   servingsContainer: {
@@ -434,7 +436,7 @@ const styles = StyleSheet.create({
   },
   servingsLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
+    fontSize: 17,
     color: Colors.light.onSurface,
   },
   servingsStepper: {
@@ -459,7 +461,7 @@ const styles = StyleSheet.create({
   },
   servingsValue: {
     fontFamily: "Inter_700Bold",
-    fontSize: 14,
+    fontSize: 17,
     color: Colors.light.onSurface,
     paddingHorizontal: 12,
   },
@@ -479,6 +481,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     gap: 14,
     paddingVertical: 14,
+    minHeight: 56,
   },
   ingredientCircle: {
     marginTop: 2,
@@ -529,7 +532,7 @@ const styles = StyleSheet.create({
   },
   scheduleBtnText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: Colors.light.primary,
   },
   cookNowBtn: {
@@ -544,7 +547,7 @@ const styles = StyleSheet.create({
   },
   cookNowBtnText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: "#FFFFFF",
   },
   // Grocery CTA
@@ -563,7 +566,7 @@ const styles = StyleSheet.create({
   },
   groceryCtaText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: "#FFFFFF",
   },
   // Steps
@@ -618,8 +621,9 @@ const styles = StyleSheet.create({
   },
   stepMaterialsText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.light.onSurface,
+    lineHeight: 20,
   },
 
   // Did You Know
@@ -639,8 +643,7 @@ const styles = StyleSheet.create({
   },
   didYouKnowText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
-
+    fontSize: 16,
     color: Colors.light.secondary,
     fontStyle: "italic",
     lineHeight: 22,
@@ -663,7 +666,7 @@ const styles = StyleSheet.create({
   },
   cookModeText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: "#FFFFFF",
     letterSpacing: -0.3,
   },
@@ -724,9 +727,10 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   nextJourneySubtitle: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
     color: "rgba(255,255,255,0.7)",
+    lineHeight: 20,
   },
 
 });

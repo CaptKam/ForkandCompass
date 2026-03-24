@@ -22,7 +22,7 @@ import { useApp } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import TabHeader from "@/components/TabHeader";
 
-const TERRACOTTA = "#9A4100";
+const TERRACOTTA = "#8A3800";
 const CREAM = "#FEF9F3";
 const BORDER = "#E8DFD2";
 const TEXT_PRIMARY = "#1C1A17";
@@ -456,9 +456,9 @@ const styles = StyleSheet.create({
   },
   continueProgress: {
     fontFamily: "Inter_400Regular",
-    fontSize: 16,
+    fontSize: 17,
     color: TEXT_SECONDARY,
-    lineHeight: 22,
+    lineHeight: 26,
   },
   continueBtn: {
     backgroundColor: TERRACOTTA,
@@ -474,10 +474,10 @@ const styles = StyleSheet.create({
   },
   abandonText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
+    fontSize: 16,
     color: TEXT_SECONDARY,
     textAlign: "center",
-    lineHeight: 20,
+    lineHeight: 22,
   },
 
   /* ── Tonight's Recipe ────────────────────────────────────────── */
@@ -504,15 +504,15 @@ const styles = StyleSheet.create({
   },
   tonightMeta: {
     fontFamily: "Inter_400Regular",
-    fontSize: 16,
+    fontSize: 17,
     color: TEXT_SECONDARY,
-    lineHeight: 22,
+    lineHeight: 26,
   },
   tonightServing: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
+    fontSize: 16,
     color: TEXT_SECONDARY,
-    lineHeight: 20,
+    lineHeight: 22,
   },
   startButton: {
     backgroundColor: TERRACOTTA,
@@ -557,7 +557,7 @@ const styles = StyleSheet.create({
   },
   whatToCookBtnText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: CREAM,
   },
   whatToCookBtnOutline: {
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
   },
   whatToCookBtnOutlineText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: TERRACOTTA,
   },
 
@@ -591,9 +591,9 @@ const styles = StyleSheet.create({
   },
   levelName: {
     fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 16,
+    fontSize: 17,
     color: TEXT_PRIMARY,
-    lineHeight: 22,
+    lineHeight: 24,
   },
   levelTrack: {
     width: 100,
@@ -685,9 +685,9 @@ const styles = StyleSheet.create({
   },
   beginnerMeta: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
+    fontSize: 16,
     color: TEXT_SECONDARY,
-    lineHeight: 20,
+    lineHeight: 22,
   },
 
   /* ── Techniques (collapsed) ──────────────────────────────────── */
@@ -699,9 +699,9 @@ const styles = StyleSheet.create({
   },
   techniquesHeaderText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 16,
+    fontSize: 17,
     color: TEXT_PRIMARY,
-    lineHeight: 22,
+    lineHeight: 26,
   },
   techniqueList: {
     backgroundColor: CREAM,
@@ -744,15 +744,15 @@ const styles = StyleSheet.create({
   },
   techniqueTitle: {
     fontFamily: "Inter_500Medium",
-    fontSize: 16,
+    fontSize: 17,
     color: TEXT_PRIMARY,
-    lineHeight: 22,
+    lineHeight: 26,
   },
   techniqueSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
+    fontSize: 16,
     color: TEXT_SECONDARY,
-    lineHeight: 20,
+    lineHeight: 22,
   },
   techniqueDuration: {
     fontFamily: "Inter_500Medium",
