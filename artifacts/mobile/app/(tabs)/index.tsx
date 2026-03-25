@@ -39,6 +39,15 @@ const EDITORIAL_BLURBS: Record<string, string> = {
   thailand: "Drift through Bangkok\u2019s glowing streets. Pad Thai, Tom Yum, and the perfect balance of sweet, sour, and heat.",
 };
 
+function getTonightLabel(): string {
+  const now = new Date();
+  const hour = now.getHours();
+  const day = now.getDay();
+  if (hour >= 11 && hour < 13) return "Quick Lunch";
+  if (day === 5 || day === 6) return "This Weekend";
+  return "Tonight\u2019s Plan";
+}
+
 function pickTastingMenu(recipes: Recipe[]): Recipe[] {
   // Try to pick one starter, one main, and one dessert/drink for a balanced menu
   const starter = recipes.find((r) => ["Appetizer", "Side Dish", "Salad", "Soup"].includes(r.category));
@@ -439,24 +448,22 @@ export default function DiscoverScreen() {
                     end={{ x: 0, y: 1 }}
                     style={[StyleSheet.absoluteFill, { height: 120 }]}
                   />
+                  <Pressable
+                    onPress={() => { haptic(); toggleSavedCountry(country.id); }}
+                    style={({ pressed }) => [styles.heroBookmark, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
+                  >
+                    <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={16} color="#FFFFFF" />
+                  </Pressable>
                   <View style={styles.heroContent}>
                     <Text style={styles.heroFlag}>{country.flag}</Text>
                     <Text style={styles.heroTitle}>{country.name}</Text>
                     <Text style={styles.heroBlurb}>{blurb}</Text>
-                    <View style={styles.heroActions}>
-                      <Pressable
-                        onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: country.id } }); }}
-                        style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
-                      >
-                        <Text style={styles.letsGoText}>Let's Go</Text>
-                      </Pressable>
-                      <Pressable
-                        onPress={() => { haptic(); toggleSavedCountry(country.id); }}
-                        style={({ pressed }) => [styles.bookmarkButton, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
-                      >
-                        <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
-                      </Pressable>
-                    </View>
+                    <Pressable
+                      onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: country.id } }); }}
+                      style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
+                    >
+                      <Text style={styles.letsGoText}>Explore {country.name}</Text>
+                    </Pressable>
                   </View>
                 </View>
               );
@@ -524,7 +531,7 @@ export default function DiscoverScreen() {
 
         {/* ── Tonight's Plan ────────────────────────────────────────── */}
         <View style={[styles.section, styles.tonightBg, { paddingHorizontal: 24 }]}>
-          <Text style={styles.sectionTitle}>Tonight's Plan</Text>
+          <Text style={styles.sectionTitle}>{getTonightLabel()}</Text>
           {todayRecipe && todayCountry ? (
             <RecipeContextMenu recipe={todayRecipe}>
               <Pressable
@@ -723,11 +730,15 @@ export default function DiscoverScreen() {
           </View>
           <View style={styles.spiceGrid}>
             {editorial.spiceMarket.map((spice, idx) => (
-              <View key={idx} style={styles.spiceItem}>
+              <Pressable
+                key={idx}
+                onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+                style={({ pressed }) => [styles.spiceItem, pressed && { opacity: 0.8 }]}
+              >
                 <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" />
                 <Text style={styles.spiceName}>{spice.name}</Text>
                 <Text style={styles.spiceDesc} numberOfLines={2} ellipsizeMode="tail">{spice.description}</Text>
-              </View>
+              </Pressable>
             ))}
           </View>
         </View>
@@ -748,6 +759,13 @@ export default function DiscoverScreen() {
               </View>
             ))}
           </View>
+          <Pressable
+            onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+            style={({ pressed }) => [styles.sectionCta, pressed && { opacity: 0.7 }]}
+          >
+            <Text style={styles.sectionCtaText}>Explore recipes rooted in these traditions</Text>
+            <Ionicons name="arrow-forward" size={14} color={Colors.light.primary} />
+          </Pressable>
         </View>
 
         {/* ── Heritage Spices ───────────────────────────────────────── */}
@@ -758,7 +776,11 @@ export default function DiscoverScreen() {
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.heritageScroll}>
             {editorial.heritageItems.map((item, idx) => (
-              <View key={idx} style={styles.heritageCard}>
+              <Pressable
+                key={idx}
+                onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+                style={({ pressed }) => [styles.heritageCard, pressed && { opacity: 0.88 }]}
+              >
                 <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" />
                 <View style={styles.heritageBody}>
                   <Text style={styles.heritageName}>{item.name}</Text>
@@ -766,9 +788,11 @@ export default function DiscoverScreen() {
                   <View style={styles.heritageBadgeRow}>
                     <View style={styles.heritageDot} />
                     <Text style={styles.heritageBadge}>{item.badge}</Text>
+                    <View style={{ flex: 1 }} />
+                    <Ionicons name="chevron-forward" size={14} color={Colors.light.primary} />
                   </View>
                 </View>
-              </View>
+              </Pressable>
             ))}
           </ScrollView>
         </View>
@@ -800,6 +824,15 @@ export default function DiscoverScreen() {
               </View>
             ))}
           </View>
+          {activeCountry.recipes[0] && (
+            <Pressable
+              onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: activeCountry.recipes[0].id } }); }}
+              style={({ pressed }) => [styles.sectionCta, { marginTop: 24 }, pressed && { opacity: 0.7 }]}
+            >
+              <Text style={styles.sectionCtaText}>Try {activeCountry.recipes[0].name}</Text>
+              <Ionicons name="arrow-forward" size={14} color={Colors.light.primary} />
+            </Pressable>
+          )}
         </View>
 
         {/* ── Must-Try Street Food ──────────────────────────────────── */}
@@ -954,15 +987,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  bookmarkButton: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: "rgba(255,255,255,0.12)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.2)",
+  heroBookmark: {
+    position: "absolute",
+    top: 52,
+    right: 16,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(0,0,0,0.35)",
     alignItems: "center",
     justifyContent: "center",
+    zIndex: 10,
   },
   heroTitleRow: {
     flexDirection: "row",
@@ -991,6 +1026,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 14,
+  },
+  sectionCta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    alignSelf: "flex-start",
+    marginTop: 24,
+  },
+  sectionCtaText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    color: Colors.light.primary,
+    letterSpacing: 0.3,
   },
   heroFlag: {
     fontSize: 28,
@@ -1116,8 +1164,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
     color: Colors.light.onSurface,
-    letterSpacing: 0.5,
-    textTransform: "uppercase",
+    letterSpacing: 0.3,
     maxWidth: 80,
     textAlign: "center",
   },
@@ -1324,8 +1371,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 14,
     color: Colors.light.onSurface,
-    letterSpacing: 0.8,
-    textTransform: "uppercase",
+    letterSpacing: 0.3,
     marginBottom: 4,
   },
   etiquetteDesc: {
@@ -1395,8 +1441,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
     color: Colors.light.primary,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
 
   // Cook's ledger
