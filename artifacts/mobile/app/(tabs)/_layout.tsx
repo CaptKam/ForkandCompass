@@ -8,6 +8,7 @@ import React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import ContinueCookingBanner from "@/components/ContinueCookingBanner";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
 function NativeTabLayout() {
@@ -45,8 +46,10 @@ function ClassicTabLayout() {
   const isDark = colors.background === "#121110";
 
   return (
-    <Tabs
-      screenOptions={{
+    <View style={{ flex: 1 }}>
+      <ContinueCookingBanner />
+      <Tabs
+        screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.secondary,
@@ -149,7 +152,8 @@ function ClassicTabLayout() {
             ),
         }}
       />
-    </Tabs>
+      </Tabs>
+    </View>
   );
 }
 
