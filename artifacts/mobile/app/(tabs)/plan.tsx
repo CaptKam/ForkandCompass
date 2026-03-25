@@ -1124,13 +1124,22 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore, drag, isActive }: {
           </View>
         </Pressable>
         {!isSkipped && (
-          <Pressable
-            onPress={(e) => { e.stopPropagation(); onReload(); }}
-            style={styles.dayCardRegenBtn}
-            hitSlop={8}
-          >
-            <Ionicons name="refresh" size={16} color={Colors.light.primary} />
-          </Pressable>
+          <View style={styles.dayCardActions}>
+            <Pressable
+              onPress={(e) => { e.stopPropagation(); onReload(); }}
+              style={styles.dayCardRegenBtn}
+              hitSlop={6}
+            >
+              <Ionicons name="refresh" size={15} color={Colors.light.primary} />
+            </Pressable>
+            <Pressable
+              onPress={(e) => { e.stopPropagation(); haptic(); onSkip(); }}
+              style={styles.dayCardCancelBtn}
+              hitSlop={6}
+            >
+              <Ionicons name="close" size={14} color={Colors.light.onSurfaceVariant} />
+            </Pressable>
+          </View>
         )}
       </View>
     </View>
@@ -1509,11 +1518,23 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 2,
   },
+  dayCardActions: {
+    gap: 6,
+    alignItems: "center",
+  },
   dayCardRegenBtn: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     backgroundColor: "#FFDBCB",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dayCardCancelBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: Colors.light.surfaceContainerHighest,
     alignItems: "center",
     justifyContent: "center",
   },
