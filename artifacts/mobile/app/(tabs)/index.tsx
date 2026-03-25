@@ -440,7 +440,16 @@ export default function DiscoverScreen() {
   // ── Derived data for personalized sections ──────────────────────────────
   const todayISO = new Date().toISOString().slice(0, 10);
   const todayPlan = currentItinerary.find((d) => d.date === todayISO) ?? null;
-  const todayRecipeId = todayPlan ? (todayPlan.mode === "quick" ? todayPlan.quickRecipeIds[0] : todayPlan.fullRecipeIds[0]) : null;
+  // Pick Main Course as hero (matching TonightCard in Plan tab), fallback to first recipe
+  const todayRecipeId = (() => {
+    if (!todayPlan) return null;
+    const ids = todayPlan.mode === "quick"
+      ? todayPlan.quickRecipeIds
+      : todayPlan.fullRecipeIds;
+    const recipes = ids.map((id) => getRecipeById(id)).filter(Boolean);
+    const mainCourse = recipes.find((r) => r?.category === "Main Course");
+    return mainCourse?.id ?? ids[0] ?? null;
+  })();
   const todayRecipe = todayRecipeId ? getRecipeById(todayRecipeId) ?? null : null;
   const todayCountry = todayPlan ? countries.find((c) => c.id === todayPlan.countryId) ?? null : null;
 
