@@ -21,7 +21,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
-import { COUNTRIES, ONBOARDING_IMAGES, LANDMARK_IMAGES, getCountryLocations, type Country } from "@/constants/data";
+import { COUNTRIES, ONBOARDING_IMAGES, LANDMARK_IMAGES, getCountryLocations, type Country, type Recipe } from "@/constants/data";
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
@@ -37,7 +37,23 @@ const EDITORIAL_BLURBS: Record<string, string> = {
   thailand: "Drift through Bangkok\u2019s glowing streets. Pad Thai, Tom Yum, and the perfect balance of sweet, sour, and heat.",
 };
 
-const TASTING_COURSES = ["Appetizer", "Main Course", "Dessert", "Signature Dish", "Special"];
+const TASTING_COURSE_ORDER = ["Appetizer", "Side Dish", "Soup", "Salad", "Main Course", "Dinner", "Lunch", "Dessert", "Beverage", "Condiment"];
+
+function pickTastingMenu(recipes: Recipe[]): Recipe[] {
+  // Try to pick one starter, one main, and one dessert/drink for a balanced menu
+  const starter = recipes.find((r) => ["Appetizer", "Side Dish", "Salad", "Soup"].includes(r.category));
+  const main = recipes.find((r) => ["Main Course", "Dinner", "Lunch"].includes(r.category) && r !== starter);
+  const finish = recipes.find((r) => ["Dessert", "Beverage", "Baked Good"].includes(r.category) && r !== starter && r !== main);
+  const picked = [starter, main, finish].filter(Boolean) as Recipe[];
+  // Fill remaining slots from unused recipes
+  if (picked.length < 3) {
+    for (const r of recipes) {
+      if (picked.length >= 3) break;
+      if (!picked.includes(r)) picked.push(r);
+    }
+  }
+  return picked.slice(0, 3);
+}
 
 // ─── Per-country editorial data ───────────────────────────────────────────────
 
@@ -391,7 +407,7 @@ export default function DiscoverScreen() {
         <View style={[styles.section, styles.tastingBg]}>
           <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>Tonight's Tasting Menu</Text>
           <View style={styles.tastingList}>
-            {activeCountry.recipes.slice(0, 3).map((recipe, idx) => (
+            {pickTastingMenu(activeCountry.recipes).map((recipe, idx) => (
               <RecipeContextMenu key={recipe.id} recipe={recipe}>
                 <Pressable
                   onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
@@ -399,7 +415,7 @@ export default function DiscoverScreen() {
                 >
                   <Image source={{ uri: recipe.image }} style={styles.tastingThumb} contentFit="cover" />
                   <View style={styles.tastingInfo}>
-                    <Text style={styles.tastingCourse}>{TASTING_COURSES[idx] || recipe.category}</Text>
+                    <Text style={styles.tastingCourse}>{recipe.category}</Text>
                     <Text style={styles.tastingName} numberOfLines={2}>{recipe.name}</Text>
                     <Text style={styles.tastingDesc} numberOfLines={1}>{recipe.description}</Text>
                   </View>
