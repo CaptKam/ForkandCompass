@@ -447,13 +447,59 @@ export default function PlanScreen() {
             </Pressable>
           </View>
         ) : (
-          /* Active itinerary — DraggableFlatList */
+          /* Active itinerary */
+          Platform.OS === "web" ? (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={[styles.weekScrollContent, { paddingBottom: 140 }]}
+          >
+            {todayDay && (
+              <View>
+                <Text style={styles.sectionLabel}>TONIGHT</Text>
+                <TonightCard day={todayDay} servings={itineraryProfile?.defaultServings ?? 4} />
+              </View>
+            )}
+            <View style={{ marginBottom: 24, gap: 20 }}>
+              {fullWeek.map((entry, index) => {
+                if ("isEmpty" in entry) {
+                  return (
+                    <EmptyDayRow
+                      key={entry.id}
+                      date={entry.date}
+                      dayLabel={entry.dayLabel}
+                      isLast={index === fullWeek.length - 1}
+                      onAdd={() => handleAddMealToDay(entry.date, entry.dayLabel)}
+                    />
+                  );
+                }
+                return (
+                  <WeekRow
+                    key={entry.id}
+                    day={entry}
+                    isLast={index === fullWeek.length - 1}
+                    isToday={entry.date === today}
+                    isPast={entry.date < today}
+                    onReload={() => { haptic(); setSwapDay(entry); }}
+                    onSkip={() => handleSkipDay(entry)}
+                    onRestore={() => handleRestoreDay(entry)}
+                  />
+                );
+              })}
+            </View>
+            <Pressable
+              onPress={handleNewWeek}
+              style={({ pressed }) => [styles.newWeekLink, pressed && { opacity: 0.6 }]}
+            >
+              <Text style={styles.newWeekText}>Generate new week</Text>
+            </Pressable>
+          </ScrollView>
+          ) : (
           <DraggableFlatList
             data={fullWeek}
             keyExtractor={(item) => item.id}
             onDragEnd={handleDragEnd}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={[styles.weekScrollContent, { paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + SCROLL_BOTTOM_INSET }]}
+            contentContainerStyle={[styles.weekScrollContent, { paddingBottom: insets.bottom + SCROLL_BOTTOM_INSET }]}
             ListHeaderComponent={
               todayDay ? (
                 <View>
@@ -499,6 +545,7 @@ export default function PlanScreen() {
               );
             }}
           />
+          )
         )
       )}
 
