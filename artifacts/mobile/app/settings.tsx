@@ -245,7 +245,7 @@ export default function ProfileScreen() {
                     <Image source={{ uri: recipe.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   </View>
                   <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={styles.savedRecipeName} numberOfLines={1}>{recipe.name}</Text>
+                    <Text style={styles.savedRecipeName} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
                     <Text style={styles.savedRecipeCuisine}>{recipe.category}</Text>
                   </View>
                   <Pressable onPress={() => { haptic(); toggleSaved(recipe.id); }} hitSlop={12} style={{ flexShrink: 0, marginLeft: 8, minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" }}>

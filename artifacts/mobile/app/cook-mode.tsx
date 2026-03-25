@@ -591,7 +591,7 @@ export default function CookModeScreen() {
           </Pressable>
           <View style={styles.headerTitleCol}>
             <Text style={styles.stepLabel}>Step {currentStep + 1} of {recipe.steps.length}</Text>
-            <Text style={styles.headerRecipeName} numberOfLines={1}>{recipe.name}</Text>
+            <Text style={styles.headerRecipeName} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
           </View>
         </View>
         <View style={styles.headerRight}>
