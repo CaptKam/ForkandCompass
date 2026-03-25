@@ -36,3 +36,9 @@ id = "DMcuQxXrI3wWP2TJkkrrk"
 uri = "file://docs/discover-page-complete.md"
 type = "text"
 title = "Discover Page — Complete Reference"
+
+[[outputs]]
+id = "1Soy3-OCXPbmJJfnWnvhK"
+uri = "file://discover-page.md"
+type = "text"
+title = "Discover Page — Complete Reference"
