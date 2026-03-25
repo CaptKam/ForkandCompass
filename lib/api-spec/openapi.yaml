@@ -152,6 +152,12 @@ components:
           type: string
         instruction:
           type: string
+        instructionFirstSteps:
+          type: string
+          description: Beginner-adapted instruction (Just Learning / First Steps tier)
+        instructionChefsTable:
+          type: string
+          description: Advanced-adapted instruction (Culinary Pro / Chef's Table tier)
         materials:
           type: array
           items:

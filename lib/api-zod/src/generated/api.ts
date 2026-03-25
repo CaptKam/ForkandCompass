@@ -64,6 +64,7 @@ export const GetCountryResponse = zod
         zod.object({
           id: zod.string(),
           countryId: zod.string(),
+          region: zod.string().nullish(),
           title: zod.string(),
           description: zod.string(),
           image: zod.string(),
@@ -84,6 +85,18 @@ export const GetCountryResponse = zod
               id: zod.string(),
               title: zod.string(),
               instruction: zod.string(),
+              instructionFirstSteps: zod
+                .string()
+                .optional()
+                .describe(
+                  "Beginner-adapted instruction (Just Learning \/ First Steps tier)",
+                ),
+              instructionChefsTable: zod
+                .string()
+                .optional()
+                .describe(
+                  "Advanced-adapted instruction (Culinary Pro \/ Chef's Table tier)",
+                ),
               materials: zod.array(zod.string()),
             }),
           ),
@@ -106,6 +119,7 @@ export const GetRecipeParams = zod.object({
 export const GetRecipeResponse = zod.object({
   id: zod.string(),
   countryId: zod.string(),
+  region: zod.string().nullish(),
   title: zod.string(),
   description: zod.string(),
   image: zod.string(),
@@ -126,6 +140,18 @@ export const GetRecipeResponse = zod.object({
       id: zod.string(),
       title: zod.string(),
       instruction: zod.string(),
+      instructionFirstSteps: zod
+        .string()
+        .optional()
+        .describe(
+          "Beginner-adapted instruction (Just Learning \/ First Steps tier)",
+        ),
+      instructionChefsTable: zod
+        .string()
+        .optional()
+        .describe(
+          "Advanced-adapted instruction (Culinary Pro \/ Chef's Table tier)",
+        ),
       materials: zod.array(zod.string()),
     }),
   ),
@@ -163,6 +189,7 @@ export const SearchResponse = zod.object({
     zod.object({
       id: zod.string(),
       countryId: zod.string(),
+      region: zod.string().nullish(),
       title: zod.string(),
       description: zod.string(),
       image: zod.string(),
@@ -183,6 +210,18 @@ export const SearchResponse = zod.object({
           id: zod.string(),
           title: zod.string(),
           instruction: zod.string(),
+          instructionFirstSteps: zod
+            .string()
+            .optional()
+            .describe(
+              "Beginner-adapted instruction (Just Learning \/ First Steps tier)",
+            ),
+          instructionChefsTable: zod
+            .string()
+            .optional()
+            .describe(
+              "Advanced-adapted instruction (Culinary Pro \/ Chef's Table tier)",
+            ),
           materials: zod.array(zod.string()),
         }),
       ),

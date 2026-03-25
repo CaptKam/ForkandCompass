@@ -239,6 +239,7 @@ export function RecipesPage() {
                 <SortHeader column="difficulty">Difficulty</SortHeader>
                 <SortHeader column="category">Category</SortHeader>
                 <th className="h-10 px-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="h-10 px-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Tiers</th>
                 <SortHeader column="cookCount">Cooked</SortHeader>
                 <SortHeader column="createdAt">Created</SortHeader>
                 <th className="w-10" />
@@ -247,13 +248,13 @@ export function RecipesPage() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={11} className="py-16 text-center text-muted-foreground text-sm">
+                  <td colSpan={12} className="py-16 text-center text-muted-foreground text-sm">
                     Loading recipes...
                   </td>
                 </tr>
               ) : recipes.length === 0 ? (
                 <tr>
-                  <td colSpan={11} className="py-16 text-center text-muted-foreground text-sm">
+                  <td colSpan={12} className="py-16 text-center text-muted-foreground text-sm">
                     No recipes found
                   </td>
                 </tr>
@@ -310,6 +311,38 @@ export function RecipesPage() {
         )}
       </div>
     </div>
+  );
+}
+
+function countTierCompletion(steps: AdminRecipe["steps"]): number {
+  if (!steps || steps.length === 0) return 0;
+  const allHaveFirstSteps = steps.every(
+    (s) => !!(s.instructionFirstSteps && s.instructionFirstSteps.trim()),
+  );
+  const allHaveInstruction = steps.every(
+    (s) => !!(s.instruction && s.instruction.trim()),
+  );
+  const allHaveChefsTable = steps.every(
+    (s) => !!(s.instructionChefsTable && s.instructionChefsTable.trim()),
+  );
+  return (allHaveFirstSteps ? 1 : 0) + (allHaveInstruction ? 1 : 0) + (allHaveChefsTable ? 1 : 0);
+}
+
+function TierBadge({ steps }: { steps: AdminRecipe["steps"] }) {
+  if (!steps || steps.length === 0) {
+    return <span className="text-xs text-muted-foreground">—</span>;
+  }
+  const filled = countTierCompletion(steps);
+  const color =
+    filled === 3
+      ? "bg-emerald-100 text-emerald-800"
+      : filled === 0
+      ? "bg-red-100 text-red-800"
+      : "bg-amber-100 text-amber-800";
+  return (
+    <span className={cn("text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap", color)}>
+      {filled}/3 tiers
+    </span>
   );
 }
 
@@ -388,6 +421,9 @@ function RecipeRow({
         <span className={cn("text-xs font-medium px-2 py-0.5 rounded-full", statusColor[recipe.status] ?? statusColor.draft)}>
           {recipe.status.charAt(0).toUpperCase() + recipe.status.slice(1)}
         </span>
+      </td>
+      <td className="px-3 py-2.5">
+        <TierBadge steps={recipe.steps} />
       </td>
       <td className="px-3 py-2.5 text-sm text-muted-foreground tabular-nums">
         {recipe.cookCount}

@@ -374,13 +374,38 @@ export function RecipeEditPage({ params }: { params: { id: string } }) {
                     <X className="w-4 h-4 text-muted-foreground hover:text-destructive" />
                   </button>
                 </div>
-                <textarea
-                  value={step.instruction}
-                  onChange={(e) => updateStep(idx, "instruction", e.target.value)}
-                  rows={2}
-                  placeholder="Instruction text..."
-                  className="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-y"
-                />
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-amber-700 mb-1">🍳 Just Learning</label>
+                    <textarea
+                      value={step.instructionFirstSteps ?? ""}
+                      onChange={(e) => updateStep(idx, "instructionFirstSteps", e.target.value)}
+                      rows={2}
+                      placeholder="Beginner-friendly instruction..."
+                      className="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-y"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-emerald-700 mb-1">👨‍🍳 I've Got This</label>
+                    <textarea
+                      value={step.instruction}
+                      onChange={(e) => updateStep(idx, "instruction", e.target.value)}
+                      rows={2}
+                      placeholder="Standard instruction..."
+                      className="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-y"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-violet-700 mb-1">👨‍🍳 Culinary Pro</label>
+                    <textarea
+                      value={step.instructionChefsTable ?? ""}
+                      onChange={(e) => updateStep(idx, "instructionChefsTable", e.target.value)}
+                      rows={2}
+                      placeholder="Advanced technique instruction..."
+                      className="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-y"
+                    />
+                  </div>
+                </div>
               </div>
             ))}
           </div>

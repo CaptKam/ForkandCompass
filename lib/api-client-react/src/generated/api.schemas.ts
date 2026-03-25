@@ -19,7 +19,9 @@ export interface CookStep {
   id: string;
   title: string;
   instruction: string;
+  /** Beginner-adapted instruction (Just Learning / First Steps tier) */
   instructionFirstSteps?: string;
+  /** Advanced-adapted instruction (Culinary Pro / Chef's Table tier) */
   instructionChefsTable?: string;
   materials: string[];
 }

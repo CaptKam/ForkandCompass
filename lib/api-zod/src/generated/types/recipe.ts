@@ -11,6 +11,7 @@ import type { Ingredient } from "./ingredient";
 export interface Recipe {
   id: string;
   countryId: string;
+  region?: string | null;
   title: string;
   description: string;
   image: string;
