@@ -59,6 +59,7 @@
   "dependencies": {
     "expo-camera": "^55.0.10",
     "expo-keep-awake": "^55.0.4",
-    "expo-sensors": "^55.0.9"
+    "expo-sensors": "^55.0.9",
+    "react-native-draggable-flatlist": "^4.0.3"
   }
 }
