@@ -170,7 +170,7 @@ export default function ItinerarySetupScreen() {
               </View>
               {isSelected && (
                 <View style={styles.optionCheck}>
-                  <Ionicons name="checkmark" size={16} color="#FFFFFF" />
+                  <Ionicons name="checkmark" size={16} color={Colors.light.onPrimary} />
                 </View>
               )}
             </Pressable>
@@ -237,7 +237,7 @@ export default function ItinerarySetupScreen() {
                 >
                   <View style={[styles.pantryCheckbox, staple.inKitchen && styles.pantryCheckboxChecked]}>
                     {staple.inKitchen && (
-                      <Ionicons name="checkmark" size={13} color="#FFFFFF" />
+                      <Ionicons name="checkmark" size={13} color={Colors.light.onPrimary} />
                     )}
                   </View>
                   <Text style={[styles.pantryIngredient, !staple.inKitchen && styles.pantryIngredientOff]}>
@@ -340,7 +340,7 @@ export default function ItinerarySetupScreen() {
           style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.85 }]}
         >
           <Text style={styles.ctaText}>{isLastStep ? "Plan My Week" : "Next"}</Text>
-          {!isLastStep && <Ionicons name="chevron-forward" size={18} color="#FFFFFF" />}
+          {!isLastStep && <Ionicons name="chevron-forward" size={18} color={Colors.light.onPrimary} />}
         </Pressable>
       </View>
     </View>
@@ -592,7 +592,7 @@ const styles = StyleSheet.create({
   ctaText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     letterSpacing: 0.3,
   },
 

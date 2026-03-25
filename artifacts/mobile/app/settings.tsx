@@ -138,7 +138,7 @@ export default function ProfileScreen() {
             accessibilityLabel="Close"
             hitSlop={12}
           >
-            <Ionicons name="close" size={24} color="#FEF9F3" />
+            <Ionicons name="close" size={24} color={Colors.light.surface} />
           </Pressable>
 
           {/* Avatar + name overlay */}
@@ -554,7 +554,7 @@ const styles = StyleSheet.create({
   heroName: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 22,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     letterSpacing: -0.3,
   },
   heroLevel: {
@@ -715,7 +715,7 @@ const styles = StyleSheet.create({
     color: Colors.light.onSurfaceVariant,
   },
   tempPillTextActive: {
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
 
   /* Itinerary Preferences */

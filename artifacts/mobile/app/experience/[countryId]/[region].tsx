@@ -207,7 +207,7 @@ export default function ExperienceScreen() {
             router.push({ pathname: "/(tabs)/plan" });
           }}
         >
-          <Ionicons name="basket-outline" size={20} color="#fff" />
+          <Ionicons name="basket-outline" size={20} color={Colors.light.onPrimary} />
           <Text style={styles.ctaText}>
             Get the Ingredients ({totalIngredients} items)
           </Text>
@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
   ctaText: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   backBtn: {
     backgroundColor: Colors.light.primary,
@@ -481,6 +481,6 @@ const styles = StyleSheet.create({
   backBtnText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 16,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
 });

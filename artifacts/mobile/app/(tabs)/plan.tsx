@@ -22,7 +22,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { COUNTRIES, getCountryById, getRecipeById, type GroceryItem, type Recipe } from "@/constants/data";
+import { COUNTRIES, getAllRecipes, getCountryById, getRecipeById, type GroceryItem, type Recipe } from "@/constants/data";
 import { type PantryStaple } from "@/constants/pantry";
 import { PARTNER_CONFIG } from "@/constants/partners";
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
@@ -636,7 +636,7 @@ export default function PlanScreen() {
                         onPress={() => { haptic(); clearGrocery(); }}
                         style={styles.clearCompletedBtn}
                       >
-                        <Text style={[styles.clearCompletedText, { color: "#c0392b" }]}>Clear All</Text>
+                        <Text style={[styles.clearCompletedText, { color: Colors.light.error }]}>Clear All</Text>
                       </Pressable>
                     )}
                   </View>
@@ -712,7 +712,7 @@ export default function PlanScreen() {
             <Text style={styles.fabText}>
               Add {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} to {PARTNER_CONFIG[groceryPartner].label}
             </Text>
-            <Ionicons name="arrow-forward" size={16} color="#fff" />
+            <Ionicons name="arrow-forward" size={16} color={Colors.light.onPrimary} />
           </Pressable>
         </View>
       )}
@@ -773,7 +773,9 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
   if (!country || !heroRecipe) return null;
 
   const title = recipes.length > 1 ? recipes.map((r) => r?.name).join(" + ") : heroRecipe.name;
-  const region = heroRecipe.region || country.name;
+  const region = heroRecipe.region && heroRecipe.region !== country.name
+    ? heroRecipe.region
+    : null;
 
   return (
     <View style={styles.tonightCard}>
@@ -806,6 +808,20 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
             <Text style={styles.supperBadgeText}>Supper Choice</Text>
           </View>
           <Text style={styles.tonightTitle} ellipsizeMode="tail" numberOfLines={2}>{title}</Text>
+        </Pressable>
+        <Text style={styles.tonightSubtitle}>
+          {region ? `${region}, ` : ""}{country.name} · {heroRecipe.time}
+        </Text>
+        <Text style={styles.tonightServing}>Serving {servings}</Text>
+
+        {/* Start Cooking → goes DIRECTLY to Cook Mode */}
+        <Pressable
+          onPress={() => { haptic(); router.push({ pathname: "/cook-mode", params: { recipeId: heroRecipe.id } }); }}
+          style={({ pressed }) => [styles.startCookingBtn, pressed && { opacity: 0.88 }]}
+        >
+          <Text style={styles.startCookingText}>Start Cooking →</Text>
+        </Pressable>
+      </View>
           <Text style={styles.tonightDesc} numberOfLines={2}>
             A {region} staple elevated by premium ingredients and careful preparation.
           </Text>
@@ -845,16 +861,11 @@ function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds }:
   // Suggestions: 3 recipes from different cuisines, same difficulty
   const suggestions = useMemo(() => {
     const currentDifficulty = currentRecipes[0]?.difficulty ?? "Easy";
-    const allRecipes: Recipe[] = [];
-    for (const country of COUNTRIES) {
-      for (const recipe of country.recipes) {
-        if (!currentRecipeIds.includes(recipe.id) && recipe.difficulty === currentDifficulty) {
-          allRecipes.push(recipe);
-        }
-      }
-    }
+    const resolved = getAllRecipes().filter(
+      (recipe) => !currentRecipeIds.includes(recipe.id) && recipe.difficulty === currentDifficulty
+    );
     // Shuffle and take 3
-    const shuffled = [...allRecipes].sort(() => Math.random() - 0.5);
+    const shuffled = [...resolved].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 3);
   }, [currentRecipeIds, currentRecipes]);
 
@@ -865,15 +876,9 @@ function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds }:
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
     const q = searchQuery.toLowerCase();
-    const results: Recipe[] = [];
-    for (const country of COUNTRIES) {
-      for (const recipe of country.recipes) {
-        if (recipe.name.toLowerCase().includes(q)) {
-          results.push(recipe);
-        }
-      }
-    }
-    return results.slice(0, 5);
+    return getAllRecipes()
+      .filter((recipe) => recipe.name.toLowerCase().includes(q))
+      .slice(0, 5);
   }, [searchQuery]);
 
   const haptic = () => { if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); };
@@ -1757,7 +1762,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.primary,
   },
   pantryPillNeed: {
-    backgroundColor: "#FEF0E6",
+    backgroundColor: Colors.light.surfaceWarm,
     borderWidth: 1.5,
     borderColor: Colors.light.primary,
   },
@@ -1765,7 +1770,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   pantryPillTextNeed: {
     color: Colors.light.primary,
@@ -1969,13 +1974,13 @@ const styles = StyleSheet.create({
   fabLogoText: {
     fontFamily: "Inter_700Bold",
     fontSize: 13,
-    color: "#fff",
+    color: Colors.light.onPrimary,
   },
   fabText: {
     flex: 1,
     fontFamily: "Inter_600SemiBold",
     fontSize: 16,
-    color: "#fff",
+    color: Colors.light.onPrimary,
   },
 
   // Toast

@@ -231,7 +231,7 @@ export default function SearchScreen() {
               {MOOD_CHIPS.map((mood) => (
                 <Pressable
                   key={mood.label}
-                  onPress={haptic}
+                  onPress={() => { haptic(); setQuery(mood.label); }}
                   style={({ pressed }) => [styles.moodChip, pressed && { opacity: 0.8 }]}
                 >
                   <Text style={styles.moodEmoji}>{mood.emoji}</Text>

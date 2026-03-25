@@ -8,6 +8,7 @@ import React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import Colors from "@/constants/colors";
 import ContinueCookingBanner from "@/components/ContinueCookingBanner";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
@@ -49,7 +50,7 @@ function ClassicTabLayout() {
   const isIOS = Platform.OS === "ios";
   const isWeb = Platform.OS === "web";
   const colors = useThemeColors();
-  const isDark = colors.background === "#121110";
+  const isDark = colors.background === Colors.dark.background;
 
   return (
     <View style={{ flex: 1 }}>

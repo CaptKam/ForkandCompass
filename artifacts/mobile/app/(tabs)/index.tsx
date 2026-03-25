@@ -440,7 +440,16 @@ export default function DiscoverScreen() {
   // ── Derived data for personalized sections ──────────────────────────────
   const todayISO = new Date().toISOString().slice(0, 10);
   const todayPlan = currentItinerary.find((d) => d.date === todayISO) ?? null;
-  const todayRecipeId = todayPlan ? (todayPlan.mode === "quick" ? todayPlan.quickRecipeIds[0] : todayPlan.fullRecipeIds[0]) : null;
+  // Pick Main Course as hero (matching TonightCard in Plan tab), fallback to first recipe
+  const todayRecipeId = (() => {
+    if (!todayPlan) return null;
+    const ids = todayPlan.mode === "quick"
+      ? todayPlan.quickRecipeIds
+      : todayPlan.fullRecipeIds;
+    const recipes = ids.map((id) => getRecipeById(id)).filter(Boolean);
+    const mainCourse = recipes.find((r) => r?.category === "Main Course");
+    return mainCourse?.id ?? ids[0] ?? null;
+  })();
   const todayRecipe = todayRecipeId ? getRecipeById(todayRecipeId) ?? null : null;
   const todayCountry = todayPlan ? countries.find((c) => c.id === todayPlan.countryId) ?? null : null;
 
@@ -523,7 +532,7 @@ export default function DiscoverScreen() {
                     onPress={() => { haptic(); toggleSavedCountry(country.id); }}
                     style={({ pressed }) => [styles.heroBookmark, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
                   >
-                    <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={16} color="#FFFFFF" />
+                    <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={16} color={Colors.light.onPrimary} />
                   </Pressable>
                   <View style={styles.heroContent}>
                     <Text style={styles.heroFlag}>{country.flag}</Text>
@@ -628,7 +637,7 @@ export default function DiscoverScreen() {
                     onPress={() => { haptic("medium"); router.push({ pathname: "/cook-mode", params: { recipeId: todayRecipe.id } }); }}
                     style={({ pressed }) => [styles.tonightCookBtn, pressed && { opacity: 0.85 }]}
                   >
-                    <Ionicons name="restaurant-outline" size={16} color="#FFFFFF" />
+                    <Ionicons name="restaurant-outline" size={16} color={Colors.light.onPrimary} />
                     <Text style={styles.tonightCookText}>Start Cooking</Text>
                   </Pressable>
                 </View>
@@ -641,7 +650,7 @@ export default function DiscoverScreen() {
               <Text style={styles.tonightEmptyDesc}>Build a personalised week of cooking in just a minute.</Text>
               <View style={styles.tonightEmptyActions}>
                 <Pressable
-                  onPress={() => { haptic(); router.push("/(tabs)/plan" as any); }}
+                  onPress={() => { haptic(); router.push("/(tabs)/plan"); }}
                   style={({ pressed }) => [styles.tonightPlanBtn, pressed && { opacity: 0.85 }]}
                 >
                   <Text style={styles.tonightPlanBtnText}>Plan My Week</Text>
@@ -663,7 +672,7 @@ export default function DiscoverScreen() {
           <View style={styles.section}>
             <View style={[styles.rowBetween, { paddingHorizontal: 24 }]}>
               <Text style={styles.sectionTitle}>Recently Cooked</Text>
-              <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile" as any); }}>
+              <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile"); }}>
                 <Text style={styles.viewAll}>See All</Text>
               </Pressable>
             </View>
@@ -726,7 +735,7 @@ export default function DiscoverScreen() {
           <View style={[styles.section, styles.jumpBg]}>
             <View style={[styles.rowBetween, { paddingHorizontal: 24 }]}>
               <Text style={styles.sectionTitle}>Jump Back In</Text>
-              <Pressable onPress={() => { haptic(); router.push("/(tabs)/saved" as any); }}>
+              <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile"); }}>
                 <Text style={styles.viewAll}>View All</Text>
               </Pressable>
             </View>
@@ -1143,7 +1152,7 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 38,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     letterSpacing: -0.5,
     lineHeight: 44,
     marginBottom: 12,
@@ -1156,7 +1165,7 @@ const styles = StyleSheet.create({
     marginBottom: 28,
   },
   letsGoButton: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     paddingHorizontal: 32,
     height: 52,
     borderRadius: 26,
@@ -1240,7 +1249,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 12,
     width: 24,
     height: 24,
@@ -1318,7 +1327,7 @@ const styles = StyleSheet.create({
   locName: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     marginBottom: 2,
   },
   locSub: {
@@ -1341,7 +1350,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     padding: 12,
     borderRadius: 12,
     borderWidth: 1,
@@ -1497,7 +1506,7 @@ const styles = StyleSheet.create({
   },
   heritageCard: {
     width: 240,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 16,
     overflow: "hidden",
   },
@@ -1591,7 +1600,7 @@ const styles = StyleSheet.create({
 
   // Street food
   streetBg: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     paddingBottom: 32,
   },
   streetSub: {
@@ -1623,7 +1632,7 @@ const styles = StyleSheet.create({
   streetName: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 20,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     marginBottom: 2,
   },
   streetDesc: {
@@ -1683,7 +1692,7 @@ const styles = StyleSheet.create({
   tonightCard: {
     flexDirection: "row",
     gap: 16,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.25)",
@@ -1759,13 +1768,13 @@ const styles = StyleSheet.create({
   tonightCookText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 14,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   tonightEmpty: {
     alignItems: "center",
     paddingVertical: 32,
     paddingHorizontal: 16,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.25)",
@@ -1800,7 +1809,7 @@ const styles = StyleSheet.create({
   tonightPlanBtnText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 15,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   tonightSurpriseBtn: {
     flexDirection: "row",
@@ -1847,7 +1856,7 @@ const styles = StyleSheet.create({
   recentRatingText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 11,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   recentInfo: {
     position: "absolute",
@@ -1859,7 +1868,7 @@ const styles = StyleSheet.create({
   recentName: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     lineHeight: 18,
   },
 
@@ -1911,7 +1920,7 @@ const styles = StyleSheet.create({
   },
   jumpCard: {
     width: 152,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 12,
     overflow: "hidden",
     borderWidth: 1,
@@ -2001,7 +2010,7 @@ const styles = StyleSheet.create({
   editPickThemeText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 12,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     letterSpacing: 1.2,
     textTransform: "uppercase",
   },

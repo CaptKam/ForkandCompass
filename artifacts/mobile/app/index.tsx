@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   title: {
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     marginBottom: 12,
   },
   subtitle: {

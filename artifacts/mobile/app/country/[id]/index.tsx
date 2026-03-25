@@ -41,7 +41,7 @@ export default function CountryDetailScreen() {
         <Ionicons name="earth-outline" size={48} color={Colors.light.outlineVariant} />
         <Text style={{ fontFamily: "NotoSerif_600SemiBold", fontSize: 20, color: Colors.light.onSurface, marginTop: 16, marginBottom: 8 }}>Country not found</Text>
         <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 14, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
-          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 16, color: "#FFFFFF" }}>Go Back</Text>
+          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 16, color: Colors.light.onPrimary }}>Go Back</Text>
         </Pressable>
       </View>
     );
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
   statsLine: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: "#8A8279",
+    color: Colors.light.secondary,
     marginBottom: 14,
   },
   description: {
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
   regionCardTitle: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 24,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   regionRecipeCount: {
     fontFamily: "Inter_500Medium",

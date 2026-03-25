@@ -472,6 +472,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 12,
   },
+
+  /* ── Continue Cooking Card (Active Session) ──────────────────── */
+  continueCard: {
+    backgroundColor: Colors.light.surfaceWarm,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "rgba(154,65,0,0.3)",
+    padding: 20,
+    gap: 12,
   sectionLabelEditorial: {
     fontFamily: "NotoSerif_600SemiBold",
     fontStyle: "italic",
@@ -618,6 +627,9 @@ const styles = StyleSheet.create({
 
   /* ── What to Cook (empty state) ──────────────────────────────── */
   whatToCookCard: {
+    backgroundColor: Colors.light.surfaceWarmAlt,
+    borderRadius: 16,
+    padding: 24,
     marginHorizontal: 24,
     backgroundColor: "#F5EDDF",
     borderRadius: 20,
@@ -780,6 +792,8 @@ const styles = StyleSheet.create({
   beginnerImage: {
     width: 56,
     height: 56,
+    borderRadius: 8,
+    backgroundColor: Colors.light.surfaceWarmAlt,
     borderRadius: 10,
     backgroundColor: Colors.light.surfaceContainerHigh,
   },
@@ -849,6 +863,8 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 8,
     overflow: "hidden",
+    position: "relative",
+    backgroundColor: Colors.light.surfaceWarmAlt,
     backgroundColor: Colors.light.surfaceContainerHigh,
   },
   techniqueThumbnail: {

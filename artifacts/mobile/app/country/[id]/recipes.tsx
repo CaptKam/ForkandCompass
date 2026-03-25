@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   recipeRowSubtitle: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: "#8A8279",
+    color: Colors.light.secondary,
   },
   separator: {
     height: StyleSheet.hairlineWidth,
