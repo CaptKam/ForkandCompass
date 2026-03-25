@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fork & Compass — Real Screen Audit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#FEF9F3;color:#1a1a1a;padding:20px;max-width:760px;margin:0 auto}
+:root{--terra:#9A4100;--terra-light:#C86030;--cream:#FEF9F3;--surface:#fff;--muted:#6b6b6b;--border:#e8e0d8;--danger-bg:#FFF0F0;--danger-text:#c0392b;--warn-bg:#FFF8E8;--warn-text:#92600a;--success-bg:#F0FFF4;--success-text:#1a7a3f;--info-bg:#EFF6FF;--info-text:#1a4fa8}
+
+.rh{border-bottom:2px solid var(–border);padding-bottom:20px;margin-bottom:24px}
+.kicker{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(–terra);margin-bottom:6px}
+.rtitle{font-family:Georgia,serif;font-size:26px;font-weight:700;line-height:1.2;margin-bottom:8px;color:#111}
+.rsub{font-size:14px;color:var(–muted);line-height:1.6}
+.rmeta{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px}
+.mi{font-size:12px;color:#999}
+.mi strong{color:var(–muted);font-weight:600}
+
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.sc{background:#fff;border:1px solid var(–border);border-radius:10px;padding:14px}
+.sl{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#999;margin-bottom:4px}
+.sv{font-size:26px;font-weight:700;line-height:1}
+.sv.g{color:var(–success-text)}
+.sv.a{color:var(–warn-text)}
+.sv.r{color:var(–danger-text)}
+.sbar{height:4px;background:#eee;border-radius:2px;overflow:hidden;margin-top:5px}
+.sf{height:100%;border-radius:2px}
+.ss{font-size:11px;color:#999;margin-top:3px}
+
+.pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:24px}
+.pill{font-size:12px;padding:6px 13px;border-radius:20px;border:1.5px solid var(–border);background:#fff;color:var(–muted);cursor:pointer;transition:all .15s;font-weight:500}
+.pill:hover,.pill.on{background:var(–terra);border-color:var(–terra);color:#fff}
+
+.sec{display:none}
+.sec.vis{display:block}
+
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(–border)}
+.snum{width:28px;height:28px;border-radius:50%;background:var(–terra);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stitle{font-size:17px;font-weight:600;color:#111}
+.sbadge{margin-left:auto;font-size:11px;padding:3px 10px;border-radius:12px;font-weight:600;white-space:nowrap}
+.bc{background:var(–danger-bg);color:var(–danger-text)}
+.bw{background:var(–warn-bg);color:var(–warn-text)}
+.bg{background:var(–success-bg);color:var(–success-text)}
+.bi{background:var(–info-bg);color:var(–info-text)}
+
+.f{background:#fff;border:1px solid var(–border);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.fh{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px}
+.fi{width:20px;height:20px;border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600}
+.fic{background:var(–danger-bg);color:var(–danger-text)}
+.fiw{background:var(–warn-bg);color:var(–warn-text)}
+.fig{background:var(–success-bg);color:var(–success-text)}
+.fii{background:var(–info-bg);color:var(–info-text)}
+.ft{font-size:14px;font-weight:600;line-height:1.4;color:#111}
+.fb{font-size:13px;color:var(–muted);line-height:1.65;margin:0 0 9px 29px}
+.fr{margin-left:29px;padding:9px 12px;background:#FEF9F3;border-radius:8px;font-size:12px;color:var(–muted);line-height:1.65;border-left:3px solid var(–terra)}
+.frl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(–terra);margin-bottom:3px}
+.ev{background:#f8f5f0;border-radius:8px;padding:9px 12px;margin:0 0 9px 29px;font-size:12px;color:var(–muted);line-height:1.5;border-left:2px solid #d4c8bc}
+.evl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#aaa;margin-bottom:2px}
+
+.iq{border-left:3px solid var(–terra);padding:10px 14px;margin:0 0 16px;font-size:13px;font-style:italic;color:var(–muted);background:#fff;border-radius:0 8px 8px 0}
+
+.hv{display:flex;gap:8px;padding:10px 12px;background:var(–danger-bg);border-radius:8px;margin-bottom:8px;font-size:13px;color:var(–danger-text)}
+.hok{display:flex;gap:8px;padding:10px 12px;background:var(–success-bg);border-radius:8px;margin-bottom:8px;font-size:13px;color:var(–success-text)}
+.hw{display:flex;gap:8px;padding:10px 12px;background:var(–warn-bg);border-radius:8px;margin-bottom:8px;font-size:13px;color:var(–warn-text)}
+.hico{flex-shrink:0;font-style:normal}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.06em;padding:6px 10px;border-bottom:1.5px solid var(–border)}
+td{padding:9px 10px;border-bottom:1px solid var(–border);vertical-align:top;color:var(–muted);line-height:1.5}
+tr:last-child td{border-bottom:none}
+td:first-child{font-weight:600;color:#111;white-space:nowrap}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.dg{background:var(–success-text)}
+.da{background:var(–warn-text)}
+.dr{background:var(–danger-text)}
+
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.pc{padding:12px 14px;border-radius:10px;border:1px solid var(–border);background:#fff}
+.pc h4{font-size:12px;font-weight:700;margin-bottom:8px;color:#111}
+.pc ul{padding-left:16px;font-size:12px;color:var(–muted);line-height:2}
+.pcu{border-left:4px solid var(–danger-text)}
+.pch{border-left:4px solid var(–warn-text)}
+.pcm{border-left:4px solid var(–info-text)}
+.pcl{border-left:4px solid #ccc}
+
+code{font-family:‘SF Mono’,Monaco,monospace;font-size:11px;background:#f0ebe4;padding:1px 5px;border-radius:4px;color:#5a3020}
+</style>
+
+</head>
+<body>
+
+<div class="rh">
+  <p class="kicker">Fork & Compass — Real Screen Visual Audit</p>
+  <h1 class="rtitle">UX/UI Deep Dive: Based on Your Actual Screenshots</h1>
+  <p class="rsub">Every finding below is grounded in what's visible in your 7 screenshots — not speculation. Evaluated against Apple HIG, iOS 26, and Nielsen's 10 Heuristics.</p>
+  <div class="rmeta">
+    <span class="mi"><strong>Screenshots analyzed:</strong> 7</span>
+    <span class="mi"><strong>Critical fixes:</strong> 6</span>
+    <span class="mi"><strong>Quick wins:</strong> 9</span>
+    <span class="mi"><strong>HIG violations confirmed:</strong> 2</span>
+    <span class="mi"><strong>Genuine strengths found:</strong> 7</span>
+  </div>
+</div>
+
+<div class="scores">
+  <div class="sc"><div class="sl">Discover Hero</div><div class="sv a">74</div><div class="sbar"><div class="sf" style="width:74%;background:#92600a"></div></div><div class="ss">Strong visuals, CTA issues</div></div>
+  <div class="sc"><div class="sl">Discover Feed</div><div class="sv g">81</div><div class="sbar"><div class="sf" style="width:81%;background:#1a7a3f"></div></div><div class="ss">Genuinely great content</div></div>
+  <div class="sc"><div class="sl">Navigation</div><div class="sv a">70</div><div class="sbar"><div class="sf" style="width:70%;background:#92600a"></div></div><div class="ss">Tab bar solid, header weak</div></div>
+  <div class="sc"><div class="sl">Typography</div><div class="sv g">87</div><div class="sbar"><div class="sf" style="width:87%;background:#1a7a3f"></div></div><div class="ss">Serif headlines excellent</div></div>
+  <div class="sc"><div class="sl">Color System</div><div class="sv g">82</div><div class="sbar"><div class="sf" style="width:82%;background:#1a7a3f"></div></div><div class="ss">Terracotta well used</div></div>
+  <div class="sc"><div class="sl">Forward Motion</div><div class="sv r">58</div><div class="sbar"><div class="sf" style="width:58%;background:#c0392b"></div></div><div class="ss">Dead-end sections found</div></div>
+</div>
+
+<div class="pills" id="nav">
+  <button class="pill on" onclick="show('s1',this)">Discover Hero</button>
+  <button class="pill" onclick="show('s2',this)">Tonight's Plan</button>
+  <button class="pill" onclick="show('s3',this)">Tasting Menu</button>
+  <button class="pill" onclick="show('s4',this)">Spice Market</button>
+  <button class="pill" onclick="show('s5',this)">Culture + Heritage</button>
+  <button class="pill" onclick="show('s6',this)">Cook's Ledger</button>
+  <button class="pill" onclick="show('s7',this)">Seasonal Picks</button>
+  <button class="pill" onclick="show('shig',this)">HIG Checklist</button>
+  <button class="pill" onclick="show('sflow',this)">Forward Motion</button>
+  <button class="pill" onclick="show('splan',this)">Action Plan</button>
+</div>
+
+<!-- S1 -->
+
+<div class="sec vis" id="s1">
+  <div class="sh"><div class="snum">1</div><h2 class="stitle">Discover Hero Carousel — Image 1</h2><span class="sbadge bw">Fix + Elevate</span></div>
+  <div class="iq">"The Morocco hero is genuinely beautiful — dark photography, bold Noto Serif, clean gradient, flag emoji. This is what a premium culinary travel app looks like. The problems are not the aesthetic. They're the interaction layer sitting on top of it."</div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fic">!</div><p class="ft">"Let's Go" + side-by-side bookmark = confused double CTA</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 1: Two equal-weight buttons at hero bottom — large white pill "Let's Go" and a ghost circle bookmark icon side by side.</div>
+    <p class="fb">Two actions at identical visual prominence create choice paralysis. The user's eye bounces between them — "do I go, or do I save?" This is the exact opposite of what a hero should do: one bold action, one quiet secondary. The bookmark doesn't belong here as a button. It should float in the top-right corner of the hero image — always accessible, never competing.</p>
+    <div class="fr"><div class="frl">Fix</div>Move bookmark to a 32×32pt ghost circle top-right of the hero image. Make "Explore Morocco" the sole full-width CTA. One hero, one action. This change alone will meaningfully increase tap-through.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fic">!</div><p class="ft">"Let's Go" is transactional language on an editorial brand</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 1: Same white pill "Let's Go" regardless of which country is active in the carousel.</div>
+    <p class="fb">Your editorial copy says "Tonight, lose yourself in the warmth of Marrakech. Tagine, mint tea, and stories from the medina." — and then the CTA says "Let's Go." That's a Lyft button. Every other word on this screen is magazine-quality writing. The Seasonal Picks card (Image 7) uses "Read the Collection →" — that's the voice this brand should use everywhere.</p>
+    <div class="fr"><div class="frl">Fix — 30 min</div>Dynamic CTA: <code>"Explore " + country.name</code> → "Explore Morocco", "Explore Japan", "Explore Italy". Country-specific, editorial-toned, and costs nothing to build.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fiw">~</div><p class="ft">8 pagination dots for 6 countries — data mismatch</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 1: 8 white dots in the pagination row. Spec lists 6 countries.</div>
+    <p class="fb">If there are 6 countries, there should be 6 dots. 8 suggests duplicated slides or ghost entries in the carousel. A user who sees 8 dots will swipe to all 8 and hit confusing repetition — breaking trust in the data integrity of the app.</p>
+    <div class="fr"><div class="frl">Audit</div>Check carousel data source — ensure dot count exactly matches country array length. The active terracotta pill dot is well-designed; just fix the total.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">Hero photography, Noto Serif, gradient treatment — genuinely premium</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 1: Dark moody tagine photo, bold "Morocco" serif headline, editorial subtext, terracotta active dot, flag emoji.</div>
+    <p class="fb">This is competing with Airbnb's editorial destination cards. The photography choice, typeface pairing, gradient legibility treatment — all correct. The flag emoji next to the headline is smart: informational and personality-adding simultaneously.</p>
+    <div class="fr"><div class="frl">Enhance</div>Add a 0.3× parallax on the hero image as the user scrolls — the image drifts slightly upward while the text scrolls at normal speed. Ten lines of code, immediate premium feel. Every top travel app does this.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fiw">~</div><p class="ft">Destination ring labels are ALL CAPS — less refined than they should be</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 1: JAPAN / MOROCCO / MEXICO / INDIA below the circle images.</div>
+    <p class="fb">Apple HIG recommends sentence case for navigation labels. ALL CAPS reads as shouting and feels slightly utilitarian — at odds with the editorial premium positioning. The active ring (terracotta border on Morocco) is correct and well-executed. Just sentence-case the labels.</p>
+    <div class="fr"><div class="frl">Quick fix — 5 min</div>Japan, Morocco, Mexico, India. Title Case. One constant change in the destination ring component.</div>
+  </div>
+</div>
+
+<!-- S2 -->
+
+<div class="sec" id="s2">
+  <div class="sh"><div class="snum">2</div><h2 class="stitle">Tonight's Plan Feed — Image 2</h2><span class="sbadge bg">Strongest Section</span></div>
+  <div class="iq">"This is the best screen in the app. 'Tonight's Plan' with a featured recipe card and prominent 'Start Cooking' CTA is the Spotify Daily Mix applied to cooking. This removes decision fatigue entirely. Protect this pattern."</div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">"Tonight's Plan" + recipe card + "Start Cooking" terracotta CTA — excellent UX</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 2: White card with recipe photo, Japan flag, "Quick" badge, bold recipe title, description, prominent terracotta "Start Cooking" button.</div>
+    <p class="fb">The "Quick" tag badge is perfect progressive disclosure — the user knows the time commitment before they commit. "Start Cooking" in terracotta is the strongest CTA in the entire app — action-specific, brand-colored, impossible to miss. This card does everything right.</p>
+    <div class="fr"><div class="frl">Enhance</div>Make this card time-aware using the device clock: "Tonight's Plan" → "This Weekend" (Fri/Sat), "Quick Lunch" (11am–1pm). Zero user data needed, but makes the app feel like it knows the user's context.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fic">!</div><p class="ft">Featured Locations cards are solid gray — broken image states</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 2: Two "Featured Locations" cards at bottom — both completely gray with barely-visible text "Marrakech" and "Chefchaouen".</div>
+    <p class="fb">These are broken or unloaded images. For a visually-led premium app, this is the worst possible impression of "Featured Locations" — the section title promises richness and gray boxes deliver nothing. If images are loading slowly, use a skeleton shimmer. If they're missing from the seed, placeholder them with a terracotta gradient + city name. Never show gray to the user.</p>
+    <div class="fr"><div class="frl">Critical fix</div>Implement skeleton shimmer cards while images load. Ensure Unsplash ONBOARDING_IMAGES URLs are seeded correctly for featured cities. Add a terracotta gradient fallback if the image URL fails to load.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fiw">~</div><p class="ft">"New: 🇮🇹 Italy" chip border creates visual inconsistency with other cuisine chips</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 2: Italy and Japan chips have a darker/terracotta border. Morocco, Mexico, India, Thailand chips are plain light gray.</div>
+    <p class="fb">The differentiation is intentional and communicates "new" — but the heavy border color change is a blunt instrument. It disrupts the visual rhythm of the chip row and draws too much attention relative to the content sections below.</p>
+    <div class="fr"><div class="frl">Refine</div>Replace the dark border treatment with a small "NEW" dot badge on the flag emoji, or a tiny terracotta pill label. Same information, less visual interruption.</div>
+  </div>
+</div>
+
+<!-- S3 -->
+
+<div class="sec" id="s3">
+  <div class="sh"><div class="snum">3</div><h2 class="stitle">Tonight's Tasting Menu + Cultural Quote — Image 3</h2><span class="sbadge bg">App's Signature Feature</span></div>
+  <div class="iq">"'Tonight's Tasting Menu' organized as Soup → Main Course → Dessert is the single most differentiated UX pattern in this app. No other culinary app does this. This is Fork & Compass's signature — the thing that makes it irreplaceable."</div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">Course structure (Soup / Main Course / Dessert) is a genuine product innovation</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 3: SOUP / MAIN COURSE / DESSERT terracotta headers, each with thumbnail + title + description + chevron in a card.</div>
+    <p class="fb">This frames cooking as a dining experience, not a recipe lookup. It mirrors how a real Moroccan feast unfolds sequentially. The terracotta course labels match the system perfectly. The chevron arrows on each card correctly signal navigation. This is the feature worth putting in press materials.</p>
+    <div class="fr"><div class="frl">Protect and extend</div>Never simplify this into a flat list. Extend it: add "Amuse-Bouche" or "Aperitif" for Italian, "Banchan" for Korean, "Mezze" for Middle Eastern. Let each cuisine's course structure reflect its culinary culture.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fic">!</div><p class="ft">Recipe titles truncated mid-word across all three course cards</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 3: "Hearty Moroccan Lamb and Pearl Barl..." / "Moroccan Lamb Tagine with Preserve..." / "Mini Moroccan Dried Fruit and Almond Pa..."</div>
+    <p class="fb">"Barl..." instead of "Barley", "Pa..." instead of "Pastry" — the truncation cuts mid-word because the character limit is hitting in the middle of a word. This looks like a layout bug, not an intentional design choice. It breaks the editorial credibility of a premium product.</p>
+    <div class="fr"><div class="frl">Fix everywhere</div>Set <code>numberOfLines={2}</code> on title Text components and use <code>ellipsizeMode="tail"</code> — React Native will truncate at word boundaries, never mid-character. Apply this fix to every card type in the app: Tasting Menu, Street Food, Related Stories, Heritage Spices.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">Cultural pull quote is emotionally the best content in the app</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 3: Cream card, chat bubble icon, serif quote: "In Morocco, a guest is a gift. We do not just share a meal; we share our history, our warmth, and our home through the art of the spice."</div>
+    <p class="fb">This single card does more for brand storytelling than any UI element. It contextualizes food within culture — exactly what Fork & Compass promises. The cream background, serif treatment, and chat bubble icon all land correctly.</p>
+    <div class="fr"><div class="frl">Enhance</div>Add a real attribution — a Moroccan chef, food writer, or cultural figure. Authenticity in the attribution makes the quote 10× more powerful. Also consider making quotes swipeable: one per cultural theme (hospitality / spice / ceremony / community).</div>
+  </div>
+</div>
+
+<!-- S4 -->
+
+<div class="sec" id="s4">
+  <div class="sh"><div class="snum">4</div><h2 class="stitle">The Spice Market + Cultural Etiquette — Image 4</h2><span class="sbadge bg">Best Content, One Bug</span></div>
+  <div class="iq">"'The Spice Market' and 'Cultural Etiquette' are magazine-quality editorial design on mobile. This section is the product vision fully realized. One data bug ruins it."</div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fic">!</div><p class="ft">Same two images repeat for all four spice grid items — credibility-breaking</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 4: Row 1 — alley photo + tagine photo. Row 2 — identical alley photo + identical tagine photo.</div>
+    <p class="fb">This is a seed data issue. The spice grid uses placeholder images, and there are only 2 unique images cycling through 4 slots. For a visually-led premium app, seeing the same image twice in a 4-item grid immediately signals "template, not content." A user's trust in the app's authenticity evaporates in this moment.</p>
+    <div class="fr"><div class="frl">Critical fix</div>Source 4 distinct images for Morocco spices: saffron threads, whole cumin seeds, ras el hanout blend, dried paprika flakes. Seed individually. Image uniqueness is non-negotiable for a content-first app. Until real images are available, 4 different Unsplash query URLs will work.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">Spice descriptions are editorial-quality writing</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 4: "Hand-picked from the Taliouine region." / "Earthiness central to every tagine." / '"Head of the shop" — a complex blend.' / "Sun-dried for vibrant color and depth."</div>
+    <p class="fb">These one-line descriptions are doing the work of an encyclopedia entry compressed into a tweet. "Earthiness central to every tagine" — that's a flavor profile, a cultural context, and a culinary cue in 5 words. This writing quality is what separates Fork & Compass from every recipe app that just lists ingredient names.</p>
+    <div class="fr"><div class="frl">Protect</div>Make every spice card tappable. The editorial quality of the descriptions justifies a full spice detail view — expanded description, cultural origin, recipes that use it. Add a visible chevron or subtle border affordance so users know these cards navigate somewhere.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">Cultural Etiquette with icon circles is pedagogically excellent</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 4: Cream icon circles with symbols, "THE RIGHT HAND" / "THE TEA CEREMONY" headers, explanatory text.</div>
+    <p class="fb">Icon → concept name → explanation is the same three-part structure Apple uses in feature onboarding. It's proven to aid retention. "Mint tea is a sign of hospitality. It is poured from a height to create a crown of foam — never refuse a first cup." — that sentence makes the reader want to be in Morocco.</p>
+    <div class="fr"><div class="frl">Minor fix</div>Change "THE RIGHT HAND" / "THE TEA CEREMONY" from ALL CAPS to Title Case. Ensure 80pt bottom padding so content doesn't collide with the tab bar chrome.</div>
+  </div>
+</div>
+
+<!-- S5 -->
+
+<div class="sec" id="s5">
+  <div class="sh"><div class="snum">5</div><h2 class="stitle">Cultural Etiquette cont. + Heritage Spices — Image 5</h2><span class="sbadge bw">Strong, Check Safe Area</span></div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">Heritage Spices horizontal scroll cards are premium editorial format</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 5: White cards — large photo top, bold serif title ("Ras el Hanout"), multi-line editorial description, terracotta tag ("SIGNATURE BLEND") at bottom. Second card peeking at right edge.</div>
+    <p class="fb">These cards are the best visual execution in the app. Full-bleed photography, Noto Serif title, editorial body text with real substance ("A complex symphony of up to 30 spices. Floral, earthy, and warm with hints of cardamom and cinnamon."), terracotta tag. The peeking right card correctly communicates "swipe for more." This is magazine design on mobile.</p>
+    <div class="fr"><div class="frl">Make tappable + tag interactive</div>The terracotta tag ("SIGNATURE BLEND") should filter recipes by this spice when tapped — transforming a label into a discovery mechanic. Add a chevron to the card to signal it navigates to a spice detail view.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fiw">~</div><p class="ft">Content appearing very close to top — verify safe area compliance</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 5: "BREAD IS LIFE" section content starts very close to the top of the visible area after scrolling.</div>
+    <p class="fb">During scroll, mid-page content should never intrude into the dynamic island / status bar area. The safe area inset on iOS requires content to respect system chrome boundaries at all times — not just on the first screen. Verify the ScrollView respects <code>contentInsetAdjustmentBehavior</code>.</p>
+    <div class="fr"><div class="frl">Check</div>Confirm <code>SafeAreaView</code> wraps the entire Discover scroll container, and that section padding is consistent (minimum 16pt between any header chrome and first content element).</div>
+  </div>
+</div>
+
+<!-- S6 -->
+
+<div class="sec" id="s6">
+  <div class="sh"><div class="snum">6</div><h2 class="stitle">The Cook's Ledger + Must-Try Street Food — Image 6</h2><span class="sbadge bc">Bug Found</span></div>
+  <div class="iq">"'The Cook's Ledger' as a name for user reviews is brilliant editorial branding. The quotes themselves are emotionally resonant. One bug makes it look unfinished — fix it in 10 minutes."</div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fic">!</div><p class="ft">Unicode escape \U2014 rendering as literal text — production bug</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 6: "ELENA V. \U2014 SAN FRANCISCO" and "MARCUS K. \U2014 LONDON" — the em dash Unicode escape is showing as raw text.</div>
+    <p class="fb">The string <code>\u2014</code> should render as the em dash character —. It's being treated as a literal string instead. In context of a premium editorial brand, raw escape codes in the UI look like a template mistake. This is the first thing a journalist or investor sees when they scroll the Cook's Ledger.</p>
+    <div class="fr"><div class="frl">Fix now — 10 minutes</div>In your seed data / constants file, replace all <code>\\u2014</code> string literals with the actual em dash character <code>—</code> directly. Or run the string through a decoder: <code>text.replace(/\\u2014/gi, '—')</code>. Search the whole codebase for this pattern.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">Cook's Ledger quote content and visual design are strong</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 6: "The Lamb Tagine was a revelation. The balance of salty olives and sweet prunes captured the exact scent of the medina air. A masterpiece of a guide."</div>
+    <p class="fb">Once the Unicode bug is fixed, this section is excellent. The reviews read like real food writing — not generic star reviews. "Captured the exact scent of the medina air" is a vivid, specific detail that makes future users trust the app's curation.</p>
+    <div class="fr"><div class="frl">Add a CTA</div>The Cook's Ledger currently ends with no forward action. Add "Write your experience →" or "Try the Lamb Tagine →" at the bottom of this section. User-generated review sections should always invite participation or deeper engagement.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fiw">~</div><p class="ft">Must-Try Street Food card titles truncating mid-word again</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 6: "Maako..." (truncated) and "Spiced po..." (truncated) on the street food cards.</div>
+    <p class="fb">Same mid-word truncation issue as the Tasting Menu. This confirms it's a global component issue — the text truncation logic needs to be fixed at the card component level and will fix all instances simultaneously.</p>
+    <div class="fr"><div class="frl">Global fix</div>Fix <code>ellipsizeMode</code> at the base Card component level — all cards inherit the fix. Do not patch individual card types.</div>
+  </div>
+</div>
+
+<!-- S7 -->
+
+<div class="sec" id="s7">
+  <div class="sh"><div class="snum">7</div><h2 class="stitle">Seasonal Picks + Related Mediterranean Stories — Image 7</h2><span class="sbadge bg">Strong End, Data Issue</span></div>
+  <div class="iq">"'Seasonal Picks' with 'Read the Collection →' is the best CTA voice in the app. This is what the hero CTA should sound like. Related Stories is a great discovery mechanic — but the images are wrong."</div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">Seasonal Picks editorial card is magazine-quality from top to bottom</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 7: Cream card, "SPRING RENEWAL" terracotta pill tag, large serif headline, editorial paragraph, "Read the Collection →" terracotta text link.</div>
+    <p class="fb">Every element is correct: the terracotta pill tag communicates content type, the Noto Serif headline communicates editorial weight, the "EDITORIAL" badge in the section header signals premium curation. "Read the Collection →" is exactly the right CTA voice for this brand. Apply this voice standard globally.</p>
+    <div class="fr"><div class="frl">Use this as the CTA standard</div>"Read the Collection" → "Explore Morocco" → "Begin in Japan" → "Discover This Season." This editorial verb pattern should replace "Let's Go" everywhere in the app.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fic">!</div><p class="ft">Related Mediterranean Stories shows wrong food photos for the countries</p></div>
+    <div class="ev"><div class="evl">Seen on screenshot</div>Image 7: "Tunisia / The Fire of Harissa" shows a pasta dish. "Greece / Sun-Drenched Herbs" shows sushi/Japanese food. "Spain" shows a teal-toned image (unclear content).</div>
+    <p class="fb">Sushi for Greece, pasta for Tunisia. For a food app where visual authenticity is the core promise, mismatched imagery destroys credibility instantly. A user who recognizes sushi as Japanese food will not trust the app's curation after seeing it under "Greece / Sun-Drenched Herbs." This is a trust-breaking data issue.</p>
+    <div class="fr"><div class="frl">Fix data + scope check</div>These countries (Tunisia, Greece, Spain) appear to be outside the current 6-country dataset. Related Stories should only show countries with full content seeded. Until these are fully built out, remove them from Related Stories or show a "Coming soon" treatment. Wrong content is worse than no content.</div>
+  </div>
+
+  <div class="f">
+    <div class="fh"><div class="fi fii">+</div><p class="ft">Trending: make Related Stories contextually generated by culinary region</p></div>
+    <p class="fb">Currently Related Stories appears static. The strongest version is contextual: Morocco → "Related Mediterranean Stories" (Tunisia, Greece, Spain). Japan → "Related East Asian Stories" (Korea, Vietnam, Thailand). This is the Netflix "Because you watched X" pattern applied to culinary geography — the app feels intelligent with zero extra user input.</p>
+    <div class="fr"><div class="frl">Build</div>Add a <code>relatedCountryIds</code> field to the country schema (array of IDs grouped by culinary region). Related Stories reads from this. Data change only — the UI component already exists.</div>
+  </div>
+</div>
+
+<!-- HIG CHECKLIST -->
+
+<div class="sec" id="shig">
+  <div class="sh"><div class="snum">H</div><h2 class="stitle">HIG & Heuristics — What Screenshots Confirm</h2><span class="sbadge bc">3 Violations, 6 Strengths</span></div>
+
+  <div class="hv"><span class="hico">✕</span><div><strong>Mid-word text truncation</strong> — Seen across Tasting Menu, Street Food, Related Stories. Violates Nielsen #8 (minimalist design) and #2 (match real world). Looks like a bug, not a decision.</div></div>
+  <div class="hv"><span class="hico">✕</span><div><strong>Unicode \U2014 rendering as literal text in Cook's Ledger</strong> — Violates Nielsen #1 (visibility of system status) and #4 (consistency). Production bug, must fix before any demo or press.</div></div>
+  <div class="hv"><span class="hico">✕</span><div><strong>Mismatched photography in Related Stories</strong> — Japanese sushi for Greece, pasta for Tunisia. Violates Nielsen #2 (match the real world). Destroys brand trust for users with food knowledge.</div></div>
+  <div class="hw"><span class="hico">~</span><div><strong>Duplicate spice images in 2×2 grid</strong> — Same 2 photos repeat for 4 items. Amber (data issue not design flaw), but visually signals "template, not content."</div></div>
+  <div class="hw"><span class="hico">~</span><div><strong>Gray placeholder Featured Locations cards</strong> — Broken or unloaded images. Need skeleton shimmer or gradient fallback.</div></div>
+  <div class="hw"><span class="hico">~</span><div><strong>8 pagination dots for 6 countries</strong> — Count mismatch. Nielsen #1.</div></div>
+  <div class="hok"><span class="hico">✓</span><div><strong>Tab bar: 5 tabs, bottom placement, labeled icons, no hamburger</strong> — Discover / Search / Plan / Cook / Profile. Correct iOS HIG pattern throughout all 7 screenshots.</div></div>
+  <div class="hok"><span class="hico">✓</span><div><strong>Terracotta used consistently and correctly as primary action color</strong> — "Start Cooking" CTA, active destination ring, course labels, "Read the Collection" link. Single color = single meaning. Correct.</div></div>
+  <div class="hok"><span class="hico">✓</span><div><strong>Cream surface (#FEF9F3) uniform across all 7 screens</strong> — No jarring background color switches. Brand palette is disciplined. This consistency is harder to achieve than it looks.</div></div>
+  <div class="hok"><span class="hico">✓</span><div><strong>Noto Serif typography hierarchy is clear and consistent</strong> — Section titles all use bold serif at consistent size. Body text is smaller and lighter. The hierarchy is readable and premium.</div></div>
+  <div class="hok"><span class="hico">✓</span><div><strong>Chevron ">" on all navigable Tasting Menu cards</strong> — Correct iOS affordance. Users know these navigate. Applied consistently across all course cards.</div></div>
+  <div class="hok"><span class="hico">✓</span><div><strong>Course-based Tasting Menu is a genuine UX innovation</strong> — No competitor does this. It's differentiated, on-brand, and creates a real dining narrative vs recipe lookup.</div></div>
+</div>
+
+<!-- FORWARD MOTION -->
+
+<div class="sec" id="sflow">
+  <div class="sh"><div class="snum">F</div><h2 class="stitle">Forward Motion — Is the User Always Moving Toward Something?</h2><span class="sbadge bc">Critical Gaps</span></div>
+  <div class="iq">"The Discover scroll is beautiful — but it's a magazine, not a journey. The user reads it. Four content sections end with no forward action at all. Every section must give the user somewhere to go next."</div>
+
+  <table>
+    <tr><th>Section</th><th>Current CTA</th><th>Forward motion</th></tr>
+    <tr><td>Hero Carousel</td><td>"Let's Go" + bookmark</td><td><span class="dot da"></span>Weak — wrong voice, split CTA</td></tr>
+    <tr><td>Tonight's Plan</td><td>"Start Cooking" terracotta</td><td><span class="dot dg"></span>Strong — best CTA in app</td></tr>
+    <tr><td>Explore Cuisines</td><td>Chip tap</td><td><span class="dot da"></span>Destination ambiguous</td></tr>
+    <tr><td>Tasting Menu</td><td>Chevron ">"</td><td><span class="dot dg"></span>Good — correct affordance</td></tr>
+    <tr><td>Spice Market grid</td><td>"VIEW ALL" only</td><td><span class="dot dr"></span>Individual cards have no CTA</td></tr>
+    <tr><td>Cultural Etiquette</td><td>None</td><td><span class="dot dr"></span>Dead end — no action</td></tr>
+    <tr><td>Heritage Spices</td><td>Tag label only</td><td><span class="dot dr"></span>Tags don't read as interactive</td></tr>
+    <tr><td>Cook's Ledger</td><td>None</td><td><span class="dot dr"></span>Dead end — no action</td></tr>
+    <tr><td>Must-Try Street Food</td><td>Card tap (assumed)</td><td><span class="dot da"></span>No visible CTA on cards</td></tr>
+    <tr><td>Seasonal Picks</td><td>"Read the Collection →"</td><td><span class="dot dg"></span>Strong — right editorial voice</td></tr>
+    <tr><td>Related Stories</td><td>Card tap</td><td><span class="dot dg"></span>Good discovery mechanic</td></tr>
+  </table>
+
+  <div class="f" style="margin-top:14px">
+    <div class="fh"><div class="fi fic">!</div><p class="ft">Spice Market, Cultural Etiquette, Heritage Spices, and Cook's Ledger are all dead ends</p></div>
+    <p class="fb">Four sections terminate with no forward action. The user reads beautifully written content and then — nothing. Their eyes drift. The momentum dies. In a well-designed editorial app, every section ends with a hook. Apple's App Store product pages always end with "You may also like." Netflix rows always have a "See all" that goes somewhere meaningful.</p>
+    <div class="fr"><div class="frl">Design rule to implement immediately</div>Every content section on Discover must end with one of: (1) a recipe CTA, (2) a country deep-dive link, (3) a "See more" expander, or (4) a cross-section link. Minimum viable fix: add one terracotta text link at the bottom of each dead-end section. Cultural Etiquette → "Explore 3 Moroccan recipes rooted in these traditions →". Cook's Ledger → "Try the Lamb Tagine that inspired these reviews →". 30 minutes of work, dramatic improvement in user journey continuity.</div>
+  </div>
+</div>
+
+<!-- ACTION PLAN -->
+
+<div class="sec" id="splan">
+  <div class="sh"><div class="snum">P</div><h2 class="stitle">Prioritized Action Plan</h2><span class="sbadge bi">Ship Order</span></div>
+
+  <div class="pg">
+    <div class="pc pcu">
+      <h4>Fix before any demo (hours)</h4>
+      <ul>
+        <li>Fix \U2014 Unicode bug in Cook's Ledger</li>
+        <li>Fix duplicate spice images (4 unique photos)</li>
+        <li>Fix mismatched Related Stories photos</li>
+        <li>Fix mid-word truncation globally</li>
+        <li>Fix pagination dots (8 → 6)</li>
+        <li>Fix gray Featured Locations cards</li>
+      </ul>
+    </div>
+    <div class="pc pch">
+      <h4>High impact (next sprint)</h4>
+      <ul>
+        <li>Replace "Let's Go" → "Explore Morocco"</li>
+        <li>Move bookmark to hero top-right</li>
+        <li>Destination rings → Title Case labels</li>
+        <li>Add CTAs to 4 dead-end sections</li>
+        <li>Make spice/heritage cards tappable</li>
+        <li>Time-aware "Tonight's Plan" label</li>
+      </ul>
+    </div>
+    <div class="pc pcm">
+      <h4>Elevate (month 2)</h4>
+      <ul>
+        <li>Parallax on hero image scroll</li>
+        <li>Contextual Related Stories by region</li>
+        <li>Spice tag → recipe filter mechanic</li>
+        <li>Cultural quote attribution (real sources)</li>
+        <li>Serving size scaler on recipe detail</li>
+        <li>expo-keep-awake in Cook Mode</li>
+      </ul>
+    </div>
+    <div class="pc pcl">
+      <h4>Premium polish (month 3)</h4>
+      <ul>
+        <li>Curated itineraries in Saved tab</li>
+        <li>In-line step timers in Cook Mode</li>
+        <li>Tab bar accessory (active cook session)</li>
+        <li>Netflix-row multi-country Discover layout</li>
+        <li>Serving scaler on all recipe cards</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="f" style="margin-top:16px">
+    <div class="fh"><div class="fi fig">✓</div><p class="ft">Honest verdict: this app is closer to great than most apps ever get</p></div>
+    <p class="fb">Looking at these 7 screens honestly — the brand identity is extraordinary. The terracotta/cream palette is distinctive and perfectly disciplined across every screen. The Noto Serif editorial hierarchy is correct and beautiful. The Tasting Menu course structure is a genuine product innovation that no competitor has. The Heritage Spices cards look like a print magazine. "Tonight's Plan" with "Start Cooking" is the best recipe app UX I've seen. The Cook's Ledger name alone is worth a brand design award. The issues are real but every single one is fixable in days, not months — they're data bugs, language choices, and missing CTAs, not structural design failures. Fix the 6 critical bugs this week, replace "Let's Go," add forward actions to the dead-end sections, and this app is press-demo ready.</p>
+  </div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('vis'));
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
+  document.getElementById(id).classList.add('vis');
+  btn.classList.add('on');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+
+</body>
+</html>

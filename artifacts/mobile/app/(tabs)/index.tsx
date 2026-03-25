@@ -7,6 +7,7 @@ import RecipeContextMenu from "@/components/RecipeContextMenu";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import {
+  Animated,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Platform,
@@ -37,6 +38,15 @@ const EDITORIAL_BLURBS: Record<string, string> = {
   india: "Discover the fire and soul of Delhi\u2019s kitchens. Butter chicken, chai, and spices that awaken every sense.",
   thailand: "Drift through Bangkok\u2019s glowing streets. Pad Thai, Tom Yum, and the perfect balance of sweet, sour, and heat.",
 };
+
+function getTonightLabel(): string {
+  const now = new Date();
+  const hour = now.getHours();
+  const day = now.getDay();
+  if (hour >= 11 && hour < 13) return "Quick Lunch";
+  if (day === 5 || day === 6) return "This Weekend";
+  return "Tonight\u2019s Plan";
+}
 
 function pickTastingMenu(recipes: Recipe[]): Recipe[] {
   // Try to pick one starter, one main, and one dessert/drink for a balanced menu
@@ -83,29 +93,29 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
         { icon: "restaurant-outline", title: "Bread is Life", description: "Bread is often used as a utensil. Treat it with respect; never waste even a small crumb of \u2018Khobz\u2019." },
       ],
       spiceMarket: [
-        { name: "Saffron", description: "Hand-picked from the Taliouine region.", image: imgAlt },
-        { name: "Cumin", description: "Earthiness central to every tagine.", image: img },
-        { name: "Ras el Hanout", description: "\u201CHead of the shop\u201D \u2014 a complex blend.", image: imgAlt },
-        { name: "Sweet Paprika", description: "Sun-dried for vibrant color and depth.", image: img },
+        { name: "Saffron", description: "Hand-picked from the Taliouine region.", image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80&fit=crop" },
+        { name: "Cumin", description: "Earthiness central to every tagine.", image: "https://images.unsplash.com/photo-1599909533601-aa8c0ae580e4?w=600&q=80&fit=crop" },
+        { name: "Ras el Hanout", description: "\u201CHead of the shop\u201D \u2014 a complex blend.", image: "https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=600&q=80&fit=crop" },
+        { name: "Sweet Paprika", description: "Sun-dried for vibrant color and depth.", image: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=80&fit=crop" },
       ],
       heritageItems: [
-        { name: "Ras el Hanout", description: "A complex symphony of up to 30 spices. Floral, earthy, and warm with hints of cardamom and cinnamon.", badge: "Signature Blend", image: imgAlt },
-        { name: "Pure Saffron", description: "The world\u2019s most precious spice. Imparts a delicate, honey-like aroma and a brilliant golden hue to couscous.", badge: "Taliouine Gold", image: img },
+        { name: "Ras el Hanout", description: "A complex symphony of up to 30 spices. Floral, earthy, and warm with hints of cardamom and cinnamon.", badge: "Signature Blend", image: "https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=600&q=80&fit=crop" },
+        { name: "Pure Saffron", description: "The world\u2019s most precious spice. Imparts a delicate, honey-like aroma and a brilliant golden hue to couscous.", badge: "Taliouine Gold", image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80&fit=crop" },
       ],
       reviews: [
         { text: "\u201CThe Lamb Tagine was a revelation. The balance of salty olives and sweet prunes captured the exact scent of the medina air. A masterpiece of a guide.\u201D", author: "Elena V.", city: "San Francisco" },
         { text: "\u201CIt\u2019s more than a recipe; it\u2019s storytelling. Making the mint tea felt like a meditation. Highly recommend for a slow Sunday.\u201D", author: "Marcus K.", city: "London", initials: "MK" },
       ],
       streetFood: [
-        { name: "Sfenj", description: "Honey-soaked airy donuts", image: img },
-        { name: "Maakouda", description: "Spiced potato fritters", image: imgAlt },
-        { name: "Brochettes", description: "Grilled lamb & beef skewers", image: img },
+        { name: "Sfenj", description: "Honey-soaked airy donuts", image: "https://images.unsplash.com/photo-1579888944880-d98341245702?w=600&q=80&fit=crop" },
+        { name: "Maakouda", description: "Spiced potato fritters", image: "https://images.unsplash.com/photo-1606491048802-8342506d6471?w=600&q=80&fit=crop" },
+        { name: "Brochettes", description: "Grilled lamb & beef skewers", image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80&fit=crop" },
       ],
       relatedLabel: "Related Mediterranean Stories",
       relatedStories: [
-        { country: "Tunisia", description: "The Fire of Harissa", image: ONBOARDING_IMAGES.italy || imgAlt },
-        { country: "Greece", description: "Sun-Drenched Herbs", image: ONBOARDING_IMAGES.japan || imgAlt },
-        { country: "Spain", description: "The Moorish Legacy", image: ONBOARDING_IMAGES.mexico || imgAlt },
+        { country: "Spain", description: "The Moorish Legacy", image: ONBOARDING_IMAGES.spain || "https://images.unsplash.com/photo-1515443961218-a51367888e4b?w=600&q=80&fit=crop" },
+        { country: "France", description: "The Art of the Brasserie", image: ONBOARDING_IMAGES.france || "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80&fit=crop" },
+        { country: "Italy", description: "Sun-Kissed Cucina", image: ONBOARDING_IMAGES.italy || "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&q=80&fit=crop" },
       ],
     },
     italy: {
@@ -117,29 +127,29 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
         { icon: "restaurant-outline", title: "Bread Protocol", description: "Never butter your bread. Use it to scoop sauces \u2014 this act, called \u2018la scarpetta\u2019, is the highest compliment to the cook." },
       ],
       spiceMarket: [
-        { name: "Saffron", description: "DOP-certified from Abruzzo.", image: imgAlt },
-        { name: "Porcini", description: "King of Italian wild mushrooms.", image: img },
-        { name: "Oregano", description: "Sun-dried for full aromatic depth.", image: imgAlt },
-        { name: "Chilli Flakes", description: "Calabrian heat, wild and vivid.", image: img },
+        { name: "Saffron", description: "DOP-certified from Abruzzo.", image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80&fit=crop" },
+        { name: "Porcini", description: "King of Italian wild mushrooms.", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80&fit=crop" },
+        { name: "Oregano", description: "Sun-dried for full aromatic depth.", image: "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=600&q=80&fit=crop" },
+        { name: "Chilli Flakes", description: "Calabrian heat, wild and vivid.", image: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=80&fit=crop" },
       ],
       heritageItems: [
-        { name: "Pecorino Romano", description: "A sharp, salty sheep\u2019s milk cheese aged at least 5 months. Essential in cacio e pepe and carbonara.", badge: "DOP Certified", image: imgAlt },
-        { name: "Parmigiano-Reggiano", description: "Aged 24\u201336 months to develop its crystalline texture. The \u2018King of Cheeses\u2019 with a rich umami finish.", badge: "The King", image: img },
+        { name: "Pecorino Romano", description: "A sharp, salty sheep\u2019s milk cheese aged at least 5 months. Essential in cacio e pepe and carbonara.", badge: "DOP Certified", image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=600&q=80&fit=crop" },
+        { name: "Parmigiano-Reggiano", description: "Aged 24\u201336 months to develop its crystalline texture. The \u2018King of Cheeses\u2019 with a rich umami finish.", badge: "The King", image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=600&q=80&fit=crop" },
       ],
       reviews: [
         { text: "\u201CThe handmade tagliatelle recipe transported me straight to Bologna. Every instruction was precise and the result was extraordinary.\u201D", author: "Sophie L.", city: "Paris" },
         { text: "\u201CFinally, a guide that explains the \u2018why\u2019 behind Italian cooking, not just the how. I made the best bruschetta of my life.\u201D", author: "David M.", city: "Chicago", initials: "DM" },
       ],
       streetFood: [
-        { name: "Supplì", description: "Roman fried risotto balls", image: img },
-        { name: "Arancini", description: "Sicilian saffron rice croquettes", image: imgAlt },
-        { name: "Porchetta", description: "Slow-roasted herb-crusted pork", image: img },
+        { name: "Supplì", description: "Roman fried risotto balls", image: "https://images.unsplash.com/photo-1595295333158-4742f28fbd85?w=600&q=80&fit=crop" },
+        { name: "Arancini", description: "Sicilian saffron rice croquettes", image: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&q=80&fit=crop" },
+        { name: "Porchetta", description: "Slow-roasted herb-crusted pork", image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80&fit=crop" },
       ],
       relatedLabel: "Related European Stories",
       relatedStories: [
-        { country: "France", description: "The Art of the Brasserie", image: ONBOARDING_IMAGES.japan || imgAlt },
-        { country: "Spain", description: "Tapas & Tradition", image: ONBOARDING_IMAGES.mexico || imgAlt },
-        { country: "Greece", description: "Sun-Drenched Herbs", image: ONBOARDING_IMAGES.morocco || imgAlt },
+        { country: "France", description: "The Art of the Brasserie", image: ONBOARDING_IMAGES.france || "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80&fit=crop" },
+        { country: "Spain", description: "Tapas & Tradition", image: ONBOARDING_IMAGES.spain || "https://images.unsplash.com/photo-1515443961218-a51367888e4b?w=600&q=80&fit=crop" },
+        { country: "Morocco", description: "The Warmth of Marrakech", image: ONBOARDING_IMAGES.morocco || "https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=600&q=80&fit=crop" },
       ],
     },
   };
@@ -158,13 +168,13 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
     spiceMarket: override.spiceMarket || country.recipes.slice(0, 4).map((r, i) => ({
       name: r.ingredients[0]?.name || r.name,
       description: r.category,
-      image: i % 2 === 0 ? img : imgAlt,
+      image: r.image || (i % 2 === 0 ? img : imgAlt),
     })),
     heritageItems: override.heritageItems || country.recipes.slice(0, 2).map((r, i) => ({
       name: r.name,
       description: r.description,
       badge: r.category,
-      image: i % 2 === 0 ? imgAlt : img,
+      image: r.image || (i % 2 === 0 ? imgAlt : img),
     })),
     reviews: override.reviews || [
       { text: `\u201CAn extraordinary journey through the flavors of ${country.name}. Every recipe told a story I will not forget.\u201D`, author: "A. Chen", city: "New York" },
@@ -173,7 +183,7 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
     streetFood: override.streetFood || country.recipes.slice(0, 3).map((r, i) => ({
       name: r.name,
       description: r.category,
-      image: i % 2 === 0 ? img : imgAlt,
+      image: r.image || (i % 2 === 0 ? img : imgAlt),
     })),
     relatedLabel: override.relatedLabel || "Related World Stories",
     relatedStories: override.relatedStories || COUNTRIES.filter((c) => c.id !== country.id).slice(0, 3).map((c) => ({
@@ -241,6 +251,78 @@ const EDITORIAL_PICK = {
   body: "As the days grow longer, we turn to fresh herbs, bright citrus, and the kind of cooking that celebrates what\u2019s just emerging. Our editors have chosen five recipes that honour both the season and the tradition.",
   cta: "Read the Collection",
 };
+
+// ─── Location Card with image fallback ────────────────────────────────────────
+
+function LocationCard({ loc, countryId, haptic: doHaptic, reducedMotion }: {
+  loc: { name: string; subtitle: string; image: string };
+  countryId: string;
+  haptic: (style?: "light" | "medium") => void;
+  reducedMotion: boolean;
+}) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const shimmer = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (!imgFailed && !imgLoaded) {
+      const loop = Animated.loop(
+        Animated.timing(shimmer, { toValue: 1, duration: 1200, useNativeDriver: true })
+      );
+      loop.start();
+      return () => loop.stop();
+    }
+  }, [imgFailed, imgLoaded]);
+
+  return (
+    <Pressable
+      style={({ pressed }) => [styles.locCard, pressed && { opacity: 0.88 }]}
+      onPress={() => {
+        doHaptic();
+        router.push({
+          pathname: "/region/[countryId]/[region]",
+          params: { countryId, region: encodeURIComponent(loc.name) },
+        });
+      }}
+    >
+      {imgFailed ? (
+        <LinearGradient
+          colors={[Colors.light.primary, "#2C1600"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
+      ) : (
+        <>
+          {!imgLoaded && (
+            <Animated.View
+              style={[
+                StyleSheet.absoluteFill,
+                {
+                  backgroundColor: Colors.light.surfaceContainerHigh,
+                  opacity: shimmer.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.3, 0.6, 0.3] }),
+                },
+              ]}
+            />
+          )}
+          <Image
+            source={{ uri: loc.image }}
+            style={StyleSheet.absoluteFill}
+            contentFit="cover"
+            onError={() => setImgFailed(true)}
+            onLoad={() => setImgLoaded(true)}
+            transition={reducedMotion ? 0 : 400}
+          />
+        </>
+      )}
+      <LinearGradient colors={["transparent", "rgba(0,0,0,0.72)"]} style={StyleSheet.absoluteFill} />
+      <View style={styles.locInfo}>
+        <Text style={styles.locName}>{loc.name}</Text>
+        <Text style={styles.locSub}>{loc.subtitle}</Text>
+      </View>
+    </Pressable>
+  );
+}
 
 // ─── Main Screen ──────────────────────────────────────────────────────────────
 
@@ -366,24 +448,22 @@ export default function DiscoverScreen() {
                     end={{ x: 0, y: 1 }}
                     style={[StyleSheet.absoluteFill, { height: 120 }]}
                   />
+                  <Pressable
+                    onPress={() => { haptic(); toggleSavedCountry(country.id); }}
+                    style={({ pressed }) => [styles.heroBookmark, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
+                  >
+                    <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={16} color="#FFFFFF" />
+                  </Pressable>
                   <View style={styles.heroContent}>
                     <Text style={styles.heroFlag}>{country.flag}</Text>
                     <Text style={styles.heroTitle}>{country.name}</Text>
                     <Text style={styles.heroBlurb}>{blurb}</Text>
-                    <View style={styles.heroActions}>
-                      <Pressable
-                        onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: country.id } }); }}
-                        style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
-                      >
-                        <Text style={styles.letsGoText}>Let's Go</Text>
-                      </Pressable>
-                      <Pressable
-                        onPress={() => { haptic(); toggleSavedCountry(country.id); }}
-                        style={({ pressed }) => [styles.bookmarkButton, pressed && !reducedMotion && { transform: [{ scale: 0.88 }] }]}
-                      >
-                        <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={20} color="#FFFFFF" />
-                      </Pressable>
-                    </View>
+                    <Pressable
+                      onPress={() => { haptic("medium"); router.push({ pathname: "/country/[id]", params: { id: country.id } }); }}
+                      style={({ pressed }) => [styles.letsGoButton, pressed && !reducedMotion && { transform: [{ scale: 0.95 }] }]}
+                    >
+                      <Text style={styles.letsGoText}>Explore {country.name}</Text>
+                    </Pressable>
                   </View>
                 </View>
               );
@@ -452,7 +532,7 @@ export default function DiscoverScreen() {
 
         {/* ── Tonight's Plan ────────────────────────────────────────── */}
         <View style={[styles.section, styles.tonightBg, { paddingHorizontal: 24 }]}>
-          <Text style={styles.sectionTitle}>Tonight's Plan</Text>
+          <Text style={styles.sectionTitle}>{getTonightLabel()}</Text>
           {todayRecipe && todayCountry ? (
             <RecipeContextMenu recipe={todayRecipe}>
               <Pressable
@@ -471,8 +551,8 @@ export default function DiscoverScreen() {
                       </View>
                     )}
                   </View>
-                  <Text style={styles.tonightName} numberOfLines={2}>{todayRecipe.name}</Text>
-                  <Text style={styles.tonightDesc} numberOfLines={1}>{todayRecipe.description}</Text>
+                  <Text style={styles.tonightName} numberOfLines={2} ellipsizeMode="tail">{todayRecipe.name}</Text>
+                  <Text style={styles.tonightDesc} numberOfLines={1} ellipsizeMode="tail">{todayRecipe.description}</Text>
                   <Pressable
                     onPress={() => { haptic("medium"); router.push({ pathname: "/cook-mode", params: { recipeId: todayRecipe.id } }); }}
                     style={({ pressed }) => [styles.tonightCookBtn, pressed && { opacity: 0.85 }]}
@@ -532,7 +612,7 @@ export default function DiscoverScreen() {
                       </View>
                     )}
                     <View style={styles.recentInfo}>
-                      <Text style={styles.recentName} numberOfLines={2}>{recipe.name}</Text>
+                      <Text style={styles.recentName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
                     </View>
                   </Pressable>
                 </RecipeContextMenu>
@@ -588,8 +668,8 @@ export default function DiscoverScreen() {
                   >
                     <Image source={{ uri: recipe.image }} style={styles.jumpThumb} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                     <View style={styles.jumpInfo}>
-                      <Text style={styles.jumpCuisine} numberOfLines={1}>{recipe.category}</Text>
-                      <Text style={styles.jumpName} numberOfLines={2}>{recipe.name}</Text>
+                      <Text style={styles.jumpCuisine} numberOfLines={1} ellipsizeMode="tail">{recipe.category}</Text>
+                      <Text style={styles.jumpName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
                     </View>
                   </Pressable>
                 </RecipeContextMenu>
@@ -621,6 +701,7 @@ export default function DiscoverScreen() {
                   <Text style={styles.locSub}>{loc.subtitle}</Text>
                 </View>
               </Pressable>
+              <LocationCard key={idx} loc={loc} countryId={activeCountry.id} haptic={haptic} reducedMotion={reducedMotion} />
             ))}
           </ScrollView>
         </View>
@@ -638,8 +719,8 @@ export default function DiscoverScreen() {
                   <Image source={{ uri: recipe.image }} style={styles.tastingThumb} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   <View style={styles.tastingInfo}>
                     <Text style={styles.tastingCourse}>{recipe.category}</Text>
-                    <Text style={styles.tastingName} numberOfLines={2}>{recipe.name}</Text>
-                    <Text style={styles.tastingDesc} numberOfLines={1}>{recipe.description}</Text>
+                    <Text style={styles.tastingName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
+                    <Text style={styles.tastingDesc} numberOfLines={1} ellipsizeMode="tail">{recipe.description}</Text>
                   </View>
                   <Ionicons name="chevron-forward" size={16} color={Colors.light.outline} />
                 </Pressable>
@@ -670,11 +751,24 @@ export default function DiscoverScreen() {
             {editorial.spiceMarket.map((spice, idx) => (
               <View key={idx} style={styles.spiceItem}>
                 <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
+              <Pressable
+                key={idx}
+                onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+                style={({ pressed }) => [styles.spiceItem, pressed && { opacity: 0.8 }]}
+              >
+                <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" />
                 <Text style={styles.spiceName}>{spice.name}</Text>
-                <Text style={styles.spiceDesc} numberOfLines={2}>{spice.description}</Text>
-              </View>
+                <Text style={styles.spiceDesc} numberOfLines={2} ellipsizeMode="tail">{spice.description}</Text>
+              </Pressable>
             ))}
           </View>
+          <Pressable
+            onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+            style={({ pressed }) => [styles.sectionCta, pressed && { opacity: 0.7 }]}
+          >
+            <Text style={styles.sectionCtaText}>View all {activeCountry.name} spices</Text>
+            <Ionicons name="arrow-forward" size={14} color={Colors.light.primary} />
+          </Pressable>
         </View>
 
         {/* ── Cultural Etiquette ────────────────────────────────────── */}
@@ -693,6 +787,13 @@ export default function DiscoverScreen() {
               </View>
             ))}
           </View>
+          <Pressable
+            onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+            style={({ pressed }) => [styles.sectionCta, pressed && { opacity: 0.7 }]}
+          >
+            <Text style={styles.sectionCtaText}>Explore recipes rooted in these traditions</Text>
+            <Ionicons name="arrow-forward" size={14} color={Colors.light.primary} />
+          </Pressable>
         </View>
 
         {/* ── Heritage Spices ───────────────────────────────────────── */}
@@ -705,15 +806,23 @@ export default function DiscoverScreen() {
             {editorial.heritageItems.map((item, idx) => (
               <View key={idx} style={styles.heritageCard}>
                 <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
+              <Pressable
+                key={idx}
+                onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+                style={({ pressed }) => [styles.heritageCard, pressed && { opacity: 0.88 }]}
+              >
+                <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" />
                 <View style={styles.heritageBody}>
                   <Text style={styles.heritageName}>{item.name}</Text>
-                  <Text style={styles.heritageDesc} numberOfLines={4}>{item.description}</Text>
+                  <Text style={styles.heritageDesc} numberOfLines={4} ellipsizeMode="tail">{item.description}</Text>
                   <View style={styles.heritageBadgeRow}>
                     <View style={styles.heritageDot} />
                     <Text style={styles.heritageBadge}>{item.badge}</Text>
+                    <View style={{ flex: 1 }} />
+                    <Ionicons name="chevron-forward" size={14} color={Colors.light.primary} />
                   </View>
                 </View>
-              </View>
+              </Pressable>
             ))}
           </ScrollView>
         </View>
@@ -745,6 +854,15 @@ export default function DiscoverScreen() {
               </View>
             ))}
           </View>
+          {activeCountry.recipes[0] && (
+            <Pressable
+              onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: activeCountry.recipes[0].id } }); }}
+              style={({ pressed }) => [styles.sectionCta, { marginTop: 24 }, pressed && { opacity: 0.7 }]}
+            >
+              <Text style={styles.sectionCtaText}>Try {activeCountry.recipes[0].name}</Text>
+              <Ionicons name="arrow-forward" size={14} color={Colors.light.primary} />
+            </Pressable>
+          )}
         </View>
 
         {/* ── Must-Try Street Food ──────────────────────────────────── */}
@@ -774,8 +892,8 @@ export default function DiscoverScreen() {
                     <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                     <LinearGradient colors={["transparent", "rgba(0,0,0,0.65)"]} style={StyleSheet.absoluteFill} />
                     <View style={styles.streetInfo}>
-                      <Text style={styles.streetName}>{food.name}</Text>
-                      <Text style={styles.streetDesc}>{food.description}</Text>
+                      <Text style={styles.streetName} numberOfLines={2} ellipsizeMode="tail">{food.name}</Text>
+                      <Text style={styles.streetDesc} numberOfLines={1} ellipsizeMode="tail">{food.description}</Text>
                     </View>
                   </Pressable>
                 </RecipeContextMenu>
@@ -784,8 +902,8 @@ export default function DiscoverScreen() {
                   <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   <LinearGradient colors={["transparent", "rgba(0,0,0,0.65)"]} style={StyleSheet.absoluteFill} />
                   <View style={styles.streetInfo}>
-                    <Text style={styles.streetName}>{food.name}</Text>
-                    <Text style={styles.streetDesc}>{food.description}</Text>
+                    <Text style={styles.streetName} numberOfLines={2} ellipsizeMode="tail">{food.name}</Text>
+                    <Text style={styles.streetDesc} numberOfLines={1} ellipsizeMode="tail">{food.description}</Text>
                   </View>
                 </View>
               );
@@ -827,6 +945,9 @@ export default function DiscoverScreen() {
                 <Image source={{ uri: story.image }} style={styles.relatedImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                 <Text style={styles.relatedCountry}>{story.country}</Text>
                 <Text style={styles.relatedDesc}>{story.description}</Text>
+                <Image source={{ uri: story.image }} style={styles.relatedImg} contentFit="cover" />
+                <Text style={styles.relatedCountry} numberOfLines={1} ellipsizeMode="tail">{story.country}</Text>
+                <Text style={styles.relatedDesc} numberOfLines={2} ellipsizeMode="tail">{story.description}</Text>
               </View>
             ))}
           </ScrollView>
@@ -899,15 +1020,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  bookmarkButton: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: "rgba(255,255,255,0.12)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.2)",
+  heroBookmark: {
+    position: "absolute",
+    top: 52,
+    right: 16,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(0,0,0,0.35)",
     alignItems: "center",
     justifyContent: "center",
+    zIndex: 10,
   },
   heroTitleRow: {
     flexDirection: "row",
@@ -936,6 +1059,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 14,
+  },
+  sectionCta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    alignSelf: "flex-start",
+    marginTop: 24,
+  },
+  sectionCtaText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    color: Colors.light.primary,
+    letterSpacing: 0.3,
   },
   heroFlag: {
     fontSize: 28,
@@ -1061,8 +1197,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
     color: Colors.light.onSurface,
-    letterSpacing: 0.5,
-    textTransform: "uppercase",
+    letterSpacing: 0.3,
     maxWidth: 80,
     textAlign: "center",
   },
@@ -1269,8 +1404,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 14,
     color: Colors.light.onSurface,
-    letterSpacing: 0.8,
-    textTransform: "uppercase",
+    letterSpacing: 0.3,
     marginBottom: 4,
   },
   etiquetteDesc: {
@@ -1340,8 +1474,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
     color: Colors.light.primary,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
 
   // Cook's ledger
