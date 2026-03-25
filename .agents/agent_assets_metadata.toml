@@ -24,3 +24,9 @@ id = "lQzXTjBls5F9qIxR-ykEk"
 uri = "file://docs/discover-page-layout.md"
 type = "text"
 title = "Discover Page — Layout & Architecture"
+
+[[outputs]]
+id = "HewD37V-9_xAjegz7xPqM"
+uri = "file://docs/flow_map.md"
+type = "text"
+title = "Fork & Compass — App Flow Map"
