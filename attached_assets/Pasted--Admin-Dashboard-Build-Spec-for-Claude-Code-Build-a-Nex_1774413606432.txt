@@ -1,0 +1,927 @@
+# Admin Dashboard — Build Spec for Claude Code
+
+> Build a Next.js admin dashboard at `apps/admin/` in the Fork & Compass monorepo. Connects to the existing PostgreSQL database. Manages recipes, users, featured content, and stores every field from recipe-api.com permanently.
+
+---
+
+## Project setup
+
+### Location in monorepo
+
+```
+apps/
+  mobile/              ← Existing Expo/React Native app
+  api/                 ← Existing Express 5 API server
+  admin/               ← NEW: Next.js admin dashboard
+packages/
+  db/                  ← Shared Drizzle ORM schema (existing — extend it)
+```
+
+### Tech stack
+
+```json
+{
+  "framework": "Next.js 14+ (App Router)",
+  "ui": "shadcn/ui + Tailwind CSS",
+  "orm": "Drizzle ORM (shared from @workspace/db)",
+  "database": "PostgreSQL (same instance as mobile app)",
+  "auth": "NextAuth.js (email magic link or GitHub OAuth)",
+  "hosting": "Vercel",
+  "package_manager": "pnpm (matches monorepo)"
+}
+```
+
+### Init commands
+
+```bash
+# From monorepo root
+cd apps
+pnpm create next-app admin --typescript --tailwind --app --src-dir --import-alias "@/*"
+cd admin
+
+# Add dependencies
+pnpm add drizzle-orm postgres
+pnpm add @auth/nextjs @auth/drizzle-adapter
+pnpm add -D drizzle-kit
+
+# Add shadcn/ui
+pnpm dlx shadcn-ui@latest init
+# When prompted: style=default, baseColor=slate, cssVariables=yes
+
+# Add shadcn components we need
+pnpm dlx shadcn-ui@latest add table button input select badge dialog sheet tabs card dropdown-menu separator avatar command popover calendar checkbox label textarea switch toast
+```
+
+### Workspace config
+
+Add to root `pnpm-workspace.yaml` if not already there:
+```yaml
+packages:
+  - 'apps/*'
+  - 'packages/*'
+```
+
+Add to `apps/admin/package.json`:
+```json
+{
+  "dependencies": {
+    "@workspace/db": "workspace:*"
+  }
+}
+```
+
+---
+
+## Database schema (Drizzle ORM)
+
+Extend `packages/db/src/schema/` with these tables. Some may already exist — add missing fields to existing tables, create new tables for the rest.
+
+### `packages/db/src/schema/recipes.ts`
+
+```typescript
+import { pgTable, text, boolean, integer, decimal, timestamp, jsonb } from 'drizzle-orm/pg-core';
+
+// ============================================
+// CORE RECIPE TABLE
+// ============================================
+export const recipes = pgTable('recipes', {
+  // From API
+  id: text('id').primaryKey(),                          // UUID from recipe-api.com
+  name: text('name').notNull(),
+  description: text('description'),
+  category: text('category').notNull(),                  // "Dinner", "Beverage", "Dessert", etc.
+  cuisine: text('cuisine').notNull(),                    // "Italian", "Japanese", etc.
+  difficulty: text('difficulty').notNull(),               // "Easy", "Intermediate", "Advanced"
+  tags: jsonb('tags').$type<string[]>().default([]),
+  culturalContext: text('cultural_context'),
+
+  // Our metadata
+  countryId: text('country_id'),
+  regionId: text('region_id'),
+  status: text('status').notNull().default('live'),      // "live", "hidden", "draft"
+  featured: boolean('featured').notNull().default(false),
+  featuredOrder: integer('featured_order'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
+
+// ============================================
+// RECIPE META (timing, servings)
+// ============================================
+export const recipeMeta = pgTable('recipe_meta', {
+  recipeId: text('recipe_id').primaryKey().references(() => recipes.id, { onDelete: 'cascade' }),
+  activeTime: text('active_time'),                       // ISO 8601 "PT20M"
+  passiveTime: text('passive_time'),                     // ISO 8601 "PT1H40M"
+  totalTime: text('total_time'),                         // ISO 8601 "PT2H"
+  overnightRequired: boolean('overnight_required').default(false),
+  yields: text('yields'),                                // "4 servings"
+  yieldCount: integer('yield_count'),                    // 4
+  servingSizeG: integer('serving_size_g'),                // 300
+});
+
+// ============================================
+// DIETARY FLAGS
+// ============================================
+export const recipeDietary = pgTable('recipe_dietary', {
+  recipeId: text('recipe_id').primaryKey().references(() => recipes.id, { onDelete: 'cascade' }),
+  flags: jsonb('flags').$type<string[]>().default([]),              // ["Gluten-Free", "Dairy-Free"]
+  notSuitableFor: jsonb('not_suitable_for').$type<string[]>().default([]),
+});
+
+// ============================================
+// STORAGE & REHEATING
+// ============================================
+export const recipeStorage = pgTable('recipe_storage', {
+  recipeId: text('recipe_id').primaryKey().references(() => recipes.id, { onDelete: 'cascade' }),
+  fridgeNotes: text('fridge_notes'),
+  fridgeDuration: text('fridge_duration'),                // ISO 8601 "P4D"
+  freezerNotes: text('freezer_notes'),
+  freezerDuration: text('freezer_duration'),              // ISO 8601 "P3M"
+  reheating: text('reheating'),
+  doesNotKeep: boolean('does_not_keep').default(false),
+});
+
+// ============================================
+// EQUIPMENT
+// ============================================
+export const recipeEquipment = pgTable('recipe_equipment', {
+  id: text('id').primaryKey(),                            // Generated UUID
+  recipeId: text('recipe_id').notNull().references(() => recipes.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  required: boolean('required').default(true),
+  alternative: text('alternative'),
+  sortOrder: integer('sort_order').default(0),
+});
+
+// ============================================
+// INGREDIENT GROUPS
+// ============================================
+export const recipeIngredientGroups = pgTable('recipe_ingredient_groups', {
+  id: text('id').primaryKey(),                            // Generated UUID
+  recipeId: text('recipe_id').notNull().references(() => recipes.id, { onDelete: 'cascade' }),
+  groupName: text('group_name').notNull(),
+  sortOrder: integer('sort_order').default(0),
+});
+
+// ============================================
+// INDIVIDUAL INGREDIENTS
+// ============================================
+export const recipeIngredients = pgTable('recipe_ingredients', {
+  id: text('id').primaryKey(),                            // ingredient_id from API
+  groupId: text('group_id').notNull().references(() => recipeIngredientGroups.id, { onDelete: 'cascade' }),
+  recipeId: text('recipe_id').notNull().references(() => recipes.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  quantity: decimal('quantity'),                          // null for "to taste"
+  unit: text('unit'),                                    // "g", "ml", null
+  preparation: text('preparation'),                      // "cut into 1.3cm cubes"
+  notes: text('notes'),                                  // "about 30g"
+  substitutions: jsonb('substitutions').$type<string[]>().default([]),
+  nutritionSource: text('nutrition_source'),              // "USDA FoodData Central"
+  sortOrder: integer('sort_order').default(0),
+});
+
+// ============================================
+// INSTRUCTIONS (with adaptive text)
+// ============================================
+export const recipeInstructions = pgTable('recipe_instructions', {
+  id: text('id').primaryKey(),                            // Generated UUID
+  recipeId: text('recipe_id').notNull().references(() => recipes.id, { onDelete: 'cascade' }),
+  stepNumber: integer('step_number').notNull(),
+  phase: text('phase'),                                  // "prep", "cook", "finish"
+  text: text('text').notNull(),                          // Original API text (Home Cook tier)
+  textFirstSteps: text('text_first_steps'),              // 🌱 Beginner adaptation
+  textChefsTable: text('text_chefs_table'),              // 👨‍🍳 Advanced adaptation
+  action: text('action'),                                // "SEAR", "SIMMER", "BOIL"
+  tempCelsius: integer('temp_celsius'),
+  tempFahrenheit: integer('temp_fahrenheit'),
+  duration: text('duration'),                            // ISO 8601 "PT30M"
+  donenessVisual: text('doneness_visual'),
+  donenessTactile: text('doneness_tactile'),
+  tips: jsonb('tips').$type<string[]>().default([]),
+});
+
+// ============================================
+// TROUBLESHOOTING
+// ============================================
+export const recipeTroubleshooting = pgTable('recipe_troubleshooting', {
+  id: text('id').primaryKey(),
+  recipeId: text('recipe_id').notNull().references(() => recipes.id, { onDelete: 'cascade' }),
+  symptom: text('symptom').notNull(),
+  likelyCause: text('likely_cause'),
+  prevention: text('prevention'),
+  fix: text('fix'),
+});
+
+// ============================================
+// CHEF NOTES
+// ============================================
+export const recipeChefNotes = pgTable('recipe_chef_notes', {
+  id: text('id').primaryKey(),
+  recipeId: text('recipe_id').notNull().references(() => recipes.id, { onDelete: 'cascade' }),
+  note: text('note').notNull(),
+  sortOrder: integer('sort_order').default(0),
+});
+
+// ============================================
+// NUTRITION (all 32 nutrients)
+// ============================================
+export const recipeNutrition = pgTable('recipe_nutrition', {
+  recipeId: text('recipe_id').primaryKey().references(() => recipes.id, { onDelete: 'cascade' }),
+  calories: decimal('calories'),
+  proteinG: decimal('protein_g'),
+  carbohydratesG: decimal('carbohydrates_g'),
+  fatG: decimal('fat_g'),
+  saturatedFatG: decimal('saturated_fat_g'),
+  transFatG: decimal('trans_fat_g'),
+  monounsaturatedFatG: decimal('monounsaturated_fat_g'),
+  polyunsaturatedFatG: decimal('polyunsaturated_fat_g'),
+  fiberG: decimal('fiber_g'),
+  sugarG: decimal('sugar_g'),
+  sodiumMg: decimal('sodium_mg'),
+  cholesterolMg: decimal('cholesterol_mg'),
+  potassiumMg: decimal('potassium_mg'),
+  calciumMg: decimal('calcium_mg'),
+  ironMg: decimal('iron_mg'),
+  magnesiumMg: decimal('magnesium_mg'),
+  phosphorusMg: decimal('phosphorus_mg'),
+  zincMg: decimal('zinc_mg'),
+  vitaminAMcg: decimal('vitamin_a_mcg'),
+  vitaminCMg: decimal('vitamin_c_mg'),
+  vitaminDMcg: decimal('vitamin_d_mcg'),
+  vitaminEMg: decimal('vitamin_e_mg'),
+  vitaminKMcg: decimal('vitamin_k_mcg'),
+  vitaminB6Mg: decimal('vitamin_b6_mg'),
+  vitaminB12Mcg: decimal('vitamin_b12_mcg'),
+  thiaminMg: decimal('thiamin_mg'),
+  riboflavinMg: decimal('riboflavin_mg'),
+  niacinMg: decimal('niacin_mg'),
+  folateMcg: decimal('folate_mcg'),
+  waterG: decimal('water_g'),
+  alcoholG: decimal('alcohol_g'),
+  caffeineMg: decimal('caffeine_mg'),
+  sources: jsonb('sources').$type<string[]>().default([]),
+});
+```
+
+### `packages/db/src/schema/app.ts` (countries, regions, users, etc.)
+
+```typescript
+import { pgTable, text, boolean, integer, decimal, timestamp, jsonb, date } from 'drizzle-orm/pg-core';
+import { recipes } from './recipes';
+
+// ============================================
+// COUNTRIES
+// ============================================
+export const countries = pgTable('countries', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  flag: text('flag'),
+  tagline: text('tagline'),
+  description: text('description'),
+  heroImageUrl: text('hero_image_url'),
+  recipeCount: integer('recipe_count').default(0),
+  sortOrder: integer('sort_order').default(0),
+});
+
+// ============================================
+// REGIONS
+// ============================================
+export const regions = pgTable('regions', {
+  id: text('id').primaryKey(),
+  countryId: text('country_id').notNull().references(() => countries.id),
+  name: text('name').notNull(),
+  description: text('description'),
+  emoji: text('emoji'),
+  heroImageUrl: text('hero_image_url'),
+  recipeCount: integer('recipe_count').default(0),
+  sortOrder: integer('sort_order').default(0),
+});
+
+// ============================================
+// APP USERS
+// ============================================
+export const appUsers = pgTable('app_users', {
+  id: text('id').primaryKey(),
+  email: text('email'),
+  name: text('name'),
+  cookingLevel: integer('cooking_level').default(1),
+  cookingTier: text('cooking_tier').default('first_steps'),
+  recipesCooked: integer('recipes_cooked').default(0),
+  cuisinesExplored: jsonb('cuisines_explored').$type<string[]>().default([]),
+  measurementSystem: text('measurement_system').default('us'),
+  temperaturePreference: text('temperature_preference').default('fahrenheit'),
+  groceryPartner: text('grocery_partner'),
+  pantryStaples: jsonb('pantry_staples').$type<string[]>().default([]),
+  dietaryPreferences: jsonb('dietary_preferences').$type<string[]>().default([]),
+  allergens: jsonb('allergens').$type<string[]>().default([]),
+  subscriptionPlan: text('subscription_plan').default('free'),
+  subscriptionStatus: text('subscription_status').default('active'),
+  joinedAt: timestamp('joined_at').defaultNow(),
+  lastActiveAt: timestamp('last_active_at'),
+});
+
+// ============================================
+// COOKING HISTORY
+// ============================================
+export const cookingHistory = pgTable('cooking_history', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => appUsers.id),
+  recipeId: text('recipe_id').notNull().references(() => recipes.id),
+  completedAt: timestamp('completed_at').defaultNow(),
+  rating: integer('rating'),
+  feedback: jsonb('feedback').$type<string[]>(),
+  cookTimeMinutes: integer('cook_time_minutes'),
+  servings: integer('servings'),
+});
+
+// ============================================
+// SCHEDULED RECIPES
+// ============================================
+export const scheduledRecipes = pgTable('scheduled_recipes', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => appUsers.id),
+  recipeId: text('recipe_id').notNull().references(() => recipes.id),
+  scheduledDate: date('scheduled_date').notNull(),
+  servings: integer('servings'),
+  servingsScaleFactor: decimal('servings_scale_factor'),
+  status: text('status').default('scheduled'),
+  groceryAdded: boolean('grocery_added').default(false),
+  source: text('source'),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// ============================================
+// GROCERY ITEMS
+// ============================================
+export const groceryItems = pgTable('grocery_items', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => appUsers.id),
+  ingredientName: text('ingredient_name').notNull(),
+  quantity: decimal('quantity'),
+  unit: text('unit'),
+  recipeId: text('recipe_id').references(() => recipes.id),
+  scheduledDate: date('scheduled_date'),
+  tier: integer('tier').default(3),
+  excluded: boolean('excluded').default(false),
+  excludeReason: text('exclude_reason'),
+  checked: boolean('checked').default(false),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// ============================================
+// PURCHASE HISTORY
+// ============================================
+export const purchaseHistory = pgTable('purchase_history', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => appUsers.id),
+  ingredientName: text('ingredient_name'),
+  quantity: text('quantity'),
+  purchasedAt: timestamp('purchased_at'),
+  partner: text('partner'),
+  timesRemoved: integer('times_removed').default(0),
+});
+
+// ============================================
+// SCANNED PRODUCTS (Open Food Facts cache)
+// ============================================
+export const scannedProducts = pgTable('scanned_products', {
+  barcode: text('barcode').primaryKey(),
+  name: text('name').notNull(),
+  brand: text('brand'),
+  imageUrl: text('image_url'),
+  imageSmallUrl: text('image_small_url'),
+  categories: jsonb('categories').$type<string[]>(),
+  quantity: text('quantity'),
+  lastFetchedAt: timestamp('last_fetched_at').defaultNow(),
+});
+
+// ============================================
+// EDITORIAL COLLECTIONS
+// ============================================
+export const editorialCollections = pgTable('editorial_collections', {
+  id: text('id').primaryKey(),
+  title: text('title').notNull(),
+  description: text('description'),
+  coverImageUrl: text('cover_image_url'),
+  recipeIds: jsonb('recipe_ids').$type<string[]>().default([]),
+  active: boolean('active').default(false),
+  displayMonth: text('display_month'),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// ============================================
+// ADMIN USERS
+// ============================================
+export const adminUsers = pgTable('admin_users', {
+  id: text('id').primaryKey(),
+  email: text('email').notNull().unique(),
+  name: text('name'),
+  role: text('role').notNull().default('viewer'),
+  createdAt: timestamp('created_at').defaultNow(),
+  lastLoginAt: timestamp('last_login_at'),
+});
+```
+
+### `packages/db/src/schema/index.ts` (export all)
+
+```typescript
+export * from './recipes';
+export * from './app';
+```
+
+---
+
+## Database migration
+
+After adding the schema, run:
+
+```bash
+cd packages/db
+pnpm drizzle-kit generate
+pnpm drizzle-kit push
+```
+
+### GIN indexes for fast filtering
+
+```sql
+CREATE INDEX idx_recipe_tags ON recipes USING GIN (tags);
+CREATE INDEX idx_dietary_flags ON recipe_dietary USING GIN (flags);
+CREATE INDEX idx_dietary_not_suitable ON recipe_dietary USING GIN (not_suitable_for);
+CREATE INDEX idx_user_dietary ON app_users USING GIN (dietary_preferences);
+CREATE INDEX idx_user_allergens ON app_users USING GIN (allergens);
+CREATE INDEX idx_user_cuisines ON app_users USING GIN (cuisines_explored);
+CREATE INDEX idx_user_pantry ON app_users USING GIN (pantry_staples);
+
+-- Standard indexes
+CREATE INDEX idx_recipes_category ON recipes (category);
+CREATE INDEX idx_recipes_cuisine ON recipes (cuisine);
+CREATE INDEX idx_recipes_difficulty ON recipes (difficulty);
+CREATE INDEX idx_recipes_status ON recipes (status);
+CREATE INDEX idx_recipes_country ON recipes (country_id);
+CREATE INDEX idx_recipes_region ON recipes (region_id);
+CREATE INDEX idx_recipes_featured ON recipes (featured) WHERE featured = true;
+CREATE INDEX idx_cooking_history_user ON cooking_history (user_id);
+CREATE INDEX idx_cooking_history_recipe ON cooking_history (recipe_id);
+CREATE INDEX idx_scheduled_user_date ON scheduled_recipes (user_id, scheduled_date);
+CREATE INDEX idx_grocery_user ON grocery_items (user_id);
+```
+
+---
+
+## Recipe seeding script update
+
+Update `scripts/src/upsert-all-recipes.ts` to seed ALL tables from the cached API JSON. Currently it only seeds the core recipes table — it needs to fan out to all 11 recipe tables.
+
+```typescript
+import { db } from '@workspace/db';
+import { 
+  recipes, recipeMeta, recipeDietary, recipeStorage, 
+  recipeEquipment, recipeIngredientGroups, recipeIngredients,
+  recipeInstructions, recipeTroubleshooting, recipeChefNotes, 
+  recipeNutrition 
+} from '@workspace/db/schema';
+import { v4 as uuid } from 'uuid';
+
+async function seedRecipe(apiRecipe: any) {
+  // 1. Core recipe
+  await db.insert(recipes).values({
+    id: apiRecipe.id,
+    name: apiRecipe.name,
+    description: apiRecipe.description,
+    category: apiRecipe.category,
+    cuisine: apiRecipe.cuisine,
+    difficulty: apiRecipe.difficulty,
+    tags: apiRecipe.tags,
+    culturalContext: apiRecipe.cultural_context,
+    status: 'live',
+  }).onConflictDoUpdate({
+    target: recipes.id,
+    set: { name: apiRecipe.name, updatedAt: new Date() },
+  });
+
+  // 2. Meta
+  await db.insert(recipeMeta).values({
+    recipeId: apiRecipe.id,
+    activeTime: apiRecipe.meta.active_time,
+    passiveTime: apiRecipe.meta.passive_time,
+    totalTime: apiRecipe.meta.total_time,
+    overnightRequired: apiRecipe.meta.overnight_required,
+    yields: apiRecipe.meta.yields,
+    yieldCount: apiRecipe.meta.yield_count,
+    servingSizeG: apiRecipe.meta.serving_size_g,
+  }).onConflictDoUpdate({
+    target: recipeMeta.recipeId,
+    set: { totalTime: apiRecipe.meta.total_time },
+  });
+
+  // 3. Dietary
+  await db.insert(recipeDietary).values({
+    recipeId: apiRecipe.id,
+    flags: apiRecipe.dietary.flags,
+    notSuitableFor: apiRecipe.dietary.not_suitable_for,
+  }).onConflictDoUpdate({
+    target: recipeDietary.recipeId,
+    set: { flags: apiRecipe.dietary.flags },
+  });
+
+  // 4. Storage
+  await db.insert(recipeStorage).values({
+    recipeId: apiRecipe.id,
+    fridgeNotes: apiRecipe.storage?.refrigerator?.notes,
+    fridgeDuration: apiRecipe.storage?.refrigerator?.duration,
+    freezerNotes: apiRecipe.storage?.freezer?.notes,
+    freezerDuration: apiRecipe.storage?.freezer?.duration,
+    reheating: apiRecipe.storage?.reheating,
+    doesNotKeep: apiRecipe.storage?.does_not_keep || false,
+  }).onConflictDoUpdate({
+    target: recipeStorage.recipeId,
+    set: { reheating: apiRecipe.storage?.reheating },
+  });
+
+  // 5. Equipment
+  for (let i = 0; i < (apiRecipe.equipment || []).length; i++) {
+    const eq = apiRecipe.equipment[i];
+    await db.insert(recipeEquipment).values({
+      id: uuid(),
+      recipeId: apiRecipe.id,
+      name: eq.name,
+      required: eq.required,
+      alternative: eq.alternative,
+      sortOrder: i,
+    }).onConflictDoNothing();
+  }
+
+  // 6. Ingredient groups + ingredients
+  for (let gi = 0; gi < (apiRecipe.ingredients || []).length; gi++) {
+    const group = apiRecipe.ingredients[gi];
+    const groupId = uuid();
+
+    await db.insert(recipeIngredientGroups).values({
+      id: groupId,
+      recipeId: apiRecipe.id,
+      groupName: group.group_name,
+      sortOrder: gi,
+    }).onConflictDoNothing();
+
+    for (let ii = 0; ii < (group.items || []).length; ii++) {
+      const item = group.items[ii];
+      await db.insert(recipeIngredients).values({
+        id: item.ingredient_id || uuid(),
+        groupId: groupId,
+        recipeId: apiRecipe.id,
+        name: item.name,
+        quantity: item.quantity?.toString(),
+        unit: item.unit,
+        preparation: item.preparation,
+        notes: item.notes,
+        substitutions: item.substitutions || [],
+        nutritionSource: item.nutrition_source,
+        sortOrder: ii,
+      }).onConflictDoNothing();
+    }
+  }
+
+  // 7. Instructions
+  for (const step of apiRecipe.instructions || []) {
+    await db.insert(recipeInstructions).values({
+      id: uuid(),
+      recipeId: apiRecipe.id,
+      stepNumber: step.step_number,
+      phase: step.phase,
+      text: step.text,
+      textFirstSteps: null,   // Populated later by adapt-language script
+      textChefsTable: null,   // Populated later by adapt-language script
+      action: step.structured?.action,
+      tempCelsius: step.structured?.temperature?.celsius,
+      tempFahrenheit: step.structured?.temperature?.fahrenheit,
+      duration: step.structured?.duration,
+      donenessVisual: step.structured?.doneness_cues?.visual,
+      donenessTactile: step.structured?.doneness_cues?.tactile,
+      tips: step.tips || [],
+    }).onConflictDoNothing();
+  }
+
+  // 8. Troubleshooting
+  for (const ts of apiRecipe.troubleshooting || []) {
+    await db.insert(recipeTroubleshooting).values({
+      id: uuid(),
+      recipeId: apiRecipe.id,
+      symptom: ts.symptom,
+      likelyCause: ts.likely_cause,
+      prevention: ts.prevention,
+      fix: ts.fix,
+    }).onConflictDoNothing();
+  }
+
+  // 9. Chef notes
+  for (let i = 0; i < (apiRecipe.chef_notes || []).length; i++) {
+    await db.insert(recipeChefNotes).values({
+      id: uuid(),
+      recipeId: apiRecipe.id,
+      note: apiRecipe.chef_notes[i],
+      sortOrder: i,
+    }).onConflictDoNothing();
+  }
+
+  // 10. Nutrition
+  const n = apiRecipe.nutrition?.per_serving;
+  if (n) {
+    await db.insert(recipeNutrition).values({
+      recipeId: apiRecipe.id,
+      calories: n.calories?.toString(),
+      proteinG: n.protein_g?.toString(),
+      carbohydratesG: n.carbohydrates_g?.toString(),
+      fatG: n.fat_g?.toString(),
+      saturatedFatG: n.saturated_fat_g?.toString(),
+      transFatG: n.trans_fat_g?.toString(),
+      monounsaturatedFatG: n.monounsaturated_fat_g?.toString(),
+      polyunsaturatedFatG: n.polyunsaturated_fat_g?.toString(),
+      fiberG: n.fiber_g?.toString(),
+      sugarG: n.sugar_g?.toString(),
+      sodiumMg: n.sodium_mg?.toString(),
+      cholesterolMg: n.cholesterol_mg?.toString(),
+      potassiumMg: n.potassium_mg?.toString(),
+      calciumMg: n.calcium_mg?.toString(),
+      ironMg: n.iron_mg?.toString(),
+      magnesiumMg: n.magnesium_mg?.toString(),
+      phosphorusMg: n.phosphorus_mg?.toString(),
+      zincMg: n.zinc_mg?.toString(),
+      vitaminAMcg: n.vitamin_a_mcg?.toString(),
+      vitaminCMg: n.vitamin_c_mg?.toString(),
+      vitaminDMcg: n.vitamin_d_mcg?.toString(),
+      vitaminEMg: n.vitamin_e_mg?.toString(),
+      vitaminKMcg: n.vitamin_k_mcg?.toString(),
+      vitaminB6Mg: n.vitamin_b6_mg?.toString(),
+      vitaminB12Mcg: n.vitamin_b12_mcg?.toString(),
+      thiaminMg: n.thiamin_mg?.toString(),
+      riboflavinMg: n.riboflavin_mg?.toString(),
+      niacinMg: n.niacin_mg?.toString(),
+      folateMcg: n.folate_mcg?.toString(),
+      waterG: n.water_g?.toString(),
+      alcoholG: n.alcohol_g?.toString(),
+      caffeineMg: n.caffeine_mg?.toString(),
+      sources: apiRecipe.nutrition.sources || [],
+    }).onConflictDoUpdate({
+      target: recipeNutrition.recipeId,
+      set: { calories: n.calories?.toString() },
+    });
+  }
+}
+```
+
+---
+
+## Admin dashboard pages
+
+### App Router structure
+
+```
+apps/admin/src/app/
+  layout.tsx              ← Root layout with sidebar nav
+  page.tsx                ← Dashboard home (stats overview)
+  login/
+    page.tsx              ← Auth login page
+  recipes/
+    page.tsx              ← Recipe list with table, filters, search
+    [id]/
+      page.tsx            ← Recipe edit page
+  users/
+    page.tsx              ← User list
+    [id]/
+      page.tsx            ← User detail (read-only)
+  featured/
+    page.tsx              ← Featured content management
+  settings/
+    page.tsx              ← Admin accounts, API keys, app config
+```
+
+### Design direction
+
+The admin dashboard should feel like the Fork & Compass brand — not a generic shadcn template. Use:
+
+- **Background:** cream (#FEF9F3) not white
+- **Accent:** terracotta (#9A4100) for active states, buttons, links
+- **Sidebar:** dark warm (#1C1A17) with cream text
+- **Typography:** system font stack for the dashboard body (fast rendering), but Noto Serif for page titles to match the brand
+- **Cards:** cream dark (#F5EDDF) with 1px border #E8DFD2
+- **Tables:** clean, generous row height (48px+), subtle row hover
+- **Status badges:** green for "live", amber for "draft", gray for "hidden"
+
+### Sidebar navigation
+
+```tsx
+const NAV_ITEMS = [
+  { icon: LayoutDashboard, label: 'Dashboard', href: '/' },
+  { icon: UtensilsCrossed, label: 'Recipes', href: '/recipes' },
+  { icon: Users, label: 'Users', href: '/users' },
+  { icon: Star, label: 'Featured', href: '/featured' },
+  { icon: Settings, label: 'Settings', href: '/settings' },
+];
+```
+
+---
+
+## Priority order for building
+
+| Phase | What to build | Why |
+|---|---|---|
+| 1 | Database schema + migration | Foundation — everything depends on this |
+| 2 | Updated seed script | Re-seed your 97 recipes into the new full schema |
+| 3 | Admin auth + layout | Login + sidebar so you can access pages |
+| 4 | Dashboard home | Stat cards to verify data is seeded correctly |
+| 5 | Recipes list page | Table with filters, search, sorting — the most-used page |
+| 6 | Recipe edit page | Edit any field, toggle status, toggle featured |
+| 7 | Category/cuisine/dietary breakdown charts | Verify data quality, find gaps |
+| 8 | Users list page | See all users (empty for now, ready when users sign up) |
+| 9 | Featured content page | Manage "Popular in [Country]" strips |
+| 10 | Settings page | API keys, admin accounts |
+
+### Phase 1-2 command sequence for Claude Code
+
+```
+1. Create apps/admin with Next.js 14 + App Router + TypeScript + Tailwind
+2. Add shadcn/ui with components: table, button, input, select, badge, dialog, sheet, tabs, card, dropdown-menu, separator, command, popover, checkbox, label, textarea, switch, toast
+3. Add @workspace/db dependency
+4. Extend packages/db/src/schema/ with the full recipe schema from this spec
+5. Run drizzle-kit generate and drizzle-kit push to create all tables
+6. Update scripts/src/upsert-all-recipes.ts to seed all 11 recipe tables
+7. Re-seed the 97 cached recipes into the new schema
+8. Verify with: SELECT COUNT(*) FROM recipes; SELECT COUNT(*) FROM recipe_nutrition; SELECT COUNT(*) FROM recipe_instructions;
+```
+
+---
+
+## Deployment
+
+### Local development
+
+```bash
+cd apps/admin
+pnpm dev
+# Runs at http://localhost:3000
+```
+
+The admin dashboard connects to the same PostgreSQL database your API server uses. Same connection string, same data.
+
+### Environment variables
+
+Create `apps/admin/.env.local`:
+
+```env
+# Database (same as your API server)
+DATABASE_URL=postgresql://username:password@host:5432/forkandcompass
+
+# Auth (NextAuth.js)
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=generate-a-random-secret-here
+
+# Optional: GitHub OAuth (for login)
+GITHUB_CLIENT_ID=your-github-oauth-app-id
+GITHUB_CLIENT_SECRET=your-github-oauth-app-secret
+
+# Optional: Email magic link (for login)
+EMAIL_SERVER=smtp://user:pass@smtp.example.com:587
+EMAIL_FROM=admin@forkandcompass.app
+```
+
+For production, these go in Vercel's environment variables dashboard — never committed to git.
+
+### Deploy to Vercel
+
+```bash
+# Install Vercel CLI if you don't have it
+pnpm add -g vercel
+
+# From the admin directory
+cd apps/admin
+vercel
+
+# Vercel will ask:
+# - Link to existing project? → No, create new
+# - Project name? → fork-and-compass-admin
+# - Framework? → Next.js (auto-detected)
+# - Root directory? → apps/admin
+# - Build command? → (leave default)
+# - Output directory? → (leave default)
+```
+
+### Vercel project settings
+
+After first deploy, configure in Vercel dashboard:
+
+| Setting | Value |
+|---|---|
+| Framework Preset | Next.js |
+| Root Directory | `apps/admin` |
+| Build Command | `cd ../.. && pnpm install && cd apps/admin && pnpm build` |
+| Install Command | `pnpm install` |
+| Node.js Version | 20.x |
+
+The build command goes to monorepo root first to install workspace dependencies, then builds the admin app.
+
+### Custom domain setup
+
+**Target URL:** `admin.forkandcompass.app`
+
+#### Step 1: Add domain in Vercel
+
+Vercel Dashboard → fork-and-compass-admin project → Settings → Domains → Add `admin.forkandcompass.app`
+
+#### Step 2: DNS records
+
+At your domain registrar (wherever you registered `forkandcompass.app`), add:
+
+```
+Type:  CNAME
+Name:  admin
+Value: cname.vercel-dns.com
+TTL:   3600
+```
+
+#### Step 3: SSL
+
+Vercel handles SSL automatically. The `.app` TLD requires HTTPS (which you already know) and Vercel provisions a Let's Encrypt certificate for you. No manual setup.
+
+#### Step 4: Verify
+
+After DNS propagates (usually 5-30 minutes):
+- `https://admin.forkandcompass.app` should load the login page
+- SSL certificate should show as valid
+- All API routes should work
+
+### Multiple environments
+
+| Environment | URL | Database | Purpose |
+|---|---|---|---|
+| Local dev | `localhost:3000` | Local PostgreSQL or dev DB | Building and testing |
+| Preview | `fork-and-compass-admin-*.vercel.app` | Dev/staging DB | Vercel auto-deploys on PR |
+| Production | `admin.forkandcompass.app` | Production PostgreSQL | Live admin access |
+
+Vercel automatically creates preview deployments for every git push and PR. Use a separate staging database for preview so you don't accidentally modify production data while testing.
+
+### Protecting the dashboard
+
+The dashboard should NEVER be publicly accessible without auth. Two layers of protection:
+
+**Layer 1: NextAuth.js middleware** (already in the spec)
+
+```typescript
+// apps/admin/src/middleware.ts
+export { default } from "next-auth/middleware";
+
+export const config = {
+  matcher: ["/((?!login|api/auth|_next/static|_next/image|favicon.ico).*)"],
+};
+```
+
+Every page except `/login` requires authentication.
+
+**Layer 2: Vercel password protection (optional extra)**
+
+Vercel Pro plan includes password protection for deployments. You can enable this as a second gate:
+- Vercel Dashboard → Project → Settings → General → Password Protection → Enable
+- Set a password that you share with your team
+
+This protects preview deployments too, so nobody stumbles onto a PR deploy.
+
+### Monorepo deployment — making sure Vercel only rebuilds admin when admin changes
+
+Add to `apps/admin/vercel.json`:
+
+```json
+{
+  "ignoreCommand": "npx turbo-ignore"
+}
+```
+
+Or if you're not using Turborepo, use Vercel's "Ignored Build Step" setting:
+- Vercel Dashboard → Project → Settings → Git → Ignored Build Step
+- Set to: `git diff --quiet HEAD^ HEAD -- apps/admin/ packages/db/`
+
+This means Vercel only rebuilds the admin app when files in `apps/admin/` or `packages/db/` change. Changes to `apps/mobile/` won't trigger an admin rebuild.
+
+---
+
+## Summary: what you're shipping
+
+```
+LOCAL DEVELOPMENT
+  apps/admin/ → pnpm dev → localhost:3000
+  Connects to your PostgreSQL database
+  All 21 tables created with Drizzle migrations
+
+PRODUCTION DEPLOYMENT  
+  Vercel → admin.forkandcompass.app
+  CNAME record: admin → cname.vercel-dns.com
+  SSL: automatic (Let's Encrypt via Vercel)
+  Auth: NextAuth.js (GitHub OAuth or email magic link)
+  Database: same production PostgreSQL as mobile app API
+
+DATA FLOW
+  recipe-api.com → .stitch/recipes-cache/ → seed script → PostgreSQL
+                                                              ↓
+  Mobile app (Expo) ← Express API ← PostgreSQL → Admin dashboard (Next.js)
+  
+  Both the mobile app and admin dashboard read/write the same database.
+  Recipes you edit in the admin dashboard are immediately live in the mobile app.
+```

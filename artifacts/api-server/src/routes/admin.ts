@@ -26,27 +26,28 @@ const router: IRouter = Router();
 // ---------------------------------------------------------------------------
 router.get("/admin/stats", async (_req, res) => {
   try {
-    const [recipeCount] = await db
-      .select({ value: count() })
-      .from(recipesTable);
-
-    const [userCount] = await db
-      .select({ value: count() })
-      .from(appUsersTable);
-
-    const [countryCount] = await db
-      .select({ value: count() })
-      .from(countriesTable);
-
-    const [regionCount] = await db
-      .select({ value: countDistinct(countriesTable.region) })
-      .from(countriesTable);
+    const [recipeCount, userCount, countryCount, regionCount, recentRecipes] = await Promise.all([
+      db.select({ value: count() }).from(recipesTable),
+      db.select({ value: count() }).from(appUsersTable),
+      db.select({ value: count() }).from(countriesTable),
+      db.select({ value: countDistinct(countriesTable.region) }).from(countriesTable),
+      db
+        .select({
+          id: recipesTable.id,
+          title: recipesTable.title,
+          createdAt: recipesTable.createdAt,
+        })
+        .from(recipesTable)
+        .orderBy(desc(recipesTable.createdAt))
+        .limit(5),
+    ]);
 
     res.json({
-      recipes: recipeCount.value,
-      users: userCount.value,
-      countries: countryCount.value,
-      regions: regionCount.value,
+      recipes: recipeCount[0].value,
+      users: userCount[0].value,
+      countries: countryCount[0].value,
+      regions: regionCount[0].value,
+      recentRecipes,
     });
   } catch (err) {
     logger.error(err, "Failed to fetch admin stats");

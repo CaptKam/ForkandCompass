@@ -82,13 +82,15 @@ export function DashboardPage() {
             <div className="p-6 text-center text-muted-foreground text-sm">Loading...</div>
           ) : stats?.recentRecipes?.length ? (
             stats.recentRecipes.map((r) => (
-              <Link key={r.id} href={`/recipes/${r.id}`}>
-                <a className="flex items-center justify-between px-6 py-4 hover:bg-accent/50 transition-colors">
-                  <span className="text-sm font-medium text-foreground">{r.title}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(r.createdAt).toLocaleDateString()}
-                  </span>
-                </a>
+              <Link
+                key={r.id}
+                href={`/recipes/${r.id}`}
+                className="flex items-center justify-between px-6 py-4 hover:bg-accent/50 transition-colors"
+              >
+                <span className="text-sm font-medium text-foreground">{r.title}</span>
+                <span className="text-xs text-muted-foreground">
+                  {new Date(r.createdAt).toLocaleDateString()}
+                </span>
               </Link>
             ))
           ) : (
@@ -105,24 +107,27 @@ export function DashboardPage() {
           Quick Actions
         </h2>
         <div className="flex flex-wrap gap-3">
-          <Link href="/recipes">
-            <a className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
-              <Plus className="w-4 h-4" />
-              Add Recipe
-            </a>
+          <Link
+            href="/recipes"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+          >
+            <Plus className="w-4 h-4" />
+            Add Recipe
           </Link>
-          <Link href="/featured">
-            <a className="inline-flex items-center gap-2 px-4 py-2.5 border border-border bg-card rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors">
-              <Star className="w-4 h-4" />
-              Feature Recipes
-            </a>
+          <Link
+            href="/featured"
+            className="inline-flex items-center gap-2 px-4 py-2.5 border border-border bg-card rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors"
+          >
+            <Star className="w-4 h-4" />
+            Feature Recipes
           </Link>
-          <Link href="/users">
-            <a className="inline-flex items-center gap-2 px-4 py-2.5 border border-border bg-card rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors">
-              <Users className="w-4 h-4" />
-              View Users
-              <ArrowRight className="w-3.5 h-3.5" />
-            </a>
+          <Link
+            href="/users"
+            className="inline-flex items-center gap-2 px-4 py-2.5 border border-border bg-card rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors"
+          >
+            <Users className="w-4 h-4" />
+            View Users
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
