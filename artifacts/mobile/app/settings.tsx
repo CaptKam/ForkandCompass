@@ -678,7 +678,7 @@ const styles = StyleSheet.create({
   /* Measurements */
   measurementDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 13,
     color: Colors.light.onSurfaceVariant,
     marginTop: 2,
   },
