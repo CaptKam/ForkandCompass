@@ -320,7 +320,7 @@ export default function DiscoverScreen() {
     if (isProgrammaticScroll.current) return;
     const idx = Math.round(e.nativeEvent.contentOffset.x / screenWidth);
     if (idx !== activeIndex && idx >= 0 && idx < countries.length) {
-      haptic();
+      if (Platform.OS !== "web") Haptics.selectionAsync();
       setActiveIndex(idx);
     }
   };

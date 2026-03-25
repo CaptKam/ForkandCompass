@@ -357,10 +357,11 @@ export default function ProfileTab() {
                 <Text style={styles.bucketEmpty}>No countries selected yet</Text>
               )}
             </View>
-            <Pressable style={styles.editCountriesRow} onPress={haptic}>
+            {/* TODO: implement navigation to country editor */}
+            <View style={styles.editCountriesRow}>
               <Text style={styles.editCountriesText}>Edit countries</Text>
               <Ionicons name="chevron-forward" size={18} color={Colors.light.secondary} />
-            </Pressable>
+            </View>
           </View>
         </View>
 
@@ -389,14 +390,16 @@ export default function ProfileTab() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>About</Text>
           <View style={styles.card}>
-            <Pressable style={[styles.aboutRow, styles.aboutRowBorder]} onPress={haptic}>
+            {/* TODO: implement navigation to Privacy Policy */}
+            <View style={[styles.aboutRow, styles.aboutRowBorder]}>
               <Text style={styles.aboutLabel}>Privacy Policy</Text>
               <Ionicons name="open-outline" size={16} color={Colors.light.secondary} />
-            </Pressable>
-            <Pressable style={[styles.aboutRow, styles.aboutRowBorder]} onPress={haptic}>
+            </View>
+            {/* TODO: implement navigation to Terms of Service */}
+            <View style={[styles.aboutRow, styles.aboutRowBorder]}>
               <Text style={styles.aboutLabel}>Terms of Service</Text>
               <Ionicons name="open-outline" size={16} color={Colors.light.secondary} />
-            </Pressable>
+            </View>
             <View style={styles.aboutRow}>
               <Text style={styles.aboutLabelDim}>Version</Text>
               <Text style={styles.aboutLabelDim}>1.0</Text>

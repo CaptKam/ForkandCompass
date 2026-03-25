@@ -6,6 +6,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
+  Alert,
   Platform,
   Pressable,
   ScrollView,
@@ -78,7 +79,10 @@ export default function ExperienceScreen() {
           <Text style={styles.headerFlag}>{country.flag}</Text>
           <Text style={styles.headerTitle}>{regionName}</Text>
         </View>
-        <Pressable style={styles.headerButton} onPress={haptic}>
+        <Pressable
+          style={styles.headerButton}
+          onPress={() => { haptic(); Alert.alert("Coming soon", "Saving experiences will be available in a future update."); }}
+        >
           <Ionicons name="heart-outline" size={22} color={Colors.light.primary} />
         </Pressable>
       </View>

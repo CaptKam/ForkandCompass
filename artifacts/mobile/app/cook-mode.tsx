@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { useKeepAwake } from "expo-keep-awake";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -257,6 +257,45 @@ export default function CookModeScreen() {
     setActiveCookSession(session);
   }, [currentStep, timerRemaining, timerRunning, finished]);
 
+  // Intercept back gesture/hardware back — show confirmation if mid-cook
+  const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("beforeRemove", (e: any) => {
+      if (currentStep === 0 || finished) return;
+      e.preventDefault();
+      Alert.alert(
+        "Exit cooking?",
+        "Your progress will be saved.",
+        [
+          { text: "Keep Cooking", style: "cancel" },
+          {
+            text: "Exit",
+            style: "destructive",
+            onPress: () => {
+              const session: CookSession = {
+                id: `${Date.now()}-${recipeId}`,
+                recipeId: recipe!.id,
+                recipeName: recipe!.name,
+                cuisine: recipe!.countryName,
+                difficulty: recipe!.difficulty,
+                startedAt: startTimeRef.current,
+                completedAt: null,
+                totalTime: Math.round((Date.now() - new Date(startTimeRef.current).getTime()) / 60000),
+                rating: null,
+                feedback: [],
+                stepsCompleted: currentStep,
+                totalSteps: recipe!.steps.length,
+              };
+              completeCookSession(session);
+              navigation.dispatch(e.data.action);
+            },
+          },
+        ]
+      );
+    });
+    return unsubscribe;
+  }, [currentStep, finished, navigation, recipeId, recipe, completeCookSession]);
+
   if (!recipe) {
     return (
       <View style={[styles.container, { alignItems: "center", justifyContent: "center", paddingHorizontal: 48 }]}>
@@ -410,7 +449,7 @@ export default function CookModeScreen() {
 
   if (showPrepWarning && !prepWarningDismissed) {
     return (
-      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: colors.surface }]}>
+      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 12, backgroundColor: colors.surface }]}>
         <StatusBar style="dark" />
         <ScrollView contentContainerStyle={styles.prepWarningContent}>
           <Animated.View entering={FadeIn.duration(400)} style={styles.prepWarningInner}>
@@ -470,7 +509,7 @@ export default function CookModeScreen() {
 
   if (finished) {
     return (
-      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: colors.surface }]}>
+      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 12, backgroundColor: colors.surface }]}>
         <StatusBar style="dark" />
         <ScrollView contentContainerStyle={styles.finishContent}>
           <Animated.View entering={FadeIn.duration(400)} style={styles.finishInner}>
