@@ -147,7 +147,7 @@ export default function RegionMenuScreen() {
                         style={[styles.checkBadge, isSelected && styles.checkBadgeSelected]}
                       >
                         {isSelected ? (
-                          <Ionicons name="checkmark" size={14} color="#fff" />
+                          <Ionicons name="checkmark" size={14} color={Colors.light.onPrimary} />
                         ) : (
                           <Ionicons name="add" size={14} color={Colors.light.primary} />
                         )}
@@ -199,7 +199,7 @@ export default function RegionMenuScreen() {
               ? "Select a dish to continue"
               : `Review Your Experience (${selectedCount})`}
           </Text>
-          {selectedCount > 0 && <Ionicons name="arrow-forward" size={18} color="#fff" />}
+          {selectedCount > 0 && <Ionicons name="arrow-forward" size={18} color={Colors.light.onPrimary} />}
         </Pressable>
       </LinearGradient>
     </View>
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
   ctaText: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   notFoundText: {
     fontFamily: "NotoSerif_600SemiBold",
@@ -401,6 +401,6 @@ const styles = StyleSheet.create({
   backBtnText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 16,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
 });

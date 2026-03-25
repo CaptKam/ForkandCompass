@@ -288,8 +288,8 @@ export default function CookModeScreen() {
   const stepTips = getStepTips(adaptiveText);
 
   const phaseLabel = phase.toUpperCase();
-  const phaseColor = phase === "finish" ? "#2D7A4F" : Colors.light.primary;
-  const phaseBg = phase === "cook" ? "#FEF0E6" : phase === "finish" ? "#EEFAF2" : colors.surface;
+  const phaseColor = phase === "finish" ? Colors.light.success : Colors.light.primary;
+  const phaseBg = phase === "cook" ? Colors.light.surfaceWarm : phase === "finish" ? Colors.light.successContainer : colors.surface;
 
   const handleBack = () => {
     router.back();
@@ -538,8 +538,8 @@ export default function CookModeScreen() {
             </Pressable>
           ) : timerTotal != null ? (
             <Pressable onPress={toggleTimer} style={[styles.timerPill, timerRemaining === 0 && styles.timerPillDone]}>
-              <Ionicons name="timer-outline" size={16} color={timerRemaining === 0 ? "#2D7A4F" : Colors.light.primary} />
-              <Text style={[styles.timerPillText, timerRemaining === 0 && { color: "#2D7A4F" }]}>
+              <Ionicons name="timer-outline" size={16} color={timerRemaining === 0 ? Colors.light.success : Colors.light.primary} />
+              <Text style={[styles.timerPillText, timerRemaining === 0 && { color: Colors.light.success }]}>
                 {timerRemaining === 0 ? "Done!" : formatTimer(timerRemaining)}
               </Text>
             </Pressable>
@@ -867,7 +867,7 @@ const styles = StyleSheet.create({
   notFoundButtonText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 16,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
 
   topBar: {
@@ -958,7 +958,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
   },
   phasePillTextFinish: {
-    color: "#2D7A4F",
+    color: Colors.light.success,
   },
   stepInstruction: {
     fontFamily: "NotoSerif_600SemiBold",
@@ -990,7 +990,7 @@ const styles = StyleSheet.create({
     color: Colors.light.primary,
   },
   timerComplete: {
-    color: "#2D7A4F",
+    color: Colors.light.success,
   },
   timerBarTrack: {
     width: "100%",
@@ -1019,7 +1019,7 @@ const styles = StyleSheet.create({
   timerControlText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 15,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   timerControlBtnSecondary: {
     backgroundColor: Colors.light.surface,
@@ -1041,7 +1041,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   tipCard: {
-    backgroundColor: "#F5EDDF",
+    backgroundColor: Colors.light.surfaceWarmAlt,
     borderRadius: 12,
     padding: 14,
     gap: 6,
@@ -1049,7 +1049,7 @@ const styles = StyleSheet.create({
   tipLabel: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
-    color: "#9A7B00",
+    color: Colors.light.warning,
   },
   tipText: {
     fontFamily: "Inter_400Regular",
@@ -1115,7 +1115,7 @@ const styles = StyleSheet.create({
     fontFamily: "NotoSerif_600SemiBold",
     fontStyle: "italic",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     lineHeight: 22,
   },
   donenessCueCard: {
@@ -1240,11 +1240,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: "#2D7A4F",
+    backgroundColor: Colors.light.success,
     paddingHorizontal: 36,
     paddingVertical: 16,
     borderRadius: 99,
-    shadowColor: "#2D7A4F",
+    shadowColor: Colors.light.success,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 12,
@@ -1337,7 +1337,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   segmentBtnActive: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
@@ -1413,7 +1413,7 @@ const styles = StyleSheet.create({
   helpCloseText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   helpSectionDivider: {
     fontFamily: "Inter_500Medium",
@@ -1425,7 +1425,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   historyCard: {
-    backgroundColor: "#FEF0E6",
+    backgroundColor: Colors.light.surfaceWarm,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -1460,7 +1460,7 @@ const styles = StyleSheet.create({
   prepWarningLabel: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
-    color: "#9A7B00",
+    color: Colors.light.warning,
     textTransform: "uppercase",
     letterSpacing: 2,
   },
@@ -1618,12 +1618,12 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   feedbackChipTextActive: {
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   storageHintCard: {
     flexDirection: "row",
     gap: 10,
-    backgroundColor: "#FEF0E6",
+    backgroundColor: Colors.light.surfaceWarm,
     borderRadius: 12,
     padding: 14,
     width: "100%",
@@ -1650,6 +1650,6 @@ const styles = StyleSheet.create({
   doneButtonText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
 });

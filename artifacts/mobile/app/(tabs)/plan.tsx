@@ -554,7 +554,7 @@ export default function PlanScreen() {
                         onPress={() => { haptic(); clearGrocery(); }}
                         style={styles.clearCompletedBtn}
                       >
-                        <Text style={[styles.clearCompletedText, { color: "#c0392b" }]}>Clear All</Text>
+                        <Text style={[styles.clearCompletedText, { color: Colors.light.error }]}>Clear All</Text>
                       </Pressable>
                     )}
                   </View>
@@ -630,7 +630,7 @@ export default function PlanScreen() {
             <Text style={styles.fabText}>
               Add {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} to {PARTNER_CONFIG[groceryPartner].label}
             </Text>
-            <Ionicons name="arrow-forward" size={16} color="#fff" />
+            <Ionicons name="arrow-forward" size={16} color={Colors.light.onPrimary} />
           </Pressable>
         </View>
       )}
@@ -1483,7 +1483,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.primary,
   },
   pantryPillNeed: {
-    backgroundColor: "#FEF0E6",
+    backgroundColor: Colors.light.surfaceWarm,
     borderWidth: 1.5,
     borderColor: Colors.light.primary,
   },
@@ -1491,7 +1491,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   pantryPillTextNeed: {
     color: Colors.light.primary,
@@ -1695,13 +1695,13 @@ const styles = StyleSheet.create({
   fabLogoText: {
     fontFamily: "Inter_700Bold",
     fontSize: 13,
-    color: "#fff",
+    color: Colors.light.onPrimary,
   },
   fabText: {
     flex: 1,
     fontFamily: "Inter_600SemiBold",
     fontSize: 16,
-    color: "#fff",
+    color: Colors.light.onPrimary,
   },
 
   // Toast

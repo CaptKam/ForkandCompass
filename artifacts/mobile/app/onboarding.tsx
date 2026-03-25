@@ -16,6 +16,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import Colors from "@/constants/colors";
 import { COUNTRIES, ONBOARDING_IMAGES } from "@/constants/data";
 import { useApp } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -30,7 +31,7 @@ export default function OnboardingScreen() {
   const colors = useThemeColors();
   const type = useScaledStyles();
   const reducedMotion = useReducedMotion();
-  const isDark = colors.background === "#121110";
+  const isDark = colors.background === Colors.dark.background;
   const { width: screenWidth } = useWindowDimensions();
   const cardWidth = (screenWidth - 48 - CARD_GAP) / 2;
 
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   cardName: {
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   checkBadge: {
     position: "absolute",

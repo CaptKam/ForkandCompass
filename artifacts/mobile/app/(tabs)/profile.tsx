@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
   heroName: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 22,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     letterSpacing: -0.3,
   },
   heroLevel: {

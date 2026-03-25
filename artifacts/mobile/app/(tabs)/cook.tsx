@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
 
   /* ── Continue Cooking Card (Active Session) ──────────────────── */
   continueCard: {
-    backgroundColor: "#FEF0E6",
+    backgroundColor: Colors.light.surfaceWarm,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: "rgba(154,65,0,0.3)",
@@ -535,7 +535,7 @@ const styles = StyleSheet.create({
 
   /* ── What should we cook? ────────────────────────────────────── */
   whatToCookCard: {
-    backgroundColor: "#F5EDDF",
+    backgroundColor: Colors.light.surfaceWarmAlt,
     borderRadius: 16,
     padding: 24,
     alignItems: "center",
@@ -676,7 +676,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 8,
-    backgroundColor: "#F5EDDF",
+    backgroundColor: Colors.light.surfaceWarmAlt,
   },
   beginnerInfo: {
     flex: 1,
@@ -731,7 +731,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: "hidden",
     position: "relative",
-    backgroundColor: "#F5EDDF",
+    backgroundColor: Colors.light.surfaceWarmAlt,
   },
   techniqueThumbnail: {
     width: 56,

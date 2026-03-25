@@ -84,7 +84,7 @@ export default function RecipeDetailScreen() {
         <Ionicons name="restaurant-outline" size={48} color={Colors.light.outlineVariant} />
         <Text style={{ fontFamily: "NotoSerif_600SemiBold", fontSize: 20, color: Colors.light.onSurface, marginTop: 16, marginBottom: 8 }}>Recipe not found</Text>
         <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 14, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
-          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 16, color: "#FFFFFF" }}>Go Back</Text>
+          <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 16, color: Colors.light.onPrimary }}>Go Back</Text>
         </Pressable>
       </View>
     );
@@ -199,7 +199,7 @@ export default function RecipeDetailScreen() {
                   style={styles.ingredientRow}
                 >
                   <View style={[styles.ingredientCircle, isChecked && styles.ingredientCircleChecked]}>
-                    {isChecked && <Ionicons name="checkmark" size={14} color="#FFFFFF" />}
+                    {isChecked && <Ionicons name="checkmark" size={14} color={Colors.light.onPrimary} />}
                   </View>
                   <Text style={[styles.ingredientText, isChecked && styles.ingredientTextChecked]}>
                     {ing.name}
@@ -229,7 +229,7 @@ export default function RecipeDetailScreen() {
               }}
               style={({ pressed }) => [styles.cookNowBtn, pressed && { opacity: 0.85 }]}
             >
-              <Ionicons name="restaurant" size={18} color="#FFFFFF" />
+              <Ionicons name="restaurant" size={18} color={Colors.light.onPrimary} />
               <Text style={styles.cookNowBtnText}>Cook Now</Text>
             </Pressable>
           </View>
@@ -249,7 +249,7 @@ export default function RecipeDetailScreen() {
               colors={["#C75B12", "#9A4100"]}
               style={styles.groceryCtaGradient}
             >
-              <Ionicons name="basket-outline" size={20} color="#FFFFFF" />
+              <Ionicons name="basket-outline" size={20} color={Colors.light.onPrimary} />
               <Text style={styles.groceryCtaText}>Add to Grocery List</Text>
             </LinearGradient>
           </Pressable>
@@ -313,7 +313,7 @@ export default function RecipeDetailScreen() {
               <Ionicons name="restaurant" size={20} color={Colors.light.primaryFixedDim} />
               <Text style={styles.cookModeText}>Enter Cook Mode</Text>
             </View>
-            <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
+            <Ionicons name="chevron-forward" size={20} color={Colors.light.onPrimary} />
           </Pressable>
 
           {/* Quote */}
@@ -590,7 +590,7 @@ const styles = StyleSheet.create({
   groceryCtaText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   // Steps
   stepCard: {
@@ -613,7 +613,7 @@ const styles = StyleSheet.create({
   stepNumberText: {
     fontFamily: "Inter_700Bold",
     fontSize: 14,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   stepTitle: {
     fontFamily: "Inter_600SemiBold",
@@ -694,7 +694,7 @@ const styles = StyleSheet.create({
   cookModeText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     letterSpacing: -0.3,
   },
   // Quote
@@ -750,7 +750,7 @@ const styles = StyleSheet.create({
   nextJourneyTitle: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 22,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
     marginBottom: 4,
   },
   nextJourneySubtitle: {
