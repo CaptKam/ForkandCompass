@@ -131,7 +131,7 @@ export default function SearchScreen() {
                     <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={styles.resultThumb} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                     <View style={styles.resultInfo}>
                       <Text style={styles.resultTitle}>{country.flag} {country.name}</Text>
-                      <Text style={styles.resultSub} numberOfLines={1}>{country.tagline}</Text>
+                      <Text style={styles.resultSub} ellipsizeMode="tail" numberOfLines={1}>{country.tagline}</Text>
                     </View>
                     <Ionicons name="chevron-forward" size={16} color={Colors.light.outline} />
                   </Pressable>
@@ -147,7 +147,7 @@ export default function SearchScreen() {
                   <Image source={{ uri: recipe.image }} style={styles.resultThumb} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   <View style={styles.resultInfo}>
                     <Text style={styles.resultTitle}>{recipe.name}</Text>
-                    <Text style={styles.resultSub} numberOfLines={1}>
+                    <Text style={styles.resultSub} ellipsizeMode="tail" numberOfLines={1}>
                       {recipe.countryFlag} {recipe.countryName} · {recipe.category} · {recipe.time}
                     </Text>
                   </View>
@@ -212,7 +212,7 @@ export default function SearchScreen() {
                     />
                     <Text style={styles.countryFlag}>{country.flag}</Text>
                   </View>
-                  <Text style={styles.countryLabel} numberOfLines={1}>{country.name}</Text>
+                  <Text style={styles.countryLabel} ellipsizeMode="tail" numberOfLines={1}>{country.name}</Text>
                   <Text style={styles.countryCount}>{country.recipes.length} recipes</Text>
                 </Pressable>
               ))}

@@ -16,6 +16,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
+import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { COUNTRIES, getAllRecipes, getCountryLocations, LANDMARK_IMAGES, type Country, type Recipe } from "@/constants/data";
 import { PARTNER_CONFIG, PARTNER_LIST } from "@/constants/partners";
 import { useApp, type CookingLevel, type AppearanceMode, type MeasurementSystem, type TemperatureUnit } from "@/contexts/AppContext";
@@ -114,7 +115,7 @@ export default function ProfileScreen() {
     <View style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 120 }}
+        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
         {/* Profile Hero */}
         <View style={[styles.heroWrap, { paddingTop: Platform.OS === "web" ? 0 : insets.top }]}>

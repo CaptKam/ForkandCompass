@@ -37,6 +37,8 @@ const EDITORIAL_BLURBS: Record<string, string> = {
   mexico: "Feel the pulse of Oaxaca. Smoky mole, fresh guacamole, and flavors that trace back to the Aztecs.",
   india: "Discover the fire and soul of Delhi\u2019s kitchens. Butter chicken, chai, and spices that awaken every sense.",
   thailand: "Drift through Bangkok\u2019s glowing streets. Pad Thai, Tom Yum, and the perfect balance of sweet, sour, and heat.",
+  spain: "From Barcelona\u2019s tapas bars to San Sebasti\u00e1n\u2019s Michelin kitchens \u2014 where every meal is a celebration of life.",
+  france: "Enter the brasseries of Paris. Butter, wine, and the art of the long, unhurried lunch.",
 };
 
 function getTonightLabel(): string {
@@ -150,6 +152,74 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
         { country: "France", description: "The Art of the Brasserie", image: ONBOARDING_IMAGES.france || "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80&fit=crop" },
         { country: "Spain", description: "Tapas & Tradition", image: ONBOARDING_IMAGES.spain || "https://images.unsplash.com/photo-1515443961218-a51367888e4b?w=600&q=80&fit=crop" },
         { country: "Morocco", description: "The Warmth of Marrakech", image: ONBOARDING_IMAGES.morocco || "https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=600&q=80&fit=crop" },
+      ],
+    },
+    spain: {
+      quote: "\u201CIn Spain, eating is a political act, a social act, and an art form \u2014 it is never merely sustenance.\u201D",
+      quoteAttrib: "The Editorial Team",
+      etiquette: [
+        { icon: "time-outline", title: "Eat Late", description: "Lunch is at 2\u20134pm and dinner rarely before 9pm. Eating at 6pm marks you immediately as a tourist. Follow the Spanish clock." },
+        { icon: "restaurant-outline", title: "Tapas Culture", description: "Order small plates, eat standing at the bar, finish your drink, and move to the next bar. This is la ruta de tapas." },
+        { icon: "cafe-outline", title: "Post-Lunch Coffee", description: "A caf\u00e9 solo \u2014 a tiny, powerful espresso \u2014 always follows lunch. Ordering a milky coffee after midday marks you as a tourist." },
+      ],
+      spiceMarket: [
+        { name: "Piment\u00f3n de la Vera", description: "Smoked paprika from Extremadura \u2014 the defining flavour of Spain.", image: "https://images.unsplash.com/photo-1614735241165-6756e1df61ab?w=600&q=85&fit=crop" },
+        { name: "Saffron", description: "La Mancha saffron: the world\u2019s finest, used in paella.", image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=85&fit=crop" },
+        { name: "Guindilla", description: "Mild Basque pepper, pickled and served with pintxos.", image: "https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=600&q=85&fit=crop" },
+        { name: "Flor de Sal", description: "Hand-raked from Ibiza\u2019s salt flats. The finishing salt for everything.", image: "https://images.unsplash.com/photo-1599909631395-8aa4a4bcd0e7?w=600&q=85&fit=crop" },
+      ],
+      heritageItems: [
+        { name: "Jam\u00f3n Ib\u00e9rico", description: "Black-footed pigs, acorn-fed and air-cured for up to 4 years. Not just cured ham \u2014 a cultural institution.", badge: "Bellota Grade", image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=85&fit=crop" },
+        { name: "Manchego", description: "Aged sheep\u2019s milk cheese from La Mancha. Nutty, firm, and inseparable from a proper Spanish table.", badge: "DOP Cheese", image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=600&q=85&fit=crop" },
+      ],
+      reviews: [
+        { text: "\u201CThe pulpo a la gallega recipe was the most faithful recreation I\u2019ve attempted. The triple-dip technique for the octopus is genius \u2014 perfect texture every time.\u201D", author: "Miguel A.", city: "Barcelona" },
+        { text: "\u201CThe shrimp croquettes are now my dinner party staple. The b\u00e9chamel technique took two tries but the result is genuinely Michelin-worthy.\u201D", author: "Claire F.", city: "Edinburgh", initials: "CF" },
+      ],
+      streetFood: [
+        { name: "Churros con Chocolate", description: "Fried dough with thick dark chocolate", image: "https://images.unsplash.com/photo-1624371414361-e670edf42e7f?w=600&q=85&fit=crop" },
+        { name: "Pintxos", description: "Basque bread-topped bites of every kind", image: "https://images.unsplash.com/photo-1585325701956-60dd9c8553bc?w=600&q=85&fit=crop" },
+        { name: "Bocadillo de Calamares", description: "Fried squid ring sandwich, Madrid-born", image: "https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=85&fit=crop" },
+      ],
+      relatedLabel: "Related European Stories",
+      relatedStories: [
+        { country: "France", description: "The Art of the Brasserie", image: ONBOARDING_IMAGES.france || "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=900&q=85&fit=crop" },
+        { country: "Italy", description: "Pasta, Olive Oil & Soul", image: ONBOARDING_IMAGES.italy || imgAlt },
+        { country: "Morocco", description: "The Moorish Connection", image: ONBOARDING_IMAGES.morocco || imgAlt },
+      ],
+    },
+    france: {
+      quote: "\u201CTo eat in France is to understand that pleasure is not a luxury \u2014 it is a right, a discipline, and a way of life.\u201D",
+      quoteAttrib: "The Editorial Team",
+      etiquette: [
+        { icon: "time-outline", title: "The Unhurried Lunch", description: "Lunch in France is sacred: two courses minimum, no phones on the table, and never a rushed bill." },
+        { icon: "wine-outline", title: "Wine is Culture", description: "Wine accompanies every meal. Red with meat, white with fish, ros\u00e9 in the south. It is chosen to complement, never to impress." },
+        { icon: "restaurant-outline", title: "Bread Comes First", description: "Bread arrives before the meal and is placed directly on the table \u2014 not on a plate. Use it to clean your sauce at the end of every course." },
+      ],
+      spiceMarket: [
+        { name: "Herbes de Provence", description: "Thyme, rosemary, savory, and lavender. Summer in a jar.", image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&q=85&fit=crop" },
+        { name: "Tarragon", description: "The king of French herbs \u2014 anise-forward and irreplaceable in b\u00e9arnaise.", image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=600&q=85&fit=crop" },
+        { name: "Quatre \u00c9pices", description: "Pepper, clove, nutmeg, ginger \u2014 the spice blend of the French charcuterie tradition.", image: "https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=600&q=85&fit=crop" },
+        { name: "Fleur de Sel", description: "Hand-raked from Gu\u00e9rande. The French chef\u2019s finishing ritual.", image: "https://images.unsplash.com/photo-1599909631395-8aa4a4bcd0e7?w=600&q=85&fit=crop" },
+      ],
+      heritageItems: [
+        { name: "Confit de Canard", description: "Duck legs slow-cooked in their own fat for 3 hours, then crisped in a searing hot pan. Gascony\u2019s gift to the world.", badge: "Gascony Classic", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=85&fit=crop" },
+        { name: "Dijon Mustard", description: "Sharp, smooth, irreplaceable. Made with brown mustard seeds and verjuice \u2014 the condiment that defines French cooking.", badge: "Burgundy Gold", image: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=85&fit=crop" },
+      ],
+      reviews: [
+        { text: "\u201CThe duck confit recipe is the best thing I have ever cooked. Two days of patience and the result was indistinguishable from what I ate in Bordeaux.\u201D", author: "Oliver B.", city: "London" },
+        { text: "\u201CThe strawberry tartlets gave me my first proper cr\u00e8me p\u00e2tissi\u00e8re. Following every step produced something genuinely beautiful.\u201D", author: "Isabelle M.", city: "Montreal", initials: "IM" },
+      ],
+      streetFood: [
+        { name: "Cr\u00eapes", description: "Buckwheat galettes from Brittany", image: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=600&q=85&fit=crop" },
+        { name: "Pain au Chocolat", description: "Laminated pastry with dark chocolate baton", image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=85&fit=crop" },
+        { name: "Merguez Sandwich", description: "Spiced lamb sausage in a baguette", image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=85&fit=crop" },
+      ],
+      relatedLabel: "Related European Stories",
+      relatedStories: [
+        { country: "Italy", description: "Pasta, Olive Oil & Soul", image: ONBOARDING_IMAGES.italy || imgAlt },
+        { country: "Spain", description: "Tapas & Tradition", image: ONBOARDING_IMAGES.spain || "https://images.unsplash.com/photo-1543785734-4b6e564642f8?w=900&q=85&fit=crop" },
+        { country: "Morocco", description: "Spice Routes & Tagines", image: ONBOARDING_IMAGES.morocco || imgAlt },
       ],
     },
   };
@@ -309,6 +379,7 @@ function LocationCard({ loc, countryId, haptic: doHaptic, reducedMotion }: {
             source={{ uri: loc.image }}
             style={StyleSheet.absoluteFill}
             contentFit="cover"
+            placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
             onError={() => setImgFailed(true)}
             onLoad={() => setImgLoaded(true)}
             transition={reducedMotion ? 0 : 400}
@@ -521,7 +592,7 @@ export default function DiscoverScreen() {
                       <Text style={styles.destFlagEmoji}>{country.flag}</Text>
                     </View>
                   </View>
-                  <Text style={[styles.destLabel, isActive && styles.destLabelActive]} numberOfLines={1}>
+                  <Text style={[styles.destLabel, isActive && styles.destLabelActive]} ellipsizeMode="tail" numberOfLines={1}>
                     {country.name}
                   </Text>
                 </Pressable>
@@ -701,14 +772,13 @@ export default function DiscoverScreen() {
                   <Text style={styles.locSub}>{loc.subtitle}</Text>
                 </View>
               </Pressable>
-              <LocationCard key={idx} loc={loc} countryId={activeCountry.id} haptic={haptic} reducedMotion={reducedMotion} />
             ))}
           </ScrollView>
         </View>
 
-        {/* ── Tonight's Tasting Menu ────────────────────────────────── */}
+        {/* ── The Tasting Menu ──────────────────────────────────────── */}
         <View style={[styles.section, styles.tastingBg]}>
-          <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>Tonight's Tasting Menu</Text>
+          <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>The Tasting Menu</Text>
           <View style={styles.tastingList}>
             {pickTastingMenu(activeCountry.recipes).map((recipe, idx) => (
               <RecipeContextMenu key={recipe.id} recipe={recipe}>
@@ -749,16 +819,14 @@ export default function DiscoverScreen() {
           </View>
           <View style={styles.spiceGrid}>
             {editorial.spiceMarket.map((spice, idx) => (
-              <View key={idx} style={styles.spiceItem}>
-                <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
               <Pressable
                 key={idx}
                 onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
                 style={({ pressed }) => [styles.spiceItem, pressed && { opacity: 0.8 }]}
               >
-                <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" />
+                <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                 <Text style={styles.spiceName}>{spice.name}</Text>
-                <Text style={styles.spiceDesc} numberOfLines={2} ellipsizeMode="tail">{spice.description}</Text>
+                <Text style={styles.spiceDesc} ellipsizeMode="tail" numberOfLines={2}>{spice.description}</Text>
               </Pressable>
             ))}
           </View>
@@ -804,17 +872,15 @@ export default function DiscoverScreen() {
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.heritageScroll}>
             {editorial.heritageItems.map((item, idx) => (
-              <View key={idx} style={styles.heritageCard}>
-                <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
               <Pressable
                 key={idx}
                 onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
                 style={({ pressed }) => [styles.heritageCard, pressed && { opacity: 0.88 }]}
               >
-                <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" />
+                <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                 <View style={styles.heritageBody}>
                   <Text style={styles.heritageName}>{item.name}</Text>
-                  <Text style={styles.heritageDesc} numberOfLines={4} ellipsizeMode="tail">{item.description}</Text>
+                  <Text style={styles.heritageDesc} ellipsizeMode="tail" numberOfLines={4}>{item.description}</Text>
                   <View style={styles.heritageBadgeRow}>
                     <View style={styles.heritageDot} />
                     <Text style={styles.heritageBadge}>{item.badge}</Text>
@@ -849,7 +915,7 @@ export default function DiscoverScreen() {
                       <Ionicons name="person" size={11} color={Colors.light.onSurfaceVariant} />
                     )}
                   </View>
-                  <Text style={styles.reviewAuthor}>{review.author} \u2014 {review.city}</Text>
+                  <Text style={styles.reviewAuthor}>{review.author} {"\u2014"} {review.city}</Text>
                 </View>
               </View>
             ))}
@@ -875,7 +941,7 @@ export default function DiscoverScreen() {
                 <Text style={styles.streetCountryName}>{activeCountry.name}</Text>
               </View>
             </View>
-            <Text style={styles.streetSub}>The vibrant flavors of the {activeCountry.region}</Text>
+            <Text style={styles.streetSub}>The vibrant flavors of {activeCountry.region}</Text>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.streetScroll}>
             {editorial.streetFood.map((food, idx) => {
@@ -943,11 +1009,8 @@ export default function DiscoverScreen() {
             {editorial.relatedStories.map((story, idx) => (
               <View key={idx} style={styles.relatedCard}>
                 <Image source={{ uri: story.image }} style={styles.relatedImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
-                <Text style={styles.relatedCountry}>{story.country}</Text>
-                <Text style={styles.relatedDesc}>{story.description}</Text>
-                <Image source={{ uri: story.image }} style={styles.relatedImg} contentFit="cover" />
-                <Text style={styles.relatedCountry} numberOfLines={1} ellipsizeMode="tail">{story.country}</Text>
-                <Text style={styles.relatedDesc} numberOfLines={2} ellipsizeMode="tail">{story.description}</Text>
+                <Text style={styles.relatedCountry} ellipsizeMode="tail" numberOfLines={1}>{story.country}</Text>
+                <Text style={styles.relatedDesc} ellipsizeMode="tail" numberOfLines={2}>{story.description}</Text>
               </View>
             ))}
           </ScrollView>
