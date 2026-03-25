@@ -396,8 +396,7 @@ export default function DiscoverScreen() {
               <Pressable
                 key={idx}
                 onPress={() => { haptic(); setActiveIndex(idx); scrollHeroTo(idx); }}
-                hitSlop={18}
-                style={({ pressed }) => [pressed && { opacity: 0.6 }]}
+                style={({ pressed }) => [{ minWidth: 20, minHeight: 44, alignItems: "center", justifyContent: "center" }, pressed && { opacity: 0.6 }]}
               >
                 <View style={[styles.heroDot, idx === activeIndex && styles.heroDotActive]} />
               </Pressable>

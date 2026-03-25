@@ -461,7 +461,7 @@ export default function CookModeScreen() {
                 setShowPrepWarning(false);
                 router.back();
               }}
-              hitSlop={8}
+              style={{ minHeight: 44, paddingVertical: 12, justifyContent: "center", alignItems: "center" }}
             >
               <Text style={styles.prepWarningBackText}>← Go back</Text>
             </Pressable>

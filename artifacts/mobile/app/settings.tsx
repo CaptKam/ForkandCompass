@@ -245,7 +245,7 @@ export default function ProfileScreen() {
                     <Text style={styles.savedRecipeName} numberOfLines={1}>{recipe.name}</Text>
                     <Text style={styles.savedRecipeCuisine}>{recipe.category}</Text>
                   </View>
-                  <Pressable onPress={() => { haptic(); toggleSaved(recipe.id); }} hitSlop={8} style={{ flexShrink: 0, marginLeft: 8 }}>
+                  <Pressable onPress={() => { haptic(); toggleSaved(recipe.id); }} hitSlop={12} style={{ flexShrink: 0, marginLeft: 8, minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" }}>
                     <Ionicons name="bookmark" size={20} color={Colors.light.primary} />
                   </Pressable>
                 </Pressable>

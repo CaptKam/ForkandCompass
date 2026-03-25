@@ -96,7 +96,7 @@ export default function SearchScreen() {
             onSubmitEditing={() => handleSubmitSearch(query)}
           />
           {query.length > 0 && (
-            <Pressable onPress={() => setQuery("")} hitSlop={8}>
+            <Pressable onPress={() => setQuery("")} style={{ minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" }}>
               <Ionicons name="close-circle" size={20} color={Colors.light.outline} />
             </Pressable>
           )}
@@ -168,7 +168,7 @@ export default function SearchScreen() {
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
                 <Text style={styles.sectionTitle}>Recent searches</Text>
-                <Pressable onPress={clearRecents} hitSlop={8}>
+                <Pressable onPress={clearRecents} style={{ minHeight: 44, paddingVertical: 10, justifyContent: "center" }}>
                   <Text style={styles.clearAll}>Clear all</Text>
                 </Pressable>
               </View>

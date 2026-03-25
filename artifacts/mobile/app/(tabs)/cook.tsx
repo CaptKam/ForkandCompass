@@ -196,7 +196,7 @@ export default function CookScreen() {
               >
                 <Text style={styles.continueBtnText}>Continue Cooking →</Text>
               </Pressable>
-              <Pressable onPress={handleAbandonSession} hitSlop={8}>
+              <Pressable onPress={handleAbandonSession} style={{ minHeight: 44, paddingVertical: 12, justifyContent: "center", alignItems: "center" }}>
                 <Text style={styles.abandonText}>Abandon this session</Text>
               </Pressable>
             </View>
@@ -695,7 +695,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    paddingVertical: 4,
+    paddingVertical: 14,
   },
   techniquesHeaderText: {
     fontFamily: "Inter_500Medium",
