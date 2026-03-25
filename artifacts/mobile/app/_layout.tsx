@@ -27,11 +27,12 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 SplashScreen.preventAutoHideAsync();
 
-// Cap Dynamic Type scaling at 1.5x to support accessibility without breaking layouts
-(Text as any).defaultProps = {
-  ...(Text as any).defaultProps,
-  maxFontSizeMultiplier: 1.5,
-};
+// Global Dynamic Type cap — prevents text from scaling beyond 1.5x system size.
+// Per-component maxFontSizeMultiplier props will override this where needed.
+// Note: third-party components rendering their own <Text> internally won't be
+// covered by defaultProps — only native Text usage within this app.
+Text.defaultProps = Text.defaultProps ?? {};
+Text.defaultProps.maxFontSizeMultiplier = 1.5;
 
 const queryClient = new QueryClient();
 
