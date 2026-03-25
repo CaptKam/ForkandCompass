@@ -379,6 +379,7 @@ function LocationCard({ loc, countryId, haptic: doHaptic, reducedMotion }: {
             source={{ uri: loc.image }}
             style={StyleSheet.absoluteFill}
             contentFit="cover"
+            placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
             onError={() => setImgFailed(true)}
             onLoad={() => setImgLoaded(true)}
             transition={reducedMotion ? 0 : 400}
@@ -1008,11 +1009,8 @@ export default function DiscoverScreen() {
             {editorial.relatedStories.map((story, idx) => (
               <View key={idx} style={styles.relatedCard}>
                 <Image source={{ uri: story.image }} style={styles.relatedImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
-                <Text style={styles.relatedCountry}>{story.country}</Text>
-                <Text style={styles.relatedDesc}>{story.description}</Text>
-                <Image source={{ uri: story.image }} style={styles.relatedImg} contentFit="cover" />
-                <Text style={styles.relatedCountry} numberOfLines={1} ellipsizeMode="tail">{story.country}</Text>
-                <Text style={styles.relatedDesc} numberOfLines={2} ellipsizeMode="tail">{story.description}</Text>
+                <Text style={styles.relatedCountry} ellipsizeMode="tail" numberOfLines={1}>{story.country}</Text>
+                <Text style={styles.relatedDesc} ellipsizeMode="tail" numberOfLines={2}>{story.description}</Text>
               </View>
             ))}
           </ScrollView>
