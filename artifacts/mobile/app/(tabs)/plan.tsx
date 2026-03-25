@@ -608,38 +608,40 @@ export default function PlanScreen() {
 function TonightCard({ day, servings }: { day: ItineraryDay; servings: number }) {
   const country = getCountryById(day.countryId);
   const recipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
-  const mainRecipe = getRecipeById(recipeIds[0]);
   const recipes = recipeIds.map(getRecipeById).filter(Boolean);
+  // Use the main course (last in eating order) for hero image; fall back to first
+  const heroRecipe = recipes.find((r) => r?.category === "Main Course") || recipes[0];
   const haptic = () => { if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); };
 
-  if (!country || !mainRecipe) return null;
+  if (!country || !heroRecipe) return null;
 
-  const title = recipes.length > 1 ? recipes.map((r) => r?.name).join(" + ") : mainRecipe.name;
-  const region = mainRecipe.region || country.name;
+  // Title shows recipes in eating order (appetizer + main)
+  const title = recipes.length > 1 ? recipes.map((r) => r?.name).join(" + ") : heroRecipe.name;
+  const region = heroRecipe.region || country.name;
 
   return (
     <View style={styles.tonightCard}>
       {/* Hero image — tapping goes to Recipe Detail for reading */}
-      <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } }); }}>
+      <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: heroRecipe.id } }); }}>
         <View style={styles.tonightImageWrap}>
-          <Image source={{ uri: mainRecipe.image }} style={styles.tonightImage} contentFit="cover" />
+          <Image source={{ uri: heroRecipe.image }} style={styles.tonightImage} contentFit="cover" />
           <LinearGradient colors={["transparent", "rgba(0,0,0,0.55)"]} style={StyleSheet.absoluteFill} />
         </View>
       </Pressable>
 
       {/* Body */}
       <View style={styles.tonightBody}>
-        <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } }); }}>
+        <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: heroRecipe.id } }); }}>
           <Text style={styles.tonightTitle} numberOfLines={2}>{title}</Text>
         </Pressable>
         <Text style={styles.tonightSubtitle}>
-          {region}, {country.name} · {mainRecipe.time}
+          {region}, {country.name} · {heroRecipe.time}
         </Text>
         <Text style={styles.tonightServing}>Serving {servings}</Text>
 
         {/* Start Cooking → goes DIRECTLY to Cook Mode */}
         <Pressable
-          onPress={() => { haptic(); router.push({ pathname: "/cook-mode", params: { recipeId: mainRecipe.id } }); }}
+          onPress={() => { haptic(); router.push({ pathname: "/cook-mode", params: { recipeId: heroRecipe.id } }); }}
           style={({ pressed }) => [styles.startCookingBtn, pressed && { opacity: 0.88 }]}
         >
           <Text style={styles.startCookingText}>Start Cooking →</Text>

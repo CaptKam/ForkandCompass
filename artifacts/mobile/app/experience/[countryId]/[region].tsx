@@ -21,6 +21,11 @@ import { useApp } from "@/contexts/AppContext";
 import { useCountry } from "@/hooks/useCountry";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
+const COURSE_ORDER: Record<string, number> = {
+  "Appetizer": 0, "Soup": 1, "Salad": 2, "Side Dish": 3, "Baked Good": 4,
+  "Lunch": 5, "Brunch": 5, "Main Course": 6, "Dessert": 7, "Beverage": 8,
+  "Condiment": 9, "Base": 9, "Preserve": 9,
+};
 const COURSE_LABELS = ["Start Here", "The Main Event", "Course III", "Course IV", "Course V", "Course VI"];
 const ROMAN = ["I", "II", "III", "IV", "V", "VI"];
 
@@ -54,7 +59,9 @@ export default function ExperienceScreen() {
     );
   }
 
-  const selectedRecipes = country.recipes.filter((r) => selectedIds.has(r.id));
+  const selectedRecipes = country.recipes
+    .filter((r) => selectedIds.has(r.id))
+    .sort((a, b) => (COURSE_ORDER[a.category] ?? 6) - (COURSE_ORDER[b.category] ?? 6));
   const totalIngredients = selectedRecipes.reduce((sum, r) => sum + (r.ingredients?.length ?? 0), 0);
   const regionHero = getCountryLocations(country).find((l) => l.name === regionName);
 

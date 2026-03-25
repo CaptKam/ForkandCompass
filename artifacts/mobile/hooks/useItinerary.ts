@@ -1,4 +1,4 @@
-import { COUNTRIES, type Country, type Recipe } from "@/constants/data";
+import { COUNTRIES, getRecipeById, type Country, type Recipe } from "@/constants/data";
 
 export interface ItineraryProfile {
   cookingDays: 3 | 5 | 7;
@@ -58,6 +58,38 @@ function filterByTime(recipes: Recipe[], preference: "quick" | "moderate" | "rel
   return filtered.length > 0 ? filtered : recipes; // fallback to unfiltered
 }
 
+/**
+ * Canonical course eating order used to sort recipes for display.
+ * Appetizers / starters come first, then main courses.
+ * Categories not listed here sort to the end.
+ */
+const COURSE_ORDER: Record<string, number> = {
+  appetizer: 0,
+  soup: 1,
+  salad: 2,
+  "side dish": 3,
+  "baked good": 4,
+  lunch: 5,
+  brunch: 5,
+  "main course": 6,
+  dessert: 7,
+  beverage: 8,
+  condiment: 9,
+  base: 9,
+  preserve: 9,
+};
+
+/** Sort recipe IDs so courses appear in eating order (appetizer → main → dessert) */
+function sortByEatingOrder(ids: string[]): string[] {
+  return [...ids].sort((a, b) => {
+    const ra = getRecipeById(a);
+    const rb = getRecipeById(b);
+    const oa = COURSE_ORDER[ra?.category.toLowerCase() ?? ""] ?? 6;
+    const ob = COURSE_ORDER[rb?.category.toLowerCase() ?? ""] ?? 6;
+    return oa - ob;
+  });
+}
+
 function pickRecipesForDay(
   country: Country,
   preference: "quick" | "moderate" | "relaxed"
@@ -65,7 +97,6 @@ function pickRecipesForDay(
   const allRecipes = country.recipes;
   const filtered = filterByTime(allRecipes, preference);
 
-  // Categorize: find main, side, appetizer, dessert, drink
   const findByCategory = (recipes: Recipe[], keywords: string[]): Recipe | undefined => {
     return recipes.find((r) => {
       const cat = r.category.toLowerCase();
@@ -73,17 +104,23 @@ function pickRecipesForDay(
     });
   };
 
+  // Pick a main course
   const main = findByCategory(filtered, ["main", "pasta", "curry", "stew", "pork", "chicken", "beef", "fish", "rice"])
     || filtered[0];
-  const side = findByCategory(
-    filtered.filter((r) => r.id !== main?.id),
-    ["side", "salad", "soup", "snack", "bread"]
-  ) || filtered.find((r) => r.id !== main?.id) || filtered[0];
 
-  const quickIds = [main?.id, side?.id].filter(Boolean) as string[];
+  // Pick an appetizer / starter (appetizer > soup > salad > side dish)
+  const remaining = filtered.filter((r) => r.id !== main?.id);
+  const appetizer = findByCategory(remaining, ["appetizer"])
+    || findByCategory(remaining, ["soup"])
+    || findByCategory(remaining, ["salad"])
+    || findByCategory(remaining, ["side"])
+    || remaining[0];
 
-  // Full: all recipes from this country
-  const fullIds = allRecipes.map((r) => r.id);
+  // Quick: appetizer first, then main (eating order)
+  const quickIds = [appetizer?.id, main?.id].filter(Boolean) as string[];
+
+  // Full: all recipes from this country, sorted by eating order
+  const fullIds = sortByEatingOrder(allRecipes.map((r) => r.id));
 
   return { quickRecipeIds: quickIds, fullRecipeIds: fullIds };
 }
