@@ -218,20 +218,6 @@ export default function PlanScreen() {
     }
   };
 
-  const handleGetAllIngredients = () => {
-    haptic();
-    let count = 0;
-    for (const day of currentItinerary) {
-      if (day.status !== "active") continue;
-      const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
-      for (const rid of ids) {
-        const recipe = getRecipeById(rid);
-        if (recipe) { addToGrocery(recipe); count += recipe.ingredients.length; }
-      }
-    }
-    showToast(`Added ${count} ingredients`);
-  };
-
   // ─── Grocery actions ─────────────────────────────────────────────────────────
 
   const handleClearCompleted = () => {
@@ -381,14 +367,6 @@ export default function PlanScreen() {
                 </View>
               </View>
             )}
-
-            {/* Get All Ingredients */}
-            <Pressable
-              onPress={handleGetAllIngredients}
-              style={({ pressed }) => [styles.getAllIngredientsBtn, pressed && { opacity: 0.88 }]}
-            >
-              <Text style={styles.getAllIngredientsText}>Get All Ingredients</Text>
-            </Pressable>
 
             {/* Generate new week */}
             <Pressable
@@ -1338,21 +1316,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: TERRACOTTA,
     marginTop: 2,
-  },
-
-  // Get All Ingredients
-  getAllIngredientsBtn: {
-    height: 52,
-    backgroundColor: TERRACOTTA,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 16,
-  },
-  getAllIngredientsText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: CREAM,
   },
 
   // Generate new week
