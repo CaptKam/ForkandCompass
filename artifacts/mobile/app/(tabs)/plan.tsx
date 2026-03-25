@@ -186,8 +186,6 @@ export default function PlanScreen() {
     return Object.values(groups).sort((a, b) => order.indexOf(a.label) - order.indexOf(b.label));
   }, [activeGroceryItems]);
 
-  const [pantryExpanded, setPantryExpanded] = useState(false);
-
   const pantryNeedIds = useMemo(() => {
     const ids = new Set<string>();
     for (const staple of pantryStaples) {
@@ -492,74 +490,36 @@ export default function PlanScreen() {
                 <View>
                   {/* My Pantry */}
                   <View style={styles.pantrySection}>
-                    <Pressable
-                      onPress={() => { haptic(); setPantryExpanded((v) => !v); }}
-                      style={styles.pantryHeader}
+                    <Text style={styles.pantryLabel}>My Pantry</Text>
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      contentContainerStyle={styles.pantryScroll}
                     >
-                      <Ionicons
-                        name={pantryExpanded ? "chevron-down" : "chevron-forward"}
-                        size={16}
-                        color={TEXT_PRIMARY}
-                      />
-                      <Text style={styles.pantryHeaderText}>My Pantry</Text>
-                      {pantryNeedIds.size > 0 && (
-                        <View style={styles.pantryNeedBadge}>
-                          <Text style={styles.pantryNeedBadgeText}>{pantryNeedIds.size} needed</Text>
-                        </View>
-                      )}
-                      <Text style={styles.pantryHeaderCount}>
-                        {pantryStaples.filter((s) => s.inKitchen).length} items
-                      </Text>
-                    </Pressable>
-                    <Text style={styles.pantryHint}>
-                      Tap to add to grocery list when running low
-                    </Text>
-                    {pantryExpanded && (
-                      <View style={styles.pantryGrid}>
-                        {pantryStaples.filter((s) => s.inKitchen).map((staple) => {
-                          const needsMore = pantryNeedIds.has(staple.id);
-                          return (
-                            <Pressable
-                              key={staple.id}
-                              onPress={() => handlePantryTap(staple)}
-                              style={({ pressed }) => [
-                                styles.pantryChip,
-                                needsMore ? styles.pantryChipNeed : styles.pantryChipStocked,
-                                pressed && { opacity: 0.75 },
-                              ]}
-                            >
-                              <Ionicons
-                                name={needsMore ? "cart" : "checkmark-circle"}
-                                size={14}
-                                color={needsMore ? "#C25400" : "#FFFFFF"}
-                              />
-                              <Text
-                                style={[
-                                  styles.pantryChipText,
-                                  needsMore ? styles.pantryChipTextNeed : styles.pantryChipTextStocked,
-                                ]}
-                              >
-                                {staple.ingredient}
-                              </Text>
-                            </Pressable>
-                          );
-                        })}
-                        {pantryStaples.filter((s) => !s.inKitchen).map((staple) => (
+                      {pantryStaples.filter((s) => s.inKitchen).map((staple) => {
+                        const needsMore = pantryNeedIds.has(staple.id);
+                        return (
                           <Pressable
                             key={staple.id}
                             onPress={() => handlePantryTap(staple)}
-                            onLongPress={() => { haptic(); togglePantryStaple(staple.id); }}
                             style={({ pressed }) => [
-                              styles.pantryChip,
+                              styles.pantryPill,
+                              needsMore && styles.pantryPillNeed,
                               pressed && { opacity: 0.75 },
                             ]}
                           >
-                            <Ionicons name="add-circle-outline" size={14} color={TEXT_SECONDARY} />
-                            <Text style={styles.pantryChipText}>{staple.ingredient}</Text>
+                            <Text
+                              style={[
+                                styles.pantryPillText,
+                                needsMore && styles.pantryPillTextNeed,
+                              ]}
+                            >
+                              {staple.ingredient}
+                            </Text>
                           </Pressable>
-                        ))}
-                      </View>
-                    )}
+                        );
+                      })}
+                    </ScrollView>
                   </View>
                 </View>
               }
@@ -1516,84 +1476,38 @@ const styles = StyleSheet.create({
   // My Pantry
   pantrySection: {
     marginBottom: 14,
-  },
-  pantryHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingVertical: 8,
-  },
-  pantryHeaderText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
-    lineHeight: 20,
-    color: TEXT_PRIMARY,
-  },
-  pantryNeedBadge: {
-    backgroundColor: "#FEF0E6",
-    borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    marginLeft: 6,
-  },
-  pantryNeedBadgeText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 11,
-    lineHeight: 16,
-    color: "#C25400",
-  },
-  pantryHeaderCount: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    lineHeight: 18,
-    color: TEXT_SECONDARY,
-    marginLeft: "auto",
-  },
-  pantryHint: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    lineHeight: 16,
-    color: TEXT_SECONDARY,
-    opacity: 0.7,
-    marginBottom: 4,
-  },
-  pantryGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
     gap: 8,
-    marginTop: 8,
   },
-  pantryChip: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 12,
+  pantryLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    lineHeight: 20,
+    color: TEXT_SECONDARY,
+    letterSpacing: 0.3,
+  },
+  pantryScroll: {
+    gap: 8,
+    paddingRight: 4,
+  },
+  pantryPill: {
+    paddingHorizontal: 16,
     paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: BORDER,
-    backgroundColor: "rgba(254,249,243,0.6)",
-  },
-  pantryChipStocked: {
+    borderRadius: 22,
     backgroundColor: TERRACOTTA,
+  },
+  pantryPillNeed: {
+    backgroundColor: "#FEF0E6",
+    borderWidth: 1.5,
     borderColor: TERRACOTTA,
   },
-  pantryChipNeed: {
-    backgroundColor: "#FEF0E6",
-    borderColor: "#C25400",
-    borderStyle: "dashed",
-  },
-  pantryChipText: {
+  pantryPillText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    lineHeight: 18,
-    color: TEXT_SECONDARY,
-  },
-  pantryChipTextStocked: {
+    fontSize: 14,
+    lineHeight: 20,
     color: "#FFFFFF",
   },
-  pantryChipTextNeed: {
-    color: "#C25400",
+  pantryPillTextNeed: {
+    color: TERRACOTTA,
   },
 
   // In your kitchen
