@@ -741,6 +741,13 @@ export default function DiscoverScreen() {
               </Pressable>
             ))}
           </View>
+          <Pressable
+            onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+            style={({ pressed }) => [styles.sectionCta, pressed && { opacity: 0.7 }]}
+          >
+            <Text style={styles.sectionCtaText}>View all {activeCountry.name} spices</Text>
+            <Ionicons name="arrow-forward" size={14} color={Colors.light.primary} />
+          </Pressable>
         </View>
 
         {/* ── Cultural Etiquette ────────────────────────────────────── */}
