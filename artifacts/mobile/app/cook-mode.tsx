@@ -955,6 +955,7 @@ const styles = StyleSheet.create({
   },
   phasePillTextFinish: {
     color: Colors.light.success,
+  },
   ingredientAmountBold: {
     fontFamily: "Inter_600SemiBold",
     color: Colors.light.onSurface,
@@ -1242,6 +1243,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 12,
     elevation: 4,
+  },
   footerTimerBtnDone: {
     backgroundColor: "#2D7A4F",
   },

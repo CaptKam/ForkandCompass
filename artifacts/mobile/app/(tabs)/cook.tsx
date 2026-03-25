@@ -481,6 +481,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(154,65,0,0.3)",
     padding: 20,
     gap: 12,
+  },
   sectionLabelEditorial: {
     fontFamily: "NotoSerif_600SemiBold",
     fontStyle: "italic",
@@ -864,7 +865,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: "hidden",
     position: "relative",
-    backgroundColor: Colors.light.surfaceWarmAlt,
     backgroundColor: Colors.light.surfaceContainerHigh,
   },
   techniqueThumbnail: {
