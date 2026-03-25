@@ -117,7 +117,23 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
 
 - **Design System**: Primary terracotta #9A4100, surface #FEF9F3, Noto Serif for headlines, Inter for body text, no-line border rule (sections defined by color shifts, not borders)
 - **Navigation**: Welcome → Onboarding (country picker) → Tab bar (Discover, Journeys, Saved, Profile) with NativeTabs (liquid glass) on iOS 26+, classic BlurView tabs fallback
-- **Discover tab (editorial homepage)**: Scrollable editorial landing page with hero section, "Curator's Method" 3-step concept, featured destination journal cards (horizontal scroll), testimonial quote, CTA, and footer
+- **Discover tab (editorial homepage)**: Full-page scrollable editorial experience. Sections in order:
+    1. **Hero Carousel** — paginated country slides with flag, name, editorial blurb, "Let's Go" CTA, bookmark toggle, pagination dots
+    2. **Explore Destinations** — horizontal circle-avatar strip for all countries; active country gets terracotta ring + syncs hero
+    3. **Tonight's Plan** — if `currentItinerary` has today's date: recipe card with flag+country badge, Quick mode flash badge, "Start Cooking" → Cook Mode; empty state: dashed card with "Plan My Week" + "Surprise Me" buttons
+    4. **Recently Cooked** (conditional, `recentCookSessions.length > 0`) — horizontal 120×148 photo cards from cooking history with star-rating overlay badges; long-press context menu
+    5. **Cravings / Quick Picks** — dynamic cuisine chips computed from `cookingProfile.cuisinesExplored`; unexplored countries labelled "New:" with terracotta left-border; tapping navigates to country page
+    6. **Jump Back In** (conditional, `savedRecipeIds.length > 0`) — horizontal saved recipe cards with category + name; long-press context menu; "View All" → Saved tab
+    7. **Featured Locations** — horizontal location cards per active country; tap → region page
+    8. **Tonight's Tasting Menu** — balanced 3-course menu (starter/main/dessert) from active country; long-press context menu
+    9. **Editorial Highlight** — quote card with chat icon, italic serif quote, attribution
+    10. **The Spice Market** — 2×2 grid of spices/ingredients per active country
+    11. **Cultural Etiquette** — icon + title + description rows (3 items per country)
+    12. **Heritage Spices** — horizontal premium cards with image, name, description, badge
+    13. **The Cook's Ledger** — 5-star header + editorial reviews with avatar/initials
+    14. **Must-Try Street Food** — horizontal cards with country flag+name badge in header; cards wrapped in long-press context menu matching recipes by name; tap → recipe detail
+    15. **Seasonal Picks / Editorial** — themed editorial card with seasonal badge, headline, body copy, "Read the Collection" CTA
+    16. **Related Stories** — horizontal cards linking to other countries' stories
 - **Stack screens**: onboarding, country/[id], recipe/[id], cook-mode (modal)
 - **State**: AsyncStorage for saved recipes, grocery list, welcome-seen, selected countries, onboarding-completed via AppContext
 - **Data**: 97 recipes across 8 countries sourced from recipe-api.com (Italy: 16, Japan: 16, Morocco: 10, Mexico: 13, India: 14, Thailand: 12, Spain: 8, France: 8), stored in constants/data.ts + PostgreSQL DB. Covers diverse categories: appetizers, desserts, beverages, salads, soups, breakfast, condiments, and main courses. AI-generated food photography for each recipe served from `/api/images/recipes/`
