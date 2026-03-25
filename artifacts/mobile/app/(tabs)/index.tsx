@@ -37,12 +37,10 @@ const EDITORIAL_BLURBS: Record<string, string> = {
   thailand: "Drift through Bangkok\u2019s glowing streets. Pad Thai, Tom Yum, and the perfect balance of sweet, sour, and heat.",
 };
 
-const TASTING_COURSE_ORDER = ["Appetizer", "Side Dish", "Soup", "Salad", "Main Course", "Dinner", "Lunch", "Dessert", "Beverage", "Condiment"];
-
 function pickTastingMenu(recipes: Recipe[]): Recipe[] {
   // Try to pick one starter, one main, and one dessert/drink for a balanced menu
   const starter = recipes.find((r) => ["Appetizer", "Side Dish", "Salad", "Soup"].includes(r.category));
-  const main = recipes.find((r) => ["Main Course", "Dinner", "Lunch"].includes(r.category) && r !== starter);
+  const main = recipes.find((r) => ["Main Course", "Lunch"].includes(r.category) && r !== starter);
   const finish = recipes.find((r) => ["Dessert", "Beverage", "Baked Good"].includes(r.category) && r !== starter && r !== main);
   const picked = [starter, main, finish].filter(Boolean) as Recipe[];
   // Fill remaining slots from unused recipes
