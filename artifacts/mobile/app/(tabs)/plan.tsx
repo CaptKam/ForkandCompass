@@ -89,6 +89,7 @@ export default function PlanScreen() {
     unexcludeGroceryItem,
     quickAddStaple,
     pantryStaples,
+    togglePantryStaple,
     groceryPartner,
     setGroceryPartner,
     savedRecipeIds,
@@ -185,14 +186,7 @@ export default function PlanScreen() {
     return Object.values(groups).sort((a, b) => order.indexOf(a.label) - order.indexOf(b.label));
   }, [activeGroceryItems]);
 
-  const quickAddChips = useMemo(() => {
-    return pantryStaples.filter((s) => {
-      if (!s.inKitchen) return false;
-      return !activeGroceryItems.some((gi) =>
-        s.keywords.some((kw) => gi.name.toLowerCase().includes(kw.toLowerCase()))
-      );
-    });
-  }, [pantryStaples, activeGroceryItems]);
+  const [pantryExpanded, setPantryExpanded] = useState(false);
 
   // ─── Itinerary actions ──────────────────────────────────────────────────────
 
@@ -468,28 +462,52 @@ export default function PlanScreen() {
               ]}
               ListHeaderComponent={
                 <View>
-                  {/* Quick Add chips */}
-                  {quickAddChips.length > 0 && (
-                    <View style={styles.quickAddWrap}>
-                      <Text style={styles.quickAddLabel}>Quick add:</Text>
-                      <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.quickAddScroll}
-                      >
-                        {quickAddChips.map((staple) => (
+                  {/* My Pantry */}
+                  <View style={styles.pantrySection}>
+                    <Pressable
+                      onPress={() => { haptic(); setPantryExpanded((v) => !v); }}
+                      style={styles.pantryHeader}
+                    >
+                      <Ionicons
+                        name={pantryExpanded ? "chevron-down" : "chevron-forward"}
+                        size={16}
+                        color={TEXT_PRIMARY}
+                      />
+                      <Text style={styles.pantryHeaderText}>My Pantry</Text>
+                      <Text style={styles.pantryHeaderCount}>
+                        {pantryStaples.filter((s) => s.inKitchen).length} items
+                      </Text>
+                    </Pressable>
+                    {pantryExpanded && (
+                      <View style={styles.pantryGrid}>
+                        {pantryStaples.map((staple) => (
                           <Pressable
                             key={staple.id}
-                            onPress={() => { haptic(); quickAddStaple(staple); }}
-                            style={({ pressed }) => [styles.quickAddChip, pressed && { opacity: 0.75 }]}
+                            onPress={() => { haptic(); togglePantryStaple(staple.id); }}
+                            style={({ pressed }) => [
+                              styles.pantryChip,
+                              staple.inKitchen && styles.pantryChipActive,
+                              pressed && { opacity: 0.75 },
+                            ]}
                           >
-                            <Ionicons name="add" size={14} color={TERRACOTTA} />
-                            <Text style={styles.quickAddChipText}>{staple.ingredient}</Text>
+                            <Ionicons
+                              name={staple.inKitchen ? "checkmark-circle" : "add-circle-outline"}
+                              size={15}
+                              color={staple.inKitchen ? "#FFFFFF" : TERRACOTTA}
+                            />
+                            <Text
+                              style={[
+                                styles.pantryChipText,
+                                staple.inKitchen && styles.pantryChipTextActive,
+                              ]}
+                            >
+                              {staple.ingredient}
+                            </Text>
                           </Pressable>
                         ))}
-                      </ScrollView>
-                    </View>
-                  )}
+                      </View>
+                    )}
+                  </View>
                 </View>
               }
               renderItem={({ item: group }) => (
@@ -1442,38 +1460,58 @@ const styles = StyleSheet.create({
     gap: 8,
   },
 
-  // Quick Add
-  quickAddWrap: {
+  // My Pantry
+  pantrySection: {
     marginBottom: 14,
-    gap: 8,
   },
-  quickAddLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    lineHeight: 20,
-    color: TEXT_SECONDARY,
-    letterSpacing: 0.3,
-  },
-  quickAddScroll: {
-    gap: 8,
-    paddingRight: 4,
-  },
-  quickAddChip: {
+  pantryHeader: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 6,
+    paddingVertical: 8,
+  },
+  pantryHeaderText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    lineHeight: 20,
+    color: TEXT_PRIMARY,
+  },
+  pantryHeaderCount: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    lineHeight: 18,
+    color: TEXT_SECONDARY,
+    marginLeft: "auto",
+  },
+  pantryGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 8,
+    marginTop: 8,
+  },
+  pantryChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
     paddingHorizontal: 12,
-    paddingVertical: 14,
+    paddingVertical: 10,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: TERRACOTTA,
-    backgroundColor: "rgba(154,65,0,0.05)",
+    borderColor: BORDER,
+    backgroundColor: "rgba(254,249,243,0.6)",
   },
-  quickAddChipText: {
+  pantryChipActive: {
+    backgroundColor: TERRACOTTA,
+    borderColor: TERRACOTTA,
+  },
+  pantryChipText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    lineHeight: 20,
-    color: TERRACOTTA,
+    fontSize: 13,
+    lineHeight: 18,
+    color: TEXT_SECONDARY,
+  },
+  pantryChipTextActive: {
+    color: "#FFFFFF",
   },
 
   // In your kitchen
