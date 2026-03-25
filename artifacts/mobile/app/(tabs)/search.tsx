@@ -128,7 +128,7 @@ export default function SearchScreen() {
                     style={({ pressed }) => [styles.resultRow, pressed && { opacity: 0.8 }]}
                     onPress={() => { haptic(); router.push(`/country/${country.id}`); }}
                   >
-                    <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={styles.resultThumb} contentFit="cover" />
+                    <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={styles.resultThumb} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                     <View style={styles.resultInfo}>
                       <Text style={styles.resultTitle}>{country.flag} {country.name}</Text>
                       <Text style={styles.resultSub} numberOfLines={1}>{country.tagline}</Text>
@@ -144,7 +144,7 @@ export default function SearchScreen() {
                   style={({ pressed }) => [styles.resultRow, pressed && { opacity: 0.8 }]}
                   onPress={() => { haptic(); router.push(`/recipe/${recipe.id}`); }}
                 >
-                  <Image source={{ uri: recipe.image }} style={styles.resultThumb} contentFit="cover" />
+                  <Image source={{ uri: recipe.image }} style={styles.resultThumb} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   <View style={styles.resultInfo}>
                     <Text style={styles.resultTitle}>{recipe.name}</Text>
                     <Text style={styles.resultSub} numberOfLines={1}>
@@ -205,7 +205,7 @@ export default function SearchScreen() {
                   style={styles.countryChip}
                 >
                   <View style={styles.countryThumb}>
-                    <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} />
+                    <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                     <LinearGradient
                       colors={["transparent", "rgba(0,0,0,0.45)"]}
                       style={StyleSheet.absoluteFill}

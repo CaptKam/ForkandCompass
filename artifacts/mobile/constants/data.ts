@@ -633,7 +633,7 @@ export interface Country {
       description: "Japanese cuisine is a reverent practice of simplicity and balance, where every ingredient is honored and every dish tells a story of the season.",
       region: "Kyoto",
       image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB_SNvP2LkVLJvKf-aX2iT-o-NSsiCks6uaT9cDdkBLKKaez4-e-RWJAx153upL-rjpz-78MTNARVHvXXE8sKcVHmuyADVdPMSTFjawm9E9n2xXV6Z9eFXx1dFgxRgCiodnPlhMOUOebzbX1FLmcziYWoBD9DsEGvIIr7gvkNKQM0JQYmLB8_84wVWV6_gBkI2BnisBfbHhryUpCm6ZckKlHUsP60jyzxE54P1ls4iOZUzbwoW2ShyIsYQae7O1e0sFcEw4GvBLc3E2",
-      heroImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuB_SNvP2LkVLJvKf-aX2iT-o-NSsiCks6uaT9cDdkBLKKaez4-e-RWJAx153upL-rjpz-78MTNARVHvXXE8sKcVHmuyADVdPMSTFjawm9E9n2xXV6Z9eFXx1dFgxRgCiodnPlhMOUOebzbX1FLmcziYWoBD9DsEGvIIr7gvkNKQM0JQYmLB8_84wVWV6_gBkI2BnisBfbHhryUpCm6ZckKlHUsP60jyzxE54P1ls4iOZUzbwoW2ShyIsYQae7O1e0sFcEw4GvBLc3E2",
+      heroImage: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1200&q=85&fit=crop",
       recipes: [
         {
           id: "classic-futomaki-thick-sushi-roll",
@@ -1224,7 +1224,7 @@ export interface Country {
       description: "Tonight, lose yourself in the warmth of Marrakech. Tagine, mint tea, and stories from the medina.",
       region: "Marrakech",
       image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCuAaqROW9q8mgNaJigvWmdRpSR03vjO8AItTK4uFQZqAeBjh-IFmXevWe2DNO_XOPiZDVVX8gLKBO4tNAkydUrO70Orkgl0ehXa17P0p2FGLCvPDJSCTDEp-A957C72z6oglWbXbG3XoWuJqZffk9qsAemQ_mr0dBWx_sfMtFFbcV0Qiyo3M4VsjCmBv4GaoCDUbCNMnLtItGfseVndV1vti8Pii47AInX_V9pVWM7Pq65Gjqt9i2LIfCbxkC8yK3bU_EhvatXr5Gm",
-      heroImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuCuAaqROW9q8mgNaJigvWmdRpSR03vjO8AItTK4uFQZqAeBjh-IFmXevWe2DNO_XOPiZDVVX8gLKBO4tNAkydUrO70Orkgl0ehXa17P0p2FGLCvPDJSCTDEp-A957C72z6oglWbXbG3XoWuJqZffk9qsAemQ_mr0dBWx_sfMtFFbcV0Qiyo3M4VsjCmBv4GaoCDUbCNMnLtItGfseVndV1vti8Pii47AInX_V9pVWM7Pq65Gjqt9i2LIfCbxkC8yK3bU_EhvatXr5Gm",
+      heroImage: "https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=1200&q=85&fit=crop",
       recipes: [
         {
           id: "hearty-moroccan-lamb-and-pearl-barley-soup",
@@ -1642,8 +1642,8 @@ export interface Country {
       tagline: "Bold flavors born from ancient traditions.",
       description: "Mexican cuisine is a vibrant tapestry of indigenous and colonial influences, where corn, chili, and chocolate weave together in celebration.",
       region: "Oaxaca",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQWVDU6vVZyYj8wQg9Ef0kgt9FP8fAFb-FWR8gHDKnDwGdFDod43xmWw-NXORmWr5qYAhRjODEVDZgjP8TYFNzfNEedf1pJzMhR4JbPfGQ-aqP-lKJ9M0hAZANodDbuHwRwpaNEjsEfjWAPAmVAjL22DACiSGJRYiMPAk0zj_5YKdSHHDXntk1LsXeL9HGaPwzz8_cCehuKWODzY9TwKTrQMR84KaeACHDmNFHIk5I5tTPXWBuS-9gDJH6HCH6_IRUPC48JnM6dlmi",
-      heroImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQWVDU6vVZyYj8wQg9Ef0kgt9FP8fAFb-FWR8gHDKnDwGdFDod43xmWw-NXORmWr5qYAhRjODEVDZgjP8TYFNzfNEedf1pJzMhR4JbPfGQ-aqP-lKJ9M0hAZANodDbuHwRwpaNEjsEfjWAPAmVAjL22DACiSGJRYiMPAk0zj_5YKdSHHDXntk1LsXeL9HGaPwzz8_cCehuKWODzY9TwKTrQMR84KaeACHDmNFHIk5I5tTPXWBuS-9gDJH6HCH6_IRUPC48JnM6dlmi",
+      image: "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=1200&q=85&fit=crop",
+      heroImage: "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1200&q=85&fit=crop",
       recipes: [
         {
           id: "quick-spiced-black-bean-and-tomato-stew",
@@ -2134,7 +2134,7 @@ export interface Country {
       description: "Indian cuisine is a vast tapestry of regional traditions, where every state has its own culinary identity, united by a fearless use of spice and a deep respect for vegetarian cooking.",
       region: "Delhi",
       image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBN1otg8SY3H_Dxl5JDkMhBhlxkUNAMmtNPZumgtv7NEHzaxNjBID2NvUbMf59nTvrecTodf3buW7xhkdqc2nE7si05Xcu0lALwuYI1LVtG3s0JfdO7l9tyazx5Wau28Rvc5-BJPyoT3TSnoS9icE8oyOdqt6mAgaChjPnK27ln3g7Mpp582waPmuvXGNZJ9AU9kn7VKa_UGt2z4DiSqpveKJ2e-Ge8RohrT3tnHt7Le--79e06APS_NuqVNMo01HzEdBAwCFtcI3pR",
-      heroImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuBN1otg8SY3H_Dxl5JDkMhBhlxkUNAMmtNPZumgtv7NEHzaxNjBID2NvUbMf59nTvrecTodf3buW7xhkdqc2nE7si05Xcu0lALwuYI1LVtG3s0JfdO7l9tyazx5Wau28Rvc5-BJPyoT3TSnoS9icE8oyOdqt6mAgaChjPnK27ln3g7Mpp582waPmuvXGNZJ9AU9kn7VKa_UGt2z4DiSqpveKJ2e-Ge8RohrT3tnHt7Le--79e06APS_NuqVNMo01HzEdBAwCFtcI3pR",
+      heroImage: "https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=1200&q=85&fit=crop",
       recipes: [
         {
           id: "instant-pot-dal-makhani",
@@ -2669,7 +2669,7 @@ export interface Country {
       description: "Thai cuisine is the art of balance, where fiery chilis meet cooling herbs, tangy lime meets sweet palm sugar, and every dish dances between four fundamental flavors.",
       region: "Bangkok",
       image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC0kLX0wrOqVM8OYMZzQjhlOT9QkcfuiC83aGL_WpFkZ3Evb2Zd1X61QaShAQ_B_t4HyA4PJnLiCGatfauqjdXIrmI2tNBj6lrGO-dsaZS0DbQTHp-wAir35wa0wSp15F0DcEQlFyeydaNOIK8gYJHZmrMNFd_YOMeQQMNayZv1wIFAahpRNPkSXh8NaztGmLljxA60FD28RwFxzD_KXCTG4Y8xdeX0XE4fquIorYY9wDhR1oedLaHjMBaNY4cKu2oLWWmosUjo_lIs",
-      heroImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuC0kLX0wrOqVM8OYMZzQjhlOT9QkcfuiC83aGL_WpFkZ3Evb2Zd1X61QaShAQ_B_t4HyA4PJnLiCGatfauqjdXIrmI2tNBj6lrGO-dsaZS0DbQTHp-wAir35wa0wSp15F0DcEQlFyeydaNOIK8gYJHZmrMNFd_YOMeQQMNayZv1wIFAahpRNPkSXh8NaztGmLljxA60FD28RwFxzD_KXCTG4Y8xdeX0XE4fquIorYY9wDhR1oedLaHjMBaNY4cKu2oLWWmosUjo_lIs",
+      heroImage: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1200&q=85&fit=crop",
       recipes: [
         {
           id: "khao-soi-gai-northern-thai-curry-noodles",
@@ -3786,7 +3786,7 @@ export interface Country {
   thailand: "https://lh3.googleusercontent.com/aida-public/AB6AXuC0kLX0wrOqVM8OYMZzQjhlOT9QkcfuiC83aGL_WpFkZ3Evb2Zd1X61QaShAQ_B_t4HyA4PJnLiCGatfauqjdXIrmI2tNBj6lrGO-dsaZS0DbQTHp-wAir35wa0wSp15F0DcEQlFyeydaNOIK8gYJHZmrMNFd_YOMeQQMNayZv1wIFAahpRNPkSXh8NaztGmLljxA60FD28RwFxzD_KXCTG4Y8xdeX0XE4fquIorYY9wDhR1oedLaHjMBaNY4cKu2oLWWmosUjo_lIs",
   morocco: "https://lh3.googleusercontent.com/aida-public/AB6AXuAMYYz9mb0GW2v6PQ1cC3Sd4tzONRLYgP1u8BV2LkBeJi9bsUsxK47Ma0DvHAG-UrxG5RRNDFfBdN4dZht-ZGIYbJSaoRt_S2ZD7GvIcHcyZZb5h0RVr8ZR2UpGzUj-CdSYw4kiUDnbfrSW_p1XnNUIX3RUPdUaH3MsVJ6C6Q4jV5UmeR-RCMk2S8Sf8ASZ-4fn9q3D7-83EP7dB6yugS_PoqtNFlWD2owzumen-a12RJJB7zJnToj9bRoDWrTZ7QNnZ6RXrGM_Y5kl",
   spain:   "https://images.unsplash.com/photo-1543785734-4b6e564642f8?w=1200&q=85&fit=crop",
-  france:  "https://images.unsplash.com/photo-1589985643480-6349ce1aba47?w=1200&q=85&fit=crop",
+  france:  "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=1200&q=85&fit=crop",
 };
 
 export const WELCOME_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuBNn6amxRklLOG69FpzFwcXZX5f0amiGLTlhj-OK4CKLAIjyld88eF-BtrHONmt69pF3NCPSHevwxzssyeJ5w5VEPOr_80X6OLvGsHb34IEqgiWpCiWubiMQhnstosxqXAbBBiQcEZU-D9RTzfI_NmGNh5z4lYEsg0anY3accSKOTqZq8eXDHA6YRz9F54mcDsybrvMxHqD1TGxK3VUSsKjgta2G468z9ttJssORTCBDgaEojDrgatyIZ3koBd5P5yOCQsaO7I5moy8";

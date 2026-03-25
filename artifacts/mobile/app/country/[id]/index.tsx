@@ -88,6 +88,8 @@ export default function CountryDetailScreen() {
             style={styles.heroImage}
             contentFit="cover"
             transition={reducedMotion ? 0 : 400}
+            placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+            onError={(e) => console.warn("[Image] Failed to load:", e.error)}
           />
           <LinearGradient
             colors={["transparent", Colors.light.surface]}
@@ -198,6 +200,8 @@ function CompactRecipeCard({ recipe, reducedMotion }: { recipe: Recipe; reducedM
           style={styles.compactCardImage}
           contentFit="cover"
           transition={reducedMotion ? 0 : 300}
+          placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+          onError={(e) => console.warn("[Image] Failed to load:", e.error)}
         />
         <View style={styles.compactCardInfo}>
           <Text style={styles.compactCardName} numberOfLines={2}>{recipe.name}</Text>
@@ -226,6 +230,8 @@ function LocationRegionCard({ location, countryId, reducedMotion }: { location: 
         style={StyleSheet.absoluteFill}
         contentFit="cover"
         transition={reducedMotion ? 0 : 300}
+        placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+        onError={(e) => console.warn("[Image] Failed to load:", e.error)}
       />
       <LinearGradient
         colors={["transparent", "rgba(0,0,0,0.65)"]}

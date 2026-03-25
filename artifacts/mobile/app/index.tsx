@@ -50,6 +50,8 @@ export default function WelcomeScreen() {
         style={StyleSheet.absoluteFill}
         contentFit="cover"
         transition={600}
+        placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+        onError={(e) => console.warn("[Image] Failed to load:", e.error)}
       />
       <LinearGradient
         colors={["transparent", "rgba(29,27,24,0.5)", "rgba(29,27,24,0.85)"]}

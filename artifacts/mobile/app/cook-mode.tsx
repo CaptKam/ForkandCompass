@@ -691,6 +691,8 @@ export default function CookModeScreen() {
                     source={{ uri: techniqueVideo.thumbnailUrl }}
                     style={StyleSheet.absoluteFill}
                     contentFit="cover"
+                    placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                    onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                   />
                   <View style={styles.videoGradient} />
                   <View style={styles.videoPlayCircle}>

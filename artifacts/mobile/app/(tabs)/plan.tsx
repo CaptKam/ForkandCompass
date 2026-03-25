@@ -699,7 +699,7 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
       {/* Hero image — tapping goes to Recipe Detail for reading */}
       <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: heroRecipe.id } }); }}>
         <View style={styles.tonightImageWrap}>
-          <Image source={{ uri: heroRecipe.image }} style={styles.tonightImage} contentFit="cover" />
+          <Image source={{ uri: heroRecipe.image }} style={styles.tonightImage} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
           <LinearGradient colors={["transparent", "rgba(0,0,0,0.55)"]} style={StyleSheet.absoluteFill} />
         </View>
       </Pressable>
