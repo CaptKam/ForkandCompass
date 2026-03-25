@@ -287,10 +287,6 @@ export default function CookModeScreen() {
   const donenessCue = getDonenessCue(adaptiveText);
   const stepTips = getStepTips(adaptiveText);
 
-  const phaseLabel = phase.toUpperCase();
-  const phaseColor = phase === "finish" ? "#2D7A4F" : Colors.light.primary;
-  const phaseBg = phase === "cook" ? "#FEF0E6" : phase === "finish" ? "#EEFAF2" : colors.surface;
-
   const handleBack = () => {
     router.back();
   };
@@ -509,41 +505,30 @@ export default function CookModeScreen() {
     );
   }
 
+  const progressWidth = `${((currentStep + 1) / recipe.steps.length) * 100}%`;
+  const phaseTitle = step.title.charAt(0).toUpperCase() + step.title.slice(1);
+
   return (
-    <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: phaseBg }]}>
+    <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: colors.surface }]}>
       <StatusBar style="dark" />
 
-      {/* Header */}
-      <View style={styles.topBar}>
-        <View style={styles.headerLeft}>
-          <Pressable onPress={handleBack} style={styles.headerButton} accessibilityLabel="Back to recipe">
+      {/* Header & Progress */}
+      <View style={styles.headerArea}>
+        <View style={styles.headerRow}>
+          <Pressable onPress={handleBack} style={[styles.headerButton, { left: -8 }]} accessibilityLabel="Back to recipe">
             <Ionicons name="chevron-back" size={24} color={Colors.light.onSurface} />
           </Pressable>
-          <View style={styles.headerTitleCol}>
-            <Text style={styles.stepLabel}>Step {currentStep + 1} of {recipe.steps.length}</Text>
-            <Text style={styles.headerRecipeName} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
-          </View>
-        </View>
-        <View style={styles.headerRight}>
+          <Text style={styles.stepLabelCenter}>Step {currentStep + 1} of {recipe.steps.length}</Text>
           <Pressable
             onPress={() => { setShowHelpSheet(true); if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); }}
-            style={styles.headerButton}
+            style={[styles.headerButton, { right: -8 }]}
+            accessibilityLabel="Help"
           >
-            <Ionicons name="help-circle-outline" size={22} color={Colors.light.secondary} />
+            <Ionicons name="timer-outline" size={24} color={Colors.light.onSurface} />
           </Pressable>
-          {stepDuration && !timerTotal ? (
-            <Pressable onPress={startTimer} style={styles.timerPill}>
-              <Ionicons name="timer-outline" size={16} color={Colors.light.primary} />
-              <Text style={styles.timerPillText}>Start</Text>
-            </Pressable>
-          ) : timerTotal != null ? (
-            <Pressable onPress={toggleTimer} style={[styles.timerPill, timerRemaining === 0 && styles.timerPillDone]}>
-              <Ionicons name="timer-outline" size={16} color={timerRemaining === 0 ? "#2D7A4F" : Colors.light.primary} />
-              <Text style={[styles.timerPillText, timerRemaining === 0 && { color: "#2D7A4F" }]}>
-                {timerRemaining === 0 ? "Done!" : formatTimer(timerRemaining)}
-              </Text>
-            </Pressable>
-          ) : null}
+        </View>
+        <View style={styles.progressTrack}>
+          <View style={[styles.progressFill, { width: progressWidth }]} />
         </View>
       </View>
 
@@ -558,28 +543,67 @@ export default function CookModeScreen() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
-          {/* Phase pill */}
-          <View style={[styles.phasePill, phase === "finish" && styles.phasePillFinish]}>
-            <Text style={[styles.phasePillText, phase === "finish" && styles.phasePillTextFinish]}>{phaseLabel}</Text>
-          </View>
+          {/* Ingredients highlight box (above instruction) */}
+          {stepIngredients.length > 0 && (
+            <View style={styles.ingredientsBox}>
+              <Text style={styles.ingredientsBoxLabel}>You'll need:</Text>
+              {stepIngredients.map((ing) => {
+                const isChecked = checkedIngredients.has(ing.id);
+                return (
+                  <Pressable
+                    key={ing.id}
+                    style={styles.ingredientRow}
+                    onPress={() => toggleIngredient(ing.id)}
+                  >
+                    <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
+                      {isChecked && (
+                        <Ionicons name="checkmark" size={14} color={Colors.light.primary} />
+                      )}
+                    </View>
+                    <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked]}>
+                      <Text style={styles.ingredientAmountBold}>{convertAmount(ing.amount, measurementSystem)}</Text> {ing.name}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          )}
 
-          {/* Step instruction with action verb highlighting */}
-          <Text style={styles.stepInstruction} maxFontSizeMultiplier={2.0}>
-            {instructionSegments.map((seg, i) =>
-              seg.type === "action" ? (
-                <Text key={i} style={styles.actionVerb}>{seg.value}</Text>
-              ) : (
-                seg.value
-              )
-            )}
-          </Text>
+          {/* Equipment */}
+          {step.materials.length > 0 && (
+            <View style={styles.ingredientsBox}>
+              <Text style={styles.ingredientsBoxLabel}>Equipment:</Text>
+              {step.materials.map((mat, i) => (
+                <View key={i} style={styles.materialRow}>
+                  <Ionicons name="construct-outline" size={16} color={Colors.light.secondary} />
+                  <Text style={styles.materialText}>{mat}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {/* Instructional Core — centered */}
+          <View style={styles.instructionCore}>
+            <Text style={styles.phaseLabel}>
+              {phaseTitle}
+            </Text>
+            <Text style={styles.stepInstruction} maxFontSizeMultiplier={2.0}>
+              {instructionSegments.map((seg, i) =>
+                seg.type === "action" ? (
+                  <Text key={i} style={styles.actionVerb}>{seg.value}</Text>
+                ) : (
+                  seg.value
+                )
+              )}
+            </Text>
+          </View>
 
           {/* Timer controls (when active) */}
           {timerTotal != null && (
             <View style={styles.timerSection}>
               {timerName ? <Text style={styles.timerNameLabel}>{timerName}</Text> : null}
               <Text style={[styles.timerDigits, timerRemaining === 0 && styles.timerComplete]}>
-                {timerRemaining === 0 ? "Time's up!" : formatTimer(timerRemaining)}
+                {timerRemaining === 0 ? "Time\u2019s up!" : formatTimer(timerRemaining)}
               </Text>
               <View style={styles.timerBarTrack}>
                 <View
@@ -653,87 +677,64 @@ export default function CookModeScreen() {
               </Text>
             </View>
           )}
-
-          {/* Ingredients for this step */}
-          {stepIngredients.length > 0 && (
-            <View style={styles.ingredientsCard}>
-              <Text style={styles.ingredientsLabel}>Ingredients for this step</Text>
-              {stepIngredients.map((ing) => {
-                const isChecked = checkedIngredients.has(ing.id);
-                return (
-                  <Pressable
-                    key={ing.id}
-                    style={styles.ingredientRow}
-                    onPress={() => toggleIngredient(ing.id)}
-                  >
-                    <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
-                      {isChecked && <View style={styles.checkboxDot} />}
-                    </View>
-                    <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked]}>
-                      {ing.name} — {convertAmount(ing.amount, measurementSystem)}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-          )}
-
-          {/* Equipment */}
-          {step.materials.length > 0 && (
-            <View style={styles.materialsCard}>
-              <Text style={styles.ingredientsLabel}>Equipment</Text>
-              {step.materials.map((mat, i) => (
-                <View key={i} style={styles.materialRow}>
-                  <Ionicons name="construct-outline" size={16} color={Colors.light.secondary} />
-                  <Text style={styles.materialText}>{mat}</Text>
-                </View>
-              ))}
-            </View>
-          )}
         </ScrollView>
       </Animated.View>
 
-      {/* Bottom navigation */}
-      <View style={[styles.bottomArea, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
-        {/* Progress dots — variable width */}
-        <View style={styles.navDots}>
-          {recipe.steps.map((_, i) => (
-            <View
-              key={i}
-              style={[
-                styles.navDot,
-                i < currentStep && styles.navDotCompleted,
-                i === currentStep && styles.navDotActive,
-              ]}
-            />
-          ))}
-        </View>
-
-        <View style={styles.navRow}>
-          {!isFirst ? (
+      {/* Sticky Footer */}
+      <View style={[styles.footerArea, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
+        {/* Timer quick action */}
+        {stepDuration && !timerTotal && (
+          <View style={styles.footerTimerRow}>
             <Pressable
-              onPress={goPrev}
-              style={({ pressed }) => [styles.navBtnSecondary, pressed && { opacity: 0.7 }]}
+              onPress={startTimer}
+              style={({ pressed }) => [styles.footerTimerBtn, pressed && { opacity: 0.88 }]}
             >
-              <Ionicons name="chevron-back" size={16} color={Colors.light.onSurface} />
-              <Text style={styles.navBtnSecondaryText}>Prev</Text>
+              <Ionicons name="timer-outline" size={18} color="#FFFFFF" />
+              <Text style={styles.footerTimerText}>
+                Start {stepDuration >= 60 ? `${Math.floor(stepDuration / 60)}m` : `${stepDuration}s`} Timer
+              </Text>
             </Pressable>
-          ) : (
-            <View style={{ width: 100 }} />
-          )}
+          </View>
+        )}
+        {timerTotal != null && timerRemaining > 0 && (
+          <View style={styles.footerTimerRow}>
+            <Pressable
+              onPress={toggleTimer}
+              style={({ pressed }) => [styles.footerTimerBtn, timerRemaining === 0 ? styles.footerTimerBtnDone : {}, pressed && { opacity: 0.88 }]}
+            >
+              <Ionicons name={timerRunning ? "pause" : "play"} size={18} color="#FFFFFF" />
+              <Text style={styles.footerTimerText}>
+                {formatTimer(timerRemaining)}
+              </Text>
+            </Pressable>
+          </View>
+        )}
 
-          <Pressable
-            onPress={goNext}
-            style={({ pressed }) => [
-              isLast ? styles.navBtnFinish : styles.navBtnPrimary,
-              pressed && { opacity: 0.85 },
-            ]}
-          >
-            <Text style={styles.navBtnPrimaryText}>
-              {isLast ? "Finish" : "Next"}
-            </Text>
-            <Ionicons name={isLast ? "checkmark" : "arrow-forward"} size={16} color={Colors.light.surface} />
-          </Pressable>
+        {/* Swipe navigation with dots */}
+        <View style={styles.swipeNav}>
+          <View style={styles.swipeNavRow}>
+            <Pressable onPress={goPrev} style={{ opacity: isFirst ? 0.2 : 0.4, padding: 8 }}>
+              <Ionicons name="chevron-back" size={24} color={Colors.light.onSurface} />
+            </Pressable>
+            <View style={styles.navDots}>
+              {recipe.steps.map((_, i) => (
+                <View
+                  key={i}
+                  style={[
+                    styles.navDot,
+                    i < currentStep && styles.navDotCompleted,
+                    i === currentStep && styles.navDotActive,
+                  ]}
+                />
+              ))}
+            </View>
+            <Pressable onPress={goNext} style={{ opacity: 0.4, padding: 8 }}>
+              <Ionicons name="chevron-forward" size={24} color={Colors.light.onSurface} />
+            </Pressable>
+          </View>
+          <Text style={styles.swipeHint}>
+            {isLast ? "Tap to Finish" : "Swipe for Next Step"}
+          </Text>
         </View>
       </View>
 
@@ -870,65 +871,43 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
 
-  topBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+  headerArea: {
+    paddingTop: 12,
+    paddingHorizontal: 24,
   },
-  headerLeft: {
+  headerRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    flex: 1,
-  },
-  headerTitleCol: {
-    flex: 1,
+    justifyContent: "center",
+    minHeight: 40,
+    marginBottom: 12,
   },
   headerButton: {
+    position: "absolute" as const,
     width: 40,
     height: 40,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },
-  headerRight: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  stepLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 11,
+  stepLabelCenter: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 13,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 2,
-    lineHeight: 14,
   },
-  headerRecipeName: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontStyle: "italic",
-    fontSize: 18,
-    color: Colors.light.primary,
-    lineHeight: 24,
-  },
-  timerPill: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
+  progressTrack: {
+    height: 3,
+    width: "100%",
     backgroundColor: Colors.light.surfaceContainerHigh,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 99,
+    borderRadius: 2,
+    overflow: "hidden",
   },
-  timerPillDone: {
-    backgroundColor: "#E0F5E8",
-  },
-  timerPillText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: Colors.light.onSurface,
+  progressFill: {
+    height: "100%",
+    backgroundColor: Colors.light.primary,
+    borderRadius: 2,
   },
 
   stepContent: {
@@ -936,40 +915,58 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingTop: 32,
-    paddingBottom: 32,
-    gap: 20,
+    paddingTop: 40,
+    paddingBottom: 80,
+    gap: 32,
   },
-  phasePill: {
-    alignSelf: "flex-start",
-    backgroundColor: "#FBDAB3",
-    paddingHorizontal: 14,
-    paddingVertical: 5,
-    borderRadius: 99,
+
+  ingredientsBox: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    padding: 20,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.1)",
+    gap: 16,
   },
-  phasePillFinish: {
-    backgroundColor: "#E0F5E8",
-  },
-  phasePillText: {
-    fontFamily: "Inter_600SemiBold",
+  ingredientsBoxLabel: {
+    fontFamily: "Inter_700Bold",
     fontSize: 11,
     color: Colors.light.secondary,
     textTransform: "uppercase",
-    letterSpacing: 2,
+    letterSpacing: 3,
+    marginBottom: 4,
   },
-  phasePillTextFinish: {
-    color: "#2D7A4F",
+  ingredientAmountBold: {
+    fontFamily: "Inter_600SemiBold",
+    color: Colors.light.onSurface,
+  },
+
+  instructionCore: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: 20,
+  },
+  phaseLabel: {
+    fontFamily: "NotoSerif_400Regular",
+    fontStyle: "italic",
+    fontSize: 18,
+    color: "rgba(154,65,0,0.6)",
+    marginBottom: 16,
+    textAlign: "center",
   },
   stepInstruction: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 28,
     color: Colors.light.onSurface,
-    lineHeight: 40,
+    lineHeight: 42,
     letterSpacing: -0.3,
+    textAlign: "center",
   },
   actionVerb: {
-    fontFamily: "Inter_700Bold",
+    fontFamily: "NotoSerif_600SemiBold",
     color: Colors.light.primary,
+    fontWeight: "700",
   },
 
   timerSection: {
@@ -1147,44 +1144,29 @@ const styles = StyleSheet.create({
     lineHeight: 26,
   },
 
-  ingredientsCard: {
-    gap: 14,
-  },
-  ingredientsLabel: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
-    color: Colors.light.secondary,
-    textTransform: "uppercase",
-    letterSpacing: 2,
-  },
   ingredientRow: {
     flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
-    minHeight: 40,
+    alignItems: "flex-start",
+    gap: 12,
+    minHeight: 36,
   },
   checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#DEC1B3",
+    borderColor: "rgba(154,65,0,0.3)",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 2,
   },
   checkboxChecked: {
     borderColor: Colors.light.primary,
   },
-  checkboxDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: Colors.light.primary,
-  },
   ingredientText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 16,
-    color: Colors.light.onSurface,
+    fontSize: 14,
+    color: Colors.light.onSurfaceVariant,
     lineHeight: 22,
     flex: 1,
   },
@@ -1193,9 +1175,6 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
   },
 
-  materialsCard: {
-    gap: 14,
-  },
   materialRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -1204,99 +1183,84 @@ const styles = StyleSheet.create({
   },
   materialText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 16,
-    color: Colors.light.onSurface,
+    fontSize: 14,
+    color: Colors.light.onSurfaceVariant,
     lineHeight: 22,
   },
 
-  bottomArea: {
+  footerArea: {
     paddingHorizontal: 24,
-    paddingTop: 14,
-    backgroundColor: "rgba(254,249,243,0.8)",
-    borderTopWidth: 0.5,
-    borderTopColor: "rgba(222,193,179,0.2)",
+    paddingTop: 10,
   },
-  navRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  footerTimerRow: {
     alignItems: "center",
-    gap: 12,
+    marginBottom: 24,
   },
-  navBtnPrimary: {
+  footerTimerBtn: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     backgroundColor: Colors.light.primary,
-    paddingHorizontal: 36,
-    paddingVertical: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 14,
     borderRadius: 99,
-    shadowColor: Colors.light.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-    elevation: 4,
+    ...Platform.select({
+      ios: { shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.15, shadowRadius: 12 },
+      android: { elevation: 6 },
+      web: { boxShadow: "0 4px 12px rgba(0,0,0,0.15)" } as any,
+    }),
   },
-  navBtnFinish: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
+  footerTimerBtnDone: {
     backgroundColor: "#2D7A4F",
-    paddingHorizontal: 36,
-    paddingVertical: 16,
-    borderRadius: 99,
-    shadowColor: "#2D7A4F",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-    elevation: 4,
   },
-  navBtnPrimaryText: {
+  footerTimerText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
-    color: Colors.light.surface,
+    fontSize: 13,
+    color: "#FFFFFF",
     textTransform: "uppercase",
     letterSpacing: 1.5,
   },
-  navBtnSecondary: {
+  swipeNav: {
+    alignItems: "center",
+    gap: 8,
+  },
+  swipeNavRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-    borderRadius: 99,
-    borderWidth: 1,
-    borderColor: "rgba(222,193,179,0.3)",
-  },
-  navBtnSecondaryText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 12,
-    color: Colors.light.onSurface,
-    textTransform: "uppercase",
-    letterSpacing: 2,
+    justifyContent: "space-between",
+    width: "100%",
   },
   navDots: {
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center",
     gap: 6,
-    marginBottom: 14,
+    flex: 1,
   },
   navDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: Colors.light.surfaceContainerHighest,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "rgba(29,27,24,0.2)",
   },
   navDotCompleted: {
-    width: 16,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: Colors.light.surfaceContainerHighest,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "rgba(29,27,24,0.2)",
   },
   navDotActive: {
-    width: 24,
-    height: 4,
-    borderRadius: 2,
+    width: 16,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: Colors.light.primary,
+  },
+  swipeHint: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 10,
+    color: Colors.light.secondary,
+    textTransform: "uppercase",
+    letterSpacing: 3,
   },
 
   helpOverlay: {
