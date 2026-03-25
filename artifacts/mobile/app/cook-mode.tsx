@@ -34,6 +34,7 @@ import {
 import { findTechniqueForStep } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import type { CookSession, ActiveCookSession } from "@/contexts/AppContext";
+import { convertAmount, convertTemperatureInText } from "@/constants/units";
 
 const TERRACOTTA = "#9A4100";
 const TEXT_SECONDARY = "#5C5549";
@@ -177,7 +178,7 @@ export default function CookModeScreen() {
   const { recipeId, resumeStep } = useLocalSearchParams<{ recipeId: string; resumeStep?: string }>();
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(recipeId);
-  const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession } = useApp();
+  const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit } = useApp();
 
   const initialStep = resumeStep ? parseInt(resumeStep, 10) : 0;
   const [currentStep, setCurrentStep] = useState(isNaN(initialStep) ? 0 : initialStep);
@@ -267,7 +268,7 @@ export default function CookModeScreen() {
   const isLast = currentStep === recipe.steps.length - 1;
   const phase = getPhase(step.title);
   const tier = levelToTier(cookingLevel);
-  const adaptiveText = getAdaptiveInstruction(step, tier);
+  const adaptiveText = convertTemperatureInText(getAdaptiveInstruction(step, tier), temperatureUnit);
   const stepDuration = parseDurationFromText(adaptiveText);
   const stepIngredients = getIngredientsForStep(adaptiveText, recipe.ingredients);
   const techniqueVideo = findTechniqueForStep(adaptiveText);
@@ -700,7 +701,7 @@ export default function CookModeScreen() {
                       {isChecked && <View style={styles.checkboxDot} />}
                     </View>
                     <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked]}>
-                      {ing.name} — {ing.amount}
+                      {ing.name} — {convertAmount(ing.amount, measurementSystem)}
                     </Text>
                   </Pressable>
                 );

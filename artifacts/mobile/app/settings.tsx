@@ -18,7 +18,19 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { COUNTRIES, getAllRecipes, getCountryLocations, LANDMARK_IMAGES, type Country, type Recipe } from "@/constants/data";
 import { PARTNER_CONFIG, PARTNER_LIST } from "@/constants/partners";
-import { useApp, type CookingLevel, type AppearanceMode } from "@/contexts/AppContext";
+import { useApp, type CookingLevel, type AppearanceMode, type MeasurementSystem, type TemperatureUnit } from "@/contexts/AppContext";
+
+const MEASUREMENT_SYSTEMS: { key: MeasurementSystem; label: string; desc: string }[] = [
+  { key: "us_customary", label: "US Customary", desc: "cups, oz, lb, \u00B0F" },
+  { key: "metric", label: "Metric", desc: "g, ml, L, \u00B0C" },
+  { key: "imperial_uk", label: "Imperial (UK)", desc: "oz, lb, pints, \u00B0C" },
+  { key: "show_both", label: "Show Both", desc: "400 g (14 oz)" },
+];
+
+const TEMPERATURE_UNITS: { key: TemperatureUnit; label: string }[] = [
+  { key: "fahrenheit", label: "\u00B0F" },
+  { key: "celsius", label: "\u00B0C" },
+];
 
 const COOKING_LEVELS: { key: CookingLevel; label: string; icon: string }[] = [
   { key: "beginner", label: "Just Learning", icon: "🌱" },
@@ -52,6 +64,10 @@ export default function ProfileScreen() {
     toggleSavedRegion,
     groceryPartner,
     setGroceryPartner,
+    measurementSystem,
+    setMeasurementSystem,
+    temperatureUnit,
+    setTemperatureUnit,
   } = useApp();
 
   const haptic = () => {
@@ -279,6 +295,59 @@ export default function ProfileScreen() {
                 </Pressable>
               );
             })}
+          </View>
+        </View>
+
+        {/* Measurements */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Measurements</Text>
+          <View style={styles.card}>
+            {MEASUREMENT_SYSTEMS.map((sys, index) => {
+              const isSelected = measurementSystem === sys.key;
+              const isLast = index === MEASUREMENT_SYSTEMS.length - 1;
+              return (
+                <Pressable
+                  key={sys.key}
+                  onPress={() => { haptic(); setMeasurementSystem(sys.key); }}
+                  style={[
+                    styles.levelRow,
+                    !isLast && styles.levelRowBorder,
+                    isSelected && styles.levelRowSelected,
+                  ]}
+                >
+                  <View style={styles.levelLeft}>
+                    <Text style={[styles.levelLabel, isSelected && styles.levelLabelSelected]}>
+                      {sys.label}
+                    </Text>
+                    <Text style={styles.measurementDesc}>{sys.desc}</Text>
+                  </View>
+                  <View style={[styles.radio, isSelected && styles.radioSelected]}>
+                    {isSelected && <View style={styles.radioInner} />}
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+          <View style={[styles.card, { marginTop: 12 }]}>
+            <View style={styles.tempRow}>
+              <Text style={styles.tempLabel}>Temperature</Text>
+              <View style={styles.tempToggle}>
+                {TEMPERATURE_UNITS.map((u) => {
+                  const active = temperatureUnit === u.key;
+                  return (
+                    <Pressable
+                      key={u.key}
+                      onPress={() => { haptic(); setTemperatureUnit(u.key); }}
+                      style={[styles.tempPill, active && styles.tempPillActive]}
+                    >
+                      <Text style={[styles.tempPillText, active && styles.tempPillTextActive]}>
+                        {u.label}
+                      </Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </View>
           </View>
         </View>
 
@@ -598,6 +667,48 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 5,
     backgroundColor: Colors.light.primary,
+  },
+
+  /* Measurements */
+  measurementDesc: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12,
+    color: Colors.light.onSurfaceVariant,
+    marginTop: 2,
+  },
+  tempRow: {
+    flexDirection: "row" as const,
+    alignItems: "center" as const,
+    justifyContent: "space-between" as const,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  tempLabel: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+  },
+  tempToggle: {
+    flexDirection: "row" as const,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderRadius: 8,
+    padding: 2,
+  },
+  tempPill: {
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+  tempPillActive: {
+    backgroundColor: Colors.light.primary,
+  },
+  tempPillText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    color: Colors.light.onSurfaceVariant,
+  },
+  tempPillTextActive: {
+    color: "#FFFFFF",
   },
 
   /* Itinerary Preferences */

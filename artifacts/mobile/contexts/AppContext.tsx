@@ -8,6 +8,7 @@ import React, {
 } from "react";
 
 import type { GroceryItem, Recipe } from "@/constants/data";
+import type { MeasurementSystem, TemperatureUnit } from "@/constants/units";
 import type { ItineraryProfile, ItineraryDay } from "@/hooks/useItinerary";
 import type { GroceryPartner } from "@/constants/partners";
 
@@ -131,6 +132,7 @@ export type CookingLevel = "beginner" | "intermediate" | "advanced";
 export type AppearanceMode = "system" | "light" | "dark";
 export type ExploreViewMode = "feed" | "grid";
 export type { GroceryPartner };
+export type { MeasurementSystem, TemperatureUnit } from "@/constants/units";
 
 interface AppContextType {
   savedRecipeIds: string[];
@@ -187,6 +189,11 @@ interface AppContextType {
   pendingCookRecipeId: string | null;
   requestCook: (recipeId: string) => void;
   clearPendingCook: () => void;
+  // Measurement preferences
+  measurementSystem: MeasurementSystem;
+  setMeasurementSystem: (system: MeasurementSystem) => void;
+  temperatureUnit: TemperatureUnit;
+  setTemperatureUnit: (unit: TemperatureUnit) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -209,6 +216,8 @@ const GROCERY_PARTNER_KEY = "@culinary_grocery_partner";
 const COOKING_PROFILE_KEY_V2 = "@culinary_cooking_profile_v2";
 const COOK_SESSIONS_KEY = "@culinary_cook_sessions";
 const ACTIVE_COOK_SESSION_KEY = "@culinary_active_cook_session";
+const MEASUREMENT_SYSTEM_KEY = "@culinary_measurement_system";
+const TEMPERATURE_UNIT_KEY = "@culinary_temperature_unit";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [savedRecipeIds, setSavedRecipeIds] = useState<string[]>([]);
@@ -230,12 +239,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [cookSessions, setCookSessions] = useState<CookSession[]>([]);
   const [activeCookSession, setActiveCookSessionState] = useState<ActiveCookSession | null>(null);
   const [pendingCookRecipeId, setPendingCookRecipeId] = useState<string | null>(null);
+  const [measurementSystem, setMeasurementSystemState] = useState<MeasurementSystem>("us_customary");
+  const [temperatureUnit, setTemperatureUnitState] = useState<TemperatureUnit>("fahrenheit");
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, pantry, groceryPartnerRaw, cookProfileRaw, cookSessionsRaw, activeCookRaw] = await Promise.all([
+        const [saved, grocery, welcome, countries, onboarding, cookLevel, appearance, exploreView, savedCtries, savedRegs, itinProfile, itinCurrent, itinHistory, pantry, groceryPartnerRaw, cookProfileRaw, cookSessionsRaw, activeCookRaw, measurementSys, tempUnit] = await Promise.all([
           AsyncStorage.getItem(SAVED_KEY).catch(() => null),
           AsyncStorage.getItem(GROCERY_KEY).catch(() => null),
           AsyncStorage.getItem(WELCOME_KEY).catch(() => null),
@@ -254,6 +265,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           AsyncStorage.getItem(COOKING_PROFILE_KEY_V2).catch(() => null),
           AsyncStorage.getItem(COOK_SESSIONS_KEY).catch(() => null),
           AsyncStorage.getItem(ACTIVE_COOK_SESSION_KEY).catch(() => null),
+          AsyncStorage.getItem(MEASUREMENT_SYSTEM_KEY).catch(() => null),
+          AsyncStorage.getItem(TEMPERATURE_UNIT_KEY).catch(() => null),
         ]);
         if (saved) {
           try {
@@ -350,6 +363,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             const parsed = JSON.parse(activeCookRaw);
             if (parsed && typeof parsed === "object" && parsed.recipeId) setActiveCookSessionState(parsed);
           } catch {}
+        }
+        if (measurementSys && ["us_customary", "metric", "imperial_uk", "show_both"].includes(measurementSys)) {
+          setMeasurementSystemState(measurementSys as MeasurementSystem);
+        }
+        if (tempUnit && ["fahrenheit", "celsius"].includes(tempUnit)) {
+          setTemperatureUnitState(tempUnit as TemperatureUnit);
         }
       } catch {}
       setLoaded(true);
@@ -653,6 +672,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     AsyncStorage.setItem(APPEARANCE_KEY, mode).catch(() => {});
   }, []);
 
+  const setMeasurementSystem = useCallback((system: MeasurementSystem) => {
+    setMeasurementSystemState(system);
+    AsyncStorage.setItem(MEASUREMENT_SYSTEM_KEY, system).catch(() => {});
+  }, []);
+
+  const setTemperatureUnit = useCallback((unit: TemperatureUnit) => {
+    setTemperatureUnitState(unit);
+    AsyncStorage.setItem(TEMPERATURE_UNIT_KEY, unit).catch(() => {});
+  }, []);
+
   const setExploreViewMode = useCallback((mode: ExploreViewMode) => {
     setExploreViewModeState(mode);
     AsyncStorage.setItem(EXPLORE_VIEW_KEY, mode).catch(() => {});
@@ -771,6 +800,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         pendingCookRecipeId,
         requestCook,
         clearPendingCook,
+        measurementSystem,
+        setMeasurementSystem,
+        temperatureUnit,
+        setTemperatureUnit,
       }}
     >
       {children}

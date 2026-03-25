@@ -25,6 +25,7 @@ import { COUNTRIES, getCountryById, getRecipeById, type GroceryItem, type Recipe
 import { type PantryStaple } from "@/constants/pantry";
 import { PARTNER_CONFIG } from "@/constants/partners";
 import { useApp } from "@/contexts/AppContext";
+import { convertAmount } from "@/constants/units";
 import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItinerary";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -91,6 +92,7 @@ export default function PlanScreen() {
     groceryPartner,
     setGroceryPartner,
     savedRecipeIds,
+    measurementSystem,
   } = useApp();
 
   const [segment, setSegment] = useState<PlanSegment>("week");
@@ -454,6 +456,7 @@ export default function PlanScreen() {
                       key={item.id}
                       item={item}
                       isLast={idx === group.items.length - 1}
+                      measurementSystem={measurementSystem}
                       onToggle={() => {
                         if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                         toggleGroceryItem(item.id);
@@ -1002,7 +1005,7 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
 
 // ─── GroceryRow ───────────────────────────────────────────────────────────────
 
-function GroceryRow({ item, isLast, onToggle }: { item: GroceryItem; isLast: boolean; onToggle: () => void }) {
+function GroceryRow({ item, isLast, onToggle, measurementSystem }: { item: GroceryItem; isLast: boolean; onToggle: () => void; measurementSystem: import("@/constants/units").MeasurementSystem }) {
   const sources = item.recipeNames ?? [item.recipeName];
   const sourceLabel = sources.join(", ");
   return (
@@ -1023,7 +1026,7 @@ function GroceryRow({ item, isLast, onToggle }: { item: GroceryItem; isLast: boo
       <View style={{ flex: 1 }}>
         <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]} numberOfLines={1}>
           {item.name}
-          {item.amount ? <Text style={styles.groceryAmount}> ({item.amount})</Text> : null}
+          {item.amount ? <Text style={styles.groceryAmount}> ({convertAmount(item.amount, measurementSystem)})</Text> : null}
         </Text>
       </View>
 

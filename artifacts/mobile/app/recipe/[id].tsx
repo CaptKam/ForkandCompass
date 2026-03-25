@@ -24,6 +24,7 @@ import {
   levelToTier,
 } from "@/constants/adaptive-language";
 import { useApp } from "@/contexts/AppContext";
+import { convertAmount, convertTemperatureInText } from "@/constants/units";
 import ScheduleSheet from "@/components/ScheduleSheet";
 
 const BASE_SERVINGS = 4;
@@ -59,7 +60,7 @@ export default function RecipeDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(id);
-  const { isSaved, toggleSaved, addToGrocery, cookingLevel } = useApp();
+  const { isSaved, toggleSaved, addToGrocery, cookingLevel, measurementSystem, temperatureUnit } = useApp();
   const [servings, setServings] = useState(4);
   const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
   const [showSchedule, setShowSchedule] = useState(false);
@@ -188,7 +189,7 @@ export default function RecipeDetailScreen() {
           <View style={styles.ingredientsList}>
             {recipe.ingredients.map((ing) => {
               const isChecked = checkedIngredients.has(ing.id);
-              const scaledAmount = scaleAmount(ing.amount, servings / BASE_SERVINGS);
+              const scaledAmount = convertAmount(scaleAmount(ing.amount, servings / BASE_SERVINGS), measurementSystem);
               return (
                 <Pressable
                   key={ing.id}
@@ -255,7 +256,7 @@ export default function RecipeDetailScreen() {
           <Text style={[styles.sectionTitle, { marginTop: 32 }]}>Instructions</Text>
           {recipe.steps.map((step, index) => {
             const tier = levelToTier(cookingLevel);
-            const text = getAdaptiveInstruction(step, tier);
+            const text = convertTemperatureInText(getAdaptiveInstruction(step, tier), temperatureUnit);
             const segments = parseActionVerbs(text);
             return (
               <View key={step.id} style={styles.stepCard}>
