@@ -215,6 +215,8 @@ export default function CookScreen() {
                   style={styles.tonightImage}
                   contentFit="cover"
                   transition={reducedMotion ? 0 : 400}
+                  placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                  onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                 />
               </Pressable>
               <View style={styles.tonightContent}>
@@ -308,6 +310,8 @@ export default function CookScreen() {
                     style={styles.recentImage}
                     contentFit="cover"
                     transition={reducedMotion ? 0 : 200}
+                    placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                    onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                   />
                   <Text style={styles.recentName} numberOfLines={1}>{recipe.name}</Text>
                   <Text style={styles.recentTime}>{timeAgo(session.completedAt!)}</Text>
@@ -339,6 +343,8 @@ export default function CookScreen() {
                     source={{ uri: recipe.image }}
                     style={styles.beginnerImage}
                     contentFit="cover"
+                    placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                    onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                   />
                   <View style={styles.beginnerInfo}>
                     <Text style={styles.beginnerName} numberOfLines={1}>{recipe.name}</Text>
@@ -385,6 +391,8 @@ export default function CookScreen() {
                       style={styles.techniqueThumbnail}
                       contentFit="cover"
                       transition={reducedMotion ? 0 : 200}
+                      placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                      onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                     />
                     <View style={styles.playOverlay}>
                       <Ionicons name="play-circle" size={20} color="rgba(255,255,255,0.8)" />

@@ -111,6 +111,8 @@ export default function RecipeDetailScreen() {
             style={styles.heroImage}
             contentFit="cover"
             transition={400}
+            placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+            onError={(e) => console.warn("[Image] Failed to load:", e.error)}
           />
           <LinearGradient
             colors={["rgba(0,0,0,0.4)", "transparent", "transparent"]}
@@ -338,6 +340,8 @@ export default function RecipeDetailScreen() {
                   style={styles.nextJourneyImage}
                   contentFit="cover"
                   transition={300}
+                  placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                  onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                 />
                 <LinearGradient
                   colors={["transparent", "rgba(0,0,0,0.8)"]}

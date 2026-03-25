@@ -122,6 +122,8 @@ export default function ProfileScreen() {
             source={{ uri: HERO_IMAGE }}
             style={StyleSheet.absoluteFill}
             contentFit="cover"
+            placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+            onError={(e) => console.warn("[Image] Failed to load:", e.error)}
           />
           <LinearGradient
             colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.55)"]}
@@ -187,7 +189,7 @@ export default function ProfileScreen() {
                   style={styles.chip}
                 >
                   <View style={styles.chipImage}>
-                    <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} />
+                    <Image source={{ uri: LANDMARK_IMAGES[country.id] || country.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   </View>
                   <Text style={styles.chipLabel}>{country.name} {country.flag}</Text>
                 </Pressable>
@@ -215,7 +217,7 @@ export default function ProfileScreen() {
                   style={styles.chip}
                 >
                   <View style={[styles.chipImage, { backgroundColor: Colors.light.surfaceContainerLow }]}>
-                    <Image source={{ uri: region.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} />
+                    <Image source={{ uri: region.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={300} placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   </View>
                   <Text style={styles.chipLabel}>{region.name}</Text>
                 </Pressable>
@@ -239,7 +241,7 @@ export default function ProfileScreen() {
                   style={[styles.savedRecipeRow, index < savedRecipes.length - 1 && styles.savedRecipeRowBorder]}
                 >
                   <View style={styles.savedRecipeImage}>
-                    <Image source={{ uri: recipe.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" />
+                    <Image source={{ uri: recipe.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   </View>
                   <View style={{ flex: 1, minWidth: 0 }}>
                     <Text style={styles.savedRecipeName} numberOfLines={1}>{recipe.name}</Text>
@@ -676,7 +678,7 @@ const styles = StyleSheet.create({
   /* Measurements */
   measurementDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
+    fontSize: 13,
     color: Colors.light.onSurfaceVariant,
     marginTop: 2,
   },

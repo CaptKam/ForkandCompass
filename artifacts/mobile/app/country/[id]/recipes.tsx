@@ -77,6 +77,8 @@ export default function CountryRecipesScreen() {
             style={styles.recipeRowImage}
             contentFit="cover"
             transition={reducedMotion ? 0 : 200}
+            placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+            onError={(e) => console.warn("[Image] Failed to load:", e.error)}
           />
           <View style={styles.recipeRowText}>
             <Text style={styles.recipeRowName} numberOfLines={1}>{item.name}</Text>

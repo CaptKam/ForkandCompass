@@ -133,6 +133,8 @@ export default function RegionMenuScreen() {
                         style={StyleSheet.absoluteFill}
                         contentFit="cover"
                         transition={reducedMotion ? 0 : 300}
+                        placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                        onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                       />
                       {/* Checkmark select button — always visible in top-right corner */}
                       <Pressable

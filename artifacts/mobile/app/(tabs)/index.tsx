@@ -435,7 +435,7 @@ export default function DiscoverScreen() {
               const isSaved = isCountrySaved(country.id);
               return (
                 <View key={country.id} style={[styles.heroSlide, { width: screenWidth }]}>
-                  <Image source={{ uri: img }} style={StyleSheet.absoluteFill} contentFit="cover" transition={reducedMotion ? 0 : 400} />
+                  <Image source={{ uri: img }} style={StyleSheet.absoluteFill} contentFit="cover" transition={reducedMotion ? 0 : 400} placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   <LinearGradient
                     colors={["rgba(0,0,0,0.78)", "rgba(0,0,0,0.38)", "transparent"]}
                     start={{ x: 0, y: 0.5 }}
@@ -512,6 +512,8 @@ export default function DiscoverScreen() {
                         source={{ uri: LANDMARK_IMAGES[country.id] || country.image }}
                         style={styles.destCircleImg}
                         contentFit="cover"
+                        placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                        onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                       />
                     </View>
                     {/* Flag badge lives outside the clipping view so it's never hidden */}
@@ -537,7 +539,7 @@ export default function DiscoverScreen() {
                 onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: todayRecipe.id } }); }}
                 style={({ pressed }) => [styles.tonightCard, pressed && { opacity: 0.88 }]}
               >
-                <Image source={{ uri: todayRecipe.image }} style={styles.tonightImg} contentFit="cover" />
+                <Image source={{ uri: todayRecipe.image }} style={styles.tonightImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                 <View style={styles.tonightBody}>
                   <View style={styles.tonightMeta}>
                     <Text style={styles.tonightFlag}>{todayCountry.flag}</Text>
@@ -601,7 +603,7 @@ export default function DiscoverScreen() {
                     onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
                     style={({ pressed }) => [styles.recentCard, pressed && { opacity: 0.85 }]}
                   >
-                    <Image source={{ uri: recipe.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
+                    <Image source={{ uri: recipe.image }} style={StyleSheet.absoluteFill} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                     <LinearGradient colors={["transparent", "rgba(0,0,0,0.68)"]} style={StyleSheet.absoluteFill} />
                     {session.rating != null && (
                       <View style={styles.recentRatingBadge}>
@@ -664,7 +666,7 @@ export default function DiscoverScreen() {
                     onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
                     style={({ pressed }) => [styles.jumpCard, pressed && { opacity: 0.88 }]}
                   >
-                    <Image source={{ uri: recipe.image }} style={styles.jumpThumb} contentFit="cover" />
+                    <Image source={{ uri: recipe.image }} style={styles.jumpThumb} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                     <View style={styles.jumpInfo}>
                       <Text style={styles.jumpCuisine} numberOfLines={1} ellipsizeMode="tail">{recipe.category}</Text>
                       <Text style={styles.jumpName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
@@ -681,6 +683,24 @@ export default function DiscoverScreen() {
           <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>Featured Locations</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.locScroll}>
             {editorial.locations.map((loc, idx) => (
+              <Pressable
+                key={idx}
+                style={({ pressed }) => [styles.locCard, pressed && { opacity: 0.88 }]}
+                onPress={() => {
+                  haptic();
+                  router.push({
+                    pathname: "/region/[countryId]/[region]",
+                    params: { countryId: activeCountry.id, region: encodeURIComponent(loc.name) },
+                  });
+                }}
+              >
+                <Image source={{ uri: loc.image }} style={StyleSheet.absoluteFill} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
+                <LinearGradient colors={["transparent", "rgba(0,0,0,0.72)"]} style={StyleSheet.absoluteFill} />
+                <View style={styles.locInfo}>
+                  <Text style={styles.locName}>{loc.name}</Text>
+                  <Text style={styles.locSub}>{loc.subtitle}</Text>
+                </View>
+              </Pressable>
               <LocationCard key={idx} loc={loc} countryId={activeCountry.id} haptic={haptic} reducedMotion={reducedMotion} />
             ))}
           </ScrollView>
@@ -696,7 +716,7 @@ export default function DiscoverScreen() {
                   onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
                   style={({ pressed }) => [styles.tastingCard, pressed && { opacity: 0.85 }]}
                 >
-                  <Image source={{ uri: recipe.image }} style={styles.tastingThumb} contentFit="cover" />
+                  <Image source={{ uri: recipe.image }} style={styles.tastingThumb} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   <View style={styles.tastingInfo}>
                     <Text style={styles.tastingCourse}>{recipe.category}</Text>
                     <Text style={styles.tastingName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
@@ -729,6 +749,8 @@ export default function DiscoverScreen() {
           </View>
           <View style={styles.spiceGrid}>
             {editorial.spiceMarket.map((spice, idx) => (
+              <View key={idx} style={styles.spiceItem}>
+                <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
               <Pressable
                 key={idx}
                 onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
@@ -782,6 +804,8 @@ export default function DiscoverScreen() {
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.heritageScroll}>
             {editorial.heritageItems.map((item, idx) => (
+              <View key={idx} style={styles.heritageCard}>
+                <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
               <Pressable
                 key={idx}
                 onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
@@ -865,7 +889,7 @@ export default function DiscoverScreen() {
                     onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: matchedRecipe.id } }); }}
                     style={({ pressed }) => [styles.streetCard, pressed && { opacity: 0.88 }]}
                   >
-                    <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
+                    <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                     <LinearGradient colors={["transparent", "rgba(0,0,0,0.65)"]} style={StyleSheet.absoluteFill} />
                     <View style={styles.streetInfo}>
                       <Text style={styles.streetName} numberOfLines={2} ellipsizeMode="tail">{food.name}</Text>
@@ -875,7 +899,7 @@ export default function DiscoverScreen() {
                 </RecipeContextMenu>
               ) : (
                 <View key={idx} style={styles.streetCard}>
-                  <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
+                  <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   <LinearGradient colors={["transparent", "rgba(0,0,0,0.65)"]} style={StyleSheet.absoluteFill} />
                   <View style={styles.streetInfo}>
                     <Text style={styles.streetName} numberOfLines={2} ellipsizeMode="tail">{food.name}</Text>
@@ -918,6 +942,9 @@ export default function DiscoverScreen() {
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.relatedScroll}>
             {editorial.relatedStories.map((story, idx) => (
               <View key={idx} style={styles.relatedCard}>
+                <Image source={{ uri: story.image }} style={styles.relatedImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
+                <Text style={styles.relatedCountry}>{story.country}</Text>
+                <Text style={styles.relatedDesc}>{story.description}</Text>
                 <Image source={{ uri: story.image }} style={styles.relatedImg} contentFit="cover" />
                 <Text style={styles.relatedCountry} numberOfLines={1} ellipsizeMode="tail">{story.country}</Text>
                 <Text style={styles.relatedDesc} numberOfLines={2} ellipsizeMode="tail">{story.description}</Text>

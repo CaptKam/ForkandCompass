@@ -691,6 +691,8 @@ export default function CookModeScreen() {
                     source={{ uri: techniqueVideo.thumbnailUrl }}
                     style={StyleSheet.absoluteFill}
                     contentFit="cover"
+                    placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                    onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                   />
                   <View style={styles.videoGradient} />
                   <View style={styles.videoPlayCircle}>
@@ -968,7 +970,7 @@ const styles = StyleSheet.create({
   },
   stepLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 10,
+    fontSize: 11,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 2,
@@ -1020,7 +1022,7 @@ const styles = StyleSheet.create({
   },
   phasePillText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 11,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 2,
@@ -1173,7 +1175,7 @@ const styles = StyleSheet.create({
   },
   videoCardLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 10,
+    fontSize: 11,
     color: "rgba(255,255,255,0.8)",
     textTransform: "uppercase",
     letterSpacing: 2,
@@ -1203,7 +1205,7 @@ const styles = StyleSheet.create({
   },
   donenessCueLabel: {
     fontFamily: "Inter_500Medium",
-    fontSize: 10,
+    fontSize: 11,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 2,
@@ -1220,7 +1222,7 @@ const styles = StyleSheet.create({
   },
   ingredientsLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 10,
+    fontSize: 11,
     color: Colors.light.secondary,
     textTransform: "uppercase",
     letterSpacing: 2,

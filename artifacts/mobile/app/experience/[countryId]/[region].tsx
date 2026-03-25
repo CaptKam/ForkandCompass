@@ -98,6 +98,8 @@ export default function ExperienceScreen() {
             style={StyleSheet.absoluteFill}
             contentFit="cover"
             transition={reducedMotion ? 0 : 400}
+            placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+            onError={(e) => console.warn("[Image] Failed to load:", e.error)}
           />
           <LinearGradient
             colors={["transparent", Colors.light.surface]}
@@ -149,6 +151,8 @@ export default function ExperienceScreen() {
                     style={StyleSheet.absoluteFill}
                     contentFit="cover"
                     transition={reducedMotion ? 0 : 300}
+                    placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                    onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                   />
                 </View>
 
