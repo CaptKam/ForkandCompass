@@ -252,17 +252,18 @@ function LocationCard({ loc, countryId, haptic: doHaptic, reducedMotion }: {
   reducedMotion: boolean;
 }) {
   const [imgFailed, setImgFailed] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const shimmer = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (!imgFailed) {
+    if (!imgFailed && !imgLoaded) {
       const loop = Animated.loop(
         Animated.timing(shimmer, { toValue: 1, duration: 1200, useNativeDriver: true })
       );
       loop.start();
       return () => loop.stop();
     }
-  }, [imgFailed]);
+  }, [imgFailed, imgLoaded]);
 
   return (
     <Pressable
@@ -284,20 +285,23 @@ function LocationCard({ loc, countryId, haptic: doHaptic, reducedMotion }: {
         />
       ) : (
         <>
-          <Animated.View
-            style={[
-              StyleSheet.absoluteFill,
-              {
-                backgroundColor: Colors.light.surfaceContainerHigh,
-                opacity: shimmer.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.3, 0.6, 0.3] }),
-              },
-            ]}
-          />
+          {!imgLoaded && (
+            <Animated.View
+              style={[
+                StyleSheet.absoluteFill,
+                {
+                  backgroundColor: Colors.light.surfaceContainerHigh,
+                  opacity: shimmer.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.3, 0.6, 0.3] }),
+                },
+              ]}
+            />
+          )}
           <Image
             source={{ uri: loc.image }}
             style={StyleSheet.absoluteFill}
             contentFit="cover"
             onError={() => setImgFailed(true)}
+            onLoad={() => setImgLoaded(true)}
             transition={reducedMotion ? 0 : 400}
           />
         </>
@@ -539,8 +543,8 @@ export default function DiscoverScreen() {
                       </View>
                     )}
                   </View>
-                  <Text style={styles.tonightName} numberOfLines={2}>{todayRecipe.name}</Text>
-                  <Text style={styles.tonightDesc} numberOfLines={1}>{todayRecipe.description}</Text>
+                  <Text style={styles.tonightName} numberOfLines={2} ellipsizeMode="tail">{todayRecipe.name}</Text>
+                  <Text style={styles.tonightDesc} numberOfLines={1} ellipsizeMode="tail">{todayRecipe.description}</Text>
                   <Pressable
                     onPress={() => { haptic("medium"); router.push({ pathname: "/cook-mode", params: { recipeId: todayRecipe.id } }); }}
                     style={({ pressed }) => [styles.tonightCookBtn, pressed && { opacity: 0.85 }]}
@@ -600,7 +604,7 @@ export default function DiscoverScreen() {
                       </View>
                     )}
                     <View style={styles.recentInfo}>
-                      <Text style={styles.recentName} numberOfLines={2}>{recipe.name}</Text>
+                      <Text style={styles.recentName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
                     </View>
                   </Pressable>
                 </RecipeContextMenu>
@@ -656,8 +660,8 @@ export default function DiscoverScreen() {
                   >
                     <Image source={{ uri: recipe.image }} style={styles.jumpThumb} contentFit="cover" />
                     <View style={styles.jumpInfo}>
-                      <Text style={styles.jumpCuisine} numberOfLines={1}>{recipe.category}</Text>
-                      <Text style={styles.jumpName} numberOfLines={2}>{recipe.name}</Text>
+                      <Text style={styles.jumpCuisine} numberOfLines={1} ellipsizeMode="tail">{recipe.category}</Text>
+                      <Text style={styles.jumpName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
                     </View>
                   </Pressable>
                 </RecipeContextMenu>
@@ -689,8 +693,8 @@ export default function DiscoverScreen() {
                   <Image source={{ uri: recipe.image }} style={styles.tastingThumb} contentFit="cover" />
                   <View style={styles.tastingInfo}>
                     <Text style={styles.tastingCourse}>{recipe.category}</Text>
-                    <Text style={styles.tastingName} numberOfLines={2}>{recipe.name}</Text>
-                    <Text style={styles.tastingDesc} numberOfLines={1}>{recipe.description}</Text>
+                    <Text style={styles.tastingName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
+                    <Text style={styles.tastingDesc} numberOfLines={1} ellipsizeMode="tail">{recipe.description}</Text>
                   </View>
                   <Ionicons name="chevron-forward" size={16} color={Colors.light.outline} />
                 </Pressable>
@@ -722,7 +726,7 @@ export default function DiscoverScreen() {
               <View key={idx} style={styles.spiceItem}>
                 <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" />
                 <Text style={styles.spiceName}>{spice.name}</Text>
-                <Text style={styles.spiceDesc} numberOfLines={2}>{spice.description}</Text>
+                <Text style={styles.spiceDesc} numberOfLines={2} ellipsizeMode="tail">{spice.description}</Text>
               </View>
             ))}
           </View>
@@ -758,7 +762,7 @@ export default function DiscoverScreen() {
                 <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" />
                 <View style={styles.heritageBody}>
                   <Text style={styles.heritageName}>{item.name}</Text>
-                  <Text style={styles.heritageDesc} numberOfLines={4}>{item.description}</Text>
+                  <Text style={styles.heritageDesc} numberOfLines={4} ellipsizeMode="tail">{item.description}</Text>
                   <View style={styles.heritageBadgeRow}>
                     <View style={styles.heritageDot} />
                     <Text style={styles.heritageBadge}>{item.badge}</Text>
@@ -825,8 +829,8 @@ export default function DiscoverScreen() {
                     <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
                     <LinearGradient colors={["transparent", "rgba(0,0,0,0.65)"]} style={StyleSheet.absoluteFill} />
                     <View style={styles.streetInfo}>
-                      <Text style={styles.streetName} numberOfLines={2}>{food.name}</Text>
-                      <Text style={styles.streetDesc} numberOfLines={1}>{food.description}</Text>
+                      <Text style={styles.streetName} numberOfLines={2} ellipsizeMode="tail">{food.name}</Text>
+                      <Text style={styles.streetDesc} numberOfLines={1} ellipsizeMode="tail">{food.description}</Text>
                     </View>
                   </Pressable>
                 </RecipeContextMenu>
@@ -835,8 +839,8 @@ export default function DiscoverScreen() {
                   <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
                   <LinearGradient colors={["transparent", "rgba(0,0,0,0.65)"]} style={StyleSheet.absoluteFill} />
                   <View style={styles.streetInfo}>
-                    <Text style={styles.streetName} numberOfLines={2}>{food.name}</Text>
-                    <Text style={styles.streetDesc} numberOfLines={1}>{food.description}</Text>
+                    <Text style={styles.streetName} numberOfLines={2} ellipsizeMode="tail">{food.name}</Text>
+                    <Text style={styles.streetDesc} numberOfLines={1} ellipsizeMode="tail">{food.description}</Text>
                   </View>
                 </View>
               );
@@ -876,8 +880,8 @@ export default function DiscoverScreen() {
             {editorial.relatedStories.map((story, idx) => (
               <View key={idx} style={styles.relatedCard}>
                 <Image source={{ uri: story.image }} style={styles.relatedImg} contentFit="cover" />
-                <Text style={styles.relatedCountry} numberOfLines={1}>{story.country}</Text>
-                <Text style={styles.relatedDesc} numberOfLines={2}>{story.description}</Text>
+                <Text style={styles.relatedCountry} numberOfLines={1} ellipsizeMode="tail">{story.country}</Text>
+                <Text style={styles.relatedDesc} numberOfLines={2} ellipsizeMode="tail">{story.description}</Text>
               </View>
             ))}
           </ScrollView>
