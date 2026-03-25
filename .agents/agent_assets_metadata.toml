@@ -12,3 +12,9 @@ id = "Re7EHsKwT5yMTGADduymZ"
 uri = "file://FLOW_MAP.md"
 type = "text"
 title = "Fork & Compass — Mobile App Flow Map"
+
+[[outputs]]
+id = "SNfjg8973jfHXORzeOkUT"
+uri = "file://adaptive-instructions-preview.md"
+type = "text"
+title = "Adaptive Instructions — 15 Recipe Preview"
