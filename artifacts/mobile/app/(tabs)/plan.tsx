@@ -150,7 +150,6 @@ export default function PlanScreen() {
       const dateStr = toISODate(dateObj);
       const existing = currentItinerary.find((dd) => dd.date === dateStr);
       if (existing) {
-        if (dateStr === today && existing.status === "active") continue;
         result.push(existing);
       } else {
         result.push({ id: `empty-${dateStr}`, date: dateStr, dayLabel: DAY_LABELS_FULL[i], isEmpty: true });
@@ -488,6 +487,7 @@ export default function PlanScreen() {
                   <WeekRow
                     day={entry}
                     isLast={index === fullWeek.length - 1}
+                    isToday={entry.date === today}
                     onReload={() => { haptic(); setSwapDay(entry); }}
                     onSkip={() => handleSkipDay(entry)}
                     onRestore={() => handleRestoreDay(entry)}
@@ -1065,9 +1065,10 @@ const swapStyles = StyleSheet.create({
 
 // ─── WeekRow ──────────────────────────────────────────────────────────────────
 
-function WeekRow({ day, isLast, onReload, onSkip, onRestore, drag, isActive }: {
+function WeekRow({ day, isLast, isToday, onReload, onSkip, onRestore, drag, isActive }: {
   day: ItineraryDay;
   isLast: boolean;
+  isToday?: boolean;
   onReload: () => void;
   onSkip: () => void;
   onRestore: () => void;
@@ -1090,7 +1091,16 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore, drag, isActive }: {
 
   return (
     <View style={[styles.daySection, isActive && { opacity: 0.95 }]}>
-      <Text style={styles.dayDateLabel}>{dayName} · {dateLabel}</Text>
+      <View style={styles.dayDateRow}>
+        <Text style={[styles.dayDateLabel, isToday && { color: Colors.light.primary }]}>
+          {dayName} · {dateLabel}
+        </Text>
+        {isToday && (
+          <View style={styles.todayBadge}>
+            <Text style={styles.todayBadgeText}>Tonight</Text>
+          </View>
+        )}
+      </View>
       <View style={[styles.dayCard, isActive && { shadowOpacity: 0.18, elevation: 8 }]}>
         {/* Drag handle */}
         {drag && !isSkipped && (
@@ -1522,12 +1532,29 @@ const styles = StyleSheet.create({
   daySection: {
     gap: 8,
   },
+  dayDateRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
   dayDateLabel: {
     fontFamily: "Inter_400Regular",
     fontSize: 11,
     color: Colors.light.secondary,
     letterSpacing: 1.5,
     textTransform: "uppercase",
+  },
+  todayBadge: {
+    backgroundColor: "#FFDBCB",
+    borderRadius: 999,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  todayBadgeText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 10,
+    color: Colors.light.primary,
+    letterSpacing: 0.5,
   },
   dayCard: {
     flexDirection: "row",
