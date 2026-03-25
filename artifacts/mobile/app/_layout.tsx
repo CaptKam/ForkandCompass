@@ -63,7 +63,7 @@ function RootLayoutNav() {
       />
       <Stack.Screen
         name="cook-mode"
-        options={{ animation: modalAnimation, presentation: "modal" }}
+        options={{ animation: slideAnimation, presentation: "card", gestureEnabled: true }}
       />
       <Stack.Screen
         name="itinerary-setup"

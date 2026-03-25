@@ -2,11 +2,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { useKeepAwake } from "expo-keep-awake";
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  Alert,
   PanResponder,
   Platform,
   Pressable,
@@ -173,7 +172,9 @@ export default function CookModeScreen() {
   const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit } = useApp();
   const colors = useThemeColors();
 
-  const initialStep = resumeStep ? parseInt(resumeStep, 10) : 0;
+  // Restore step from URL param, active session, or start at 0
+  const savedStep = activeCookSession?.recipeId === recipeId ? activeCookSession.currentStep : 0;
+  const initialStep = resumeStep ? parseInt(resumeStep, 10) : savedStep;
   const [currentStep, setCurrentStep] = useState(isNaN(initialStep) ? 0 : initialStep);
   const [direction, setDirection] = useState<"forward" | "back">("forward");
   const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
@@ -257,45 +258,6 @@ export default function CookModeScreen() {
     setActiveCookSession(session);
   }, [currentStep, timerRemaining, timerRunning, finished]);
 
-  // Intercept back gesture/hardware back — show confirmation if mid-cook
-  const navigation = useNavigation();
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("beforeRemove", (e: any) => {
-      if (currentStep === 0 || finished) return;
-      e.preventDefault();
-      Alert.alert(
-        "Exit cooking?",
-        "Your progress will be saved.",
-        [
-          { text: "Keep Cooking", style: "cancel" },
-          {
-            text: "Exit",
-            style: "destructive",
-            onPress: () => {
-              const session: CookSession = {
-                id: `${Date.now()}-${recipeId}`,
-                recipeId: recipe!.id,
-                recipeName: recipe!.name,
-                cuisine: recipe!.countryName,
-                difficulty: recipe!.difficulty,
-                startedAt: startTimeRef.current,
-                completedAt: null,
-                totalTime: Math.round((Date.now() - new Date(startTimeRef.current).getTime()) / 60000),
-                rating: null,
-                feedback: [],
-                stepsCompleted: currentStep,
-                totalSteps: recipe!.steps.length,
-              };
-              completeCookSession(session);
-              navigation.dispatch(e.data.action);
-            },
-          },
-        ]
-      );
-    });
-    return unsubscribe;
-  }, [currentStep, finished, navigation, recipeId, recipe, completeCookSession]);
-
   if (!recipe) {
     return (
       <View style={[styles.container, { alignItems: "center", justifyContent: "center", paddingHorizontal: 48 }]}>
@@ -329,40 +291,8 @@ export default function CookModeScreen() {
   const phaseColor = phase === "finish" ? "#2D7A4F" : Colors.light.primary;
   const phaseBg = phase === "cook" ? "#FEF0E6" : phase === "finish" ? "#EEFAF2" : colors.surface;
 
-  const handleClose = () => {
-    if (currentStep > 0 && !finished) {
-      Alert.alert(
-        "Exit cooking?",
-        "Your progress will be saved.",
-        [
-          { text: "Keep Cooking", style: "cancel" },
-          {
-            text: "Exit",
-            style: "destructive",
-            onPress: () => {
-              const session: CookSession = {
-                id: `${Date.now()}-${recipeId}`,
-                recipeId: recipe.id,
-                recipeName: recipe.name,
-                cuisine: recipe.countryName,
-                difficulty: recipe.difficulty,
-                startedAt: startTimeRef.current,
-                completedAt: null,
-                totalTime: Math.round((Date.now() - new Date(startTimeRef.current).getTime()) / 60000),
-                rating: null,
-                feedback: [],
-                stepsCompleted: currentStep,
-                totalSteps: recipe.steps.length,
-              };
-              completeCookSession(session);
-              router.back();
-            },
-          },
-        ]
-      );
-    } else {
-      router.back();
-    }
+  const handleBack = () => {
+    router.back();
   };
 
   const goNext = () => {
@@ -586,8 +516,8 @@ export default function CookModeScreen() {
       {/* Header */}
       <View style={styles.topBar}>
         <View style={styles.headerLeft}>
-          <Pressable onPress={handleClose} style={styles.headerButton}>
-            <Ionicons name="close" size={24} color={Colors.light.onSurface} />
+          <Pressable onPress={handleBack} style={styles.headerButton} accessibilityLabel="Back to recipe">
+            <Ionicons name="chevron-back" size={24} color={Colors.light.onSurface} />
           </Pressable>
           <View style={styles.headerTitleCol}>
             <Text style={styles.stepLabel}>Step {currentStep + 1} of {recipe.steps.length}</Text>
