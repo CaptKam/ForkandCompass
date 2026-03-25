@@ -33,8 +33,10 @@ export const recipesTable = pgTable("recipes", {
   steps: jsonb("steps").notNull().$type<CookStep[]>(),
   culturalNote: text("cultural_note"),
   tips: text("tips").array().notNull().default([]),
+  status: text("status").notNull().default("live"), // 'live' | 'hidden' | 'draft'
   featured: boolean("featured").notNull().default(false),
   featuredOrder: integer("featured_order"),
+  cookCount: integer("cook_count").notNull().default(0),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
