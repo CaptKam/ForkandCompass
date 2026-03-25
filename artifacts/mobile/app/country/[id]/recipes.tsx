@@ -81,8 +81,8 @@ export default function CountryRecipesScreen() {
             onError={(e) => console.warn("[Image] Failed to load:", e.error)}
           />
           <View style={styles.recipeRowText}>
-            <Text style={styles.recipeRowName} numberOfLines={1}>{item.name}</Text>
-            <Text style={styles.recipeRowSubtitle} numberOfLines={1}>{subtitle}</Text>
+            <Text style={styles.recipeRowName} ellipsizeMode="tail" numberOfLines={1}>{item.name}</Text>
+            <Text style={styles.recipeRowSubtitle} ellipsizeMode="tail" numberOfLines={1}>{subtitle}</Text>
           </View>
           <Ionicons name="chevron-forward" size={18} color={Colors.light.outlineVariant} />
         </Pressable>

@@ -16,6 +16,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
+import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { COUNTRIES, getAllRecipes, getCountryLocations, LANDMARK_IMAGES, type Country, type Recipe } from "@/constants/data";
 import { PARTNER_CONFIG, PARTNER_LIST } from "@/constants/partners";
 import { useApp, type CookingLevel, type AppearanceMode } from "@/contexts/AppContext";
@@ -98,7 +99,7 @@ export default function ProfileTab() {
     <View style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 120 }}
+        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
         {/* Profile Hero */}
         <View style={[styles.heroWrap, { paddingTop: Platform.OS === "web" ? 0 : insets.top }]}>
@@ -218,7 +219,7 @@ export default function ProfileTab() {
                     <Image source={{ uri: recipe.image }} style={{ width: "100%", height: "100%" }} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                   </View>
                   <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={styles.savedRecipeName} numberOfLines={1}>{recipe.name}</Text>
+                    <Text style={styles.savedRecipeName} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
                     <Text style={styles.savedRecipeCuisine}>{recipe.category}</Text>
                   </View>
                   <Pressable onPress={() => { haptic(); toggleSaved(recipe.id); }} hitSlop={12} style={{ flexShrink: 0, marginLeft: 8, minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" }}>

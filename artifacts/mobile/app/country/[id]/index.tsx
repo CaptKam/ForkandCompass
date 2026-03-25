@@ -204,7 +204,7 @@ function CompactRecipeCard({ recipe, reducedMotion }: { recipe: Recipe; reducedM
           onError={(e) => console.warn("[Image] Failed to load:", e.error)}
         />
         <View style={styles.compactCardInfo}>
-          <Text style={styles.compactCardName} numberOfLines={2}>{recipe.name}</Text>
+          <Text style={styles.compactCardName} ellipsizeMode="tail" numberOfLines={2}>{recipe.name}</Text>
           <Text style={styles.compactCardTime}>{recipe.time}</Text>
         </View>
       </Pressable>

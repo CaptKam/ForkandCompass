@@ -521,7 +521,7 @@ export default function DiscoverScreen() {
                       <Text style={styles.destFlagEmoji}>{country.flag}</Text>
                     </View>
                   </View>
-                  <Text style={[styles.destLabel, isActive && styles.destLabelActive]} numberOfLines={1}>
+                  <Text style={[styles.destLabel, isActive && styles.destLabelActive]} ellipsizeMode="tail" numberOfLines={1}>
                     {country.name}
                   </Text>
                 </Pressable>

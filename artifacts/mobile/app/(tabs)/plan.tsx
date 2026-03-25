@@ -24,6 +24,7 @@ import Colors from "@/constants/colors";
 import { COUNTRIES, getCountryById, getRecipeById, type GroceryItem, type Recipe } from "@/constants/data";
 import { type PantryStaple } from "@/constants/pantry";
 import { PARTNER_CONFIG } from "@/constants/partners";
+import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useApp } from "@/contexts/AppContext";
 import { convertAmount } from "@/constants/units";
 import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItinerary";
@@ -411,7 +412,7 @@ export default function PlanScreen() {
           /* Active itinerary */
           <ScrollView
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={[styles.weekScrollContent, { paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + 140 }]}
+            contentContainerStyle={[styles.weekScrollContent, { paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + SCROLL_BOTTOM_INSET }]}
           >
 
             {/* Tonight's Card */}
@@ -484,7 +485,7 @@ export default function PlanScreen() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={[
                 styles.groceryScrollContent,
-                { paddingBottom: Platform.OS === "web" ? 80 : insets.bottom + 140 },
+                { paddingBottom: Platform.OS === "web" ? 80 : insets.bottom + SCROLL_BOTTOM_INSET },
               ]}
               ListHeaderComponent={
                 <View>
@@ -668,7 +669,7 @@ export default function PlanScreen() {
 
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
-        <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 150 : insets.bottom + 140) }]}>
+        <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 150 : insets.bottom + SCROLL_BOTTOM_INSET) }]}>
           <Ionicons name="checkmark-circle" size={16} color="#FEF9F3" />
           <Text style={styles.toastText}>{toast}</Text>
         </View>

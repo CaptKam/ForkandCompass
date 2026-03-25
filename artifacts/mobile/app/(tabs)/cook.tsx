@@ -15,6 +15,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
+import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { getRecipeById, getAllRecipes as getAllRecipesResolved } from "@/constants/data";
 import type { Recipe } from "@/constants/data";
 import { TECHNIQUE_VIDEOS } from "@/constants/techniques";
@@ -163,14 +164,14 @@ export default function CookScreen() {
       <TabHeader title="Cook" />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 120 }}
+        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
         {/* ── PRIORITY 1: Active Cook Session ──────────────────────── */}
         {hasActiveSession && (
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>IN PROGRESS</Text>
             <View style={styles.continueCard}>
-              <Text style={styles.continueRecipeName} numberOfLines={2}>{activeCookSession.recipeName}</Text>
+              <Text style={styles.continueRecipeName} ellipsizeMode="tail" numberOfLines={2}>{activeCookSession.recipeName}</Text>
               <Text style={styles.continueProgress}>
                 Step {activeCookSession.currentStep + 1} of {activeCookSession.totalSteps}
                 {activeCookSession.timerRemaining != null && activeCookSession.timerRemaining > 0
@@ -313,7 +314,7 @@ export default function CookScreen() {
                     placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
                     onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                   />
-                  <Text style={styles.recentName} numberOfLines={1}>{recipe.name}</Text>
+                  <Text style={styles.recentName} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
                   <Text style={styles.recentTime}>{timeAgo(session.completedAt!)}</Text>
                 </Pressable>
               ))}
@@ -347,7 +348,7 @@ export default function CookScreen() {
                     onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                   />
                   <View style={styles.beginnerInfo}>
-                    <Text style={styles.beginnerName} numberOfLines={1}>{recipe.name}</Text>
+                    <Text style={styles.beginnerName} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
                     <Text style={styles.beginnerMeta}>
                       {recipe.countryName} · {recipe.time} · {recipe.difficulty}
                     </Text>
@@ -399,8 +400,8 @@ export default function CookScreen() {
                     </View>
                   </View>
                   <View style={styles.techniqueInfo}>
-                    <Text style={styles.techniqueTitle} numberOfLines={1}>{video.title}</Text>
-                    <Text style={styles.techniqueSubtitle} numberOfLines={1}>{video.subtitle}</Text>
+                    <Text style={styles.techniqueTitle} ellipsizeMode="tail" numberOfLines={1}>{video.title}</Text>
+                    <Text style={styles.techniqueSubtitle} ellipsizeMode="tail" numberOfLines={1}>{video.subtitle}</Text>
                   </View>
                   <Text style={styles.techniqueDuration}>{video.duration}</Text>
                 </Pressable>
