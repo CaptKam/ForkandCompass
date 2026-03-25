@@ -36,6 +36,7 @@ import { findTechniqueForStep } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import type { CookSession, ActiveCookSession } from "@/contexts/AppContext";
 import { convertAmount, convertTemperatureInText } from "@/constants/units";
+import { useThemeColors } from "@/hooks/useThemeColors";
 
 const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
 
@@ -170,6 +171,7 @@ export default function CookModeScreen() {
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(recipeId);
   const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit } = useApp();
+  const colors = useThemeColors();
 
   const initialStep = resumeStep ? parseInt(resumeStep, 10) : 0;
   const [currentStep, setCurrentStep] = useState(isNaN(initialStep) ? 0 : initialStep);
@@ -286,7 +288,7 @@ export default function CookModeScreen() {
 
   const phaseLabel = phase.toUpperCase();
   const phaseColor = phase === "finish" ? "#2D7A4F" : Colors.light.primary;
-  const phaseBg = phase === "cook" ? "#FEF0E6" : phase === "finish" ? "#EEFAF2" : Colors.light.surface;
+  const phaseBg = phase === "cook" ? "#FEF0E6" : phase === "finish" ? "#EEFAF2" : colors.surface;
 
   const handleClose = () => {
     if (currentStep > 0 && !finished) {
@@ -408,7 +410,7 @@ export default function CookModeScreen() {
 
   if (showPrepWarning && !prepWarningDismissed) {
     return (
-      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: Colors.light.surface }]}>
+      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: colors.surface }]}>
         <StatusBar style="dark" />
         <ScrollView contentContainerStyle={styles.prepWarningContent}>
           <Animated.View entering={FadeIn.duration(400)} style={styles.prepWarningInner}>
@@ -468,7 +470,7 @@ export default function CookModeScreen() {
 
   if (finished) {
     return (
-      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: Colors.light.surface }]}>
+      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: colors.surface }]}>
         <StatusBar style="dark" />
         <ScrollView contentContainerStyle={styles.finishContent}>
           <Animated.View entering={FadeIn.duration(400)} style={styles.finishInner}>

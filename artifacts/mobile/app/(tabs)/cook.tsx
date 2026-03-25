@@ -20,6 +20,7 @@ import type { Recipe } from "@/constants/data";
 import { TECHNIQUE_VIDEOS } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useThemeColors } from "@/hooks/useThemeColors";
 import TabHeader from "@/components/TabHeader";
 
 const haptic = () => {
@@ -53,6 +54,7 @@ const BEGINNER_RECIPE_IDS = [
 export default function CookScreen() {
   const insets = useSafeAreaInsets();
   const reducedMotion = useReducedMotion();
+  const colors = useThemeColors();
   const {
     cookingProfile,
     currentItinerary,
@@ -157,7 +159,7 @@ export default function CookScreen() {
   const showWhatToCook = !hasActiveSession && !hasTonightsRecipe;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <TabHeader title="Cook" />
       <ScrollView
         showsVerticalScrollIndicator={false}

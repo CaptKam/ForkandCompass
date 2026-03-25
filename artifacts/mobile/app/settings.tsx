@@ -778,7 +778,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   appearanceButtonActive: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,

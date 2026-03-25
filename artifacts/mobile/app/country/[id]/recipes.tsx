@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   recipeCount: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: "#8A8279",
+    color: Colors.light.secondary,
     paddingHorizontal: 16,
     paddingBottom: 8,
   },
