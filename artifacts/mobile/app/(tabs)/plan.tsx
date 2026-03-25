@@ -129,10 +129,32 @@ export default function PlanScreen() {
     [currentItinerary, today]
   );
 
-  const weekAhead = useMemo(
-    () => currentItinerary.filter((d) => !(d.date === today && d.status === "active")),
-    [currentItinerary, today]
-  );
+  const DAY_LABELS_FULL = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  const fullWeek = useMemo(() => {
+    if (currentItinerary.length === 0) return [];
+    const d = new Date();
+    const day = d.getDay();
+    const diff = day === 0 ? -6 : 1 - day;
+    const monday = new Date(d);
+    monday.setDate(d.getDate() + diff);
+    monday.setHours(0, 0, 0, 0);
+
+    const result: (ItineraryDay | { id: string; date: string; dayLabel: string; isEmpty: true })[] = [];
+    for (let i = 0; i < 7; i++) {
+      const dateObj = new Date(monday);
+      dateObj.setDate(monday.getDate() + i);
+      const dateStr = toISODate(dateObj);
+      const existing = currentItinerary.find((dd) => dd.date === dateStr);
+      if (existing) {
+        if (dateStr === today && existing.status === "active") continue;
+        result.push(existing);
+      } else {
+        result.push({ id: `empty-${dateStr}`, date: dateStr, dayLabel: DAY_LABELS_FULL[i], isEmpty: true });
+      }
+    }
+    return result;
+  }, [currentItinerary, today]);
 
   const allDone = currentItinerary.length > 0 &&
     currentItinerary.every((d) => d.status === "completed" || d.status === "skipped");
@@ -196,9 +218,40 @@ export default function PlanScreen() {
   const handleRestoreDay = (day: ItineraryDay) => {
     haptic();
     setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, status: "active" as const } : d));
-    // Add this day's recipes back to grocery
     const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
     for (const rid of ids) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
+  };
+
+  const handleAddMealToDay = (dateStr: string, dayLabel: string) => {
+    haptic();
+    if (!itineraryProfile) return;
+    const pool = selectedCountryIds.length > 0
+      ? COUNTRIES.filter((c) => selectedCountryIds.includes(c.id))
+      : [...COUNTRIES];
+    const country = pool[Math.floor(Math.random() * pool.length)];
+    if (!country) return;
+    const recipes = country.recipes;
+    const quick = recipes.filter((r) => {
+      const mins = parseInt(r.time, 10);
+      return !isNaN(mins) && mins <= 30;
+    });
+    const full = recipes.length > 0 ? recipes : [];
+    const quickIds = (quick.length > 0 ? quick : full).slice(0, 2).map((r) => r.id);
+    const fullIds = full.slice(0, 2).map((r) => r.id);
+
+    const newDay: ItineraryDay = {
+      id: `${dateStr}-${country.id}`,
+      date: dateStr,
+      dayLabel,
+      countryId: country.id,
+      regionId: country.region.toLowerCase().replace(/\s+/g, "-"),
+      quickRecipeIds: quickIds,
+      fullRecipeIds: fullIds,
+      mode: "quick",
+      status: "active",
+    };
+    setCurrentItinerary([...currentItinerary, newDay].sort((a, b) => a.date.localeCompare(b.date)));
+    for (const rid of quickIds) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
   };
 
   const handleNewWeek = () => {
@@ -350,20 +403,33 @@ export default function PlanScreen() {
             )}
 
             {/* Rest of the Week */}
-            {weekAhead.length > 0 && (
+            {fullWeek.length > 0 && (
               <View style={{ marginBottom: 24 }}>
                 <Text style={styles.sectionLabel}>THIS WEEK</Text>
                 <View style={styles.weekTable}>
-                  {weekAhead.map((day, index) => (
-                    <WeekRow
-                      key={day.id}
-                      day={day}
-                      isLast={index === weekAhead.length - 1}
-                      onReload={() => { haptic(); setSwapDay(day); }}
-                      onSkip={() => handleSkipDay(day)}
-                      onRestore={() => handleRestoreDay(day)}
-                    />
-                  ))}
+                  {fullWeek.map((entry, index) => {
+                    if ("isEmpty" in entry) {
+                      return (
+                        <EmptyDayRow
+                          key={entry.id}
+                          date={entry.date}
+                          dayLabel={entry.dayLabel}
+                          isLast={index === fullWeek.length - 1}
+                          onAdd={() => handleAddMealToDay(entry.date, entry.dayLabel)}
+                        />
+                      );
+                    }
+                    return (
+                      <WeekRow
+                        key={entry.id}
+                        day={entry}
+                        isLast={index === fullWeek.length - 1}
+                        onReload={() => { haptic(); setSwapDay(entry); }}
+                        onSkip={() => handleSkipDay(entry)}
+                        onRestore={() => handleRestoreDay(entry)}
+                      />
+                    );
+                  })}
                 </View>
               </View>
             )}
@@ -983,6 +1049,37 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
   );
 }
 
+// ─── EmptyDayRow ─────────────────────────────────────────────────────────────
+
+function EmptyDayRow({ date, dayLabel, isLast, onAdd }: {
+  date: string;
+  dayLabel: string;
+  isLast: boolean;
+  onAdd: () => void;
+}) {
+  return (
+    <View
+      style={[
+        styles.weekRow,
+        !isLast && styles.weekRowBorder,
+        { opacity: 0.55 },
+      ]}
+    >
+      <View style={styles.weekRowLeft}>
+        <Text style={styles.weekRowDay}>{dayLabel.slice(0, 3).toUpperCase()}</Text>
+        <Text style={styles.weekRowDate}>{formatDayDate(date)}</Text>
+      </View>
+
+      <View style={styles.weekRowCenter}>
+        <Text style={styles.weekRowRecipe}>No meal planned</Text>
+        <Pressable onPress={onAdd} hitSlop={8}>
+          <Text style={styles.addMealText}>+ Add meal</Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+}
+
 // ─── GroceryRow ───────────────────────────────────────────────────────────────
 
 function GroceryRow({ item, isLast, onToggle, measurementSystem }: { item: GroceryItem; isLast: boolean; onToggle: () => void; measurementSystem: import("@/constants/units").MeasurementSystem }) {
@@ -1313,6 +1410,13 @@ const styles = StyleSheet.create({
   restoreText: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
+    lineHeight: 20,
+    color: TERRACOTTA,
+    marginTop: 2,
+  },
+  addMealText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 13,
     lineHeight: 20,
     color: TERRACOTTA,
     marginTop: 2,
