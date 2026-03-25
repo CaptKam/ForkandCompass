@@ -306,15 +306,6 @@ export default function DiscoverScreen() {
             ))}
           </View>
 
-          {/* Header rendered last so it sits on top of the ScrollView in the touch responder chain */}
-          <View style={[styles.heroHeader, { paddingTop: Platform.OS === "web" ? 50 : topPadding + 8 }]}>
-            <Pressable
-              onPress={() => { haptic(); router.push("/settings"); }}
-              style={styles.heroAvatar}
-            >
-              <Ionicons name="person" size={15} color="rgba(255,255,255,0.8)" />
-            </Pressable>
-          </View>
         </View>
 
         {/* ── Explore Destinations ──────────────────────────────────── */}
