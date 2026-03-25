@@ -785,7 +785,7 @@ export default function CookModeScreen() {
               onPress={goPrev}
               style={({ pressed }) => [styles.navBtnSecondary, pressed && { opacity: 0.7 }]}
             >
-              <Ionicons name="arrow-back" size={16} color={Colors.light.onSurface} />
+              <Ionicons name="chevron-back" size={16} color={Colors.light.onSurface} />
               <Text style={styles.navBtnSecondaryText}>Prev</Text>
             </Pressable>
           ) : (

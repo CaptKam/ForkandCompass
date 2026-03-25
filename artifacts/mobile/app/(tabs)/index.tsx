@@ -771,7 +771,6 @@ export default function DiscoverScreen() {
                   <Text style={styles.locSub}>{loc.subtitle}</Text>
                 </View>
               </Pressable>
-              <LocationCard key={idx} loc={loc} countryId={activeCountry.id} haptic={haptic} reducedMotion={reducedMotion} />
             ))}
           </ScrollView>
         </View>
@@ -819,16 +818,14 @@ export default function DiscoverScreen() {
           </View>
           <View style={styles.spiceGrid}>
             {editorial.spiceMarket.map((spice, idx) => (
-              <View key={idx} style={styles.spiceItem}>
-                <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
               <Pressable
                 key={idx}
                 onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
                 style={({ pressed }) => [styles.spiceItem, pressed && { opacity: 0.8 }]}
               >
-                <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" />
+                <Image source={{ uri: spice.image }} style={styles.spiceImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                 <Text style={styles.spiceName}>{spice.name}</Text>
-                <Text style={styles.spiceDesc} numberOfLines={2} ellipsizeMode="tail">{spice.description}</Text>
+                <Text style={styles.spiceDesc} ellipsizeMode="tail" numberOfLines={2}>{spice.description}</Text>
               </Pressable>
             ))}
           </View>
@@ -874,17 +871,15 @@ export default function DiscoverScreen() {
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.heritageScroll}>
             {editorial.heritageItems.map((item, idx) => (
-              <View key={idx} style={styles.heritageCard}>
-                <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
               <Pressable
                 key={idx}
                 onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
                 style={({ pressed }) => [styles.heritageCard, pressed && { opacity: 0.88 }]}
               >
-                <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" />
+                <Image source={{ uri: item.image }} style={styles.heritageImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
                 <View style={styles.heritageBody}>
                   <Text style={styles.heritageName}>{item.name}</Text>
-                  <Text style={styles.heritageDesc} numberOfLines={4} ellipsizeMode="tail">{item.description}</Text>
+                  <Text style={styles.heritageDesc} ellipsizeMode="tail" numberOfLines={4}>{item.description}</Text>
                   <View style={styles.heritageBadgeRow}>
                     <View style={styles.heritageDot} />
                     <Text style={styles.heritageBadge}>{item.badge}</Text>
