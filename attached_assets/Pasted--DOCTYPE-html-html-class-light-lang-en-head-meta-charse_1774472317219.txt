@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cook Hub - The Culinary Editorial</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,600;1,600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#fef9f3",
+              "secondary-fixed-dim": "#e1c19c",
+              "outline-variant": "#dec1b3",
+              "primary-fixed": "#ffdbcb",
+              "inverse-surface": "#32302c",
+              "inverse-on-surface": "#f5f0ea",
+              "on-error-container": "#93000a",
+              "surface-tint": "#9e4300",
+              "on-secondary-container": "#775e3f",
+              "on-tertiary-fixed-variant": "#00497a",
+              "surface-bright": "#fef9f3",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a",
+              "inverse-primary": "#ffb690",
+              "surface-variant": "#e6e2dc",
+              "tertiary": "#005f9c",
+              "surface-container-low": "#f8f3ed",
+              "primary": "#9a4100",
+              "secondary-fixed": "#feddb6",
+              "on-surface-variant": "#574238",
+              "on-secondary-fixed": "#291802",
+              "surface-container-lowest": "#ffffff",
+              "secondary": "#725a3c",
+              "primary-fixed-dim": "#ffb690",
+              "background": "#fef9f3",
+              "tertiary-fixed-dim": "#9ccaff",
+              "secondary-container": "#fbdab3",
+              "primary-container": "#bf550a",
+              "tertiary-container": "#0079c4",
+              "on-primary-container": "#fffbff",
+              "on-surface": "#1d1b18",
+              "outline": "#8a7266",
+              "on-background": "#1d1b18",
+              "tertiary-fixed": "#d0e4ff",
+              "surface-container": "#f2ede7",
+              "on-tertiary-fixed": "#001d35",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#e6e2dc",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed-variant": "#584326",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#ded9d4",
+              "on-primary-fixed-variant": "#783100",
+              "on-primary-fixed": "#341100",
+              "surface-container-high": "#ece7e2",
+              "on-tertiary-container": "#fdfcff",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-[#FEF9F3] dark:bg-[#0D0D0D] docked full-width top-0 sticky z-40">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#9A4100] dark:text-[#FFB690]" data-icon="menu">menu</span>
+</div>
+<h1 class="text-2xl font-semibold text-[#9A4100] dark:text-[#FFB690] italic font-['Noto_Serif'] tracking-tight">The Culinary Editorial</h1>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-primary/10 overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="high-end studio portrait of a sophisticated home chef in a clean linen apron looking into camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcDgVDdryM9W2IpwHB71jjmO9mz1eaDWa-f3ZHQDi0a12FJ5zFMv-JxxDuea3OmDa_lHD1zN27zA_V1fMGDQbrNyXPLAFJeG5VmB_87gU6RbLpExhGDAukHWFWXLCsyo-zusaxAcDAl2DhxLIL1Y-v5jeyHCMSihI4uQOA5Z-B1rPWPc58jLwW-rwc9bddKCsx1EBTLv9zZzOfDvlzLmTc_FbpqIv384JdmzyhmpoJSsGm0Q4eqxBpe8_0fXjGVn6Qd0ZMyNwSylZT"/>
+</div>
+</div>
+</header><!-- Continue Cooking Banner -->
+<div class="bg-[#9A4100] text-white px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-[#863800] transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</div>
+<div>
+<h3 class="font-semibold text-sm uppercase tracking-wider">Continue Cooking</h3>
+<p class="text-xs text-white/80">Cacio e Pepe • Step 4 of 8</p>
+</div>
+</div>
+<span class="material-symbols-outlined">chevron_right</span>
+</div>
+<main class="max-w-screen-xl mx-auto px-6 pt-8 space-y-10">
+<!-- Active Session Section (Editorial Hero Style) -->
+<section class="relative">
+<div class="flex items-baseline justify-between mb-4">
+<span class="font-headline italic text-primary text-lg">In Progress</span>
+<span class="text-secondary label-md uppercase tracking-widest text-[10px]">Session Active</span>
+</div>
+<div class="relative overflow-hidden rounded-2xl bg-surface-container-high shadow-xl">
+<div class="grid md:grid-cols-2">
+<!-- Cinematic Image Bleed -->
+<div class="relative h-64 md:h-auto overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="Extreme close up of creamy Cacio e Pepe pasta with heavy cracked black pepper and pecorino romano shavings in dramatic side lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlNVOUiPpbKg1GbRcfyjqUUlTNj5IS9BtItWMBo6oyyN8W7oHXka73psVRpggiBMo54MMr96zOwW1LwA2F3-yXmJh-BuN22ryX9ydjl5GzpK6D5afjE7SPWugLoOcWAAre-Yn58O67zR4aIlK20SzV81hDb61ZEE6rrgSxE7vhE158HgiWMEI95Hnvw2smaMh_1avRbgvn5g_q0dCK9CKyMeZfMiGnNbjrvDDqXMc0UCqJ4i_y8nH10WjayXbQ692vOOsa9YTTf3Zd"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 flex items-center gap-3">
+<div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-white text-sm" data-icon="timer">timer</span>
+<span class="text-white font-medium text-lg tracking-tighter">12:30</span>
+</div>
+</div>
+</div>
+<!-- Step Details -->
+<div class="p-8 flex flex-col justify-between space-y-8">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-primary-container font-semibold tracking-wide text-xs uppercase">Step 4 of 8</span>
+<div class="flex-1 h-px bg-outline-variant/20"></div>
+</div>
+<h2 class="font-headline text-3xl text-on-surface mb-3 tracking-tight">Cacio e Pepe</h2>
+<p class="text-on-surface-variant leading-relaxed">Toasting the black pepper corns to release essential oils before emulsifying the cheese sauce.</p>
+</div>
+<div class="space-y-4">
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-semibold shadow-lg hover:opacity-90 transition-opacity active:scale-95 duration-200">
+                                Continue Cooking
+                            </button>
+<div class="text-center">
+<a class="text-secondary text-sm font-medium border-b border-secondary/30 hover:text-primary hover:border-primary transition-colors" href="#">Abandon session</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Progress Indicator -->
+<section class="bg-surface-container-low rounded-2xl p-6">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="workspace_premium">workspace_premium</span>
+</div>
+<div>
+<h3 class="font-semibold text-on-surface">Home Chef · Level 3</h3>
+<p class="text-xs text-secondary font-medium uppercase tracking-widest">340 / 500 XP to Master</p>
+</div>
+</div>
+<div class="hidden sm:block">
+<span class="text-primary font-headline text-xl italic">68%</span>
+</div>
+</div>
+<div class="w-full h-1.5 bg-outline-variant/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[68%] rounded-full"></div>
+</div>
+</section>
+<!-- Recently Cooked (Horizontal Scroll) -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline text-xl text-on-surface">RECENTLY COOKED</h3>
+<a class="text-primary text-xs font-semibold uppercase tracking-widest" href="#">View All</a>
+</div>
+<div class="flex gap-6 overflow-x-auto no-scrollbar -mx-6 px-6 pb-4">
+<!-- Card 1 -->
+<div class="flex-none w-64 space-y-3">
+<div class="aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Minimalist overhead shot of a fresh poke bowl with salmon and avocado on a neutral handmade ceramic plate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE1_bo2E9xzkzYVc9ccCjDT0oj5VY6VUtqa_fJpg3smGGdW61rIHjshx8LkYphDYZIkn3iIvRb6eMcSbwR9vneGkb6opMAzNFuddLLqw7mhHtFgIWpyRXti_tNIpJUGC2gFzUm-FX-rB30YILZq2Z3rR8Mx_at69jXBKZHrBLQoGEn0_kKKn-dlOI1vEtw0zEA9PGwZD6QH-yxQ6u4AMnxNM6hyHs5TgRjish-GPSMYJ-V-m6Kb-Mtv0kr9HlgdzD903ub_n0lOYTK"/>
+</div>
+<div>
+<span class="text-[10px] font-medium uppercase tracking-widest text-secondary">2 Days Ago</span>
+<h4 class="font-headline text-lg text-on-surface">Tuna Poke Bowl</h4>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex-none w-64 space-y-3">
+<div class="aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="High-end restaurant plating of grilled lamb chops with rosemary garnish on dark slate surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlTGgOEOsjr5rpI1gReGKI2a8pC8sVvswC8ckma85zWHM3kOiKuPxJrLzTKMc3uLqwqXNC3TSEB8JF0_4i4nc_4Z2VDiX2bplSsruQqKEnix9FnNPjwe4WbSBQBf8CarMuowYuJhuW1MFJ_5VPcpLObQosWJUyUfI-4PRy6gb6-_UOIhiK6gIHDbgn4vle6t10btIYPXDnVv_P43FaSXZ_vuoy-qgAQHb0Dwy1fLD1yD-LIADmXrhB1mYhdeVoDWzvzu3t0C2pkmGP"/>
+</div>
+<div>
+<span class="text-[10px] font-medium uppercase tracking-widest text-secondary">Last Week</span>
+<h4 class="font-headline text-lg text-on-surface">Herbed Lamb Rack</h4>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex-none w-64 space-y-3">
+<div class="aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Golden brown sourdough loaf sitting on a floured surface next to a rustic kitchen knife" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiFggeuR9upq80EVR8TLckGcTqjdpYPdOVi-t0ULbA3x5CzLlTRdAxai88hbzOVWWQyhsg0Cx7sD_S-ZwvErxQV-FxQ89xATrcEFHgPrZ_yGdRHWV2jWJC-Aoy8MGNAdyEU6ahs3lgUhLMntZDlc2CI-Ej-tdmaPFV1YN1aZaofKXXSlDsdlblu87yaAzyYCjfz6FyxtLbmYFqLbeEDRR95vKTQ_HKXS0utBBfEkf_GSfWen8kQEI3QMSveroWg-6X77ofXG6fCBPg"/>
+</div>
+<div>
+<span class="text-[10px] font-medium uppercase tracking-widest text-secondary">Oct 12</span>
+<h4 class="font-headline text-lg text-on-surface">Artisan Sourdough</h4>
+</div>
+</div>
+</div>
+</section>
+<!-- Techniques Section (Collapsed) -->
+<section class="border-t border-outline-variant/20 pt-10">
+<div class="bg-surface-container-low rounded-2xl p-6 flex items-center justify-between cursor-pointer group hover:bg-surface-container">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-outline-variant/10 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+</div>
+<div>
+<h3 class="font-headline text-lg text-on-surface">Mastering Techniques</h3>
+<p class="text-sm text-on-surface-variant">Expand your culinary repertoire with 12 new lessons.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" data-icon="expand_more">expand_more</span>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-end px-4 pb-6 bg-[#FEF9F3]/70 dark:bg-[#0D0D0D]/70 backdrop-blur-xl border-t border-[#DEC1B3]/20 shadow-[0_-12px_40px_rgba(29,27,24,0.06)] rounded-t-[2rem]">
+<!-- Explore -->
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] p-2 hover:text-[#9A4100] dark:hover:text-[#FFB690]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="explore">explore</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Explore</span>
+</a>
+<!-- Plan -->
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] p-2 hover:text-[#9A4100] dark:hover:text-[#FFB690]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="calendar_today">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Plan</span>
+</a>
+<!-- Cook (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#9A4100] text-white rounded-full p-3 mb-2 transform -translate-y-2 shadow-lg Active: scale-90 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant" data-weight="fill" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-0.5">Cook</span>
+</a>
+<!-- Saved -->
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] p-2 hover:text-[#9A4100] dark:hover:text-[#FFB690]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="bookmark">bookmark</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Saved</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] p-2 hover:text-[#9A4100] dark:hover:text-[#FFB690]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Settings</span>
+</a>
+</nav>
+</body></html>
