@@ -29,6 +29,10 @@ function NativeTabLayout() {
         <Icon sf={{ default: "fork.knife", selected: "fork.knife" }} />
         <Label>Cook</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="profile">
+        <Icon sf={{ default: "person.circle", selected: "person.circle.fill" }} />
+        <Label>Profile</Label>
+      </NativeTabs.Trigger>
     </NativeTabs>
   );
 }
@@ -132,6 +136,18 @@ function ClassicTabLayout() {
               <SymbolView name="fork.knife" tintColor={color} size={24} />
             ) : (
               <MaterialIcons name="restaurant" size={24} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) =>
+            isIOS ? (
+              <SymbolView name="person.circle" tintColor={color} size={24} />
+            ) : (
+              <MaterialIcons name="person-outline" size={24} color={color} />
             ),
         }}
       />
