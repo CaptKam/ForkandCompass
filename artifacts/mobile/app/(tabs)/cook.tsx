@@ -23,7 +23,7 @@ import { TECHNIQUE_VIDEOS } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import TabHeader from "@/components/TabHeader";
+
 
 const haptic = (style: "light" | "medium" = "light") => {
   if (Platform.OS !== "web") {
@@ -155,7 +155,6 @@ export default function CookScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
-      <TabHeader title="Cook" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
