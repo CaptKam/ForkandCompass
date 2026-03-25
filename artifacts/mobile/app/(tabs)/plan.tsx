@@ -337,41 +337,39 @@ export default function PlanScreen() {
   return (
     <View style={styles.container}>
 
-      {/* ── Nav Bar ─────────────────────────────────────────────── */}
-      <View style={[styles.navBar, { paddingTop: Platform.OS === "web" ? 20 : insets.top + 10 }]}>
-        <Text style={styles.navTitle}>Plan</Text>
-        <Pressable onPress={() => { haptic(); router.push("/itinerary-setup"); }} hitSlop={8}>
-          <Text style={styles.navEdit}>Edit</Text>
-        </Pressable>
-      </View>
-
-      {/* ── Segment Control ─────────────────────────────────────── */}
-      <View style={styles.segmentWrap}>
-        <View style={styles.segmentControl}>
-          <Pressable
-            style={[styles.segmentBtn, segment === "week" && styles.segmentBtnActive]}
-            onPress={() => switchSegment("week")}
-          >
-            <Text style={[styles.segmentText, segment === "week" && styles.segmentTextActive]}>
-              This Week
-            </Text>
-          </Pressable>
-          <Pressable
-            style={[styles.segmentBtn, segment === "grocery" && styles.segmentBtnActive]}
-            onPress={() => switchSegment("grocery")}
-          >
-            <Text style={[styles.segmentText, segment === "grocery" && styles.segmentTextActive]}>
-              Grocery
-            </Text>
-            {uncheckedGroceryCount > 0 && (
-              <View style={[styles.segmentBadge, segment === "grocery" && styles.segmentBadgeActive]}>
-                <Text style={[styles.segmentBadgeText, segment === "grocery" && styles.segmentBadgeTextActive]}>
-                  {uncheckedGroceryCount}
-                </Text>
-              </View>
-            )}
-          </Pressable>
+      {/* ── Header with Segment Control ──────────────────────────── */}
+      <View style={[styles.headerSection, { paddingTop: Platform.OS === "web" ? 28 : insets.top + 16 }]}>
+        <View style={styles.headerRow}>
+          <Text style={styles.headerTitle}>Weekly Table</Text>
+          <View style={styles.segmentControl}>
+            <Pressable
+              style={[styles.segmentBtn, segment === "week" && styles.segmentBtnActive]}
+              onPress={() => switchSegment("week")}
+            >
+              <Text style={[styles.segmentText, segment === "week" && styles.segmentTextActive]}>
+                This Week
+              </Text>
+            </Pressable>
+            <Pressable
+              style={[styles.segmentBtn, segment === "grocery" && styles.segmentBtnActive]}
+              onPress={() => switchSegment("grocery")}
+            >
+              <Text style={[styles.segmentText, segment === "grocery" && styles.segmentTextActive]}>
+                Grocery
+              </Text>
+              {uncheckedGroceryCount > 0 && (
+                <View style={[styles.segmentBadge, segment === "grocery" && styles.segmentBadgeActive]}>
+                  <Text style={[styles.segmentBadgeText, segment === "grocery" && styles.segmentBadgeTextActive]}>
+                    {uncheckedGroceryCount}
+                  </Text>
+                </View>
+              )}
+            </Pressable>
+          </View>
         </View>
+        <Text style={styles.headerSubtitle}>
+          Curating your seasonal menu. All ingredients are automatically synced to your pantry list.
+        </Text>
       </View>
 
       {/* ── This Week ─────────────────────────────────────────────── */}
@@ -425,33 +423,30 @@ export default function PlanScreen() {
 
             {/* Rest of the Week */}
             {fullWeek.length > 0 && (
-              <View style={{ marginBottom: 24 }}>
-                <Text style={styles.sectionLabel}>THIS WEEK</Text>
-                <View style={styles.weekTable}>
-                  {fullWeek.map((entry, index) => {
-                    if ("isEmpty" in entry) {
-                      return (
-                        <EmptyDayRow
-                          key={entry.id}
-                          date={entry.date}
-                          dayLabel={entry.dayLabel}
-                          isLast={index === fullWeek.length - 1}
-                          onAdd={() => handleAddMealToDay(entry.date, entry.dayLabel)}
-                        />
-                      );
-                    }
+              <View style={{ marginBottom: 24, gap: 20 }}>
+                {fullWeek.map((entry, index) => {
+                  if ("isEmpty" in entry) {
                     return (
-                      <WeekRow
+                      <EmptyDayRow
                         key={entry.id}
-                        day={entry}
+                        date={entry.date}
+                        dayLabel={entry.dayLabel}
                         isLast={index === fullWeek.length - 1}
-                        onReload={() => { haptic(); setSwapDay(entry); }}
-                        onSkip={() => handleSkipDay(entry)}
-                        onRestore={() => handleRestoreDay(entry)}
+                        onAdd={() => handleAddMealToDay(entry.date, entry.dayLabel)}
                       />
                     );
-                  })}
-                </View>
+                  }
+                  return (
+                    <WeekRow
+                      key={entry.id}
+                      day={entry}
+                      isLast={index === fullWeek.length - 1}
+                      onReload={() => { haptic(); setSwapDay(entry); }}
+                      onSkip={() => handleSkipDay(entry)}
+                      onRestore={() => handleRestoreDay(entry)}
+                    />
+                  );
+                })}
               </View>
             )}
 
@@ -685,44 +680,60 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
   const country = getCountryById(day.countryId);
   const recipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
   const recipes = recipeIds.map(getRecipeById).filter(Boolean);
-  // Use the main course (last in eating order) for hero image; fall back to first
   const heroRecipe = recipes.find((r) => r?.category === "Main Course") || recipes[0];
   const haptic = () => { if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); };
 
   if (!country || !heroRecipe) return null;
 
-  // Title shows recipes in eating order (appetizer + main)
   const title = recipes.length > 1 ? recipes.map((r) => r?.name).join(" + ") : heroRecipe.name;
   const region = heroRecipe.region || country.name;
 
   return (
     <View style={styles.tonightCard}>
-      {/* Hero image — tapping goes to Recipe Detail for reading */}
-      <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: heroRecipe.id } }); }}>
+      <View style={styles.tonightHeader}>
+        <View style={styles.tonightHeaderLeft}>
+          <View style={styles.pulseDot}>
+            <View style={styles.pulseDotInner} />
+          </View>
+          <Text style={styles.tonightHeaderLabel}>Active Itinerary · Tonight</Text>
+        </View>
+        <View style={styles.tonightHeaderActions}>
+          <Pressable
+            onPress={() => { haptic(); router.push("/itinerary-setup"); }}
+            hitSlop={8}
+          >
+            <Ionicons name="refresh" size={16} color={Colors.light.secondary} />
+          </Pressable>
+        </View>
+      </View>
+
+      <Pressable
+        onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: heroRecipe.id } }); }}
+        style={styles.tonightContent}
+      >
         <View style={styles.tonightImageWrap}>
           <Image source={{ uri: heroRecipe.image }} style={styles.tonightImage} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
-          <LinearGradient colors={["transparent", "rgba(0,0,0,0.55)"]} style={StyleSheet.absoluteFill} />
+        </View>
+        <View style={styles.tonightBody}>
+          <View style={styles.supperBadge}>
+            <Text style={styles.supperBadgeText}>Supper Choice</Text>
+          </View>
+          <Text style={styles.tonightTitle} ellipsizeMode="tail" numberOfLines={2}>{title}</Text>
+          <Text style={styles.tonightDesc} numberOfLines={2}>
+            A {region} staple elevated by premium ingredients and careful preparation.
+          </Text>
+          <View style={styles.tonightMeta}>
+            <View style={styles.tonightMetaItem}>
+              <Ionicons name="time-outline" size={14} color={Colors.light.secondary} />
+              <Text style={styles.tonightMetaText}>{heroRecipe.time}</Text>
+            </View>
+            <View style={styles.tonightMetaItem}>
+              <Ionicons name="flash-outline" size={14} color={Colors.light.secondary} />
+              <Text style={styles.tonightMetaText}>Chef's Choice</Text>
+            </View>
+          </View>
         </View>
       </Pressable>
-
-      {/* Body */}
-      <View style={styles.tonightBody}>
-        <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: heroRecipe.id } }); }}>
-          <Text style={styles.tonightTitle} ellipsizeMode="tail" numberOfLines={2}>{title}</Text>
-        </Pressable>
-        <Text style={styles.tonightSubtitle}>
-          {region}, {country.name} · {heroRecipe.time}
-        </Text>
-        <Text style={styles.tonightServing}>Serving {servings}</Text>
-
-        {/* Start Cooking → goes DIRECTLY to Cook Mode */}
-        <Pressable
-          onPress={() => { haptic(); router.push({ pathname: "/cook-mode", params: { recipeId: heroRecipe.id } }); }}
-          style={({ pressed }) => [styles.startCookingBtn, pressed && { opacity: 0.88 }]}
-        >
-          <Text style={styles.startCookingText}>Start Cooking →</Text>
-        </Pressable>
-      </View>
     </View>
   );
 }
@@ -1032,52 +1043,57 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
 
   const recipeTitle = recipes.map((r) => r?.name).join(" + ");
   const mainRecipe = recipes[0];
+  const d = new Date(day.date + "T12:00:00");
+  const dayName = d.toLocaleDateString("en-US", { weekday: "long" });
+  const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
-    <Pressable
-      onPress={() => { if (!isSkipped && mainRecipe) { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } }); } }}
-      style={({ pressed }) => [
-        styles.weekRow,
-        !isLast && styles.weekRowBorder,
-        isSkipped && { opacity: 0.5 },
-        pressed && !isSkipped && { backgroundColor: Colors.light.surfaceContainerLow },
-      ]}
-    >
-      {/* Left: day + date */}
-      <View style={styles.weekRowLeft}>
-        <Text style={styles.weekRowDay}>{day.dayLabel.slice(0, 3).toUpperCase()}</Text>
-        <Text style={styles.weekRowDate}>{formatDayDate(day.date)}</Text>
-      </View>
-
-      {/* Center: recipe info */}
-      <View style={styles.weekRowCenter}>
-        <Text style={styles.weekRowRecipe} ellipsizeMode="tail" numberOfLines={1}>
-          {isSkipped ? "Skipped" : recipeTitle}
-        </Text>
-        {!isSkipped && mainRecipe && (
-          <Text style={styles.weekRowSub} ellipsizeMode="tail" numberOfLines={1}>
-            {country.name} · {mainRecipe.time}
+    <View style={styles.daySection}>
+      <Text style={styles.dayDateLabel}>{dayName} · {dateLabel}</Text>
+      <Pressable
+        onPress={() => { if (!isSkipped && mainRecipe) { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } }); } }}
+        style={({ pressed }) => [
+          styles.dayCard,
+          isSkipped && { opacity: 0.5 },
+          pressed && !isSkipped && { backgroundColor: Colors.light.surfaceContainerHigh },
+        ]}
+      >
+        {mainRecipe?.image && !isSkipped && (
+          <View style={styles.dayCardThumb}>
+            <Image
+              source={{ uri: mainRecipe.image }}
+              style={styles.dayCardThumbImage}
+              contentFit="cover"
+              onError={(e) => console.warn("[Image] Failed to load:", e.error)}
+            />
+          </View>
+        )}
+        <View style={styles.dayCardInfo}>
+          <Text style={styles.dayCardRecipe} ellipsizeMode="tail" numberOfLines={1}>
+            {isSkipped ? "Skipped" : recipeTitle}
           </Text>
-        )}
-        {isSkipped && (
-          <Pressable onPress={onRestore} hitSlop={8}>
-            <Text style={styles.restoreText}>Restore</Text>
-          </Pressable>
-        )}
-      </View>
-
-      {/* Right: actions */}
-      {!isSkipped && (
-        <View style={styles.weekRowActions}>
-          <Pressable onPress={onReload} hitSlop={10} style={styles.rowActionBtn}>
-            <Ionicons name="refresh" size={20} color={Colors.light.secondary} />
-          </Pressable>
-          <Pressable onPress={onSkip} hitSlop={10} style={styles.rowActionBtn}>
-            <Ionicons name="close" size={20} color={Colors.light.secondary} />
-          </Pressable>
+          {!isSkipped && mainRecipe && (
+            <Text style={styles.dayCardSub} ellipsizeMode="tail" numberOfLines={1}>
+              Dinner · {country.name}
+            </Text>
+          )}
+          {isSkipped && (
+            <Pressable onPress={onRestore} hitSlop={8}>
+              <Text style={styles.restoreText}>Restore</Text>
+            </Pressable>
+          )}
         </View>
-      )}
-    </Pressable>
+        {!isSkipped && (
+          <Pressable
+            onPress={(e) => { e.stopPropagation(); onReload(); }}
+            style={styles.dayCardEditBtn}
+            hitSlop={8}
+          >
+            <Ionicons name="pencil" size={14} color={Colors.light.secondary} />
+          </Pressable>
+        )}
+      </Pressable>
+    </View>
   );
 }
 
@@ -1089,25 +1105,26 @@ function EmptyDayRow({ date, dayLabel, isLast, onAdd }: {
   isLast: boolean;
   onAdd: () => void;
 }) {
-  return (
-    <View
-      style={[
-        styles.weekRow,
-        !isLast && styles.weekRowBorder,
-        { opacity: 0.55 },
-      ]}
-    >
-      <View style={styles.weekRowLeft}>
-        <Text style={styles.weekRowDay}>{dayLabel.slice(0, 3).toUpperCase()}</Text>
-        <Text style={styles.weekRowDate}>{formatDayDate(date)}</Text>
-      </View>
+  const d = new Date(date + "T12:00:00");
+  const dayName = d.toLocaleDateString("en-US", { weekday: "long" });
+  const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
-      <View style={styles.weekRowCenter}>
-        <Text style={styles.weekRowRecipe}>No meal planned</Text>
-        <Pressable onPress={onAdd} hitSlop={8}>
-          <Text style={styles.addMealText}>+ Add meal</Text>
-        </Pressable>
-      </View>
+  return (
+    <View style={styles.daySection}>
+      <Text style={styles.dayDateLabel}>{dayName} · {dateLabel}</Text>
+      <Pressable
+        onPress={onAdd}
+        style={({ pressed }) => [
+          styles.emptyDayCard,
+          pressed && { backgroundColor: Colors.light.surfaceContainerLow },
+        ]}
+      >
+        <View style={styles.emptyDayIconCircle}>
+          <Ionicons name="add" size={22} color={Colors.light.primary} />
+        </View>
+        <Text style={styles.emptyDayTitle}>Add Meal</Text>
+        <Text style={styles.emptyDayHint}>Browse Inspiration</Text>
+      </Pressable>
     </View>
   );
 }
@@ -1151,67 +1168,64 @@ function GroceryRow({ item, isLast, onToggle, measurementSystem }: { item: Groce
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.light.surface },
 
-  // Nav bar
-  navBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+  headerSection: {
     paddingHorizontal: 24,
-    paddingBottom: 14,
+    paddingBottom: 16,
     backgroundColor: Colors.light.surface,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.light.outlineVariant,
   },
-  navTitle: {
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  headerTitle: {
     fontFamily: "NotoSerif_700Bold",
-    fontSize: 22,
+    fontSize: 28,
     color: Colors.light.onSurface,
+    letterSpacing: -0.5,
   },
-  navEdit: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 17,
-    color: Colors.light.primary,
+  headerSubtitle: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    lineHeight: 21,
+    color: Colors.light.secondary,
+    maxWidth: 300,
   },
 
-  // Segment control
-  segmentWrap: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    backgroundColor: Colors.light.surface,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.light.outlineVariant,
-  },
   segmentControl: {
     flexDirection: "row",
-    backgroundColor: "#F0E8DE",
-    borderRadius: 10,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 20,
     padding: 3,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(138,114,102,0.1)",
   },
   segmentBtn: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 6,
-    paddingVertical: 14,
-    borderRadius: 8,
+    gap: 5,
+    paddingVertical: 7,
+    paddingHorizontal: 16,
+    borderRadius: 18,
   },
   segmentBtnActive: {
-    backgroundColor: Colors.light.surface,
+    backgroundColor: Colors.light.primary,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
   },
   segmentText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 15,
+    fontSize: 13,
     color: Colors.light.secondary,
   },
   segmentTextActive: {
     fontFamily: "Inter_600SemiBold",
-    color: Colors.light.primary,
+    color: Colors.light.surface,
   },
   segmentBadge: {
     backgroundColor: Colors.light.secondary,
@@ -1223,7 +1237,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   segmentBadgeActive: {
-    backgroundColor: Colors.light.primary,
+    backgroundColor: Colors.light.surface,
   },
   segmentBadgeText: {
     fontFamily: "Inter_600SemiBold",
@@ -1232,7 +1246,7 @@ const styles = StyleSheet.create({
     color: Colors.light.surface,
   },
   segmentBadgeTextActive: {
-    color: Colors.light.surface,
+    color: Colors.light.primary,
   },
 
   // Shared empty state
@@ -1312,125 +1326,164 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
-  // Tonight Card
   tonightCard: {
     borderRadius: 16,
     overflow: "hidden",
-    backgroundColor: Colors.light.surface,
+    backgroundColor: Colors.light.surfaceContainerHigh,
     borderWidth: 1,
-    borderColor: Colors.light.outlineVariant,
+    borderColor: "rgba(154,65,0,0.1)",
     marginBottom: 28,
   },
+  tonightHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(138,114,102,0.2)",
+  },
+  tonightHeaderLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  pulseDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: Colors.light.primary,
+  },
+  pulseDotInner: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: Colors.light.primary,
+  },
+  tonightHeaderLabel: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 11,
+    color: Colors.light.primary,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+  },
+  tonightHeaderActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  tonightContent: {
+    flexDirection: "row",
+  },
   tonightImageWrap: {
-    width: "100%",
-    height: 200,
+    width: "45%",
+    aspectRatio: 4 / 3,
   },
   tonightImage: {
     width: "100%",
-    height: 200,
+    height: "100%",
   },
   tonightBody: {
-    padding: 18,
-    gap: 12,
+    flex: 1,
+    padding: 16,
+    justifyContent: "center",
+    gap: 6,
+  },
+  supperBadge: {
+    alignSelf: "flex-start",
+    backgroundColor: "#FFDBCB",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 4,
+    marginBottom: 2,
+  },
+  supperBadgeText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 10,
+    color: Colors.light.primary,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
   },
   tonightTitle: {
     fontFamily: "NotoSerif_700Bold",
-    fontSize: 20,
+    fontSize: 17,
     color: Colors.light.onSurface,
     letterSpacing: -0.3,
-    lineHeight: 28,
+    lineHeight: 23,
   },
-  tonightSubtitle: {
+  tonightDesc: {
     fontFamily: "Inter_400Regular",
-    fontSize: 16,
-    lineHeight: 22,
-    color: Colors.light.secondary,
-    marginTop: -4,
+    fontSize: 12,
+    lineHeight: 18,
+    color: Colors.light.onSurfaceVariant,
   },
-  tonightServing: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    lineHeight: 20,
-    color: Colors.light.secondary,
-    marginTop: -4,
-  },
-  startCookingBtn: {
-    height: 52,
-    backgroundColor: Colors.light.primary,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  startCookingText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: Colors.light.surface,
-  },
-
-  // Week table rows
-  weekTable: {
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: Colors.light.outlineVariant,
-    overflow: "hidden",
-    backgroundColor: Colors.light.surface,
-  },
-  weekRow: {
+  tonightMeta: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 14,
-    paddingLeft: 16,
-    paddingRight: 12,
-    minHeight: 72,
-    backgroundColor: Colors.light.surface,
+    gap: 12,
+    marginTop: 4,
   },
-  weekRowBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.light.outlineVariant,
+  tonightMetaItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
-  weekRowLeft: {
-    width: 64,
-    alignItems: "flex-start",
-    paddingRight: 12,
-  },
-  weekRowDay: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    lineHeight: 18,
-    color: Colors.light.onSurface,
-  },
-  weekRowDate: {
+  tonightMetaText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 11,
     color: Colors.light.secondary,
-    marginTop: 2,
   },
-  weekRowCenter: {
+
+  daySection: {
+    gap: 8,
+  },
+  dayDateLabel: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 11,
+    color: Colors.light.secondary,
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+  },
+  dayCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 14,
+    padding: 12,
+    gap: 12,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(138,114,102,0.1)",
+  },
+  dayCardThumb: {
+    width: 56,
+    height: 56,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  dayCardThumbImage: {
+    width: "100%",
+    height: "100%",
+  },
+  dayCardInfo: {
     flex: 1,
     gap: 2,
   },
-  weekRowRecipe: {
+  dayCardRecipe: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 16,
     color: Colors.light.onSurface,
     letterSpacing: -0.2,
   },
-  weekRowSub: {
+  dayCardSub: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 12,
     color: Colors.light.secondary,
   },
-  weekRowActions: {
-    flexDirection: "row",
-    gap: 4,
-    marginLeft: 8,
-  },
-  rowActionBtn: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+  dayCardEditBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: Colors.light.surfaceContainerHighest,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -1441,12 +1494,36 @@ const styles = StyleSheet.create({
     color: Colors.light.primary,
     marginTop: 2,
   },
-  addMealText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
-    lineHeight: 20,
-    color: Colors.light.primary,
-    marginTop: 2,
+  emptyDayCard: {
+    borderWidth: 2,
+    borderStyle: "dashed",
+    borderColor: "rgba(138,114,102,0.2)",
+    borderRadius: 14,
+    paddingVertical: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+  },
+  emptyDayIconCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(154,65,0,0.05)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 2,
+  },
+  emptyDayTitle: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+  },
+  emptyDayHint: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 10,
+    color: Colors.light.secondary,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
   },
 
   // Generate new week
