@@ -30,3 +30,9 @@ id = "HewD37V-9_xAjegz7xPqM"
 uri = "file://docs/flow_map.md"
 type = "text"
 title = "Fork & Compass — App Flow Map"
+
+[[outputs]]
+id = "DMcuQxXrI3wWP2TJkkrrk"
+uri = "file://docs/discover-page-complete.md"
+type = "text"
+title = "Discover Page — Complete Reference"
