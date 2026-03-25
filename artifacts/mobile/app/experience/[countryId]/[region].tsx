@@ -72,7 +72,7 @@ export default function ExperienceScreen() {
       {/* Fixed header */}
       <View style={[styles.fixedHeader, { paddingTop: Platform.OS === "web" ? 16 : insets.top + 8 }]}>
         <Pressable onPress={() => router.back()} style={styles.headerButton}>
-          <Ionicons name="arrow-back" size={22} color={Colors.light.primary} />
+          <Ionicons name="chevron-back" size={22} color={Colors.light.primary} />
         </Pressable>
         <View style={styles.headerCenter}>
           <Text style={styles.headerFlag}>{country.flag}</Text>

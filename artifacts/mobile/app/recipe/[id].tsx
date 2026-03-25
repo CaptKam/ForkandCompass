@@ -120,7 +120,7 @@ export default function RecipeDetailScreen() {
 
           <View style={[styles.topBar, { top: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
             <Pressable onPress={() => router.back()} style={styles.iconButton}>
-              <Ionicons name="arrow-back" size={22} color={Colors.light.onSurface} />
+              <Ionicons name="chevron-back" size={22} color={Colors.light.onSurface} />
             </Pressable>
             <Pressable
               onPress={() => {

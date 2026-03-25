@@ -95,7 +95,7 @@ export default function CountryRecipesScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
         <Pressable onPress={() => router.back()} style={styles.headerBackButton}>
-          <Ionicons name="arrow-back" size={22} color={Colors.light.primary} />
+          <Ionicons name="chevron-back" size={22} color={Colors.light.primary} />
           <Text style={styles.headerBackText}>{country.name}</Text>
         </Pressable>
       </View>

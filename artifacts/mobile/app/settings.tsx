@@ -128,13 +128,14 @@ export default function ProfileScreen() {
             style={StyleSheet.absoluteFill}
           />
 
-          {/* Back button */}
+          {/* Close button (modal dismiss — top-trailing per iOS HIG) */}
           <Pressable
             onPress={() => { haptic(); router.back(); }}
-            style={[styles.heroBack, { top: (Platform.OS === "web" ? 16 : insets.top + 4) }]}
+            style={[styles.heroClose, { top: (Platform.OS === "web" ? 16 : insets.top + 4) }]}
+            accessibilityLabel="Close"
             hitSlop={12}
           >
-            <Ionicons name="chevron-back" size={22} color="#FEF9F3" />
+            <Ionicons name="close" size={24} color="#FEF9F3" />
           </Pressable>
 
           {/* Avatar + name overlay */}
@@ -511,12 +512,12 @@ const styles = StyleSheet.create({
     position: "relative",
     justifyContent: "flex-end",
   },
-  heroBack: {
+  heroClose: {
     position: "absolute",
-    left: 16,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    right: 20,
+    minWidth: 44,
+    minHeight: 44,
+    borderRadius: 22,
     backgroundColor: "rgba(0,0,0,0.28)",
     alignItems: "center",
     justifyContent: "center",

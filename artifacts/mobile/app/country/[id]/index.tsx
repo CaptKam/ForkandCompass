@@ -59,7 +59,7 @@ export default function CountryDetailScreen() {
       {/* Fixed header */}
       <View style={[styles.fixedHeader, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
         <Pressable onPress={() => router.back()} style={styles.headerButton}>
-          <Ionicons name="arrow-back" size={22} color={Colors.light.primary} />
+          <Ionicons name="chevron-back" size={22} color={Colors.light.primary} />
         </Pressable>
         <Text style={styles.headerTitle}>Fork & Compass</Text>
         <Pressable

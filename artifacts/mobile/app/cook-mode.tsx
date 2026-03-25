@@ -7,6 +7,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
+  PanResponder,
   Platform,
   Pressable,
   ScrollView,
@@ -193,6 +194,19 @@ export default function CookModeScreen() {
   const [timerName, setTimerName] = useState<string>("");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<string>(new Date().toISOString());
+
+  // PanResponder for swipe-to-dismiss on help sheet
+  const helpSheetPanResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, gestureState) => gestureState.dy > 10,
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dy > 50) {
+          setShowHelpSheet(false);
+        }
+      },
+    })
+  ).current;
 
   const prepWarnings = useMemo(() => {
     if (!recipe) return [];
@@ -761,7 +775,7 @@ export default function CookModeScreen() {
           onPress={() => setShowHelpSheet(false)}
         >
           <Pressable style={styles.helpSheet} onPress={(e) => e.stopPropagation()}>
-            <View style={styles.helpHandle} />
+            <View {...helpSheetPanResponder.panHandlers} style={styles.helpHandle} />
 
             <View style={styles.segmentControl}>
               <Pressable
@@ -1338,6 +1352,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     alignSelf: "center",
     marginBottom: 16,
+    paddingVertical: 16,
   },
   segmentControl: {
     flexDirection: "row",
