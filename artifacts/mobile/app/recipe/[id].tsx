@@ -120,7 +120,7 @@ export default function RecipeDetailScreen() {
 
           <View style={[styles.topBar, { top: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
             <Pressable onPress={() => router.back()} style={styles.iconButton}>
-              <Ionicons name="arrow-back" size={22} color={Colors.light.onSurface} />
+              <Ionicons name="chevron-back" size={22} color={Colors.light.onSurface} />
             </Pressable>
             <Pressable
               onPress={() => {
@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
   servingsStepper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 24,
     padding: 4,
     borderWidth: 1,
@@ -567,7 +567,7 @@ const styles = StyleSheet.create({
   cookNowBtnText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: "#FFFFFF",
+    color: Colors.light.onPrimary,
   },
   // Grocery CTA
   groceryCta: {
@@ -676,7 +676,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#1A1A2E",
+    backgroundColor: Colors.light.inverseSurface,
     borderRadius: 14,
     paddingHorizontal: 24,
     height: 64,

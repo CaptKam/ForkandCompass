@@ -402,7 +402,7 @@ export default function DiscoverScreen() {
     if (isProgrammaticScroll.current) return;
     const idx = Math.round(e.nativeEvent.contentOffset.x / screenWidth);
     if (idx !== activeIndex && idx >= 0 && idx < countries.length) {
-      haptic();
+      if (Platform.OS !== "web") Haptics.selectionAsync();
       setActiveIndex(idx);
     }
   };
@@ -476,8 +476,7 @@ export default function DiscoverScreen() {
               <Pressable
                 key={idx}
                 onPress={() => { haptic(); setActiveIndex(idx); scrollHeroTo(idx); }}
-                hitSlop={18}
-                style={({ pressed }) => [pressed && { opacity: 0.6 }]}
+                style={({ pressed }) => [{ minWidth: 20, minHeight: 44, alignItems: "center", justifyContent: "center" }, pressed && { opacity: 0.6 }]}
               >
                 <View style={[styles.heroDot, idx === activeIndex && styles.heroDotActive]} />
               </Pressable>

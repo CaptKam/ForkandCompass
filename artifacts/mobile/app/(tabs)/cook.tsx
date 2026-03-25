@@ -20,13 +20,8 @@ import type { Recipe } from "@/constants/data";
 import { TECHNIQUE_VIDEOS } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useThemeColors } from "@/hooks/useThemeColors";
 import TabHeader from "@/components/TabHeader";
-
-const TERRACOTTA = "#8A3800";
-const CREAM = "#FEF9F3";
-const BORDER = "#E8DFD2";
-const TEXT_PRIMARY = "#1C1A17";
-const TEXT_SECONDARY = "#5C5549";
 
 const haptic = () => {
   if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -59,6 +54,7 @@ const BEGINNER_RECIPE_IDS = [
 export default function CookScreen() {
   const insets = useSafeAreaInsets();
   const reducedMotion = useReducedMotion();
+  const colors = useThemeColors();
   const {
     cookingProfile,
     currentItinerary,
@@ -163,7 +159,7 @@ export default function CookScreen() {
   const showWhatToCook = !hasActiveSession && !hasTonightsRecipe;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <TabHeader title="Cook" />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -196,7 +192,7 @@ export default function CookScreen() {
               >
                 <Text style={styles.continueBtnText}>Continue Cooking →</Text>
               </Pressable>
-              <Pressable onPress={handleAbandonSession} hitSlop={8}>
+              <Pressable onPress={handleAbandonSession} style={{ minHeight: 44, paddingVertical: 12, justifyContent: "center", alignItems: "center" }}>
                 <Text style={styles.abandonText}>Abandon this session</Text>
               </Pressable>
             </View>
@@ -365,7 +361,7 @@ export default function CookScreen() {
             <Ionicons
               name={techniquesExpanded ? "chevron-down" : "chevron-forward"}
               size={18}
-              color={TEXT_PRIMARY}
+              color={Colors.light.onSurface}
             />
             <Text style={styles.techniquesHeaderText}>
               Techniques ({TECHNIQUE_VIDEOS.length} videos)
@@ -418,7 +414,7 @@ function formatSeconds(totalSeconds: number): string {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
   },
 
   /* ── Sections ────────────────────────────────────────────────── */
@@ -432,7 +428,7 @@ const styles = StyleSheet.create({
   sectionLabel: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
     textTransform: "uppercase",
     letterSpacing: 2,
     marginBottom: 12,
@@ -451,17 +447,17 @@ const styles = StyleSheet.create({
   continueRecipeName: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 20,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     lineHeight: 28,
   },
   continueProgress: {
     fontFamily: "Inter_400Regular",
     fontSize: 17,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 26,
   },
   continueBtn: {
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     height: 52,
     borderRadius: 12,
     alignItems: "center",
@@ -470,12 +466,12 @@ const styles = StyleSheet.create({
   continueBtnText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: CREAM,
+    color: Colors.light.surface,
   },
   abandonText: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     textAlign: "center",
     lineHeight: 22,
   },
@@ -484,9 +480,9 @@ const styles = StyleSheet.create({
   tonightCard: {
     borderRadius: 16,
     overflow: "hidden",
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
   },
   tonightImage: {
     width: "100%",
@@ -499,23 +495,23 @@ const styles = StyleSheet.create({
   tonightName: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 20,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     lineHeight: 28,
   },
   tonightMeta: {
     fontFamily: "Inter_400Regular",
     fontSize: 17,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 26,
   },
   tonightServing: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 22,
   },
   startButton: {
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     borderRadius: 12,
     height: 52,
     alignItems: "center",
@@ -525,7 +521,7 @@ const styles = StyleSheet.create({
   startButtonText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: CREAM,
+    color: Colors.light.surface,
   },
 
   /* ── What should we cook? ────────────────────────────────────── */
@@ -539,7 +535,7 @@ const styles = StyleSheet.create({
   whatToCookTitle: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 22,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     textAlign: "center",
   },
   whatToCookRow: {
@@ -550,7 +546,7 @@ const styles = StyleSheet.create({
   whatToCookBtn: {
     flex: 1,
     height: 52,
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
@@ -558,22 +554,22 @@ const styles = StyleSheet.create({
   whatToCookBtnText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: CREAM,
+    color: Colors.light.surface,
   },
   whatToCookBtnOutline: {
     flex: 1,
     height: 52,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: TERRACOTTA,
+    borderColor: Colors.light.primary,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
   },
   whatToCookBtnOutlineText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
   },
 
   /* ── Your Level (compact inline) ─────────────────────────────── */
@@ -584,7 +580,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     marginBottom: 24,
     gap: 10,
     flexWrap: "wrap",
@@ -592,25 +588,25 @@ const styles = StyleSheet.create({
   levelName: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 17,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     lineHeight: 24,
   },
   levelTrack: {
     width: 100,
     height: 4,
-    backgroundColor: BORDER,
+    backgroundColor: Colors.light.outlineVariant,
     borderRadius: 2,
     overflow: "hidden",
   },
   levelFill: {
     height: "100%",
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     borderRadius: 2,
   },
   levelStats: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 18,
   },
 
@@ -623,9 +619,9 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     overflow: "hidden",
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
   },
   recentImage: {
     width: 100,
@@ -634,7 +630,7 @@ const styles = StyleSheet.create({
   recentName: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     lineHeight: 20,
     paddingHorizontal: 8,
     paddingTop: 6,
@@ -642,7 +638,7 @@ const styles = StyleSheet.create({
   recentTime: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 18,
     paddingHorizontal: 8,
     paddingBottom: 8,
@@ -650,10 +646,10 @@ const styles = StyleSheet.create({
 
   /* ── Start With These (Beginner) ─────────────────────────────── */
   beginnerList: {
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     overflow: "hidden",
   },
   beginnerRow: {
@@ -665,7 +661,7 @@ const styles = StyleSheet.create({
   },
   beginnerRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: BORDER,
+    borderBottomColor: Colors.light.outlineVariant,
   },
   beginnerImage: {
     width: 56,
@@ -680,13 +676,13 @@ const styles = StyleSheet.create({
   beginnerName: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 17,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     lineHeight: 24,
   },
   beginnerMeta: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 22,
   },
 
@@ -695,19 +691,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    paddingVertical: 4,
+    paddingVertical: 14,
   },
   techniquesHeaderText: {
     fontFamily: "Inter_500Medium",
     fontSize: 17,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     lineHeight: 26,
   },
   techniqueList: {
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     overflow: "hidden",
     marginTop: 12,
   },
@@ -718,7 +714,7 @@ const styles = StyleSheet.create({
     gap: 14,
     minHeight: 72,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: BORDER,
+    borderBottomColor: Colors.light.outlineVariant,
   },
   techniqueThumbnailWrap: {
     width: 56,
@@ -745,19 +741,19 @@ const styles = StyleSheet.create({
   techniqueTitle: {
     fontFamily: "Inter_500Medium",
     fontSize: 17,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     lineHeight: 26,
   },
   techniqueSubtitle: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 22,
   },
   techniqueDuration: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 18,
     flexShrink: 0,
   },

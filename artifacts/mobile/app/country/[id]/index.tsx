@@ -59,7 +59,7 @@ export default function CountryDetailScreen() {
       {/* Fixed header */}
       <View style={[styles.fixedHeader, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
         <Pressable onPress={() => router.back()} style={styles.headerButton}>
-          <Ionicons name="arrow-back" size={22} color={Colors.light.primary} />
+          <Ionicons name="chevron-back" size={22} color={Colors.light.primary} />
         </Pressable>
         <Text style={styles.headerTitle}>Fork & Compass</Text>
         <Pressable
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 24,
     paddingBottom: 12,
-    backgroundColor: "rgba(254,249,243,0.7)",
+    backgroundColor: `${Colors.light.surface}B3`,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "rgba(222,193,179,0.15)",
   },
@@ -380,13 +380,13 @@ const styles = StyleSheet.create({
   compactCardName: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 16,
-    color: "#1C1A17",
+    color: Colors.light.onSurface,
     lineHeight: 20,
   },
   compactCardTime: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: "#8A8279",
+    color: Colors.light.secondary,
   },
   // Region heading
   regionHeading: {

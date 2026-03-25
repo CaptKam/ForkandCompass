@@ -2,11 +2,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { useKeepAwake } from "expo-keep-awake";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
+  PanResponder,
   Platform,
   Pressable,
   ScrollView,
@@ -35,11 +36,7 @@ import { findTechniqueForStep } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import type { CookSession, ActiveCookSession } from "@/contexts/AppContext";
 import { convertAmount, convertTemperatureInText } from "@/constants/units";
-
-const TERRACOTTA = "#9A4100";
-const TEXT_SECONDARY = "#5C5549";
-const BORDER = "#E8DFD2";
-const CREAM = "#FEF9F3";
+import { useThemeColors } from "@/hooks/useThemeColors";
 
 const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
 
@@ -174,6 +171,7 @@ export default function CookModeScreen() {
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(recipeId);
   const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit } = useApp();
+  const colors = useThemeColors();
 
   const initialStep = resumeStep ? parseInt(resumeStep, 10) : 0;
   const [currentStep, setCurrentStep] = useState(isNaN(initialStep) ? 0 : initialStep);
@@ -193,6 +191,19 @@ export default function CookModeScreen() {
   const [timerName, setTimerName] = useState<string>("");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<string>(new Date().toISOString());
+
+  // PanResponder for swipe-to-dismiss on help sheet
+  const helpSheetPanResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, gestureState) => gestureState.dy > 10,
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dy > 50) {
+          setShowHelpSheet(false);
+        }
+      },
+    })
+  ).current;
 
   const prepWarnings = useMemo(() => {
     if (!recipe) return [];
@@ -246,6 +257,45 @@ export default function CookModeScreen() {
     setActiveCookSession(session);
   }, [currentStep, timerRemaining, timerRunning, finished]);
 
+  // Intercept back gesture/hardware back — show confirmation if mid-cook
+  const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("beforeRemove", (e: any) => {
+      if (currentStep === 0 || finished) return;
+      e.preventDefault();
+      Alert.alert(
+        "Exit cooking?",
+        "Your progress will be saved.",
+        [
+          { text: "Keep Cooking", style: "cancel" },
+          {
+            text: "Exit",
+            style: "destructive",
+            onPress: () => {
+              const session: CookSession = {
+                id: `${Date.now()}-${recipeId}`,
+                recipeId: recipe!.id,
+                recipeName: recipe!.name,
+                cuisine: recipe!.countryName,
+                difficulty: recipe!.difficulty,
+                startedAt: startTimeRef.current,
+                completedAt: null,
+                totalTime: Math.round((Date.now() - new Date(startTimeRef.current).getTime()) / 60000),
+                rating: null,
+                feedback: [],
+                stepsCompleted: currentStep,
+                totalSteps: recipe!.steps.length,
+              };
+              completeCookSession(session);
+              navigation.dispatch(e.data.action);
+            },
+          },
+        ]
+      );
+    });
+    return unsubscribe;
+  }, [currentStep, finished, navigation, recipeId, recipe, completeCookSession]);
+
   if (!recipe) {
     return (
       <View style={[styles.container, { alignItems: "center", justifyContent: "center", paddingHorizontal: 48 }]}>
@@ -277,7 +327,7 @@ export default function CookModeScreen() {
 
   const phaseLabel = phase.toUpperCase();
   const phaseColor = phase === "finish" ? "#2D7A4F" : Colors.light.primary;
-  const phaseBg = phase === "cook" ? "#FEF0E6" : phase === "finish" ? "#EEFAF2" : Colors.light.surface;
+  const phaseBg = phase === "cook" ? "#FEF0E6" : phase === "finish" ? "#EEFAF2" : colors.surface;
 
   const handleClose = () => {
     if (currentStep > 0 && !finished) {
@@ -399,7 +449,7 @@ export default function CookModeScreen() {
 
   if (showPrepWarning && !prepWarningDismissed) {
     return (
-      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: Colors.light.surface }]}>
+      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 12, backgroundColor: colors.surface }]}>
         <StatusBar style="dark" />
         <ScrollView contentContainerStyle={styles.prepWarningContent}>
           <Animated.View entering={FadeIn.duration(400)} style={styles.prepWarningInner}>
@@ -447,7 +497,7 @@ export default function CookModeScreen() {
                 setShowPrepWarning(false);
                 router.back();
               }}
-              hitSlop={8}
+              style={{ minHeight: 44, paddingVertical: 12, justifyContent: "center", alignItems: "center" }}
             >
               <Text style={styles.prepWarningBackText}>← Go back</Text>
             </Pressable>
@@ -459,7 +509,7 @@ export default function CookModeScreen() {
 
   if (finished) {
     return (
-      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top, backgroundColor: Colors.light.surface }]}>
+      <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 67 : insets.top + 12, backgroundColor: colors.surface }]}>
         <StatusBar style="dark" />
         <ScrollView contentContainerStyle={styles.finishContent}>
           <Animated.View entering={FadeIn.duration(400)} style={styles.finishInner}>
@@ -553,12 +603,12 @@ export default function CookModeScreen() {
           </Pressable>
           {stepDuration && !timerTotal ? (
             <Pressable onPress={startTimer} style={styles.timerPill}>
-              <Ionicons name="timer-outline" size={16} color={TERRACOTTA} />
+              <Ionicons name="timer-outline" size={16} color={Colors.light.primary} />
               <Text style={styles.timerPillText}>Start</Text>
             </Pressable>
           ) : timerTotal != null ? (
             <Pressable onPress={toggleTimer} style={[styles.timerPill, timerRemaining === 0 && styles.timerPillDone]}>
-              <Ionicons name="timer-outline" size={16} color={timerRemaining === 0 ? "#2D7A4F" : TERRACOTTA} />
+              <Ionicons name="timer-outline" size={16} color={timerRemaining === 0 ? "#2D7A4F" : Colors.light.primary} />
               <Text style={[styles.timerPillText, timerRemaining === 0 && { color: "#2D7A4F" }]}>
                 {timerRemaining === 0 ? "Done!" : formatTimer(timerRemaining)}
               </Text>
@@ -644,7 +694,7 @@ export default function CookModeScreen() {
                   />
                   <View style={styles.videoGradient} />
                   <View style={styles.videoPlayCircle}>
-                    <Ionicons name="play" size={24} color={TERRACOTTA} style={{ marginLeft: 2 }} />
+                    <Ionicons name="play" size={24} color={Colors.light.primary} style={{ marginLeft: 2 }} />
                   </View>
                   <View style={styles.videoCardBottom}>
                     <Text style={styles.videoCardLabel}>Video Technique</Text>
@@ -654,7 +704,7 @@ export default function CookModeScreen() {
               )}
               {donenessCue && (
                 <View style={[styles.donenessCueCard, showVideoHint ? styles.donenessCueCardHalf : styles.donenessCueCardFull]}>
-                  <Ionicons name="alert-circle" size={28} color={TERRACOTTA} />
+                  <Ionicons name="alert-circle" size={28} color={Colors.light.primary} />
                   <Text style={styles.donenessCueLabel}>Doneness Cue</Text>
                   <Text style={styles.donenessCueText}>"{donenessCue}"</Text>
                 </View>
@@ -665,7 +715,7 @@ export default function CookModeScreen() {
           {/* First-step chef note */}
           {currentStep === 0 && (
             <View style={styles.chefNoteCard}>
-              <Ionicons name="bulb-outline" size={16} color={TERRACOTTA} style={{ marginTop: 2 }} />
+              <Ionicons name="bulb-outline" size={16} color={Colors.light.primary} style={{ marginTop: 2 }} />
               <Text style={styles.chefNoteText}>
                 Read all the steps before you start — it helps you time everything and avoid surprises.
               </Text>
@@ -750,7 +800,7 @@ export default function CookModeScreen() {
             <Text style={styles.navBtnPrimaryText}>
               {isLast ? "Finish" : "Next"}
             </Text>
-            <Ionicons name={isLast ? "checkmark" : "arrow-forward"} size={16} color={CREAM} />
+            <Ionicons name={isLast ? "checkmark" : "arrow-forward"} size={16} color={Colors.light.surface} />
           </Pressable>
         </View>
       </View>
@@ -761,7 +811,7 @@ export default function CookModeScreen() {
           onPress={() => setShowHelpSheet(false)}
         >
           <Pressable style={styles.helpSheet} onPress={(e) => e.stopPropagation()}>
-            <View style={styles.helpHandle} />
+            <View {...helpSheetPanResponder.panHandlers} style={styles.helpHandle} />
 
             <View style={styles.segmentControl}>
               <Pressable
@@ -928,7 +978,7 @@ const styles = StyleSheet.create({
     fontFamily: "NotoSerif_600SemiBold",
     fontStyle: "italic",
     fontSize: 18,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
     lineHeight: 24,
   },
   timerPill: {
@@ -998,14 +1048,14 @@ const styles = StyleSheet.create({
   timerNameLabel: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     letterSpacing: 1,
     textTransform: "uppercase",
   },
   timerDigits: {
     fontFamily: "Inter_700Bold",
     fontSize: 36,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
   },
   timerComplete: {
     color: "#2D7A4F",
@@ -1013,13 +1063,13 @@ const styles = StyleSheet.create({
   timerBarTrack: {
     width: "100%",
     height: 4,
-    backgroundColor: BORDER,
+    backgroundColor: Colors.light.outlineVariant,
     borderRadius: 2,
     overflow: "hidden",
   },
   timerBarFill: {
     height: "100%",
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     borderRadius: 2,
   },
   timerControls: {
@@ -1027,7 +1077,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   timerControlBtn: {
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     height: 44,
     paddingHorizontal: 28,
     borderRadius: 10,
@@ -1040,19 +1090,19 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   timerControlBtnSecondary: {
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
     height: 44,
     paddingHorizontal: 28,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     alignItems: "center",
     justifyContent: "center",
   },
   timerControlTextSecondary: {
     fontFamily: "Inter_500Medium",
     fontSize: 15,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
   },
 
   tipsContainer: {
@@ -1085,7 +1135,7 @@ const styles = StyleSheet.create({
     fontFamily: "NotoSerif_400Regular",
     fontStyle: "italic",
     fontSize: 16,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 24,
     flex: 1,
   },
@@ -1191,13 +1241,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   checkboxChecked: {
-    borderColor: TERRACOTTA,
+    borderColor: Colors.light.primary,
   },
   checkboxDot: {
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
   },
   ingredientText: {
     fontFamily: "Inter_400Regular",
@@ -1244,11 +1294,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     paddingHorizontal: 36,
     paddingVertical: 16,
     borderRadius: 99,
-    shadowColor: TERRACOTTA,
+    shadowColor: Colors.light.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 12,
@@ -1271,7 +1321,7 @@ const styles = StyleSheet.create({
   navBtnPrimaryText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 14,
-    color: CREAM,
+    color: Colors.light.surface,
     textTransform: "uppercase",
     letterSpacing: 1.5,
   },
@@ -1314,7 +1364,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 4,
     borderRadius: 2,
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
   },
 
   helpOverlay: {
@@ -1338,6 +1388,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     alignSelf: "center",
     marginBottom: 16,
+    paddingVertical: 16,
   },
   segmentControl: {
     flexDirection: "row",
@@ -1364,7 +1415,7 @@ const styles = StyleSheet.create({
   segmentText: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
   },
   segmentTextActive: {
     color: Colors.light.onSurface,
@@ -1386,7 +1437,7 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 8,
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     marginBottom: 12,
   },
   helpSymptom: {
@@ -1398,7 +1449,7 @@ const styles = StyleSheet.create({
   helpFix: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 24,
   },
   chefTipItem: {
@@ -1409,7 +1460,7 @@ const styles = StyleSheet.create({
   },
   chefTipBorder: {
     width: 3,
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     borderRadius: 2,
   },
   chefTipText: {
@@ -1435,7 +1486,7 @@ const styles = StyleSheet.create({
   helpSectionDivider: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
     textTransform: "uppercase",
     letterSpacing: 2,
     marginTop: 8,
@@ -1500,18 +1551,18 @@ const styles = StyleSheet.create({
   prepWarningBulletMeta: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     paddingLeft: 14,
     lineHeight: 20,
   },
   prepWarningFooter: {
     fontFamily: "Inter_400Regular",
     fontSize: 15,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 22,
   },
   prepWarningReadyBtn: {
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     height: 52,
     borderRadius: 12,
     alignItems: "center",
@@ -1521,14 +1572,14 @@ const styles = StyleSheet.create({
   prepWarningReadyText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: CREAM,
+    color: Colors.light.surface,
   },
   prepWarningPrepBtn: {
     backgroundColor: "transparent",
     height: 52,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: TERRACOTTA,
+    borderColor: Colors.light.primary,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
@@ -1536,12 +1587,12 @@ const styles = StyleSheet.create({
   prepWarningPrepText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
   },
   prepWarningBackText: {
     fontFamily: "Inter_400Regular",
     fontSize: 15,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     lineHeight: 22,
   },
 
@@ -1579,7 +1630,7 @@ const styles = StyleSheet.create({
   finishRecipeMeta: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     textAlign: "center",
     lineHeight: 22,
     marginBottom: 24,
@@ -1591,7 +1642,7 @@ const styles = StyleSheet.create({
     gap: 16,
     width: "100%",
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     marginBottom: 16,
   },
   finishCardLabel: {
@@ -1618,7 +1669,7 @@ const styles = StyleSheet.create({
   },
   feedbackChip: {
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 10,

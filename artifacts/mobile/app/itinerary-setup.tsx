@@ -319,7 +319,7 @@ export default function ItinerarySetupScreen() {
     <View style={[styles.container, { paddingTop: Platform.OS === "web" ? 24 : insets.top + 12 }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Pressable onPress={handleBack} hitSlop={12}>
+        <Pressable onPress={handleBack} hitSlop={12} style={{ minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" }}>
           <Ionicons name={step === 0 ? "close" : "chevron-back"} size={24} color={Colors.light.onSurface} />
         </Pressable>
         {renderProgressDots()}

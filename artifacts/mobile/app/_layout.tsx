@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect } from "react";
+import { Text } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -25,6 +26,13 @@ import { AppProvider } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 SplashScreen.preventAutoHideAsync();
+
+// Global Dynamic Type cap — prevents text from scaling beyond 1.5x system size.
+// Per-component maxFontSizeMultiplier props will override this where needed.
+// Note: third-party components rendering their own <Text> internally won't be
+// covered by defaultProps — only native Text usage within this app.
+Text.defaultProps = Text.defaultProps ?? {};
+Text.defaultProps.maxFontSizeMultiplier = 1.5;
 
 const queryClient = new QueryClient();
 
