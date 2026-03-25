@@ -3806,6 +3806,8 @@ export interface CountryLocation {
   name: string;
   subtitle: string;
   image: string;
+  emoji?: string;
+  recipeCount?: number;
 }
 
 const REGION_IMAGES: Record<string, CountryLocation[]> = {
@@ -3851,14 +3853,127 @@ const REGION_IMAGES: Record<string, CountryLocation[]> = {
   ],
 };
 
+/** Food emoji per region — one signature dish emoji that represents the region */
+const REGION_EMOJIS: Record<string, string> = {
+  // Italy
+  "Tuscany": "🍝",
+  "Rome": "🍕",
+  "Amalfi Coast": "🍋",
+  // Japan
+  "Kyoto": "🍵",
+  "Tokyo": "🍣",
+  "Osaka": "🐙",
+  // Morocco
+  "Marrakech": "🫖",
+  "Chefchaouen": "🐟",
+  "The Atlas Mountains": "🍲",
+  // Mexico
+  "Oaxaca": "🫔",
+  "Yucatán": "🌮",
+  "Mexico City": "🌶️",
+  // India
+  "Delhi": "🍛",
+  "Kerala": "🥥",
+  "Rajasthan": "🫙",
+  // Thailand
+  "Bangkok": "🍜",
+  "Chiang Mai": "🌶️",
+  "Phuket": "🦐",
+  // Spain
+  "Barcelona": "🥘",
+  "Seville": "🫒",
+  "San Sebastián": "🦞",
+  // France
+  "Paris": "🥐",
+  "Provence": "🌿",
+  "Lyon": "🍷",
+};
+
 export function getCountryLocations(country: Country): CountryLocation[] {
-  if (REGION_IMAGES[country.id]) return REGION_IMAGES[country.id];
+  const base = REGION_IMAGES[country.id];
+  if (base) {
+    return base.map((loc) => ({
+      ...loc,
+      emoji: REGION_EMOJIS[loc.name] || "🍽️",
+      recipeCount: getRecipesForRegion(country.recipes, loc.name).length,
+    }));
+  }
   const img = country.heroImage || ONBOARDING_IMAGES[country.id] || country.image;
   return [
     { name: country.region, subtitle: country.tagline, image: img },
     { name: `${country.name} Highlands`, subtitle: "Hidden Gems", image: img },
     { name: `${country.name} Coast`, subtitle: "By the Sea", image: img },
   ];
+}
+
+/** Featured recipe IDs per country — 5 curated signature recipes, in display order */
+const FEATURED_RECIPES: Record<string, string[]> = {
+  italy: [
+    "fresh-fettuccine-with-salsa-cruda",
+    "classic-individual-tiramisu",
+    "healthier-turkey-and-vegetable-bolognese",
+    "classic-caprese-salad",
+    "limoncello-cocktail",
+  ],
+  japan: [
+    "classic-futomaki-thick-sushi-roll",
+    "tori-soba",
+    "vegetarian-japanese-miso-soup",
+    "homemade-sushi-nigiri-and-maki-rolls",
+    "classic-japanese-sushi-rice",
+  ],
+  morocco: [
+    "moroccan-lamb-tagine-with-preserved-lemon-and-oliv",
+    "classic-moroccan-harira-soup",
+    "moroccan-lemon-cumin-couscous-with-raisins",
+    "mini-moroccan-dried-fruit-and-almond-pastillas",
+    "moroccan-chermoula-baked-red-snapper",
+  ],
+  mexico: [
+    "pollo-asado-con-achiote-mexican-grilled-chicken",
+    "classic-tres-leches-cake",
+    "crispy-fried-guacamole-bites",
+    "huevos-a-la-mexicana",
+    "spiced-fish-finger-tacos-with-pickled-onions",
+  ],
+  india: [
+    "instant-pot-dal-makhani",
+    "lasooni-chicken-curry-with-lacy-chickpea-pancakes",
+    "grilled-paneer-tikka-skewers",
+    "gulab-jamun-cheesecake",
+    "hearty-vegetable-curry-with-homemade-naan",
+  ],
+  thailand: [
+    "thai-basil-chicken-stir-fry",
+    "khao-soi-gai-northern-thai-curry-noodles",
+    "classic-thai-mango-sticky-rice",
+    "chicken-pad-see-ew",
+    "panang-style-thai-peanut-chicken-curry",
+  ],
+  spain: [
+    "crispy-creamy-shrimp-croquettes",
+    "traditional-pulpo-a-la-gallega",
+    "galician-style-lobster-with-potatoes",
+    "smoky-spanish-chorizo-and-tomato-pasta",
+    "steamed-littleneck-clams-with-chorizo-and-white-wi",
+  ],
+  france: [
+    "classic-french-duck-confit",
+    "classic-french-strawberry-tartlets",
+    "lavender-orange-creme-caramel",
+    "portobello-steak-frites-with-dijon-cream",
+    "one-pot-oxtail-french-onion-soup",
+  ],
+};
+
+/** Returns the curated "Popular in [Country]" recipes for the carousel */
+export function getFeaturedRecipes(country: Country): Recipe[] {
+  const ids = FEATURED_RECIPES[country.id];
+  if (!ids) return [];
+  return ids
+    .map((id) => country.recipes.find((r) => r.id === id))
+    .filter((r): r is Recipe => r != null)
+    .map(resolveRecipeImage);
 }
 
 const IMAGE_BASE = process.env.EXPO_PUBLIC_DOMAIN

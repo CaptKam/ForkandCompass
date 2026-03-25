@@ -18,13 +18,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { COUNTRIES, ONBOARDING_IMAGES } from "@/constants/data";
 import { useApp } from "@/contexts/AppContext";
-import type { MeasurementSystem } from "@/constants/units";
-
-const MEASURE_OPTIONS: { key: MeasurementSystem; label: string }[] = [
-  { key: "us_customary", label: "US (cups, oz)" },
-  { key: "metric", label: "Metric (g, ml)" },
-  { key: "show_both", label: "Show Both" },
-];
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { useScaledStyles } from "@/hooks/useScaledStyles";
@@ -33,7 +26,7 @@ const CARD_GAP = 16;
 
 export default function OnboardingScreen() {
   const insets = useSafeAreaInsets();
-  const { selectedCountryIds, toggleCountrySelection, setHasCompletedOnboarding, measurementSystem, setMeasurementSystem } = useApp();
+  const { selectedCountryIds, toggleCountrySelection, setHasCompletedOnboarding } = useApp();
   const colors = useThemeColors();
   const type = useScaledStyles();
   const reducedMotion = useReducedMotion();
@@ -112,32 +105,6 @@ export default function OnboardingScreen() {
           })}
         </View>
 
-        {/* How do you measure? */}
-        <View style={styles.measureSection}>
-          <Text style={[type.titleSmall, { color: colors.onSurface, marginBottom: 12, textAlign: "center" }]}>
-            How do you measure?
-          </Text>
-          <View style={styles.measureRow}>
-            {MEASURE_OPTIONS.map((opt) => {
-              const active = measurementSystem === opt.key;
-              return (
-                <Pressable
-                  key={opt.key}
-                  onPress={() => {
-                    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                    setMeasurementSystem(opt.key);
-                  }}
-                  style={[
-                    styles.measurePill,
-                    { borderColor: active ? colors.primary : colors.outlineVariant, backgroundColor: active ? colors.primary : "transparent" },
-                  ]}
-                >
-                  <Text style={[type.labelMedium, { color: active ? colors.onPrimary : colors.onSurface }]}>{opt.label}</Text>
-                </Pressable>
-              );
-            })}
-          </View>
-        </View>
       </ScrollView>
 
       <View
@@ -241,21 +208,5 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
-  },
-  measureSection: {
-    marginTop: 32,
-    alignItems: "center",
-  },
-  measureRow: {
-    flexDirection: "row",
-    gap: 10,
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
-  measurePill: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 20,
-    borderWidth: 1.5,
   },
 });

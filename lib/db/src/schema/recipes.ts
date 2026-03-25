@@ -1,4 +1,4 @@
-import { pgTable, text, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, timestamp, jsonb, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 import { countriesTable } from "./countries";
@@ -33,6 +33,8 @@ export const recipesTable = pgTable("recipes", {
   steps: jsonb("steps").notNull().$type<CookStep[]>(),
   culturalNote: text("cultural_note"),
   tips: text("tips").array().notNull().default([]),
+  featured: boolean("featured").notNull().default(false),
+  featuredOrder: integer("featured_order"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
