@@ -21,7 +21,8 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useApp } from "@/contexts/AppContext";
-import { COUNTRIES, ONBOARDING_IMAGES, LANDMARK_IMAGES, getCountryLocations, type Country, type Recipe } from "@/constants/data";
+import type { CookSession } from "@/contexts/AppContext";
+import { COUNTRIES, ONBOARDING_IMAGES, LANDMARK_IMAGES, getCountryLocations, getRecipeById, type Country, type Recipe } from "@/constants/data";
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
@@ -183,11 +184,76 @@ function buildDiscoverData(country: Country): DiscoverEditorial {
   };
 }
 
+// ─── Craving chips helper ─────────────────────────────────────────────────────
+
+interface CravingChip {
+  label: string;
+  countryId: string;
+  isNew: boolean;
+}
+
+function getCravingsChips(
+  cuisinesExplored: string[],
+  countries: Country[],
+  recentSessions: CookSession[]
+): CravingChip[] {
+  const chips: CravingChip[] = [];
+  const added = new Set<string>();
+
+  // 1. Discovery: countries the user hasn't explored → labelled "New"
+  const unexplored = countries.filter((c) => !cuisinesExplored.includes(c.id));
+  for (const c of unexplored.slice(0, 2)) {
+    chips.push({ label: `${c.flag} ${c.name}`, countryId: c.id, isNew: true });
+    added.add(c.id);
+  }
+
+  // 2. Comfort: most-cooked cuisine from recent sessions
+  if (recentSessions.length > 0) {
+    const counts: Record<string, number> = {};
+    for (const s of recentSessions) {
+      counts[s.cuisine] = (counts[s.cuisine] || 0) + 1;
+    }
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0];
+    const fav = countries.find((c) => c.name === top || c.id === top?.toLowerCase());
+    if (fav && !added.has(fav.id)) {
+      chips.push({ label: `${fav.flag} ${fav.name}`, countryId: fav.id, isNew: false });
+      added.add(fav.id);
+    }
+  }
+
+  // 3. Fill from explored countries (variety)
+  for (const c of countries) {
+    if (chips.length >= 6) break;
+    if (!added.has(c.id)) {
+      chips.push({ label: `${c.flag} ${c.name}`, countryId: c.id, isNew: false });
+      added.add(c.id);
+    }
+  }
+
+  return chips.slice(0, 6);
+}
+
+// ─── Editorial picks (static monthly data) ────────────────────────────────────
+
+const EDITORIAL_PICK = {
+  theme: "Spring Renewal",
+  headline: "Light, vibrant dishes to welcome the new season",
+  body: "As the days grow longer, we turn to fresh herbs, bright citrus, and the kind of cooking that celebrates what\u2019s just emerging. Our editors have chosen five recipes that honour both the season and the tradition.",
+  cta: "Read the Collection",
+};
+
 // ─── Main Screen ──────────────────────────────────────────────────────────────
 
 export default function DiscoverScreen() {
   const insets = useSafeAreaInsets();
-  const { isCountrySaved, toggleSavedCountry } = useApp();
+  const {
+    isCountrySaved,
+    toggleSavedCountry,
+    savedRecipeIds,
+    cookingProfile,
+    recentCookSessions,
+    currentItinerary,
+  } = useApp();
   const { countries } = useCountries();
   const reducedMotion = useReducedMotion();
   const heroScrollRef = useRef<ScrollView>(null);
@@ -217,6 +283,24 @@ export default function DiscoverScreen() {
   const editorial = buildDiscoverData(activeCountry);
   const saved = isCountrySaved(activeCountry.id);
   const topPadding = Platform.OS === "web" ? 67 : insets.top;
+
+  // ── Derived data for personalized sections ──────────────────────────────
+  const todayISO = new Date().toISOString().slice(0, 10);
+  const todayPlan = currentItinerary.find((d) => d.date === todayISO) ?? null;
+  const todayRecipeId = todayPlan ? (todayPlan.mode === "quick" ? todayPlan.quickRecipeIds[0] : todayPlan.fullRecipeIds[0]) : null;
+  const todayRecipe = todayRecipeId ? getRecipeById(todayRecipeId) ?? null : null;
+  const todayCountry = todayPlan ? countries.find((c) => c.id === todayPlan.countryId) ?? null : null;
+
+  const savedRecipes = savedRecipeIds
+    .map((id) => getRecipeById(id))
+    .filter(Boolean) as Recipe[];
+
+  const recentlyCooked = recentCookSessions
+    .map((s) => ({ session: s, recipe: getRecipeById(s.recipeId) }))
+    .filter((x): x is { session: CookSession; recipe: Recipe } => x.recipe !== undefined)
+    .slice(0, 6);
+
+  const cravingChips = getCravingsChips(cookingProfile.cuisinesExplored, countries, recentCookSessions);
 
   const haptic = (style: "light" | "medium" = "light") => {
     if (Platform.OS !== "web") {
@@ -364,6 +448,154 @@ export default function DiscoverScreen() {
             })}
           </ScrollView>
         </View>
+
+        {/* ── Tonight's Plan ────────────────────────────────────────── */}
+        <View style={[styles.section, styles.tonightBg, { paddingHorizontal: 24 }]}>
+          <Text style={styles.sectionTitle}>Tonight's Plan</Text>
+          {todayRecipe && todayCountry ? (
+            <RecipeContextMenu recipe={todayRecipe}>
+              <Pressable
+                onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: todayRecipe.id } }); }}
+                style={({ pressed }) => [styles.tonightCard, pressed && { opacity: 0.88 }]}
+              >
+                <Image source={{ uri: todayRecipe.image }} style={styles.tonightImg} contentFit="cover" />
+                <View style={styles.tonightBody}>
+                  <View style={styles.tonightMeta}>
+                    <Text style={styles.tonightFlag}>{todayCountry.flag}</Text>
+                    <Text style={styles.tonightCuisine}>{todayCountry.name}</Text>
+                    {todayPlan?.mode === "quick" && (
+                      <View style={styles.tonightQuickBadge}>
+                        <Ionicons name="flash" size={12} color={Colors.light.primary} />
+                        <Text style={styles.tonightQuickText}>Quick</Text>
+                      </View>
+                    )}
+                  </View>
+                  <Text style={styles.tonightName} numberOfLines={2}>{todayRecipe.name}</Text>
+                  <Text style={styles.tonightDesc} numberOfLines={1}>{todayRecipe.description}</Text>
+                  <Pressable
+                    onPress={() => { haptic("medium"); router.push({ pathname: "/cook-mode", params: { recipeId: todayRecipe.id } }); }}
+                    style={({ pressed }) => [styles.tonightCookBtn, pressed && { opacity: 0.85 }]}
+                  >
+                    <Ionicons name="restaurant-outline" size={16} color="#FFFFFF" />
+                    <Text style={styles.tonightCookText}>Start Cooking</Text>
+                  </Pressable>
+                </View>
+              </Pressable>
+            </RecipeContextMenu>
+          ) : (
+            <View style={styles.tonightEmpty}>
+              <Ionicons name="calendar-outline" size={32} color={Colors.light.primary} style={{ marginBottom: 12 }} />
+              <Text style={styles.tonightEmptyTitle}>No plan for tonight yet</Text>
+              <Text style={styles.tonightEmptyDesc}>Build a personalised week of cooking in just a minute.</Text>
+              <View style={styles.tonightEmptyActions}>
+                <Pressable
+                  onPress={() => { haptic(); router.push("/(tabs)/plan" as any); }}
+                  style={({ pressed }) => [styles.tonightPlanBtn, pressed && { opacity: 0.85 }]}
+                >
+                  <Text style={styles.tonightPlanBtnText}>Plan My Week</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => { haptic(); const r = activeCountry.recipes[Math.floor(Math.random() * activeCountry.recipes.length)]; if (r) router.push({ pathname: "/recipe/[id]", params: { id: r.id } }); }}
+                  style={({ pressed }) => [styles.tonightSurpriseBtn, pressed && { opacity: 0.85 }]}
+                >
+                  <Ionicons name="shuffle-outline" size={16} color={Colors.light.primary} />
+                  <Text style={styles.tonightSurpriseBtnText}>Surprise Me</Text>
+                </Pressable>
+              </View>
+            </View>
+          )}
+        </View>
+
+        {/* ── Recently Cooked ───────────────────────────────────────── */}
+        {recentlyCooked.length > 0 && (
+          <View style={styles.section}>
+            <View style={[styles.rowBetween, { paddingHorizontal: 24 }]}>
+              <Text style={styles.sectionTitle}>Recently Cooked</Text>
+              <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile" as any); }}>
+                <Text style={styles.viewAll}>See All</Text>
+              </Pressable>
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.recentScroll}>
+              {recentlyCooked.map(({ session, recipe }) => (
+                <RecipeContextMenu key={session.id} recipe={recipe}>
+                  <Pressable
+                    onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
+                    style={({ pressed }) => [styles.recentCard, pressed && { opacity: 0.85 }]}
+                  >
+                    <Image source={{ uri: recipe.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
+                    <LinearGradient colors={["transparent", "rgba(0,0,0,0.68)"]} style={StyleSheet.absoluteFill} />
+                    {session.rating != null && (
+                      <View style={styles.recentRatingBadge}>
+                        <Ionicons name="star" size={10} color="#F5C842" />
+                        <Text style={styles.recentRatingText}>{session.rating}</Text>
+                      </View>
+                    )}
+                    <View style={styles.recentInfo}>
+                      <Text style={styles.recentName} numberOfLines={2}>{recipe.name}</Text>
+                    </View>
+                  </Pressable>
+                </RecipeContextMenu>
+              ))}
+            </ScrollView>
+          </View>
+        )}
+
+        {/* ── Cravings / Quick Picks ────────────────────────────────── */}
+        <View style={[styles.section, { paddingHorizontal: 24 }]}>
+          <Text style={styles.sectionTitle}>
+            {cookingProfile.cuisinesExplored.length > 0 ? "Cravings" : "Explore Cuisines"}
+          </Text>
+          <Text style={styles.cravingsSub}>
+            {cookingProfile.cuisinesExplored.length > 0
+              ? "Based on your cooking history"
+              : "Pick a cuisine to start your culinary journey"}
+          </Text>
+          <View style={styles.cravingsRow}>
+            {cravingChips.map((chip) => (
+              <Pressable
+                key={chip.countryId}
+                onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: chip.countryId } }); }}
+                style={({ pressed }) => [
+                  styles.cravingChip,
+                  chip.isNew && styles.cravingChipNew,
+                  pressed && { opacity: 0.8 },
+                ]}
+              >
+                <Text style={[styles.cravingChipText, chip.isNew && styles.cravingChipTextNew]}>
+                  {chip.isNew ? `New: ${chip.label}` : chip.label}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+
+        {/* ── Jump Back In (saved) ──────────────────────────────────── */}
+        {savedRecipes.length > 0 && (
+          <View style={[styles.section, styles.jumpBg]}>
+            <View style={[styles.rowBetween, { paddingHorizontal: 24 }]}>
+              <Text style={styles.sectionTitle}>Jump Back In</Text>
+              <Pressable onPress={() => { haptic(); router.push("/(tabs)/saved" as any); }}>
+                <Text style={styles.viewAll}>View All</Text>
+              </Pressable>
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.jumpScroll}>
+              {savedRecipes.slice(0, 8).map((recipe) => (
+                <RecipeContextMenu key={recipe.id} recipe={recipe}>
+                  <Pressable
+                    onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
+                    style={({ pressed }) => [styles.jumpCard, pressed && { opacity: 0.88 }]}
+                  >
+                    <Image source={{ uri: recipe.image }} style={styles.jumpThumb} contentFit="cover" />
+                    <View style={styles.jumpInfo}>
+                      <Text style={styles.jumpCuisine} numberOfLines={1}>{recipe.category}</Text>
+                      <Text style={styles.jumpName} numberOfLines={2}>{recipe.name}</Text>
+                    </View>
+                  </Pressable>
+                </RecipeContextMenu>
+              ))}
+            </ScrollView>
+          </View>
+        )}
 
         {/* ── Featured Locations ────────────────────────────────────── */}
         <View style={styles.section}>
@@ -517,21 +749,72 @@ export default function DiscoverScreen() {
         {/* ── Must-Try Street Food ──────────────────────────────────── */}
         <View style={[styles.section, styles.streetBg]}>
           <View style={{ paddingHorizontal: 24 }}>
-            <Text style={styles.sectionTitle}>Must-Try Street Food</Text>
+            <View style={styles.streetHeader}>
+              <Text style={styles.sectionTitle}>Must-Try Street Food</Text>
+              <View style={styles.streetCountryBadge}>
+                <Text style={styles.streetCountryFlag}>{activeCountry.flag}</Text>
+                <Text style={styles.streetCountryName}>{activeCountry.name}</Text>
+              </View>
+            </View>
             <Text style={styles.streetSub}>The vibrant flavors of the {activeCountry.region}</Text>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.streetScroll}>
-            {editorial.streetFood.map((food, idx) => (
-              <View key={idx} style={styles.streetCard}>
-                <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
-                <LinearGradient colors={["transparent", "rgba(0,0,0,0.65)"]} style={StyleSheet.absoluteFill} />
-                <View style={styles.streetInfo}>
-                  <Text style={styles.streetName}>{food.name}</Text>
-                  <Text style={styles.streetDesc}>{food.description}</Text>
+            {editorial.streetFood.map((food, idx) => {
+              const matchedRecipe = activeCountry.recipes.find((r) =>
+                r.name.toLowerCase().includes(food.name.toLowerCase().split(" ")[0]) ||
+                food.name.toLowerCase().includes(r.name.toLowerCase().split(" ")[0])
+              ) ?? activeCountry.recipes[idx % activeCountry.recipes.length];
+              return matchedRecipe ? (
+                <RecipeContextMenu key={idx} recipe={matchedRecipe}>
+                  <Pressable
+                    onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: matchedRecipe.id } }); }}
+                    style={({ pressed }) => [styles.streetCard, pressed && { opacity: 0.88 }]}
+                  >
+                    <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
+                    <LinearGradient colors={["transparent", "rgba(0,0,0,0.65)"]} style={StyleSheet.absoluteFill} />
+                    <View style={styles.streetInfo}>
+                      <Text style={styles.streetName}>{food.name}</Text>
+                      <Text style={styles.streetDesc}>{food.description}</Text>
+                    </View>
+                  </Pressable>
+                </RecipeContextMenu>
+              ) : (
+                <View key={idx} style={styles.streetCard}>
+                  <Image source={{ uri: food.image }} style={StyleSheet.absoluteFill} contentFit="cover" />
+                  <LinearGradient colors={["transparent", "rgba(0,0,0,0.65)"]} style={StyleSheet.absoluteFill} />
+                  <View style={styles.streetInfo}>
+                    <Text style={styles.streetName}>{food.name}</Text>
+                    <Text style={styles.streetDesc}>{food.description}</Text>
+                  </View>
                 </View>
-              </View>
-            ))}
+              );
+            })}
           </ScrollView>
+        </View>
+
+        {/* ── Editorial / Seasonal Picks ────────────────────────────── */}
+        <View style={[styles.section, { paddingHorizontal: 24 }]}>
+          <View style={styles.rowBetween}>
+            <Text style={styles.sectionTitle}>Seasonal Picks</Text>
+            <View style={styles.editPickBadge}>
+              <Ionicons name="leaf-outline" size={12} color={Colors.light.primary} />
+              <Text style={styles.editPickBadgeText}>Editorial</Text>
+            </View>
+          </View>
+          <View style={styles.editPickCard}>
+            <View style={styles.editPickTheme}>
+              <Text style={styles.editPickThemeText}>{EDITORIAL_PICK.theme}</Text>
+            </View>
+            <Text style={styles.editPickHeadline}>{EDITORIAL_PICK.headline}</Text>
+            <Text style={styles.editPickBody}>{EDITORIAL_PICK.body}</Text>
+            <Pressable
+              onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}
+              style={({ pressed }) => [styles.editPickCta, pressed && { opacity: 0.85 }]}
+            >
+              <Text style={styles.editPickCtaText}>{EDITORIAL_PICK.cta}</Text>
+              <Ionicons name="arrow-forward" size={14} color={Colors.light.primary} />
+            </Pressable>
+          </View>
         </View>
 
         {/* ── Related Stories ───────────────────────────────────────── */}
@@ -1192,5 +1475,362 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.light.onSurfaceVariant,
     lineHeight: 20,
+  },
+
+  // ── Tonight's Plan ────────────────────────────────────────────────────────
+  tonightBg: {
+    backgroundColor: "#FDFAF6",
+    borderTopWidth: 1,
+    borderTopColor: "rgba(222,193,179,0.2)",
+  },
+  tonightCard: {
+    flexDirection: "row",
+    gap: 16,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.25)",
+    overflow: "hidden",
+  },
+  tonightImg: {
+    width: 128,
+    height: 148,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+  },
+  tonightBody: {
+    flex: 1,
+    paddingVertical: 16,
+    paddingRight: 16,
+    gap: 6,
+    justifyContent: "center",
+  },
+  tonightMeta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    marginBottom: 2,
+  },
+  tonightFlag: {
+    fontSize: 16,
+  },
+  tonightCuisine: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 12,
+    color: Colors.light.onSurfaceVariant,
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+  tonightQuickBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 3,
+    backgroundColor: "rgba(154,65,0,0.08)",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+  },
+  tonightQuickText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 11,
+    color: Colors.light.primary,
+    letterSpacing: 0.5,
+  },
+  tonightName: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 17,
+    color: Colors.light.onSurface,
+    lineHeight: 24,
+  },
+  tonightDesc: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: Colors.light.onSurfaceVariant,
+    fontStyle: "italic",
+    lineHeight: 18,
+  },
+  tonightCookBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: Colors.light.primary,
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+    borderRadius: 10,
+    alignSelf: "flex-start",
+    marginTop: 4,
+  },
+  tonightCookText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    color: "#FFFFFF",
+  },
+  tonightEmpty: {
+    alignItems: "center",
+    paddingVertical: 32,
+    paddingHorizontal: 16,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.25)",
+    borderStyle: "dashed",
+  },
+  tonightEmptyTitle: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 17,
+    color: Colors.light.onSurface,
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  tonightEmptyDesc: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.onSurfaceVariant,
+    textAlign: "center",
+    lineHeight: 20,
+    marginBottom: 20,
+  },
+  tonightEmptyActions: {
+    flexDirection: "row",
+    gap: 12,
+    alignItems: "center",
+  },
+  tonightPlanBtn: {
+    backgroundColor: Colors.light.primary,
+    paddingHorizontal: 20,
+    paddingVertical: 11,
+    borderRadius: 24,
+  },
+  tonightPlanBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: "#FFFFFF",
+  },
+  tonightSurpriseBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: 16,
+    paddingVertical: 11,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: "rgba(154,65,0,0.3)",
+  },
+  tonightSurpriseBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: Colors.light.primary,
+  },
+
+  // ── Recently Cooked ───────────────────────────────────────────────────────
+  recentScroll: {
+    gap: 12,
+    paddingHorizontal: 24,
+    paddingBottom: 8,
+  },
+  recentCard: {
+    width: 120,
+    height: 148,
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: Colors.light.surfaceContainerHigh,
+  },
+  recentRatingBadge: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 3,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 8,
+    zIndex: 2,
+  },
+  recentRatingText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 11,
+    color: "#FFFFFF",
+  },
+  recentInfo: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 10,
+  },
+  recentName: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 13,
+    color: "#FFFFFF",
+    lineHeight: 18,
+  },
+
+  // ── Cravings / Quick Picks ────────────────────────────────────────────────
+  cravingsSub: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: Colors.light.onSurfaceVariant,
+    fontStyle: "italic",
+    marginTop: -10,
+    marginBottom: 16,
+    lineHeight: 18,
+  },
+  cravingsRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  cravingChip: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 24,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.3)",
+  },
+  cravingChipNew: {
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.light.primary,
+    backgroundColor: "rgba(154,65,0,0.06)",
+  },
+  cravingChipText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: Colors.light.onSurface,
+  },
+  cravingChipTextNew: {
+    color: Colors.light.primary,
+  },
+
+  // ── Jump Back In ─────────────────────────────────────────────────────────
+  jumpBg: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    paddingBottom: 24,
+  },
+  jumpScroll: {
+    gap: 12,
+    paddingHorizontal: 24,
+  },
+  jumpCard: {
+    width: 152,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 12,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.2)",
+  },
+  jumpThumb: {
+    width: "100%",
+    height: 96,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+  },
+  jumpInfo: {
+    padding: 10,
+    gap: 4,
+  },
+  jumpCuisine: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 11,
+    color: Colors.light.primary,
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+  jumpName: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.onSurface,
+    lineHeight: 18,
+  },
+
+  // ── Street Food header additions ──────────────────────────────────────────
+  streetHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 4,
+  },
+  streetCountryBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "rgba(154,65,0,0.08)",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 12,
+  },
+  streetCountryFlag: {
+    fontSize: 14,
+  },
+  streetCountryName: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 12,
+    color: Colors.light.primary,
+    letterSpacing: 0.5,
+  },
+
+  // ── Editorial / Seasonal Picks ────────────────────────────────────────────
+  editPickBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    backgroundColor: "rgba(154,65,0,0.08)",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  editPickBadgeText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 12,
+    color: Colors.light.primary,
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+  editPickCard: {
+    backgroundColor: "#FCF3E8",
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "rgba(154,65,0,0.12)",
+    padding: 24,
+    gap: 12,
+  },
+  editPickTheme: {
+    alignSelf: "flex-start",
+    backgroundColor: Colors.light.primary,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 8,
+  },
+  editPickThemeText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 12,
+    color: "#FFFFFF",
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+  },
+  editPickHeadline: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 20,
+    color: Colors.light.onSurface,
+    lineHeight: 28,
+  },
+  editPickBody: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.onSurfaceVariant,
+    lineHeight: 22,
+  },
+  editPickCta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    alignSelf: "flex-start",
+    marginTop: 4,
+  },
+  editPickCtaText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    color: Colors.light.primary,
+    letterSpacing: 0.5,
   },
 });

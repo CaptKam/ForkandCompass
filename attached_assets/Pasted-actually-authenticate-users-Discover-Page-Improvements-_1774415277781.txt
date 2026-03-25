@@ -1,0 +1,99 @@
+actually authenticate users.
+
+Discover Page Improvements — Spec
+The Discover page is the front door. It needs to make you hungry, show you what's cooking tonight, and surface content you didn't know you wanted. The current structure is solid — this spec refines it.
+Current structure (what exists)
+Section What it does Status 1. Hero Carousel Full-bleed country images, swipeable, "Let's Go" CTA ✅ Built 2. Destination Strip Horizontal country pills, tapping updates hero ✅ Built 3. Tonight's Plan Shows today's itinerary recipe or empty state ✅ Built 4. Cravings (Quick Picks) Hardcoded country chips (Italy, Japan, Morocco) ✅ Built — needs improvement 5. Jump Back In Saved recipes horizontal scroll ✅ Built 6. Must-Try Street Food Global street food cards ✅ Built
+What to change
+Section 3: Tonight's Plan → make it actionable
+The current ItineraryDayCard pushes to Recipe Detail. Based on our Plan tab and Cook tab specs, this should go directly to Cook Mode — not Recipe Detail.
+Current behavior
+Tap "Cook" → router.push(/recipe/${activeItinerary.today.recipe.id})
+Updated behavior
+Tap recipe card image/name → router.push(/recipe/${id}) // for reading Tap "Start Cooking" button → router.push(/cook-mode?id=${id}) // for cooking
+Updated component
+<ItineraryDayCard recipe={activeItinerary.today.recipe} onPress={() => router.push(/recipe/${activeItinerary.today.recipe.id})} onPressCook={() => router.push(/cook-mode?id=${activeItinerary.today.recipe.id})} />
+The card should show:
+
+Recipe image (tappable → Recipe Detail)
+Recipe name: 18pt Noto Serif Bold
+Subtitle: region + cook time — 14pt Inter Regular, #8A8279
+Serving count: 14pt Inter Regular — "Serving 4"
+"Start Cooking →" button: terracotta bg, cream text, 52pt height, full width within card
+No Quick/Full toggle (removed per Plan tab spec)
+No serving size question (removed per Plan tab spec)
+Empty state improvements
+When there's no itinerary, the current EmptyPlanWidget pushes to the Plan tab. Improve it:
+┌────────────────────────────────────┐ │ │ │ What's for dinner? │ │ │ │ ┌─────────────┐ ┌─────────────┐ │ │ │ Plan My Week│ │ Surprise Me │ │ │ └─────────────┘ └─────────────┘ │ │ │ └────────────────────────────────────┘
+"What's for dinner?" — 20pt Noto Serif Bold, #1C1A17
+Two buttons side by side:
+"Plan My Week" → pushes to Plan tab Itinerary Setup wizard
+"Surprise Me" → picks a random recipe matched to skill level, pushes directly to Cook Mode
+This replaces the current single CTA and gives users two paths
+Section 4: Cravings → make it dynamic
+Currently hardcoded to Italy, Japan, Morocco. This should be personalized.
+Updated logic
+function getCravingsChips(user, countries, recentCooks): CravingChip[] { const chips = []; // 1. Countries the user hasn't explored yet (discovery) const unexplored = countries.filter(c => !user.cuisinesExplored.includes(c.cuisine) ); if (unexplored.length > 0) { chips.push({ label: ${unexplored[0].flag} New: ${unexplored[0].name}, route: /country/${unexplored[0].id}, type: "discovery" }); } // 2. The user's most cooked cuisine (comfort) const favCuisine = getMostCookedCuisine(user); if (favCuisine) { chips.push({ label: ${favCuisine.flag} More ${favCuisine.name}, route: /country/${favCuisine.id}, type: "comfort" }); } // 3. Category-based quick filters chips.push({ label: "🕐 Under 30 min", route: "/search?maxTime=30", type: "filter" }); chips.push({ label: "🌱 Easy recipes", route: "/search?difficulty=easy", type: "filter" }); chips.push({ label: "🍰 Desserts", route: "/search?category=dessert", type: "filter" }); // 4. Fill remaining slots with random countries const remaining = countries .filter(c => !chips.some(ch => ch.route.includes(c.id))) .sort(() => Math.random() - 0.5) .slice(0, 3); remaining.forEach(c => { chips.push({ label: ${c.flag} ${c.name}, route: /country/${c.id}, type: "country" }); }); return chips.slice(0, 8); // max 8 chips }
+Chip design
+Horizontal scroll, no wrap
+Each chip: 44pt height, auto-width based on text, 22px corner radius (pill), cream dark bg (#F5EDDF), 1px border #E8DFD2
+Text: 14pt Inter Medium, #1C1A17
+Flag emoji leading
+"New:" prefix chips get a subtle terracotta left border to draw the eye
+Section title update
+Change from "Cravings" to "Quick picks" or keep "Cravings" — either works. Add a subtitle:
+Quick picks Based on what you love and what you haven't tried yet
+Section 5: Jump Back In → add scheduling
+Currently saved recipes just push to Recipe Detail. Add long-press context menu with scheduling:
+<RecipeSmallCard key={recipe.id} recipe={recipe} onPress={() => router.push(/recipe/${recipe.id})} onLongPress={() => showContextMenu(recipe)} // NEW />
+Context menu options (per Recipe Scheduling spec):
+Schedule this recipe
+Add to grocery list
+Cook now
+Remove from saved
+NEW Section: Recently Cooked (insert between Tonight's Plan and Quick Picks)
+If the user has cooked at least 1 recipe, show a horizontal scroll of their recent cooks. This mirrors the Cook hub's "Recently Cooked" section but gives it Discover-page visibility.
+RECENTLY COOKED See all ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ │[img] │ │[img] │ │[img] │ │[img] │ │Cacio │ │Ramen │ │Tacos │ │Pho │ │3d ago│ │1w ago│ │1w ago│ │2w ago│ └──────┘ └──────┘ └──────┘ └──────┘
+Only shows when recipesCooked >= 1
+Same card design as Cook hub recently cooked (100pt wide, 130pt tall)
+"See all" link → pushes to a full cooking history list
+Long-press → context menu (Cook again, Schedule, Share)
+Tapping → Recipe Detail
+Why add this here: Discover is where users start their session. Seeing what they've made recently reinforces progress and makes it easy to repeat a winner. "I loved that Pad Thai — let me make it again" shouldn't require navigating to the Cook tab.
+NEW Section: Seasonal / Editorial Picks (insert after Street Food)
+A curated editorial section that changes monthly. This is where the "Spice Market" and "Cultural Etiquette" content can live — as themed collections rather than standalone pages.
+EDITOR'S PICK ┌────────────────────────────────────┐ │ │ │ [full-width editorial image] │ │ │ │ Spring in Japan │ │ Cherry blossom season calls for │ │ light, floral dishes │ │ │ │ 5 recipes · 20-45 min │ │ │ │ [Explore Collection →] │ │ │ └────────────────────────────────────┘
+Card: full-width, 280pt height, 16px corner radius
+Image: 160pt height, full-width, cover fit, subtle gradient overlay at bottom for text legibility
+Collection title: 22pt Noto Serif Bold, #FEF9F3 (cream, over image gradient)
+Subtitle: 15pt Inter Regular, #FEF9F3 at 80% opacity
+Recipe count + time range: 14pt Inter Medium, #FEF9F3
+"Explore Collection →": text link below the card, terracotta
+Tapping → pushes to a collection page showing all recipes in the editorial pick
+Collections managed from Admin Dashboard
+The Featured Content page in the admin dashboard controls which collection appears here. Content ideas:
+Month Collection January "Warming Winter Soups from Around the World" February "Date Night: Impressive Dinners for Two" March "Spring in Japan: Cherry Blossom Season Dishes" April "Mexican Easter: Traditional Semana Santa Recipes" May "Mediterranean Summer: Light & Fresh" June "Street Food Tour: 10 Dishes You'd Find on the Road"
+Section 6: Street Food → add scheduling + context
+The street food section currently pushes to recipe detail. Add long-press context menu (same as saved recipes) and add country flag + origin to each card:
+<StreetFoodCard key={food.id} item={food} onPress={() => router.push(/recipe/${food.recipeId})} onLongPress={() => showContextMenu(food)} // NEW />
+Each street food card should show:
+Food image
+Food name
+Country flag + country name (so user knows where it's from)
+Cook time
+Updated Discover page structure
+┌──────────────────────────────────────┐ │ 1. HERO CAROUSEL │ ← existing, no change │ [swipeable country hero images] │ │ "Let's Go" CTA │ ├──────────────────────────────────────┤ │ 2. DESTINATION STRIP │ ← existing, no change │ [horizontal country pills] │ ├──────────────────────────────────────┤ │ 3. TONIGHT'S PLAN │ ← existing, UPDATED │ [recipe card with Start Cooking] │ - Start Cooking → Cook Mode directly │ or "What's for dinner?" empty │ - No Quick/Full toggle │ state with Plan + Surprise Me │ - Surprise Me option in empty state ├──────────────────────────────────────┤ │ 4. RECENTLY COOKED │ ← NEW │ [horizontal scroll of recent] │ - Only if recipesCooked >= 1 │ │ - Long-press → context menu ├──────────────────────────────────────┤ │ 5. QUICK PICKS │ ← existing, UPDATED │ [dynamic personalized chips] │ - Personalized: unexplored, favorites, │ │ filters, random countries │ │ - Not hardcoded anymore ├──────────────────────────────────────┤ │ 6. JUMP BACK IN (Saved) │ ← existing, UPDATED │ [saved recipes horizontal] │ - Long-press → context menu │ │ - Schedule, Grocery, Cook Now ├──────────────────────────────────────┤ │ 7. MUST-TRY STREET FOOD │ ← existing, UPDATED │ [global street food cards] │ - Add country flag + origin │ │ - Long-press → context menu ├──────────────────────────────────────┤ │ 8. EDITOR'S PICK │ ← NEW │ [seasonal editorial collection] │ - Monthly curated collection │ │ - Managed from admin dashboard └──────────────────────────────────────┘
+Long-press context menu (universal — applies to all recipe cards on Discover)
+Any recipe card on the Discover page supports long-press:
+┌──────────────────────────┐ │ Schedule this recipe │ │ ──────────────────── │ │ Save / Unsave │ │ Add to grocery list │ │ Cook now │ │ Share │ └──────────────────────────┘
+This is the same context menu from the Recipe Scheduling spec. Implement it once as a shared component and use it on:
+Tonight's Plan card
+Recently Cooked cards
+Jump Back In (Saved) cards
+Street Food cards
+Any future recipe card surface on Discover
+Files to modify
+File Change app/(tabs)/index.tsx Add Recently Cooked section, Editor's Pick section, update section order components/ItineraryDayCard.tsx Remove Quick/Full toggle, ensure onPressCook goes to Cook Mode directly, add serving count display components/EmptyPlanWidget.tsx Add "Surprise Me" button alongside "Plan My Week" components/QuickPickChip.tsx Support dynamic chips from getCravingsChips() logic components/RecipeSmallCard.tsx Add onLongPress prop for context menu components/StreetFoodCard.tsx Add country flag + origin, add onLongPress components/RecipeContextMenu.tsx NEW — shared context menu component (Schedule, Save, Grocery, Cook, Share) components/RecentlyCookedStrip.tsx NEW — horizontal scroll of recent cooks components/EditorialPickCard.tsx NEW — full-width editorial collection card hooks/useCountries.ts Add getCravingsChips() logic for dynamic personalization context/AppContext.tsx Expose recentCooks and editorialPick data
+What NOT to change on Discover
+Element Keep as-is Why Hero Carousel ✅ The hook — beautiful country imagery draws users in Destination Strip ✅ Quick country switching works well activeIndex controlling hero + strip ✅ Blast radius is contained, performance is good Overall page scroll structure ✅ ScrollView with sections is the right pattern Cream background (#FEF9F3) ✅ Brand consistent Section title typography ✅ Noto Serif Bold 20pt matches the editorial brand
+Show less
