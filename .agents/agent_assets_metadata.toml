@@ -18,3 +18,9 @@ id = "SNfjg8973jfHXORzeOkUT"
 uri = "file://adaptive-instructions-preview.md"
 type = "text"
 title = "Adaptive Instructions — 15 Recipe Preview"
+
+[[outputs]]
+id = "lQzXTjBls5F9qIxR-ykEk"
+uri = "file://docs/discover-page-layout.md"
+type = "text"
+title = "Discover Page — Layout & Architecture"
