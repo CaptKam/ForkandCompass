@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;1,400;1,600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-highest": "#e6e2dc",
+              "surface-container-high": "#ece7e2",
+              "surface-bright": "#fef9f3",
+              "inverse-surface": "#32302c",
+              "on-primary-container": "#fffbff",
+              "surface-container-low": "#f8f3ed",
+              "inverse-primary": "#ffb690",
+              "background": "#fef9f3",
+              "on-tertiary-fixed": "#001d35",
+              "on-background": "#1d1b18",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "primary-fixed-dim": "#ffb690",
+              "on-secondary-container": "#775e3f",
+              "primary": "#9a4100",
+              "surface-container": "#f2ede7",
+              "surface": "#fef9f3",
+              "secondary": "#725a3c",
+              "tertiary-container": "#0079c4",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed-dim": "#9ccaff",
+              "surface-dim": "#ded9d4",
+              "tertiary-fixed": "#d0e4ff",
+              "on-primary-fixed-variant": "#783100",
+              "on-primary-fixed": "#341100",
+              "surface-tint": "#9e4300",
+              "on-secondary-fixed": "#291802",
+              "secondary-fixed": "#feddb6",
+              "primary-container": "#bf550a",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#f5f0ea",
+              "on-surface-variant": "#574238",
+              "primary-fixed": "#ffdbcb",
+              "on-secondary": "#ffffff",
+              "on-secondary-fixed-variant": "#584326",
+              "outline-variant": "#dec1b3",
+              "tertiary": "#005f9c",
+              "on-tertiary-container": "#fdfcff",
+              "surface-variant": "#e6e2dc",
+              "secondary-fixed-dim": "#e1c19c",
+              "on-tertiary-fixed-variant": "#00497a",
+              "error": "#ba1a1a",
+              "secondary-container": "#fbdab3",
+              "outline": "#8a7266",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-surface": "#1d1b18"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<header class="bg-[#FEF9F3] dark:bg-[#0D0D0D] flex justify-between items-center px-6 py-4 w-full docked full-width top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#9A4100] dark:text-[#FFB690] cursor-pointer hover:opacity-80 transition-opacity active:scale-95 duration-200" data-icon="menu">menu</span>
+</div>
+<h1 class="font-['Noto_Serif'] font-semibold italic text-[#9A4100] dark:text-[#FFB690] tracking-tight text-xl">The Culinary Editorial</h1>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#9A4100] dark:text-[#FFB690] cursor-pointer hover:opacity-80 transition-opacity active:scale-95 duration-200" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<main class="min-h-screen pb-32 pt-6 px-6 max-w-2xl mx-auto">
+<!-- Segmented Control -->
+<div class="flex p-1 bg-surface-container-low rounded-full mb-10">
+<button class="flex-1 py-2 text-sm font-medium text-secondary hover:text-on-surface transition-colors rounded-full">
+                This Week
+            </button>
+<button class="flex-1 py-2 text-sm font-semibold bg-surface-container-highest text-primary rounded-full shadow-sm transition-all">
+                Grocery
+            </button>
+</div>
+<!-- Section Header -->
+<div class="mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="h-[1px] flex-1 bg-outline-variant/20"></div>
+<span class="text-[10px] uppercase tracking-[0.2em] text-secondary font-medium">Curated List</span>
+<div class="h-[1px] flex-1 bg-outline-variant/20"></div>
+</div>
+<h2 class="font-headline text-3xl font-semibold text-on-surface text-center mb-1">Grocery List from Instacart</h2>
+<p class="text-secondary text-sm text-center font-body italic">Sourced from your weekly meal planning</p>
+</div>
+<!-- List Content -->
+<div class="space-y-6">
+<!-- Grocery Group: Fresh Produce -->
+<div class="mb-8">
+<h3 class="font-headline text-lg italic mb-4 text-on-surface flex items-center gap-2 border-b border-outline-variant/10 pb-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Fresh Produce
+                </h3>
+<div class="divide-y divide-outline-variant/10">
+<!-- Item 1 -->
+<div class="py-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border border-outline flex items-center justify-center bg-primary text-on-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'wght' 700;">check</span>
+</button>
+<div>
+<h4 class="font-medium text-on-surface">Fresh Cilantro <span class="text-secondary font-normal ml-1">1 Bunch</span></h4>
+<p class="text-xs text-secondary italic">for Tacos</p>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="py-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border border-outline flex items-center justify-center bg-surface"></button>
+<div>
+<h4 class="font-medium text-on-surface">Hass Avocado <span class="text-secondary font-normal ml-1">2 each</span></h4>
+<p class="text-xs text-secondary italic">for Tacos</p>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="py-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border border-outline flex items-center justify-center bg-surface"></button>
+<div>
+<h4 class="font-medium text-on-surface">Organic Carrots <span class="text-secondary font-normal ml-1">1LB</span></h4>
+<p class="text-xs text-secondary italic">for Roasted Roots</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Grocery Group: Protein & Pantry -->
+<div class="mb-8">
+<h3 class="font-headline text-lg italic mb-4 text-on-surface flex items-center gap-2 border-b border-outline-variant/10 pb-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    Protein &amp; Pantry
+                </h3>
+<div class="divide-y divide-outline-variant/10">
+<!-- Item 4 -->
+<div class="py-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border border-outline flex items-center justify-center bg-surface"></button>
+<div>
+<h4 class="font-medium text-on-surface">Grass-Fed Skirt Steak <span class="text-secondary font-normal ml-1">1.5LB</span></h4>
+<p class="text-xs text-secondary italic">for Tacos</p>
+</div>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="py-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border border-outline flex items-center justify-center bg-surface"></button>
+<div>
+<h4 class="font-medium text-on-surface">Yellow Corn Tortillas <span class="text-secondary font-normal ml-1">12 count</span></h4>
+<p class="text-xs text-secondary italic">for Tacos</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Summary Card -->
+<div class="mt-8 p-6 rounded-2xl bg-primary/5 border border-primary/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl" data-icon="shopping_basket">shopping_basket</span>
+</div>
+<div class="relative z-10">
+<p class="font-label text-[10px] uppercase tracking-widest text-primary mb-1">Instacart Integration</p>
+<div class="flex justify-between items-end">
+<div>
+<h5 class="font-headline text-xl text-on-surface">Order Summary</h5>
+<p class="text-sm text-secondary">5 items remaining to purchase</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-full font-medium text-sm shadow-lg shadow-primary/20 hover:opacity-90 transition-all active:scale-95">
+                        Checkout Now
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#FEF9F3]/90 dark:bg-[#0D0D0D]/90 backdrop-blur-xl z-50 border-t border-[#DEC1B3]/20 shadow-[0_-12px_40px_0_rgba(29,27,24,0.06)]">
+<div class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-70 hover:opacity-100 transition-all cursor-pointer active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1" data-icon="explore">explore</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide uppercase">Discover</span>
+</div>
+<!-- Active Tab: Plan -->
+<div class="flex flex-col items-center justify-center bg-[#9A4100]/10 dark:bg-[#FFB690]/10 text-[#9A4100] dark:text-[#FFB690] rounded-2xl px-4 py-1 hover:opacity-100 transition-all cursor-pointer active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1" data-icon="calendar_today" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide uppercase">Plan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-70 hover:opacity-100 transition-all cursor-pointer active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1" data-icon="bookmark">bookmark</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide uppercase">Saved</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-70 hover:opacity-100 transition-all cursor-pointer active:scale-90 duration-200">
+<span class="material-symbols-outlined mb-1" data-icon="menu_book">menu_book</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide uppercase">Journal</span>
+</div>
+</nav>
+</body></html>

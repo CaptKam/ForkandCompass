@@ -366,37 +366,51 @@ export default function PlanScreen() {
 
       {/* ── Header with Segment Control ──────────────────────────── */}
       <View style={[styles.headerSection, { paddingTop: Platform.OS === "web" ? 28 : insets.top + 16 }]}>
-        <View style={styles.headerRow}>
-          <Text style={styles.headerTitle}>Weekly Table</Text>
-          <View style={styles.segmentControl}>
-            <Pressable
-              style={[styles.segmentBtn, segment === "week" && styles.segmentBtnActive]}
-              onPress={() => switchSegment("week")}
-            >
-              <Text style={[styles.segmentText, segment === "week" && styles.segmentTextActive]}>
-                This Week
-              </Text>
-            </Pressable>
-            <Pressable
-              style={[styles.segmentBtn, segment === "grocery" && styles.segmentBtnActive]}
-              onPress={() => switchSegment("grocery")}
-            >
-              <Text style={[styles.segmentText, segment === "grocery" && styles.segmentTextActive]}>
-                Grocery
-              </Text>
-              {uncheckedGroceryCount > 0 && (
-                <View style={[styles.segmentBadge, segment === "grocery" && styles.segmentBadgeActive]}>
-                  <Text style={[styles.segmentBadgeText, segment === "grocery" && styles.segmentBadgeTextActive]}>
-                    {uncheckedGroceryCount}
-                  </Text>
-                </View>
-              )}
-            </Pressable>
-          </View>
+        {/* Full-width segmented control */}
+        <View style={styles.segmentControl}>
+          <Pressable
+            style={[styles.segmentBtn, segment === "week" && styles.segmentBtnActive]}
+            onPress={() => switchSegment("week")}
+          >
+            <Text style={[styles.segmentText, segment === "week" && styles.segmentTextActive]}>
+              This Week
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.segmentBtn, segment === "grocery" && styles.segmentBtnActive]}
+            onPress={() => switchSegment("grocery")}
+          >
+            <Text style={[styles.segmentText, segment === "grocery" && styles.segmentTextActive]}>
+              Grocery
+            </Text>
+            {uncheckedGroceryCount > 0 && (
+              <View style={[styles.segmentBadge, segment === "grocery" && styles.segmentBadgeActive]}>
+                <Text style={[styles.segmentBadgeText, segment === "grocery" && styles.segmentBadgeTextActive]}>
+                  {uncheckedGroceryCount}
+                </Text>
+              </View>
+            )}
+          </Pressable>
         </View>
-        <Text style={styles.headerSubtitle}>
-          Curating your seasonal menu. All ingredients are automatically synced to your pantry list.
-        </Text>
+
+        {/* Title block below control */}
+        <View style={styles.headerTitleBlock}>
+          <View style={styles.headerEyebrow}>
+            <View style={styles.headerEyebrowLine} />
+            <Text style={styles.headerEyebrowLabel}>
+              {segment === "week" ? "This Week" : "Curated List"}
+            </Text>
+            <View style={styles.headerEyebrowLine} />
+          </View>
+          <Text style={styles.headerTitle}>
+            {segment === "week" ? "Weekly Table" : "Grocery List"}
+          </Text>
+          <Text style={styles.headerSubtitle}>
+            {segment === "week"
+              ? "Curating your seasonal menu, week by week."
+              : "Sourced from your weekly meal planning."}
+          </Text>
+        </View>
       </View>
 
       {/* ── This Week ─────────────────────────────────────────────── */}
@@ -1218,52 +1232,74 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.light.surface },
 
   headerSection: {
-    paddingHorizontal: 24,
-    paddingBottom: 16,
+    paddingHorizontal: 20,
+    paddingBottom: 12,
     backgroundColor: Colors.light.surface,
   },
-  headerRow: {
+  headerTitleBlock: {
+    alignItems: "center",
+    paddingTop: 20,
+    paddingBottom: 4,
+    gap: 4,
+  },
+  headerEyebrow: {
     flexDirection: "row",
-    alignItems: "baseline",
-    justifyContent: "space-between",
-    marginBottom: 8,
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 6,
+    width: "100%",
+  },
+  headerEyebrowLine: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: "rgba(222,193,179,0.4)",
+  },
+  headerEyebrowLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 10,
+    letterSpacing: 2,
+    textTransform: "uppercase",
+    color: Colors.light.secondary,
   },
   headerTitle: {
     fontFamily: "NotoSerif_700Bold",
-    fontSize: 28,
+    fontSize: 30,
     color: Colors.light.onSurface,
     letterSpacing: -0.5,
+    textAlign: "center",
   },
   headerSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    lineHeight: 21,
+    fontStyle: "italic",
+    fontSize: 13,
+    lineHeight: 20,
     color: Colors.light.secondary,
-    maxWidth: 300,
+    textAlign: "center",
   },
 
   segmentControl: {
     flexDirection: "row",
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 20,
-    padding: 3,
+    borderRadius: 999,
+    padding: 4,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: "rgba(138,114,102,0.1)",
   },
   segmentBtn: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 5,
-    paddingVertical: 7,
-    paddingHorizontal: 16,
-    borderRadius: 18,
+    paddingVertical: 9,
+    paddingHorizontal: 12,
+    borderRadius: 999,
   },
   segmentBtnActive: {
-    backgroundColor: Colors.light.primary,
+    backgroundColor: Colors.light.surfaceContainerHighest,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.08,
     shadowRadius: 2,
     elevation: 2,
   },
@@ -1274,7 +1310,7 @@ const styles = StyleSheet.create({
   },
   segmentTextActive: {
     fontFamily: "Inter_600SemiBold",
-    color: Colors.light.surface,
+    color: Colors.light.primary,
   },
   segmentBadge: {
     backgroundColor: Colors.light.secondary,
@@ -1286,16 +1322,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   segmentBadgeActive: {
-    backgroundColor: Colors.light.surface,
+    backgroundColor: Colors.light.primary,
   },
   segmentBadgeText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 11,
+    lineHeight: 16,
     color: Colors.light.surface,
   },
   segmentBadgeTextActive: {
-    color: Colors.light.primary,
+    color: Colors.light.surface,
   },
 
   // Shared empty state
