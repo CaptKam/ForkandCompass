@@ -17,6 +17,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
+import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useCountry } from "@/hooks/useCountry";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import type { Recipe } from "@/constants/data";
@@ -90,7 +91,7 @@ export default function RegionMenuScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + 140 }}
+        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
         {/* Hero header */}
         <View style={[styles.heroHeader, { paddingTop: Platform.OS === "web" ? 72 : insets.top + 56 }]}>
@@ -153,7 +154,7 @@ export default function RegionMenuScreen() {
                       </Pressable>
                     </View>
                     <View style={styles.cardMeta}>
-                      <Text style={styles.cardName} numberOfLines={2}>{recipe.name}</Text>
+                      <Text style={styles.cardName} ellipsizeMode="tail" numberOfLines={2}>{recipe.name}</Text>
                       <View style={styles.cardBadges}>
                         <Text style={styles.badge}>{recipe.time}</Text>
                         <Text style={styles.badgeDot}>•</Text>

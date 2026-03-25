@@ -568,7 +568,7 @@ export default function PlanScreen() {
                         <Ionicons
                           name={kitchenExpanded ? "chevron-down" : "chevron-forward"}
                           size={14}
-                          color={TEXT_SECONDARY}
+                          color={Colors.light.secondary}
                         />
                         <Text style={styles.kitchenHeaderText}>
                           In your kitchen ({excludedGroceryItems.length} items)
@@ -582,9 +582,9 @@ export default function PlanScreen() {
                               onPress={() => { haptic(); unexcludeGroceryItem(item.id); showToast(`Added ${item.name} to list`); }}
                               style={[styles.kitchenRow, idx < excludedGroceryItems.length - 1 && styles.kitchenRowBorder]}
                             >
-                              <Ionicons name="add-circle-outline" size={18} color={TERRACOTTA} />
+                              <Ionicons name="add-circle-outline" size={18} color={Colors.light.primary} />
                               <Text style={styles.kitchenItemName}>{item.name}</Text>
-                              <Text style={styles.kitchenItemSource} numberOfLines={1}>{item.recipeName}</Text>
+                              <Text style={styles.kitchenItemSource} ellipsizeMode="tail" numberOfLines={1}>{item.recipeName}</Text>
                             </Pressable>
                           ))}
                           <Text style={styles.kitchenHint}>Tap any item to add it back for this trip</Text>
@@ -612,7 +612,7 @@ export default function PlanScreen() {
       {uncheckedGroceryCount > 0 && groceryPartner && groceryPartner !== "skip" && (
         <View style={[styles.fabWrap, { bottom: Math.max(insets.bottom, 16) + 60 }]} pointerEvents="box-none">
           <LinearGradient
-            colors={["rgba(254,249,243,0)", "rgba(254,249,243,0.95)", CREAM]}
+            colors={["rgba(254,249,243,0)", "rgba(254,249,243,0.95)", Colors.light.surface]}
             style={styles.fabGradient}
             pointerEvents="none"
           />
@@ -670,7 +670,7 @@ export default function PlanScreen() {
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
         <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 150 : insets.bottom + SCROLL_BOTTOM_INSET) }]}>
-          <Ionicons name="checkmark-circle" size={16} color="#FEF9F3" />
+          <Ionicons name="checkmark-circle" size={16} color={Colors.light.surface} />
           <Text style={styles.toastText}>{toast}</Text>
         </View>
       )}
@@ -708,7 +708,7 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
       {/* Body */}
       <View style={styles.tonightBody}>
         <Pressable onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: heroRecipe.id } }); }}>
-          <Text style={styles.tonightTitle} numberOfLines={2}>{title}</Text>
+          <Text style={styles.tonightTitle} ellipsizeMode="tail" numberOfLines={2}>{title}</Text>
         </Pressable>
         <Text style={styles.tonightSubtitle}>
           {region}, {country.name} · {heroRecipe.time}
@@ -798,7 +798,7 @@ function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds }:
                 onPress={() => { haptic(); onSelectRecipe(recipe); }}
               >
                 <View style={swapStyles.suggestionInfo}>
-                  <Text style={swapStyles.suggestionName} numberOfLines={1}>{recipe.name}</Text>
+                  <Text style={swapStyles.suggestionName} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
                   <Text style={swapStyles.suggestionMeta}>{recipe.countryName} · {recipe.time}</Text>
                 </View>
                 <Ionicons name="add-circle-outline" size={24} color={Colors.light.primary} />
@@ -827,7 +827,7 @@ function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds }:
                     onPress={() => { haptic(); onSelectRecipe(recipe); }}
                   >
                     <View style={swapStyles.suggestionInfo}>
-                      <Text style={swapStyles.suggestionName} numberOfLines={1}>{recipe.name}</Text>
+                      <Text style={swapStyles.suggestionName} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
                       <Text style={swapStyles.suggestionMeta}>{recipe.countryName} · {recipe.time}</Text>
                     </View>
                     <Ionicons name="add-circle-outline" size={24} color={Colors.light.primary} />
@@ -863,7 +863,7 @@ function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds }:
                   onPress={() => { haptic(); onSelectRecipe(recipe); }}
                 >
                   <View style={swapStyles.suggestionInfo}>
-                    <Text style={swapStyles.suggestionName} numberOfLines={1}>{recipe.name}</Text>
+                    <Text style={swapStyles.suggestionName} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
                     <Text style={swapStyles.suggestionMeta}>{recipe.countryName} · {recipe.time}</Text>
                   </View>
                   <Ionicons name="add-circle-outline" size={24} color={Colors.light.primary} />
@@ -919,7 +919,7 @@ const swapStyles = StyleSheet.create({
   subtitle: {
     fontFamily: "Inter_400Regular",
     fontSize: 16,
-    color: "#5C5549",
+    color: Colors.light.secondary,
     lineHeight: 22,
     marginBottom: 24,
   },
@@ -936,7 +936,7 @@ const swapStyles = StyleSheet.create({
     backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#E8DFD2",
+    borderColor: Colors.light.outlineVariant,
     overflow: "hidden",
     marginBottom: 16,
   },
@@ -947,7 +947,7 @@ const swapStyles = StyleSheet.create({
     paddingHorizontal: 16,
     gap: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#E8DFD2",
+    borderBottomColor: Colors.light.outlineVariant,
     minHeight: 56,
   },
   suggestionInfo: {
@@ -973,7 +973,7 @@ const swapStyles = StyleSheet.create({
     backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#E8DFD2",
+    borderColor: Colors.light.outlineVariant,
     paddingHorizontal: 16,
     paddingVertical: 16,
     marginBottom: 12,
@@ -998,7 +998,7 @@ const swapStyles = StyleSheet.create({
     backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#E8DFD2",
+    borderColor: Colors.light.outlineVariant,
     overflow: "hidden",
     marginBottom: 16,
   },
@@ -1009,7 +1009,7 @@ const swapStyles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#E8DFD2",
+    borderBottomColor: Colors.light.outlineVariant,
   },
 });
 
@@ -1051,11 +1051,11 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
 
       {/* Center: recipe info */}
       <View style={styles.weekRowCenter}>
-        <Text style={styles.weekRowRecipe} numberOfLines={1}>
+        <Text style={styles.weekRowRecipe} ellipsizeMode="tail" numberOfLines={1}>
           {isSkipped ? "Skipped" : recipeTitle}
         </Text>
         {!isSkipped && mainRecipe && (
-          <Text style={styles.weekRowSub} numberOfLines={1}>
+          <Text style={styles.weekRowSub} ellipsizeMode="tail" numberOfLines={1}>
             {country.name} · {mainRecipe.time}
           </Text>
         )}
@@ -1070,10 +1070,10 @@ function WeekRow({ day, isLast, onReload, onSkip, onRestore }: {
       {!isSkipped && (
         <View style={styles.weekRowActions}>
           <Pressable onPress={onReload} hitSlop={10} style={styles.rowActionBtn}>
-            <Ionicons name="refresh" size={20} color={TEXT_SECONDARY} />
+            <Ionicons name="refresh" size={20} color={Colors.light.secondary} />
           </Pressable>
           <Pressable onPress={onSkip} hitSlop={10} style={styles.rowActionBtn}>
-            <Ionicons name="close" size={20} color={TEXT_SECONDARY} />
+            <Ionicons name="close" size={20} color={Colors.light.secondary} />
           </Pressable>
         </View>
       )}
@@ -1128,33 +1128,28 @@ function GroceryRow({ item, isLast, onToggle, measurementSystem }: { item: Groce
     >
       {/* Checkbox */}
       <View style={[styles.checkbox, item.checked && styles.checkboxChecked]}>
-        {item.checked && <Ionicons name="checkmark" size={13} color="#FEF9F3" />}
+        {item.checked && <Ionicons name="checkmark" size={13} color={Colors.light.surface} />}
       </View>
 
       {/* Ingredient name + amount */}
       <View style={{ flex: 1 }}>
-        <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]} numberOfLines={1}>
+        <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]} ellipsizeMode="tail" numberOfLines={1}>
           {item.name}
           {item.amount ? <Text style={styles.groceryAmount}> ({convertAmount(item.amount, measurementSystem)})</Text> : null}
         </Text>
       </View>
 
       {/* Source recipe — right-aligned */}
-      <Text style={styles.grocerySource} numberOfLines={1}>{sourceLabel}</Text>
+      <Text style={styles.grocerySource} ellipsizeMode="tail" numberOfLines={1}>{sourceLabel}</Text>
     </Pressable>
   );
 }
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
-const TERRACOTTA = "#9A4100";
-const CREAM = "#FEF9F3";
-const BORDER = "#E8DFD2";
-const TEXT_PRIMARY = "#1C1A17";
-const TEXT_SECONDARY = "#5C5549";
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: CREAM },
+  container: { flex: 1, backgroundColor: Colors.light.surface },
 
   // Nav bar
   navBar: {
@@ -1163,28 +1158,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 24,
     paddingBottom: 14,
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: BORDER,
+    borderBottomColor: Colors.light.outlineVariant,
   },
   navTitle: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 22,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
   },
   navEdit: {
     fontFamily: "Inter_500Medium",
     fontSize: 17,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
   },
 
   // Segment control
   segmentWrap: {
     paddingHorizontal: 24,
     paddingVertical: 12,
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: BORDER,
+    borderBottomColor: Colors.light.outlineVariant,
   },
   segmentControl: {
     flexDirection: "row",
@@ -1202,7 +1197,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   segmentBtnActive: {
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
@@ -1212,14 +1207,14 @@ const styles = StyleSheet.create({
   segmentText: {
     fontFamily: "Inter_500Medium",
     fontSize: 15,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
   },
   segmentTextActive: {
     fontFamily: "Inter_600SemiBold",
-    color: TERRACOTTA,
+    color: Colors.light.primary,
   },
   segmentBadge: {
-    backgroundColor: TEXT_SECONDARY,
+    backgroundColor: Colors.light.secondary,
     borderRadius: 10,
     minWidth: 20,
     height: 20,
@@ -1228,16 +1223,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   segmentBadgeActive: {
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
   },
   segmentBadgeText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
     lineHeight: 18,
-    color: CREAM,
+    color: Colors.light.surface,
   },
   segmentBadgeTextActive: {
-    color: CREAM,
+    color: Colors.light.surface,
   },
 
   // Shared empty state
@@ -1260,20 +1255,20 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 22,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     textAlign: "center",
     letterSpacing: -0.3,
   },
   emptyBody: {
     fontFamily: "Inter_400Regular",
     fontSize: 17,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     textAlign: "center",
     lineHeight: 26,
     maxWidth: 280,
   },
   ctaButton: {
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     borderRadius: 12,
     height: 52,
     paddingHorizontal: 32,
@@ -1285,19 +1280,19 @@ const styles = StyleSheet.create({
   ctaText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 16,
-    color: CREAM,
+    color: Colors.light.surface,
   },
   allDoneTitle: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 24,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     textAlign: "center",
   },
   allDoneSub: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     textAlign: "center",
   },
 
@@ -1311,7 +1306,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
     letterSpacing: 2,
     textTransform: "uppercase",
     marginBottom: 12,
@@ -1321,9 +1316,9 @@ const styles = StyleSheet.create({
   tonightCard: {
     borderRadius: 16,
     overflow: "hidden",
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     marginBottom: 28,
   },
   tonightImageWrap: {
@@ -1341,7 +1336,7 @@ const styles = StyleSheet.create({
   tonightTitle: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 20,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     letterSpacing: -0.3,
     lineHeight: 28,
   },
@@ -1349,19 +1344,19 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     fontSize: 16,
     lineHeight: 22,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     marginTop: -4,
   },
   tonightServing: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     marginTop: -4,
   },
   startCookingBtn: {
     height: 52,
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
@@ -1369,16 +1364,16 @@ const styles = StyleSheet.create({
   startCookingText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 16,
-    color: CREAM,
+    color: Colors.light.surface,
   },
 
   // Week table rows
   weekTable: {
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: BORDER,
+    borderColor: Colors.light.outlineVariant,
     overflow: "hidden",
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
   },
   weekRow: {
     flexDirection: "row",
@@ -1387,11 +1382,11 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 12,
     minHeight: 72,
-    backgroundColor: CREAM,
+    backgroundColor: Colors.light.surface,
   },
   weekRowBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: BORDER,
+    borderBottomColor: Colors.light.outlineVariant,
   },
   weekRowLeft: {
     width: 64,
@@ -1402,13 +1397,13 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 13,
     lineHeight: 18,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
   },
   weekRowDate: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
     lineHeight: 18,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     marginTop: 2,
   },
   weekRowCenter: {
@@ -1418,14 +1413,14 @@ const styles = StyleSheet.create({
   weekRowRecipe: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 16,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
     letterSpacing: -0.2,
   },
   weekRowSub: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
   },
   weekRowActions: {
     flexDirection: "row",
@@ -1443,14 +1438,14 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
     marginTop: 2,
   },
   addMealText: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
     lineHeight: 20,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
     marginTop: 2,
   },
 
@@ -1464,7 +1459,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     fontSize: 13,
     lineHeight: 18,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
   },
 
   // Grocery
@@ -1483,7 +1478,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     letterSpacing: 0.3,
   },
   pantryScroll: {
@@ -1494,12 +1489,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 22,
-    backgroundColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
   },
   pantryPillNeed: {
     backgroundColor: "#FEF0E6",
     borderWidth: 1.5,
-    borderColor: TERRACOTTA,
+    borderColor: Colors.light.primary,
   },
   pantryPillText: {
     fontFamily: "Inter_500Medium",
@@ -1508,14 +1503,14 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   pantryPillTextNeed: {
-    color: TERRACOTTA,
+    color: Colors.light.primary,
   },
 
   // In your kitchen
   kitchenSection: {
     marginTop: 16,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: BORDER,
+    borderTopColor: Colors.light.outlineVariant,
   },
   kitchenHeader: {
     flexDirection: "row",
@@ -1527,7 +1522,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
   },
   kitchenList: {
     backgroundColor: "#F7F1EA",
@@ -1544,20 +1539,20 @@ const styles = StyleSheet.create({
   },
   kitchenRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: BORDER,
+    borderBottomColor: Colors.light.outlineVariant,
   },
   kitchenItemName: {
     flex: 1,
     fontFamily: "Inter_400Regular",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
   },
   kitchenItemSource: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     maxWidth: 100,
     textAlign: "right",
   },
@@ -1565,7 +1560,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_400Regular",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     textAlign: "center",
     paddingVertical: 10,
     paddingHorizontal: 14,
@@ -1579,7 +1574,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     letterSpacing: 2,
     textTransform: "uppercase",
     marginBottom: 8,
@@ -1594,40 +1589,40 @@ const styles = StyleSheet.create({
   },
   groceryRowBorder: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: BORDER,
+    borderBottomColor: Colors.light.outlineVariant,
   },
   checkbox: {
     width: 24,
     height: 24,
     borderRadius: 12,
     borderWidth: 1.5,
-    borderColor: TERRACOTTA,
+    borderColor: Colors.light.primary,
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
   },
   checkboxChecked: {
-    backgroundColor: TERRACOTTA,
-    borderColor: TERRACOTTA,
+    backgroundColor: Colors.light.primary,
+    borderColor: Colors.light.primary,
   },
   groceryName: {
     fontFamily: "Inter_500Medium",
     fontSize: 17,
-    color: TEXT_PRIMARY,
+    color: Colors.light.onSurface,
   },
   groceryNameChecked: {
     textDecorationLine: "line-through",
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
   },
   groceryAmount: {
     fontFamily: "Inter_400Regular",
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
   },
   grocerySource: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
     lineHeight: 20,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     maxWidth: 100,
     textAlign: "right",
   },
@@ -1641,7 +1636,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 13,
     lineHeight: 18,
-    color: TERRACOTTA,
+    color: Colors.light.primary,
   },
   clearCompletedBtn: {
     alignItems: "center",
@@ -1651,7 +1646,7 @@ const styles = StyleSheet.create({
   clearCompletedText: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
   },
 
   // Grocery summary footer
@@ -1661,14 +1656,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: BORDER,
-    backgroundColor: CREAM,
+    borderTopColor: Colors.light.outlineVariant,
+    backgroundColor: Colors.light.surface,
   },
   grocerySummaryText: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
     lineHeight: 18,
-    color: TEXT_SECONDARY,
+    color: Colors.light.secondary,
     textAlign: "center",
   },
   // Checkout FAB
@@ -1725,7 +1720,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: "#1C1A17",
+    backgroundColor: Colors.light.onSurface,
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 24,
@@ -1738,6 +1733,6 @@ const styles = StyleSheet.create({
   toastText: {
     fontFamily: "Inter_500Medium",
     fontSize: 13,
-    color: CREAM,
+    color: Colors.light.surface,
   },
 });
