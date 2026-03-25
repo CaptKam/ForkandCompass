@@ -488,6 +488,7 @@ export default function PlanScreen() {
                     day={entry}
                     isLast={index === fullWeek.length - 1}
                     isToday={entry.date === today}
+                    isPast={entry.date < today}
                     onReload={() => { haptic(); setSwapDay(entry); }}
                     onSkip={() => handleSkipDay(entry)}
                     onRestore={() => handleRestoreDay(entry)}
@@ -1065,10 +1066,11 @@ const swapStyles = StyleSheet.create({
 
 // ─── WeekRow ──────────────────────────────────────────────────────────────────
 
-function WeekRow({ day, isLast, isToday, onReload, onSkip, onRestore, drag, isActive }: {
+function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, drag, isActive }: {
   day: ItineraryDay;
   isLast: boolean;
   isToday?: boolean;
+  isPast?: boolean;
   onReload: () => void;
   onSkip: () => void;
   onRestore: () => void;
@@ -1090,7 +1092,7 @@ function WeekRow({ day, isLast, isToday, onReload, onSkip, onRestore, drag, isAc
   const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
-    <View style={[styles.daySection, isActive && { opacity: 0.95 }]}>
+    <View style={[styles.daySection, isPast && { opacity: 0.38 }, isActive && { opacity: 0.95 }]}>
       <View style={styles.dayDateRow}>
         <Text style={[styles.dayDateLabel, isToday && { color: Colors.light.primary }]}>
           {dayName} · {dateLabel}
@@ -1103,7 +1105,7 @@ function WeekRow({ day, isLast, isToday, onReload, onSkip, onRestore, drag, isAc
       </View>
       <View style={[styles.dayCard, isActive && { shadowOpacity: 0.18, elevation: 8 }]}>
         {/* Drag handle */}
-        {drag && !isSkipped && (
+        {drag && !isSkipped && !isPast && (
           <Pressable
             onLongPress={() => { haptic(); drag(); }}
             delayLongPress={150}
@@ -1147,7 +1149,7 @@ function WeekRow({ day, isLast, isToday, onReload, onSkip, onRestore, drag, isAc
             )}
           </View>
         </Pressable>
-        {!isSkipped && (
+        {!isSkipped && !isPast && (
           <View style={styles.dayCardActions}>
             <Pressable
               onPress={(e) => { e.stopPropagation(); onReload(); }}
