@@ -77,9 +77,10 @@ export function parseTimeMinutes(time: string): number {
 
 function filterByTime(recipes: Recipe[], preference: "quick" | "moderate" | "relaxed"): Recipe[] {
   if (preference === "relaxed") return recipes;
-  const maxMin = preference === "quick" ? 30 : 60;
+  const maxMin = preference === "quick" ? 45 : 90; // quick = under 45min, moderate = under 90min
   const filtered = recipes.filter((r) => parseTimeMinutes(r.time) <= maxMin);
-  return filtered.length > 0 ? filtered : recipes; // fallback to unfiltered
+  // Fallback: if too few recipes pass the filter, return all
+  return filtered.length >= 2 ? filtered : recipes;
 }
 
 /**
@@ -142,13 +143,15 @@ function pickRecipesForDay(
   const main = findByCategory(filtered, ["main", "pasta", "curry", "stew", "pork", "chicken", "beef", "fish", "rice"])
     || filtered[0];
 
-  // Pick an appetizer / starter (appetizer > soup > salad > side dish)
+  // Pick an appetizer / starter — try filtered first, then all recipes
   const remaining = filtered.filter((r) => r.id !== main?.id);
-  const appetizer = findByCategory(remaining, ["appetizer"])
-    || findByCategory(remaining, ["soup"])
-    || findByCategory(remaining, ["salad"])
-    || findByCategory(remaining, ["side"])
-    || remaining[0];
+  const allRemaining = allRecipes.filter((r) => r.id !== main?.id);
+  const starterPool = remaining.length > 0 ? remaining : allRemaining;
+  const appetizer = findByCategory(starterPool, ["appetizer"])
+    || findByCategory(starterPool, ["soup"])
+    || findByCategory(starterPool, ["salad"])
+    || findByCategory(starterPool, ["side"])
+    || starterPool[0];
 
   // Quick: appetizer first, then main (eating order)
   const quickIds = [appetizer?.id, main?.id].filter(Boolean) as string[];
