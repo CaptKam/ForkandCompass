@@ -11,36 +11,31 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import ContinueCookingBanner from "@/components/ContinueCookingBanner";
 
 function NativeTabLayout() {
   return (
     <NativeTabs>
-        <NativeTabs.Trigger name="index">
-          <Icon sf={{ default: "safari", selected: "safari.fill" }} />
-          <Label>Discover</Label>
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="search">
-          <Icon sf={{ default: "magnifyingglass", selected: "magnifyingglass" }} />
-          <Label>Search</Label>
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="plan">
-          <Icon sf={{ default: "calendar.badge.checkmark", selected: "calendar.badge.checkmark" }} />
-          <Label>Plan</Label>
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="cook">
-          <Icon sf={{ default: "fork.knife", selected: "fork.knife" }} />
-          <Label>Cook</Label>
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="profile">
-          <Icon sf={{ default: "person.circle", selected: "person.circle.fill" }} />
-          <Label>Profile</Label>
-        </NativeTabs.Trigger>
-      </NativeTabs>
-      <View style={{ position: "absolute", bottom: insets.bottom + 56, left: 0, right: 0, zIndex: 100 }}>
-        <ContinueCookingBanner />
-      </View>
-    </>
+      <NativeTabs.Trigger name="index">
+        <Icon sf={{ default: "safari", selected: "safari.fill" }} />
+        <Label>Discover</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="search">
+        <Icon sf={{ default: "magnifyingglass", selected: "magnifyingglass" }} />
+        <Label>Search</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="plan">
+        <Icon sf={{ default: "calendar.badge.checkmark", selected: "calendar.badge.checkmark" }} />
+        <Label>Plan</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="cook">
+        <Icon sf={{ default: "fork.knife", selected: "fork.knife" }} />
+        <Label>Cook</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="profile">
+        <Icon sf={{ default: "person.circle", selected: "person.circle.fill" }} />
+        <Label>Profile</Label>
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
 }
 
@@ -54,9 +49,7 @@ function ClassicTabLayout() {
 
   return (
     <Tabs
-    <View style={{ flex: 1 }}>
-      <Tabs
-        screenOptions={{
+      screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.secondary,
@@ -71,11 +64,10 @@ function ClassicTabLayout() {
             : isDark
               ? "rgba(18,17,16,0.95)"
               : "rgba(254,249,243,0.95)",
-          borderTopWidth: 0,
+          borderTopWidth: StyleSheet.hairlineWidth,
+          borderTopColor: "rgba(138,56,0,0.15)",
           elevation: 0,
           paddingBottom: safeAreaInsets.bottom,
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
           ...(isWeb ? { height: 84 } : {}),
         },
         tabBarBackground: () =>
@@ -83,7 +75,7 @@ function ClassicTabLayout() {
             <BlurView
               intensity={80}
               tint={isDark ? "dark" : "light"}
-              style={[StyleSheet.absoluteFill, { borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: "hidden" }]}
+              style={StyleSheet.absoluteFill}
             />
           ) : isWeb ? (
             <View
@@ -175,11 +167,7 @@ function ClassicTabLayout() {
             ),
         }}
       />
-      </Tabs>
-      <View style={{ position: "absolute", bottom: (isWeb ? 84 : safeAreaInsets.bottom + 56), left: 0, right: 0, zIndex: 100 }}>
-        <ContinueCookingBanner />
-      </View>
-    </View>
+    </Tabs>
   );
 }
 
