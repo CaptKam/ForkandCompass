@@ -167,8 +167,6 @@ export default function PlanScreen() {
       const dateObj = new Date(monday);
       dateObj.setDate(monday.getDate() + i);
       const dateStr = toISODate(dateObj);
-      // Skip past days entirely
-      if (dateStr < today) continue;
       const existing = currentItinerary.find((dd) => dd.date === dateStr);
       if (existing) {
         // Skip today's active entry — it's shown separately in the TONIGHT header
@@ -583,6 +581,7 @@ export default function PlanScreen() {
           </ScrollView>
           ) : (
           <DraggableFlatList
+            style={{ flex: 1 }}
             data={fullWeek}
             keyExtractor={(item, index) => `${item.id}-${index}`}
             onDragBegin={(index) => { draggedOriginalIndexRef.current = index; }}
