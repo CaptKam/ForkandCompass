@@ -24,6 +24,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import CookingPill from "@/components/CookingPill";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppProvider } from "@/contexts/AppContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -46,6 +47,10 @@ function RootLayoutNav() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
+      <Stack.Screen
+        name="auth"
+        options={{ animation: modalAnimation, presentation: "modal" }}
+      />
       <Stack.Screen
         name="onboarding"
         options={{ animation: slideAnimation }}
@@ -75,6 +80,24 @@ function RootLayoutNav() {
   );
 }
 
+function AppProviderWithAuth() {
+  const { userId } = useAuth();
+  return (
+    <AppProvider>
+      <SubscriptionProvider userId={userId}>
+        <GestureHandlerRootView>
+          <KeyboardProvider>
+            <RootLayoutNav />
+            <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+              <CookingPill />
+            </View>
+          </KeyboardProvider>
+        </GestureHandlerRootView>
+      </SubscriptionProvider>
+    </AppProvider>
+  );
+}
+
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
     Inter_400Regular,
@@ -100,18 +123,9 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
-          <AppProvider>
-            <SubscriptionProvider userId={null}>
-              <GestureHandlerRootView>
-                <KeyboardProvider>
-                  <RootLayoutNav />
-                  <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-                    <CookingPill />
-                  </View>
-                </KeyboardProvider>
-              </GestureHandlerRootView>
-            </SubscriptionProvider>
-          </AppProvider>
+          <AuthProvider>
+            <AppProviderWithAuth />
+          </AuthProvider>
         </QueryClientProvider>
       </ErrorBoundary>
     </SafeAreaProvider>
