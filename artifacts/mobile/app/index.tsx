@@ -17,6 +17,7 @@ import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { useScaledStyles } from "@/hooks/useScaledStyles";
 import { WELCOME_HERO_IMAGE } from "@/constants/data";
+import Colors from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");

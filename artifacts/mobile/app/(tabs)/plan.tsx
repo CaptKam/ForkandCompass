@@ -808,7 +808,6 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
             <Text style={styles.supperBadgeText}>Supper Choice</Text>
           </View>
           <Text style={styles.tonightTitle} ellipsizeMode="tail" numberOfLines={2}>{title}</Text>
-        </Pressable>
         <Text style={styles.tonightSubtitle}>
           {region ? `${region}, ` : ""}{country.name} · {heroRecipe.time}
         </Text>
@@ -821,7 +820,6 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
         >
           <Text style={styles.startCookingText}>Start Cooking →</Text>
         </Pressable>
-      </View>
           <Text style={styles.tonightDesc} numberOfLines={2}>
             A {region} staple elevated by premium ingredients and careful preparation.
           </Text>
