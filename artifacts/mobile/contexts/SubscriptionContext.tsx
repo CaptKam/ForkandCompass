@@ -7,17 +7,18 @@ import React, {
 } from "react";
 import { Platform } from "react-native";
 
-// RevenueCat types — imported dynamically to avoid crash when
-// native module isn't linked (Expo Go, web dev server)
+// RevenueCat is native-only — never load on web
 let Purchases: any = null;
 let LOG_LEVEL_DEBUG: any = null;
 
-try {
-  const rc = require("react-native-purchases");
-  Purchases = rc.default;
-  LOG_LEVEL_DEBUG = rc.LOG_LEVEL?.DEBUG;
-} catch {
-  console.warn("[RevenueCat] Native module not available — running in mock mode");
+if (Platform.OS !== "web") {
+  try {
+    const rc = require("react-native-purchases");
+    Purchases = rc.default;
+    LOG_LEVEL_DEBUG = rc.LOG_LEVEL?.DEBUG;
+  } catch {
+    console.warn("[RevenueCat] Native module not available — running in mock mode");
+  }
 }
 
 const API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_API_KEY ?? "";
