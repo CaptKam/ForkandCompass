@@ -48,6 +48,7 @@ function ClassicTabLayout() {
   const isDark = colors.background === Colors.dark.background;
 
   return (
+    <View style={{ flex: 1 }}>
     <Tabs
       screenOptions={{
         headerShown: false,
@@ -168,7 +169,6 @@ function ClassicTabLayout() {
         }}
       />
     </Tabs>
-      </Tabs>
     </View>
   );
 }
