@@ -180,6 +180,8 @@ interface AppContextType {
   setItineraryProfile: (profile: ItineraryProfile) => void;
   currentItinerary: ItineraryDay[];
   setCurrentItinerary: (itinerary: ItineraryDay[]) => void;
+  addCourseToDay: (date: string, recipeId: string) => void;
+  removeCourseFromDay: (date: string, recipeId: string) => void;
   itineraryHistory: ItineraryDay[][];
   addToItineraryHistory: (week: ItineraryDay[]) => void;
   groceryPartner: GroceryPartner;
@@ -787,6 +789,25 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setCurrentItineraryState(itinerary);
   }, []);
 
+  const addCourseToDay = useCallback((date: string, recipeId: string) => {
+    setCurrentItineraryState(prev => prev.map(day => {
+      if (day.date !== date) return day;
+      const existing = day.extraRecipeIds ?? [];
+      if (existing.includes(recipeId)) return day; // no duplicates
+      return { ...day, extraRecipeIds: [...existing, recipeId] };
+    }));
+  }, []);
+
+  const removeCourseFromDay = useCallback((date: string, recipeId: string) => {
+    setCurrentItineraryState(prev => prev.map(day => {
+      if (day.date !== date) return day;
+      return {
+        ...day,
+        extraRecipeIds: (day.extraRecipeIds ?? []).filter(id => id !== recipeId),
+      };
+    }));
+  }, []);
+
   const addToItineraryHistory = useCallback((week: ItineraryDay[]) => {
     setItineraryHistoryState((prev) => {
       const next = [...prev, week].slice(-4); // keep last 4 weeks
@@ -861,6 +882,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setItineraryProfile,
         currentItinerary,
         setCurrentItinerary,
+        addCourseToDay,
+        removeCourseFromDay,
         itineraryHistory,
         addToItineraryHistory,
         removeFromGrocery,

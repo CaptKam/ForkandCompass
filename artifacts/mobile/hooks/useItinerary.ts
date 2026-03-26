@@ -15,6 +15,9 @@ export interface ItineraryDay {
   regionId: string;
   quickRecipeIds: string[];
   fullRecipeIds: string[];
+  extraRecipeIds?: string[];  // User-added courses (appetizer, dessert, drink)
+                              // These are in addition to quickRecipeIds/fullRecipeIds
+                              // and are always shown regardless of mode
   mode: "quick" | "full";
   status: "active" | "skipped" | "completed";
 }
