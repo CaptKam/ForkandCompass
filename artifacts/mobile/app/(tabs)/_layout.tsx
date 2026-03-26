@@ -39,7 +39,7 @@ function NativeTabLayout() {
           <Label>Profile</Label>
         </NativeTabs.Trigger>
       </NativeTabs>
-      <View style={{ position: "absolute", top: insets.top, left: 0, right: 0, zIndex: 100 }}>
+      <View style={{ position: "absolute", bottom: insets.bottom + 56, left: 0, right: 0, zIndex: 100 }}>
         <ContinueCookingBanner />
       </View>
     </>
@@ -56,7 +56,6 @@ function ClassicTabLayout() {
 
   return (
     <View style={{ flex: 1 }}>
-      <ContinueCookingBanner />
       <Tabs
         screenOptions={{
         headerShown: false,
@@ -178,6 +177,9 @@ function ClassicTabLayout() {
         }}
       />
       </Tabs>
+      <View style={{ position: "absolute", bottom: (isWeb ? 84 : safeAreaInsets.bottom + 56), left: 0, right: 0, zIndex: 100 }}>
+        <ContinueCookingBanner />
+      </View>
     </View>
   );
 }
