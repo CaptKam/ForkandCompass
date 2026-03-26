@@ -18,6 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { getRecipeById, getAllRecipes as getAllRecipesResolved } from "@/constants/data";
+import { formatSeconds } from "@/lib/utils";
 import type { Recipe } from "@/constants/data";
 import { TECHNIQUE_VIDEOS } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
@@ -42,12 +43,6 @@ function timeAgo(dateStr: string): string {
   const weeks = Math.floor(days / 7);
   if (weeks < 4) return `${weeks}w ago`;
   return new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-}
-
-function formatSeconds(totalSeconds: number): string {
-  const mins = Math.floor(totalSeconds / 60);
-  const secs = totalSeconds % 60;
-  return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }
 
 const BEGINNER_RECIPE_IDS = [
