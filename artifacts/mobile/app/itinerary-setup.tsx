@@ -56,6 +56,7 @@ export default function ItinerarySetupScreen() {
     clearGrocery,
     groceryPartner,
     setGroceryPartner,
+    savedRecipeIds,
   } = useApp();
 
   const [step, setStep] = useState(0);
@@ -69,6 +70,7 @@ export default function ItinerarySetupScreen() {
     itineraryProfile?.adventurousness ?? "mixed"
   );
   const [servings, setServings] = useState(itineraryProfile?.defaultServings ?? 2);
+  const [useSavedOnly, setUseSavedOnly] = useState(false);
 
   const haptic = () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -83,7 +85,7 @@ export default function ItinerarySetupScreen() {
       defaultServings: servings,
     };
     setItineraryProfile(profile);
-    const itinerary = generateItinerary(profile, selectedCountryIds, itineraryHistory);
+    const itinerary = generateItinerary(profile, selectedCountryIds, itineraryHistory, useSavedOnly ? savedRecipeIds : undefined);
     setCurrentItinerary(itinerary);
     // Auto-populate grocery with the new week's recipes
     clearGrocery();
@@ -141,6 +143,23 @@ export default function ItinerarySetupScreen() {
           );
         })}
       </View>
+
+      {/* Saved recipes toggle */}
+      {savedRecipeIds.length >= 3 && (
+        <Pressable
+          onPress={() => { haptic(); setUseSavedOnly(prev => !prev); }}
+          style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 14, paddingHorizontal: 20, backgroundColor: Colors.light.surface, borderRadius: 12, borderWidth: 1, borderColor: useSavedOnly ? Colors.light.primary : Colors.light.outlineVariant }}
+          accessibilityLabel="Use only saved recipes"
+        >
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 15, color: Colors.light.onSurface, marginBottom: 2 }}>Use my saved recipes</Text>
+            <Text style={{ fontFamily: "Inter_400Regular", fontSize: 13, color: Colors.light.secondary }}>Build your week from your {savedRecipeIds.length} favourites</Text>
+          </View>
+          <View style={{ width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: useSavedOnly ? Colors.light.primary : Colors.light.outline, backgroundColor: useSavedOnly ? Colors.light.primary : "transparent", alignItems: "center", justifyContent: "center" }}>
+            {useSavedOnly && <Ionicons name="checkmark" size={14} color={Colors.light.onPrimary} />}
+          </View>
+        </Pressable>
+      )}
     </View>
   );
 

@@ -1506,6 +1506,7 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
   onAdd?: () => void;
 }) {
   const country = getCountryById(day.countryId);
+  const { savedRecipeIds: savedIds } = useApp();
   const recipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
   const recipes = recipeIds.map(getRecipeById).filter(Boolean);
   const isSkipped = day.status === "skipped";
@@ -1572,9 +1573,14 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
             </View>
           )}
           <View style={styles.dayCardInfo}>
-            <Text style={styles.dayCardRecipe} ellipsizeMode="tail" numberOfLines={1}>
-              {isSkipped ? "Skipped" : recipeTitle}
-            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={[styles.dayCardRecipe, { flex: 1 }]} ellipsizeMode="tail" numberOfLines={1}>
+                {isSkipped ? "Skipped" : recipeTitle}
+              </Text>
+              {!isSkipped && mainRecipe && savedIds.includes(mainRecipe.id) && (
+                <Ionicons name="bookmark" size={11} color={Colors.light.primary} style={{ marginLeft: 4 }} />
+              )}
+            </View>
             {!isSkipped && mainRecipe && (
               <Text style={styles.dayCardSub} ellipsizeMode="tail" numberOfLines={1}>
                 Dinner · {country.name}

@@ -152,13 +152,25 @@ function pickRecipesForDay(
 export function generateItinerary(
   profile: ItineraryProfile,
   selectedCountryIds: string[],
-  history?: ItineraryDay[][]
+  history?: ItineraryDay[][],
+  useSavedRecipeIds?: string[]
 ): ItineraryDay[] {
+  // 0. If using saved recipes only, build a country pool from those recipes
+  const savedRecipeCountryIds = useSavedRecipeIds?.length
+    ? [...new Set(useSavedRecipeIds.map(id => {
+        const r = getRecipeById(id);
+        return r?.countryId;
+      }).filter(Boolean) as string[])]
+    : null;
+
   // 1. Build country pool
   let countryPool: Country[];
   const allCountries = COUNTRIES;
 
-  if (profile.adventurousness === "familiar") {
+  if (savedRecipeCountryIds) {
+    // When using saved recipes, only use countries that have saved recipes
+    countryPool = allCountries.filter((c) => savedRecipeCountryIds.includes(c.id));
+  } else if (profile.adventurousness === "familiar") {
     countryPool = allCountries.filter((c) => selectedCountryIds.includes(c.id));
   } else if (profile.adventurousness === "mixed") {
     const familiar = allCountries.filter((c) => selectedCountryIds.includes(c.id));
@@ -216,7 +228,18 @@ export function generateItinerary(
     const date = new Date(monday);
     date.setDate(monday.getDate() + dayIdx);
 
-    const { quickRecipeIds, fullRecipeIds } = pickRecipesForDay(country, profile.timePreference);
+    let { quickRecipeIds, fullRecipeIds } = pickRecipesForDay(country, profile.timePreference);
+
+    // When using saved recipes, filter to only include saved ones
+    if (useSavedRecipeIds?.length) {
+      quickRecipeIds = quickRecipeIds.filter(id => useSavedRecipeIds.includes(id));
+      fullRecipeIds = fullRecipeIds.filter(id => useSavedRecipeIds.includes(id));
+      // Ensure at least one recipe per day from saved pool
+      if (quickRecipeIds.length === 0) {
+        const countrySaved = country.recipes.filter(r => useSavedRecipeIds.includes(r.id));
+        if (countrySaved.length > 0) quickRecipeIds = [countrySaved[0].id];
+      }
+    }
 
     return {
       id: `${toISODate(date)}-${country.id}`,
