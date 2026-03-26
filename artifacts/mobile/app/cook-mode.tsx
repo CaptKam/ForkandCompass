@@ -688,15 +688,15 @@ export default function CookModeScreen() {
           contentContainerStyle={styles.scrollContent}
         >
           {/* Ingredients highlight box (above instruction) */}
-          {stepIngredients.length > 0 && (() => {
-            const pantryCount = stepIngredients.filter(ing => isIngredientInPantry(ing.name)).length;
-            return (
+          {stepIngredients.length > 0 && (
             <View style={styles.ingredientsBox}>
               <Text style={styles.ingredientsBoxLabel}>You'll need:</Text>
-              {pantryCount > 0 && (
+              {stepIngredients.filter(ing => isIngredientInPantry(ing.name)).length > 0 && (
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 6, paddingHorizontal: 12, backgroundColor: "rgba(52,199,89,0.08)", borderRadius: 10, marginBottom: 8, borderWidth: 1, borderColor: "rgba(52,199,89,0.2)" }}>
                   <Ionicons name="checkmark-circle" size={14} color={Colors.light.success} />
-                  <Text style={{ fontFamily: "Inter_500Medium", fontSize: 12, color: Colors.light.success }}>{pantryCount} of {stepIngredients.length} already in your pantry</Text>
+                  <Text style={{ fontFamily: "Inter_500Medium", fontSize: 12, color: Colors.light.success }}>
+                    {stepIngredients.filter(ing => isIngredientInPantry(ing.name)).length} of {stepIngredients.length} already in your pantry
+                  </Text>
                 </View>
               )}
               {stepIngredients.map((ing) => {
@@ -726,8 +726,6 @@ export default function CookModeScreen() {
                 );
               })}
             </View>
-            );
-          })()
           )}
 
           {/* Equipment */}
