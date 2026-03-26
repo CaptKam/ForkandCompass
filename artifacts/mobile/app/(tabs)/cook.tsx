@@ -159,9 +159,8 @@ export default function CookScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingTop: insets.top + 12, paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
-
-        {/* ── Active Session: Editorial Hero ──────────────────────── */}
-        {hasActiveSession && activeCookSession && (
+        {/* ── PRIORITY 1: Tonight's Recipe ─────────────────────────── */}
+        {hasTonightsRecipe && tonightsRecipe && (
           <View style={styles.section}>
             <View style={styles.sectionLabelRow}>
               <Text style={styles.sectionLabelEditorial}>In Progress</Text>
@@ -473,9 +472,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
-  /* ── Continue Cooking Card (Active Session) ──────────────────── */
-  continueCard: {
-    backgroundColor: Colors.light.surfaceWarm,
+  /* ── Tonight's Recipe ────────────────────────────────────────── */
+  tonightCard: {
     borderRadius: 16,
     borderWidth: 1,
     borderColor: "rgba(154,65,0,0.3)",

@@ -16,11 +16,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect } from "react";
-import { Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import CookingPill from "@/components/CookingPill";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppProvider } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -102,6 +103,9 @@ export default function RootLayout() {
             <GestureHandlerRootView>
               <KeyboardProvider>
                 <RootLayoutNav />
+                <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+                  <CookingPill />
+                </View>
               </KeyboardProvider>
             </GestureHandlerRootView>
           </AppProvider>
