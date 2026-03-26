@@ -241,16 +241,19 @@ export default function PlanScreen() {
   const handleSkipDay = (day: ItineraryDay) => {
     haptic();
     setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, status: "skipped" as const } : d));
-    // Remove this day's recipes from grocery
+    // Remove ALL of this day's recipes from grocery (main + extra courses)
     const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
-    for (const rid of ids) { const r = getRecipeById(rid); if (r) removeFromGrocery(r); }
+    const allIds = [...ids, ...(day.extraRecipeIds ?? [])];
+    for (const rid of allIds) { const r = getRecipeById(rid); if (r) removeFromGrocery(r); }
   };
 
   const handleRestoreDay = (day: ItineraryDay) => {
     haptic();
     setCurrentItinerary(currentItinerary.map((d) => d.id === day.id ? { ...d, status: "active" as const } : d));
+    // Restore ALL recipes to grocery (main + extra courses)
     const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
-    for (const rid of ids) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
+    const allIds = [...ids, ...(day.extraRecipeIds ?? [])];
+    for (const rid of allIds) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
   };
 
   const handleAddMealToDay = (dateStr: string, dayLabel: string) => {
@@ -866,16 +869,17 @@ export default function PlanScreen() {
           <SwapSheet
             day={swapDay}
             onSelectRecipe={(recipe) => {
-              // Replace the day with the selected recipe
+              // Replace the day's main recipe but keep extra courses
               const updated: ItineraryDay = {
                 ...swapDay,
                 countryId: recipe.countryId,
                 regionId: recipe.region ?? "",
                 quickRecipeIds: [recipe.id],
                 fullRecipeIds: [recipe.id],
+                extraRecipeIds: swapDay.extraRecipeIds, // preserve user-added courses
                 status: "active",
               };
-              // Swap grocery
+              // Sync grocery: remove old main recipe ingredients, add new
               const oldIds = swapDay.mode === "quick" ? swapDay.quickRecipeIds : swapDay.fullRecipeIds;
               for (const rid of oldIds) { const r = getRecipeById(rid); if (r) removeFromGrocery(r); }
               addToGrocery(recipe);
