@@ -285,13 +285,21 @@ export default function PlanScreen() {
     const targetDay = currentItinerary.find((d) => d.date === toDateStr);
     const toDateObj = new Date(toDateStr + "T12:00:00");
     const toLabel = toDateObj.toLocaleDateString("en-US", { weekday: "long" });
-    const fromDateObj = new Date(fromDay.date + "T12:00:00");
-    const fromLabel = fromDateObj.toLocaleDateString("en-US", { weekday: "long" });
-    const updated = currentItinerary.map((day) => {
-      if (day.id === fromDay.id) return { ...day, date: toDateStr, dayLabel: toLabel };
-      if (targetDay && day.id === targetDay.id) return { ...day, date: fromDay.date, dayLabel: fromLabel };
-      return day;
-    }).sort((a, b) => a.date.localeCompare(b.date));
+    let updated: ItineraryDay[];
+    if (targetDay) {
+      // Drop into an existing day — merge recipe IDs, remove the source day
+      const mergedQuick = [...new Set([...targetDay.quickRecipeIds, ...fromDay.quickRecipeIds])];
+      const mergedFull  = [...new Set([...targetDay.fullRecipeIds,  ...fromDay.fullRecipeIds])];
+      updated = currentItinerary
+        .filter((d) => d.id !== fromDay.id)
+        .map((d) => d.id === targetDay.id ? { ...d, quickRecipeIds: mergedQuick, fullRecipeIds: mergedFull } : d)
+        .sort((a, b) => a.date.localeCompare(b.date));
+    } else {
+      // Drop into an empty slot — just change the date of the source day
+      updated = currentItinerary
+        .map((d) => d.id === fromDay.id ? { ...d, date: toDateStr, dayLabel: toLabel } : d)
+        .sort((a, b) => a.date.localeCompare(b.date));
+    }
     setCurrentItinerary(updated);
     setMoveDay(null);
     showToast(`Moved to ${toLabel}`);
@@ -882,7 +890,7 @@ export default function PlanScreen() {
                         <View style={{ flex: 1 }}>
                           <Text style={editMenuStyles.menuItemTitle}>{dayName}</Text>
                           <Text style={editMenuStyles.menuItemSub}>
-                            {dateLabel} · {isEmpty ? "Nothing planned — move here" : "Swap dates with this day"}
+                            {dateLabel} · {isEmpty ? "Move here" : "Add alongside existing meal"}
                           </Text>
                         </View>
                       </Pressable>
