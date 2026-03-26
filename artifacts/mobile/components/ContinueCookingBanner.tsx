@@ -1,4 +1,3 @@
-import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
@@ -25,10 +24,18 @@ export default function ContinueCookingBanner() {
   if (pathname === "/cook" || pathname === "/(tabs)/cook") return null;
 
   const recipe = getRecipeById(activeCookSession.recipeId);
-  const hasTimer = activeCookSession.timerRunning && activeCookSession.timerRemaining != null && activeCookSession.timerRemaining > 0;
+  const hasTimer =
+    activeCookSession.timerRunning &&
+    activeCookSession.timerRemaining != null &&
+    activeCookSession.timerRemaining > 0;
+
+  const progress =
+    activeCookSession.totalSteps > 0
+      ? (activeCookSession.currentStep / activeCookSession.totalSteps) * 100
+      : 0;
 
   const handleResume = () => {
-    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     router.push({
       pathname: "/cook-mode",
       params: {
@@ -38,9 +45,12 @@ export default function ContinueCookingBanner() {
     });
   };
 
-  const Inner = (
-    <Pressable onPress={handleResume} style={({ pressed }) => [styles.row, pressed && { opacity: 0.92 }]}>
-      {/* Thumbnail */}
+  return (
+    <Pressable
+      onPress={handleResume}
+      style={({ pressed }) => [styles.card, pressed && { opacity: 0.93 }]}
+    >
+      {/* Thumbnail — 56×56, no overlay */}
       <View style={styles.thumb}>
         {recipe?.image ? (
           <Image
@@ -51,10 +61,6 @@ export default function ContinueCookingBanner() {
         ) : (
           <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.light.surfaceContainerHigh }]} />
         )}
-        {/* Step overlay on thumbnail */}
-        <View style={styles.thumbOverlay}>
-          <Text style={styles.thumbStep}>{activeCookSession.currentStep + 1}/{activeCookSession.totalSteps}</Text>
-        </View>
       </View>
 
       {/* Text block */}
@@ -62,129 +68,115 @@ export default function ContinueCookingBanner() {
         <Text style={styles.recipeName} numberOfLines={1} ellipsizeMode="tail">
           {activeCookSession.recipeName}
         </Text>
-        <View style={styles.statusRow}>
-          {hasTimer ? (
-            <>
-              <Ionicons name="timer-outline" size={12} color={Colors.light.primary} />
-              <Text style={[styles.statusText, { color: Colors.light.primary }]}>
-                {formatSeconds(activeCookSession.timerRemaining!)} remaining
-              </Text>
-              <Text style={styles.statusDot}>·</Text>
-            </>
-          ) : null}
-          <Text style={styles.statusText}>
-            Step {activeCookSession.currentStep + 1} · In Progress
+        <View style={styles.stepRow}>
+          <Text style={styles.stepText}>
+            Step {activeCookSession.currentStep + 1} of {activeCookSession.totalSteps}
           </Text>
+          {hasTimer ? (
+            <Text style={[styles.stepText, styles.inProgressText]}>
+              {formatSeconds(activeCookSession.timerRemaining!)}
+            </Text>
+          ) : (
+            <Text style={[styles.stepText, styles.inProgressText]}>In Progress</Text>
+          )}
+        </View>
+        {/* Progress bar */}
+        <View style={styles.progressTrack}>
+          <View style={[styles.progressFill, { width: `${Math.max(progress, 3)}%` as any }]} />
         </View>
       </View>
 
-      {/* Play button */}
-      <Pressable onPress={handleResume} style={styles.playBtn} hitSlop={8}>
-        <Ionicons name="play" size={16} color="#FFFFFF" />
-      </Pressable>
-    </Pressable>
-  );
-
-  if (Platform.OS === "ios") {
-    return (
-      <View style={[styles.container, { backgroundColor: "#FEF9F3" }]}>
-        <BlurView intensity={70} tint="light" style={StyleSheet.absoluteFill} />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(254,249,243,0.75)" }]} />
-        {Inner}
+      {/* Play button — 48×48 terracotta circle */}
+      <View style={styles.playBtn}>
+        <Ionicons name="play" size={20} color="#FFFFFF" />
       </View>
-    );
-  }
-
-  return (
-    <View style={[styles.container, { backgroundColor: "#FEF9F3" }]}>
-      {Inner}
-    </View>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: 72,
-    borderTopWidth: 1,
-    borderTopColor: "#E8DFD2",
-    overflow: "hidden",
-    ...Platform.select({
-      ios: { shadowColor: "#1C1A17", shadowOffset: { width: 0, height: -8 }, shadowOpacity: 0.08, shadowRadius: 24 },
-      android: { elevation: 12 },
-      web: { boxShadow: "0 -8px 24px rgba(28,26,23,0.08)" },
-    }),
-  },
-  row: {
-    flex: 1,
+  card: {
+    backgroundColor: "#FEF9F3",
+    borderRadius: 16,
+    padding: 16,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
-    gap: 12,
+    gap: 14,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.2)",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#1D1B18",
+        shadowOffset: { width: 0, height: 12 },
+        shadowOpacity: 0.12,
+        shadowRadius: 20,
+      },
+      android: { elevation: 12 },
+      web: { boxShadow: "0 12px 40px 0 rgba(29,27,24,0.12)" },
+    }),
   },
   thumb: {
-    width: 48,
-    height: 48,
-    borderRadius: 8,
+    width: 56,
+    height: 56,
+    borderRadius: 10,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
     flexShrink: 0,
   },
-  thumbOverlay: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    paddingVertical: 2,
-    alignItems: "center",
-  },
-  thumbStep: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 9,
-    color: "#FFFFFF",
-    letterSpacing: 0.3,
-  },
   textBlock: {
     flex: 1,
-    gap: 3,
+    gap: 4,
   },
   recipeName: {
     fontFamily: "NotoSerif_700Bold",
-    fontSize: 15,
-    color: "#1C1A17",
-    lineHeight: 20,
+    fontSize: 14,
+    color: "#1D1B18",
+    letterSpacing: -0.2,
   },
-  statusRow: {
+  stepRow: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 4,
-    flexWrap: "wrap",
   },
-  statusText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    color: "#8A8279",
-    lineHeight: 16,
+  stepText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 10,
+    color: Colors.light.secondary,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
   },
-  statusDot: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    color: "#8A8279",
+  inProgressText: {
+    color: Colors.light.primary,
+    fontStyle: "italic",
+  },
+  progressTrack: {
+    height: 4,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderRadius: 2,
+    overflow: "hidden",
+  },
+  progressFill: {
+    height: 4,
+    backgroundColor: Colors.light.primary,
+    borderRadius: 2,
   },
   playBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: Colors.light.primary,
-    borderWidth: 1,
-    borderColor: "#7A6347",
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
     ...Platform.select({
-      ios: { shadowColor: Colors.light.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.35, shadowRadius: 6 },
-      android: { elevation: 4 },
-      web: { boxShadow: "0 2px 8px rgba(154,65,0,0.35)" },
+      ios: {
+        shadowColor: Colors.light.primary,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: { elevation: 6 },
+      web: { boxShadow: "0 4px 12px rgba(154,65,0,0.3)" },
     }),
   },
 });
