@@ -467,7 +467,7 @@ export default function PlanScreen() {
                 if ("isEmpty" in entry) {
                   return (
                     <EmptyDayRow
-                      key={entry.id}
+                      key={`${entry.id}-${index}`}
                       date={entry.date}
                       dayLabel={entry.dayLabel}
                       isLast={index === fullWeek.length - 1}
@@ -477,7 +477,7 @@ export default function PlanScreen() {
                 }
                 return (
                   <WeekRow
-                    key={entry.id}
+                    key={`${entry.id}-${index}`}
                     day={entry}
                     isLast={index === fullWeek.length - 1}
                     isToday={entry.date === today}
@@ -500,7 +500,7 @@ export default function PlanScreen() {
           ) : (
           <DraggableFlatList
             data={fullWeek}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => `${item.id}-${index}`}
             onDragEnd={handleDragEnd}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={[styles.weekScrollContent, { paddingBottom: insets.bottom + SCROLL_BOTTOM_INSET }]}
