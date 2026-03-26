@@ -11,6 +11,7 @@ import React, {
 } from "react";
 import { Platform } from "react-native";
 
+import { getRecipeById } from "@/constants/data";
 import type { GroceryItem, Recipe } from "@/constants/data";
 import type { MeasurementSystem, TemperatureUnit } from "@/constants/units";
 import type { ItineraryProfile, ItineraryDay } from "@/hooks/useItinerary";
@@ -367,7 +368,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         if (activeCookRaw) {
           try {
             const parsed = JSON.parse(activeCookRaw);
-            if (parsed && typeof parsed === "object" && parsed.recipeId) setActiveCookSessionState(parsed);
+            if (parsed && typeof parsed === "object" && parsed.recipeId) {
+              const resolvedRecipe = getRecipeById(parsed.recipeId);
+              if (resolvedRecipe) {
+                setActiveCookSessionState({
+                  ...parsed,
+                  recipeName: resolvedRecipe.name,
+                });
+              } else {
+                AsyncStorage.removeItem(ACTIVE_COOK_SESSION_KEY).catch(() => {});
+              }
+            }
           } catch {}
         }
         if (measurementSys && ["us_customary", "metric", "imperial_uk", "show_both"].includes(measurementSys)) {

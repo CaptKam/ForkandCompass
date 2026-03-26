@@ -167,8 +167,8 @@ export default function CookScreen() {
             : 0;
           const hasTimer = activeCookSession.timerRunning && activeCookSession.timerRemaining != null && activeCookSession.timerRemaining > 0;
           const displayName = activeRecipe?.name || activeCookSession.recipeName || "";
-          const stepDesc = activeRecipe?.steps?.[activeCookSession.currentStep]?.text
-            ? activeRecipe.steps[activeCookSession.currentStep].text.slice(0, 120)
+          const stepDesc = activeRecipe?.steps?.[activeCookSession.currentStep]?.instruction
+            ? activeRecipe.steps[activeCookSession.currentStep].instruction.slice(0, 120)
             : activeRecipe?.description ?? "";
           return (
             <View style={styles.section}>
