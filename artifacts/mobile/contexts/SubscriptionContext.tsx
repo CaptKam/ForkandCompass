@@ -6,24 +6,29 @@ import React, {
   useCallback,
 } from "react";
 import { Platform } from "react-native";
-import Purchases, {
-  PurchasesPackage,
-  CustomerInfo,
-  LOG_LEVEL,
-} from "react-native-purchases";
+
+// RevenueCat types — imported dynamically to avoid crash when
+// native module isn't linked (Expo Go, web dev server)
+let Purchases: any = null;
+let LOG_LEVEL_DEBUG: any = null;
+
+try {
+  const rc = require("react-native-purchases");
+  Purchases = rc.default;
+  LOG_LEVEL_DEBUG = rc.LOG_LEVEL?.DEBUG;
+} catch {
+  console.warn("[RevenueCat] Native module not available — running in mock mode");
+}
 
 const API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_API_KEY ?? "";
-
-// Entitlement identifier — set this up in RevenueCat dashboard
-// as "premium" once you create your products
 const ENTITLEMENT_ID = "premium";
 
 interface SubscriptionContextType {
   isPremium: boolean;
   isLoading: boolean;
-  customerInfo: CustomerInfo | null;
-  packages: PurchasesPackage[];
-  purchasePackage: (pkg: PurchasesPackage) => Promise<boolean>;
+  customerInfo: any;
+  packages: any[];
+  purchasePackage: (pkg: any) => Promise<boolean>;
   restorePurchases: () => Promise<boolean>;
   refreshCustomerInfo: () => Promise<void>;
 }
@@ -47,19 +52,19 @@ export function SubscriptionProvider({
 }) {
   const [isPremium, setIsPremium] = useState(true); // TRUE = gates open
   const [isLoading, setIsLoading] = useState(false);
-  const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
-  const [packages, setPackages] = useState<PurchasesPackage[]>([]);
+  const [customerInfo, setCustomerInfo] = useState<any>(null);
+  const [packages, setPackages] = useState<any[]>([]);
 
   useEffect(() => {
-    if (!API_KEY) {
-      console.warn("[RevenueCat] No API key found");
+    if (!Purchases || !API_KEY) {
+      console.warn("[RevenueCat] Skipping init — no SDK or API key");
       return;
     }
 
     const init = async () => {
       try {
-        if (__DEV__) {
-          Purchases.setLogLevel(LOG_LEVEL.DEBUG);
+        if (__DEV__ && LOG_LEVEL_DEBUG) {
+          Purchases.setLogLevel(LOG_LEVEL_DEBUG);
         }
 
         Purchases.configure({ apiKey: API_KEY });
@@ -83,45 +88,37 @@ export function SubscriptionProvider({
 
     init();
 
-    Purchases.addCustomerInfoUpdateListener((info) => {
+    Purchases.addCustomerInfoUpdateListener?.((info: any) => {
       setCustomerInfo(info);
       checkPremiumStatus(info);
     });
   }, [userId]);
 
-  const checkPremiumStatus = (info: CustomerInfo) => {
-    // GATES ARE OPEN — isPremium is always true until you
-    // decide what to gate and flip this to use entitlements:
-    //
-    // const hasPremium =
-    //   typeof info.entitlements.active[ENTITLEMENT_ID] !== "undefined";
+  const checkPremiumStatus = (info: any) => {
+    // GATES ARE OPEN — isPremium is always true until you flip this:
+    // const hasPremium = typeof info?.entitlements?.active?.[ENTITLEMENT_ID] !== "undefined";
     // setIsPremium(hasPremium);
-    //
-    // For now everyone is premium:
     setIsPremium(true);
   };
 
-  const purchasePackage = useCallback(
-    async (pkg: PurchasesPackage): Promise<boolean> => {
-      try {
-        setIsLoading(true);
-        const { customerInfo: info } = await Purchases.purchasePackage(pkg);
-        setCustomerInfo(info);
-        checkPremiumStatus(info);
-        return true;
-      } catch (e: any) {
-        if (!e.userCancelled) {
-          console.warn("[RevenueCat] Purchase error:", e);
-        }
-        return false;
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    []
-  );
+  const purchasePackage = useCallback(async (pkg: any): Promise<boolean> => {
+    if (!Purchases) return false;
+    try {
+      setIsLoading(true);
+      const { customerInfo: info } = await Purchases.purchasePackage(pkg);
+      setCustomerInfo(info);
+      checkPremiumStatus(info);
+      return true;
+    } catch (e: any) {
+      if (!e.userCancelled) console.warn("[RevenueCat] Purchase error:", e);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const restorePurchases = useCallback(async (): Promise<boolean> => {
+    if (!Purchases) return false;
     try {
       setIsLoading(true);
       const info = await Purchases.restorePurchases();
@@ -137,6 +134,7 @@ export function SubscriptionProvider({
   }, []);
 
   const refreshCustomerInfo = useCallback(async () => {
+    if (!Purchases) return;
     try {
       const info = await Purchases.getCustomerInfo();
       setCustomerInfo(info);
@@ -148,15 +146,7 @@ export function SubscriptionProvider({
 
   return (
     <SubscriptionContext.Provider
-      value={{
-        isPremium,
-        isLoading,
-        customerInfo,
-        packages,
-        purchasePackage,
-        restorePurchases,
-        refreshCustomerInfo,
-      }}
+      value={{ isPremium, isLoading, customerInfo, packages, purchasePackage, restorePurchases, refreshCustomerInfo }}
     >
       {children}
     </SubscriptionContext.Provider>
