@@ -160,8 +160,8 @@ export default function CookScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingTop: insets.top + 12, paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
-        {/* ── PRIORITY 1: Tonight's Recipe ─────────────────────────── */}
-        {hasTonightsRecipe && tonightsRecipe && (
+        {/* ── PRIORITY 1: Active Cook Session ───────────────────────── */}
+        {hasActiveSession && activeCookSession && (
           <View style={styles.section}>
             <View style={styles.sectionLabelRow}>
               <Text style={styles.sectionLabelEditorial}>In Progress</Text>
