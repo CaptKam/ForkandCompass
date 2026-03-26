@@ -103,6 +103,8 @@ export default function PlanScreen() {
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const [swapDay, setSwapDay] = useState<ItineraryDay | null>(null);
   const [editDay, setEditDay] = useState<ItineraryDay | null>(null);
+  const [moveDay, setMoveDay] = useState<ItineraryDay | null>(null);
+  const [addExtraDay, setAddExtraDay] = useState<ItineraryDay | null>(null);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
 
@@ -277,6 +279,40 @@ export default function PlanScreen() {
     setCurrentItinerary([...currentItinerary, newDay].sort((a, b) => a.date.localeCompare(b.date)));
     for (const rid of quickIds) { const r = getRecipeById(rid); if (r) addToGrocery(r); }
   };
+
+  const handleMoveToDay = useCallback((fromDay: ItineraryDay, toDateStr: string) => {
+    haptic();
+    const targetDay = currentItinerary.find((d) => d.date === toDateStr);
+    const toDateObj = new Date(toDateStr + "T12:00:00");
+    const toLabel = toDateObj.toLocaleDateString("en-US", { weekday: "long" });
+    const fromDateObj = new Date(fromDay.date + "T12:00:00");
+    const fromLabel = fromDateObj.toLocaleDateString("en-US", { weekday: "long" });
+    const updated = currentItinerary.map((day) => {
+      if (day.id === fromDay.id) return { ...day, date: toDateStr, dayLabel: toLabel };
+      if (targetDay && day.id === targetDay.id) return { ...day, date: fromDay.date, dayLabel: fromLabel };
+      return day;
+    }).sort((a, b) => a.date.localeCompare(b.date));
+    setCurrentItinerary(updated);
+    setMoveDay(null);
+    showToast(`Moved to ${toLabel}`);
+  }, [haptic, currentItinerary, setCurrentItinerary, showToast]);
+
+  const handleAddExtraToDay = useCallback((day: ItineraryDay, recipe: Recipe) => {
+    const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+    if (ids.includes(recipe.id)) { setAddExtraDay(null); return; }
+    const updated = currentItinerary.map((d) => {
+      if (d.id !== day.id) return d;
+      return {
+        ...d,
+        quickRecipeIds: [...d.quickRecipeIds, recipe.id],
+        fullRecipeIds: [...d.fullRecipeIds, recipe.id],
+      };
+    });
+    setCurrentItinerary(updated);
+    addToGrocery(recipe);
+    setAddExtraDay(null);
+    showToast(`Added ${recipe.name}`);
+  }, [currentItinerary, setCurrentItinerary, addToGrocery, showToast]);
 
   const handleNewWeek = () => {
     haptic();
@@ -486,6 +522,7 @@ export default function PlanScreen() {
                     onSkip={() => handleSkipDay(entry)}
                     onRestore={() => handleRestoreDay(entry)}
                     onEdit={() => { haptic(); setEditDay(entry); }}
+                    onAdd={() => { haptic(); setAddExtraDay(entry); }}
                   />
                 );
               })}
@@ -543,6 +580,7 @@ export default function PlanScreen() {
                     onSkip={() => handleSkipDay(entry)}
                     onRestore={() => handleRestoreDay(entry)}
                     onEdit={() => { haptic(); setEditDay(entry); }}
+                    onAdd={() => { haptic(); setAddExtraDay(entry); }}
                     drag={drag}
                     isActive={isActive}
                   />
@@ -750,6 +788,18 @@ export default function PlanScreen() {
                 </Pressable>
                 <Pressable
                   style={({ pressed }) => [editMenuStyles.menuItem, pressed && { backgroundColor: Colors.light.surfaceContainerLow }]}
+                  onPress={() => { const d = editDay; setEditDay(null); setTimeout(() => setMoveDay(d), 200); }}
+                >
+                  <View style={editMenuStyles.menuIconCircle}>
+                    <Ionicons name="calendar-outline" size={18} color={Colors.light.primary} />
+                  </View>
+                  <View>
+                    <Text style={editMenuStyles.menuItemTitle}>Move to another day</Text>
+                    <Text style={editMenuStyles.menuItemSub}>Pick a different day this week</Text>
+                  </View>
+                </Pressable>
+                <Pressable
+                  style={({ pressed }) => [editMenuStyles.menuItem, pressed && { backgroundColor: Colors.light.surfaceContainerLow }]}
                   onPress={() => { handleSkipDay(editDay); setEditDay(null); }}
                 >
                   <View style={[editMenuStyles.menuIconCircle, { backgroundColor: Colors.light.surfaceContainerHighest }]}>
@@ -793,6 +843,70 @@ export default function PlanScreen() {
               setSwapDay(null);
             }}
             onClose={() => setSwapDay(null)}
+            savedRecipeIds={savedRecipeIds}
+          />
+        )}
+      </Modal>
+
+      {/* ── Move Day Modal ─────────────────────────────────────── */}
+      <Modal visible={!!moveDay} transparent animationType="fade" onRequestClose={() => setMoveDay(null)}>
+        <Pressable style={editMenuStyles.overlay} onPress={() => setMoveDay(null)}>
+          <View style={editMenuStyles.sheet}>
+            <View style={editMenuStyles.handle} />
+            {moveDay && (
+              <>
+                <Text style={editMenuStyles.title}>Move {moveDay.dayLabel}</Text>
+                <Text style={[editMenuStyles.menuItemSub, { marginBottom: 16, color: Colors.light.secondary }]}>
+                  Choose the day to move this meal to
+                </Text>
+                {fullWeek
+                  .filter((d) => !("isEmpty" in d) ? d.date !== moveDay.date : true)
+                  .map((entry) => {
+                    const dateObj = new Date(entry.date + "T12:00:00");
+                    const dayName = dateObj.toLocaleDateString("en-US", { weekday: "long" });
+                    const dateLabel = dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                    const isEmpty = "isEmpty" in entry;
+                    return (
+                      <Pressable
+                        key={entry.date}
+                        style={({ pressed }) => [editMenuStyles.menuItem, pressed && { backgroundColor: Colors.light.surfaceContainerLow }]}
+                        onPress={() => handleMoveToDay(moveDay, entry.date)}
+                      >
+                        <View style={[editMenuStyles.menuIconCircle, isEmpty && { backgroundColor: Colors.light.surfaceContainerHighest }]}>
+                          <Ionicons
+                            name={isEmpty ? "add" : "swap-horizontal"}
+                            size={18}
+                            color={isEmpty ? Colors.light.onSurfaceVariant : Colors.light.primary}
+                          />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <Text style={editMenuStyles.menuItemTitle}>{dayName}</Text>
+                          <Text style={editMenuStyles.menuItemSub}>
+                            {dateLabel} · {isEmpty ? "Nothing planned — move here" : "Swap dates with this day"}
+                          </Text>
+                        </View>
+                      </Pressable>
+                    );
+                  })}
+              </>
+            )}
+          </View>
+        </Pressable>
+      </Modal>
+
+      {/* ── Add Extra Sheet ─────────────────────────────────────── */}
+      <Modal visible={!!addExtraDay} transparent animationType="slide" onRequestClose={() => setAddExtraDay(null)}>
+        {addExtraDay && (
+          <SwapSheet
+            day={addExtraDay}
+            addMode
+            onSelectRecipe={(recipe) => handleAddExtraToDay(addExtraDay, recipe)}
+            onSurprise={() => {
+              const pool = getAllRecipes().filter((r) => !(addExtraDay.mode === "quick" ? addExtraDay.quickRecipeIds : addExtraDay.fullRecipeIds).includes(r.id));
+              const pick = pool[Math.floor(Math.random() * pool.length)];
+              if (pick) handleAddExtraToDay(addExtraDay, pick);
+            }}
+            onClose={() => setAddExtraDay(null)}
             savedRecipeIds={savedRecipeIds}
           />
         )}
@@ -890,12 +1004,13 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
 
 // ─── SwapSheet ────────────────────────────────────────────────────────────────
 
-function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds }: {
+function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds, addMode }: {
   day: ItineraryDay;
   onSelectRecipe: (recipe: Recipe) => void;
   onSurprise: () => void;
   onClose: () => void;
   savedRecipeIds: string[];
+  addMode?: boolean;
 }) {
   const [showSaved, setShowSaved] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -935,8 +1050,8 @@ function SwapSheet({ day, onSelectRecipe, onSurprise, onClose, savedRecipeIds }:
       <Pressable style={swapStyles.sheet} onPress={(e) => e.stopPropagation()}>
         <View style={swapStyles.handle} />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={swapStyles.title}>Replace {day.dayLabel}'s meal</Text>
-          <Text style={swapStyles.subtitle}>Currently: {currentName || "Empty"}</Text>
+          <Text style={swapStyles.title}>{addMode ? `Add to ${day.dayLabel}` : `Replace ${day.dayLabel}'s meal`}</Text>
+          <Text style={swapStyles.subtitle}>{addMode ? "Add an appetizer, dessert, or extra dish" : `Currently: ${currentName || "Empty"}`}</Text>
 
           {/* Suggestions */}
           <Text style={swapStyles.sectionLabel}>SUGGESTIONS</Text>
@@ -1165,7 +1280,7 @@ const swapStyles = StyleSheet.create({
 
 // ─── WeekRow ──────────────────────────────────────────────────────────────────
 
-function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, drag, isActive, onEdit }: {
+function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, drag, isActive, onEdit, onAdd }: {
   day: ItineraryDay;
   isLast: boolean;
   isToday?: boolean;
@@ -1176,6 +1291,7 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
   drag?: () => void;
   isActive?: boolean;
   onEdit: () => void;
+  onAdd?: () => void;
 }) {
   const country = getCountryById(day.countryId);
   const recipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
@@ -1193,14 +1309,21 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
 
   return (
     <View style={[styles.daySection, isPast && { opacity: 0.38 }, isActive && { opacity: 0.95 }]}>
-      <View style={styles.dayDateRow}>
-        <Text style={[styles.dayDateLabel, isToday && { color: Colors.light.primary }]}>
-          {dayName} · {dateLabel}
-        </Text>
-        {isToday && (
-          <View style={styles.todayBadge}>
-            <Text style={styles.todayBadgeText}>Tonight</Text>
-          </View>
+      <View style={[styles.dayDateRow, { justifyContent: "space-between" }]}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <Text style={[styles.dayDateLabel, isToday && { color: Colors.light.primary }]}>
+            {dayName} · {dateLabel}
+          </Text>
+          {isToday && (
+            <View style={styles.todayBadge}>
+              <Text style={styles.todayBadgeText}>Tonight</Text>
+            </View>
+          )}
+        </View>
+        {!isSkipped && !isPast && onAdd && (
+          <Pressable onPress={onAdd} hitSlop={8} style={styles.dayHeaderAddBtn}>
+            <Ionicons name="add-circle" size={20} color={Colors.light.primary} />
+          </Pressable>
         )}
       </View>
       <View style={[styles.dayCard, isActive && { shadowOpacity: 0.18, elevation: 8 }]}>
@@ -1679,6 +1802,12 @@ const styles = StyleSheet.create({
   dayCardActions: {
     gap: 6,
     alignItems: "center",
+  },
+  dayHeaderAddBtn: {
+    width: 28,
+    height: 28,
+    alignItems: "center",
+    justifyContent: "center",
   },
   dayCardEditBtn: {
     width: 32,
