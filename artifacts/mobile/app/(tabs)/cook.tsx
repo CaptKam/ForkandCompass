@@ -201,8 +201,8 @@ export default function CookScreen() {
                     <Text style={styles.activeRecipeName} numberOfLines={2} ellipsizeMode="tail">{activeCookSession.recipeName}</Text>
                     {activeRecipe && (
                       <Text style={styles.activeRecipeDesc} numberOfLines={2} ellipsizeMode="tail">
-                        {activeRecipe.steps?.[activeCookSession.currentStep]?.text
-                          ? activeRecipe.steps[activeCookSession.currentStep].text.slice(0, 100)
+                        {activeRecipe.steps?.[activeCookSession.currentStep]?.instruction
+                          ? activeRecipe.steps[activeCookSession.currentStep].instruction.slice(0, 100)
                           : activeRecipe.description}
                       </Text>
                     )}
@@ -628,12 +628,9 @@ const styles = StyleSheet.create({
   /* ── What to Cook (empty state) ──────────────────────────────── */
   whatToCookCard: {
     backgroundColor: Colors.light.surfaceWarmAlt,
-    borderRadius: 12,
-    padding: 24,
-    marginHorizontal: 24,
-    backgroundColor: "#F5EDDF",
     borderRadius: 20,
     padding: 28,
+    marginHorizontal: 24,
     alignItems: "center",
     gap: 16,
   },
@@ -792,8 +789,6 @@ const styles = StyleSheet.create({
   beginnerImage: {
     width: 56,
     height: 48,
-    borderRadius: 8,
-    backgroundColor: Colors.light.surfaceWarmAlt,
     borderRadius: 10,
     backgroundColor: Colors.light.surfaceContainerHigh,
   },
