@@ -46,9 +46,30 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function parseTimeMinutes(timeStr: string): number {
-  const match = timeStr.match(/(\d+)/);
-  return match ? parseInt(match[1], 10) : 30;
+function parseTimeMinutes(time: string): number {
+  if (!time) return 0;
+  const lower = time.toLowerCase();
+  let total = 0;
+
+  // Match days: "2 day", "2 days"
+  const dayMatch = lower.match(/(\d+)\s*day/);
+  if (dayMatch) total += parseInt(dayMatch[1]) * 1440;
+
+  // Match hours: "2 hr", "2 hrs", "2 hour", "2 hours"
+  const hrMatch = lower.match(/(\d+)\s*h/);
+  if (hrMatch) total += parseInt(hrMatch[1]) * 60;
+
+  // Match minutes: "40 min", "40 mins", "40 minutes"
+  const minMatch = lower.match(/(\d+)\s*m(?!o)/); // exclude "month"
+  if (minMatch) total += parseInt(minMatch[1]);
+
+  // Fallback: plain number
+  if (total === 0) {
+    const numMatch = lower.match(/(\d+)/);
+    if (numMatch) total = parseInt(numMatch[1]);
+  }
+
+  return total;
 }
 
 function filterByTime(recipes: Recipe[], preference: "quick" | "moderate" | "relaxed"): Recipe[] {
