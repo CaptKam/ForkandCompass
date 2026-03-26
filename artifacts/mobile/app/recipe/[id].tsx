@@ -266,7 +266,7 @@ export default function RecipeDetailScreen() {
                         {isChecked && <Ionicons name="checkmark" size={13} color={Colors.light.onPrimary} />}
                       </View>
                       <Text style={[styles.ingredientText, isChecked && styles.ingredientTextChecked]}>
-                        {ing.name.charAt(0).toUpperCase() + ing.name.slice(1)}
+                        {ing.name.replace(/\b\w/g, (c) => c.toUpperCase())}
                         <Text style={styles.ingredientAmount}>{" \u2014 "}{scaledAmount}</Text>
                       </Text>
                     </Pressable>
