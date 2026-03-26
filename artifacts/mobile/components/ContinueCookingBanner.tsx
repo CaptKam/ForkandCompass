@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   recipeName: {
-    fontFamily: "NotoSerif_600SemiBold",
+    fontFamily: "NotoSerif_700Bold",
     fontSize: 15,
     color: "#1C1A17",
     lineHeight: 20,
