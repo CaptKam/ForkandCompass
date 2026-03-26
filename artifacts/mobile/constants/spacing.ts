@@ -11,5 +11,8 @@ export const spacing = {
 } as const;
 
 // Standard bottom padding for ScrollViews above the tab bar.
-// TAB_BAR_HEIGHT (56) + 44pt breathing room = 100pt minimum.
-export const SCROLL_BOTTOM_INSET = A11Y.TAB_BAR_HEIGHT + 44;
+// TAB_BAR_HEIGHT (56) + 44pt breathing room + 68pt for CookingPill
+// (56px pill + 12px gap) when a cooking session is active.
+// Always-on padding — slightly generous when no pill, but prevents
+// content from being clipped when the pill appears.
+export const SCROLL_BOTTOM_INSET = A11Y.TAB_BAR_HEIGHT + 44 + 68;

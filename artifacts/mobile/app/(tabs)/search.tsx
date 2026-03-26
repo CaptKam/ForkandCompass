@@ -18,6 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { COUNTRIES, getAllRecipes, LANDMARK_IMAGES } from "@/constants/data";
 import Colors from "@/constants/colors";
+import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useSearch } from "@/hooks/useSearch";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
@@ -110,7 +111,7 @@ export default function SearchScreen() {
         /* Search results */
         <ScrollView
           keyboardDismissMode="on-drag"
-          contentContainerStyle={[styles.resultsContent, { paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 100 }]}
+          contentContainerStyle={[styles.resultsContent, { paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }]}
         >
           {results.length === 0 ? (
             <View style={styles.noResults}>
@@ -162,7 +163,7 @@ export default function SearchScreen() {
         <ScrollView
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="on-drag"
-          contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 100 }}
+          contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
         >
 
           {/* ── Recent Searches ──────────────────────────────────── */}
