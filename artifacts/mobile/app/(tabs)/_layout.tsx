@@ -14,8 +14,10 @@ import { useThemeColors } from "@/hooks/useThemeColors";
 import ContinueCookingBanner from "@/components/ContinueCookingBanner";
 
 function NativeTabLayout() {
+  const insets = useSafeAreaInsets();
   return (
-    <NativeTabs>
+    <>
+      <NativeTabs>
         <NativeTabs.Trigger name="index">
           <Icon sf={{ default: "safari", selected: "safari.fill" }} />
           <Label>Discover</Label>
@@ -53,7 +55,6 @@ function ClassicTabLayout() {
   const isDark = colors.background === Colors.dark.background;
 
   return (
-    <Tabs
     <View style={{ flex: 1 }}>
       <Tabs
         screenOptions={{
