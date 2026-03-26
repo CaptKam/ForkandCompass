@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { useApp } from "@/contexts/AppContext";
 import { getRecipeById } from "@/constants/data";
+import { formatSeconds } from "@/lib/utils";
 
 const TAB_BAR_INNER_HEIGHT = 49;
 
@@ -32,12 +33,6 @@ export default function CookingPill() {
     activeCookSession.timerRunning &&
     activeCookSession.timerRemaining != null &&
     activeCookSession.timerRemaining > 0;
-
-  const formatSeconds = (s: number) => {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-  };
 
   const handlePress = () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -106,7 +101,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    backgroundColor: "#FEF9F3",
+    backgroundColor: Colors.light.surface,
     borderTopLeftRadius: 14,
     borderTopRightRadius: 14,
     borderBottomLeftRadius: 0,

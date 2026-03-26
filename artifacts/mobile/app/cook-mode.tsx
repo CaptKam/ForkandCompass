@@ -41,31 +41,11 @@ import { findTechniqueForStep } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import type { CookSession, ActiveCookSession } from "@/contexts/AppContext";
 import { convertAmount, convertTemperatureInText } from "@/constants/units";
+import { scaleAmount } from "@/lib/utils";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
 const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
 const BASE_SERVINGS = 4;
-
-/** Scale an amount string like "200g", "2 cups", "1/2 tsp" by a ratio */
-function scaleAmount(raw: string, ratio: number): string {
-  if (ratio === 1) return raw;
-  const trimmed = raw.trim();
-  const fracMatch = trimmed.match(/^(\d+)\/(\d+)\s*(.*)/);
-  if (fracMatch) {
-    const val = (parseInt(fracMatch[1], 10) / parseInt(fracMatch[2], 10)) * ratio;
-    const rest = fracMatch[3];
-    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
-    return rest ? `${display} ${rest}` : display;
-  }
-  const numMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*(.*)/);
-  if (numMatch) {
-    const val = parseFloat(numMatch[1]) * ratio;
-    const rest = numMatch[2];
-    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
-    return rest ? `${display} ${rest}` : display;
-  }
-  return raw;
-}
 
 function parseDurationFromText(text: string): number | null {
   const h = text.match(/(\d+)\s*(hours?|hrs?|h)\b/i);

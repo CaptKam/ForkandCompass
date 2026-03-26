@@ -4,7 +4,6 @@ import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
-  Dimensions,
   Platform,
   Pressable,
   StyleSheet,
@@ -19,8 +18,6 @@ import { useScaledStyles } from "@/hooks/useScaledStyles";
 import { WELCOME_HERO_IMAGE } from "@/constants/data";
 import Colors from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function WelcomeScreen() {
   const { hasSeenWelcome, hasCompletedOnboarding, setHasSeenWelcome } = useApp();
@@ -106,11 +103,6 @@ const styles = StyleSheet.create({
   title: {
     color: Colors.light.onPrimary,
     marginBottom: 12,
-  },
-  subtitle: {
-    color: "rgba(255,255,255,0.8)",
-    marginBottom: 32,
-    maxWidth: 320,
   },
   button: {
     paddingVertical: 16,

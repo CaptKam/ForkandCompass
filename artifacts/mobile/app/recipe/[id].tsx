@@ -26,29 +26,10 @@ import {
 } from "@/constants/adaptive-language";
 import { useApp } from "@/contexts/AppContext";
 import { convertAmount, convertTemperatureInText } from "@/constants/units";
+import { scaleAmount } from "@/lib/utils";
 import ScheduleSheet from "@/components/ScheduleSheet";
 
 const BASE_SERVINGS = 4;
-
-function scaleAmount(raw: string, ratio: number): string {
-  if (ratio === 1) return raw;
-  const trimmed = raw.trim();
-  const fracMatch = trimmed.match(/^(\d+)\/(\d+)\s*(.*)/);
-  if (fracMatch) {
-    const val = (parseInt(fracMatch[1], 10) / parseInt(fracMatch[2], 10)) * ratio;
-    const rest = fracMatch[3];
-    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
-    return rest ? `${display} ${rest}` : display;
-  }
-  const numMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*(.*)/);
-  if (numMatch) {
-    const val = parseFloat(numMatch[1]) * ratio;
-    const rest = numMatch[2];
-    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
-    return rest ? `${display} ${rest}` : display;
-  }
-  return raw;
-}
 
 type Tab = "ingredients" | "instructions";
 
