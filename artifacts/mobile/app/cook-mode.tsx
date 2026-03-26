@@ -44,6 +44,28 @@ import { convertAmount, convertTemperatureInText } from "@/constants/units";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
 const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
+const BASE_SERVINGS = 4;
+
+/** Scale an amount string like "200g", "2 cups", "1/2 tsp" by a ratio */
+function scaleAmount(raw: string, ratio: number): string {
+  if (ratio === 1) return raw;
+  const trimmed = raw.trim();
+  const fracMatch = trimmed.match(/^(\d+)\/(\d+)\s*(.*)/);
+  if (fracMatch) {
+    const val = (parseInt(fracMatch[1], 10) / parseInt(fracMatch[2], 10)) * ratio;
+    const rest = fracMatch[3];
+    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
+    return rest ? `${display} ${rest}` : display;
+  }
+  const numMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*(.*)/);
+  if (numMatch) {
+    const val = parseFloat(numMatch[1]) * ratio;
+    const rest = numMatch[2];
+    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
+    return rest ? `${display} ${rest}` : display;
+  }
+  return raw;
+}
 
 function parseDurationFromText(text: string): number | null {
   const h = text.match(/(\d+)\s*(hours?|hrs?|h)\b/i);
@@ -186,7 +208,8 @@ export default function CookModeScreen() {
     );
   }, []);
 
-  const { recipeId, recipeIds, resumeStep } = useLocalSearchParams<{ recipeId: string; recipeIds?: string; resumeStep?: string }>();
+  const { recipeId, recipeIds, resumeStep, servings: servingsParam } = useLocalSearchParams<{ recipeId: string; recipeIds?: string; resumeStep?: string; servings?: string }>();
+  const servings = parseInt(servingsParam ?? "4", 10) || 4;
   const insets = useSafeAreaInsets();
   const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit, currentItinerary, markDayCompleted } = useApp();
   const colors = useThemeColors();
@@ -674,7 +697,7 @@ export default function CookModeScreen() {
                       )}
                     </View>
                     <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked]}>
-                      <Text style={styles.ingredientAmountBold}>{convertAmount(ing.amount, measurementSystem)}</Text> {ing.name}
+                      <Text style={styles.ingredientAmountBold}>{convertAmount(scaleAmount(ing.amount, servings / BASE_SERVINGS), measurementSystem)}</Text> {ing.name}
                     </Text>
                   </Pressable>
                 );

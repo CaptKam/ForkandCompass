@@ -997,6 +997,7 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
   const recipes = recipeIds.map(getRecipeById).filter(Boolean);
   const heroRecipe = recipes.find((r) => r?.category === "Main Course") || recipes[0];
   const haptic = () => { if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); };
+  const [localServings, setLocalServings] = useState(servings);
 
   if (!country || !heroRecipe) return null;
 
@@ -1039,7 +1040,24 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
         <Text style={styles.tonightSubtitle}>
           {region ? `${region}, ` : ""}{country.name} · {heroRecipe.time}
         </Text>
-        <Text style={styles.tonightServing}>Serving {servings}</Text>
+        {/* Servings stepper */}
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginTop: 4 }}>
+          <Pressable
+            onPress={() => { if (localServings > 1) { setLocalServings(s => s - 1); if (Platform.OS !== "web") Haptics.selectionAsync(); } }}
+            style={{ width: 28, height: 28, borderRadius: 14, borderWidth: 1, borderColor: Colors.light.outlineVariant, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={{ fontSize: 18, color: Colors.light.primary }}>−</Text>
+          </Pressable>
+          <Text style={{ fontFamily: "NotoSerif_700Bold", fontSize: 15, color: Colors.light.onSurface, minWidth: 60, textAlign: "center" }}>
+            {localServings} {localServings === 1 ? "serving" : "servings"}
+          </Text>
+          <Pressable
+            onPress={() => { if (localServings < 20) { setLocalServings(s => s + 1); if (Platform.OS !== "web") Haptics.selectionAsync(); } }}
+            style={{ width: 28, height: 28, borderRadius: 14, borderWidth: 1, borderColor: Colors.light.outlineVariant, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={{ fontSize: 18, color: Colors.light.primary }}>+</Text>
+          </Pressable>
+        </View>
 
         {/* Start Cooking → passes all recipes sorted by longest cook time first */}
         <Pressable
@@ -1055,7 +1073,7 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
             });
             router.push({
               pathname: "/cook-mode",
-              params: { recipeId: sorted[0], recipeIds: sorted.join(",") },
+              params: { recipeId: sorted[0], recipeIds: sorted.join(","), servings: String(localServings) },
             });
           }}
           style={({ pressed }) => [styles.startCookingBtn, pressed && { opacity: 0.88 }]}
