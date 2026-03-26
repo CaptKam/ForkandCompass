@@ -3,23 +3,26 @@ import { Ionicons } from "@expo/vector-icons";
 import { router, usePathname } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
 import { useApp } from "@/contexts/AppContext";
 import { getRecipeById } from "@/constants/data";
 
-const TAB_BAR_HEIGHT = 83;
+const TAB_BAR_INNER_HEIGHT = 49;
 
 export default function CookingPill() {
   const pathname = usePathname();
+  const insets = useSafeAreaInsets();
   const { activeCookSession } = useApp();
 
   if (pathname.includes("cook-mode")) return null;
-  if (pathname.includes("/cook") && !pathname.includes("cook-mode")) return null;
   if (!activeCookSession) return null;
 
   const recipe = getRecipeById(activeCookSession.recipeId);
   if (!recipe) return null;
+
+  const tabBarHeight = TAB_BAR_INNER_HEIGHT + insets.bottom;
 
   const totalSteps = activeCookSession.totalSteps;
   const currentStep = activeCookSession.currentStep;
@@ -49,50 +52,54 @@ export default function CookingPill() {
       onPress={handlePress}
       style={({ pressed }) => [
         styles.card,
-        { bottom: TAB_BAR_HEIGHT + 10 },
-        pressed && { opacity: 0.93, transform: [{ scale: 0.99 }] },
+        { bottom: tabBarHeight },
+        pressed && { opacity: 0.93 },
       ]}
       accessibilityLabel={`Continue cooking ${recipe.name}, step ${currentStep + 1} of ${totalSteps}`}
       accessibilityRole="button"
     >
-      {/* Thumbnail — 56×56 */}
-      <View style={styles.thumb}>
-        {recipe.image ? (
-          <Image
-            source={{ uri: recipe.image }}
-            style={StyleSheet.absoluteFill}
-            contentFit="cover"
-          />
-        ) : (
-          <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.light.surfaceContainerHigh }]} />
-        )}
+      {/* Progress bar flush to top */}
+      <View style={styles.progressTrack}>
+        <View style={[styles.progressFill, { width: `${Math.max(progress, 1)}%` as any }]} />
       </View>
 
-      {/* Text block */}
-      <View style={styles.textBlock}>
-        <Text style={styles.recipeName} numberOfLines={1} ellipsizeMode="tail">
-          {recipe.name}
-        </Text>
-        <View style={styles.stepRow}>
-          <Text style={styles.stepText}>
-            Step {currentStep + 1} of {totalSteps}
-          </Text>
-          {hasTimer ? (
-            <Text style={[styles.stepText, styles.inProgressText]}>
-              {formatSeconds(activeCookSession.timerRemaining!)}
-            </Text>
+      <View style={styles.inner}>
+        {/* Thumbnail */}
+        <View style={styles.thumb}>
+          {recipe.image ? (
+            <Image
+              source={{ uri: recipe.image }}
+              style={StyleSheet.absoluteFill}
+              contentFit="cover"
+            />
           ) : (
-            <Text style={[styles.stepText, styles.inProgressText]}>In Progress</Text>
+            <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.light.surfaceContainerHigh }]} />
           )}
         </View>
-        <View style={styles.progressTrack}>
-          <View style={[styles.progressFill, { width: `${Math.max(progress, 3)}%` as any }]} />
-        </View>
-      </View>
 
-      {/* Play button — 48×48 */}
-      <View style={styles.playBtn}>
-        <Ionicons name="play" size={20} color="#FFFFFF" />
+        {/* Text block */}
+        <View style={styles.textBlock}>
+          <Text style={styles.recipeName} numberOfLines={1} ellipsizeMode="tail">
+            {recipe.name}
+          </Text>
+          <View style={styles.stepRow}>
+            <Text style={styles.stepText}>
+              Step {currentStep + 1} of {totalSteps}
+            </Text>
+            {hasTimer ? (
+              <Text style={[styles.stepText, styles.inProgressText]}>
+                {formatSeconds(activeCookSession.timerRemaining!)}
+              </Text>
+            ) : (
+              <Text style={[styles.stepText, styles.inProgressText]}>In Progress</Text>
+            )}
+          </View>
+        </View>
+
+        {/* Play button */}
+        <View style={styles.playBtn}>
+          <Ionicons name="play" size={18} color="#FFFFFF" />
+        </View>
       </View>
     </Pressable>
   );
@@ -101,44 +108,63 @@ export default function CookingPill() {
 const styles = StyleSheet.create({
   card: {
     position: "absolute",
-    left: 16,
-    right: 16,
+    left: 0,
+    right: 0,
     backgroundColor: "#FEF9F3",
-    borderRadius: 16,
-    padding: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
+    borderTopLeftRadius: 14,
+    borderTopRightRadius: 14,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: "rgba(222,193,179,0.35)",
     zIndex: 999,
-    borderWidth: 1,
-    borderColor: "rgba(222,193,179,0.2)",
     ...Platform.select({
       ios: {
         shadowColor: "#1D1B18",
-        shadowOffset: { width: 0, height: 12 },
-        shadowOpacity: 0.12,
-        shadowRadius: 20,
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.08,
+        shadowRadius: 12,
       },
       android: { elevation: 12 },
-      web: { boxShadow: "0 12px 40px 0 rgba(29,27,24,0.12)" },
+      web: { boxShadow: "0 -4px 20px 0 rgba(29,27,24,0.08)" },
     }),
   },
+  progressTrack: {
+    height: 3,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderTopLeftRadius: 14,
+    borderTopRightRadius: 14,
+    overflow: "hidden",
+  },
+  progressFill: {
+    height: 3,
+    backgroundColor: Colors.light.primary,
+  },
+  inner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
   thumb: {
-    width: 56,
-    height: 56,
-    borderRadius: 10,
+    width: 44,
+    height: 44,
+    borderRadius: 8,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
     flexShrink: 0,
   },
   textBlock: {
     flex: 1,
-    gap: 5,
+    gap: 4,
     minWidth: 0,
   },
   recipeName: {
     fontFamily: "NotoSerif_700Bold",
-    fontSize: 14,
+    fontSize: 13,
     color: "#1D1B18",
     letterSpacing: -0.2,
   },
@@ -158,21 +184,10 @@ const styles = StyleSheet.create({
     color: Colors.light.primary,
     fontStyle: "italic",
   },
-  progressTrack: {
-    height: 4,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    borderRadius: 2,
-    overflow: "hidden",
-  },
-  progressFill: {
-    height: 4,
-    backgroundColor: Colors.light.primary,
-    borderRadius: 2,
-  },
   playBtn: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: Colors.light.primary,
     alignItems: "center",
     justifyContent: "center",
@@ -180,12 +195,12 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         shadowColor: Colors.light.primary,
-        shadowOffset: { width: 0, height: 4 },
+        shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.3,
-        shadowRadius: 8,
+        shadowRadius: 6,
       },
       android: { elevation: 6 },
-      web: { boxShadow: "0 4px 12px rgba(154,65,0,0.3)" },
+      web: { boxShadow: "0 3px 10px rgba(154,65,0,0.3)" },
     }),
   },
 });
