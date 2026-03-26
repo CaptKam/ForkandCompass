@@ -11,38 +11,30 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import ContinueCookingBanner from "@/components/ContinueCookingBanner";
-
 function NativeTabLayout() {
-  const insets = useSafeAreaInsets();
   return (
-    <>
-      <NativeTabs>
-        <NativeTabs.Trigger name="index">
-          <Icon sf={{ default: "safari", selected: "safari.fill" }} />
-          <Label>Discover</Label>
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="search">
-          <Icon sf={{ default: "magnifyingglass", selected: "magnifyingglass" }} />
-          <Label>Search</Label>
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="plan">
-          <Icon sf={{ default: "calendar.badge.checkmark", selected: "calendar.badge.checkmark" }} />
-          <Label>Plan</Label>
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="cook">
-          <Icon sf={{ default: "fork.knife", selected: "fork.knife" }} />
-          <Label>Cook</Label>
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="profile">
-          <Icon sf={{ default: "person.circle", selected: "person.circle.fill" }} />
-          <Label>Profile</Label>
-        </NativeTabs.Trigger>
-      </NativeTabs>
-      <View style={{ position: "absolute", bottom: insets.bottom + 66, left: 16, right: 16, zIndex: 100 }}>
-        <ContinueCookingBanner />
-      </View>
-    </>
+    <NativeTabs>
+      <NativeTabs.Trigger name="index">
+        <Icon sf={{ default: "safari", selected: "safari.fill" }} />
+        <Label>Discover</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="search">
+        <Icon sf={{ default: "magnifyingglass", selected: "magnifyingglass" }} />
+        <Label>Search</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="plan">
+        <Icon sf={{ default: "calendar.badge.checkmark", selected: "calendar.badge.checkmark" }} />
+        <Label>Plan</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="cook">
+        <Icon sf={{ default: "fork.knife", selected: "fork.knife" }} />
+        <Label>Cook</Label>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="profile">
+        <Icon sf={{ default: "person.circle", selected: "person.circle.fill" }} />
+        <Label>Profile</Label>
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
 }
 
@@ -177,9 +169,6 @@ function ClassicTabLayout() {
         }}
       />
       </Tabs>
-      <View style={{ position: "absolute", bottom: (isWeb ? 96 : safeAreaInsets.bottom + 66), left: 16, right: 16, zIndex: 100 }}>
-        <ContinueCookingBanner />
-      </View>
     </View>
   );
 }
