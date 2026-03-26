@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
+import ContinueCookingBanner from "@/components/ContinueCookingBanner";
 
 function NativeTabLayout() {
   const insets = useSafeAreaInsets();
