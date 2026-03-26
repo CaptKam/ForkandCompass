@@ -576,7 +576,10 @@ export default function PlanScreen() {
                 <View>
                   {/* My Pantry */}
                   <View style={styles.pantrySection}>
-                    <Text style={styles.pantryLabel}>My Pantry</Text>
+                    <View style={styles.pantryHeaderRow}>
+                      <Text style={styles.pantryLabel}>Pantry Staples</Text>
+                      <Text style={styles.pantryHint}>Tap if running low</Text>
+                    </View>
                     <ScrollView
                       horizontal
                       showsHorizontalScrollIndicator={false}
@@ -594,6 +597,9 @@ export default function PlanScreen() {
                               pressed && { opacity: 0.75 },
                             ]}
                           >
+                            {needsMore && (
+                              <Ionicons name="cart" size={12} color={Colors.light.onPrimary} style={{ marginRight: 4 }} />
+                            )}
                             <Text
                               style={[
                                 styles.pantryPillText,
@@ -1775,38 +1781,50 @@ const styles = StyleSheet.create({
   // My Pantry
   pantrySection: {
     marginBottom: 14,
-    gap: 8,
+    gap: 10,
+  },
+  pantryHeaderRow: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
   },
   pantryLabel: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
     lineHeight: 20,
-    color: Colors.light.secondary,
-    letterSpacing: 0.3,
+    color: Colors.light.onSurface,
+  },
+  pantryHint: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 12,
+    color: Colors.light.onSurfaceVariant,
   },
   pantryScroll: {
     gap: 8,
     paddingRight: 4,
   },
   pantryPill: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 14,
+    paddingVertical: 9,
     borderRadius: 22,
-    backgroundColor: Colors.light.primary,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderWidth: 1,
+    borderColor: Colors.light.outlineVariant,
   },
   pantryPillNeed: {
-    backgroundColor: Colors.light.surfaceWarm,
-    borderWidth: 1.5,
+    backgroundColor: Colors.light.primary,
     borderColor: Colors.light.primary,
   },
   pantryPillText: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
     lineHeight: 20,
-    color: Colors.light.onPrimary,
+    color: Colors.light.onSurfaceVariant,
   },
   pantryPillTextNeed: {
-    color: Colors.light.primary,
+    color: Colors.light.onPrimary,
   },
 
   // In your kitchen
