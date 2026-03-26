@@ -1,5 +1,5 @@
 // The Culinary Editorial — Color Palette
-// Primary: Terracotta (#C75B12) — all CTAs, active states, highlights
+// Primary: Terracotta (#9A4100) — all CTAs, active states, highlights
 // Secondary: Soft Peach (#FDDCB5) — subtle backgrounds
 // Background: Warm Cream (#FDF8F2) — main surface
 // Card Surface: Pure White (#FFFFFF) — elevated cards
@@ -8,8 +8,8 @@
 // Dark Mode: #0D0D0D background, terracotta accent preserved
 
 const light = {
-  primary: "#C75B12",
-  primaryContainer: "#E07A3A",
+  primary: "#9A4100",
+  primaryContainer: "#C75B12",
   onPrimary: "#FFFFFF",
   onPrimaryContainer: "#FFFBFF",
   surface: "#FDF8F2",
@@ -40,9 +40,9 @@ const light = {
   primaryFixedDim: "#FFB690",
   text: "#1A1A2E",
   background: "#FDF8F2",
-  tint: "#C75B12",
+  tint: "#9A4100",
   tabIconDefault: "#666666",
-  tabIconSelected: "#C75B12",
+  tabIconSelected: "#9A4100",
 };
 
 const dark: typeof light = {
@@ -74,7 +74,7 @@ const dark: typeof light = {
   tertiaryContainer: "#004A7A",
   inverseSurface: "#EDE0D4",
   inverseOnSurface: "#1A1A2E",
-  inversePrimary: "#C75B12",
+  inversePrimary: "#9A4100",
   primaryFixedDim: "#FFB690",
   text: "#EDE0D4",
   background: "#0D0D0D",
