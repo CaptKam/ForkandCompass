@@ -57,6 +57,7 @@
     "zod-validation-error": "^3.4.0"
   },
   "dependencies": {
+    "expo-av": "^16.0.8",
     "expo-camera": "^55.0.10",
     "expo-keep-awake": "^55.0.4",
     "expo-sensors": "^55.0.9",

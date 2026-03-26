@@ -168,6 +168,8 @@ function ClassicTabLayout() {
         }}
       />
     </Tabs>
+      </Tabs>
+    </View>
   );
 }
 

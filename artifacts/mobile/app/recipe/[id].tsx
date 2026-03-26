@@ -4,8 +4,9 @@ import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
+  Animated,
   Modal,
   Platform,
   Pressable,
@@ -29,12 +30,9 @@ import ScheduleSheet from "@/components/ScheduleSheet";
 
 const BASE_SERVINGS = 4;
 
-/** Scale an amount string like "200g", "2 cups", "1/2 tsp" by a ratio */
 function scaleAmount(raw: string, ratio: number): string {
   if (ratio === 1) return raw;
   const trimmed = raw.trim();
-
-  // Match fractions like "1/2 cup"
   const fracMatch = trimmed.match(/^(\d+)\/(\d+)\s*(.*)/);
   if (fracMatch) {
     const val = (parseInt(fracMatch[1], 10) / parseInt(fracMatch[2], 10)) * ratio;
@@ -42,8 +40,6 @@ function scaleAmount(raw: string, ratio: number): string {
     const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
     return rest ? `${display} ${rest}` : display;
   }
-
-  // Match decimals like "200g", "1.5 cups", "2 tbsp"
   const numMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*(.*)/);
   if (numMatch) {
     const val = parseFloat(numMatch[1]) * ratio;
@@ -51,10 +47,10 @@ function scaleAmount(raw: string, ratio: number): string {
     const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
     return rest ? `${display} ${rest}` : display;
   }
-
-  // No numeric prefix (e.g. "a pinch of salt") — return unchanged
   return raw;
 }
+
+type Tab = "ingredients" | "instructions";
 
 export default function RecipeDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -64,6 +60,19 @@ export default function RecipeDetailScreen() {
   const [servings, setServings] = useState(4);
   const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
   const [showSchedule, setShowSchedule] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>("ingredients");
+  const indicatorAnim = useRef(new Animated.Value(0)).current;
+
+  const switchTab = useCallback((tab: Tab) => {
+    if (Platform.OS !== "web") Haptics.selectionAsync();
+    setActiveTab(tab);
+    Animated.spring(indicatorAnim, {
+      toValue: tab === "ingredients" ? 0 : 1,
+      useNativeDriver: false,
+      tension: 280,
+      friction: 28,
+    }).start();
+  }, [indicatorAnim]);
 
   const toggleIngredient = useCallback((ingredientId: string) => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -91,11 +100,14 @@ export default function RecipeDetailScreen() {
   }
 
   const saved = isSaved(recipe.id);
-
-  // Find a "next" recipe for the "Next Journey" card
   const allRecipes = getAllRecipes();
   const currentIndex = allRecipes.findIndex((r) => r.id === recipe.id);
   const nextRecipe = allRecipes[(currentIndex + 1) % allRecipes.length];
+
+  const indicatorLeft = indicatorAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["6.25%", "56.25%"],
+  });
 
   return (
     <View style={styles.container}>
@@ -104,7 +116,7 @@ export default function RecipeDetailScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 100 }}
       >
-        {/* Hero */}
+        {/* ── Hero ─────────────────────────────────────────────────── */}
         <View style={styles.heroContainer}>
           <Image
             source={{ uri: recipe.image }}
@@ -115,11 +127,10 @@ export default function RecipeDetailScreen() {
             onError={(e) => console.warn("[Image] Failed to load:", e.error)}
           />
           <LinearGradient
-            colors={["rgba(0,0,0,0.4)", "transparent", "transparent"]}
+            colors={["rgba(0,0,0,0.45)", "transparent", "transparent"]}
             locations={[0, 0.4, 1]}
             style={StyleSheet.absoluteFill}
           />
-
           <View style={[styles.topBar, { top: Platform.OS === "web" ? 67 : insets.top + 8 }]}>
             <Pressable onPress={() => router.back()} style={styles.iconButton}>
               <Ionicons name="chevron-back" size={22} color={Colors.light.onSurface} />
@@ -140,20 +151,21 @@ export default function RecipeDetailScreen() {
           </View>
         </View>
 
-        {/* Content card overlapping hero */}
+        {/* ── Content card ─────────────────────────────────────────── */}
         <View style={styles.contentCard}>
-          {/* Title */}
+
+          {/* Title + subtitle */}
           <Text style={styles.recipeTitle}>{recipe.name}</Text>
           <Text style={styles.recipeSubtitle}>{recipe.category} · {recipe.countryName} {recipe.countryFlag}</Text>
 
-          {/* Metadata chips */}
+          {/* Meta chips */}
           <View style={styles.metaRow}>
             <View style={styles.metaChip}>
               <Ionicons name="time-outline" size={16} color={Colors.light.primary} />
               <Text style={styles.metaText}>{recipe.time}</Text>
             </View>
             <View style={styles.metaChip}>
-              <Ionicons name="flame-outline" size={16} color={Colors.light.primary} />
+              <Ionicons name="bar-chart-outline" size={16} color={Colors.light.primary} />
               <Text style={styles.metaText}>{recipe.difficulty}</Text>
             </View>
           </View>
@@ -186,30 +198,6 @@ export default function RecipeDetailScreen() {
             </View>
           </View>
 
-          {/* Ingredients */}
-          <Text style={styles.sectionTitle}>Ingredients</Text>
-          <View style={styles.ingredientsList}>
-            {recipe.ingredients.map((ing) => {
-              const isChecked = checkedIngredients.has(ing.id);
-              const scaledAmount = convertAmount(scaleAmount(ing.amount, servings / BASE_SERVINGS), measurementSystem);
-              return (
-                <Pressable
-                  key={ing.id}
-                  onPress={() => toggleIngredient(ing.id)}
-                  style={styles.ingredientRow}
-                >
-                  <View style={[styles.ingredientCircle, isChecked && styles.ingredientCircleChecked]}>
-                    {isChecked && <Ionicons name="checkmark" size={14} color={Colors.light.onPrimary} />}
-                  </View>
-                  <Text style={[styles.ingredientText, isChecked && styles.ingredientTextChecked]}>
-                    {ing.name}
-                    <Text style={styles.ingredientAmount}>{" \u2014 "}{scaledAmount}</Text>
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
-
           {/* Schedule + Cook Now row */}
           <View style={styles.scheduleRow}>
             <Pressable
@@ -220,7 +208,7 @@ export default function RecipeDetailScreen() {
               style={({ pressed }) => [styles.scheduleBtn, pressed && { opacity: 0.85 }]}
             >
               <Ionicons name="calendar-outline" size={18} color={Colors.light.primary} />
-              <Text style={styles.scheduleBtnText}>Schedule This</Text>
+              <Text style={styles.scheduleBtnText}>Schedule</Text>
             </Pressable>
             <Pressable
               onPress={() => {
@@ -234,124 +222,178 @@ export default function RecipeDetailScreen() {
             </Pressable>
           </View>
 
-          {/* Add to Grocery CTA */}
-          <Pressable
-            onPress={() => {
-              if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-              addToGrocery(recipe);
-            }}
-            style={({ pressed }) => [
-              styles.groceryCta,
-              pressed && { transform: [{ scale: 0.98 }] },
-            ]}
-          >
-            <LinearGradient
-              colors={[Colors.light.primary, Colors.light.primaryContainer]}
-              style={styles.groceryCtaGradient}
+          {/* ── Tab bar ─────────────────────────────────────────────── */}
+          <View style={styles.tabBar}>
+            <Pressable
+              style={styles.tabButton}
+              onPress={() => switchTab("ingredients")}
             >
-              <Ionicons name="basket-outline" size={20} color={Colors.light.onPrimary} />
-              <Text style={styles.groceryCtaText}>Add to Grocery List</Text>
-            </LinearGradient>
-          </Pressable>
+              <Text style={[styles.tabLabel, activeTab === "ingredients" && styles.tabLabelActive]}>
+                Ingredients
+              </Text>
+            </Pressable>
+            <Pressable
+              style={styles.tabButton}
+              onPress={() => switchTab("instructions")}
+            >
+              <Text style={[styles.tabLabel, activeTab === "instructions" && styles.tabLabelActive]}>
+                Instructions
+              </Text>
+            </Pressable>
+            {/* Animated underline indicator */}
+            <Animated.View
+              style={[
+                styles.tabIndicator,
+                { left: indicatorLeft },
+              ]}
+            />
+          </View>
 
-          {/* Instructions */}
-          <Text style={[styles.sectionTitle, { marginTop: 32 }]}>Instructions</Text>
-          {recipe.steps.map((step, index) => {
-            const tier = levelToTier(cookingLevel);
-            const text = convertTemperatureInText(getAdaptiveInstruction(step, tier), temperatureUnit);
-            const segments = parseActionVerbs(text);
-            return (
-              <View key={step.id} style={styles.stepCard}>
-                <View style={styles.stepHeader}>
-                  <View style={styles.stepNumber}>
-                    <Text style={styles.stepNumberText}>{index + 1}</Text>
-                  </View>
-                  <Text style={styles.stepTitle}>{step.title}</Text>
-                </View>
-                <Text style={styles.stepInstruction}>
-                  {segments.map((seg, i) =>
-                    seg.type === "action" ? (
-                      <Text key={i} style={styles.actionVerb}>{seg.value}</Text>
-                    ) : (
-                      seg.value
-                    )
-                  )}
-                </Text>
-                {step.materials.length > 0 && (
-                  <View style={styles.stepMaterials}>
-                    <Text style={styles.stepMaterialsLabel}>You'll need:</Text>
-                    <Text style={styles.stepMaterialsText}>{step.materials.join(", ")}</Text>
-                  </View>
-                )}
+          {/* ── Ingredients tab ──────────────────────────────────────── */}
+          {activeTab === "ingredients" && (
+            <View style={styles.tabContent}>
+              <View style={styles.ingredientsList}>
+                {recipe.ingredients.map((ing) => {
+                  const isChecked = checkedIngredients.has(ing.id);
+                  const scaledAmount = convertAmount(scaleAmount(ing.amount, servings / BASE_SERVINGS), measurementSystem);
+                  return (
+                    <Pressable
+                      key={ing.id}
+                      onPress={() => toggleIngredient(ing.id)}
+                      style={styles.ingredientRow}
+                    >
+                      <View style={[styles.ingredientCircle, isChecked && styles.ingredientCircleChecked]}>
+                        {isChecked && <Ionicons name="checkmark" size={13} color={Colors.light.onPrimary} />}
+                      </View>
+                      <Text style={[styles.ingredientText, isChecked && styles.ingredientTextChecked]}>
+                        {ing.name.replace(/\b\w/g, (c) => c.toUpperCase())}
+                        <Text style={styles.ingredientAmount}>{" \u2014 "}{scaledAmount}</Text>
+                      </Text>
+                    </Pressable>
+                  );
+                })}
               </View>
-            );
-          })}
 
-          {/* Cultural Note / "Did You Know?" */}
-          {recipe.culturalNote && (
-            <View style={styles.didYouKnow}>
-              <Text style={styles.didYouKnowLabel}>Did You Know?</Text>
-              <Text style={styles.didYouKnowText}>{recipe.culturalNote}</Text>
+              {/* Add to Grocery CTA */}
+              <Pressable
+                onPress={() => {
+                  if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                  addToGrocery(recipe);
+                }}
+                style={({ pressed }) => [
+                  styles.groceryCta,
+                  pressed && { transform: [{ scale: 0.98 }] },
+                ]}
+              >
+                <LinearGradient
+                  colors={["#C75B12", Colors.light.primary]}
+                  style={styles.groceryCtaGradient}
+                >
+                  <Ionicons name="basket-outline" size={20} color={Colors.light.onPrimary} />
+                  <Text style={styles.groceryCtaText}>Add to Grocery List</Text>
+                </LinearGradient>
+              </Pressable>
             </View>
           )}
 
-          {/* Enter Cook Mode */}
-          <Pressable
-            onPress={() => {
-              if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-              router.push({
-                pathname: "/cook-mode",
-                params: { recipeId: recipe.id },
-              });
-            }}
-            style={({ pressed }) => [
-              styles.cookModeButton,
-              pressed && { transform: [{ scale: 0.97 }], opacity: 0.9 },
-            ]}
-          >
-            <View style={styles.cookModeLeft}>
-              <Ionicons name="restaurant" size={20} color={Colors.light.primaryFixedDim} />
-              <Text style={styles.cookModeText}>Enter Cook Mode</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={20} color={Colors.light.onPrimary} />
-          </Pressable>
+          {/* ── Instructions tab ─────────────────────────────────────── */}
+          {activeTab === "instructions" && (
+            <View style={styles.tabContent}>
+              {recipe.steps.map((step, index) => {
+                const tier = levelToTier(cookingLevel);
+                const text = convertTemperatureInText(getAdaptiveInstruction(step, tier), temperatureUnit);
+                const segments = parseActionVerbs(text);
+                return (
+                  <View key={step.id} style={styles.stepCard}>
+                    <View style={styles.stepHeader}>
+                      <View style={styles.stepNumber}>
+                        <Text style={styles.stepNumberText}>{index + 1}</Text>
+                      </View>
+                      <Text style={styles.stepTitle}>{step.title}</Text>
+                    </View>
+                    <Text style={styles.stepInstruction}>
+                      {segments.map((seg, i) =>
+                        seg.type === "action" ? (
+                          <Text key={i} style={styles.actionVerb}>{seg.value}</Text>
+                        ) : (
+                          seg.value
+                        )
+                      )}
+                    </Text>
+                    {step.materials.length > 0 && (
+                      <View style={styles.stepMaterials}>
+                        <Text style={styles.stepMaterialsLabel}>You'll need:</Text>
+                        <Text style={styles.stepMaterialsText}>{step.materials.join(", ")}</Text>
+                      </View>
+                    )}
+                  </View>
+                );
+              })}
 
-          {/* Quote */}
-          <View style={styles.quoteContainer}>
-            <Ionicons name="chatbox-ellipses-outline" size={28} color="rgba(154,65,0,0.15)" style={{ position: "absolute", top: 12, left: 16 }} />
-            <Text style={styles.quoteText}>
-              "This simple dish is the soul of Tuscan summer\u2014it requires nothing but the best ingredients and a patient hand."
-            </Text>
-          </View>
+              {/* Cultural Note */}
+              {recipe.culturalNote && (
+                <View style={styles.didYouKnow}>
+                  <Text style={styles.didYouKnowLabel}>Did You Know?</Text>
+                  <Text style={styles.didYouKnowText}>{recipe.culturalNote}</Text>
+                </View>
+              )}
 
-          {/* Next Journey */}
-          {nextRecipe && (
-            <View style={styles.nextJourneySection}>
-              <Text style={styles.nextJourneyLabel}>The Next Journey</Text>
+              {/* Enter Cook Mode */}
               <Pressable
                 onPress={() => {
-                  if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                  router.push({ pathname: "/recipe/[id]", params: { id: nextRecipe.id } });
+                  if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                  router.push({ pathname: "/cook-mode", params: { recipeId: recipe.id } });
                 }}
-                style={styles.nextJourneyCard}
+                style={({ pressed }) => [
+                  styles.cookModeButton,
+                  pressed && { transform: [{ scale: 0.97 }], opacity: 0.9 },
+                ]}
               >
-                <Image
-                  source={{ uri: nextRecipe.image }}
-                  style={styles.nextJourneyImage}
-                  contentFit="cover"
-                  transition={300}
-                  placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
-                  onError={(e) => console.warn("[Image] Failed to load:", e.error)}
-                />
-                <LinearGradient
-                  colors={["transparent", "rgba(0,0,0,0.8)"]}
-                  style={styles.nextJourneyOverlay}
-                />
-                <View style={styles.nextJourneyContent}>
-                  <Text style={styles.nextJourneyTitle}>{nextRecipe.name}</Text>
-                  <Text style={styles.nextJourneySubtitle}>{nextRecipe.category}</Text>
+                <View style={styles.cookModeLeft}>
+                  <Ionicons name="restaurant" size={20} color={Colors.light.primaryFixedDim} />
+                  <Text style={styles.cookModeText}>Enter Cook Mode</Text>
                 </View>
+                <Ionicons name="chevron-forward" size={20} color={Colors.light.onPrimary} />
               </Pressable>
+
+              {/* Quote */}
+              <View style={styles.quoteContainer}>
+                <Ionicons name="chatbox-ellipses-outline" size={28} color="rgba(154,65,0,0.15)" style={{ position: "absolute", top: 12, left: 16 }} />
+                <Text style={styles.quoteText}>
+                  "This simple dish is the soul of Tuscan summer\u2014it requires nothing but the best ingredients and a patient hand."
+                </Text>
+              </View>
+
+              {/* Next Journey */}
+              {nextRecipe && (
+                <View style={styles.nextJourneySection}>
+                  <Text style={styles.nextJourneyLabel}>The Next Journey</Text>
+                  <Pressable
+                    onPress={() => {
+                      if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                      router.push({ pathname: "/recipe/[id]", params: { id: nextRecipe.id } });
+                    }}
+                    style={styles.nextJourneyCard}
+                  >
+                    <Image
+                      source={{ uri: nextRecipe.image }}
+                      style={styles.nextJourneyImage}
+                      contentFit="cover"
+                      transition={300}
+                      placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                      onError={(e) => console.warn("[Image] Failed to load:", e.error)}
+                    />
+                    <LinearGradient
+                      colors={["transparent", "rgba(0,0,0,0.8)"]}
+                      style={styles.nextJourneyOverlay}
+                    />
+                    <View style={styles.nextJourneyContent}>
+                      <Text style={styles.nextJourneyTitle}>{nextRecipe.name}</Text>
+                      <Text style={styles.nextJourneySubtitle}>{nextRecipe.category}</Text>
+                    </View>
+                  </Pressable>
+                </View>
+              )}
             </View>
           )}
         </View>
@@ -388,10 +430,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   iconButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "rgba(254,249,243,0.7)",
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "rgba(254,249,243,0.72)",
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.15)",
     alignItems: "center",
@@ -415,7 +457,7 @@ const styles = StyleSheet.create({
   },
   recipeSubtitle: {
     fontFamily: "Inter_400Regular",
-    fontSize: 16,
+    fontSize: 15,
     color: Colors.light.secondary,
     letterSpacing: 0.3,
     lineHeight: 22,
@@ -435,17 +477,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     backgroundColor: Colors.light.surfaceContainerHigh,
-    borderRadius: 20,
+    borderRadius: 22,
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.1)",
   },
   metaText: {
     fontFamily: "Inter_500Medium",
-    fontSize: 14,
+    fontSize: 12,
     color: Colors.light.onSurface,
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
     textTransform: "uppercase",
-    lineHeight: 20,
+    lineHeight: 18,
   },
   // Servings
   servingsContainer: {
@@ -453,13 +495,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: Colors.light.surfaceContainerHigh,
-    borderRadius: 12,
+    borderRadius: 14,
     padding: 16,
-    marginBottom: 28,
+    marginBottom: 16,
   },
   servingsLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
+    fontSize: 16,
     color: Colors.light.onSurface,
   },
   servingsStepper: {
@@ -477,34 +519,99 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   stepperButton: {
-    width: 48,
-    height: 48,
+    width: 36,
+    height: 36,
     alignItems: "center",
     justifyContent: "center",
   },
   servingsValue: {
     fontFamily: "Inter_700Bold",
-    fontSize: 17,
+    fontSize: 16,
     color: Colors.light.onSurface,
-    paddingHorizontal: 12,
+    paddingHorizontal: 10,
   },
-  // Section title
-  sectionTitle: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 22,
-    color: Colors.light.onSurface,
-    marginBottom: 16,
+  // Schedule + Cook row
+  scheduleRow: {
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 24,
+  },
+  scheduleBtn: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    height: 48,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: Colors.light.primary,
+    backgroundColor: "transparent",
+  },
+  scheduleBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: Colors.light.primary,
+  },
+  cookNowBtn: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    height: 48,
+    borderRadius: 14,
+    backgroundColor: Colors.light.primary,
+  },
+  cookNowBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: Colors.light.onPrimary,
+  },
+  // Tab bar
+  tabBar: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.light.outlineVariant,
+    marginBottom: 24,
+    position: "relative",
+  },
+  tabButton: {
+    flex: 1,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  tabLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: Colors.light.onSurfaceVariant,
+    letterSpacing: 0.2,
+  },
+  tabLabelActive: {
+    fontFamily: "Inter_600SemiBold",
+    color: Colors.light.primary,
+  },
+  tabIndicator: {
+    position: "absolute",
+    bottom: 0,
+    width: "37.5%",
+    height: 2,
+    backgroundColor: Colors.light.primary,
+    borderRadius: 2,
+  },
+  tabContent: {
+    paddingBottom: 8,
   },
   // Ingredients
   ingredientsList: {
-    marginBottom: 20,
+    marginBottom: 24,
   },
   ingredientRow: {
     flexDirection: "row",
     alignItems: "flex-start",
     gap: 14,
-    paddingVertical: 14,
-    minHeight: 56,
+    paddingVertical: 13,
+    minHeight: 52,
   },
   ingredientCircle: {
     marginTop: 2,
@@ -523,7 +630,7 @@ const styles = StyleSheet.create({
   ingredientText: {
     flex: 1,
     fontFamily: "Inter_400Regular",
-    fontSize: 17,
+    fontSize: 16,
     color: Colors.light.onSurface,
     lineHeight: 24,
   },
@@ -535,47 +642,9 @@ const styles = StyleSheet.create({
   ingredientAmount: {
     color: Colors.light.secondary,
   },
-  // Schedule + Cook Now row
-  scheduleRow: {
-    flexDirection: "row",
-    gap: 12,
-    marginBottom: 12,
-  },
-  scheduleBtn: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    height: 48,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: Colors.light.primary,
-    backgroundColor: "transparent",
-  },
-  scheduleBtnText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
-    color: Colors.light.primary,
-  },
-  cookNowBtn: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: Colors.light.primary,
-  },
-  cookNowBtnText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
-    color: Colors.light.onPrimary,
-  },
   // Grocery CTA
   groceryCta: {
-    borderRadius: 12,
+    borderRadius: 14,
     overflow: "hidden",
     marginBottom: 8,
   },
@@ -584,17 +653,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    height: 48,
-    borderRadius: 12,
+    height: 56,
+    borderRadius: 14,
   },
   groceryCtaText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
+    fontSize: 16,
     color: Colors.light.onPrimary,
   },
   // Steps
   stepCard: {
-    marginBottom: 28,
+    marginBottom: 32,
   },
   stepHeader: {
     flexDirection: "row",
@@ -603,9 +672,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   stepNumber: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     backgroundColor: Colors.light.primary,
     alignItems: "center",
     justifyContent: "center",
@@ -617,15 +686,16 @@ const styles = StyleSheet.create({
   },
   stepTitle: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
+    fontSize: 18,
     color: Colors.light.onSurface,
+    flex: 1,
   },
   stepInstruction: {
     fontFamily: "Inter_400Regular",
-    fontSize: 17,
+    fontSize: 16,
     color: Colors.light.onSurfaceVariant,
     lineHeight: 26,
-    marginBottom: 10,
+    marginBottom: 12,
   },
   actionVerb: {
     fontFamily: "Inter_700Bold",
@@ -635,14 +705,14 @@ const styles = StyleSheet.create({
     padding: 14,
     backgroundColor: Colors.light.surfaceContainerLow,
     borderRadius: 10,
-    borderLeftWidth: 4,
+    borderLeftWidth: 3,
     borderLeftColor: "rgba(154,65,0,0.3)",
   },
   stepMaterialsLabel: {
     fontFamily: "Inter_700Bold",
-    fontSize: 14,
+    fontSize: 11,
     color: Colors.light.secondary,
-    letterSpacing: 1,
+    letterSpacing: 1.2,
     textTransform: "uppercase",
     marginBottom: 4,
   },
@@ -652,25 +722,24 @@ const styles = StyleSheet.create({
     color: Colors.light.onSurface,
     lineHeight: 20,
   },
-
   // Did You Know
   didYouKnow: {
     padding: 16,
     backgroundColor: "rgba(248,243,237,0.5)",
     borderRadius: 12,
-    borderLeftWidth: 4,
+    borderLeftWidth: 3,
     borderLeftColor: "rgba(154,65,0,0.3)",
     marginBottom: 28,
   },
   didYouKnowLabel: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.light.primary,
     marginBottom: 6,
   },
   didYouKnowText: {
     fontFamily: "Inter_400Regular",
-    fontSize: 16,
+    fontSize: 15,
     color: Colors.light.secondary,
     fontStyle: "italic",
     lineHeight: 22,
@@ -681,10 +750,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: Colors.light.inverseSurface,
-    borderRadius: 12,
+    borderRadius: 14,
     paddingHorizontal: 20,
-    height: 48,
-    marginBottom: 32,
+    height: 60,
+    marginBottom: 28,
   },
   cookModeLeft: {
     flexDirection: "row",
@@ -693,7 +762,7 @@ const styles = StyleSheet.create({
   },
   cookModeText: {
     fontFamily: "Inter_600SemiBold",
-    fontSize: 17,
+    fontSize: 16,
     color: Colors.light.onPrimary,
     letterSpacing: -0.3,
   },
@@ -719,14 +788,13 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   nextJourneyLabel: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
+    fontFamily: "Inter_400Regular",
+    fontSize: 10,
     color: Colors.light.secondary,
-    letterSpacing: 2,
+    letterSpacing: 3,
     textTransform: "uppercase",
     marginBottom: 12,
   },
-
   nextJourneyCard: {
     borderRadius: 20,
     overflow: "hidden",
@@ -750,14 +818,12 @@ const styles = StyleSheet.create({
   nextJourneyTitle: {
     fontFamily: "NotoSerif_600SemiBold",
     fontSize: 22,
-    color: Colors.light.onPrimary,
+    color: "#FFFFFF",
     marginBottom: 4,
   },
   nextJourneySubtitle: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
     color: "rgba(255,255,255,0.7)",
-    lineHeight: 20,
   },
-
 });

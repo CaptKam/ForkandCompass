@@ -1,11 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Audio } from "expo-av";
+import * as Haptics from "expo-haptics";
 import React, {
   createContext,
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
+import { Platform } from "react-native";
 
 import type { GroceryItem, Recipe } from "@/constants/data";
 import type { MeasurementSystem, TemperatureUnit } from "@/constants/units";
@@ -78,6 +82,8 @@ export interface ActiveCookSession {
   totalSteps: number;
   timerRemaining: number | null;
   timerRunning: boolean;
+  timerTotal: number | null;
+  timerName: string;
   startedAt: string;
   servings: number;
 }
@@ -184,7 +190,7 @@ interface AppContextType {
   recentCookSessions: CookSession[];
   // Active cook session (resume)
   activeCookSession: ActiveCookSession | null;
-  setActiveCookSession: (session: ActiveCookSession | null) => void;
+  setActiveCookSession: (session: ActiveCookSession | null | ((prev: ActiveCookSession | null) => ActiveCookSession | null)) => void;
   // Pending cook request (triggers inline cook mode on Cook tab)
   pendingCookRecipeId: string | null;
   requestCook: (recipeId: string) => void;
@@ -405,9 +411,67 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [activeCookSession, loaded]);
 
-  const setActiveCookSession = useCallback((session: ActiveCookSession | null) => {
-    setActiveCookSessionState(session);
+  const setActiveCookSession = useCallback(
+    (session: ActiveCookSession | null | ((prev: ActiveCookSession | null) => ActiveCookSession | null)) => {
+      if (typeof session === "function") {
+        setActiveCookSessionState(session);
+      } else {
+        setActiveCookSessionState(session);
+      }
+    },
+    []
+  );
+
+  // ── Global persistent timer ──────────────────────────────────────────────
+  const activeCookSessionRef = useRef(activeCookSession);
+  useEffect(() => {
+    activeCookSessionRef.current = activeCookSession;
+  });
+
+  const playAlarm = useCallback(async () => {
+    try {
+      if (Platform.OS !== "web") {
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        setTimeout(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success), 400);
+        setTimeout(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success), 800);
+      }
+      await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/sounds/timer-alarm.wav")
+      );
+      await sound.playAsync();
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.isLoaded && status.didJustFinish) {
+          sound.unloadAsync().catch(() => {});
+        }
+      });
+    } catch {
+      // Alarm playback failed silently
+    }
   }, []);
+
+  useEffect(() => {
+    if (!activeCookSession?.timerRunning) return;
+    const interval = setInterval(() => {
+      const current = activeCookSessionRef.current;
+      if (!current?.timerRunning || !current.timerRemaining || current.timerRemaining <= 0) {
+        clearInterval(interval);
+        return;
+      }
+      const next = current.timerRemaining - 1;
+      if (next <= 0) {
+        playAlarm();
+        setActiveCookSessionState((prev) =>
+          prev ? { ...prev, timerRunning: false, timerRemaining: 0 } : prev
+        );
+      } else {
+        setActiveCookSessionState((prev) =>
+          prev ? { ...prev, timerRemaining: next } : prev
+        );
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [activeCookSession?.timerRunning, playAlarm]);
 
   const requestCook = useCallback((recipeId: string) => {
     setPendingCookRecipeId(recipeId);

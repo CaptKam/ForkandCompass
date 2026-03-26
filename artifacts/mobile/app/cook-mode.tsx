@@ -14,12 +14,18 @@ import {
   Text,
   View,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
   FadeInRight,
   FadeOutLeft,
   FadeInLeft,
   FadeOutRight,
   FadeIn,
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withSequence,
+  withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -166,6 +172,20 @@ function getStepTips(instruction: string): string[] {
 export default function CookModeScreen() {
   useKeepAwake();
 
+  const pulseOpacity = useSharedValue(1);
+  const pulseStyle = useAnimatedStyle(() => ({ opacity: pulseOpacity.value }));
+
+  useEffect(() => {
+    pulseOpacity.value = withRepeat(
+      withSequence(
+        withTiming(0.35, { duration: 800 }),
+        withTiming(1, { duration: 800 })
+      ),
+      -1,
+      false
+    );
+  }, []);
+
   const { recipeId, resumeStep } = useLocalSearchParams<{ recipeId: string; resumeStep?: string }>();
   const insets = useSafeAreaInsets();
   const recipe = getRecipeById(recipeId);
@@ -186,12 +206,13 @@ export default function CookModeScreen() {
   const [showPrepWarning, setShowPrepWarning] = useState(false);
   const [prepWarningDismissed, setPrepWarningDismissed] = useState(false);
 
-  const [timerTotal, setTimerTotal] = useState<number | null>(null);
-  const [timerRemaining, setTimerRemaining] = useState<number>(0);
-  const [timerRunning, setTimerRunning] = useState(false);
-  const [timerName, setTimerName] = useState<string>("");
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<string>(new Date().toISOString());
+
+  // Timer is managed globally in AppContext so it persists across navigation
+  const timerTotal = activeCookSession?.timerTotal ?? null;
+  const timerRemaining = activeCookSession?.timerRemaining ?? 0;
+  const timerRunning = activeCookSession?.timerRunning ?? false;
+  const timerName = activeCookSession?.timerName ?? "";
 
   // PanResponder for swipe-to-dismiss on help sheet
   const helpSheetPanResponder = useRef(
@@ -217,46 +238,30 @@ export default function CookModeScreen() {
     }
   }, [prepWarnings.length, resumeStep, prepWarningDismissed]);
 
+  // Ref to read activeCookSession without causing effect re-runs
+  const activeCookSessionRef = useRef(activeCookSession);
   useEffect(() => {
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
+    activeCookSessionRef.current = activeCookSession;
+  });
 
-  useEffect(() => {
-    if (timerRunning && timerRemaining > 0) {
-      timerRef.current = setInterval(() => {
-        setTimerRemaining((prev) => {
-          if (prev <= 1) {
-            setTimerRunning(false);
-            if (Platform.OS !== "web") {
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            }
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-      return () => {
-        if (timerRef.current) clearInterval(timerRef.current);
-      };
-    }
-  }, [timerRunning, timerRemaining]);
-
+  // Sync currentStep / recipe info to context; AppContext manages the timer tick
   useEffect(() => {
     if (!recipe || finished) return;
-    const session: ActiveCookSession = {
+    const prev = activeCookSessionRef.current;
+    const sameRecipe = prev?.recipeId === recipe.id;
+    setActiveCookSession({
       recipeId: recipe.id,
       recipeName: recipe.name,
       currentStep,
       totalSteps: recipe.steps.length,
-      timerRemaining: timerRunning ? timerRemaining : null,
-      timerRunning,
+      timerRemaining: sameRecipe ? (prev?.timerRemaining ?? null) : null,
+      timerRunning: sameRecipe ? (prev?.timerRunning ?? false) : false,
+      timerTotal: sameRecipe ? (prev?.timerTotal ?? null) : null,
+      timerName: sameRecipe ? (prev?.timerName ?? "") : "",
       startedAt: startTimeRef.current,
       servings: 4,
-    };
-    setActiveCookSession(session);
-  }, [currentStep, timerRemaining, timerRunning, finished]);
+    });
+  }, [currentStep, finished, recipe?.id]);
 
   if (!recipe) {
     return (
@@ -302,43 +307,57 @@ export default function CookModeScreen() {
       return;
     }
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    setTimerRunning(false);
-    setTimerTotal(null);
-    setTimerRemaining(0);
-    setTimerName("");
+    const s = activeCookSessionRef.current;
+    if (s) setActiveCookSession({ ...s, timerRunning: false, timerTotal: null, timerRemaining: null, timerName: "" });
     setCheckedIngredients(new Set());
     setDirection("forward");
-    setCurrentStep((s) => s + 1);
+    setCurrentStep((prev) => prev + 1);
   };
 
   const goPrev = () => {
     if (isFirst) return;
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    setTimerRunning(false);
-    setTimerTotal(null);
-    setTimerRemaining(0);
-    setTimerName("");
+    const s = activeCookSessionRef.current;
+    if (s) setActiveCookSession({ ...s, timerRunning: false, timerTotal: null, timerRemaining: null, timerName: "" });
     setCheckedIngredients(new Set());
     setDirection("back");
-    setCurrentStep((s) => s - 1);
+    setCurrentStep((prev) => prev - 1);
   };
 
   const startTimer = () => {
-    if (!stepDuration) return;
-    setTimerTotal(stepDuration);
-    setTimerRemaining(stepDuration);
-    setTimerRunning(true);
-    setTimerName(generateTimerName(step.title, step.instruction, recipe.name));
+    if (!stepDuration || !recipe) return;
+    const name = generateTimerName(step.title, step.instruction, recipe.name);
+    const prev = activeCookSessionRef.current;
+    setActiveCookSession({
+      recipeId: recipe.id,
+      recipeName: recipe.name,
+      currentStep,
+      totalSteps: recipe.steps.length,
+      startedAt: startTimeRef.current,
+      servings: 4,
+      ...(prev?.recipeId === recipe.id ? prev : {}),
+      timerRunning: true,
+      timerRemaining: stepDuration,
+      timerTotal: stepDuration,
+      timerName: name,
+    });
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   };
 
   const toggleTimer = () => {
-    setTimerRunning((prev) => !prev);
+    const prev = activeCookSessionRef.current;
+    if (!prev) return;
+    setActiveCookSession({ ...prev, timerRunning: !prev.timerRunning });
   };
 
   const resetTimer = () => {
-    setTimerRunning(false);
-    if (timerTotal) setTimerRemaining(timerTotal);
+    const prev = activeCookSessionRef.current;
+    if (!prev) return;
+    setActiveCookSession({
+      ...prev,
+      timerRunning: false,
+      timerRemaining: prev.timerTotal ?? 0,
+    });
   };
 
   const toggleIngredient = (id: string) => {
@@ -698,7 +717,11 @@ export default function CookModeScreen() {
       </Animated.View>
 
       {/* Sticky Footer */}
-      <View style={[styles.footerArea, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
+      <LinearGradient
+        colors={["transparent", Colors.light.surface]}
+        locations={[0, 0.38]}
+        style={[styles.footerArea, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}
+      >
         {/* Timer quick action */}
         {stepDuration && !timerTotal && (
           <View style={styles.footerTimerRow}>
@@ -749,11 +772,11 @@ export default function CookModeScreen() {
               <Ionicons name="chevron-forward" size={24} color={Colors.light.onSurface} />
             </Pressable>
           </View>
-          <Text style={styles.swipeHint}>
+          <Animated.Text style={[styles.swipeHint, pulseStyle]}>
             {isLast ? "Tap to Finish" : "Swipe for Next Step"}
-          </Text>
+          </Animated.Text>
         </View>
-      </View>
+      </LinearGradient>
 
       {showHelpSheet && (
         <Pressable
@@ -1210,7 +1233,7 @@ const styles = StyleSheet.create({
 
   footerArea: {
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: 40,
   },
   footerTimerRow: {
     alignItems: "center",

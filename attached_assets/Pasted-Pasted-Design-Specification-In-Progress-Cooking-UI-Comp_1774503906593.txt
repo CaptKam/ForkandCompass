@@ -1,0 +1,60 @@
+Pasted--Design-Specification-In-Progress-Cooking-UI-Components_1774502616508.txt
+# Design Specification: In-Progress Cooking UI Components
+
+## 1. Overview
+The "In-Progress" UI elements are designed to provide a persistent, non-intrusive way for users to resume a cooking session after navigating away from Cook Mode. These components ensure the user never loses their place in the kitchen.
+
+---
+
+## 2. Component Variations
+
+### A. The Sticky Mini-Player (Floating Bar)
+*Used as a persistent element at the bottom of the Cook Hub or other main tabs.*
+
+| Property | Specification |
+| :--- | :--- |
+| **Height** | 72pt |
+| **Background** | `#FFFFFF` with 80% Backdrop Blur (Glassmorphism) |
+| **Border** | Top border: 1pt, `#E8DFD2` |
+| **Shadow** | `0 -8px 24px rgba(28, 26, 23, 0.08)` |
+| **Thumbnail** | 48x48pt, 8pt radius, includes "Step X of Y" overlay |
+| **Primary Action** | Play icon (Terracotta `#9A4100`), 32pt circular button |
+| **Text (Title)** | 15pt Noto Serif Bold, `#1C1A17` |
+| **Text (Status)** | 12pt Inter Regular, `#8A8279` (e.g., "Step 4 · In Progress") |
+
+### B. The Hero Resume Card (Dashboard Integration)
+*Used as the primary focus on the Cook Hub when a session is active.*
+
+| Property | Specification |
+| :--- | :--- |
+| **Corner Radius** | 16pt |
+| **Background** | Image-driven with Dark Overlay (40% black) |
+| **Label** | "CONTINUE COOKING": 10pt Inter Medium, Terracotta, 2px letter spacing |
+| **Button** | Full-width, 52pt height, Terracotta bg, White text |
+| **Progress Bar** | 4pt height, Terracotta fill on transparent track, placed at bottom of card |
+
+### C. The Floating Action Button (FAB)
+*A minimalist alternative for resuming sessions.*
+
+| Property | Specification |
+| :--- | :--- |
+| **Dimensions** | 160pt width x 48pt height (Pill shape) |
+| **Background** | Terracotta `#9A4100` |
+| **Icon** | Knife & Fork or Play icon, 20pt, White |
+| **Placement** | Bottom-right, 24pt inset from screen edges |
+
+---
+
+## 3. Interaction & Behavior
+- **Tap Behavior:** All components trigger `router.push("/cook-mode")` with the saved `recipeId` and `currentStep`.
+- **Haptics:** Light haptic feedback on tap to confirm the "resume" action.
+- **Auto-Dismiss:** Component automatically disappears once the recipe is marked "Completed" or manually "Abandoned".
+- **Real-time Sync:** If a timer is running in the background, the "In-Progress" component should display the live countdown.
+
+---
+
+## 4. Design Tokens (Ochre Journal)
+- **Primary Accent:** `#9A4100` (Terracotta)
+- **Surface:** `#FEF9F3` (Cream)
+- **Typography (Heading):** Noto Serif
+- **Typography (Body):** Inter
