@@ -155,6 +155,7 @@ interface AppContextType {
   clearGrocery: () => void;
   unexcludeGroceryItem: (id: string) => void;
   quickAddStaple: (staple: PantryStaple) => void;
+  addManualGroceryItem: (name: string) => void;
   // Pantry staples
   pantryStaples: PantryStaple[];
   togglePantryStaple: (id: string) => void;
@@ -675,6 +676,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     );
   }, []);
 
+  const addManualGroceryItem = useCallback((name: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    const stableId = `manual-${trimmed.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    setGroceryItems((prev) => {
+      if (prev.some((i) => i.id === stableId)) return prev;
+      return [...prev, {
+        id: stableId,
+        name: trimmed,
+        amount: "",
+        checked: false,
+        recipeName: "Added manually",
+      }];
+    });
+  }, []);
+
   const toggleGroceryItem = useCallback((id: string) => {
     setGroceryItems((prev) =>
       prev.map((i) => (i.id === id ? { ...i, checked: !i.checked } : i))
@@ -868,6 +885,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         clearGrocery,
         unexcludeGroceryItem,
         quickAddStaple,
+        addManualGroceryItem,
         pantryStaples,
         togglePantryStaple,
         isInKitchen,

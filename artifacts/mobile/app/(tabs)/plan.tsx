@@ -53,7 +53,8 @@ const CATEGORY_RULES: { key: string; emoji: string; label: string; keywords: str
   { key: "pantry", emoji: "🫙", label: "Pantry", keywords: ["oil", "vinegar", "salt", "sugar", "flour", "rice", "noodle", "pasta", "soy sauce", "fish sauce", "spice", "cumin", "turmeric", "paprika", "cinnamon", "sauce", "stock", "broth", "wine", "miso", "dashi", "coconut", "curry", "paste", "sesame", "peanut", "bread", "tortilla", "wrap"] },
 ];
 
-function categorizeItem(name: string): { emoji: string; label: string } {
+function categorizeItem(name: string, id?: string): { emoji: string; label: string } {
+  if (id?.startsWith("manual-")) return { emoji: "🛒", label: "Other" };
   const lower = name.toLowerCase();
   for (const cat of CATEGORY_RULES) {
     if (cat.keywords.some((kw) => lower.includes(kw))) {
@@ -97,6 +98,7 @@ export default function PlanScreen() {
     savedRecipeIds,
     measurementSystem,
     addCourseToDay,
+    addManualGroceryItem,
   } = useApp();
 
   const [segment, setSegment] = useState<PlanSegment>("week");
@@ -107,6 +109,8 @@ export default function PlanScreen() {
   const [addCourseDay, setAddCourseDay] = useState<ItineraryDay | null>(null);
   const [moveDay, setMoveDay] = useState<ItineraryDay | null>(null);
   const [addExtraDay, setAddExtraDay] = useState<ItineraryDay | null>(null);
+  const [manualItem, setManualItem] = useState("");
+
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
   const draggedOriginalIndexRef = useRef<number | null>(null);
@@ -120,6 +124,15 @@ export default function PlanScreen() {
     setToast(msg);
     toastTimeout.current = setTimeout(() => setToast(null), 2400);
   }, []);
+
+  const handleManualAdd = useCallback(() => {
+    const trimmed = manualItem.trim();
+    if (!trimmed) return;
+    addManualGroceryItem(trimmed);
+    setManualItem("");
+    showToast(`Added "${trimmed}"`);
+    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  }, [manualItem, addManualGroceryItem, showToast]);
 
   const switchSegment = useCallback((seg: PlanSegment) => {
     haptic();
@@ -189,7 +202,7 @@ export default function PlanScreen() {
   const categoryGroups = useMemo(() => {
     const groups: Record<string, CategoryGroup> = {};
     for (const item of activeGroceryItems) {
-      const { emoji, label } = categorizeItem(item.name);
+      const { emoji, label } = categorizeItem(item.name, item.id);
       if (!groups[label]) groups[label] = { emoji, label, items: [] };
       groups[label].items.push(item);
     }
@@ -649,6 +662,24 @@ export default function PlanScreen() {
               ]}
               ListHeaderComponent={
                 <View>
+                  {/* Manual add input */}
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: Colors.light.outlineVariant }}>
+                    <TextInput
+                      value={manualItem}
+                      onChangeText={setManualItem}
+                      placeholder="Add an item..."
+                      placeholderTextColor={Colors.light.secondary}
+                      style={{ flex: 1, fontFamily: "Inter_400Regular", fontSize: 15, color: Colors.light.onSurface, height: 44 }}
+                      returnKeyType="done"
+                      onSubmitEditing={handleManualAdd}
+                    />
+                    <Pressable
+                      onPress={handleManualAdd}
+                      style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: manualItem.trim() ? Colors.light.primary : Colors.light.surfaceContainerLow, alignItems: "center", justifyContent: "center" }}
+                    >
+                      <Ionicons name="add" size={20} color={manualItem.trim() ? Colors.light.onPrimary : Colors.light.secondary} />
+                    </Pressable>
+                  </View>
                   {/* My Pantry */}
                   <View style={styles.pantrySection}>
                     <View style={styles.pantryHeaderRow}>
