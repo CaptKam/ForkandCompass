@@ -159,9 +159,8 @@ export default function CookScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
-
-        {/* ── Active Session: Editorial Hero ──────────────────────── */}
-        {hasActiveSession && activeCookSession && (
+        {/* ── PRIORITY 1: Tonight's Recipe ─────────────────────────── */}
+        {hasTonightsRecipe && tonightsRecipe && (
           <View style={styles.section}>
             <View style={styles.sectionLabelRow}>
               <Text style={styles.sectionLabelEditorial}>In Progress</Text>
@@ -473,44 +472,9 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
-  /* ── Continue Cooking Card (Active Session) ──────────────────── */
-  continueCard: {
-    backgroundColor: Colors.light.surfaceWarm,
+  /* ── Tonight's Recipe ────────────────────────────────────────── */
+  tonightCard: {
     borderRadius: 16,
-    borderWidth: 1,
-    borderColor: "rgba(154,65,0,0.3)",
-    padding: 20,
-    gap: 12,
-  sectionLabelEditorial: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontStyle: "italic",
-    fontSize: 18,
-    color: Colors.light.primary,
-  },
-  sessionActiveBadge: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 10,
-    color: Colors.light.secondary,
-    letterSpacing: 2,
-    textTransform: "uppercase",
-  },
-  sectionTitle: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 20,
-    color: Colors.light.onSurface,
-  },
-  viewAllLink: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
-    color: Colors.light.primary,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-  },
-
-  /* ── Active Session Hero Card ─────────────────────────────────── */
-  activeCard: {
-    marginHorizontal: 24,
-    borderRadius: 20,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
     ...Platform.select({

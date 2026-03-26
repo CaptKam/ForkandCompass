@@ -9,7 +9,7 @@ import { Platform, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import ContinueCookingBanner from "@/components/ContinueCookingBanner";
+import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
 function NativeTabLayout() {
@@ -49,6 +49,7 @@ function ClassicTabLayout() {
   const safeAreaInsets = useSafeAreaInsets();
   const isIOS = Platform.OS === "ios";
   const isWeb = Platform.OS === "web";
+  const { activeCookSession } = useApp();
   const colors = useThemeColors();
   const isDark = colors.background === Colors.dark.background;
 
@@ -139,12 +140,28 @@ function ClassicTabLayout() {
         name="cook"
         options={{
           title: "Cook",
-          tabBarIcon: ({ color }) =>
-            isIOS ? (
-              <SymbolView name="fork.knife" tintColor={color} size={24} />
-            ) : (
-              <MaterialIcons name="restaurant" size={24} color={color} />
-            ),
+          tabBarIcon: ({ color }) => (
+            <View style={{ width: 28, height: 28, alignItems: "center", justifyContent: "center" }}>
+              {isIOS ? (
+                <SymbolView name="fork.knife" tintColor={color} size={24} />
+              ) : (
+                <MaterialIcons name="restaurant" size={24} color={color} />
+              )}
+              {activeCookSession != null && (
+                <View style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  width: 8,
+                  height: 8,
+                  borderRadius: 4,
+                  backgroundColor: colors.primary,
+                  borderWidth: 1.5,
+                  borderColor: colors.surface,
+                }} />
+              )}
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
