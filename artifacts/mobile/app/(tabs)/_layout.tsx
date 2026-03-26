@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
+import ContinueCookingBanner from "@/components/ContinueCookingBanner";
 
 function NativeTabLayout() {
   return (
@@ -36,6 +37,10 @@ function NativeTabLayout() {
           <Label>Profile</Label>
         </NativeTabs.Trigger>
       </NativeTabs>
+      <View style={{ position: "absolute", bottom: insets.bottom + 56, left: 0, right: 0, zIndex: 100 }}>
+        <ContinueCookingBanner />
+      </View>
+    </>
   );
 }
 
@@ -49,6 +54,8 @@ function ClassicTabLayout() {
 
   return (
     <Tabs
+    <View style={{ flex: 1 }}>
+      <Tabs
         screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
@@ -169,6 +176,10 @@ function ClassicTabLayout() {
         }}
       />
       </Tabs>
+      <View style={{ position: "absolute", bottom: (isWeb ? 84 : safeAreaInsets.bottom + 56), left: 0, right: 0, zIndex: 100 }}>
+        <ContinueCookingBanner />
+      </View>
+    </View>
   );
 }
 

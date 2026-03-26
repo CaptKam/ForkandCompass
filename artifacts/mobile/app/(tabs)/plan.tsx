@@ -102,6 +102,7 @@ export default function PlanScreen() {
   const [toast, setToast] = useState<string | null>(null);
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const [swapDay, setSwapDay] = useState<ItineraryDay | null>(null);
+  const [editDay, setEditDay] = useState<ItineraryDay | null>(null);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
 
@@ -482,6 +483,7 @@ export default function PlanScreen() {
                     onReload={() => { haptic(); setSwapDay(entry); }}
                     onSkip={() => handleSkipDay(entry)}
                     onRestore={() => handleRestoreDay(entry)}
+                    onEdit={() => { haptic(); setEditDay(entry); }}
                   />
                 );
               })}
@@ -538,6 +540,7 @@ export default function PlanScreen() {
                     onReload={() => { haptic(); setSwapDay(entry); }}
                     onSkip={() => handleSkipDay(entry)}
                     onRestore={() => handleRestoreDay(entry)}
+                    onEdit={() => { haptic(); setEditDay(entry); }}
                     drag={drag}
                     isActive={isActive}
                   />
@@ -716,6 +719,44 @@ export default function PlanScreen() {
           </Pressable>
         </View>
       )}
+
+      {/* ── Edit Menu ──────────────────────────────────────────── */}
+      <Modal visible={!!editDay} transparent animationType="fade" onRequestClose={() => setEditDay(null)}>
+        <Pressable style={editMenuStyles.overlay} onPress={() => setEditDay(null)}>
+          <View style={editMenuStyles.sheet}>
+            <View style={editMenuStyles.handle} />
+            {editDay && (
+              <>
+                <Text style={editMenuStyles.title}>{editDay.dayLabel}</Text>
+                <Pressable
+                  style={({ pressed }) => [editMenuStyles.menuItem, pressed && { backgroundColor: Colors.light.surfaceContainerLow }]}
+                  onPress={() => { setEditDay(null); setTimeout(() => setSwapDay(editDay), 200); }}
+                >
+                  <View style={editMenuStyles.menuIconCircle}>
+                    <Ionicons name="swap-horizontal" size={18} color={Colors.light.primary} />
+                  </View>
+                  <View>
+                    <Text style={editMenuStyles.menuItemTitle}>Swap recipe</Text>
+                    <Text style={editMenuStyles.menuItemSub}>Replace with a different dish</Text>
+                  </View>
+                </Pressable>
+                <Pressable
+                  style={({ pressed }) => [editMenuStyles.menuItem, pressed && { backgroundColor: Colors.light.surfaceContainerLow }]}
+                  onPress={() => { handleSkipDay(editDay); setEditDay(null); }}
+                >
+                  <View style={[editMenuStyles.menuIconCircle, { backgroundColor: Colors.light.surfaceContainerHighest }]}>
+                    <Ionicons name="close" size={18} color={Colors.light.onSurfaceVariant} />
+                  </View>
+                  <View>
+                    <Text style={editMenuStyles.menuItemTitle}>Skip this day</Text>
+                    <Text style={editMenuStyles.menuItemSub}>Remove from this week's plan</Text>
+                  </View>
+                </Pressable>
+              </>
+            )}
+          </View>
+        </Pressable>
+      </Modal>
 
       {/* ── Swap Sheet ─────────────────────────────────────────── */}
       <Modal visible={!!swapDay} transparent animationType="slide" onRequestClose={() => setSwapDay(null)}>
@@ -1116,7 +1157,7 @@ const swapStyles = StyleSheet.create({
 
 // ─── WeekRow ──────────────────────────────────────────────────────────────────
 
-function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, drag, isActive }: {
+function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, drag, isActive, onEdit }: {
   day: ItineraryDay;
   isLast: boolean;
   isToday?: boolean;
@@ -1126,6 +1167,7 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
   onRestore: () => void;
   drag?: () => void;
   isActive?: boolean;
+  onEdit: () => void;
 }) {
   const country = getCountryById(day.countryId);
   const recipeIds = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
@@ -1202,18 +1244,11 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
         {!isSkipped && !isPast && (
           <View style={styles.dayCardActions}>
             <Pressable
-              onPress={(e) => { e.stopPropagation(); onReload(); }}
-              style={styles.dayCardRegenBtn}
-              hitSlop={6}
+              onPress={(e) => { e.stopPropagation(); haptic(); onEdit(); }}
+              style={styles.dayCardEditBtn}
+              hitSlop={8}
             >
-              <Ionicons name="refresh" size={15} color={Colors.light.primary} />
-            </Pressable>
-            <Pressable
-              onPress={(e) => { e.stopPropagation(); haptic(); onSkip(); }}
-              style={styles.dayCardCancelBtn}
-              hitSlop={6}
-            >
-              <Ionicons name="close" size={14} color={Colors.light.onSurfaceVariant} />
+              <Ionicons name="pencil" size={14} color={Colors.light.primary} />
             </Pressable>
           </View>
         )}
@@ -1637,19 +1672,11 @@ const styles = StyleSheet.create({
     gap: 6,
     alignItems: "center",
   },
-  dayCardRegenBtn: {
+  dayCardEditBtn: {
     width: 32,
     height: 32,
     borderRadius: 16,
     backgroundColor: "#FFDBCB",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  dayCardCancelBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: Colors.light.surfaceContainerHighest,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -2002,5 +2029,62 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     fontSize: 13,
     color: Colors.light.surface,
+  },
+});
+
+const editMenuStyles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.35)",
+    justifyContent: "flex-end",
+  },
+  sheet: {
+    backgroundColor: Colors.light.surface,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 36,
+    paddingTop: 10,
+  },
+  handle: {
+    width: 36,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: Colors.light.outlineVariant,
+    alignSelf: "center",
+    marginBottom: 16,
+  },
+  title: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: Colors.light.onSurface,
+    marginBottom: 16,
+  },
+  menuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 4,
+    borderRadius: 12,
+  },
+  menuIconCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#FFDBCB",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  menuItemTitle: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+  },
+  menuItemSub: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: Colors.light.onSurfaceVariant,
+    marginTop: 1,
   },
 });
