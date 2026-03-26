@@ -83,7 +83,7 @@ export default function RecipeDetailScreen() {
       <View style={[styles.container, { alignItems: "center", justifyContent: "center", paddingHorizontal: 48 }]}>
         <Ionicons name="restaurant-outline" size={48} color={Colors.light.outlineVariant} />
         <Text style={{ fontFamily: "NotoSerif_600SemiBold", fontSize: 20, color: Colors.light.onSurface, marginTop: 16, marginBottom: 8 }}>Recipe not found</Text>
-        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 14, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
+        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 14, paddingHorizontal: 20, borderRadius: 20, marginTop: 16 }}>
           <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 16, color: Colors.light.onPrimary }}>Go Back</Text>
         </Pressable>
       </View>
@@ -246,7 +246,7 @@ export default function RecipeDetailScreen() {
             ]}
           >
             <LinearGradient
-              colors={["#C75B12", "#9A4100"]}
+              colors={[Colors.light.primary, Colors.light.primaryContainer]}
               style={styles.groceryCtaGradient}
             >
               <Ionicons name="basket-outline" size={20} color={Colors.light.onPrimary} />
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   iconButton: {
     width: 48,
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
     backgroundColor: Colors.light.surface,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 32,
   },
   recipeTitle: {
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: Colors.light.surfaceContainerHigh,
-    borderRadius: 14,
+    borderRadius: 12,
     padding: 16,
     marginBottom: 28,
   },
@@ -547,7 +547,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    height: 52,
+    height: 48,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.light.primary,
@@ -564,7 +564,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    height: 52,
+    height: 48,
     borderRadius: 12,
     backgroundColor: Colors.light.primary,
   },
@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
   },
   // Grocery CTA
   groceryCta: {
-    borderRadius: 14,
+    borderRadius: 12,
     overflow: "hidden",
     marginBottom: 8,
   },
@@ -584,8 +584,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    height: 56,
-    borderRadius: 14,
+    height: 48,
+    borderRadius: 12,
   },
   groceryCtaText: {
     fontFamily: "Inter_600SemiBold",
@@ -657,7 +657,7 @@ const styles = StyleSheet.create({
   didYouKnow: {
     padding: 16,
     backgroundColor: "rgba(248,243,237,0.5)",
-    borderRadius: 14,
+    borderRadius: 12,
     borderLeftWidth: 4,
     borderLeftColor: "rgba(154,65,0,0.3)",
     marginBottom: 28,
@@ -681,9 +681,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: Colors.light.inverseSurface,
-    borderRadius: 14,
-    paddingHorizontal: 24,
-    height: 64,
+    borderRadius: 12,
+    paddingHorizontal: 20,
+    height: 48,
     marginBottom: 32,
   },
   cookModeLeft: {

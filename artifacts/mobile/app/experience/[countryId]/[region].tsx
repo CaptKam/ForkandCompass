@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 14,
     backgroundColor: Colors.light.surface,
   },
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   content: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     marginTop: -24,
   },
   quoteCard: {
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: Colors.light.surfaceContainerHigh,
-    borderRadius: 14,
+    borderRadius: 12,
     paddingVertical: 16,
     paddingHorizontal: 20,
     marginBottom: 8,
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   },
   etiquetteBody: {
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 14,
+    borderRadius: 12,
     paddingVertical: 16,
     paddingHorizontal: 20,
     marginBottom: 8,
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   courseImageWrap: {
     width: "100%",
     aspectRatio: 4 / 5,
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
     marginBottom: 20,
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 56,
   },
   ctaButton: {
@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
   backBtn: {
     backgroundColor: Colors.light.primary,
     paddingVertical: 14,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     borderRadius: 20,
     marginTop: 16,
   },

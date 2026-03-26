@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   menuSheet: {
     backgroundColor: Colors.light.surface,
-    borderRadius: 16,
+    borderRadius: 12,
     width: 280,
     overflow: "hidden",
     shadowColor: "#000",

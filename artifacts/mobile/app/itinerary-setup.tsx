@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 40,
   },
   stepContent: {
@@ -400,7 +400,7 @@ const styles = StyleSheet.create({
   },
   pantryCategory: {
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
   },
   pantryCategoryLabel: {
@@ -455,7 +455,7 @@ const styles = StyleSheet.create({
   dayButton: {
     flex: 1,
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 18,
+    borderRadius: 20,
     paddingVertical: 28,
     alignItems: "center",
     gap: 6,
@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 18,
+    borderRadius: 20,
     padding: 18,
     gap: 14,
     borderWidth: 2,
@@ -544,7 +544,7 @@ const styles = StyleSheet.create({
   },
   stepperButton: {
     width: 56,
-    height: 56,
+    height: 48,
     borderRadius: 28,
     borderWidth: 2,
     borderColor: Colors.light.outlineVariant,
@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
 
   /* Bottom */
   bottomBar: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 12,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Colors.light.outlineVariant,
@@ -585,7 +585,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: Colors.light.primary,
-    borderRadius: 16,
+    borderRadius: 12,
     paddingVertical: 16,
     gap: 8,
   },
@@ -606,7 +606,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 14,
     padding: 16,
-    borderRadius: 14,
+    borderRadius: 12,
     backgroundColor: Colors.light.surfaceContainerLow,
     borderWidth: 1.5,
     borderColor: "transparent",

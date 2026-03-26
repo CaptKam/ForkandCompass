@@ -40,7 +40,7 @@ export default function CountryDetailScreen() {
       <View style={[styles.container, { alignItems: "center", justifyContent: "center", paddingHorizontal: 48 }]}>
         <Ionicons name="earth-outline" size={48} color={Colors.light.outlineVariant} />
         <Text style={{ fontFamily: "NotoSerif_600SemiBold", fontSize: 20, color: Colors.light.onSurface, marginTop: 16, marginBottom: 8 }}>Country not found</Text>
-        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 14, paddingHorizontal: 24, borderRadius: 20, marginTop: 16 }}>
+        <Pressable onPress={() => router.back()} style={{ backgroundColor: Colors.light.primary, paddingVertical: 14, paddingHorizontal: 20, borderRadius: 20, marginTop: 16 }}>
           <Text style={{ fontFamily: "Inter_600SemiBold", fontSize: 16, color: Colors.light.onPrimary }}>Go Back</Text>
         </Pressable>
       </View>
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 12,
     backgroundColor: `${Colors.light.surface}B3`,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     backgroundColor: Colors.light.surface,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 32,
     minHeight: 530,
   },
@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
     gap: 28,
   },
   regionCard: {
-    borderRadius: 14,
+    borderRadius: 12,
     overflow: "hidden",
     aspectRatio: 4 / 5,
     backgroundColor: Colors.light.surfaceContainerHigh,
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
   // View all button (bottom)
   viewAllButton: {
     marginTop: 32,
-    height: 52,
+    height: 48,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.light.primary,

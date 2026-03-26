@@ -299,7 +299,7 @@ export default function CookScreen() {
         )}
 
         {/* ── Progress / XP Card ─────────────────────────────────── */}
-        <View style={[styles.section, { paddingHorizontal: 24 }]}>
+        <View style={[styles.section, { paddingHorizontal: 20 }]}>
           <View style={styles.progressCard}>
             <View style={styles.progressTop}>
               <View style={styles.progressLeft}>
@@ -322,7 +322,7 @@ export default function CookScreen() {
         {/* ── Recently Cooked (Portrait Scroll) ──────────────────── */}
         {recentRecipes.length > 0 && (
           <View style={styles.sectionNoHPad}>
-            <View style={[styles.sectionLabelRow, { paddingHorizontal: 24 }]}>
+            <View style={[styles.sectionLabelRow, { paddingHorizontal: 20 }]}>
               <Text style={styles.sectionTitle}>Recently Cooked</Text>
               <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile" as any); }}>
                 <Text style={styles.viewAllLink}>View All</Text>
@@ -361,7 +361,7 @@ export default function CookScreen() {
 
         {/* ── Start With These (beginners) ───────────────────────── */}
         {beginnerRecipes.length > 0 && recentRecipes.length === 0 && (
-          <View style={[styles.section, { paddingHorizontal: 24 }]}>
+          <View style={[styles.section, { paddingHorizontal: 20 }]}>
             <Text style={styles.sectionTitle}>Start With These</Text>
             <View style={styles.beginnerList}>
               {beginnerRecipes.map((recipe, idx) => (
@@ -394,7 +394,7 @@ export default function CookScreen() {
         )}
 
         {/* ── Mastering Techniques (Accordion) ───────────────────── */}
-        <View style={[styles.section, { paddingHorizontal: 24, borderTopWidth: 1, borderTopColor: "rgba(222,193,179,0.2)", paddingTop: 32 }]}>
+        <View style={[styles.section, { paddingHorizontal: 20, borderTopWidth: 1, borderTopColor: "rgba(222,193,179,0.2)", paddingTop: 32 }]}>
           <Pressable
             onPress={() => { haptic(); setTechniquesExpanded((v) => !v); }}
             style={({ pressed }) => [styles.techniquesAccordion, pressed && { backgroundColor: Colors.light.surfaceContainer }]}
@@ -468,13 +468,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "baseline",
     justifyContent: "space-between",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     marginBottom: 12,
   },
 
   /* ── Tonight's Recipe ────────────────────────────────────────── */
   tonightCard: {
-    borderRadius: 16,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: "rgba(154,65,0,0.3)",
     padding: 20,
@@ -601,8 +601,8 @@ const styles = StyleSheet.create({
   },
   continueCookBtn: {
     backgroundColor: Colors.light.primary,
-    height: 52,
-    borderRadius: 14,
+    height: 48,
+    borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
     ...Platform.select({
@@ -627,7 +627,7 @@ const styles = StyleSheet.create({
   /* ── What to Cook (empty state) ──────────────────────────────── */
   whatToCookCard: {
     backgroundColor: Colors.light.surfaceWarmAlt,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 24,
     marginHorizontal: 24,
     backgroundColor: "#F5EDDF",
@@ -649,9 +649,9 @@ const styles = StyleSheet.create({
   },
   whatToCookBtn: {
     flex: 1,
-    height: 52,
+    height: 48,
     backgroundColor: Colors.light.primary,
-    borderRadius: 14,
+    borderRadius: 12,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -664,8 +664,8 @@ const styles = StyleSheet.create({
   },
   whatToCookBtnOutline: {
     flex: 1,
-    height: 52,
-    borderRadius: 14,
+    height: 48,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.light.primary,
     alignItems: "center",
@@ -681,7 +681,7 @@ const styles = StyleSheet.create({
   /* ── Progress / XP Card ──────────────────────────────────────── */
   progressCard: {
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 20,
     gap: 16,
   },
@@ -737,7 +737,7 @@ const styles = StyleSheet.create({
 
   /* ── Recently Cooked (Portrait Cards) ────────────────────────── */
   recentScroll: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     gap: 16,
     paddingBottom: 8,
   },
@@ -748,7 +748,7 @@ const styles = StyleSheet.create({
   recentImageWrap: {
     width: "100%",
     aspectRatio: 4 / 5,
-    borderRadius: 14,
+    borderRadius: 12,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
   },
@@ -771,7 +771,7 @@ const styles = StyleSheet.create({
 
   /* ── Beginner Recipes ────────────────────────────────────────── */
   beginnerList: {
-    borderRadius: 14,
+    borderRadius: 12,
     overflow: "hidden",
     borderWidth: 1,
     borderColor: Colors.light.outlineVariant,
@@ -790,7 +790,7 @@ const styles = StyleSheet.create({
   },
   beginnerImage: {
     width: 56,
-    height: 56,
+    height: 48,
     borderRadius: 8,
     backgroundColor: Colors.light.surfaceWarmAlt,
     borderRadius: 10,
@@ -814,7 +814,7 @@ const styles = StyleSheet.create({
   /* ── Techniques Accordion ────────────────────────────────────── */
   techniquesAccordion: {
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 16,
     flexDirection: "row",
     alignItems: "center",

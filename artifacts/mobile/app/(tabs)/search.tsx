@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   // Search bar (replaces TabHeader + topBar)
   searchBarWrap: {
     backgroundColor: Colors.light.surface,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "rgba(222,193,179,0.3)",
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
 
   // Section
   section: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 28,
     paddingBottom: 8,
   },
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
   countryThumb: {
     width: 84,
     height: 84,
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
     justifyContent: "flex-end",
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
   cuisineList: {
     marginTop: 16,
     backgroundColor: Colors.light.surface,
-    borderRadius: 16,
+    borderRadius: 12,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: "rgba(222,193,179,0.3)",
     overflow: "hidden",
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
 
   // Search results
   resultsContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 16,
     gap: 12,
   },
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
   },
   resultThumb: {
     width: 52,
-    height: 52,
+    height: 48,
     borderRadius: 10,
     backgroundColor: Colors.light.surfaceContainerHigh,
   },

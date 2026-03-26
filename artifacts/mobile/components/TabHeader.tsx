@@ -54,7 +54,7 @@ export default function TabHeader({ title, rightExtra }: TabHeaderProps) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.light.surface,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "rgba(222,193,179,0.35)",

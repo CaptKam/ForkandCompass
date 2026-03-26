@@ -878,7 +878,7 @@ const styles = StyleSheet.create({
   notFoundButton: {
     backgroundColor: Colors.light.primary,
     paddingVertical: 14,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     borderRadius: 20,
     marginTop: 16,
   },
@@ -890,7 +890,7 @@ const styles = StyleSheet.create({
 
   headerArea: {
     paddingTop: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   headerRow: {
     flexDirection: "row",
@@ -931,7 +931,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 40,
     paddingBottom: 80,
     gap: 32,
@@ -940,7 +940,7 @@ const styles = StyleSheet.create({
   ingredientsBox: {
     backgroundColor: Colors.light.surfaceContainerLow,
     padding: 20,
-    borderRadius: 16,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.1)",
     gap: 16,
@@ -1096,7 +1096,7 @@ const styles = StyleSheet.create({
   videoCard: {
     flex: 1,
     aspectRatio: 4 / 5,
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
     justifyContent: "center",
@@ -1108,7 +1108,7 @@ const styles = StyleSheet.create({
   },
   videoPlayCircle: {
     width: 56,
-    height: 56,
+    height: 48,
     borderRadius: 28,
     backgroundColor: "rgba(254,249,243,0.75)",
     alignItems: "center",
@@ -1137,7 +1137,7 @@ const styles = StyleSheet.create({
   },
   donenessCueCard: {
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 20,
     gap: 10,
     justifyContent: "center",
@@ -1209,7 +1209,7 @@ const styles = StyleSheet.create({
   },
 
   footerArea: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 10,
   },
   footerTimerRow: {
@@ -1221,7 +1221,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     backgroundColor: Colors.light.primary,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingVertical: 14,
     borderRadius: 99,
     ...Platform.select({
@@ -1306,7 +1306,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.surface,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 40,
     maxHeight: "75%",
@@ -1403,7 +1403,7 @@ const styles = StyleSheet.create({
   },
   helpCloseBtn: {
     backgroundColor: Colors.light.primary,
-    height: 52,
+    height: 48,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
@@ -1439,7 +1439,7 @@ const styles = StyleSheet.create({
   prepWarningContent: {
     flexGrow: 1,
     justifyContent: "center",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 48,
   },
   prepWarningInner: {
@@ -1450,7 +1450,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FEF3E0",
     borderWidth: 1,
     borderColor: "#E8C868",
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 24,
     gap: 16,
     width: "100%",
@@ -1493,7 +1493,7 @@ const styles = StyleSheet.create({
   },
   prepWarningReadyBtn: {
     backgroundColor: Colors.light.primary,
-    height: 52,
+    height: 48,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
@@ -1506,7 +1506,7 @@ const styles = StyleSheet.create({
   },
   prepWarningPrepBtn: {
     backgroundColor: "transparent",
-    height: 52,
+    height: 48,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.light.primary,
@@ -1529,7 +1529,7 @@ const styles = StyleSheet.create({
   finishContent: {
     flexGrow: 1,
     justifyContent: "center",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 48,
   },
   finishInner: {
@@ -1567,7 +1567,7 @@ const styles = StyleSheet.create({
   },
   finishCard: {
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 20,
     gap: 16,
     width: "100%",
@@ -1638,7 +1638,7 @@ const styles = StyleSheet.create({
   },
   doneButton: {
     backgroundColor: Colors.light.primary,
-    height: 52,
+    height: 48,
     width: "100%",
     borderRadius: 12,
     alignItems: "center",

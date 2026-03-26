@@ -612,7 +612,7 @@ export default function DiscoverScreen() {
         </View>
 
         {/* ── Tonight's Plan ────────────────────────────────────────── */}
-        <View style={[styles.section, styles.tonightBg, { paddingHorizontal: 24 }]}>
+        <View style={[styles.section, styles.tonightBg, { paddingHorizontal: 20 }]}>
           <Text style={styles.sectionTitle}>{getTonightLabel()}</Text>
           {todayRecipe && todayCountry ? (
             <RecipeContextMenu recipe={todayRecipe}>
@@ -671,7 +671,7 @@ export default function DiscoverScreen() {
         {/* ── Recently Cooked ───────────────────────────────────────── */}
         {recentlyCooked.length > 0 && (
           <View style={styles.section}>
-            <View style={[styles.rowBetween, { paddingHorizontal: 24 }]}>
+            <View style={[styles.rowBetween, { paddingHorizontal: 20 }]}>
               <Text style={styles.sectionTitle}>Recently Cooked</Text>
               <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile"); }}>
                 <Text style={styles.viewAll}>See All</Text>
@@ -703,7 +703,7 @@ export default function DiscoverScreen() {
         )}
 
         {/* ── Cravings / Quick Picks ────────────────────────────────── */}
-        <View style={[styles.section, { paddingHorizontal: 24 }]}>
+        <View style={[styles.section, { paddingHorizontal: 20 }]}>
           <Text style={styles.sectionTitle}>
             {cookingProfile.cuisinesExplored.length > 0 ? "Cravings" : "Explore Cuisines"}
           </Text>
@@ -734,7 +734,7 @@ export default function DiscoverScreen() {
         {/* ── Jump Back In (saved) ──────────────────────────────────── */}
         {savedRecipes.length > 0 && (
           <View style={[styles.section, styles.jumpBg]}>
-            <View style={[styles.rowBetween, { paddingHorizontal: 24 }]}>
+            <View style={[styles.rowBetween, { paddingHorizontal: 20 }]}>
               <Text style={styles.sectionTitle}>Jump Back In</Text>
               <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile"); }}>
                 <Text style={styles.viewAll}>View All</Text>
@@ -761,7 +761,7 @@ export default function DiscoverScreen() {
 
         {/* ── Featured Locations ────────────────────────────────────── */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>Featured Locations</Text>
+          <Text style={[styles.sectionTitle, { paddingHorizontal: 20 }]}>Featured Locations</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.locScroll}>
             {editorial.locations.map((loc, idx) => (
               <Pressable
@@ -788,7 +788,7 @@ export default function DiscoverScreen() {
 
         {/* ── The Tasting Menu ──────────────────────────────────────── */}
         <View style={[styles.section, styles.tastingBg]}>
-          <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>The Tasting Menu</Text>
+          <Text style={[styles.sectionTitle, { paddingHorizontal: 20 }]}>The Tasting Menu</Text>
           <View style={styles.tastingList}>
             {pickTastingMenu(activeCountry.recipes).map((recipe, idx) => (
               <RecipeContextMenu key={recipe.id} recipe={recipe}>
@@ -810,7 +810,7 @@ export default function DiscoverScreen() {
         </View>
 
         {/* ── Editorial Highlight ───────────────────────────────────── */}
-        <View style={[styles.section, { paddingHorizontal: 24 }]}>
+        <View style={[styles.section, { paddingHorizontal: 20 }]}>
           <View style={styles.quoteCard}>
             <Ionicons name="chatbubble-ellipses-outline" size={28} color={Colors.light.primary} style={{ marginBottom: 12 }} />
             <Text style={styles.quoteText}>{editorial.quote}</Text>
@@ -820,7 +820,7 @@ export default function DiscoverScreen() {
         </View>
 
         {/* ── The Spice Market Grid ─────────────────────────────────── */}
-        <View style={[styles.section, { paddingHorizontal: 24 }]}>
+        <View style={[styles.section, { paddingHorizontal: 20 }]}>
           <View style={styles.rowBetween}>
             <Text style={styles.sectionTitle}>The Spice Market</Text>
             <Pressable onPress={() => { haptic(); router.push({ pathname: "/country/[id]", params: { id: activeCountry.id } }); }}>
@@ -850,7 +850,7 @@ export default function DiscoverScreen() {
         </View>
 
         {/* ── Cultural Etiquette ────────────────────────────────────── */}
-        <View style={[styles.section, styles.etiquetteBg, { paddingHorizontal: 24 }]}>
+        <View style={[styles.section, styles.etiquetteBg, { paddingHorizontal: 20 }]}>
           <Text style={styles.sectionTitle}>Cultural Etiquette</Text>
           <View style={styles.etiquetteList}>
             {editorial.etiquette.map((item, idx) => (
@@ -876,8 +876,8 @@ export default function DiscoverScreen() {
 
         {/* ── Heritage Spices ───────────────────────────────────────── */}
         <View style={[styles.section, styles.heritageBg]}>
-          <Text style={[styles.sectionTitle, { paddingHorizontal: 24 }]}>Heritage Spices</Text>
-          <Text style={[styles.heritageSubtitle, { paddingHorizontal: 24 }]}>
+          <Text style={[styles.sectionTitle, { paddingHorizontal: 20 }]}>Heritage Spices</Text>
+          <Text style={[styles.heritageSubtitle, { paddingHorizontal: 20 }]}>
             The soul of the {activeCountry.region} kitchen
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.heritageScroll}>
@@ -904,7 +904,7 @@ export default function DiscoverScreen() {
         </View>
 
         {/* ── The Cook's Ledger ─────────────────────────────────────── */}
-        <View style={[styles.section, { paddingHorizontal: 24 }]}>
+        <View style={[styles.section, { paddingHorizontal: 20 }]}>
           <View style={styles.rowBetween}>
             <Text style={styles.sectionTitle}>The Cook's Ledger</Text>
             <View style={styles.starsRow}>
@@ -943,7 +943,7 @@ export default function DiscoverScreen() {
 
         {/* ── Must-Try Street Food ──────────────────────────────────── */}
         <View style={[styles.section, styles.streetBg]}>
-          <View style={{ paddingHorizontal: 24 }}>
+          <View style={{ paddingHorizontal: 20 }}>
             <View style={styles.streetHeader}>
               <Text style={styles.sectionTitle}>Must-Try Street Food</Text>
               <View style={styles.streetCountryBadge}>
@@ -988,7 +988,7 @@ export default function DiscoverScreen() {
         </View>
 
         {/* ── Editorial / Seasonal Picks ────────────────────────────── */}
-        <View style={[styles.section, { paddingHorizontal: 24 }]}>
+        <View style={[styles.section, { paddingHorizontal: 20 }]}>
           <View style={styles.rowBetween}>
             <Text style={styles.sectionTitle}>Seasonal Picks</Text>
             <View style={styles.editPickBadge}>
@@ -1014,7 +1014,7 @@ export default function DiscoverScreen() {
 
         {/* ── Related Stories ───────────────────────────────────────── */}
         <View style={[styles.section, styles.relatedBg]}>
-          <Text style={[styles.relatedLabel, { paddingHorizontal: 24 }]}>{editorial.relatedLabel}</Text>
+          <Text style={[styles.relatedLabel, { paddingHorizontal: 20 }]}>{editorial.relatedLabel}</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.relatedScroll}>
             {editorial.relatedStories.map((story, idx) => (
               <View key={idx} style={styles.relatedCard}>
@@ -1079,14 +1079,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 8,
     zIndex: 10,
   },
   heroAvatar: {
     width: 48,
     height: 48,
-    borderRadius: 16,
+    borderRadius: 12,
     backgroundColor: "rgba(255,255,255,0.15)",
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.2)",
@@ -1099,7 +1099,7 @@ const styles = StyleSheet.create({
     right: 16,
     width: 32,
     height: 32,
-    borderRadius: 16,
+    borderRadius: 12,
     backgroundColor: "rgba(0,0,0,0.35)",
     alignItems: "center",
     justifyContent: "center",
@@ -1168,7 +1168,7 @@ const styles = StyleSheet.create({
   letsGoButton: {
     backgroundColor: Colors.light.surfaceContainerLow,
     paddingHorizontal: 32,
-    height: 52,
+    height: 48,
     borderRadius: 26,
     alignSelf: "flex-start",
     alignItems: "center",
@@ -1191,7 +1191,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     marginBottom: 16,
   },
   destTitle: {
@@ -1216,7 +1216,7 @@ const styles = StyleSheet.create({
   },
   destScroll: {
     gap: 24,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   destItem: {
     alignItems: "center",
@@ -1310,7 +1310,7 @@ const styles = StyleSheet.create({
   // Featured locations
   locScroll: {
     gap: 16,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   locCard: {
     width: 192,
@@ -1344,7 +1344,7 @@ const styles = StyleSheet.create({
   },
   tastingList: {
     gap: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 24,
   },
   tastingCard: {
@@ -1503,12 +1503,12 @@ const styles = StyleSheet.create({
   },
   heritageScroll: {
     gap: 24,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   heritageCard: {
     width: 240,
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
   },
   heritageImg: {
@@ -1614,12 +1614,12 @@ const styles = StyleSheet.create({
   },
   streetScroll: {
     gap: 16,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   streetCard: {
     width: 272,
     height: 176,
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
   },
@@ -1659,7 +1659,7 @@ const styles = StyleSheet.create({
   },
   relatedScroll: {
     gap: 16,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   relatedCard: {
     width: 152,
@@ -1694,7 +1694,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 16,
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.25)",
     overflow: "hidden",
@@ -1776,7 +1776,7 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     paddingHorizontal: 16,
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 16,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: "rgba(222,193,179,0.25)",
     borderStyle: "dashed",
@@ -1831,7 +1831,7 @@ const styles = StyleSheet.create({
   // ── Recently Cooked ───────────────────────────────────────────────────────
   recentScroll: {
     gap: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 8,
   },
   recentCard: {
@@ -1917,7 +1917,7 @@ const styles = StyleSheet.create({
   },
   jumpScroll: {
     gap: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   jumpCard: {
     width: 152,

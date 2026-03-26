@@ -8,6 +8,8 @@ export const spacing = {
   lg: 20,
   xl: 24,
   xxl: 32,
+  /** Standard horizontal page margin per design spec */
+  pageMargin: 20,
 } as const;
 
 // Standard bottom padding for ScrollViews above the tab bar.

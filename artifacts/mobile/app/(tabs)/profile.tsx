@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: Colors.light.surfaceContainerLow,
     marginHorizontal: 24,
-    borderRadius: 18,
+    borderRadius: 20,
     marginTop: -20,
     marginBottom: 28,
     paddingVertical: 20,
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
   },
 
   section: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     marginBottom: 28,
   },
   sectionTitle: {
@@ -528,7 +528,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 18,
+    borderRadius: 20,
     overflow: "hidden",
   },
 
@@ -635,13 +635,13 @@ const styles = StyleSheet.create({
   appearanceToggle: {
     flexDirection: "row",
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 18,
+    borderRadius: 20,
     padding: 4,
   },
   appearanceButton: {
     flex: 1,
     paddingVertical: 10,
-    borderRadius: 14,
+    borderRadius: 12,
     alignItems: "center",
   },
   appearanceButtonActive: {
@@ -715,7 +715,7 @@ const styles = StyleSheet.create({
   chipImage: {
     width: 80,
     height: 80,
-    borderRadius: 14,
+    borderRadius: 12,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
     borderWidth: StyleSheet.hairlineWidth,
@@ -745,7 +745,7 @@ const styles = StyleSheet.create({
   },
   savedRecipeImage: {
     width: 52,
-    height: 52,
+    height: 48,
     borderRadius: 10,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
@@ -771,7 +771,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 18,
+    borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 14,
   },
@@ -784,7 +784,7 @@ const styles = StyleSheet.create({
   settingsPartnerCircle: {
     width: 36,
     height: 36,
-    borderRadius: 18,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },
