@@ -48,3 +48,9 @@ id = "wUstjgjCnhhBLAfXgk1kD"
 uri = "file://fork-and-compass-reference.md"
 type = "text"
 title = "Fork & Compass — Complete Build Reference"
+
+[[outputs]]
+id = "XDiemmkN0WiNECy1-dFPe"
+uri = "file://.local/this-week-debug.md"
+type = "text"
+title = "This Week — Full Code & Settings Reference"
