@@ -166,6 +166,7 @@ export default function CookScreen() {
             ? (activeCookSession.currentStep / activeCookSession.totalSteps) * 100
             : 0;
           const hasTimer = activeCookSession.timerRunning && activeCookSession.timerRemaining != null && activeCookSession.timerRemaining > 0;
+          const displayName = activeRecipe?.name || activeCookSession.recipeName || "";
           const stepDesc = activeRecipe?.steps?.[activeCookSession.currentStep]?.text
             ? activeRecipe.steps[activeCookSession.currentStep].text.slice(0, 120)
             : activeRecipe?.description ?? "";
@@ -219,7 +220,7 @@ export default function CookScreen() {
                   {/* Recipe name + description */}
                   <View style={styles.activeCardDetailMain}>
                     <Text style={styles.activeRecipeName} numberOfLines={2} ellipsizeMode="tail">
-                      {activeCookSession.recipeName}
+                      {displayName}
                     </Text>
                     {stepDesc ? (
                       <Text style={styles.activeRecipeDesc} numberOfLines={4} ellipsizeMode="tail">
