@@ -14,12 +14,18 @@ import {
   Text,
   View,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
   FadeInRight,
   FadeOutLeft,
   FadeInLeft,
   FadeOutRight,
   FadeIn,
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withSequence,
+  withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -165,6 +171,20 @@ function getStepTips(instruction: string): string[] {
 
 export default function CookModeScreen() {
   useKeepAwake();
+
+  const pulseOpacity = useSharedValue(1);
+  const pulseStyle = useAnimatedStyle(() => ({ opacity: pulseOpacity.value }));
+
+  useEffect(() => {
+    pulseOpacity.value = withRepeat(
+      withSequence(
+        withTiming(0.35, { duration: 800 }),
+        withTiming(1, { duration: 800 })
+      ),
+      -1,
+      false
+    );
+  }, []);
 
   const { recipeId, resumeStep } = useLocalSearchParams<{ recipeId: string; resumeStep?: string }>();
   const insets = useSafeAreaInsets();
@@ -697,7 +717,11 @@ export default function CookModeScreen() {
       </Animated.View>
 
       {/* Sticky Footer */}
-      <View style={[styles.footerArea, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
+      <LinearGradient
+        colors={["transparent", Colors.light.surface]}
+        locations={[0, 0.38]}
+        style={[styles.footerArea, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}
+      >
         {/* Timer quick action */}
         {stepDuration && !timerTotal && (
           <View style={styles.footerTimerRow}>
@@ -748,11 +772,11 @@ export default function CookModeScreen() {
               <Ionicons name="chevron-forward" size={24} color={Colors.light.onSurface} />
             </Pressable>
           </View>
-          <Text style={styles.swipeHint}>
+          <Animated.Text style={[styles.swipeHint, pulseStyle]}>
             {isLast ? "Tap to Finish" : "Swipe for Next Step"}
-          </Text>
+          </Animated.Text>
         </View>
-      </View>
+      </LinearGradient>
 
       {showHelpSheet && (
         <Pressable
@@ -1209,7 +1233,7 @@ const styles = StyleSheet.create({
 
   footerArea: {
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: 40,
   },
   footerTimerRow: {
     alignItems: "center",
