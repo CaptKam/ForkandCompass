@@ -1039,7 +1039,7 @@ const swapStyles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     maxHeight: "80%",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 40,
   },
   handle: {
@@ -1076,7 +1076,7 @@ const swapStyles = StyleSheet.create({
   },
   suggestionsCard: {
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 14,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.light.outlineVariant,
     overflow: "hidden",
@@ -1113,7 +1113,7 @@ const swapStyles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 14,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.light.outlineVariant,
     paddingHorizontal: 16,
@@ -1138,7 +1138,7 @@ const swapStyles = StyleSheet.create({
   },
   searchArea: {
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 14,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.light.outlineVariant,
     overflow: "hidden",
@@ -1466,7 +1466,7 @@ const styles = StyleSheet.create({
   ctaButton: {
     backgroundColor: Colors.light.primary,
     borderRadius: 12,
-    height: 52,
+    height: 48,
     paddingHorizontal: 32,
     alignItems: "center",
     justifyContent: "center",
@@ -1494,7 +1494,7 @@ const styles = StyleSheet.create({
 
   // This Week scroll
   weekScrollContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 20,
     gap: 8,
   },
@@ -1509,7 +1509,7 @@ const styles = StyleSheet.create({
   },
 
   tonightCard: {
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
     borderWidth: 1,
@@ -1647,7 +1647,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 14,
+    borderRadius: 12,
     paddingVertical: 10,
     paddingHorizontal: 10,
     gap: 8,
@@ -1675,14 +1675,22 @@ const styles = StyleSheet.create({
   dayCardEditBtn: {
     width: 32,
     height: 32,
-    borderRadius: 16,
+    borderRadius: 12,
     backgroundColor: "#FFDBCB",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dayCardCancelBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 12,
+    backgroundColor: Colors.light.surfaceContainerHighest,
     alignItems: "center",
     justifyContent: "center",
   },
   dayCardThumb: {
     width: 56,
-    height: 56,
+    height: 48,
     borderRadius: 10,
     overflow: "hidden",
   },
@@ -1716,7 +1724,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderStyle: "dashed",
     borderColor: "rgba(138,114,102,0.2)",
-    borderRadius: 14,
+    borderRadius: 12,
     paddingVertical: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -1725,7 +1733,7 @@ const styles = StyleSheet.create({
   emptyDayIconCircle: {
     width: 32,
     height: 32,
-    borderRadius: 16,
+    borderRadius: 12,
     backgroundColor: "rgba(154,65,0,0.05)",
     alignItems: "center",
     justifyContent: "center",
@@ -1759,7 +1767,7 @@ const styles = StyleSheet.create({
 
   // Grocery
   groceryScrollContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 16,
     gap: 8,
   },
@@ -1978,7 +1986,7 @@ const styles = StyleSheet.create({
   fab: {
     flexDirection: "row",
     alignItems: "center",
-    height: 52,
+    height: 48,
     borderRadius: 26,
     paddingHorizontal: 16,
     gap: 10,
@@ -1991,7 +1999,7 @@ const styles = StyleSheet.create({
   fabLogoWrap: {
     width: 28,
     height: 28,
-    borderRadius: 14,
+    borderRadius: 12,
     backgroundColor: "rgba(255,255,255,0.2)",
     alignItems: "center",
     justifyContent: "center",

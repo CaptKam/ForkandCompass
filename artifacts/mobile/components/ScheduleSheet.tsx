@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   scrollArea: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   sheetTitle: {
     fontFamily: "NotoSerif_700Bold",
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5EDDF",
     borderWidth: 1,
     borderColor: "#E8DFD2",
-    borderRadius: 16,
+    borderRadius: 12,
     paddingHorizontal: 14,
     paddingVertical: 6,
     minWidth: 52,

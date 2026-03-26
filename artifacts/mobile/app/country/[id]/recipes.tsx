@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   recipeRowImage: {
     width: 64,
-    height: 64,
+    height: 48,
     borderRadius: 8,
     backgroundColor: Colors.light.surfaceContainerHigh,
   },

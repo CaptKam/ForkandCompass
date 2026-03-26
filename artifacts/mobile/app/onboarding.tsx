@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 120,
   },
   headerContainer: {
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   },
   card: {
     aspectRatio: 4 / 5,
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
   },
   cardSelected: {
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 16,
     backgroundColor: "rgba(255, 255, 255, 0.85)",
   },

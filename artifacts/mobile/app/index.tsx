@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: "flex-end",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   textContainer: {
     maxWidth: 400,

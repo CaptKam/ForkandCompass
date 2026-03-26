@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 14,
     backgroundColor: "rgba(254,249,243,0.9)",
   },
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.3,
   },
   heroHeader: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingBottom: 48,
   },
   regionLabel: {
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     marginBottom: 20,
   },
   sectionTitle: {
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
   },
   cardRow: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     gap: 16,
   },
   card: {
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   cardImageWrap: {
     width: 220,
     height: 220,
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
     borderWidth: 2,
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingTop: 56,
   },
   ctaButton: {
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
   backBtn: {
     backgroundColor: Colors.light.primary,
     paddingVertical: 14,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     borderRadius: 20,
     marginTop: 16,
   },
