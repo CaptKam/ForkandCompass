@@ -5,26 +5,32 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { Session, User, AuthError } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabase";
+
+// Dynamic import to avoid crash when @supabase/supabase-js isn't installed
+let supabase: any = null;
+try {
+  supabase = require("@/lib/supabase").supabase;
+} catch {
+  console.warn("[Auth] Supabase not available — running in offline mode");
+}
 
 interface AuthContextType {
-  session: Session | null;
-  user: User | null;
+  session: any;
+  user: any;
   userId: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  signUp: (email: string, password: string) => Promise<{ error: AuthError | null }>;
-  signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
+  signUp: (email: string, password: string) => Promise<{ error: any }>;
+  signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
-  resetPassword: (email: string) => Promise<{ error: AuthError | null }>;
+  resetPassword: (email: string) => Promise<{ error: any }>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   session: null,
   user: null,
   userId: null,
-  isLoading: true,
+  isLoading: false,
   isAuthenticated: false,
   signUp: async () => ({ error: null }),
   signIn: async () => ({ error: null }),
@@ -33,17 +39,22 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!supabase) {
+      setIsLoading(false);
+      return;
+    }
+
+    supabase.auth.getSession().then(({ data: { session } }: any) => {
       setSession(session);
       setIsLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (_event: any, session: any) => {
         setSession(session);
         setIsLoading(false);
       }
@@ -53,20 +64,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signUp = useCallback(async (email: string, password: string) => {
+    if (!supabase) return { error: { message: "Auth not available" } };
     const { error } = await supabase.auth.signUp({ email, password });
     return { error };
   }, []);
 
   const signIn = useCallback(async (email: string, password: string) => {
+    if (!supabase) return { error: { message: "Auth not available" } };
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     return { error };
   }, []);
 
   const signOut = useCallback(async () => {
+    if (!supabase) return;
     await supabase.auth.signOut();
   }, []);
 
   const resetPassword = useCallback(async (email: string) => {
+    if (!supabase) return { error: { message: "Auth not available" } };
     const { error } = await supabase.auth.resetPasswordForEmail(email);
     return { error };
   }, []);
