@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Noto+Serif:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f8f3ed",
+                        "secondary-fixed-dim": "#e1c19c",
+                        "tertiary-fixed-dim": "#9ccaff",
+                        "on-tertiary-fixed-variant": "#00497a",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8a7266",
+                        "on-background": "#1d1b18",
+                        "error": "#ba1a1a",
+                        "tertiary": "#005f9c",
+                        "on-primary-fixed": "#341100",
+                        "primary-fixed-dim": "#ffb690",
+                        "on-tertiary-container": "#fdfcff",
+                        "secondary-container": "#fbdab3",
+                        "surface-container-high": "#ece7e2",
+                        "primary": "#9a4100",
+                        "on-surface-variant": "#574238",
+                        "on-secondary-fixed": "#291802",
+                        "surface-container": "#f2ede7",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "surface-variant": "#e6e2dc",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f5f0ea",
+                        "surface-container-highest": "#e6e2dc",
+                        "secondary": "#725a3c",
+                        "tertiary-fixed": "#d0e4ff",
+                        "surface": "#fef9f3",
+                        "outline-variant": "#dec1b3",
+                        "on-primary-fixed-variant": "#783100",
+                        "inverse-surface": "#32302c",
+                        "surface-bright": "#fef9f3",
+                        "surface-dim": "#ded9d4",
+                        "on-error": "#ffffff",
+                        "primary-container": "#bf550a",
+                        "tertiary-container": "#0079c4",
+                        "surface-tint": "#9e4300",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#feddb6",
+                        "on-secondary-fixed-variant": "#584326",
+                        "background": "#fef9f3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#001d35",
+                        "on-surface": "#1d1b18",
+                        "inverse-primary": "#ffb690",
+                        "primary-fixed": "#ffdbcb",
+                        "on-secondary-container": "#775e3f"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .tab-btn.active { color: #9A4100; font-weight: 600; }
+        .tab-btn.active .indicator { transform: scaleX(1); opacity: 1; }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-container">
+<!-- Hero Section -->
+<header class="relative h-[397px] w-full overflow-hidden">
+<img alt="Bruschetta al Pomodoro" class="h-full w-full object-cover" data-alt="Close up of fresh tomato bruschetta with basil" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzVr9pIeSWIRZYeBlea8nDL2QY8XhpE946RMqNqwgJ8TEzD5TB6zY0klcxb8yVwRajjUQjnXUXjDb_nNkHOQHeS-YPJY5h4aAh00nFWVCw-jDI25fWX-jnwXlOcj90g2pkJG-vPqviipMactLT2EoxmhKxZrM51qLe1bLYidVlVvsazZKLaq2oaP9TFldP1S6-2H9X0KRIlj0D0zpWyrmtkQ2o_2kap46ShPkC8DY079sEujjIxaydAhY0uuIHe438InqfETZDH7Qw"/>
+<!-- Scrim -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent"></div>
+<!-- Overlays -->
+<div class="absolute top-0 left-0 right-0 flex justify-between items-center px-6 pt-12">
+<button class="h-10 w-10 flex items-center justify-center rounded-full bg-surface/70 backdrop-blur-xl border border-outline-variant/15 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-on-surface" data-icon="arrow_back">arrow_back</span>
+</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-full bg-surface/70 backdrop-blur-xl border border-outline-variant/15 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-primary" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="relative -mt-8 rounded-t-[2rem] bg-surface px-6 pt-10 pb-32">
+<!-- Recipe Title -->
+<section class="mb-8">
+<h1 class="font-headline text-4xl font-semibold text-on-surface tracking-tight mb-2">Bruschetta al Pomodoro</h1>
+<p class="font-body text-secondary text-sm tracking-wide">Tuscan appetizer · Italy 🇮🇹</p>
+</section>
+<!-- Metadata Bar -->
+<section class="flex flex-wrap gap-3 mb-10">
+<div class="flex items-center gap-1.5 px-4 py-2 bg-surface-container-high rounded-full border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="schedule">schedule</span>
+<span class="text-xs font-medium uppercase tracking-wider">15 min prep</span>
+</div>
+<div class="flex items-center gap-1.5 px-4 py-2 bg-surface-container-high rounded-full border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="local_fire_department">local_fire_department</span>
+<span class="text-xs font-medium uppercase tracking-wider">5 min cook</span>
+</div>
+<div class="flex items-center gap-1.5 px-4 py-2 bg-surface-container-high rounded-full border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="bar_chart">bar_chart</span>
+<span class="text-xs font-medium uppercase tracking-wider">Easy</span>
+</div>
+</section>
+<!-- Serving Size Adjuster -->
+<section class="mb-8">
+<div class="bg-surface-container-high rounded-xl p-4 flex items-center justify-between">
+<span class="font-semibold text-sm">Servings</span>
+<div class="flex items-center bg-surface-container-lowest rounded-full p-1 shadow-sm border border-outline-variant/10">
+<button class="h-8 w-8 flex items-center justify-center text-primary active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+<span class="px-4 font-bold text-on-surface">4 servings</span>
+<button class="h-8 w-8 flex items-center justify-center text-primary active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Tabbed Interface -->
+<div class="sticky top-0 z-10 bg-[#FEF9F3] -mx-6 px-6 mb-8 border-b border-[#E8DFD2]">
+<div class="flex">
+<button class="tab-btn active relative flex-1 py-4 text-center text-[#8A8279] transition-colors focus:outline-none" id="tab-btn-ingredients" onclick="switchTab('ingredients')">
+<span class="text-sm font-medium tracking-wide">Ingredients</span>
+<div class="indicator absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-[#9A4100] transition-all scale-x-0 opacity-0"></div>
+</button>
+<button class="tab-btn relative flex-1 py-4 text-center text-[#8A8279] transition-colors focus:outline-none" id="tab-btn-instructions" onclick="switchTab('instructions')">
+<span class="text-sm font-medium tracking-wide">Instructions</span>
+<div class="indicator absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-[#9A4100] transition-all scale-x-0 opacity-0"></div>
+</button>
+</div>
+</div>
+<!-- Tab Contents -->
+<div class="tab-content active" id="tab-ingredients">
+<!-- Ingredients List -->
+<section class="mb-10">
+<h2 class="sr-only">Ingredients</h2>
+<div class="space-y-8">
+<div>
+<h3 class="font-label text-xs uppercase tracking-[0.2em] text-secondary mb-4">For the bruschetta:</h3>
+<div class="space-y-4">
+<label class="flex items-start gap-4 group cursor-pointer">
+<div class="relative mt-0.5 h-6 w-6 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white text-sm" data-icon="check">check</span>
+</div>
+<span class="font-body text-on-surface-variant line-through opacity-60">4 thick slices of sourdough or rustic Italian bread</span>
+</label>
+<label class="flex items-start gap-4 group cursor-pointer">
+<div class="relative mt-0.5 h-6 w-6 rounded-full border-2 border-outline-variant/40 bg-transparent flex items-center justify-center shrink-0"></div>
+<span class="font-body text-on-surface">2 cloves of garlic, peeled</span>
+</label>
+<label class="flex items-start gap-4 group cursor-pointer">
+<div class="relative mt-0.5 h-6 w-6 rounded-full border-2 border-outline-variant/40 bg-transparent flex items-center justify-center shrink-0"></div>
+<span class="font-body text-on-surface">3 tbsp extra virgin olive oil</span>
+</label>
+</div>
+</div>
+<div>
+<h3 class="font-label text-xs uppercase tracking-[0.2em] text-secondary mb-4">The Topping:</h3>
+<div class="space-y-4">
+<label class="flex items-start gap-4 group cursor-pointer">
+<div class="relative mt-0.5 h-6 w-6 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white text-sm" data-icon="check">check</span>
+</div>
+<span class="font-body text-on-surface-variant line-through opacity-60">500g ripe plum tomatoes, diced</span>
+</label>
+<label class="flex items-start gap-4 group cursor-pointer">
+<div class="relative mt-0.5 h-6 w-6 rounded-full border-2 border-outline-variant/40 bg-transparent flex items-center justify-center shrink-0"></div>
+<span class="font-body text-on-surface">Fresh basil leaves, torn</span>
+</label>
+<label class="flex items-start gap-4 group cursor-pointer">
+<div class="relative mt-0.5 h-6 w-6 rounded-full border-2 border-outline-variant/40 bg-transparent flex items-center justify-center shrink-0"></div>
+<span class="font-body text-on-surface">Sea salt and freshly cracked black pepper</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Grocery List CTA -->
+<button class="w-full h-14 bg-gradient-to-b from-[#C75B12] to-primary text-on-primary rounded-xl font-semibold flex items-center justify-center gap-2 mb-10 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+            Add to Grocery List
+        </button>
+</div>
+<div class="tab-content" id="tab-instructions">
+<!-- Step-by-Step Instructions -->
+<section class="mb-10">
+<h2 class="sr-only">Instructions</h2>
+<div class="space-y-12">
+<!-- Step 1 -->
+<div class="relative">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">1</div>
+<h4 class="font-semibold text-lg">Prepare the Base</h4>
+</div>
+<p class="font-body text-on-surface-variant leading-relaxed mb-4">Toast the bread slices on a grill or in a toaster until golden brown and crisp on both sides.</p>
+<div class="p-4 bg-surface-container-low rounded-lg border-l-4 border-primary/30">
+<p class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">You'll need:</p>
+<p class="text-sm">Grill pan, Sourdough slices</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">2</div>
+<h4 class="font-semibold text-lg">Garlic Infusion</h4>
+</div>
+<p class="font-body text-on-surface-variant leading-relaxed mb-4">While the bread is still warm, rub one side of each slice with the cut side of a garlic clove. The heat will melt the garlic into the bread's texture.</p>
+<div class="p-4 bg-surface-container-low rounded-lg border-l-4 border-primary/30">
+<p class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">You'll need:</p>
+<p class="text-sm">Garlic cloves, Warm toasted bread</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Enter Cook Mode -->
+<button class="w-full h-16 bg-[#1A1A2E] text-white rounded-xl flex items-center justify-between px-6 mb-10 active:scale-[0.98] transition-all">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="restaurant">restaurant</span>
+<span class="font-semibold tracking-tight">Enter Cook Mode</span>
+</div>
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Bucket List Blurb -->
+<section class="mb-16">
+<div class="bg-surface-container-low rounded-2xl p-8 text-center relative overflow-hidden">
+<div class="absolute -top-4 -left-4 opacity-10">
+<span class="material-symbols-outlined text-7xl text-primary" data-icon="format_quote">format_quote</span>
+</div>
+<p class="font-headline italic text-xl text-primary leading-relaxed">
+                "This simple dish is the soul of Tuscan summer—it requires nothing but the best ingredients and a patient hand."
+            </p>
+</div>
+</section>
+<!-- Next Journey Card -->
+<section class="mb-10">
+<p class="font-label text-[10px] uppercase tracking-[0.3em] text-secondary mb-4 ml-1">The Next Journey</p>
+<div class="group relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-surface-container-highest">
+<img alt="Florentine Steak" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Juicy Florentine steak on a wooden board" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBklLFD0D-KVfHU5S17on92mgpt3kpVR_ahj04jI1pBhvQ3AmaDG3r27u-STpGMCfyC9XwtjWFNr2bb7Pun38mrZkb-NFqVDNt9DXf1RNF91C-Xim9LOFa0FvfSMPtZfMDy9IWoIQw2b9--tpOO6LHA0VqbfqQgO0hOm4i9HaXzjeiVYihR-eR9TiUsWSBD5gVc-ejiRvufILDRV4Wo6MQFxUko-H7RqodhdrKIZvIEiTdamsK60KJXrD2mEzSlzSoI0JespqpG3o5W"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+<h3 class="text-white font-headline text-2xl mb-1">Bistecca alla Fiorentina</h3>
+<p class="text-white/70 text-sm">The Masterclass in Tuscan Grilling</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#FEF9F3]/90 dark:bg-[#0D0D0D]/90 backdrop-blur-md rounded-t-3xl shadow-[0_-12px_40px_0_rgba(29,27,24,0.06)]">
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60 hover:bg-[#F8F3ED] transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#ECE7E2] dark:bg-[#252A32] text-[#9A4100] dark:text-[#FFB690] rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Cook</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Grocery</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60" href="#">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] opacity-60" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-widest mt-1">Settings</span>
+</a>
+</nav>
+<script>
+    function switchTab(tabName) {
+        // Reset all tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        // Activate selected
+        document.getElementById('tab-btn-' + tabName).classList.add('active');
+        document.getElementById('tab-' + tabName).classList.add('active');
+    }
+</script>
+</body></html>
