@@ -107,6 +107,7 @@ export default function PlanScreen() {
   const [addExtraDay, setAddExtraDay] = useState<ItineraryDay | null>(null);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
+  const draggedOriginalIndexRef = useRef<number | null>(null);
 
   const haptic = useCallback(() => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -344,22 +345,40 @@ export default function PlanScreen() {
   const handleDragEnd = useCallback(
     ({ data: newOrder }: { data: typeof fullWeek }) => {
       haptic();
-      const originalDates = fullWeek.map((item) => item.date);
-      const dateChanges = new Map<string, string>();
-      newOrder.forEach((item, index) => {
-        const newDate = originalDates[index];
-        if (!("isEmpty" in item) && item.date !== newDate) {
-          dateChanges.set(item.id, newDate);
-        }
-      });
-      if (dateChanges.size === 0) return;
-      const updated = currentItinerary.map((day) => {
-        if (!dateChanges.has(day.id)) return day;
-        const newDate = dateChanges.get(day.id)!;
-        const d = new Date(newDate + "T12:00:00");
+      const originalIndex = draggedOriginalIndexRef.current;
+      draggedOriginalIndexRef.current = null;
+      if (originalIndex === null) return;
+
+      const draggedOriginalItem = fullWeek[originalIndex];
+      if (!draggedOriginalItem || "isEmpty" in draggedOriginalItem) return;
+
+      // Find where the dragged item landed in the new order
+      const draggedNewIndex = newOrder.findIndex((item) => item.id === draggedOriginalItem.id);
+      if (draggedNewIndex === -1 || draggedNewIndex === originalIndex) return;
+
+      // The slot it landed on — use the original date that lived at that position
+      const targetDate = fullWeek[draggedNewIndex].date;
+      const targetDay = currentItinerary.find(
+        (d) => d.date === targetDate && d.id !== draggedOriginalItem.id
+      );
+
+      let updated: ItineraryDay[];
+      if (targetDay) {
+        // Drop onto a filled day → merge recipes, remove the dragged day
+        const mergedQuick = [...new Set([...targetDay.quickRecipeIds, ...draggedOriginalItem.quickRecipeIds])];
+        const mergedFull  = [...new Set([...targetDay.fullRecipeIds,  ...draggedOriginalItem.fullRecipeIds])];
+        updated = currentItinerary
+          .filter((d) => d.id !== draggedOriginalItem.id)
+          .map((d) => d.id === targetDay.id ? { ...d, quickRecipeIds: mergedQuick, fullRecipeIds: mergedFull } : d)
+          .sort((a, b) => a.date.localeCompare(b.date));
+      } else {
+        // Drop onto an empty slot → move the date
+        const d = new Date(targetDate + "T12:00:00");
         const newDayLabel = d.toLocaleDateString("en-US", { weekday: "long" });
-        return { ...day, date: newDate, dayLabel: newDayLabel };
-      }).sort((a, b) => a.date.localeCompare(b.date));
+        updated = currentItinerary
+          .map((day) => day.id === draggedOriginalItem.id ? { ...day, date: targetDate, dayLabel: newDayLabel } : day)
+          .sort((a, b) => a.date.localeCompare(b.date));
+      }
       setCurrentItinerary(updated);
     },
     [fullWeek, currentItinerary, setCurrentItinerary]
@@ -546,6 +565,7 @@ export default function PlanScreen() {
           <DraggableFlatList
             data={fullWeek}
             keyExtractor={(item, index) => `${item.id}-${index}`}
+            onDragBegin={(index) => { draggedOriginalIndexRef.current = index; }}
             onDragEnd={handleDragEnd}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={[styles.weekScrollContent, { paddingBottom: insets.bottom + SCROLL_BOTTOM_INSET }]}
