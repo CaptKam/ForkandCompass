@@ -82,19 +82,15 @@ export default function CookingPill() {
           <Text style={styles.recipeName} numberOfLines={1} ellipsizeMode="tail">
             {recipe.name}
           </Text>
-          <View style={styles.stepRow}>
-            <Text style={styles.stepText}>
-              Step {currentStep + 1} of {totalSteps}
-            </Text>
-            {hasTimer ? (
-              <Text style={[styles.stepText, styles.inProgressText]}>
-                {formatSeconds(activeCookSession.timerRemaining!)}
-              </Text>
-            ) : (
-              <Text style={[styles.stepText, styles.inProgressText]}>In Progress</Text>
-            )}
-          </View>
+          <Text style={styles.stepText}>
+            Step {currentStep + 1} of {totalSteps}
+          </Text>
         </View>
+
+        {/* Status badge */}
+        <Text style={styles.inProgressText} numberOfLines={1}>
+          {hasTimer ? formatSeconds(activeCookSession.timerRemaining!) : "In Progress"}
+        </Text>
 
         {/* Play button */}
         <View style={styles.playBtn}>
@@ -168,11 +164,6 @@ const styles = StyleSheet.create({
     color: "#1D1B18",
     letterSpacing: -0.2,
   },
-  stepRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   stepText: {
     fontFamily: "Inter_500Medium",
     fontSize: 10,
@@ -181,8 +172,13 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   inProgressText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 10,
     color: Colors.light.primary,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
     fontStyle: "italic",
+    flexShrink: 0,
   },
   playBtn: {
     width: 40,
