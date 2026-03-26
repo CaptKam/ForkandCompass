@@ -604,9 +604,9 @@ export default function CookModeScreen() {
           <Pressable
             onPress={() => { setShowHelpSheet(true); if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); }}
             style={[styles.headerButton, { right: -8 }]}
-            accessibilityLabel="Help"
+            accessibilityLabel="Cooking help"
           >
-            <Ionicons name="timer-outline" size={24} color={Colors.light.onSurface} />
+            <Ionicons name="help-circle-outline" size={24} color={Colors.light.onSurface} />
           </Pressable>
           {stepDuration && !timerTotal ? (
             <Pressable onPress={startTimer} style={styles.timerPill}>
@@ -933,6 +933,12 @@ export default function CookModeScreen() {
                       Likely cause: Overcooking or under-resting. Fix: Pull proteins slightly before done (carryover cooking will finish it). Let meat rest before cutting.
                     </Text>
                   </View>
+                  <View style={styles.helpItem}>
+                    <Text style={styles.helpSymptom}>Too salty?</Text>
+                    <Text style={styles.helpFix}>
+                      Add a raw potato to absorb excess salt while simmering, or balance with a small amount of acid (lemon juice or vinegar).
+                    </Text>
+                  </View>
                 </>
               ) : (
                 <>
@@ -959,6 +965,12 @@ export default function CookModeScreen() {
                     <View style={styles.chefTipBorder} />
                     <Text style={styles.chefTipText}>
                       Rest your proteins after cooking — it lets juices redistribute so every bite stays moist.
+                    </Text>
+                  </View>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Use the pasta cooking water — the starch thickens sauces beautifully.
                     </Text>
                   </View>
                   {recipe.culturalNote && (
