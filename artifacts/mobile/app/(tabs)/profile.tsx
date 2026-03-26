@@ -360,11 +360,13 @@ export default function ProfileTab() {
                 <Text style={styles.bucketEmpty}>No countries selected yet</Text>
               )}
             </View>
-            {/* TODO: implement navigation to country editor */}
-            <View style={styles.editCountriesRow}>
+            <Pressable
+              style={styles.editCountriesRow}
+              onPress={() => { haptic(); router.push("/onboarding"); }}
+            >
               <Text style={styles.editCountriesText}>Edit countries</Text>
               <Ionicons name="chevron-forward" size={18} color={Colors.light.secondary} />
-            </View>
+            </Pressable>
           </View>
         </View>
 
