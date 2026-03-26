@@ -340,21 +340,14 @@ export default function PlanScreen() {
   }, [haptic, currentItinerary, setCurrentItinerary, showToast]);
 
   const handleAddExtraToDay = useCallback((day: ItineraryDay, recipe: Recipe) => {
-    const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
-    if (ids.includes(recipe.id)) { setAddExtraDay(null); return; }
-    const updated = currentItinerary.map((d) => {
-      if (d.id !== day.id) return d;
-      return {
-        ...d,
-        quickRecipeIds: [...d.quickRecipeIds, recipe.id],
-        fullRecipeIds: [...d.fullRecipeIds, recipe.id],
-      };
-    });
-    setCurrentItinerary(updated);
+    const allIds = [...day.quickRecipeIds, ...day.fullRecipeIds, ...(day.extraRecipeIds ?? [])];
+    if (allIds.includes(recipe.id)) { setAddExtraDay(null); return; }
+    // Use addCourseToDay which writes to extraRecipeIds (functional updater, no stale closure)
+    addCourseToDay(day.date, recipe.id);
     addToGrocery(recipe);
     setAddExtraDay(null);
     showToast(`Added ${recipe.name}`);
-  }, [currentItinerary, setCurrentItinerary, addToGrocery, showToast]);
+  }, [addCourseToDay, addToGrocery, showToast]);
 
   const handleNewWeek = () => {
     haptic();
