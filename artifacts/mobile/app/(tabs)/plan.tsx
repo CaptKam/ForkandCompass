@@ -498,8 +498,8 @@ export default function PlanScreen() {
 
       {/* ── This Week ─────────────────────────────────────────────── */}
       {segment === "week" && (
-        !itineraryProfile ? (
-          /* Empty state */
+        (!itineraryProfile || currentItinerary.length === 0) ? (
+          /* Empty state — no profile or no itinerary data */
           <View style={styles.emptyState}>
             <View style={styles.emptyIconWrap}>
               <Ionicons name="compass-outline" size={48} color={Colors.light.primary} />
