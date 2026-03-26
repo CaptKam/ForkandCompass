@@ -1,15 +1,17 @@
 // The Culinary Editorial — Color Palette
 // Primary: Terracotta (#9A4100) — all CTAs, active states, highlights
+// Primary: Burnt Sienna (#9A4100) — all CTAs, active states, highlights
 // Secondary: Soft Peach (#FDDCB5) — subtle backgrounds
 // Background: Warm Cream (#FDF8F2) — main surface
 // Card Surface: Pure White (#FFFFFF) — elevated cards
 // Text Primary: Near-Black (#1A1A2E) — headlines and body
 // Text Secondary: Mid-Gray (#666666) — metadata and captions
-// Dark Mode: #0D0D0D background, terracotta accent preserved
+// Dark Mode: #0D0D0D background, burnt sienna accent preserved
 
 const light = {
   primary: "#9A4100",
   primaryContainer: "#C75B12",
+  primaryContainer: "#C05500",
   onPrimary: "#FFFFFF",
   onPrimaryContainer: "#FFFBFF",
   surface: "#FDF8F2",
