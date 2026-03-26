@@ -13,10 +13,8 @@ import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
 function NativeTabLayout() {
-  const insets = useSafeAreaInsets();
   return (
-    <>
-      <NativeTabs>
+    <NativeTabs>
         <NativeTabs.Trigger name="index">
           <Icon sf={{ default: "safari", selected: "safari.fill" }} />
           <Label>Discover</Label>
@@ -38,10 +36,6 @@ function NativeTabLayout() {
           <Label>Profile</Label>
         </NativeTabs.Trigger>
       </NativeTabs>
-      <View style={{ position: "absolute", top: insets.top, left: 0, right: 0, zIndex: 100 }}>
-        <ContinueCookingBanner />
-      </View>
-    </>
   );
 }
 
@@ -54,9 +48,7 @@ function ClassicTabLayout() {
   const isDark = colors.background === Colors.dark.background;
 
   return (
-    <View style={{ flex: 1 }}>
-      <ContinueCookingBanner />
-      <Tabs
+    <Tabs
         screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
@@ -177,7 +169,6 @@ function ClassicTabLayout() {
         }}
       />
       </Tabs>
-    </View>
   );
 }
 

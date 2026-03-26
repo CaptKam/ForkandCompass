@@ -24,6 +24,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useApp } from "@/contexts/AppContext";
 import type { CookSession } from "@/contexts/AppContext";
 import { COUNTRIES, ONBOARDING_IMAGES, LANDMARK_IMAGES, getCountryLocations, getRecipeById, type Country, type Recipe } from "@/constants/data";
+import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
@@ -492,7 +493,7 @@ export default function DiscoverScreen() {
       <StatusBar style="light" />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + 100 }}
+        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
 
         {/* ── Hero carousel ─────────────────────────────────────── */}
