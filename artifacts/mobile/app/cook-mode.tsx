@@ -44,6 +44,28 @@ import { convertAmount, convertTemperatureInText } from "@/constants/units";
 import { useThemeColors } from "@/hooks/useThemeColors";
 
 const FEEDBACK_OPTIONS = ["Too salty", "Perfect", "Bland", "Too spicy", "Undercooked"];
+const BASE_SERVINGS = 4;
+
+/** Scale an amount string like "200g", "2 cups", "1/2 tsp" by a ratio */
+function scaleAmount(raw: string, ratio: number): string {
+  if (ratio === 1) return raw;
+  const trimmed = raw.trim();
+  const fracMatch = trimmed.match(/^(\d+)\/(\d+)\s*(.*)/);
+  if (fracMatch) {
+    const val = (parseInt(fracMatch[1], 10) / parseInt(fracMatch[2], 10)) * ratio;
+    const rest = fracMatch[3];
+    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
+    return rest ? `${display} ${rest}` : display;
+  }
+  const numMatch = trimmed.match(/^(\d+(?:\.\d+)?)\s*(.*)/);
+  if (numMatch) {
+    const val = parseFloat(numMatch[1]) * ratio;
+    const rest = numMatch[2];
+    const display = Number.isInteger(val) ? String(val) : val.toFixed(1).replace(/\.0$/, "");
+    return rest ? `${display} ${rest}` : display;
+  }
+  return raw;
+}
 
 function parseDurationFromText(text: string): number | null {
   const h = text.match(/(\d+)\s*(hours?|hrs?|h)\b/i);
@@ -186,14 +208,23 @@ export default function CookModeScreen() {
     );
   }, []);
 
-  const { recipeId, resumeStep } = useLocalSearchParams<{ recipeId: string; resumeStep?: string }>();
+  const { recipeId, recipeIds, resumeStep, servings: servingsParam } = useLocalSearchParams<{ recipeId: string; recipeIds?: string; resumeStep?: string; servings?: string }>();
+  const servings = parseInt(servingsParam ?? "4", 10) || 4;
   const insets = useSafeAreaInsets();
-  const recipe = getRecipeById(recipeId);
-  const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit } = useApp();
+  const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit, currentItinerary, markDayCompleted, groceryItems } = useApp();
   const colors = useThemeColors();
 
+  // Multi-recipe support: parse all recipe IDs from comma-separated param
+  const allRecipeIds = useMemo(() => recipeIds ? recipeIds.split(",").filter(Boolean) : [recipeId], [recipeIds, recipeId]);
+
+  // Track which recipe in the multi-course session is active
+  const savedIndex = activeCookSession?.recipeIds?.length ? (activeCookSession.activeRecipeIndex ?? 0) : 0;
+  const [activeRecipeIndex, setActiveRecipeIndex] = useState(savedIndex);
+  const activeRecipeId = allRecipeIds[activeRecipeIndex] ?? recipeId;
+  const recipe = getRecipeById(activeRecipeId);
+
   // Restore step from URL param, active session, or start at 0
-  const savedStep = activeCookSession?.recipeId === recipeId ? activeCookSession.currentStep : 0;
+  const savedStep = activeCookSession?.recipeId === activeRecipeId ? activeCookSession.currentStep : 0;
   const initialStep = resumeStep ? parseInt(resumeStep, 10) : savedStep;
   const [currentStep, setCurrentStep] = useState(isNaN(initialStep) ? 0 : initialStep);
   const [direction, setDirection] = useState<"forward" | "back">("forward");
@@ -252,6 +283,8 @@ export default function CookModeScreen() {
     setActiveCookSession({
       recipeId: recipe.id,
       recipeName: recipe.name,
+      recipeIds: allRecipeIds.length > 1 ? allRecipeIds : undefined,
+      activeRecipeIndex: allRecipeIds.length > 1 ? activeRecipeIndex : undefined,
       currentStep,
       totalSteps: recipe.steps.length,
       timerRemaining: sameRecipe ? (prev?.timerRemaining ?? null) : null,
@@ -261,7 +294,7 @@ export default function CookModeScreen() {
       startedAt: startTimeRef.current,
       servings: 4,
     });
-  }, [currentStep, finished, recipe?.id]);
+  }, [currentStep, finished, recipe?.id, activeRecipeIndex]);
 
   if (!recipe) {
     return (
@@ -300,8 +333,19 @@ export default function CookModeScreen() {
     router.back();
   };
 
+  const hasMoreCourses = allRecipeIds.length > 1 && activeRecipeIndex < allRecipeIds.length - 1;
+
   const goNext = () => {
     if (isLast) {
+      if (hasMoreCourses) {
+        // Advance to next course instead of finishing
+        if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        setActiveRecipeIndex(prev => prev + 1);
+        setCurrentStep(0);
+        setDirection("forward");
+        setCheckedIngredients(new Set());
+        return;
+      }
       if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       setFinished(true);
       return;
@@ -369,6 +413,14 @@ export default function CookModeScreen() {
     });
   };
 
+  // Check if an ingredient is already checked off in the grocery list
+  const isIngredientInPantry = useCallback((name: string): boolean => {
+    const lower = name.toLowerCase();
+    return groceryItems.some(
+      item => item.checked && (item.name.toLowerCase().includes(lower) || lower.includes(item.name.toLowerCase()))
+    );
+  }, [groceryItems]);
+
   const handleFinishDone = () => {
     const session: CookSession = {
       id: `${Date.now()}-${recipeId}`,
@@ -386,6 +438,21 @@ export default function CookModeScreen() {
     };
     completeCookSession(session);
     setActiveCookSession(null);
+
+    // Mark the planned day as completed if this recipe was on today's plan
+    const todayISO = new Date().toISOString().split("T")[0];
+    const todayPlan = currentItinerary?.find(d => d.date === todayISO);
+    if (todayPlan) {
+      const allIds = [
+        ...(todayPlan.quickRecipeIds ?? []),
+        ...(todayPlan.fullRecipeIds ?? []),
+        ...(todayPlan.extraRecipeIds ?? []),
+      ];
+      if (allIds.includes(recipeId)) {
+        markDayCompleted(todayISO);
+      }
+    }
+
     if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     router.back();
   };
@@ -545,9 +612,9 @@ export default function CookModeScreen() {
           <Pressable
             onPress={() => { setShowHelpSheet(true); if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); }}
             style={[styles.headerButton, { right: -8 }]}
-            accessibilityLabel="Help"
+            accessibilityLabel="Cooking help"
           >
-            <Ionicons name="timer-outline" size={24} color={Colors.light.onSurface} />
+            <Ionicons name="help-circle-outline" size={24} color={Colors.light.onSurface} />
           </Pressable>
           {stepDuration && !timerTotal ? (
             <Pressable onPress={startTimer} style={styles.timerPill}>
@@ -568,6 +635,47 @@ export default function CookModeScreen() {
         </View>
       </View>
 
+      {/* Course switcher (multi-recipe only) */}
+      {allRecipeIds.length > 1 && (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ gap: 8, paddingHorizontal: 20, paddingVertical: 10 }}
+        >
+          {allRecipeIds.map((id, index) => {
+            const r = getRecipeById(id);
+            if (!r) return null;
+            const isActive = index === activeRecipeIndex;
+            return (
+              <Pressable
+                key={id}
+                onPress={() => {
+                  setActiveRecipeIndex(index);
+                  setCurrentStep(0);
+                  setDirection("forward");
+                  setCheckedIngredients(new Set());
+                  if (Platform.OS !== "web") Haptics.selectionAsync();
+                }}
+                style={{
+                  paddingHorizontal: 14, paddingVertical: 8, borderRadius: 20,
+                  backgroundColor: isActive ? Colors.light.primary : Colors.light.surfaceContainerLow,
+                  borderWidth: 1,
+                  borderColor: isActive ? Colors.light.primary : Colors.light.outlineVariant,
+                }}
+              >
+                <Text style={{
+                  fontFamily: "Inter_600SemiBold", fontSize: 13,
+                  color: isActive ? Colors.light.onPrimary : Colors.light.secondary,
+                }}>
+                  {r.category === "Appetizer" ? "🥗 " : r.category === "Main Course" ? "🍽️ " : r.category === "Dessert" ? "🍮 " : r.category === "Beverage" ? "🍷 " : ""}
+                  {r.name.length > 20 ? r.name.slice(0, 20) + "…" : r.name}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      )}
+
       {/* Step content */}
       <Animated.View
         key={`step-${currentStep}`}
@@ -583,12 +691,21 @@ export default function CookModeScreen() {
           {stepIngredients.length > 0 && (
             <View style={styles.ingredientsBox}>
               <Text style={styles.ingredientsBoxLabel}>You'll need:</Text>
+              {stepIngredients.filter(ing => isIngredientInPantry(ing.name)).length > 0 && (
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 6, paddingHorizontal: 12, backgroundColor: "rgba(52,199,89,0.08)", borderRadius: 10, marginBottom: 8, borderWidth: 1, borderColor: "rgba(52,199,89,0.2)" }}>
+                  <Ionicons name="checkmark-circle" size={14} color={Colors.light.success} />
+                  <Text style={{ fontFamily: "Inter_500Medium", fontSize: 12, color: Colors.light.success }}>
+                    {stepIngredients.filter(ing => isIngredientInPantry(ing.name)).length} of {stepIngredients.length} already in your pantry
+                  </Text>
+                </View>
+              )}
               {stepIngredients.map((ing) => {
                 const isChecked = checkedIngredients.has(ing.id);
+                const inPantry = isIngredientInPantry(ing.name);
                 return (
                   <Pressable
                     key={ing.id}
-                    style={styles.ingredientRow}
+                    style={[styles.ingredientRow, inPantry && !isChecked && { opacity: 0.55 }]}
                     onPress={() => toggleIngredient(ing.id)}
                   >
                     <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
@@ -596,9 +713,15 @@ export default function CookModeScreen() {
                         <Ionicons name="checkmark" size={14} color={Colors.light.primary} />
                       )}
                     </View>
-                    <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked]}>
-                      <Text style={styles.ingredientAmountBold}>{convertAmount(ing.amount, measurementSystem)}</Text> {ing.name}
+                    <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked, inPantry && !isChecked && { textDecorationLine: "line-through" as const }]}>
+                      <Text style={styles.ingredientAmountBold}>{convertAmount(scaleAmount(ing.amount, servings / BASE_SERVINGS), measurementSystem)}</Text> {ing.name}
                     </Text>
+                    {inPantry && !isChecked && (
+                      <View style={{ flexDirection: "row", alignItems: "center", gap: 3, marginLeft: 6 }}>
+                        <Ionicons name="checkmark-circle" size={14} color={Colors.light.success} />
+                        <Text style={{ fontFamily: "Inter_400Regular", fontSize: 10, color: Colors.light.success }}>Pantry</Text>
+                      </View>
+                    )}
                   </Pressable>
                 );
               })}
@@ -773,7 +896,7 @@ export default function CookModeScreen() {
             </Pressable>
           </View>
           <Animated.Text style={[styles.swipeHint, pulseStyle]}>
-            {isLast ? "Tap to Finish" : "Swipe for Next Step"}
+            {isLast ? (hasMoreCourses ? `Next: ${getRecipeById(allRecipeIds[activeRecipeIndex + 1])?.name ?? "Next Course"}` : "Tap to Finish") : "Swipe for Next Step"}
           </Animated.Text>
         </View>
       </LinearGradient>
@@ -833,6 +956,12 @@ export default function CookModeScreen() {
                       Likely cause: Overcooking or under-resting. Fix: Pull proteins slightly before done (carryover cooking will finish it). Let meat rest before cutting.
                     </Text>
                   </View>
+                  <View style={styles.helpItem}>
+                    <Text style={styles.helpSymptom}>Too salty?</Text>
+                    <Text style={styles.helpFix}>
+                      Add a raw potato to absorb excess salt while simmering, or balance with a small amount of acid (lemon juice or vinegar).
+                    </Text>
+                  </View>
                 </>
               ) : (
                 <>
@@ -859,6 +988,12 @@ export default function CookModeScreen() {
                     <View style={styles.chefTipBorder} />
                     <Text style={styles.chefTipText}>
                       Rest your proteins after cooking — it lets juices redistribute so every bite stays moist.
+                    </Text>
+                  </View>
+                  <View style={styles.chefTipItem}>
+                    <View style={styles.chefTipBorder} />
+                    <Text style={styles.chefTipText}>
+                      Use the pasta cooking water — the starch thickens sauces beautifully.
                     </Text>
                   </View>
                   {recipe.culturalNote && (

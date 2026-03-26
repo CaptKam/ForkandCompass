@@ -1,7 +1,5 @@
 import { BlurView } from "expo-blur";
-import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Tabs } from "expo-router";
-import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
 import { SymbolView } from "expo-symbols";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
@@ -11,34 +9,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
-function NativeTabLayout() {
-  return (
-    <NativeTabs>
-      <NativeTabs.Trigger name="index">
-        <Icon sf={{ default: "safari", selected: "safari.fill" }} />
-        <Label>Discover</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="search">
-        <Icon sf={{ default: "magnifyingglass", selected: "magnifyingglass" }} />
-        <Label>Search</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="plan">
-        <Icon sf={{ default: "calendar.badge.checkmark", selected: "calendar.badge.checkmark" }} />
-        <Label>Plan</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="cook">
-        <Icon sf={{ default: "fork.knife", selected: "fork.knife" }} />
-        <Label>Cook</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="profile">
-        <Icon sf={{ default: "person.circle", selected: "person.circle.fill" }} />
-        <Label>Profile</Label>
-      </NativeTabs.Trigger>
-    </NativeTabs>
-  );
-}
 
-function ClassicTabLayout() {
+export default function TabLayout() {
   const safeAreaInsets = useSafeAreaInsets();
   const isIOS = Platform.OS === "ios";
   const isWeb = Platform.OS === "web";
@@ -47,9 +19,8 @@ function ClassicTabLayout() {
   const isDark = colors.background === Colors.dark.background;
 
   return (
-    <View style={{ flex: 1 }}>
-      <Tabs
-        screenOptions={{
+    <Tabs
+      screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.secondary,
@@ -64,11 +35,10 @@ function ClassicTabLayout() {
             : isDark
               ? "rgba(18,17,16,0.95)"
               : "rgba(254,249,243,0.95)",
-          borderTopWidth: 0,
+          borderTopWidth: StyleSheet.hairlineWidth,
+          borderTopColor: "rgba(138,56,0,0.15)",
           elevation: 0,
           paddingBottom: safeAreaInsets.bottom,
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
           ...(isWeb ? { height: 84 } : {}),
         },
         tabBarBackground: () =>
@@ -76,7 +46,7 @@ function ClassicTabLayout() {
             <BlurView
               intensity={80}
               tint={isDark ? "dark" : "light"}
-              style={[StyleSheet.absoluteFill, { borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: "hidden" }]}
+              style={StyleSheet.absoluteFill}
             />
           ) : isWeb ? (
             <View
@@ -168,14 +138,6 @@ function ClassicTabLayout() {
             ),
         }}
       />
-      </Tabs>
-    </View>
+    </Tabs>
   );
-}
-
-export default function TabLayout() {
-  if (isLiquidGlassAvailable()) {
-    return <NativeTabLayout />;
-  }
-  return <ClassicTabLayout />;
 }

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Culinary Editorial | Quick Re-order</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-highest": "#e6e2dc",
+              "primary-container": "#bf550a",
+              "error": "#ba1a1a",
+              "on-surface": "#1d1b18",
+              "on-primary-fixed": "#341100",
+              "on-secondary-fixed-variant": "#584326",
+              "tertiary-container": "#0079c4",
+              "surface-container-high": "#ece7e2",
+              "on-primary-fixed-variant": "#783100",
+              "primary-fixed": "#ffdbcb",
+              "surface-bright": "#fef9f3",
+              "tertiary": "#005f9c",
+              "surface-dim": "#ded9d4",
+              "outline": "#8a7266",
+              "on-tertiary-fixed": "#001d35",
+              "background": "#fef9f3",
+              "on-error-container": "#93000a",
+              "primary": "#9a4100",
+              "on-primary": "#ffffff",
+              "inverse-surface": "#32302c",
+              "surface": "#fef9f3",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed": "#d0e4ff",
+              "secondary-fixed-dim": "#e1c19c",
+              "secondary": "#725a3c",
+              "on-secondary-fixed": "#291802",
+              "surface-tint": "#9e4300",
+              "secondary-fixed": "#feddb6",
+              "on-primary-container": "#fffbff",
+              "inverse-primary": "#ffb690",
+              "outline-variant": "#dec1b3",
+              "on-secondary-container": "#775e3f",
+              "on-error": "#ffffff",
+              "inverse-on-surface": "#f5f0ea",
+              "on-surface-variant": "#574238",
+              "on-background": "#1d1b18",
+              "surface-container": "#f2ede7",
+              "on-tertiary-container": "#fdfcff",
+              "error-container": "#ffdad6",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed-dim": "#9ccaff",
+              "primary-fixed-dim": "#ffb690",
+              "on-secondary": "#ffffff",
+              "surface-variant": "#e6e2dc",
+              "on-tertiary-fixed-variant": "#00497a",
+              "secondary-container": "#fbdab3",
+              "surface-container-low": "#f8f3ed"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .serif-italic { font-style: italic; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<header class="bg-[#FEF9F3] dark:bg-[#0D0D0D] flex justify-between items-center w-full px-6 py-4 fixed top-0 z-50">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-[#9A4100] dark:text-[#FFB690]">menu</span>
+</button>
+<h1 class="text-xl font-serif font-semibold text-[#1D1B18] dark:text-[#FEF9F3] tracking-tight">The Culinary Editorial</h1>
+</div>
+<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-[#9A4100] dark:text-[#FFB690]">calendar_today</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto">
+<!-- Editorial Header -->
+<section class="mb-10">
+<span class="text-primary font-label text-[10px] uppercase tracking-[0.2em] mb-2 block">Weekly Curation</span>
+<h2 class="font-headline text-4xl font-semibold tracking-tight text-on-surface mb-4">Quick Re-order</h2>
+<p class="text-secondary font-body leading-relaxed max-w-md">Arrange your gastronomic journey for the week ahead. Long-press to reposition; tap to explore.</p>
+</section>
+<!-- Compact Weekly List -->
+<div class="space-y-6">
+<!-- Monday -->
+<div class="group">
+<div class="flex items-center justify-between mb-3 px-2">
+<h3 class="font-label text-xs font-semibold uppercase tracking-widest text-secondary/60">Monday</h3>
+<button class="text-primary hover:bg-primary/5 p-1 rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-4 cursor-grab active:cursor-grabbing hover:bg-surface-container-high transition-colors group-active:scale-[0.98] transition-all duration-300">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="overhead shot of a vibrant salad bowl with grilled salmon and seasonal vegetables on a rustic table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTirpIZMQDe14mUpV74bFUoyJnw9Z2NeHSfglRZcMWj-6XNgkuAs6IXNvp3XEskw3YsIZaIDI8Q-Pskz_-vclbAmhRp5JTcvUaanzdrSzD1EnSc-rLTQosSMufYnwSZxN-SOI7sTXu4qjlUtE0uEq_ph0W9SjyJ_0pv6Ky-nUmJU4nhb1y3-Nyy757nIPiaVXbaGwrCSyMLPvt5LWk0TIyJDmhDySeWrgjN4MwVg3Z-y4UM-kn6pkkYOVt0wTQ0mZ8QnbP6s8gx8mv"/>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="text-[10px] font-medium text-secondary uppercase tracking-tighter">Healthy Choice</span>
+</div>
+<h4 class="font-headline text-lg text-on-surface">Miso Glazed Salmon</h4>
+<p class="text-xs text-secondary mt-0.5">Estimated prep: 20 mins</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40">drag_indicator</span>
+</div>
+</div>
+<!-- Tuesday -->
+<div class="group">
+<div class="flex items-center justify-between mb-3 px-2">
+<h3 class="font-label text-xs font-semibold uppercase tracking-widest text-secondary/60">Tuesday</h3>
+<button class="text-primary hover:bg-primary/5 p-1 rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-4 cursor-grab active:cursor-grabbing hover:bg-surface-container-high transition-colors group-active:scale-[0.98] transition-all duration-300 border-l-4 border-primary/20">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="classic italian pasta with rich tomato sauce and fresh basil leaves on a ceramic plate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyevuQH2VF7RgZAkg_innYclKRgcpGqHAEpcHgsglUO34NPd5pcdM7BDwfg0-CdZ8H8100eK00i32-FnYuEFKYPBNrnevUI1zMZKfa_qMUxrj3fY-rkkUNI8lAFYiDcgrQ-SOEzjSZHtxUQuOGq9AGt6-a9Yv47zN3tvZiT0nHaXfZdrZmFgGaYQ-Hwtah7dpg3FJ9gxcHIqVVF0Zi_kgrD22tUn4Wl66ZWe7-kK3DgZDYGhRJNVBvOZmoq9fwtr-3t70zRkAjdDjB"/>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[10px] font-medium text-secondary uppercase tracking-tighter">Editor's Pick</span>
+</div>
+<h4 class="font-headline text-lg text-on-surface">Rustic Basil Pomodoro</h4>
+<p class="text-xs text-secondary mt-0.5">Estimated prep: 15 mins</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40">drag_indicator</span>
+</div>
+</div>
+<!-- Wednesday -->
+<div class="group">
+<div class="flex items-center justify-between mb-3 px-2">
+<h3 class="font-label text-xs font-semibold uppercase tracking-widest text-secondary/60">Wednesday</h3>
+<button class="text-primary hover:bg-primary/5 p-1 rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+</button>
+</div>
+<!-- Empty State -->
+<div class="border-2 border-dashed border-outline-variant/20 rounded-xl p-8 flex flex-col items-center justify-center text-center">
+<p class="text-secondary font-body text-sm serif-italic mb-3">Middle of the week, open for ideas...</p>
+<button class="px-4 py-2 bg-surface-container-high text-primary font-label text-[10px] uppercase tracking-widest rounded-full hover:bg-primary hover:text-on-primary transition-all">
+                        Browse Library
+                    </button>
+</div>
+</div>
+<!-- Thursday -->
+<div class="group">
+<div class="flex items-center justify-between mb-3 px-2">
+<h3 class="font-label text-xs font-semibold uppercase tracking-widest text-secondary/60">Thursday</h3>
+<button class="text-primary hover:bg-primary/5 p-1 rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-4 cursor-grab active:cursor-grabbing hover:bg-surface-container-high transition-colors group-active:scale-[0.98] transition-all duration-300">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="colorful mediterranean buddha bowl with chickpeas, quinoa, and avocado under bright natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmYEhmKj0NLdKRsEHjdSwyEP_hV_ggyGGJuJjgIFqId2P7D0Sbbsph-mszbhm4CLK_F7mDy3itdTGyPo2jkck7C2Ud_T5VNqyGrAmUO_t5rg-mvXlYDg0A2SQHFm2t0fQeMwCTFV9jRasiY99g1S-7pa1M1BFe4KVDNLq42jrAs8geDhmvnwtsvNUKZsR4RHkkodq0vI4b9SrlCHe-0QVLhsEpVmkTA92maqNw6UVCdB1KcTNs0FR5bVQI9_lhp0W49ALD7uFRoqpe"/>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">spa</span>
+<span class="text-[10px] font-medium text-secondary uppercase tracking-tighter">Plant Based</span>
+</div>
+<h4 class="font-headline text-lg text-on-surface">Mediterranean Harvest</h4>
+<p class="text-xs text-secondary mt-0.5">Estimated prep: 12 mins</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40">drag_indicator</span>
+</div>
+</div>
+<!-- Friday -->
+<div class="group">
+<div class="flex items-center justify-between mb-3 px-2">
+<h3 class="font-label text-xs font-semibold uppercase tracking-widest text-secondary/60">Friday</h3>
+<button class="text-primary hover:bg-primary/5 p-1 rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-4 cursor-grab active:cursor-grabbing hover:bg-surface-container-high transition-colors group-active:scale-[0.98] transition-all duration-300">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="artisanal pepperoni pizza with melting buffalo mozzarella and charred crust on a wooden board" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEaR25jwnwJtcKMvmah5Tvyk9eBWkdIYKkjMTp3UyNjI86dw5vFvnrMQ2SLyBo-nygwFXWuVokSBe5iHEIALtvvGTNPvjgkUWPvIK8GoevZBrAhpjjVe70SwB0Kh6OPpgj1HsHihBo5qkTeWg3_cFT95vnKG-rWtz8R59uMoA7EOWr9bXMBdsR-qSkXmi9fIqfO7GXLDpVHRr__70MyMP8g6Ndot1wnDLzAbxwcAT_Jrl8TJyTL-d5STmwYoSNFFjyWUUICzt8XFeD"/>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">celebration</span>
+<span class="text-[10px] font-medium text-secondary uppercase tracking-tighter">Weekend Warmup</span>
+</div>
+<h4 class="font-headline text-lg text-on-surface">Neapolitan Sourdough</h4>
+<p class="text-xs text-secondary mt-0.5">Estimated prep: 25 mins</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant/40">drag_indicator</span>
+</div>
+</div>
+</div>
+<!-- Asymmetric Quote Section -->
+<section class="mt-16 mb-8 text-center px-12 relative">
+<span class="material-symbols-outlined text-primary/20 text-6xl absolute -top-4 left-6 pointer-events-none" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<blockquote class="font-headline text-2xl serif-italic text-on-surface leading-relaxed relative z-10">
+                Cooking is a language through which all the following properties may be expressed: harmony, creativity, and beauty.
+            </blockquote>
+<cite class="block mt-4 text-[10px] uppercase tracking-[0.3em] text-secondary font-label">— Ferran Adrià</cite>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#FEF9F3]/70 dark:bg-[#0D0D0D]/70 backdrop-blur-md border-t border-[#DEC1B3]/20 shadow-[0_-12px_40px_0_rgba(29,27,24,0.06)] rounded-t-[2rem]">
+<!-- Discover -->
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-4 py-1.5 hover:text-[#9A4100] dark:hover:text-[#FFB690] Active: scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">explore</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-wider">Discover</span>
+</a>
+<!-- Plan (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-[#9A4100]/10 dark:bg-[#FFB690]/10 text-[#9A4100] dark:text-[#FFB690] rounded-2xl px-4 py-1.5 Active: scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-wider">Plan</span>
+</a>
+<!-- Library -->
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-4 py-1.5 hover:text-[#9A4100] dark:hover:text-[#FFB690] Active: scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">local_library</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-wider">Library</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-4 py-1.5 hover:text-[#9A4100] dark:hover:text-[#FFB690] Active: scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-sans text-[10px] font-medium uppercase tracking-wider">Profile</span>
+</a>
+</nav>
+</body></html>

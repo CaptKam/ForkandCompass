@@ -11,6 +11,7 @@ import React, {
 } from "react";
 import { Platform } from "react-native";
 
+import { getRecipeById } from "@/constants/data";
 import type { GroceryItem, Recipe } from "@/constants/data";
 import type { MeasurementSystem, TemperatureUnit } from "@/constants/units";
 import type { ItineraryProfile, ItineraryDay } from "@/hooks/useItinerary";
@@ -78,6 +79,8 @@ export interface CookingProfile {
 export interface ActiveCookSession {
   recipeId: string;
   recipeName: string;
+  recipeIds?: string[];          // all recipes in a multi-course session
+  activeRecipeIndex?: number;    // index into recipeIds
   currentStep: number;
   totalSteps: number;
   timerRemaining: number | null;
@@ -152,6 +155,7 @@ interface AppContextType {
   clearGrocery: () => void;
   unexcludeGroceryItem: (id: string) => void;
   quickAddStaple: (staple: PantryStaple) => void;
+  addManualGroceryItem: (name: string) => void;
   // Pantry staples
   pantryStaples: PantryStaple[];
   togglePantryStaple: (id: string) => void;
@@ -179,6 +183,9 @@ interface AppContextType {
   setItineraryProfile: (profile: ItineraryProfile) => void;
   currentItinerary: ItineraryDay[];
   setCurrentItinerary: (itinerary: ItineraryDay[]) => void;
+  addCourseToDay: (date: string, recipeId: string) => void;
+  removeCourseFromDay: (date: string, recipeId: string) => void;
+  markDayCompleted: (date: string) => void;
   itineraryHistory: ItineraryDay[][];
   addToItineraryHistory: (week: ItineraryDay[]) => void;
   groceryPartner: GroceryPartner;
@@ -367,7 +374,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         if (activeCookRaw) {
           try {
             const parsed = JSON.parse(activeCookRaw);
-            if (parsed && typeof parsed === "object" && parsed.recipeId) setActiveCookSessionState(parsed);
+            if (parsed && typeof parsed === "object" && parsed.recipeId) {
+              const resolvedRecipe = getRecipeById(parsed.recipeId);
+              if (resolvedRecipe) {
+                setActiveCookSessionState({
+                  ...parsed,
+                  recipeName: resolvedRecipe.name,
+                });
+              } else {
+                AsyncStorage.removeItem(ACTIVE_COOK_SESSION_KEY).catch(() => {});
+              }
+            }
           } catch {}
         }
         if (measurementSys && ["us_customary", "metric", "imperial_uk", "show_both"].includes(measurementSys)) {
@@ -659,6 +676,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     );
   }, []);
 
+  const addManualGroceryItem = useCallback((name: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    const stableId = `manual-${trimmed.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    setGroceryItems((prev) => {
+      if (prev.some((i) => i.id === stableId)) return prev;
+      return [...prev, {
+        id: stableId,
+        name: trimmed,
+        amount: "",
+        checked: false,
+        recipeName: "Added manually",
+      }];
+    });
+  }, []);
+
   const toggleGroceryItem = useCallback((id: string) => {
     setGroceryItems((prev) =>
       prev.map((i) => (i.id === id ? { ...i, checked: !i.checked } : i))
@@ -776,6 +809,33 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setCurrentItineraryState(itinerary);
   }, []);
 
+  const addCourseToDay = useCallback((date: string, recipeId: string) => {
+    setCurrentItineraryState(prev => prev.map(day => {
+      if (day.date !== date) return day;
+      const existing = day.extraRecipeIds ?? [];
+      if (existing.includes(recipeId)) return day; // no duplicates
+      return { ...day, extraRecipeIds: [...existing, recipeId] };
+    }));
+  }, []);
+
+  const removeCourseFromDay = useCallback((date: string, recipeId: string) => {
+    setCurrentItineraryState(prev => prev.map(day => {
+      if (day.date !== date) return day;
+      return {
+        ...day,
+        extraRecipeIds: (day.extraRecipeIds ?? []).filter(id => id !== recipeId),
+      };
+    }));
+  }, []);
+
+  const markDayCompleted = useCallback((date: string) => {
+    setCurrentItineraryState(prev => prev.map(day =>
+      day.date === date
+        ? { ...day, status: "completed" as const }
+        : day
+    ));
+  }, []);
+
   const addToItineraryHistory = useCallback((week: ItineraryDay[]) => {
     setItineraryHistoryState((prev) => {
       const next = [...prev, week].slice(-4); // keep last 4 weeks
@@ -825,6 +885,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         clearGrocery,
         unexcludeGroceryItem,
         quickAddStaple,
+        addManualGroceryItem,
         pantryStaples,
         togglePantryStaple,
         isInKitchen,
@@ -850,6 +911,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setItineraryProfile,
         currentItinerary,
         setCurrentItinerary,
+        addCourseToDay,
+        removeCourseFromDay,
+        markDayCompleted,
         itineraryHistory,
         addToItineraryHistory,
         removeFromGrocery,

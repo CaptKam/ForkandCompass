@@ -20,6 +20,7 @@ import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { COUNTRIES, getAllRecipes, getCountryLocations, LANDMARK_IMAGES, type Country, type Recipe } from "@/constants/data";
 import { PARTNER_CONFIG, PARTNER_LIST } from "@/constants/partners";
 import { useApp, type CookingLevel, type AppearanceMode } from "@/contexts/AppContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const COOKING_LEVELS: { key: CookingLevel; label: string; icon: string }[] = [
   { key: "beginner", label: "Just Learning", icon: "🌱" },
@@ -54,6 +55,8 @@ export default function ProfileTab() {
     groceryPartner,
     setGroceryPartner,
   } = useApp();
+
+  const { isAuthenticated, user, signOut } = useAuth();
 
   const haptic = () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -144,6 +147,29 @@ export default function ProfileTab() {
             <Text style={styles.statLabel}>Recipes</Text>
           </View>
         </View>
+
+        {/* Auth section */}
+        {!isAuthenticated ? (
+          <Pressable onPress={() => router.push("/auth")} style={styles.authPrompt}>
+            <View style={styles.authPromptInner}>
+              <Text style={styles.authPromptTitle}>Sign in to save your progress</Text>
+              <Text style={styles.authPromptSub}>Your recipes, plans and grocery lists will sync across all your devices.</Text>
+              <View style={styles.authPromptBtn}>
+                <Text style={styles.authPromptBtnText}>Sign In or Create Account</Text>
+              </View>
+            </View>
+          </Pressable>
+        ) : (
+          <View style={styles.accountRow}>
+            <View>
+              <Text style={styles.accountEmail}>{user?.email}</Text>
+              <Text style={styles.accountSub}>Signed in</Text>
+            </View>
+            <Pressable onPress={() => { Alert.alert("Sign Out", "Are you sure?", [{ text: "Cancel", style: "cancel" }, { text: "Sign Out", style: "destructive", onPress: signOut }]); }} style={styles.signOutBtn}>
+              <Text style={styles.signOutText}>Sign Out</Text>
+            </Pressable>
+          </View>
+        )}
 
         {/* Saved — Countries */}
         {savedCountries.length > 0 && (
@@ -360,11 +386,13 @@ export default function ProfileTab() {
                 <Text style={styles.bucketEmpty}>No countries selected yet</Text>
               )}
             </View>
-            {/* TODO: implement navigation to country editor */}
-            <View style={styles.editCountriesRow}>
+            <Pressable
+              style={styles.editCountriesRow}
+              onPress={() => { haptic(); router.push("/onboarding"); }}
+            >
               <Text style={styles.editCountriesText}>Edit countries</Text>
               <Ionicons name="chevron-forward" size={18} color={Colors.light.secondary} />
-            </View>
+            </Pressable>
           </View>
         </View>
 
@@ -780,6 +808,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.light.error,
   },
+
+  // Auth section
+  authPrompt: { marginHorizontal: 24, marginBottom: 24, backgroundColor: Colors.light.surfaceContainerLow, borderRadius: 12, borderWidth: 1, borderColor: Colors.light.outlineVariant, overflow: "hidden" },
+  authPromptInner: { padding: 20 },
+  authPromptTitle: { fontFamily: "NotoSerif_700Bold", fontSize: 17, color: Colors.light.onSurface, marginBottom: 6 },
+  authPromptSub: { fontFamily: "Inter_400Regular", fontSize: 14, color: Colors.light.secondary, lineHeight: 20, marginBottom: 14 },
+  authPromptBtn: { backgroundColor: Colors.light.primary, borderRadius: 10, paddingVertical: 10, alignItems: "center" },
+  authPromptBtnText: { fontFamily: "Inter_600SemiBold", fontSize: 14, color: Colors.light.onPrimary },
+  accountRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginHorizontal: 24, marginBottom: 24, paddingHorizontal: 16, paddingVertical: 14, backgroundColor: Colors.light.surfaceContainerLow, borderRadius: 12, borderWidth: 1, borderColor: Colors.light.outlineVariant },
+  accountEmail: { fontFamily: "Inter_600SemiBold", fontSize: 14, color: Colors.light.onSurface },
+  accountSub: { fontFamily: "Inter_400Regular", fontSize: 12, color: Colors.light.secondary, marginTop: 2 },
+  signOutBtn: { paddingHorizontal: 14, paddingVertical: 8, minHeight: 44, justifyContent: "center" },
+  signOutText: { fontFamily: "Inter_500Medium", fontSize: 14, color: Colors.light.error },
 
   settingsPartnerCircle: {
     width: 36,

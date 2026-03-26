@@ -407,13 +407,23 @@ export default function DiscoverScreen() {
     cookingProfile,
     recentCookSessions,
     currentItinerary,
+    selectedCountryIds,
   } = useApp();
-  const { countries } = useCountries();
+  const { countries: allCountries } = useCountries();
+
+  // Order countries: user's bucket list picks first, then the rest
+  const countries = useMemo(() => {
+    if (!selectedCountryIds?.length) return allCountries;
+    const selected = allCountries.filter(c => selectedCountryIds.includes(c.id));
+    const others = allCountries.filter(c => !selectedCountryIds.includes(c.id));
+    return [...selected, ...others];
+  }, [selectedCountryIds, allCountries]);
+
   const reducedMotion = useReducedMotion();
   const heroScrollRef = useRef<ScrollView>(null);
   const destScrollRef = useRef<ScrollView>(null);
   const isProgrammaticScroll = useRef(false);
-  const [activeIndex, setActiveIndex] = useState(2); // default to Morocco (index 2)
+  const [activeIndex, setActiveIndex] = useState(0); // first country (user's top pick if any)
   const { width: screenWidth } = useWindowDimensions();
 
   const DEST_ITEM_WIDTH = 94; // ring width
@@ -579,14 +589,19 @@ export default function DiscoverScreen() {
           >
             {countries.map((country, idx) => {
               const isActive = idx === activeIndex;
+              const isBucketList = selectedCountryIds?.includes(country.id);
               return (
                 <Pressable
                   key={country.id}
                   onPress={() => { haptic(); setActiveIndex(idx); scrollHeroTo(idx); }}
                   style={styles.destItem}
                 >
-                  {/* Outer ring — handles the active border without clipping */}
-                  <View style={[styles.destRing, isActive && styles.destRingActive]}>
+                  {/* Outer ring — active = thick, bucket list = thin terracotta */}
+                  <View style={[
+                    styles.destRing,
+                    isActive && styles.destRingActive,
+                    !isActive && isBucketList && { borderWidth: 1.5, borderColor: Colors.light.primary },
+                  ]}>
                     {/* Inner circle — clips the image to a circle */}
                     <View style={styles.destCircle}>
                       <Image
