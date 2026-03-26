@@ -167,6 +167,8 @@ export default function PlanScreen() {
       const dateObj = new Date(monday);
       dateObj.setDate(monday.getDate() + i);
       const dateStr = toISODate(dateObj);
+      // Skip days before today — only show today and upcoming
+      if (dateStr < today) continue;
       const existing = currentItinerary.find((dd) => dd.date === dateStr);
       if (existing) {
         // Skip today's active entry — it's shown separately in the TONIGHT header
