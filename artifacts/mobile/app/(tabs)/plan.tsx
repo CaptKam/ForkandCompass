@@ -151,6 +151,8 @@ export default function PlanScreen() {
       const dateStr = toISODate(dateObj);
       const existing = currentItinerary.find((dd) => dd.date === dateStr);
       if (existing) {
+        // Skip today's active entry — it's shown separately in the TONIGHT header
+        if (dateStr === today && existing.status === "active") continue;
         result.push(existing);
       } else {
         result.push({ id: `empty-${dateStr}`, date: dateStr, dayLabel: DAY_LABELS_FULL[i], isEmpty: true });

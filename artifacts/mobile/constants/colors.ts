@@ -1,4 +1,5 @@
 // The Culinary Editorial — Color Palette
+// Primary: Terracotta (#9A4100) — all CTAs, active states, highlights
 // Primary: Burnt Sienna (#9A4100) — all CTAs, active states, highlights
 // Secondary: Soft Peach (#FDDCB5) — subtle backgrounds
 // Background: Warm Cream (#FDF8F2) — main surface
@@ -9,6 +10,7 @@
 
 const light = {
   primary: "#9A4100",
+  primaryContainer: "#C75B12",
   primaryContainer: "#C05500",
   onPrimary: "#FFFFFF",
   onPrimaryContainer: "#FFFBFF",
