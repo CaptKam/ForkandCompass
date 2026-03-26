@@ -184,6 +184,7 @@ interface AppContextType {
   setCurrentItinerary: (itinerary: ItineraryDay[]) => void;
   addCourseToDay: (date: string, recipeId: string) => void;
   removeCourseFromDay: (date: string, recipeId: string) => void;
+  markDayCompleted: (date: string) => void;
   itineraryHistory: ItineraryDay[][];
   addToItineraryHistory: (week: ItineraryDay[]) => void;
   groceryPartner: GroceryPartner;
@@ -810,6 +811,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
+  const markDayCompleted = useCallback((date: string) => {
+    setCurrentItineraryState(prev => prev.map(day =>
+      day.date === date
+        ? { ...day, status: "completed" as const }
+        : day
+    ));
+  }, []);
+
   const addToItineraryHistory = useCallback((week: ItineraryDay[]) => {
     setItineraryHistoryState((prev) => {
       const next = [...prev, week].slice(-4); // keep last 4 weeks
@@ -886,6 +895,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setCurrentItinerary,
         addCourseToDay,
         removeCourseFromDay,
+        markDayCompleted,
         itineraryHistory,
         addToItineraryHistory,
         removeFromGrocery,

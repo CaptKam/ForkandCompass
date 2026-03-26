@@ -188,7 +188,7 @@ export default function CookModeScreen() {
 
   const { recipeId, recipeIds, resumeStep } = useLocalSearchParams<{ recipeId: string; recipeIds?: string; resumeStep?: string }>();
   const insets = useSafeAreaInsets();
-  const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit } = useApp();
+  const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit, currentItinerary, markDayCompleted } = useApp();
   const colors = useThemeColors();
 
   // Multi-recipe support: parse all recipe IDs from comma-separated param
@@ -407,6 +407,21 @@ export default function CookModeScreen() {
     };
     completeCookSession(session);
     setActiveCookSession(null);
+
+    // Mark the planned day as completed if this recipe was on today's plan
+    const todayISO = new Date().toISOString().split("T")[0];
+    const todayPlan = currentItinerary?.find(d => d.date === todayISO);
+    if (todayPlan) {
+      const allIds = [
+        ...(todayPlan.quickRecipeIds ?? []),
+        ...(todayPlan.fullRecipeIds ?? []),
+        ...(todayPlan.extraRecipeIds ?? []),
+      ];
+      if (allIds.includes(recipeId)) {
+        markDayCompleted(todayISO);
+      }
+    }
+
     if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     router.back();
   };

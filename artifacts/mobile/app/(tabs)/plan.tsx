@@ -1482,6 +1482,9 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
               <Text style={styles.todayBadgeText}>Tonight</Text>
             </View>
           )}
+          {day.status === "completed" && (
+            <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: Colors.light.success, marginLeft: 2 }} />
+          )}
         </View>
         {!isSkipped && !isPast && onAdd && (
           <Pressable onPress={onAdd} hitSlop={8} style={styles.dayHeaderAddBtn}>
