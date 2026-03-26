@@ -116,10 +116,20 @@ function sortByEatingOrder(ids: string[]): string[] {
 
 function pickRecipesForDay(
   country: Country,
-  preference: "quick" | "moderate" | "relaxed"
+  preference: "quick" | "moderate" | "relaxed",
+  avoidRecipeIds?: string[]
 ): { quickRecipeIds: string[]; fullRecipeIds: string[] } {
   const allRecipes = country.recipes;
-  const filtered = filterByTime(allRecipes, preference);
+  let filtered = filterByTime(allRecipes, preference);
+
+  // Avoid recipes already used on other days this week
+  if (avoidRecipeIds?.length) {
+    const notUsed = filtered.filter((r) => !avoidRecipeIds.includes(r.id));
+    if (notUsed.length >= 2) filtered = notUsed;
+  }
+
+  // Shuffle so different days get different recipes from the same country
+  filtered = shuffle(filtered);
 
   const findByCategory = (recipes: Recipe[], keywords: string[]): Recipe | undefined => {
     return recipes.find((r) => {
@@ -222,13 +232,15 @@ export function generateItinerary(
   // 5. Calculate dates
   const monday = getMonday(new Date());
 
-  // 6. Build itinerary days
+  // 6. Build itinerary days — track used recipes to avoid repeats
+  const usedRecipeIds: string[] = [];
   const days: ItineraryDay[] = pickedCountries.map((country, i) => {
     const dayIdx = dayIndices[i];
     const date = new Date(monday);
     date.setDate(monday.getDate() + dayIdx);
 
-    let { quickRecipeIds, fullRecipeIds } = pickRecipesForDay(country, profile.timePreference);
+    let { quickRecipeIds, fullRecipeIds } = pickRecipesForDay(country, profile.timePreference, usedRecipeIds);
+    usedRecipeIds.push(...quickRecipeIds);
 
     // When using saved recipes, filter to only include saved ones
     if (useSavedRecipeIds?.length) {
