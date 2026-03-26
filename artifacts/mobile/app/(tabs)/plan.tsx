@@ -96,6 +96,7 @@ export default function PlanScreen() {
     setGroceryPartner,
     savedRecipeIds,
     measurementSystem,
+    addCourseToDay,
   } = useApp();
 
   const [segment, setSegment] = useState<PlanSegment>("week");
@@ -103,6 +104,7 @@ export default function PlanScreen() {
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const [swapDay, setSwapDay] = useState<ItineraryDay | null>(null);
   const [editDay, setEditDay] = useState<ItineraryDay | null>(null);
+  const [addCourseDay, setAddCourseDay] = useState<ItineraryDay | null>(null);
   const [moveDay, setMoveDay] = useState<ItineraryDay | null>(null);
   const [addExtraDay, setAddExtraDay] = useState<ItineraryDay | null>(null);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -830,6 +832,18 @@ export default function PlanScreen() {
                 </Pressable>
                 <Pressable
                   style={({ pressed }) => [editMenuStyles.menuItem, pressed && { backgroundColor: Colors.light.surfaceContainerLow }]}
+                  onPress={() => { const d = editDay; setEditDay(null); setTimeout(() => setAddCourseDay(d), 200); }}
+                >
+                  <View style={editMenuStyles.menuIconCircle}>
+                    <Ionicons name="add-circle-outline" size={18} color={Colors.light.primary} />
+                  </View>
+                  <View>
+                    <Text style={editMenuStyles.menuItemTitle}>Add a course</Text>
+                    <Text style={editMenuStyles.menuItemSub}>Appetizer, dessert or drink</Text>
+                  </View>
+                </Pressable>
+                <Pressable
+                  style={({ pressed }) => [editMenuStyles.menuItem, pressed && { backgroundColor: Colors.light.surfaceContainerLow }]}
                   onPress={() => { handleSkipDay(editDay); setEditDay(null); }}
                 >
                   <View style={[editMenuStyles.menuIconCircle, { backgroundColor: Colors.light.surfaceContainerHighest }]}>
@@ -942,6 +956,23 @@ export default function PlanScreen() {
         )}
       </Modal>
 
+      {/* ── Add Course Sheet ─────────────────────────────────────── */}
+      {addCourseDay && (
+        <Modal visible transparent animationType="fade" onRequestClose={() => setAddCourseDay(null)}>
+          <AddCourseSheet
+            day={addCourseDay}
+            onAdd={(recipeId) => {
+              addCourseToDay(addCourseDay.date, recipeId);
+              const r = getRecipeById(recipeId);
+              if (r) addToGrocery(r);
+              if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+              showToast(`Added ${r?.name ?? "course"}`);
+            }}
+            onClose={() => setAddCourseDay(null)}
+          />
+        </Modal>
+      )}
+
       {/* ── Toast ────────────────────────────────────────────────── */}
       {toast && (
         <View style={[styles.toast, { bottom: (Platform.OS === "web" ? 150 : insets.bottom + SCROLL_BOTTOM_INSET) }]}>
@@ -1029,6 +1060,90 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
         </View>
       </Pressable>
     </View>
+  );
+}
+
+// ─── AddCourseSheet ──────────────────────────────────────────────────────────
+
+const ADD_COURSE_TYPES = ["Appetizer", "Dessert", "Side Dish", "Beverage", "Any"];
+
+function AddCourseSheet({ day, onAdd, onClose }: { day: ItineraryDay; onAdd: (recipeId: string) => void; onClose: () => void }) {
+  const [selectedType, setSelectedType] = useState<string>("Appetizer");
+  const country = getCountryById(day.countryId);
+
+  const filteredRecipes = useMemo(() => {
+    const all = getAllRecipes();
+    const filtered = selectedType === "Any" ? all : all.filter(r => r.category === selectedType);
+    const sameCountry = filtered.filter(r => r.countryId === day.countryId);
+    const others = filtered.filter(r => r.countryId !== day.countryId);
+    return [...sameCountry, ...others].slice(0, 20);
+  }, [selectedType, day.countryId]);
+
+  const existingIds = new Set([
+    ...(day.quickRecipeIds ?? []),
+    ...(day.fullRecipeIds ?? []),
+    ...(day.extraRecipeIds ?? []),
+  ]);
+
+  return (
+    <Pressable style={editMenuStyles.overlay} onPress={onClose}>
+      <Pressable style={editMenuStyles.sheet} onPress={e => e.stopPropagation()}>
+        <View style={editMenuStyles.handle} />
+        <Text style={editMenuStyles.title}>Add a Course</Text>
+        <Text style={{ fontFamily: "Inter_400Regular", fontSize: 14, color: Colors.light.secondary, marginBottom: 16, marginTop: -8 }}>
+          Adding to {country?.name ?? "your"} dinner
+        </Text>
+
+        {/* Course type pills */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingBottom: 16 }}>
+          {ADD_COURSE_TYPES.map(type => (
+            <Pressable
+              key={type}
+              onPress={() => setSelectedType(type)}
+              style={{
+                paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20,
+                backgroundColor: selectedType === type ? Colors.light.primary : Colors.light.surfaceContainerLow,
+                borderWidth: 1,
+                borderColor: selectedType === type ? Colors.light.primary : Colors.light.outlineVariant,
+              }}
+            >
+              <Text style={{
+                fontFamily: "Inter_600SemiBold", fontSize: 13,
+                color: selectedType === type ? Colors.light.onPrimary : Colors.light.onSurface,
+              }}>{type}</Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+
+        {/* Recipe list */}
+        <ScrollView style={{ maxHeight: 320 }} showsVerticalScrollIndicator={false}>
+          {filteredRecipes.map(recipe => {
+            const alreadyAdded = existingIds.has(recipe.id);
+            return (
+              <Pressable
+                key={recipe.id}
+                onPress={() => { if (!alreadyAdded) { onAdd(recipe.id); onClose(); } }}
+                style={{ flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.light.outlineVariant, opacity: alreadyAdded ? 0.4 : 1 }}
+              >
+                <Image source={{ uri: recipe.image }} style={{ width: 44, height: 44, borderRadius: 8 }} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Text style={{ fontFamily: "NotoSerif_700Bold", fontSize: 14, color: Colors.light.onSurface }} ellipsizeMode="tail" numberOfLines={1}>{recipe.name}</Text>
+                  <Text style={{ fontFamily: "Inter_400Regular", fontSize: 12, color: Colors.light.secondary }}>{recipe.countryName} · {recipe.time}</Text>
+                </View>
+                {alreadyAdded ? (
+                  <Text style={{ fontSize: 11, color: Colors.light.secondary }}>Added</Text>
+                ) : (
+                  <Ionicons name="add-circle" size={24} color={Colors.light.primary} />
+                )}
+              </Pressable>
+            );
+          })}
+          {filteredRecipes.length === 0 && (
+            <Text style={{ fontFamily: "Inter_400Regular", fontSize: 14, color: Colors.light.secondary, textAlign: "center", paddingVertical: 32 }}>No {selectedType.toLowerCase()} recipes found</Text>
+          )}
+        </ScrollView>
+      </Pressable>
+    </Pressable>
   );
 }
 
@@ -1399,6 +1514,22 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
               <Pressable onPress={onRestore} hitSlop={8}>
                 <Text style={styles.restoreText}>Restore</Text>
               </Pressable>
+            )}
+            {!isSkipped && (day.extraRecipeIds?.length ?? 0) > 0 && (
+              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 4, marginTop: 4 }}>
+                {day.extraRecipeIds!.map(id => {
+                  const r = getRecipeById(id);
+                  if (!r) return null;
+                  return (
+                    <View key={id} style={{ backgroundColor: Colors.light.surfaceContainerLow, borderRadius: 6, paddingHorizontal: 8, paddingVertical: 3, borderWidth: 1, borderColor: Colors.light.outlineVariant, flexDirection: "row", alignItems: "center", gap: 4 }}>
+                      <Text style={{ fontSize: 10 }}>
+                        {r.category === "Dessert" ? "🍮" : r.category === "Appetizer" ? "🥗" : r.category === "Beverage" ? "🍷" : "🍽️"}
+                      </Text>
+                      <Text style={{ fontFamily: "Inter_500Medium", fontSize: 11, color: Colors.light.secondary }} ellipsizeMode="tail" numberOfLines={1}>{r.name}</Text>
+                    </View>
+                  );
+                })}
+              </View>
             )}
           </View>
         </Pressable>
