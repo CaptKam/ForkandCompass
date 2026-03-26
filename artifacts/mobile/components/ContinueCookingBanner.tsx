@@ -87,15 +87,16 @@ export default function ContinueCookingBanner() {
 
   if (Platform.OS === "ios") {
     return (
-      <View style={styles.container}>
-        <BlurView intensity={80} tint="light" style={StyleSheet.absoluteFill} />
+      <View style={[styles.container, { backgroundColor: "#FEF9F3" }]}>
+        <BlurView intensity={70} tint="light" style={StyleSheet.absoluteFill} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(254,249,243,0.75)" }]} />
         {Inner}
       </View>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: "rgba(255,255,255,0.96)" }]}>
+    <View style={[styles.container, { backgroundColor: "#FEF9F3" }]}>
       {Inner}
     </View>
   );
