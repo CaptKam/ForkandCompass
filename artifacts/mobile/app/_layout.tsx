@@ -24,6 +24,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import CookingPill from "@/components/CookingPill";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppProvider } from "@/contexts/AppContext";
+import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 SplashScreen.preventAutoHideAsync();
@@ -100,14 +101,16 @@ export default function RootLayout() {
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
           <AppProvider>
-            <GestureHandlerRootView>
-              <KeyboardProvider>
-                <RootLayoutNav />
-                <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-                  <CookingPill />
-                </View>
-              </KeyboardProvider>
-            </GestureHandlerRootView>
+            <SubscriptionProvider userId={null}>
+              <GestureHandlerRootView>
+                <KeyboardProvider>
+                  <RootLayoutNav />
+                  <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+                    <CookingPill />
+                  </View>
+                </KeyboardProvider>
+              </GestureHandlerRootView>
+            </SubscriptionProvider>
           </AppProvider>
         </QueryClientProvider>
       </ErrorBoundary>
