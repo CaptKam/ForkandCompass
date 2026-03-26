@@ -154,8 +154,6 @@ export default function PlanScreen() {
       const dateStr = toISODate(dateObj);
       const existing = currentItinerary.find((dd) => dd.date === dateStr);
       if (existing) {
-        // Skip today's active entry — it's shown separately in the TONIGHT header
-        if (dateStr === today && existing.status === "active") continue;
         result.push(existing);
       } else {
         result.push({ id: `empty-${dateStr}`, date: dateStr, dayLabel: DAY_LABELS_FULL[i], isEmpty: true });
@@ -519,12 +517,6 @@ export default function PlanScreen() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={[styles.weekScrollContent, { paddingBottom: 140 }]}
           >
-            {todayDay && (
-              <View>
-                <Text style={styles.sectionLabel}>TONIGHT</Text>
-                <TonightCard day={todayDay} servings={itineraryProfile?.defaultServings ?? 4} />
-              </View>
-            )}
             <View style={{ marginBottom: 24, gap: 20 }}>
               {fullWeek.map((entry, index) => {
                 if ("isEmpty" in entry) {
