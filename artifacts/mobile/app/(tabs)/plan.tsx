@@ -595,10 +595,12 @@ export default function PlanScreen() {
             </Pressable>
           </ScrollView>
           ) : (
-          <FlatList
+          <DraggableFlatList
             style={{ flex: 1 }}
             data={fullWeek}
             keyExtractor={(item, index) => `${item.id}-${index}`}
+            onDragBegin={(index) => { draggedOriginalIndexRef.current = index; }}
+            onDragEnd={handleDragEnd}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={[styles.weekScrollContent, { paddingBottom: insets.bottom + SCROLL_BOTTOM_INSET }]}
             ListHeaderComponent={
@@ -617,7 +619,7 @@ export default function PlanScreen() {
                 <Text style={styles.newWeekText}>Generate new week</Text>
               </Pressable>
             }
-            renderItem={({ item: entry, index: rawIndex }) => {
+            renderItem={({ item: entry, index: rawIndex, drag, isActive }: RenderItemParams<typeof fullWeek[number]>) => {
               const index = rawIndex ?? 0;
               if ("isEmpty" in entry) {
                 return (
@@ -630,17 +632,21 @@ export default function PlanScreen() {
                 );
               }
               return (
+                <ScaleDecorator>
                   <WeekRow
                     day={entry}
                     isLast={index === fullWeek.length - 1}
                     isToday={entry.date === today}
                     isPast={entry.date < today}
+                    drag={drag}
+                    isActive={isActive}
                     onReload={() => { haptic(); setSwapDay(entry); }}
                     onSkip={() => handleSkipDay(entry)}
                     onRestore={() => handleRestoreDay(entry)}
                     onEdit={() => { haptic(); setEditDay(entry); }}
                     onAdd={() => { haptic(); setAddExtraDay(entry); }}
                   />
+                </ScaleDecorator>
               );
             }}
           />
