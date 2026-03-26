@@ -161,116 +161,150 @@ export default function CookScreen() {
         contentContainerStyle={{ paddingTop: insets.top + 12, paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
         {/* ── PRIORITY 1: Active Cook Session ───────────────────────── */}
-        {hasActiveSession && activeCookSession && (
-          <View style={styles.section}>
-            <View style={styles.sectionLabelRow}>
-              <Text style={styles.sectionLabelEditorial}>In Progress</Text>
-              <Text style={styles.sessionActiveBadge}>Session Active</Text>
-            </View>
-            <View style={styles.activeCard}>
-              <View style={styles.activeGrid}>
-                <View style={styles.activeImageWrap}>
-                  {activeRecipe?.image ? (
-                    <Image
-                      source={{ uri: activeRecipe.image }}
-                      style={StyleSheet.absoluteFill}
-                      contentFit="cover"
-                      transition={reducedMotion ? 0 : 400}
-                      placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
-                      onError={(e) => console.warn("[Image] Failed to load:", e.error)}
-                    />
-                  ) : (
-                    <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.light.surfaceContainerHigh }]} />
-                  )}
-                  <LinearGradient colors={["transparent", "rgba(0,0,0,0.5)"]} style={StyleSheet.absoluteFill} />
-                  {activeCookSession.timerRemaining != null && activeCookSession.timerRemaining > 0 && (
-                    <View style={styles.timerOverlay}>
-                      <View style={styles.timerPill}>
-                        <Ionicons name="timer-outline" size={14} color="#FFFFFF" />
-                        <Text style={styles.timerText}>{formatSeconds(activeCookSession.timerRemaining)}</Text>
-                      </View>
-                    </View>
-                  )}
-                </View>
-                <View style={styles.activeDetails}>
-                  <View>
-                    <View style={styles.stepIndicator}>
-                      <Text style={styles.stepLabel}>Step {activeCookSession.currentStep + 1} of {activeCookSession.totalSteps}</Text>
-                      <View style={styles.stepDivider} />
-                    </View>
-                    <Text style={styles.activeRecipeName} numberOfLines={2} ellipsizeMode="tail">{activeCookSession.recipeName}</Text>
-                    {activeRecipe && (
-                      <Text style={styles.activeRecipeDesc} numberOfLines={2} ellipsizeMode="tail">
-                        {activeRecipe.steps?.[activeCookSession.currentStep]?.text
-                          ? activeRecipe.steps[activeCookSession.currentStep].text.slice(0, 100)
-                          : activeRecipe.description}
-                      </Text>
-                    )}
-                  </View>
-                  <View style={styles.activeActions}>
-                    <Pressable
-                      onPress={() => {
-                        haptic("medium");
-                        router.push({
-                          pathname: "/cook-mode",
-                          params: {
-                            recipeId: activeCookSession.recipeId,
-                            resumeStep: String(activeCookSession.currentStep),
-                          },
-                        });
-                      }}
-                      style={({ pressed }) => [styles.continueCookBtn, pressed && { opacity: 0.88 }]}
-                    >
-                      <Text style={styles.continueCookBtnText}>Continue Cooking</Text>
-                    </Pressable>
-                    <Pressable onPress={handleAbandonSession} style={{ alignItems: "center", paddingVertical: 8 }}>
-                      <Text style={styles.abandonLink}>Abandon session</Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-        )}
-
-        {/* ── Tonight's Recipe (no active session) ───────────────── */}
-        {hasTonightsRecipe && tonightsRecipe && (
-          <View style={styles.section}>
-            <View style={styles.sectionLabelRow}>
-              <Text style={styles.sectionLabelEditorial}>Tonight</Text>
-            </View>
-            <View style={styles.activeCard}>
-              <View style={styles.activeGrid}>
-                <Pressable
-                  style={styles.activeImageWrap}
-                  onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: tonightsRecipe.id } }); }}
-                >
+        {hasActiveSession && activeCookSession && (() => {
+          const progress = activeCookSession.totalSteps > 0
+            ? (activeCookSession.currentStep / activeCookSession.totalSteps) * 100
+            : 0;
+          const hasTimer = activeCookSession.timerRunning && activeCookSession.timerRemaining != null && activeCookSession.timerRemaining > 0;
+          return (
+            <View style={styles.section}>
+              <Pressable
+                onPress={() => {
+                  haptic("medium");
+                  router.push({
+                    pathname: "/cook-mode",
+                    params: {
+                      recipeId: activeCookSession.recipeId,
+                      resumeStep: String(activeCookSession.currentStep),
+                    },
+                  });
+                }}
+                style={({ pressed }) => [styles.activeCard, pressed && { opacity: 0.95 }]}
+              >
+                {/* Background image */}
+                {activeRecipe?.image ? (
                   <Image
-                    source={{ uri: tonightsRecipe.image }}
+                    source={{ uri: activeRecipe.image }}
                     style={StyleSheet.absoluteFill}
                     contentFit="cover"
                     transition={reducedMotion ? 0 : 400}
                     placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
                     onError={(e) => console.warn("[Image] Failed to load:", e.error)}
                   />
-                  <LinearGradient colors={["transparent", "rgba(0,0,0,0.3)"]} style={StyleSheet.absoluteFill} />
-                </Pressable>
-                <View style={styles.activeDetails}>
-                  <View>
-                    <Text style={styles.activeRecipeName} numberOfLines={2} ellipsizeMode="tail">{tonightsRecipe.name}</Text>
-                    <Text style={styles.activeRecipeDesc} numberOfLines={2} ellipsizeMode="tail">
-                      {tonightsRecipe.region ?? tonightsRecipe.countryName} {"\u2022"} {tonightsRecipe.time}
-                    </Text>
+                ) : (
+                  <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.light.surfaceContainerHigh }]} />
+                )}
+                <LinearGradient
+                  colors={["rgba(0,0,0,0.15)", "rgba(0,0,0,0.55)", "rgba(0,0,0,0.85)"]}
+                  locations={[0, 0.45, 1]}
+                  style={StyleSheet.absoluteFill}
+                />
+
+                {/* Card content */}
+                <View style={styles.activeCardContent}>
+                  {/* Top row: label + timer */}
+                  <View style={styles.activeCardTopRow}>
+                    <Text style={styles.continueCookingLabel}>CONTINUE COOKING</Text>
+                    {hasTimer && (
+                      <View style={styles.timerPill}>
+                        <Ionicons name="timer-outline" size={13} color="#FFFFFF" />
+                        <Text style={styles.timerText}>{formatSeconds(activeCookSession.timerRemaining!)}</Text>
+                      </View>
+                    )}
                   </View>
+
+                  {/* Step + Recipe name */}
+                  <View style={styles.activeCardMain}>
+                    <Text style={styles.stepLabel}>
+                      Step {activeCookSession.currentStep + 1} of {activeCookSession.totalSteps}
+                    </Text>
+                    <Text style={styles.activeRecipeName} numberOfLines={2} ellipsizeMode="tail">
+                      {activeCookSession.recipeName}
+                    </Text>
+                    {activeRecipe && (
+                      <Text style={styles.activeRecipeDesc} numberOfLines={2} ellipsizeMode="tail">
+                        {activeRecipe.steps?.[activeCookSession.currentStep]?.text
+                          ? activeRecipe.steps[activeCookSession.currentStep].text.slice(0, 90)
+                          : activeRecipe.description}
+                      </Text>
+                    )}
+                  </View>
+
+                  {/* Continue button */}
+                  <View style={styles.activeActions}>
+                    <View style={styles.continueCookBtn}>
+                      <Ionicons name="play" size={16} color="#FFFFFF" />
+                      <Text style={styles.continueCookBtnText}>Continue Cooking</Text>
+                    </View>
+                    <Pressable
+                      onPress={(e) => { e.stopPropagation?.(); handleAbandonSession(); }}
+                      style={{ alignItems: "center", paddingVertical: 10 }}
+                      hitSlop={8}
+                    >
+                      <Text style={styles.abandonLink}>Abandon session</Text>
+                    </Pressable>
+                  </View>
+                </View>
+
+                {/* Progress bar at the very bottom */}
+                <View style={styles.progressTrack}>
+                  <View style={[styles.progressFill, { width: `${Math.max(progress, 3)}%` as any }]} />
+                </View>
+              </Pressable>
+            </View>
+          );
+        })()}
+
+        {/* ── Tonight's Recipe (no active session) ───────────────── */}
+        {hasTonightsRecipe && tonightsRecipe && (
+          <View style={styles.section}>
+            <Pressable
+              onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: tonightsRecipe.id } }); }}
+              style={({ pressed }) => [styles.activeCard, pressed && { opacity: 0.95 }]}
+            >
+              <Image
+                source={{ uri: tonightsRecipe.image }}
+                style={StyleSheet.absoluteFill}
+                contentFit="cover"
+                transition={reducedMotion ? 0 : 400}
+                placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                onError={(e) => console.warn("[Image] Failed to load:", e.error)}
+              />
+              <LinearGradient
+                colors={["rgba(0,0,0,0.08)", "rgba(0,0,0,0.52)", "rgba(0,0,0,0.82)"]}
+                locations={[0, 0.45, 1]}
+                style={StyleSheet.absoluteFill}
+              />
+              <View style={styles.activeCardContent}>
+                <View style={styles.activeCardTopRow}>
+                  <Text style={styles.continueCookingLabel}>TONIGHT</Text>
+                  <View style={styles.timerPill}>
+                    <Ionicons name="time-outline" size={13} color="#FFFFFF" />
+                    <Text style={styles.timerText}>{tonightsRecipe.time}</Text>
+                  </View>
+                </View>
+                <View style={styles.activeCardMain}>
+                  <Text style={styles.stepLabel}>
+                    {tonightsRecipe.region ?? tonightsRecipe.countryName} {"\u2022"} {tonightsRecipe.difficulty}
+                  </Text>
+                  <Text style={styles.activeRecipeName} numberOfLines={2} ellipsizeMode="tail">
+                    {tonightsRecipe.name}
+                  </Text>
+                  <Text style={styles.activeRecipeDesc} numberOfLines={2} ellipsizeMode="tail">
+                    {tonightsRecipe.description}
+                  </Text>
+                </View>
+                <View style={styles.activeActions}>
                   <Pressable
-                    onPress={() => handleStartCooking(tonightsRecipe.id)}
-                    style={({ pressed }) => [styles.continueCookBtn, pressed && { opacity: 0.88 }]}
+                    onPress={(e) => { e.stopPropagation?.(); handleStartCooking(tonightsRecipe.id); }}
+                    style={styles.continueCookBtn}
                   >
+                    <Ionicons name="restaurant" size={16} color="#FFFFFF" />
                     <Text style={styles.continueCookBtnText}>Start Cooking</Text>
                   </Pressable>
                 </View>
               </View>
-            </View>
+            </Pressable>
           </View>
         )}
 
@@ -509,84 +543,70 @@ const styles = StyleSheet.create({
 
   /* ── Active Session Hero Card ─────────────────────────────────── */
   activeCard: {
-    marginHorizontal: 24,
+    marginHorizontal: 20,
     borderRadius: 20,
     overflow: "hidden",
+    minHeight: 360,
     backgroundColor: Colors.light.surfaceContainerHigh,
     ...Platform.select({
-      ios: { shadowColor: "#000", shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.12, shadowRadius: 16 },
-      android: { elevation: 8 },
-      web: { boxShadow: "0 8px 32px rgba(0,0,0,0.12)" },
+      ios: { shadowColor: "#000", shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.18, shadowRadius: 20 },
+      android: { elevation: 10 },
+      web: { boxShadow: "0 10px 36px rgba(0,0,0,0.18)" },
     }),
   },
-  activeGrid: {
-    ...Platform.select({
-      web: { flexDirection: "row" as const },
-      default: {},
-    }),
+  activeCardContent: {
+    flex: 1,
+    padding: 24,
+    paddingBottom: 20,
+    justifyContent: "space-between",
+    minHeight: 360,
+    gap: 16,
   },
-  activeImageWrap: {
-    height: 240,
-    ...Platform.select({
-      web: { flex: 1, height: "auto" as any, minHeight: 280 },
-      default: {},
-    }),
-    overflow: "hidden",
-    backgroundColor: Colors.light.surfaceContainerHigh,
+  activeCardTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  timerOverlay: {
-    position: "absolute",
-    bottom: 16,
-    left: 16,
+  continueCookingLabel: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 10,
+    color: "#FFDBCB",
+    letterSpacing: 2,
+    textTransform: "uppercase",
   },
   timerPill: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    backgroundColor: "rgba(255,255,255,0.2)",
+    gap: 5,
+    backgroundColor: "rgba(255,255,255,0.18)",
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.3)",
+    borderColor: "rgba(255,255,255,0.28)",
     borderRadius: 20,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
   },
   timerText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 18,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
     color: "#FFFFFF",
     letterSpacing: -0.5,
   },
-  activeDetails: {
-    padding: 24,
-    gap: 24,
-    justifyContent: "space-between",
-    ...Platform.select({
-      web: { flex: 1 },
-      default: {},
-    }),
-  },
-  stepIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 8,
+  activeCardMain: {
+    flex: 1,
+    justifyContent: "flex-end",
   },
   stepLabel: {
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Inter_500Medium",
     fontSize: 11,
-    color: Colors.light.primaryContainer,
-    letterSpacing: 1,
+    color: "rgba(255,255,255,0.65)",
+    letterSpacing: 1.5,
     textTransform: "uppercase",
-  },
-  stepDivider: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "rgba(222,193,179,0.2)",
+    marginBottom: 8,
   },
   activeRecipeName: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 26,
-    color: Colors.light.onSurface,
+    color: "#FFFFFF",
     letterSpacing: -0.3,
     lineHeight: 34,
     marginBottom: 8,
@@ -594,22 +614,24 @@ const styles = StyleSheet.create({
   activeRecipeDesc: {
     fontFamily: "Inter_400Regular",
     fontSize: 14,
-    color: Colors.light.onSurfaceVariant,
+    color: "rgba(255,255,255,0.72)",
     lineHeight: 22,
   },
   activeActions: {
-    gap: 4,
+    gap: 2,
   },
   continueCookBtn: {
     backgroundColor: Colors.light.primary,
-    height: 48,
-    borderRadius: 12,
+    height: 52,
+    borderRadius: 14,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    gap: 8,
     ...Platform.select({
-      ios: { shadowColor: Colors.light.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
-      android: { elevation: 4 },
-      web: { boxShadow: "0 4px 12px rgba(154,65,0,0.3)" },
+      ios: { shadowColor: Colors.light.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.4, shadowRadius: 10 },
+      android: { elevation: 6 },
+      web: { boxShadow: "0 4px 14px rgba(154,65,0,0.4)" },
     }),
   },
   continueCookBtnText: {
@@ -619,10 +641,24 @@ const styles = StyleSheet.create({
   },
   abandonLink: {
     fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.secondary,
+    fontSize: 13,
+    color: "rgba(255,255,255,0.55)",
     textDecorationLine: "underline",
-    textDecorationColor: "rgba(114,90,60,0.3)",
+    textDecorationColor: "rgba(255,255,255,0.25)",
+    textAlign: "center",
+  },
+  progressTrack: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 4,
+    backgroundColor: "rgba(255,255,255,0.15)",
+  },
+  progressFill: {
+    height: 4,
+    backgroundColor: Colors.light.primary,
+    borderRadius: 2,
   },
 
   /* ── What to Cook (empty state) ──────────────────────────────── */
