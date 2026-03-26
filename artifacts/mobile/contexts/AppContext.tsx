@@ -182,7 +182,7 @@ interface AppContextType {
   itineraryProfile: ItineraryProfile | null;
   setItineraryProfile: (profile: ItineraryProfile) => void;
   currentItinerary: ItineraryDay[];
-  setCurrentItinerary: (itinerary: ItineraryDay[]) => void;
+  setCurrentItinerary: (itinerary: ItineraryDay[] | ((prev: ItineraryDay[]) => ItineraryDay[])) => void;
   addCourseToDay: (date: string, recipeId: string) => void;
   removeCourseFromDay: (date: string, recipeId: string) => void;
   markDayCompleted: (date: string) => void;
@@ -805,7 +805,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setItineraryProfileState(profile);
   }, []);
 
-  const setCurrentItinerary = useCallback((itinerary: ItineraryDay[]) => {
+  const setCurrentItinerary = useCallback((itinerary: ItineraryDay[] | ((prev: ItineraryDay[]) => ItineraryDay[])) => {
     setCurrentItineraryState(itinerary);
   }, []);
 

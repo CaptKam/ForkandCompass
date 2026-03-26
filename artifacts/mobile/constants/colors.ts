@@ -10,7 +10,6 @@
 
 const light = {
   primary: "#9A4100",
-  primaryContainer: "#C75B12",
   primaryContainer: "#C05500",
   onPrimary: "#FFFFFF",
   onPrimaryContainer: "#FFFBFF",

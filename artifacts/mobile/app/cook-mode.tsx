@@ -770,7 +770,7 @@ export default function CookModeScreen() {
                     styles.timerBarFill,
                     {
                       width: timerTotal > 0
-                        ? `${((timerTotal - timerRemaining) / timerTotal) * 100}%`
+                        ? `${((timerTotal - timerRemaining) / timerTotal) * 100}%` as any
                         : "100%",
                     },
                   ]}
@@ -1570,6 +1570,27 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     fontSize: 17,
     color: Colors.light.onPrimary,
+  },
+  timerPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    gap: 6,
+    alignSelf: "flex-start",
+    borderWidth: 1,
+    borderColor: Colors.light.outlineVariant,
+  },
+  timerPillText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.onSurface,
+  },
+  timerPillDone: {
+    borderColor: Colors.light.success,
+    backgroundColor: Colors.light.successContainer,
   },
   helpSectionDivider: {
     fontFamily: "Inter_500Medium",

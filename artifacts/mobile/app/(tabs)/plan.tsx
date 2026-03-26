@@ -1961,6 +1961,25 @@ const styles = StyleSheet.create({
     letterSpacing: -0.3,
     lineHeight: 23,
   },
+  tonightSubtitle: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.secondary,
+    lineHeight: 20,
+  },
+  startCookingBtn: {
+    backgroundColor: Colors.light.primary,
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 12,
+  },
+  startCookingText: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 15,
+    color: Colors.light.onPrimary,
+  },
   tonightDesc: {
     fontFamily: "Inter_400Regular",
     fontSize: 12,
