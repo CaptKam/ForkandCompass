@@ -146,6 +146,19 @@ export default function PlanScreen() {
 
   const today = toISODate(new Date());
 
+  // Detect stale itinerary — all dates are before this week's Monday
+  const isItineraryStale = useMemo(() => {
+    if (currentItinerary.length === 0) return false;
+    const d = new Date();
+    const day = d.getDay();
+    const diff = day === 0 ? -6 : 1 - day;
+    const monday = new Date(d);
+    monday.setDate(d.getDate() + diff);
+    monday.setHours(0, 0, 0, 0);
+    const mondayStr = toISODate(monday);
+    return currentItinerary.every((entry) => entry.date < mondayStr);
+  }, [currentItinerary]);
+
   const todayDay = useMemo(
     () => currentItinerary.find((d) => d.date === today && d.status === "active"),
     [currentItinerary, today]
@@ -498,8 +511,8 @@ export default function PlanScreen() {
 
       {/* ── This Week ─────────────────────────────────────────────── */}
       {segment === "week" && (
-        (!itineraryProfile || currentItinerary.length === 0) ? (
-          /* Empty state — no profile or no itinerary data */
+        (!itineraryProfile || currentItinerary.length === 0 || isItineraryStale) ? (
+          /* Empty state — no profile, no data, or itinerary is from a past week */
           <View style={styles.emptyState}>
             <View style={styles.emptyIconWrap}>
               <Ionicons name="compass-outline" size={48} color={Colors.light.primary} />
@@ -580,12 +593,10 @@ export default function PlanScreen() {
             </Pressable>
           </ScrollView>
           ) : (
-          <DraggableFlatList
+          <FlatList
             style={{ flex: 1 }}
             data={fullWeek}
             keyExtractor={(item, index) => `${item.id}-${index}`}
-            onDragBegin={(index) => { draggedOriginalIndexRef.current = index; }}
-            onDragEnd={handleDragEnd}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={[styles.weekScrollContent, { paddingBottom: insets.bottom + SCROLL_BOTTOM_INSET }]}
             ListHeaderComponent={
@@ -604,8 +615,8 @@ export default function PlanScreen() {
                 <Text style={styles.newWeekText}>Generate new week</Text>
               </Pressable>
             }
-            renderItem={({ item: entry, drag, isActive, getIndex }) => {
-              const index = getIndex() ?? 0;
+            renderItem={({ item: entry, index: rawIndex }) => {
+              const index = rawIndex ?? 0;
               if ("isEmpty" in entry) {
                 return (
                   <EmptyDayRow
@@ -617,7 +628,6 @@ export default function PlanScreen() {
                 );
               }
               return (
-                <ScaleDecorator activeScale={1.02}>
                   <WeekRow
                     day={entry}
                     isLast={index === fullWeek.length - 1}
@@ -628,10 +638,7 @@ export default function PlanScreen() {
                     onRestore={() => handleRestoreDay(entry)}
                     onEdit={() => { haptic(); setEditDay(entry); }}
                     onAdd={() => { haptic(); setAddExtraDay(entry); }}
-                    drag={drag}
-                    isActive={isActive}
                   />
-                </ScaleDecorator>
               );
             }}
           />
