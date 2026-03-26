@@ -211,7 +211,7 @@ export default function CookModeScreen() {
   const { recipeId, recipeIds, resumeStep, servings: servingsParam } = useLocalSearchParams<{ recipeId: string; recipeIds?: string; resumeStep?: string; servings?: string }>();
   const servings = parseInt(servingsParam ?? "4", 10) || 4;
   const insets = useSafeAreaInsets();
-  const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit, currentItinerary, markDayCompleted } = useApp();
+  const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit, currentItinerary, markDayCompleted, groceryItems } = useApp();
   const colors = useThemeColors();
 
   // Multi-recipe support: parse all recipe IDs from comma-separated param
@@ -412,6 +412,14 @@ export default function CookModeScreen() {
       return next;
     });
   };
+
+  // Check if an ingredient is already checked off in the grocery list
+  const isIngredientInPantry = useCallback((name: string): boolean => {
+    const lower = name.toLowerCase();
+    return groceryItems.some(
+      item => item.checked && (item.name.toLowerCase().includes(lower) || lower.includes(item.name.toLowerCase()))
+    );
+  }, [groceryItems]);
 
   const handleFinishDone = () => {
     const session: CookSession = {
@@ -680,15 +688,24 @@ export default function CookModeScreen() {
           contentContainerStyle={styles.scrollContent}
         >
           {/* Ingredients highlight box (above instruction) */}
-          {stepIngredients.length > 0 && (
+          {stepIngredients.length > 0 && (() => {
+            const pantryCount = stepIngredients.filter(ing => isIngredientInPantry(ing.name)).length;
+            return (
             <View style={styles.ingredientsBox}>
               <Text style={styles.ingredientsBoxLabel}>You'll need:</Text>
+              {pantryCount > 0 && (
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 6, paddingHorizontal: 12, backgroundColor: "rgba(52,199,89,0.08)", borderRadius: 10, marginBottom: 8, borderWidth: 1, borderColor: "rgba(52,199,89,0.2)" }}>
+                  <Ionicons name="checkmark-circle" size={14} color={Colors.light.success} />
+                  <Text style={{ fontFamily: "Inter_500Medium", fontSize: 12, color: Colors.light.success }}>{pantryCount} of {stepIngredients.length} already in your pantry</Text>
+                </View>
+              )}
               {stepIngredients.map((ing) => {
                 const isChecked = checkedIngredients.has(ing.id);
+                const inPantry = isIngredientInPantry(ing.name);
                 return (
                   <Pressable
                     key={ing.id}
-                    style={styles.ingredientRow}
+                    style={[styles.ingredientRow, inPantry && !isChecked && { opacity: 0.55 }]}
                     onPress={() => toggleIngredient(ing.id)}
                   >
                     <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
@@ -696,13 +713,21 @@ export default function CookModeScreen() {
                         <Ionicons name="checkmark" size={14} color={Colors.light.primary} />
                       )}
                     </View>
-                    <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked]}>
+                    <Text style={[styles.ingredientText, isChecked && styles.ingredientChecked, inPantry && !isChecked && { textDecorationLine: "line-through" as const }]}>
                       <Text style={styles.ingredientAmountBold}>{convertAmount(scaleAmount(ing.amount, servings / BASE_SERVINGS), measurementSystem)}</Text> {ing.name}
                     </Text>
+                    {inPantry && !isChecked && (
+                      <View style={{ flexDirection: "row", alignItems: "center", gap: 3, marginLeft: 6 }}>
+                        <Ionicons name="checkmark-circle" size={14} color={Colors.light.success} />
+                        <Text style={{ fontFamily: "Inter_400Regular", fontSize: 10, color: Colors.light.success }}>Pantry</Text>
+                      </View>
+                    )}
                   </Pressable>
                 );
               })}
             </View>
+            );
+          })()
           )}
 
           {/* Equipment */}
