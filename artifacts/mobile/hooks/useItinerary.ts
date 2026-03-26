@@ -49,7 +49,7 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function parseTimeMinutes(time: string): number {
+export function parseTimeMinutes(time: string): number {
   if (!time) return 0;
   const lower = time.toLowerCase();
   let total = 0;

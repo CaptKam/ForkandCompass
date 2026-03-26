@@ -186,14 +186,22 @@ export default function CookModeScreen() {
     );
   }, []);
 
-  const { recipeId, resumeStep } = useLocalSearchParams<{ recipeId: string; resumeStep?: string }>();
+  const { recipeId, recipeIds, resumeStep } = useLocalSearchParams<{ recipeId: string; recipeIds?: string; resumeStep?: string }>();
   const insets = useSafeAreaInsets();
-  const recipe = getRecipeById(recipeId);
   const { completeCookSession, cookingProfile, cookingLevel, activeCookSession, setActiveCookSession, measurementSystem, temperatureUnit } = useApp();
   const colors = useThemeColors();
 
+  // Multi-recipe support: parse all recipe IDs from comma-separated param
+  const allRecipeIds = useMemo(() => recipeIds ? recipeIds.split(",").filter(Boolean) : [recipeId], [recipeIds, recipeId]);
+
+  // Track which recipe in the multi-course session is active
+  const savedIndex = activeCookSession?.recipeIds?.length ? (activeCookSession.activeRecipeIndex ?? 0) : 0;
+  const [activeRecipeIndex, setActiveRecipeIndex] = useState(savedIndex);
+  const activeRecipeId = allRecipeIds[activeRecipeIndex] ?? recipeId;
+  const recipe = getRecipeById(activeRecipeId);
+
   // Restore step from URL param, active session, or start at 0
-  const savedStep = activeCookSession?.recipeId === recipeId ? activeCookSession.currentStep : 0;
+  const savedStep = activeCookSession?.recipeId === activeRecipeId ? activeCookSession.currentStep : 0;
   const initialStep = resumeStep ? parseInt(resumeStep, 10) : savedStep;
   const [currentStep, setCurrentStep] = useState(isNaN(initialStep) ? 0 : initialStep);
   const [direction, setDirection] = useState<"forward" | "back">("forward");
@@ -252,6 +260,8 @@ export default function CookModeScreen() {
     setActiveCookSession({
       recipeId: recipe.id,
       recipeName: recipe.name,
+      recipeIds: allRecipeIds.length > 1 ? allRecipeIds : undefined,
+      activeRecipeIndex: allRecipeIds.length > 1 ? activeRecipeIndex : undefined,
       currentStep,
       totalSteps: recipe.steps.length,
       timerRemaining: sameRecipe ? (prev?.timerRemaining ?? null) : null,
@@ -261,7 +271,7 @@ export default function CookModeScreen() {
       startedAt: startTimeRef.current,
       servings: 4,
     });
-  }, [currentStep, finished, recipe?.id]);
+  }, [currentStep, finished, recipe?.id, activeRecipeIndex]);
 
   if (!recipe) {
     return (
@@ -300,8 +310,19 @@ export default function CookModeScreen() {
     router.back();
   };
 
+  const hasMoreCourses = allRecipeIds.length > 1 && activeRecipeIndex < allRecipeIds.length - 1;
+
   const goNext = () => {
     if (isLast) {
+      if (hasMoreCourses) {
+        // Advance to next course instead of finishing
+        if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        setActiveRecipeIndex(prev => prev + 1);
+        setCurrentStep(0);
+        setDirection("forward");
+        setCheckedIngredients(new Set());
+        return;
+      }
       if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       setFinished(true);
       return;
@@ -568,6 +589,47 @@ export default function CookModeScreen() {
         </View>
       </View>
 
+      {/* Course switcher (multi-recipe only) */}
+      {allRecipeIds.length > 1 && (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ gap: 8, paddingHorizontal: 20, paddingVertical: 10 }}
+        >
+          {allRecipeIds.map((id, index) => {
+            const r = getRecipeById(id);
+            if (!r) return null;
+            const isActive = index === activeRecipeIndex;
+            return (
+              <Pressable
+                key={id}
+                onPress={() => {
+                  setActiveRecipeIndex(index);
+                  setCurrentStep(0);
+                  setDirection("forward");
+                  setCheckedIngredients(new Set());
+                  if (Platform.OS !== "web") Haptics.selectionAsync();
+                }}
+                style={{
+                  paddingHorizontal: 14, paddingVertical: 8, borderRadius: 20,
+                  backgroundColor: isActive ? Colors.light.primary : Colors.light.surfaceContainerLow,
+                  borderWidth: 1,
+                  borderColor: isActive ? Colors.light.primary : Colors.light.outlineVariant,
+                }}
+              >
+                <Text style={{
+                  fontFamily: "Inter_600SemiBold", fontSize: 13,
+                  color: isActive ? Colors.light.onPrimary : Colors.light.secondary,
+                }}>
+                  {r.category === "Appetizer" ? "🥗 " : r.category === "Main Course" ? "🍽️ " : r.category === "Dessert" ? "🍮 " : r.category === "Beverage" ? "🍷 " : ""}
+                  {r.name.length > 20 ? r.name.slice(0, 20) + "…" : r.name}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      )}
+
       {/* Step content */}
       <Animated.View
         key={`step-${currentStep}`}
@@ -773,7 +835,7 @@ export default function CookModeScreen() {
             </Pressable>
           </View>
           <Animated.Text style={[styles.swipeHint, pulseStyle]}>
-            {isLast ? "Tap to Finish" : "Swipe for Next Step"}
+            {isLast ? (hasMoreCourses ? `Next: ${getRecipeById(allRecipeIds[activeRecipeIndex + 1])?.name ?? "Next Course"}` : "Tap to Finish") : "Swipe for Next Step"}
           </Animated.Text>
         </View>
       </LinearGradient>

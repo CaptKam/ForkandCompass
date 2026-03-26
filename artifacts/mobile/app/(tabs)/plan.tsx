@@ -28,7 +28,7 @@ import { PARTNER_CONFIG } from "@/constants/partners";
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useApp } from "@/contexts/AppContext";
 import { convertAmount } from "@/constants/units";
-import { reloadDay, generateItinerary, type ItineraryDay } from "@/hooks/useItinerary";
+import { reloadDay, generateItinerary, parseTimeMinutes, type ItineraryDay } from "@/hooks/useItinerary";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -1037,9 +1037,23 @@ function TonightCard({ day, servings }: { day: ItineraryDay; servings: number })
         </Text>
         <Text style={styles.tonightServing}>Serving {servings}</Text>
 
-        {/* Start Cooking → goes DIRECTLY to Cook Mode */}
+        {/* Start Cooking → passes all recipes sorted by longest cook time first */}
         <Pressable
-          onPress={() => { haptic(); router.push({ pathname: "/cook-mode", params: { recipeId: heroRecipe.id } }); }}
+          onPress={() => {
+            haptic();
+            const ids = day.mode === "quick" ? day.quickRecipeIds : day.fullRecipeIds;
+            const extras = day.extraRecipeIds ?? [];
+            const combined = [...ids, ...extras];
+            const sorted = combined.sort((a, b) => {
+              const ta = parseTimeMinutes(getRecipeById(a)?.time ?? "0");
+              const tb = parseTimeMinutes(getRecipeById(b)?.time ?? "0");
+              return tb - ta;
+            });
+            router.push({
+              pathname: "/cook-mode",
+              params: { recipeId: sorted[0], recipeIds: sorted.join(",") },
+            });
+          }}
           style={({ pressed }) => [styles.startCookingBtn, pressed && { opacity: 0.88 }]}
         >
           <Text style={styles.startCookingText}>Start Cooking →</Text>

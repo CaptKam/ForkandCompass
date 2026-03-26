@@ -79,6 +79,8 @@ export interface CookingProfile {
 export interface ActiveCookSession {
   recipeId: string;
   recipeName: string;
+  recipeIds?: string[];          // all recipes in a multi-course session
+  activeRecipeIndex?: number;    // index into recipeIds
   currentStep: number;
   totalSteps: number;
   timerRemaining: number | null;
