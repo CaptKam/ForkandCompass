@@ -157,7 +157,7 @@ export default function CookScreen() {
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
+        contentContainerStyle={{ paddingTop: insets.top + 12, paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
 
         {/* ── Active Session: Editorial Hero ──────────────────────── */}
