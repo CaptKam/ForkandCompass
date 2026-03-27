@@ -88,7 +88,7 @@ export default function LandingPage() {
           <div className="text-left space-y-8">
             <h1 className="font-serif text-6xl md:text-8xl font-semibold tracking-tighter leading-[0.95] text-shadow-elegant text-white mt-[16px]">
               Explore the world.<br />
-              <span className="italic font-normal text-[#8A3800]">Cook it at home.</span>
+              <span className="italic font-normal text-[#8A3800]">Cook at home.</span>
             </h1>
             <p className="text-white/90 text-xl md:text-2xl max-w-xl leading-relaxed italic text-shadow-elegant">
               A premium cooking app for the curious home cook.
@@ -248,7 +248,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
       <section id="features-section" className="py-32 bg-[#FEF9F3]">
         <div className="max-w-[1536px] mx-auto px-8">
           <div className="text-center mb-24 space-y-6">
@@ -273,7 +272,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
       <section id="destinations-section" className="py-32 bg-[#1C1A17] text-[#FEF9F3]">
         <div className="max-w-[1536px] mx-auto px-8 flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="space-y-4">
@@ -306,7 +304,6 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
-
       <section id="quote-section" className="py-40 bg-[#FEF9F3] border-y border-[#8a7266]/10 overflow-hidden relative">
         <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
           <span
@@ -331,7 +328,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
       <section id="cta-section" className="py-40 flex items-center justify-center px-8 bg-[#1C1A17] relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <img

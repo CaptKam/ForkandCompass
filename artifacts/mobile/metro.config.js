@@ -18,4 +18,11 @@ config.resolver.nodeModulesPaths = [
 // Follow symlinks (required for pnpm)
 config.resolver.unstable_enableSymlinks = true;
 
+// Exclude .local (temp/skills files) and .git from Metro's file watcher
+// to prevent ENOENT crashes when Replit deletes temp files during a session
+config.resolver.blockList = [
+  new RegExp(`${path.resolve(monorepoRoot, ".local").replace(/\\/g, "/")}(/.*)?$`),
+  new RegExp(`${path.resolve(monorepoRoot, ".git").replace(/\\/g, "/")}(/.*)?$`),
+];
+
 module.exports = config;
