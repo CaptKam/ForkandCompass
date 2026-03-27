@@ -1,0 +1,99 @@
+Read these files before starting:
+  artifacts/mobile/app/(tabs)/index.tsx
+  artifacts/mobile/app/settings.tsx
+  artifacts/mobile/components/TabHeader.tsx
+  artifacts/mobile/contexts/AuthContext.tsx
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART A — Profile bottom sheet component
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create: artifacts/mobile/components/ProfileSheet.tsx
+
+A bottom sheet that slides up when avatar is tapped.
+Contains everything from settings.tsx in sheet form:
+
+- User email (if signed in) or "Sign in" prompt
+- Cooking level selector (Simmer/Sauté/Sear)
+- Appearance mode (Light/Dark/System)  
+- Bucket list countries with edit button
+- Sign out (if signed in)
+- Close button or swipe down to dismiss
+
+Use the same PanResponder swipe-down-to-dismiss
+pattern from the help sheet in cook-mode.tsx.
+
+The sheet should be triggered from AppContext
+or a simple local state in the nearest parent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART B — Wire avatar in TabHeader
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILE: artifacts/mobile/components/TabHeader.tsx
+
+The avatar onPress should now open ProfileSheet
+not navigate to settings.
+
+Add a showProfileSheet state and render
+ProfileSheet conditionally:
+
+  const [showProfile, setShowProfile] = useState(false);
+
+  <Pressable
+    onPress={() => setShowProfile(true)}
+    accessibilityLabel="Open profile"
+  >
+    <View style={styles.avatarCircle}>
+      <Ionicons name="person" size={18}
+        color={Colors.light.primary} />
+    </View>
+  </Pressable>
+
+  {showProfile && (
+    <ProfileSheet onClose={() => setShowProfile(false)} />
+  )}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART C — Discover "Add to Week" CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILE: artifacts/mobile/app/(tabs)/index.tsx
+
+On recipe cards in the Discover tab add a
+small "+" button that:
+1. Adds the recipe's ingredients to grocery list
+2. Shows a toast: "Added to this week"
+3. Does NOT navigate away
+
+Find the recipe cards in the hero section and
+the Tasting Menu section. Add to each:
+
+  <Pressable
+    onPress={() => {
+      addToGrocery(/* recipe ingredients */);
+      showToast("Added to your grocery list");
+      if (Platform.OS !== "web") {
+        Haptics.notificationAsync(
+          Haptics.NotificationFeedbackType.Success
+        );
+      }
+    }}
+    style={styles.addToWeekBtn}
+    accessibilityLabel="Add to grocery list"
+  >
+    <Ionicons name="add-circle"
+      size={22} color={Colors.light.primary} />
+  </Pressable>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+After changes verify:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ProfileSheet component exists
+2. Avatar tap on any tab opens the sheet
+3. Sheet has all profile settings
+4. Sheet dismisses on swipe down
+5. Discover recipe cards have "+" add button
+6. No TypeScript errors
+7. List every file and line modified

@@ -1,0 +1,108 @@
+Read all files in artifacts/mobile/app/(tabs)/
+before starting.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART A — Empty states for every tab
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Make sure every tab has a proper empty state:
+
+GROCERIES TAB — when list is empty:
+  Cart icon + "Your grocery list is empty"
+  + "Plan your week to auto-fill →" 
+    links to Plan tab
+
+COOK TAB — when no meal planned tonight:
+  Flame icon + "Nothing planned for tonight"
+  + "Plan your week →" links to Plan tab
+  + "Browse recipes →" links to Search tab
+
+PLAN TAB — when no itinerary:
+  Compass icon + "Plan your week of cooking"
+  + "Plan My Week →" button (already exists)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART B — Toast system
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Check if a toast component already exists in
+the app. If not create a simple one:
+
+Create: artifacts/mobile/components/Toast.tsx
+
+A small notification that appears at the top
+of the screen for 2 seconds then fades out:
+
+  interface ToastProps {
+    message: string;
+    visible: boolean;
+    onHide: () => void;
+  }
+
+Use Animated for fade in/out.
+Position: top of screen, below status bar.
+Style: terracotta background, white text,
+       rounded corners, subtle shadow.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART C — Remove debug console.logs
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Search every file in artifacts/mobile/app/
+and artifacts/mobile/components/ for:
+  console.log("[PLAN DEBUG]")
+  console.log("[FULLWEEK DEBUG]")
+  console.log("[Image]")
+  Any other debug console.logs we added
+
+Remove all of them.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART D — Fix week generation for full weeks
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILE: artifacts/mobile/hooks/useItinerary.ts
+
+Fix generateItinerary so it always generates
+a full Mon-Sun week:
+
+  const todayDow = new Date().getDay();
+  // Thu(4) Fri(5) Sat(6) Sun(0) → next week
+  const useNextWeek = todayDow === 0 || todayDow >= 4;
+  
+  const monday = new Date();
+  const daysToMonday = monday.getDay() === 0 
+    ? -6 : 1 - monday.getDay();
+  monday.setDate(
+    monday.getDate() + daysToMonday + (useNextWeek ? 7 : 0)
+  );
+  monday.setHours(0, 0, 0, 0);
+
+Always generate exactly 7 days from that Monday.
+
+FILE: artifacts/mobile/app/(tabs)/plan.tsx
+
+In the fullWeek useMemo remove the past day filter:
+  Remove: if (dateStr < today) continue;
+
+Show all 7 days. Past days display with:
+  opacity: 0.45
+  No edit/reload/skip buttons
+  A subtle "Past" label
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Final verification after all 4 blocks:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. 5 tabs: Discover Search Plan Groceries Cook
+2. No hamburger anywhere
+3. Avatar top-right on every tab
+4. Avatar opens ProfileSheet
+5. Groceries is a standalone tab
+6. Plan has no grocery segment
+7. Cook shows tonight's meal + grocery status
+8. Full 7-day week always generated
+9. All debug logs removed
+10. Run tsc --noEmit — zero errors
+
+List every file created or modified.

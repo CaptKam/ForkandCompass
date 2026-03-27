@@ -1,11 +1,11 @@
 import * as Haptics from "expo-haptics";
-import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
 import Colors from "@/constants/colors";
+import ProfileSheet from "@/components/ProfileSheet";
 
 interface TabHeaderProps {
   title: string;
@@ -14,6 +14,7 @@ interface TabHeaderProps {
 
 export default function TabHeader({ title, rightExtra }: TabHeaderProps) {
   const insets = useSafeAreaInsets();
+  const [showProfile, setShowProfile] = useState(false);
 
   const haptic = () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -27,26 +28,29 @@ export default function TabHeader({ title, rightExtra }: TabHeaderProps) {
       ]}
     >
       <View style={styles.row}>
-        {/* Title */}
         <Text style={styles.title} numberOfLines={1}>
           {title}
         </Text>
 
-        {/* Right: optional extra action + avatar */}
         <View style={styles.right}>
           {rightExtra}
           <Pressable
             onPress={() => {
               haptic();
-              router.push("/settings");
+              setShowProfile(true);
             }}
             style={styles.avatar}
             hitSlop={8}
+            accessibilityLabel="Open profile"
           >
             <Ionicons name="person" size={14} color={Colors.light.outline} />
           </Pressable>
         </View>
       </View>
+
+      {showProfile && (
+        <ProfileSheet onClose={() => setShowProfile(false)} />
+      )}
     </View>
   );
 }

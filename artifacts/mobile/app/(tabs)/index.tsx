@@ -408,6 +408,7 @@ export default function DiscoverScreen() {
     recentCookSessions,
     currentItinerary,
     selectedCountryIds,
+  addToGrocery,
   } = useApp();
   const { countries: allCountries } = useCountries();
 
@@ -424,7 +425,17 @@ export default function DiscoverScreen() {
   const destScrollRef = useRef<ScrollView>(null);
   const isProgrammaticScroll = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0); // first country (user's top pick if any)
+  const [groceryToast, setGroceryToast] = useState<string | null>(null);
+  const groceryToastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { width: screenWidth } = useWindowDimensions();
+
+  const handleAddToGrocery = (recipe: Recipe) => {
+    addToGrocery(recipe);
+    if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    if (groceryToastTimer.current) clearTimeout(groceryToastTimer.current);
+    setGroceryToast("Added to your grocery list");
+    groceryToastTimer.current = setTimeout(() => setGroceryToast(null), 2200);
+  };
 
   const DEST_ITEM_WIDTH = 94; // ring width
   const DEST_GAP = 24;
@@ -442,6 +453,12 @@ export default function DiscoverScreen() {
     const scrollX = Math.max(0, itemCenter - screenWidth / 2);
     destScrollRef.current?.scrollTo({ x: scrollX, animated: true });
   }, [activeIndex, screenWidth]);
+
+  useEffect(() => {
+    return () => {
+      if (groceryToastTimer.current) clearTimeout(groceryToastTimer.current);
+    };
+  }, []);
 
   const activeCountry = countries[activeIndex] ?? countries[0];
   const editorial = buildDiscoverData(activeCountry);
@@ -635,7 +652,17 @@ export default function DiscoverScreen() {
                 onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: todayRecipe.id } }); }}
                 style={({ pressed }) => [styles.tonightCard, pressed && { opacity: 0.88 }]}
               >
-                <Image source={{ uri: todayRecipe.image }} style={styles.tonightImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
+                <View style={{ position: "relative" }}>
+                  <Image source={{ uri: todayRecipe.image }} style={styles.tonightImg} contentFit="cover" placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }} onError={(e) => console.warn("[Image] Failed to load:", e.error)} />
+                  <Pressable
+                    onPress={(e) => { e.stopPropagation(); handleAddToGrocery(todayRecipe); }}
+                    style={styles.addToWeekBtn}
+                    accessibilityLabel="Add to grocery list"
+                    hitSlop={6}
+                  >
+                    <Ionicons name="add-circle" size={22} color={Colors.light.primary} />
+                  </Pressable>
+                </View>
                 <View style={styles.tonightBody}>
                   <View style={styles.tonightMeta}>
                     <Text style={styles.tonightFlag}>{todayCountry.flag}</Text>
@@ -817,7 +844,14 @@ export default function DiscoverScreen() {
                     <Text style={styles.tastingName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
                     <Text style={styles.tastingDesc} numberOfLines={1} ellipsizeMode="tail">{recipe.description}</Text>
                   </View>
-                  <Ionicons name="chevron-forward" size={16} color={Colors.light.outline} />
+                  <Pressable
+                    onPress={(e) => { e.stopPropagation(); handleAddToGrocery(recipe); }}
+                    style={styles.addToWeekBtnSmall}
+                    accessibilityLabel="Add to grocery list"
+                    hitSlop={6}
+                  >
+                    <Ionicons name="add-circle" size={22} color={Colors.light.primary} />
+                  </Pressable>
                 </Pressable>
               </RecipeContextMenu>
             ))}
@@ -1042,6 +1076,15 @@ export default function DiscoverScreen() {
         </View>
 
       </ScrollView>
+
+      {groceryToast && (
+        <View style={styles.toastContainer} pointerEvents="none">
+          <View style={styles.toast}>
+            <Ionicons name="cart" size={16} color="#fff" />
+            <Text style={styles.toastText}>{groceryToast}</Text>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -2054,5 +2097,50 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.light.primary,
     letterSpacing: 0.5,
+  },
+  addToWeekBtn: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "rgba(255,255,255,0.95)",
+    alignItems: "center",
+    justifyContent: "center",
+    ...Platform.select({
+      ios: { shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.15, shadowRadius: 6 },
+      android: { elevation: 4 },
+      web: { boxShadow: "0 2px 8px rgba(0,0,0,0.15)" },
+    }),
+  },
+  addToWeekBtnSmall: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 4,
+  },
+  toastContainer: {
+    position: "absolute",
+    bottom: 100,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+  },
+  toast: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: "rgba(0,0,0,0.82)",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 24,
+  },
+  toastText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: "#fff",
   },
 });

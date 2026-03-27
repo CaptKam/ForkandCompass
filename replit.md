@@ -134,6 +134,9 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
     14. **Must-Try Street Food** — horizontal cards with country flag+name badge in header; cards wrapped in long-press context menu matching recipes by name; tap → recipe detail
     15. **Seasonal Picks / Editorial** — themed editorial card with seasonal badge, headline, body copy, "Read the Collection" CTA
     16. **Related Stories** — horizontal cards linking to other countries' stories
+- **ProfileSheet component** (`components/ProfileSheet.tsx`): Bottom-sheet modal accessed via avatar in TabHeader. Shows user email/guest label, cooking level selector (radio buttons), appearance mode toggle (Light/Dark/System), bucket list country flags with edit link → onboarding, "All Settings" link → settings screen, sign out (auth'd), and reset all data. Swipe-to-dismiss via PanResponder.
+- **TabHeader** (`components/TabHeader.tsx`): Shared tab header with title, optional right slot, and profile avatar circle that opens ProfileSheet.
+- **Discover tab grocery buttons**: "+" add-to-grocery buttons on Tonight's Plan recipe card (image overlay) and Tasting Menu cards (inline). Toast notification "Added to your grocery list" with cart icon, auto-dismiss 2.2s.
 - **Stack screens**: onboarding, country/[id], recipe/[id], cook-mode (modal)
 - **State**: AsyncStorage for saved recipes, grocery list, welcome-seen, selected countries, onboarding-completed via AppContext
 - **Data**: 97 recipes across 8 countries sourced from recipe-api.com (Italy: 16, Japan: 16, Morocco: 10, Mexico: 13, India: 14, Thailand: 12, Spain: 8, France: 8), stored in constants/data.ts + PostgreSQL DB. Covers diverse categories: appetizers, desserts, beverages, salads, soups, breakfast, condiments, and main courses. AI-generated food photography for each recipe served from `/api/images/recipes/`
