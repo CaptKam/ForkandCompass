@@ -508,8 +508,10 @@ export default function PlanScreen() {
         </View>
       </View>
 
+      {/* Content area — must flex to fill remaining space */}
+      <View style={{ flex: 1 }}>
+
       {/* ── This Week ─────────────────────────────────────────────── */}
-      {console.log("[PLAN DEBUG]", { segment, hasProfile: !!itineraryProfile, itineraryLength: currentItinerary.length, isItineraryStale, allDone, fullWeekLength: fullWeek.length })}
       {segment === "week" && (
         (!itineraryProfile || currentItinerary.length === 0 || isItineraryStale) ? (
           /* Empty state — no profile, no data, or itinerary is from a past week */
@@ -837,6 +839,8 @@ export default function PlanScreen() {
           </Pressable>
         </View>
       )}
+
+      </View>{/* end content area flex wrapper */}
 
       {/* ── Edit Menu ──────────────────────────────────────────── */}
       <Modal visible={!!editDay} transparent animationType="fade" onRequestClose={() => setEditDay(null)}>
@@ -1809,6 +1813,7 @@ const styles = StyleSheet.create({
   // Shared empty state
   emptyState: {
     flex: 1,
+    minHeight: 300,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 40,
