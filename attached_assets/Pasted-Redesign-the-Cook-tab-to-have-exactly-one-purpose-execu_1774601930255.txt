@@ -1,0 +1,490 @@
+Redesign the Cook tab to have exactly one purpose:
+execute tonight's meal from start to finish.
+
+Read these files before starting:
+  artifacts/mobile/app/(tabs)/cook.tsx
+  artifacts/mobile/contexts/AppContext.tsx
+  artifacts/mobile/hooks/useItinerary.ts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REMOVE — everything that isn't about tonight
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Remove completely from cook.tsx:
+- Recipe browser grouped by difficulty
+- Recently Cooked section
+- Live recipe search (useNinjaRecipes)
+- Technique cards
+- Any browse or explore content
+- Difficulty grouping sections (Easy/Medium/Hard)
+- The search bar at the top
+
+Keep only:
+- Tonight's meal state and logic
+- Active cooking session state
+- The CookingPill/bar reference
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BUILD — the new Cook tab
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The entire screen is built around one question:
+"What am I cooking tonight and am I ready?"
+
+HEADER:
+  <View style={styles.header}>
+    <Text style={styles.headerTitle}>Cook</Text>
+    <Pressable
+      onPress={() => setShowProfile(true)}
+      accessibilityLabel="Open profile"
+      style={styles.avatarBtn}
+    >
+      <View style={styles.avatarCircle}>
+        <Ionicons name="person" size={18}
+          color={Colors.light.primary} />
+      </View>
+    </Pressable>
+  </View>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STATE 1 — Active cooking session in progress
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When activeCookSession is not null show:
+
+  <View style={styles.activeSession}>
+    <Text style={styles.activeLabel}>
+      IN THE KITCHEN
+    </Text>
+    <Image
+      source={{ uri: activeRecipe.image }}
+      style={styles.activeHeroImage}
+      contentFit="cover"
+    />
+    <View style={styles.activeBody}>
+      <Text style={styles.activeName}>
+        {activeRecipe.name}
+      </Text>
+      <Text style={styles.activeStep}>
+        Step {activeCookSession.currentStep + 1} of{" "}
+        {activeRecipe.steps.length}
+      </Text>
+      {/* Progress bar */}
+      <View style={styles.progressTrack}>
+        <View style={[styles.progressFill, {
+          width: `${(activeCookSession.currentStep /
+            activeRecipe.steps.length) * 100}%`
+            as `${number}%`
+        }]} />
+      </View>
+    </View>
+    <Pressable
+      onPress={() => router.push({
+        pathname: "/cook-mode",
+        params: { recipeId: activeCookSession.recipeId }
+      })}
+      style={styles.resumeBtn}
+      accessibilityLabel="Resume cooking"
+    >
+      <Ionicons name="flame" size={20}
+        color={Colors.light.onPrimary} />
+      <Text style={styles.resumeBtnText}>
+        Resume Cooking →
+      </Text>
+    </Pressable>
+  </View>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STATE 2 — Meal planned, ready to cook
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When activeCookSession is null but todayDay exists:
+
+Get tonight's recipe:
+  const today = toISODate(new Date());
+  const todayDay = currentItinerary.find(
+    d => d.date === today && d.status === "active"
+  );
+  const recipeIds = todayDay
+    ? (todayDay.mode === "quick"
+        ? todayDay.quickRecipeIds
+        : todayDay.fullRecipeIds)
+    : [];
+  const recipes = recipeIds
+    .map(getRecipeById)
+    .filter(Boolean);
+  const heroRecipe = recipes.find(
+    r => r?.category === "Main Course"
+  ) ?? recipes[0];
+
+Show:
+
+  {/* Hero image */}
+  <View style={styles.heroWrap}>
+    <Image
+      source={{ uri: heroRecipe.image }}
+      style={styles.heroImage}
+      contentFit="cover"
+      placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+      onError={e => console.warn("[Image]", e.error)}
+    />
+    <LinearGradient
+      colors={["transparent", "rgba(0,0,0,0.6)"]}
+      style={StyleSheet.absoluteFill}
+    />
+    <View style={styles.heroOverlay}>
+      <Text style={styles.heroFlag}>
+        {getCountryById(todayDay.countryId)?.flag}
+      </Text>
+      <Text style={styles.heroCountry}>
+        {getCountryById(todayDay.countryId)?.name}
+      </Text>
+    </View>
+  </View>
+
+  {/* Recipe info */}
+  <View style={styles.recipeInfo}>
+    <Text style={styles.recipeName}>
+      {heroRecipe.name}
+    </Text>
+    <Text style={styles.recipeMeta}>
+      {heroRecipe.time}
+      {recipes.length > 1
+        ? ` · ${recipes.length} courses`
+        : ""}
+    </Text>
+  </View>
+
+  {/* Time awareness */}
+  <TimeAwarenessCard recipe={heroRecipe} />
+
+  {/* Grocery status */}
+  <GroceryStatusCard recipeIds={recipeIds} />
+
+  {/* CTA */}
+  <CookCTA
+    recipeIds={recipeIds}
+    groceryItems={groceryItems}
+    onStartCooking={handleStartCooking}
+  />
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TIME AWARENESS CARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create a TimeAwarenessCard component inside
+cook.tsx that shows smart timing advice:
+
+  function TimeAwarenessCard({
+    recipe
+  }: { recipe: Recipe }) {
+    const now = new Date();
+    const hour = now.getHours();
+    const cookMinutes = parseTimeMinutes(
+      recipe.time ?? "0"
+    );
+
+    // Assume dinner at 7pm (630 = 6:30pm start)
+    const dinnerHour = 19;
+    const minutesUntilDinner = 
+      (dinnerHour * 60) - (hour * 60 + now.getMinutes());
+    const startBy = dinnerHour - 
+      Math.ceil(cookMinutes / 60);
+    const isLate = minutesUntilDinner < cookMinutes;
+    const isUrgent = minutesUntilDinner < 
+      cookMinutes + 30;
+
+    if (isLate) {
+      return (
+        <View style={[styles.timeCard,
+          styles.timeCardWarning]}>
+          <Ionicons name="warning-outline"
+            size={18} color="#FF9500" />
+          <View style={styles.timeCardBody}>
+            <Text style={styles.timeCardTitle}>
+              Running late for tonight
+            </Text>
+            <Text style={styles.timeCardSub}>
+              {recipe.name} takes {recipe.time}.
+              Consider a faster recipe.
+            </Text>
+          </View>
+        </View>
+      );
+    }
+
+    if (isUrgent) {
+      return (
+        <View style={[styles.timeCard,
+          styles.timeCardUrgent]}>
+          <Ionicons name="time-outline"
+            size={18} color={Colors.light.primary} />
+          <View style={styles.timeCardBody}>
+            <Text style={styles.timeCardTitle}>
+              Start cooking soon
+            </Text>
+            <Text style={styles.timeCardSub}>
+              Begin by {startBy}:00 PM for
+              dinner at 7pm.
+            </Text>
+          </View>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.timeCard}>
+        <Ionicons name="checkmark-circle-outline"
+          size={18} color="#34c759" />
+        <View style={styles.timeCardBody}>
+          <Text style={styles.timeCardTitle}>
+            Good timing
+          </Text>
+          <Text style={styles.timeCardSub}>
+            Start by {startBy}:00 PM for
+            dinner at 7pm.
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GROCERY STATUS CARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create a GroceryStatusCard component inside
+cook.tsx:
+
+  function GroceryStatusCard({
+    recipeIds
+  }: { recipeIds: string[] }) {
+    const { groceryItems } = useApp();
+
+    const tonightItems = groceryItems.filter(
+      item => recipeIds.includes(item.recipeId ?? "")
+    );
+    const checkedCount = tonightItems.filter(
+      i => i.checked
+    ).length;
+    const total = tonightItems.length;
+    const allConfirmed = total > 0 &&
+      checkedCount === total;
+    const noneChecked = checkedCount === 0;
+
+    if (total === 0) return null;
+
+    return (
+      <View style={styles.groceryCard}>
+        <View style={styles.groceryCardHeader}>
+          <Text style={styles.groceryCardTitle}>
+            Ingredients
+          </Text>
+          <Pressable
+            onPress={() =>
+              router.push("/(tabs)/grocery")}
+            accessibilityLabel="View grocery list"
+          >
+            <Text style={styles.groceryCardLink}>
+              View list →
+            </Text>
+          </Pressable>
+        </View>
+
+        {allConfirmed ? (
+          <View style={styles.groceryConfirmed}>
+            <Ionicons name="checkmark-circle"
+              size={18} color="#34c759" />
+            <Text style={styles.groceryConfirmedText}>
+              All {total} ingredients confirmed
+            </Text>
+          </View>
+        ) : (
+          <>
+            <View style={styles.groceryProgress}>
+              <View style={[
+                styles.groceryProgressFill,
+                { width: `${(checkedCount/total)*100}%`
+                  as `${number}%` }
+              ]} />
+            </View>
+            <Text style={styles.groceryProgressLabel}>
+              {checkedCount} of {total} confirmed
+            </Text>
+          </>
+        )}
+      </View>
+    );
+  }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COOK CTA — Option C
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create a CookCTA component inside cook.tsx:
+
+  function CookCTA({
+    recipeIds,
+    groceryItems,
+    onStartCooking,
+  }: {
+    recipeIds: string[];
+    groceryItems: GroceryItem[];
+    onStartCooking: () => void;
+  }) {
+    const tonightItems = groceryItems.filter(
+      item => recipeIds.includes(item.recipeId ?? "")
+    );
+    const allConfirmed = tonightItems.length > 0 &&
+      tonightItems.every(i => i.checked);
+
+    if (allConfirmed) {
+      return (
+        <Pressable
+          onPress={onStartCooking}
+          style={({ pressed }) => [
+            styles.startBtn,
+            pressed && { opacity: 0.88 }
+          ]}
+          accessibilityLabel="Start cooking"
+        >
+          <Ionicons name="flame" size={22}
+            color={Colors.light.onPrimary} />
+          <Text style={styles.startBtnText}>
+            Start Cooking →
+          </Text>
+        </Pressable>
+      );
+    }
+
+    return (
+      <View style={styles.ctaRow}>
+        <Pressable
+          onPress={() =>
+            router.push("/(tabs)/grocery")}
+          style={styles.instacartBtn}
+          accessibilityLabel="Order with Instacart"
+        >
+          <Ionicons name="cart-outline"
+            size={18} color={Colors.light.primary} />
+          <Text style={styles.instacartBtnText}>
+            Order with Instacart
+          </Text>
+        </Pressable>
+
+        <Pressable
+          onPress={onStartCooking}
+          style={({ pressed }) => [
+            styles.cookAnywayBtn,
+            pressed && { opacity: 0.88 }
+          ]}
+          accessibilityLabel="Start cooking anyway"
+        >
+          <Text style={styles.cookAnywayText}>
+            Start Cooking Anyway →
+          </Text>
+        </Pressable>
+      </View>
+    );
+  }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STATE 3 — No meal planned tonight
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When no todayDay and no activeCookSession:
+
+  <View style={styles.emptyState}>
+    <View style={styles.emptyIconWrap}>
+      <Ionicons name="flame-outline"
+        size={48} color={Colors.light.primary} />
+    </View>
+    <Text style={styles.emptyTitle}>
+      Nothing planned for tonight
+    </Text>
+    <Text style={styles.emptyBody}>
+      Head to Plan to set up tonight's dinner,
+      or browse recipes for inspiration.
+    </Text>
+    <View style={styles.emptyActions}>
+      <Pressable
+        onPress={() => router.push("/(tabs)/plan")}
+        style={styles.emptyPrimaryBtn}
+        accessibilityLabel="Go to plan"
+      >
+        <Text style={styles.emptyPrimaryText}>
+          Plan Tonight →
+        </Text>
+      </Pressable>
+      <Pressable
+        onPress={() => router.push("/(tabs)/search")}
+        style={styles.emptySecondaryBtn}
+        accessibilityLabel="Browse recipes"
+      >
+        <Text style={styles.emptySecondaryText}>
+          Browse Recipes
+        </Text>
+      </Pressable>
+    </View>
+  </View>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STATE 4 — Meal completed today
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When todayDay exists but status === "completed":
+
+  <View style={styles.completedState}>
+    <Text style={styles.completedEmoji}>🎉</Text>
+    <Text style={styles.completedTitle}>
+      Great cook tonight!
+    </Text>
+    <Text style={styles.completedBody}>
+      You made {heroRecipe?.name}.
+    </Text>
+    <Pressable
+      onPress={() => router.push("/(tabs)/plan")}
+      style={styles.emptyPrimaryBtn}
+    >
+      <Text style={styles.emptyPrimaryText}>
+        See Tomorrow's Plan →
+      </Text>
+    </Pressable>
+  </View>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STYLES to add to StyleSheet.create()
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Add these styles:
+
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 24,
+    paddingBottom: 12,
+  },
+  headerTitle: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 28,
+    color: Colors.light.onSurface,
+  },
+  avatarBtn: {
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  avatarCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: Colors.light.outlineVariant,
+  },
+  heroWrap: {
+    height: 220

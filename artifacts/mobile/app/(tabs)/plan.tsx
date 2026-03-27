@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Platform,
   Pressable,
@@ -20,6 +20,7 @@ import { COUNTRIES, getAllRecipes, getCountryById, getRecipeById, type Recipe } 
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useApp } from "@/contexts/AppContext";
 import { reloadDay, generateItinerary, parseTimeMinutes, type ItineraryDay } from "@/hooks/useItinerary";
+import ProfileSheet from "@/components/ProfileSheet";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -64,6 +65,7 @@ export default function PlanScreen() {
   } = useApp();
 
   const [toast, setToast] = useState<string | null>(null);
+  const [showProfile, setShowProfile] = useState(false);
   const [swapDay, setSwapDay] = useState<ItineraryDay | null>(null);
   const [editDay, setEditDay] = useState<ItineraryDay | null>(null);
   const [addCourseDay, setAddCourseDay] = useState<ItineraryDay | null>(null);
@@ -73,6 +75,10 @@ export default function PlanScreen() {
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const haptic = useCallback(() => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  }, []);
+
+  useEffect(() => {
+    return () => { if (toastTimeout.current) clearTimeout(toastTimeout.current); };
   }, []);
 
   const showToast = useCallback((msg: string) => {
@@ -100,8 +106,6 @@ export default function PlanScreen() {
   const fullWeek = useMemo(() => {
     if (currentItinerary.length === 0) return [];
 
-    // Derive the week's Monday from the itinerary's earliest date, not from
-    // today — this lets next-week plans render correctly after "Generate new week"
     const earliestDate = currentItinerary.reduce(
       (min, d) => (d.date < min ? d.date : min),
       currentItinerary[0].date
@@ -113,20 +117,17 @@ export default function PlanScreen() {
     monday.setDate(earliestObj.getDate() + diff);
     monday.setHours(0, 0, 0, 0);
 
-    const result: (ItineraryDay | { id: string; date: string; dayLabel: string; isEmpty: true })[] = [];
+    const result: (ItineraryDay | { id: string; date: string; dayLabel: string; isEmpty: true; isPast?: boolean })[] = [];
     for (let i = 0; i < 7; i++) {
       const dateObj = new Date(monday);
       dateObj.setDate(monday.getDate() + i);
       const dateStr = toISODate(dateObj);
-      // Skip days before today — only show today and upcoming
-      if (dateStr < today) continue;
       const existing = currentItinerary.find((dd) => dd.date === dateStr);
       if (existing) {
-        // Skip today's active entry — it's shown separately in the TONIGHT header
         if (dateStr === today && existing.status === "active") continue;
         result.push(existing);
       } else {
-        result.push({ id: `empty-${dateStr}`, date: dateStr, dayLabel: DAY_LABELS_FULL[i], isEmpty: true });
+        result.push({ id: `empty-${dateStr}`, date: dateStr, dayLabel: DAY_LABELS_FULL[i], isEmpty: true, isPast: dateStr < today });
       }
     }
     return result;
@@ -260,6 +261,13 @@ export default function PlanScreen() {
 
       {/* ── Header ──────────────────────────── */}
       <View style={[styles.headerSection, { paddingTop: Platform.OS === "web" ? 28 : insets.top + 16 }]}>
+        <Pressable
+          onPress={() => { haptic(); setShowProfile(true); }}
+          style={styles.planAvatarBtn}
+          accessibilityLabel="Profile"
+        >
+          <Ionicons name="person" size={14} color={Colors.light.outline} />
+        </Pressable>
         <View style={styles.headerTitleBlock}>
           <View style={styles.headerEyebrow}>
             <View style={styles.headerEyebrowLine} />
@@ -272,6 +280,8 @@ export default function PlanScreen() {
           </Text>
         </View>
       </View>
+
+      {showProfile && <ProfileSheet onClose={() => setShowProfile(false)} />}
 
       {/* Content area — must flex to fill remaining space */}
       <View style={{ flex: 1 }}>
@@ -320,13 +330,15 @@ export default function PlanScreen() {
           <View style={{ marginBottom: 24, gap: 20 }}>
             {fullWeek.map((entry, index) => {
               if ("isEmpty" in entry) {
+                const isPastEmpty = !!entry.isPast;
                 return (
                   <EmptyDayRow
                     key={`${entry.id}-${index}`}
                     date={entry.date}
                     dayLabel={entry.dayLabel}
                     isLast={index === fullWeek.length - 1}
-                    onAdd={() => handleAddMealToDay(entry.date, entry.dayLabel)}
+                    isPast={isPastEmpty}
+                    onAdd={isPastEmpty ? undefined : () => handleAddMealToDay(entry.date, entry.dayLabel)}
                   />
                 );
               }
@@ -1057,7 +1069,7 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, on
   const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
-    <View style={[styles.daySection, isPast && { opacity: 0.38 }]}>
+    <View style={[styles.daySection, isPast && { opacity: 0.45 }]}>
       <View style={[styles.dayDateRow, { justifyContent: "space-between" }]}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
           <Text style={[styles.dayDateLabel, isToday && { color: Colors.light.primary }]}>
@@ -1066,6 +1078,11 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, on
           {isToday && (
             <View style={styles.todayBadge}>
               <Text style={styles.todayBadgeText}>Tonight</Text>
+            </View>
+          )}
+          {isPast && !isToday && (
+            <View style={styles.pastBadge}>
+              <Text style={styles.pastBadgeText}>Past</Text>
             </View>
           )}
           {day.status === "completed" && (
@@ -1152,32 +1169,46 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, on
 
 // ─── EmptyDayRow ─────────────────────────────────────────────────────────────
 
-function EmptyDayRow({ date, dayLabel, isLast, onAdd }: {
+function EmptyDayRow({ date, dayLabel, isLast, isPast, onAdd }: {
   date: string;
   dayLabel: string;
   isLast: boolean;
-  onAdd: () => void;
+  isPast?: boolean;
+  onAdd?: () => void;
 }) {
   const d = new Date(date + "T12:00:00");
   const dayName = d.toLocaleDateString("en-US", { weekday: "long" });
   const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
-    <View style={styles.daySection}>
-      <Text style={styles.dayDateLabel}>{dayName} · {dateLabel}</Text>
-      <Pressable
-        onPress={onAdd}
-        style={({ pressed }) => [
-          styles.emptyDayCard,
-          pressed && { backgroundColor: Colors.light.surfaceContainerLow },
-        ]}
-      >
-        <View style={styles.emptyDayIconCircle}>
-          <Ionicons name="add" size={22} color={Colors.light.primary} />
+    <View style={[styles.daySection, isPast && { opacity: 0.45 }]}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <Text style={styles.dayDateLabel}>{dayName} · {dateLabel}</Text>
+        {isPast && (
+          <View style={styles.pastBadge}>
+            <Text style={styles.pastBadgeText}>Past</Text>
+          </View>
+        )}
+      </View>
+      {isPast ? (
+        <View style={[styles.emptyDayCard, { borderColor: "rgba(138,114,102,0.1)" }]}>
+          <Text style={[styles.emptyDayTitle, { color: Colors.light.secondary, fontSize: 13 }]}>No meal planned</Text>
         </View>
-        <Text style={styles.emptyDayTitle}>Add Meal</Text>
-        <Text style={styles.emptyDayHint}>Browse Inspiration</Text>
-      </Pressable>
+      ) : (
+        <Pressable
+          onPress={onAdd}
+          style={({ pressed }) => [
+            styles.emptyDayCard,
+            pressed && { backgroundColor: Colors.light.surfaceContainerLow },
+          ]}
+        >
+          <View style={styles.emptyDayIconCircle}>
+            <Ionicons name="add" size={22} color={Colors.light.primary} />
+          </View>
+          <Text style={styles.emptyDayTitle}>Add Meal</Text>
+          <Text style={styles.emptyDayHint}>Browse Inspiration</Text>
+        </Pressable>
+      )}
     </View>
   );
 }
@@ -1192,6 +1223,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 12,
     backgroundColor: Colors.light.surface,
+  },
+  planAvatarBtn: {
+    position: "absolute",
+    right: 20,
+    top: Platform.OS === "web" ? 28 : undefined,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.25)",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
   },
   headerTitleBlock: {
     alignItems: "center",
@@ -1589,6 +1634,20 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: Colors.light.secondary,
     letterSpacing: 1.2,
+    textTransform: "uppercase",
+  },
+
+  pastBadge: {
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderRadius: 999,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+  },
+  pastBadgeText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 9,
+    color: Colors.light.secondary,
+    letterSpacing: 0.8,
     textTransform: "uppercase",
   },
 

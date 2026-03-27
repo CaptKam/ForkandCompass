@@ -24,6 +24,7 @@ import { TECHNIQUE_VIDEOS } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useThemeColors } from "@/hooks/useThemeColors";
+import ProfileSheet from "@/components/ProfileSheet";
 
 
 const haptic = (style: "light" | "medium" = "light") => {
@@ -69,6 +70,7 @@ export default function CookScreen() {
   } = useApp();
 
   const [techniquesExpanded, setTechniquesExpanded] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const allRecipes = useMemo(() => getAllRecipes(), []);
 
@@ -179,10 +181,23 @@ export default function CookScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
+      <View style={[styles.cookHeader, { paddingTop: Platform.OS === "web" ? 56 : insets.top + 12 }]}>
+        <Text style={styles.cookHeaderTitle}>Cook</Text>
+        <Pressable
+          onPress={() => { haptic(); setShowProfile(true); }}
+          style={styles.cookAvatarBtn}
+          accessibilityLabel="Profile"
+        >
+          <Ionicons name="person" size={14} color={Colors.light.outline} />
+        </Pressable>
+      </View>
+
+      {showProfile && <ProfileSheet onClose={() => setShowProfile(false)} />}
+
       <ScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: insets.top + 12, paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
+        contentContainerStyle={{ paddingTop: 12, paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
         {/* ── PRIORITY 1: Active Cook Session ──────────────────────── */}
         {hasActiveSession && activeCookSession && (
@@ -354,21 +369,23 @@ export default function CookScreen() {
         {!hasActiveSession && tonightsRecipe == null && (
           <View style={styles.section}>
             <View style={styles.whatToCookCard}>
-              <Ionicons name="restaurant-outline" size={32} color={Colors.light.primary} style={{ marginBottom: 4 }} />
+              <View style={styles.emptyIconWrap}>
+                <Ionicons name="flame-outline" size={48} color={Colors.light.primary} />
+              </View>
               <Text style={styles.whatToCookTitle}>Nothing planned for tonight</Text>
               <View style={styles.whatToCookRow}>
                 <Pressable
                   style={({ pressed }) => [styles.whatToCookBtn, pressed && { opacity: 0.88 }]}
-                  onPress={() => { haptic(); router.push("/(tabs)/search" as any); }}
+                  onPress={() => { haptic(); router.push("/(tabs)/plan"); }}
                 >
-                  <Ionicons name="search-outline" size={16} color="#FFFFFF" />
-                  <Text style={styles.whatToCookBtnText}>Browse recipes</Text>
+                  <Text style={styles.whatToCookBtnText}>Plan your week →</Text>
                 </Pressable>
                 <Pressable
                   style={({ pressed }) => [styles.whatToCookBtnOutline, pressed && { opacity: 0.88 }]}
-                  onPress={() => { haptic(); router.push("/(tabs)/plan"); }}
+                  onPress={() => { haptic(); router.push("/(tabs)/search" as any); }}
                 >
-                  <Text style={styles.whatToCookBtnOutlineText}>Add to tonight</Text>
+                  <Ionicons name="search-outline" size={16} color={Colors.light.primary} />
+                  <Text style={styles.whatToCookBtnOutlineText}>Browse recipes →</Text>
                 </Pressable>
               </View>
             </View>
@@ -533,6 +550,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.light.surface,
+  },
+  cookHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingBottom: 14,
+    backgroundColor: Colors.light.surface,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(222,193,179,0.35)",
+  },
+  cookHeaderTitle: {
+    fontFamily: "NotoSerif_600SemiBold",
+    fontSize: 20,
+    color: Colors.light.primary,
+    letterSpacing: -0.3,
+  },
+  cookAvatarBtn: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.25)",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   section: {
@@ -853,6 +896,15 @@ const styles = StyleSheet.create({
   },
 
   /* ── What to Cook (empty state) ──────────────────────────────── */
+  emptyIconWrap: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    backgroundColor: "#F0E8DE",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 4,
+  },
   whatToCookCard: {
     backgroundColor: Colors.light.surfaceWarmAlt,
     borderRadius: 20,

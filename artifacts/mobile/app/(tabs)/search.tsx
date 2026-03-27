@@ -21,6 +21,7 @@ import Colors from "@/constants/colors";
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useSearch } from "@/hooks/useSearch";
 import { useThemeColors } from "@/hooks/useThemeColors";
+import ProfileSheet from "@/components/ProfileSheet";
 
 // ─── Static editorial data ────────────────────────────────────────────────────
 
@@ -56,6 +57,7 @@ export default function SearchScreen() {
   const inputRef = useRef<TextInput>(null);
   const [query, setQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState(RECENT_SEARCHES);
+  const [showProfile, setShowProfile] = useState(false);
 
   const { results } = useSearch(query);
 
@@ -82,29 +84,40 @@ export default function SearchScreen() {
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <StatusBar style="dark" />
 
-      {/* ── Search bar (no header — flush to safe area) ───────────────── */}
+      {/* ── Search bar + avatar ───────────────────────────────── */}
       <View style={[styles.searchBarWrap, { paddingTop: insets.top + 10 }]}>
-        <View style={styles.searchBar}>
-          <Ionicons name="search" size={20} color={Colors.light.secondary} style={styles.searchIcon} />
-          <TextInput
-            ref={inputRef}
-            style={styles.searchInput}
-            placeholder="Recipes, countries, ingredients…"
-            placeholderTextColor={`${colors.secondary}8C`}
-            value={query}
-            onChangeText={setQuery}
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="search"
-            onSubmitEditing={() => handleSubmitSearch(query)}
-          />
-          {query.length > 0 && (
-            <Pressable onPress={() => setQuery("")} style={{ minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" }}>
-              <Ionicons name="close-circle" size={20} color={Colors.light.outline} />
-            </Pressable>
-          )}
+        <View style={styles.searchBarRow}>
+          <View style={[styles.searchBar, { flex: 1 }]}>
+            <Ionicons name="search" size={20} color={Colors.light.secondary} style={styles.searchIcon} />
+            <TextInput
+              ref={inputRef}
+              style={styles.searchInput}
+              placeholder="Recipes, countries, ingredients…"
+              placeholderTextColor={`${colors.secondary}8C`}
+              value={query}
+              onChangeText={setQuery}
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType="search"
+              onSubmitEditing={() => handleSubmitSearch(query)}
+            />
+            {query.length > 0 && (
+              <Pressable onPress={() => setQuery("")} style={{ minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" }}>
+                <Ionicons name="close-circle" size={20} color={Colors.light.outline} />
+              </Pressable>
+            )}
+          </View>
+          <Pressable
+            onPress={() => { haptic(); setShowProfile(true); }}
+            style={styles.searchAvatarBtn}
+            accessibilityLabel="Profile"
+          >
+            <Ionicons name="person" size={14} color={Colors.light.outline} />
+          </Pressable>
         </View>
       </View>
+
+      {showProfile && <ProfileSheet onClose={() => setShowProfile(false)} />}
 
       {/* ── Content ─────────────────────────────────────────────── */}
       {query.length > 0 ? (
@@ -285,6 +298,21 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "rgba(222,193,179,0.3)",
+  },
+  searchBarRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  searchAvatarBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.25)",
+    alignItems: "center",
+    justifyContent: "center",
   },
   searchBar: {
     flexDirection: "row",

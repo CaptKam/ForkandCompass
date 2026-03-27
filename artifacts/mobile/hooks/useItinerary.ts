@@ -233,8 +233,16 @@ export function generateItinerary(
     dayIndices = [0, 1, 2, 3, 4, 5, 6]; // Mon-Sun
   }
 
-  // 5. Calculate dates — use targetMonday if provided, otherwise this week's Monday
-  const monday = targetMonday ?? getMonday(new Date());
+  // 5. Calculate dates — use targetMonday if provided, otherwise smart Monday selection
+  let monday: Date;
+  if (targetMonday) {
+    monday = targetMonday;
+  } else {
+    const todayDow = new Date().getDay();
+    const useNextWeek = todayDow === 0 || todayDow >= 4;
+    monday = getMonday(new Date());
+    if (useNextWeek) monday.setDate(monday.getDate() + 7);
+  }
 
   // 6. Build itinerary days — track used recipes to avoid repeats
   const usedRecipeIds: string[] = [];

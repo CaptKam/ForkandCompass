@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
   FlatList,
@@ -23,6 +23,7 @@ import { PARTNER_CONFIG } from "@/constants/partners";
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { convertAmount } from "@/constants/units";
 import { useApp } from "@/contexts/AppContext";
+import ProfileSheet from "@/components/ProfileSheet";
 
 const CATEGORY_RULES: { key: string; emoji: string; label: string; keywords: string[] }[] = [
   { key: "produce", emoji: "🥬", label: "Produce", keywords: ["tomato", "basil", "garlic", "onion", "pepper", "lemon", "lime", "cilantro", "chili", "ginger", "scallion", "lettuce", "avocado", "jalape", "serrano", "mint", "lemongrass", "galangal", "shallot", "kaffir", "coriander root", "bean sprout", "vegetable", "herb", "leaves"] },
@@ -68,9 +69,14 @@ export default function GroceryScreen() {
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [showProfile, setShowProfile] = useState(false);
 
   const haptic = useCallback(() => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  }, []);
+
+  useEffect(() => {
+    return () => { if (toastTimeout.current) clearTimeout(toastTimeout.current); };
   }, []);
 
   const showToast = useCallback((msg: string) => {
@@ -189,7 +195,7 @@ export default function GroceryScreen() {
       <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 56 : insets.top + 12 }]}>
         <Text style={styles.headerTitle}>Groceries</Text>
         <Pressable
-          onPress={() => { haptic(); router.push("/settings"); }}
+          onPress={() => { haptic(); setShowProfile(true); }}
           style={styles.avatarBtn}
           accessibilityLabel="Profile"
         >
@@ -199,6 +205,8 @@ export default function GroceryScreen() {
         </Pressable>
       </View>
 
+      {showProfile && <ProfileSheet onClose={() => setShowProfile(false)} />}
+
       {groceryItems.length === 0 ? (
         <View style={styles.emptyState}>
           <View style={styles.emptyIconWrap}>
@@ -206,6 +214,12 @@ export default function GroceryScreen() {
           </View>
           <Text style={styles.emptyTitle}>Your grocery list is empty</Text>
           <Text style={styles.emptyBody}>Add ingredients from recipes or your weekly plan.</Text>
+          <Pressable
+            onPress={() => router.push("/(tabs)/plan")}
+            style={({ pressed }) => [styles.emptyLink, pressed && { opacity: 0.7 }]}
+          >
+            <Text style={styles.emptyLinkText}>Plan your week to auto-fill →</Text>
+          </Pressable>
         </View>
       ) : (
         <View style={{ flex: 1 }}>
@@ -496,6 +510,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 26,
     maxWidth: 280,
+  },
+  emptyLink: {
+    marginTop: 4,
+  },
+  emptyLinkText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 15,
+    color: Colors.light.primary,
   },
 
   groceryScrollContent: {
