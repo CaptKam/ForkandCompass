@@ -4,7 +4,6 @@ import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import DraggableFlatList, { RenderItemParams, ScaleDecorator } from "react-native-draggable-flatlist";
 import {
   Alert,
   Animated,
@@ -123,8 +122,6 @@ export default function PlanScreen() {
 
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const segmentAnim = useRef(new Animated.Value(0)).current;
-  const draggedOriginalIndexRef = useRef<number | null>(null);
-
   const haptic = useCallback(() => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   }, []);
@@ -365,58 +362,6 @@ export default function PlanScreen() {
     }
   };
 
-  // ─── Drag reorder ────────────────────────────────────────────────────────────
-
-  const handleDragEnd = useCallback(
-    ({ data: newOrder }: { data: typeof fullWeek }) => {
-      const originalIndex = draggedOriginalIndexRef.current;
-      draggedOriginalIndexRef.current = null;
-      if (originalIndex === null) return;
-
-      const draggedOriginalItem = fullWeek[originalIndex];
-      if (!draggedOriginalItem || "isEmpty" in draggedOriginalItem) return;
-
-      const draggedNewIndex = newOrder.findIndex((item) => item.id === draggedOriginalItem.id);
-      if (draggedNewIndex === -1 || draggedNewIndex === originalIndex) return;
-
-      const targetSlot = fullWeek[draggedNewIndex];
-      const targetDate = targetSlot.date;
-      const targetDayLabel = targetSlot.dayLabel;
-
-      setCurrentItinerary((prevItinerary: ItineraryDay[]) => {
-        const sourceDay = prevItinerary.find((d) => d.id === draggedOriginalItem.id);
-        const targetExistingDay = prevItinerary.find((d) => d.date === targetDate && d.id !== draggedOriginalItem.id);
-        if (!sourceDay) return prevItinerary;
-
-        if (targetExistingDay) {
-          // Drop on filled day — merge recipes, remove source
-          return prevItinerary
-            .map((day) => {
-              if (day.id === targetExistingDay.id) {
-                return {
-                  ...day,
-                  quickRecipeIds: [...new Set([...day.quickRecipeIds, ...sourceDay.quickRecipeIds])],
-                  fullRecipeIds: [...new Set([...day.fullRecipeIds, ...sourceDay.fullRecipeIds])],
-                  extraRecipeIds: [...new Set([...(day.extraRecipeIds ?? []), ...(sourceDay.extraRecipeIds ?? [])])],
-                };
-              }
-              return day;
-            })
-            .filter((day) => day.id !== sourceDay.id);
-        } else {
-          // Drop on empty slot — move the date
-          return prevItinerary.map((day) => {
-            if (day.id === sourceDay.id) {
-              return { ...day, date: targetDate, dayLabel: targetDayLabel };
-            }
-            return day;
-          });
-        }
-      });
-    },
-    [fullWeek, setCurrentItinerary]
-  );
-
   // ─── Grocery actions ─────────────────────────────────────────────────────────
 
   const handleClearCompleted = () => {
@@ -550,10 +495,9 @@ export default function PlanScreen() {
           </View>
         ) : (
           /* Active itinerary */
-          Platform.OS === "web" ? (
           <ScrollView
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={[styles.weekScrollContent, { paddingBottom: 140 }]}
+            contentContainerStyle={[styles.weekScrollContent, { paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + SCROLL_BOTTOM_INSET }]}
           >
             {todayDay && (
               <View>
@@ -597,63 +541,6 @@ export default function PlanScreen() {
               <Text style={styles.newWeekText}>Generate new week</Text>
             </Pressable>
           </ScrollView>
-          ) : (
-          <DraggableFlatList
-            style={{ flex: 1 }}
-            data={fullWeek}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            onDragBegin={(index) => { draggedOriginalIndexRef.current = index; }}
-            onDragEnd={handleDragEnd}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={[styles.weekScrollContent, { paddingBottom: insets.bottom + SCROLL_BOTTOM_INSET }]}
-            ListHeaderComponent={
-              todayDay ? (
-                <View>
-                  <Text style={styles.sectionLabel}>TONIGHT</Text>
-                  <TonightCard day={todayDay} servings={itineraryProfile?.defaultServings ?? 4} />
-                </View>
-              ) : null
-            }
-            ListFooterComponent={
-              <Pressable
-                onPress={handleNewWeek}
-                style={({ pressed }) => [styles.newWeekLink, pressed && { opacity: 0.6 }]}
-              >
-                <Text style={styles.newWeekText}>Generate new week</Text>
-              </Pressable>
-            }
-            renderItem={({ item: entry, index: rawIndex, drag, isActive }: RenderItemParams<typeof fullWeek[number]>) => {
-              const index = rawIndex ?? 0;
-              if ("isEmpty" in entry) {
-                return (
-                  <EmptyDayRow
-                    date={entry.date}
-                    dayLabel={entry.dayLabel}
-                    isLast={index === fullWeek.length - 1}
-                    onAdd={() => handleAddMealToDay(entry.date, entry.dayLabel)}
-                  />
-                );
-              }
-              return (
-                <ScaleDecorator>
-                  <WeekRow
-                    day={entry}
-                    isLast={index === fullWeek.length - 1}
-                    isToday={entry.date === today}
-                    isPast={entry.date < today}
-                    drag={drag}
-                    isActive={isActive}
-                    onReload={() => { haptic(); setSwapDay(entry); }}
-                    onSkip={() => handleSkipDay(entry)}
-                    onRestore={() => handleRestoreDay(entry)}
-                    onEdit={() => { haptic(); setEditDay(entry); }}
-                    onAdd={() => { haptic(); setAddExtraDay(entry); }}
-                  />
-                </ScaleDecorator>
-              );
-            }}
-          />
-          )
         )
       )}
 
@@ -1512,7 +1399,7 @@ const swapStyles = StyleSheet.create({
 
 // ─── WeekRow ──────────────────────────────────────────────────────────────────
 
-function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, drag, isActive, onEdit, onAdd }: {
+function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, onEdit, onAdd }: {
   day: ItineraryDay;
   isLast: boolean;
   isToday?: boolean;
@@ -1520,8 +1407,6 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
   onReload: () => void;
   onSkip: () => void;
   onRestore: () => void;
-  drag?: () => void;
-  isActive?: boolean;
   onEdit: () => void;
   onAdd?: () => void;
 }) {
@@ -1541,7 +1426,7 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
   const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
-    <View style={[styles.daySection, isPast && { opacity: 0.38 }, isActive && { opacity: 0.95 }]}>
+    <View style={[styles.daySection, isPast && { opacity: 0.38 }]}>
       <View style={[styles.dayDateRow, { justifyContent: "space-between" }]}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
           <Text style={[styles.dayDateLabel, isToday && { color: Colors.light.primary }]}>
@@ -1562,18 +1447,7 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
           </Pressable>
         )}
       </View>
-      <View style={[styles.dayCard, isActive && { shadowOpacity: 0.18, elevation: 8 }]}>
-        {/* Drag handle */}
-        {drag && !isSkipped && !isPast && (
-          <Pressable
-            onLongPress={() => { haptic(); drag(); }}
-            delayLongPress={150}
-            hitSlop={8}
-            style={styles.dragHandle}
-          >
-            <Ionicons name="reorder-three" size={20} color={Colors.light.onSurfaceVariant} />
-          </Pressable>
-        )}
+      <View style={styles.dayCard}>
         <Pressable
           onPress={() => { if (!isSkipped && mainRecipe) { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } }); } }}
           style={({ pressed }) => [
@@ -2061,12 +1935,6 @@ const styles = StyleSheet.create({
     gap: 8,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: "rgba(138,114,102,0.1)",
-  },
-  dragHandle: {
-    paddingHorizontal: 4,
-    paddingVertical: 8,
-    justifyContent: "center",
-    alignItems: "center",
   },
   dayCardInner: {
     flex: 1,
