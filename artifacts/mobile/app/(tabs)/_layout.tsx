@@ -99,6 +99,18 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="grocery"
+        options={{
+          title: "Groceries",
+          tabBarIcon: ({ color }) =>
+            isIOS ? (
+              <SymbolView name="cart" tintColor={color} size={24} />
+            ) : (
+              <MaterialIcons name="shopping-cart" size={24} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
         name="cook"
         options={{
           title: "Cook",
@@ -129,13 +141,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
-          tabBarIcon: ({ color }) =>
-            isIOS ? (
-              <SymbolView name="person.circle" tintColor={color} size={24} />
-            ) : (
-              <MaterialIcons name="person-outline" size={24} color={color} />
-            ),
+          href: null,
         }}
       />
     </Tabs>

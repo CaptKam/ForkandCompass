@@ -116,7 +116,7 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
 "Fork & Compass" — a premium culinary travel mobile app (Expo/React Native) with a high-end editorial magazine aesthetic. Preview path: `/mobile/`.
 
 - **Design System**: Primary terracotta #9A4100, surface #FEF9F3, Noto Serif for headlines, Inter for body text, no-line border rule (sections defined by color shifts, not borders)
-- **Navigation**: Welcome → Onboarding (country picker) → Tab bar (Discover, Journeys, Saved, Profile) with NativeTabs (liquid glass) on iOS 26+, classic BlurView tabs fallback
+- **Navigation**: Welcome → Onboarding (country picker) → Tab bar (Discover, Search, Plan, Groceries, Cook) with classic BlurView tabs fallback; Profile tab hidden (href: null)
 - **Discover tab (editorial homepage)**: Full-page scrollable editorial experience. Sections in order:
     1. **Hero Carousel** — paginated country slides with flag, name, editorial blurb, "Let's Go" CTA, bookmark toggle, pagination dots
     2. **Explore Destinations** — horizontal circle-avatar strip for all countries; active country gets terracotta ring + syncs hero
@@ -148,7 +148,8 @@ Utility scripts package. Each script is a `.ts` file in `src/` with a correspond
   - `contexts/AppContext.tsx` — global state (saved, grocery, welcome, selectedCountryIds, hasCompletedOnboarding)
   - `app/index.tsx` — Welcome screen (routes to /onboarding or /(tabs) based on state)
   - `app/onboarding.tsx` — Country picker onboarding screen
-  - `app/(tabs)/` — Tab screens (explore, grocery, saved, settings)
+  - `app/(tabs)/` — Tab screens (index=Discover, search, plan, grocery, cook); profile hidden
+  - `app/(tabs)/grocery.tsx` — Standalone Groceries tab: grouped ingredient list by category, pantry staples strip, manual add input, kitchen collapsible (items already in kitchen), summary footer, Instacart checkout FAB, "All set — let's cook!" CTA, clear completed/all
   - `app/country/[id].tsx` — Country detail
   - `app/recipe/[id].tsx` — Recipe detail with ingredients
   - `app/cook-mode.tsx` — Full guided Cook Mode with screen wake lock (expo-keep-awake), per-step contextual tips, named timers, doneness cues, segment-control help sheet (Troubleshooting + Chef Tips), pre-cook overnight prep warning interstitial, video technique hints (skill-level adapted), per-step ingredient checklist, equipment callouts, phase-aware backgrounds (prep/cook/finish), and finish screen with star rating + feedback chips

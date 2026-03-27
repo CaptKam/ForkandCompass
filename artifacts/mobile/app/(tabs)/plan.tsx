@@ -1,14 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
-import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
-  Alert,
-  Animated,
-  FlatList,
-  Linking,
   Platform,
   Pressable,
   Modal,
@@ -21,12 +16,9 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
-import { COUNTRIES, getAllRecipes, getCountryById, getRecipeById, type GroceryItem, type Recipe } from "@/constants/data";
-import { type PantryStaple } from "@/constants/pantry";
-import { PARTNER_CONFIG } from "@/constants/partners";
+import { COUNTRIES, getAllRecipes, getCountryById, getRecipeById, type Recipe } from "@/constants/data";
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useApp } from "@/contexts/AppContext";
-import { convertAmount } from "@/constants/units";
 import { reloadDay, generateItinerary, parseTimeMinutes, type ItineraryDay } from "@/hooks/useItinerary";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -53,34 +45,6 @@ function formatDayDate(isoDate: string): string {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-// ─── Grocery categorisation ───────────────────────────────────────────────────
-
-const CATEGORY_RULES: { key: string; emoji: string; label: string; keywords: string[] }[] = [
-  { key: "produce", emoji: "🥬", label: "Produce", keywords: ["tomato", "basil", "garlic", "onion", "pepper", "lemon", "lime", "cilantro", "chili", "ginger", "scallion", "lettuce", "avocado", "jalape", "serrano", "mint", "lemongrass", "galangal", "shallot", "kaffir", "coriander root", "bean sprout", "vegetable", "herb", "leaves"] },
-  { key: "protein", emoji: "🥩", label: "Protein", keywords: ["chicken", "pork", "beef", "lamb", "fish", "shrimp", "prawn", "egg", "tofu", "meat", "rib", "thigh", "breast", "salmon", "tuna", "prosciutto"] },
-  { key: "dairy", emoji: "🧈", label: "Dairy", keywords: ["cheese", "cream", "milk", "butter", "yogurt", "mozzarella", "pecorino", "parmesan", "ghee", "paneer"] },
-  { key: "pantry", emoji: "🫙", label: "Pantry", keywords: ["oil", "vinegar", "salt", "sugar", "flour", "rice", "noodle", "pasta", "soy sauce", "fish sauce", "spice", "cumin", "turmeric", "paprika", "cinnamon", "sauce", "stock", "broth", "wine", "miso", "dashi", "coconut", "curry", "paste", "sesame", "peanut", "bread", "tortilla", "wrap"] },
-];
-
-function categorizeItem(name: string, id?: string): { emoji: string; label: string } {
-  if (id?.startsWith("manual-")) return { emoji: "🛒", label: "Other" };
-  const lower = name.toLowerCase();
-  for (const cat of CATEGORY_RULES) {
-    if (cat.keywords.some((kw) => lower.includes(kw))) {
-      return { emoji: cat.emoji, label: cat.label };
-    }
-  }
-  return { emoji: "🫙", label: "Pantry" };
-}
-
-interface CategoryGroup {
-  emoji: string;
-  label: string;
-  items: GroceryItem[];
-}
-
-type PlanSegment = "week" | "grocery";
-
 // ─── Main Screen ──────────────────────────────────────────────────────────────
 
 export default function PlanScreen() {
@@ -94,34 +58,19 @@ export default function PlanScreen() {
     addToItineraryHistory,
     addToGrocery,
     removeFromGrocery,
-    groceryItems,
-    toggleGroceryItem,
-    removeGroceryItem,
     clearGrocery,
-    unexcludeGroceryItem,
-    quickAddStaple,
-    pantryStaples,
-    togglePantryStaple,
-    groceryPartner,
-    setGroceryPartner,
     savedRecipeIds,
-    measurementSystem,
     addCourseToDay,
-    addManualGroceryItem,
   } = useApp();
 
-  const [segment, setSegment] = useState<PlanSegment>("week");
   const [toast, setToast] = useState<string | null>(null);
-  const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const [swapDay, setSwapDay] = useState<ItineraryDay | null>(null);
   const [editDay, setEditDay] = useState<ItineraryDay | null>(null);
   const [addCourseDay, setAddCourseDay] = useState<ItineraryDay | null>(null);
   const [moveDay, setMoveDay] = useState<ItineraryDay | null>(null);
   const [addExtraDay, setAddExtraDay] = useState<ItineraryDay | null>(null);
-  const [manualItem, setManualItem] = useState("");
 
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const segmentAnim = useRef(new Animated.Value(0)).current;
   const haptic = useCallback(() => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   }, []);
@@ -131,25 +80,6 @@ export default function PlanScreen() {
     setToast(msg);
     toastTimeout.current = setTimeout(() => setToast(null), 2400);
   }, []);
-
-  const handleManualAdd = useCallback(() => {
-    const trimmed = manualItem.trim();
-    if (!trimmed) return;
-    addManualGroceryItem(trimmed);
-    setManualItem("");
-    showToast(`Added "${trimmed}"`);
-    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  }, [manualItem, addManualGroceryItem, showToast]);
-
-  const switchSegment = useCallback((seg: PlanSegment) => {
-    haptic();
-    setSegment(seg);
-    Animated.timing(segmentAnim, {
-      toValue: seg === "week" ? 0 : 1,
-      duration: 180,
-      useNativeDriver: true,
-    }).start();
-  }, [haptic, segmentAnim]);
 
   const today = toISODate(new Date());
 
@@ -204,60 +134,6 @@ export default function PlanScreen() {
 
   const allDone = currentItinerary.length > 0 &&
     currentItinerary.every((d) => d.status === "completed" || d.status === "skipped");
-
-  const activeGroceryItems = useMemo(
-    () => groceryItems.filter((i) => !i.excluded),
-    [groceryItems]
-  );
-
-  const excludedGroceryItems = useMemo(
-    () => groceryItems.filter((i) => i.excluded),
-    [groceryItems]
-  );
-
-  const uncheckedGroceryCount = useMemo(
-    () => activeGroceryItems.filter((i) => !i.checked).length,
-    [activeGroceryItems]
-  );
-
-  const categoryGroups = useMemo(() => {
-    const groups: Record<string, CategoryGroup> = {};
-    for (const item of activeGroceryItems) {
-      const { emoji, label } = categorizeItem(item.name, item.id);
-      if (!groups[label]) groups[label] = { emoji, label, items: [] };
-      groups[label].items.push(item);
-    }
-    const order = CATEGORY_RULES.map((c) => c.label);
-    return Object.values(groups).sort((a, b) => order.indexOf(a.label) - order.indexOf(b.label));
-  }, [activeGroceryItems]);
-
-  const pantryNeedIds = useMemo(() => {
-    const ids = new Set<string>();
-    for (const staple of pantryStaples) {
-      if (!staple.inKitchen) continue;
-      const inGrocery = activeGroceryItems.some((gi) =>
-        staple.keywords.some((kw) => gi.name.toLowerCase().includes(kw.toLowerCase()))
-      );
-      if (inGrocery) ids.add(staple.id);
-    }
-    return ids;
-  }, [pantryStaples, activeGroceryItems]);
-
-  const handlePantryTap = useCallback((staple: typeof pantryStaples[0]) => {
-    haptic();
-    if (!staple.inKitchen) {
-      togglePantryStaple(staple.id);
-      return;
-    }
-    if (pantryNeedIds.has(staple.id)) {
-      const match = activeGroceryItems.find((gi) =>
-        staple.keywords.some((kw) => gi.name.toLowerCase().includes(kw.toLowerCase()))
-      );
-      if (match) removeGroceryItem(match.id);
-    } else {
-      quickAddStaple(staple);
-    }
-  }, [pantryNeedIds, activeGroceryItems, togglePantryStaple, quickAddStaple, removeGroceryItem]);
 
   // ─── Itinerary actions ──────────────────────────────────────────────────────
 
@@ -377,96 +253,22 @@ export default function PlanScreen() {
     }
   };
 
-  // ─── Grocery actions ─────────────────────────────────────────────────────────
-
-  const handleClearCompleted = () => {
-    if (Platform.OS === "web") {
-      activeGroceryItems.filter((i) => i.checked).forEach((i) => removeGroceryItem(i.id));
-      return;
-    }
-    Alert.alert("Clear Completed", "Remove all checked items?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Clear", onPress: () => activeGroceryItems.filter((i) => i.checked).forEach((i) => removeGroceryItem(i.id)) },
-    ]);
-  };
-
-  const handleCheckoutFab = async () => {
-    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    if (!groceryPartner || groceryPartner === "skip") return;
-    const itemsToOrder = activeGroceryItems.filter((i) => !i.checked);
-    if (groceryPartner === "instacart") {
-      try {
-        const response = await fetch("/api/instacart/shopping-list", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: "My Fork & Compass List",
-            items: itemsToOrder.map((i) => ({ name: i.name, amount: i.amount, recipeName: i.recipeName })),
-          }),
-        });
-        const data = await response.json() as { url?: string; error?: string };
-        if (!response.ok || !data.url) throw new Error(data.error ?? "Could not create shopping list");
-        await Linking.openURL(data.url);
-      } catch (err: unknown) {
-        Alert.alert("Instacart Error", err instanceof Error ? err.message : "Something went wrong");
-      }
-    } else if (groceryPartner === "kroger") {
-      await Linking.openURL("https://www.kroger.com/stores/details/700/00100");
-    } else if (groceryPartner === "walmart") {
-      await Linking.openURL("https://www.walmart.com/grocery");
-    }
-  };
-
   // ─── Render ─────────────────────────────────────────────────────────────────
 
   return (
     <View style={styles.container}>
 
-      {/* ── Header with Segment Control ──────────────────────────── */}
+      {/* ── Header ──────────────────────────── */}
       <View style={[styles.headerSection, { paddingTop: Platform.OS === "web" ? 28 : insets.top + 16 }]}>
-        {/* Full-width segmented control */}
-        <View style={styles.segmentControl}>
-          <Pressable
-            style={[styles.segmentBtn, segment === "week" && styles.segmentBtnActive]}
-            onPress={() => switchSegment("week")}
-          >
-            <Text style={[styles.segmentText, segment === "week" && styles.segmentTextActive]}>
-              This Week
-            </Text>
-          </Pressable>
-          <Pressable
-            style={[styles.segmentBtn, segment === "grocery" && styles.segmentBtnActive]}
-            onPress={() => switchSegment("grocery")}
-          >
-            <Text style={[styles.segmentText, segment === "grocery" && styles.segmentTextActive]}>
-              Grocery
-            </Text>
-            {uncheckedGroceryCount > 0 && (
-              <View style={[styles.segmentBadge, segment === "grocery" && styles.segmentBadgeActive]}>
-                <Text style={[styles.segmentBadgeText, segment === "grocery" && styles.segmentBadgeTextActive]}>
-                  {uncheckedGroceryCount}
-                </Text>
-              </View>
-            )}
-          </Pressable>
-        </View>
-
-        {/* Title block below control */}
         <View style={styles.headerTitleBlock}>
           <View style={styles.headerEyebrow}>
             <View style={styles.headerEyebrowLine} />
-            <Text style={styles.headerEyebrowLabel}>
-              {segment === "week" ? "This Week" : "Curated List"}
-            </Text>
+            <Text style={styles.headerEyebrowLabel}>This Week</Text>
             <View style={styles.headerEyebrowLine} />
           </View>
-          <Text style={styles.headerTitle}>
-            {segment === "week" ? "Weekly Table" : "Grocery List"}
-          </Text>
+          <Text style={styles.headerTitle}>Weekly Table</Text>
           <Text style={styles.headerSubtitle}>
-            {segment === "week"
-              ? "Curating your seasonal menu, week by week."
-              : "Sourced from your weekly meal planning."}
+            Curating your seasonal menu, week by week.
           </Text>
         </View>
       </View>
@@ -474,281 +276,95 @@ export default function PlanScreen() {
       {/* Content area — must flex to fill remaining space */}
       <View style={{ flex: 1 }}>
 
-      {/* ── This Week ─────────────────────────────────────────────── */}
-      {segment === "week" && (
-        (!itineraryProfile || currentItinerary.length === 0 || isItineraryStale) ? (
-          /* Empty state — no profile, no data, or itinerary is from a past week */
-          <View style={styles.emptyState}>
-            <View style={styles.emptyIconWrap}>
-              <Ionicons name="compass-outline" size={48} color={Colors.light.primary} />
-            </View>
-            <Text style={styles.emptyTitle}>Plan your week of cooking</Text>
-            <Text style={styles.emptyBody}>
-              Choose how many nights to cook, pick your cuisines, and we'll build your dinner schedule.
-            </Text>
-            <Pressable
-              onPress={() => { haptic(); router.push("/itinerary-setup"); }}
-              style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
-            >
-              <Text style={styles.ctaText}>Plan My Week →</Text>
-            </Pressable>
+      {(!itineraryProfile || currentItinerary.length === 0 || isItineraryStale) ? (
+        <View style={styles.emptyState}>
+          <View style={styles.emptyIconWrap}>
+            <Ionicons name="compass-outline" size={48} color={Colors.light.primary} />
           </View>
-        ) : allDone ? (
-          /* All Done */
-          <View style={styles.emptyState}>
-            <Text style={styles.allDoneTitle}>Great week!</Text>
-            <Text style={styles.allDoneSub}>
-              You cooked {currentItinerary.filter((d) => d.status === "completed").length} meals from{" "}
-              {new Set(currentItinerary.filter((d) => d.status === "completed").map((d) => d.countryId)).size} countries
-            </Text>
-            <Pressable
-              onPress={handleNewWeek}
-              style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
-            >
-              <Text style={styles.ctaText}>Plan Next Week</Text>
-            </Pressable>
-          </View>
-        ) : (
-          /* Active itinerary */
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={[styles.weekScrollContent, { paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + SCROLL_BOTTOM_INSET }]}
-          >
-            {todayDay && (
-              <View>
-                <Text style={styles.sectionLabel}>TONIGHT</Text>
-                <TonightCard day={todayDay} servings={itineraryProfile?.defaultServings ?? 4} />
-              </View>
-            )}
-            <View style={{ marginBottom: 24, gap: 20 }}>
-              {fullWeek.map((entry, index) => {
-                if ("isEmpty" in entry) {
-                  return (
-                    <EmptyDayRow
-                      key={`${entry.id}-${index}`}
-                      date={entry.date}
-                      dayLabel={entry.dayLabel}
-                      isLast={index === fullWeek.length - 1}
-                      onAdd={() => handleAddMealToDay(entry.date, entry.dayLabel)}
-                    />
-                  );
-                }
-                return (
-                  <WeekRow
-                    key={`${entry.id}-${index}`}
-                    day={entry}
-                    isLast={index === fullWeek.length - 1}
-                    isToday={entry.date === today}
-                    isPast={entry.date < today}
-                    onReload={() => { haptic(); setSwapDay(entry); }}
-                    onSkip={() => handleSkipDay(entry)}
-                    onRestore={() => handleRestoreDay(entry)}
-                    onEdit={() => { haptic(); setEditDay(entry); }}
-                    onAdd={() => { haptic(); setAddExtraDay(entry); }}
-                  />
-                );
-              })}
-            </View>
-            <Pressable
-              onPress={handleNewWeek}
-              style={({ pressed }) => [styles.newWeekLink, pressed && { opacity: 0.6 }]}
-            >
-              <Text style={styles.newWeekText}>Generate new week</Text>
-            </Pressable>
-          </ScrollView>
-        )
-      )}
-
-      {/* ── Grocery ────────────────────────────────────────────────── */}
-      {segment === "grocery" && (
-        groceryItems.length === 0 ? (
-          <View style={styles.emptyState}>
-            <View style={styles.emptyIconWrap}>
-              <Ionicons name="cart-outline" size={48} color={Colors.light.primary} />
-            </View>
-            <Text style={styles.emptyTitle}>Your grocery list is empty</Text>
-            <Text style={styles.emptyBody}>Add ingredients from recipes or your weekly plan.</Text>
-          </View>
-        ) : (
-          <View style={{ flex: 1 }}>
-            <FlatList
-              data={categoryGroups}
-              keyExtractor={(item) => item.label}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={[
-                styles.groceryScrollContent,
-                { paddingBottom: Platform.OS === "web" ? 80 : insets.bottom + SCROLL_BOTTOM_INSET },
-              ]}
-              ListHeaderComponent={
-                <View>
-                  {/* Manual add input */}
-                  <View style={{ flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: Colors.light.outlineVariant }}>
-                    <TextInput
-                      value={manualItem}
-                      onChangeText={setManualItem}
-                      placeholder="Add an item..."
-                      placeholderTextColor={Colors.light.secondary}
-                      style={{ flex: 1, fontFamily: "Inter_400Regular", fontSize: 15, color: Colors.light.onSurface, height: 44 }}
-                      returnKeyType="done"
-                      onSubmitEditing={handleManualAdd}
-                    />
-                    <Pressable
-                      onPress={handleManualAdd}
-                      style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: manualItem.trim() ? Colors.light.primary : Colors.light.surfaceContainerLow, alignItems: "center", justifyContent: "center" }}
-                    >
-                      <Ionicons name="add" size={20} color={manualItem.trim() ? Colors.light.onPrimary : Colors.light.secondary} />
-                    </Pressable>
-                  </View>
-                  {/* My Pantry */}
-                  <View style={styles.pantrySection}>
-                    <View style={styles.pantryHeaderRow}>
-                      <Text style={styles.pantryLabel}>Pantry Staples</Text>
-                      <Text style={styles.pantryHint}>Tap if running low</Text>
-                    </View>
-                    <ScrollView
-                      horizontal
-                      showsHorizontalScrollIndicator={false}
-                      contentContainerStyle={styles.pantryScroll}
-                    >
-                      {pantryStaples.filter((s) => s.inKitchen).map((staple) => {
-                        const needsMore = pantryNeedIds.has(staple.id);
-                        return (
-                          <Pressable
-                            key={staple.id}
-                            onPress={() => handlePantryTap(staple)}
-                            style={({ pressed }) => [
-                              styles.pantryPill,
-                              needsMore && styles.pantryPillNeed,
-                              pressed && { opacity: 0.75 },
-                            ]}
-                          >
-                            {needsMore && (
-                              <Ionicons name="cart" size={12} color={Colors.light.onPrimary} style={{ marginRight: 4 }} />
-                            )}
-                            <Text
-                              style={[
-                                styles.pantryPillText,
-                                needsMore && styles.pantryPillTextNeed,
-                              ]}
-                            >
-                              {staple.ingredient}
-                            </Text>
-                          </Pressable>
-                        );
-                      })}
-                    </ScrollView>
-                  </View>
-                </View>
-              }
-              renderItem={({ item: group }) => (
-                <View style={styles.categoryGroup}>
-                  <Text style={styles.categoryHeader}>{group.label.toUpperCase()}</Text>
-                  {group.items.map((item, idx) => (
-                    <GroceryRow
-                      key={item.id}
-                      item={item}
-                      isLast={idx === group.items.length - 1}
-                      measurementSystem={measurementSystem}
-                      onToggle={() => {
-                        if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                        toggleGroceryItem(item.id);
-                      }}
-                    />
-                  ))}
-                </View>
-              )}
-              ListFooterComponent={
-                <View>
-                  <View style={{ flexDirection: "row", justifyContent: "center", gap: 20 }}>
-                    {activeGroceryItems.filter((i) => i.checked).length > 0 && (
-                      <Pressable onPress={handleClearCompleted} style={styles.clearCompletedBtn}>
-                        <Text style={styles.clearCompletedText}>Clear Completed</Text>
-                      </Pressable>
-                    )}
-                    {activeGroceryItems.length > 0 && (
-                      <Pressable
-                        onPress={() => { haptic(); clearGrocery(); }}
-                        style={styles.clearCompletedBtn}
-                      >
-                        <Text style={[styles.clearCompletedText, { color: Colors.light.error }]}>Clear All</Text>
-                      </Pressable>
-                    )}
-                  </View>
-                  {/* In your kitchen collapsible */}
-                  {excludedGroceryItems.length > 0 && (
-                    <View style={styles.kitchenSection}>
-                      <Pressable
-                        onPress={() => { haptic(); setKitchenExpanded((v) => !v); }}
-                        style={styles.kitchenHeader}
-                      >
-                        <Ionicons
-                          name={kitchenExpanded ? "chevron-down" : "chevron-forward"}
-                          size={14}
-                          color={Colors.light.secondary}
-                        />
-                        <Text style={styles.kitchenHeaderText}>
-                          In your kitchen ({excludedGroceryItems.length} items)
-                        </Text>
-                      </Pressable>
-                      {kitchenExpanded && (
-                        <View style={styles.kitchenList}>
-                          {excludedGroceryItems.map((item, idx) => (
-                            <Pressable
-                              key={item.id}
-                              onPress={() => { haptic(); unexcludeGroceryItem(item.id); showToast(`Added ${item.name} to list`); }}
-                              style={[styles.kitchenRow, idx < excludedGroceryItems.length - 1 && styles.kitchenRowBorder]}
-                            >
-                              <Ionicons name="add-circle-outline" size={18} color={Colors.light.primary} />
-                              <Text style={styles.kitchenItemName}>{item.name}</Text>
-                              <Text style={styles.kitchenItemSource} ellipsizeMode="tail" numberOfLines={1}>{item.recipeName}</Text>
-                            </Pressable>
-                          ))}
-                          <Text style={styles.kitchenHint}>Tap any item to add it back for this trip</Text>
-                        </View>
-                      )}
-                    </View>
-                  )}
-                </View>
-              }
-            />
-
-            {/* Sticky summary footer */}
-            <View style={[styles.grocerySummary, { paddingBottom: Math.max(insets.bottom, 12) }]}>
-              <Text style={styles.grocerySummaryText}>
-                {activeGroceryItems.length} items · {activeGroceryItems.filter((i) => i.checked).length} checked
-                {excludedGroceryItems.length > 0 && ` · ${excludedGroceryItems.length} in kitchen`}
-              </Text>
-            </View>
-
-          </View>
-        )
-      )}
-
-      {/* ── Checkout FAB — shown on both This Week and Grocery views ───── */}
-      {uncheckedGroceryCount > 0 && groceryPartner && groceryPartner !== "skip" && (
-        <View style={[styles.fabWrap, { bottom: Math.max(insets.bottom, 16) + 60 }]} pointerEvents="box-none">
-          <LinearGradient
-            colors={["rgba(254,249,243,0)", "rgba(254,249,243,0.95)", Colors.light.surface]}
-            style={styles.fabGradient}
-            pointerEvents="none"
-          />
+          <Text style={styles.emptyTitle}>Plan your week of cooking</Text>
+          <Text style={styles.emptyBody}>
+            Choose how many nights to cook, pick your cuisines, and we'll build your dinner schedule.
+          </Text>
           <Pressable
-            onPress={handleCheckoutFab}
-            style={({ pressed }) => [
-              styles.fab,
-              { backgroundColor: PARTNER_CONFIG[groceryPartner].color },
-              pressed && { opacity: 0.88, transform: [{ scale: 0.97 }] },
-            ]}
+            onPress={() => { haptic(); router.push("/itinerary-setup"); }}
+            style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
           >
-            <View style={styles.fabLogoWrap}>
-              <Text style={styles.fabLogoText}>{PARTNER_CONFIG[groceryPartner].initial}</Text>
-            </View>
-            <Text style={styles.fabText}>
-              Add {uncheckedGroceryCount} item{uncheckedGroceryCount !== 1 ? "s" : ""} to {PARTNER_CONFIG[groceryPartner].label}
-            </Text>
-            <Ionicons name="arrow-forward" size={16} color={Colors.light.onPrimary} />
+            <Text style={styles.ctaText}>Plan My Week →</Text>
           </Pressable>
         </View>
+      ) : allDone ? (
+        <View style={styles.emptyState}>
+          <Text style={styles.allDoneTitle}>Great week!</Text>
+          <Text style={styles.allDoneSub}>
+            You cooked {currentItinerary.filter((d) => d.status === "completed").length} meals from{" "}
+            {new Set(currentItinerary.filter((d) => d.status === "completed").map((d) => d.countryId)).size} countries
+          </Text>
+          <Pressable
+            onPress={handleNewWeek}
+            style={({ pressed }) => [styles.ctaButton, pressed && { opacity: 0.88 }]}
+          >
+            <Text style={styles.ctaText}>Plan Next Week</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[styles.weekScrollContent, { paddingBottom: Platform.OS === "web" ? 140 : insets.bottom + SCROLL_BOTTOM_INSET }]}
+        >
+          {todayDay && (
+            <View>
+              <Text style={styles.sectionLabel}>TONIGHT</Text>
+              <TonightCard day={todayDay} servings={itineraryProfile?.defaultServings ?? 4} />
+            </View>
+          )}
+          <View style={{ marginBottom: 24, gap: 20 }}>
+            {fullWeek.map((entry, index) => {
+              if ("isEmpty" in entry) {
+                return (
+                  <EmptyDayRow
+                    key={`${entry.id}-${index}`}
+                    date={entry.date}
+                    dayLabel={entry.dayLabel}
+                    isLast={index === fullWeek.length - 1}
+                    onAdd={() => handleAddMealToDay(entry.date, entry.dayLabel)}
+                  />
+                );
+              }
+              return (
+                <WeekRow
+                  key={`${entry.id}-${index}`}
+                  day={entry}
+                  isLast={index === fullWeek.length - 1}
+                  isToday={entry.date === today}
+                  isPast={entry.date < today}
+                  onReload={() => { haptic(); setSwapDay(entry); }}
+                  onSkip={() => handleSkipDay(entry)}
+                  onRestore={() => handleRestoreDay(entry)}
+                  onEdit={() => { haptic(); setEditDay(entry); }}
+                  onAdd={() => { haptic(); setAddExtraDay(entry); }}
+                />
+              );
+            })}
+          </View>
+          <Pressable
+            onPress={handleNewWeek}
+            style={({ pressed }) => [styles.newWeekLink, pressed && { opacity: 0.6 }]}
+          >
+            <Text style={styles.newWeekText}>Generate new week</Text>
+          </Pressable>
+          {todayDay && (
+            <Pressable
+              onPress={() => router.push("/(tabs)/cook")}
+              style={styles.readyToCookBtn}
+              accessibilityLabel="Ready to cook tonight"
+            >
+              <Ionicons name="flame" size={18} color={Colors.light.onPrimary} />
+              <Text style={styles.readyToCookText}>
+                Ready to Cook Tonight →
+              </Text>
+            </Pressable>
+          )}
+        </ScrollView>
       )}
 
       </View>{/* end content area flex wrapper */}
@@ -1566,39 +1182,6 @@ function EmptyDayRow({ date, dayLabel, isLast, onAdd }: {
   );
 }
 
-// ─── GroceryRow ───────────────────────────────────────────────────────────────
-
-function GroceryRow({ item, isLast, onToggle, measurementSystem }: { item: GroceryItem; isLast: boolean; onToggle: () => void; measurementSystem: import("@/constants/units").MeasurementSystem }) {
-  const sources = item.recipeNames ?? [item.recipeName];
-  const sourceLabel = sources.join(", ");
-  return (
-    <Pressable
-      onPress={onToggle}
-      style={[
-        styles.groceryRow,
-        !isLast && styles.groceryRowBorder,
-        item.checked && { opacity: 0.4 },
-      ]}
-    >
-      {/* Checkbox */}
-      <View style={[styles.checkbox, item.checked && styles.checkboxChecked]}>
-        {item.checked && <Ionicons name="checkmark" size={13} color={Colors.light.surface} />}
-      </View>
-
-      {/* Ingredient name + amount */}
-      <View style={{ flex: 1 }}>
-        <Text style={[styles.groceryName, item.checked && styles.groceryNameChecked]} ellipsizeMode="tail" numberOfLines={1}>
-          {item.name}
-          {item.amount ? <Text style={styles.groceryAmount}> ({convertAmount(item.amount, measurementSystem)})</Text> : null}
-        </Text>
-      </View>
-
-      {/* Source recipe — right-aligned */}
-      <Text style={styles.grocerySource} ellipsizeMode="tail" numberOfLines={1}>{sourceLabel}</Text>
-    </Pressable>
-  );
-}
-
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 
@@ -1651,63 +1234,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  segmentControl: {
-    flexDirection: "row",
-    backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 999,
-    padding: 4,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(138,114,102,0.1)",
-  },
-  segmentBtn: {
-    flex: 1,
+  readyToCookBtn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 5,
-    paddingVertical: 9,
-    paddingHorizontal: 12,
-    borderRadius: 999,
-  },
-  segmentBtnActive: {
-    backgroundColor: Colors.light.surfaceContainerHighest,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  segmentText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: Colors.light.secondary,
-  },
-  segmentTextActive: {
-    fontFamily: "Inter_600SemiBold",
-    color: Colors.light.primary,
-  },
-  segmentBadge: {
-    backgroundColor: Colors.light.secondary,
-    borderRadius: 10,
-    minWidth: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 6,
-  },
-  segmentBadgeActive: {
+    gap: 8,
     backgroundColor: Colors.light.primary,
+    borderRadius: 14,
+    paddingVertical: 16,
+    marginHorizontal: 0,
+    marginTop: 16,
+    marginBottom: 8,
   },
-  segmentBadgeText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
-    lineHeight: 16,
+  readyToCookText: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 16,
     color: Colors.light.surface,
   },
-  segmentBadgeTextActive: {
-    color: Colors.light.surface,
-  },
-
   // Shared empty state
   emptyState: {
     flex: 1,
@@ -2060,269 +1603,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 18,
     color: Colors.light.primary,
-  },
-
-  // Grocery
-  groceryScrollContent: {
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    gap: 8,
-  },
-
-  // My Pantry
-  pantrySection: {
-    marginBottom: 14,
-    gap: 10,
-  },
-  pantryHeaderRow: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    justifyContent: "space-between",
-  },
-  pantryLabel: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
-    lineHeight: 20,
-    color: Colors.light.onSurface,
-  },
-  pantryHint: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    color: Colors.light.onSurfaceVariant,
-  },
-  pantryScroll: {
-    gap: 8,
-    paddingRight: 4,
-  },
-  pantryPill: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 14,
-    paddingVertical: 9,
-    borderRadius: 22,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    borderWidth: 1,
-    borderColor: Colors.light.outlineVariant,
-  },
-  pantryPillNeed: {
-    backgroundColor: Colors.light.primary,
-    borderColor: Colors.light.primary,
-  },
-  pantryPillText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    lineHeight: 20,
-    color: Colors.light.onSurfaceVariant,
-  },
-  pantryPillTextNeed: {
-    color: Colors.light.onPrimary,
-  },
-
-  // In your kitchen
-  kitchenSection: {
-    marginTop: 16,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: Colors.light.outlineVariant,
-  },
-  kitchenHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    paddingVertical: 14,
-  },
-  kitchenHeaderText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    lineHeight: 20,
-    color: Colors.light.secondary,
-  },
-  kitchenList: {
-    backgroundColor: "#F7F1EA",
-    borderRadius: 12,
-    overflow: "hidden",
-    marginBottom: 8,
-  },
-  kitchenRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-  },
-  kitchenRowBorder: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.light.outlineVariant,
-  },
-  kitchenItemName: {
-    flex: 1,
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    lineHeight: 20,
-    color: Colors.light.onSurface,
-  },
-  kitchenItemSource: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    lineHeight: 20,
-    color: Colors.light.secondary,
-    maxWidth: 100,
-    textAlign: "right",
-  },
-  kitchenHint: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    lineHeight: 20,
-    color: Colors.light.secondary,
-    textAlign: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    fontStyle: "italic",
-  },
-
-  categoryGroup: {
-    marginBottom: 20,
-  },
-  categoryHeader: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    lineHeight: 20,
-    color: Colors.light.secondary,
-    letterSpacing: 2,
-    textTransform: "uppercase",
-    marginBottom: 8,
-    paddingTop: 16,
-  },
-  groceryRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 14,
-    gap: 12,
-    minHeight: 56,
-  },
-  groceryRowBorder: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.light.outlineVariant,
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 1.5,
-    borderColor: Colors.light.primary,
-    alignItems: "center",
-    justifyContent: "center",
-    flexShrink: 0,
-  },
-  checkboxChecked: {
-    backgroundColor: Colors.light.primary,
-    borderColor: Colors.light.primary,
-  },
-  groceryName: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 17,
-    color: Colors.light.onSurface,
-  },
-  groceryNameChecked: {
-    textDecorationLine: "line-through",
-    color: Colors.light.secondary,
-  },
-  groceryAmount: {
-    fontFamily: "Inter_400Regular",
-    color: Colors.light.secondary,
-  },
-  grocerySource: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    lineHeight: 20,
-    color: Colors.light.secondary,
-    maxWidth: 100,
-    textAlign: "right",
-  },
-  qtyBadge: {
-    backgroundColor: "#F0E8DE",
-    borderRadius: 10,
-    paddingHorizontal: 7,
-    paddingVertical: 2,
-  },
-  qtyText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
-    lineHeight: 18,
-    color: Colors.light.primary,
-  },
-  clearCompletedBtn: {
-    alignItems: "center",
-    paddingVertical: 16,
-    marginTop: 8,
-  },
-  clearCompletedText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 13,
-    color: Colors.light.secondary,
-  },
-
-  // Grocery summary footer
-  grocerySummary: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: Colors.light.outlineVariant,
-    backgroundColor: Colors.light.surface,
-  },
-  grocerySummaryText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    lineHeight: 18,
-    color: Colors.light.secondary,
-    textAlign: "center",
-  },
-  // Checkout FAB
-  fabWrap: {
-    position: "absolute",
-    left: 20,
-    right: 20,
-    alignItems: "stretch",
-  },
-  fabGradient: {
-    position: "absolute",
-    left: -20,
-    right: -20,
-    top: -40,
-    height: 60,
-  },
-  fab: {
-    flexDirection: "row",
-    alignItems: "center",
-    height: 48,
-    borderRadius: 26,
-    paddingHorizontal: 16,
-    gap: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 10,
-    elevation: 6,
-  },
-  fabLogoWrap: {
-    width: 28,
-    height: 28,
-    borderRadius: 12,
-    backgroundColor: "rgba(255,255,255,0.2)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  fabLogoText: {
-    fontFamily: "Inter_700Bold",
-    fontSize: 13,
-    color: Colors.light.onPrimary,
-  },
-  fabText: {
-    flex: 1,
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: Colors.light.onPrimary,
   },
 
   // Toast

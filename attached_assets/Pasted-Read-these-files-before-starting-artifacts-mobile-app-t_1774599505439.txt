@@ -1,0 +1,230 @@
+Read these files before starting:
+  artifacts/mobile/app/(tabs)/_layout.tsx
+  artifacts/mobile/app/(tabs)/plan.tsx
+  artifacts/mobile/contexts/AppContext.tsx
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART A — Create grocery.tsx as a new tab
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create new file: artifacts/mobile/app/(tabs)/grocery.tsx
+
+Move the entire grocery segment from plan.tsx
+(lines 652-816) into this new file as a complete
+standalone screen.
+
+The new grocery.tsx should:
+
+1. Import everything the grocery segment needs:
+   - All the same imports from plan.tsx that the
+     grocery section uses
+   - useApp() context
+   - useSafeAreaInsets
+   - Colors, SCROLL_BOTTOM_INSET, spacing
+
+2. Have this header at the top:
+   <View style={styles.header}>
+     <Text style={styles.headerTitle}>Groceries</Text>
+     <Pressable
+       onPress={() => router.push("/profile-sheet")}
+       style={styles.avatarBtn}
+       accessibilityLabel="Profile"
+     >
+       <View style={styles.avatarCircle}>
+         <Ionicons name="person" size={18}
+           color={Colors.light.primary} />
+       </View>
+     </Pressable>
+   </View>
+
+3. Include ALL grocery functionality:
+   - Manual add input at top
+   - Pantry staples strip
+   - Category grouped list with GroceryRow
+   - Clear completed / Clear all buttons
+   - In your kitchen collapsible
+   - Sticky summary footer
+   - Checkout FAB (Instacart etc.)
+
+4. Add a "All set — let's cook!" CTA button
+   at the bottom that appears when at least
+   50% of items are checked:
+
+   const checkedCount = groceryItems.filter(i => i.checked).length;
+   const totalCount = groceryItems.length;
+   const readyToCook = totalCount > 0 && 
+     checkedCount / totalCount >= 0.5;
+
+   {readyToCook && (
+     <Pressable
+       onPress={() => {
+         router.push("/(tabs)/cook");
+         if (Platform.OS !== "web") {
+           Haptics.notificationAsync(
+             Haptics.NotificationFeedbackType.Success
+           );
+         }
+       }}
+       style={styles.readyToCookBtn}
+       accessibilityLabel="All set, let's cook"
+     >
+       <Text style={styles.readyToCookText}>
+         All set — let's cook! →
+       </Text>
+     </Pressable>
+   )}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART B — Remove grocery segment from plan.tsx
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILE: artifacts/mobile/app/(tabs)/plan.tsx
+
+1. Remove the grocery segment content
+   (lines 652-816) entirely
+
+2. Remove the segment state and switcher:
+   - Remove: const [segment, setSegment] = 
+     useState<"week" | "grocery">("week")
+   - Remove the segment switcher UI (the
+     Week / Grocery toggle buttons)
+   - Remove any segment === "grocery" conditions
+
+3. Remove any imports only used by grocery:
+   - Keep addToGrocery, removeFromGrocery
+     (still needed for plan handlers)
+   - Remove: manualItem state, handleManualAdd,
+     addManualGroceryItem if only used in grocery
+
+4. Add a "Ready to Cook Tonight →" CTA at the
+   bottom of the week view when todayDay exists:
+
+   {todayDay && (
+     <Pressable
+       onPress={() => router.push("/(tabs)/cook")}
+       style={styles.readyToCookBtn}
+       accessibilityLabel="Ready to cook tonight"
+     >
+       <Ionicons name="flame" size={18}
+         color={Colors.light.onPrimary} />
+       <Text style={styles.readyToCookText}>
+         Ready to Cook Tonight →
+       </Text>
+     </Pressable>
+   )}
+
+   Style:
+   readyToCookBtn: {
+     flexDirection: "row",
+     alignItems: "center",
+     justifyContent: "center",
+     gap: 8,
+     backgroundColor: Colors.light.primary,
+     borderRadius: 14,
+     paddingVertical: 16,
+     marginHorizontal: 20,
+     marginTop: 16,
+     marginBottom: 8,
+   },
+   readyToCookText: {
+     fontFamily: "NotoSerif_700Bold",
+     fontSize: 16,
+     color: Colors.light.onPrimary,
+   },
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART C — Update _layout.tsx tab structure
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILE: artifacts/mobile/app/(tabs)/_layout.tsx
+
+Replace the profile tab with a grocery tab,
+and remove the profile tab entirely from
+the bottom nav:
+
+New tab order:
+1. index (Discover)
+2. search (Search)
+3. plan (Plan)
+4. grocery (Groceries) ← NEW
+5. cook (Cook)
+
+Remove: profile tab from bottom nav
+   (profile is now accessed via avatar in header)
+
+For NativeTabLayout add:
+  <NativeTabs.Trigger name="grocery">
+    <Icon sf={{ 
+      default: "cart", 
+      selected: "cart.fill" 
+    }} />
+    <Label>Groceries</Label>
+  </NativeTabs.Trigger>
+
+For ClassicTabLayout add the grocery tab:
+  <Tabs.Screen
+    name="grocery"
+    options={{
+      title: "Groceries",
+      tabBarIcon: ({ color }) =>
+        isIOS ? (
+          <SymbolView name="cart"
+            tintColor={color} size={24} />
+        ) : (
+          <MaterialIcons name="shopping-cart"
+            size={24} color={color} />
+        ),
+    }}
+  />
+
+Remove the profile Tabs.Screen entry.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART D — Remove hamburger from all headers
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Search every file in artifacts/mobile/app/(tabs)/
+for hamburger menu references:
+  - name="menu" icon
+  - name="menu-outline" icon  
+  - Any "hamburger" or "menu" Pressable in headers
+
+Remove every hamburger icon and its Pressable.
+
+Replace with just the title on the left and
+avatar on the right in every TabHeader.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART E — Add avatar to every tab header
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILE: artifacts/mobile/components/TabHeader.tsx
+
+Update TabHeader to always show:
+- Title on the left
+- Avatar circle on the right (no hamburger)
+
+The avatar onPress opens a profile bottom sheet.
+For now navigate to: router.push("/settings")
+We will replace with a sheet in Block 3.
+
+Remove the hamburger prop entirely if it exists.
+Make the avatar non-optional — always shown.
+
+Update every screen that uses TabHeader to
+remove any hamburger-related props.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+After all changes verify:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. app/(tabs)/grocery.tsx exists with full
+   grocery functionality
+2. plan.tsx has no grocery segment or 
+   segment switcher
+3. _layout.tsx has 5 tabs:
+   index, search, plan, grocery, cook
+4. No hamburger icons anywhere
+5. TabHeader shows title + avatar only
+6. Run tsc --noEmit — zero errors
+7. List every file created or modified
