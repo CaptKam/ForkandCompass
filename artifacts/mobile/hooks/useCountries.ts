@@ -35,16 +35,20 @@ const LOCAL_ORDER = COUNTRIES.map((c) => c.id);
 export function useCountries() {
   const { data, isLoading, isError } = useListCountries();
 
-  const countries: Country[] = data && !isError
-    ? data
+  // Safely extract array — API may return object with .data, null, or unexpected shape
+  const rawData = Array.isArray(data) ? data
+    : Array.isArray((data as any)?.data) ? (data as any).data
+    : [];
+
+  const countries: Country[] = rawData.length > 0 && !isError
+    ? rawData
         .map(mapApiCountry)
-        .sort((a, b) => {
+        .sort((a: Country, b: Country) => {
           const ai = LOCAL_ORDER.indexOf(a.id);
           const bi = LOCAL_ORDER.indexOf(b.id);
-          // Unknown countries go to the end
           return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
         })
     : COUNTRIES.map(resolveCountryRecipeImages);
 
-  return { countries, isLoading, isFromApi: !!data && !isError };
+  return { countries, isLoading, isFromApi: rawData.length > 0 && !isError };
 }
