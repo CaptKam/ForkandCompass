@@ -65,6 +65,7 @@ export default function CookScreen() {
     activeCookSession,
     setActiveCookSession,
     itineraryProfile,
+    groceryItems,
   } = useApp();
 
   const [techniquesExpanded, setTechniquesExpanded] = useState(false);
@@ -81,6 +82,36 @@ export default function CookScreen() {
     if (!recipeIds || recipeIds.length === 0) return null;
     return getRecipeById(recipeIds[0]);
   }, [currentItinerary]);
+
+  const tonightRecipeNames = useMemo(() => {
+    if (!currentItinerary || currentItinerary.length === 0) return new Set<string>();
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const todayEntry = currentItinerary.find((e) => e.date === today && e.status === "active");
+    if (!todayEntry) return new Set<string>();
+    const allIds = [
+      ...(todayEntry.mode === "quick" ? todayEntry.quickRecipeIds : todayEntry.fullRecipeIds),
+      ...(todayEntry.extraRecipeIds ?? []),
+    ];
+    const names = new Set<string>();
+    for (const id of allIds) {
+      const r = getRecipeById(id);
+      if (r) names.add(r.name);
+    }
+    return names;
+  }, [currentItinerary]);
+
+  const tonightGrocery = useMemo(() => {
+    if (tonightRecipeNames.size === 0) return { items: [] as typeof groceryItems, checkedCount: 0, totalCount: 0 };
+    const items = groceryItems.filter(
+      (item) =>
+        !item.excluded &&
+        (tonightRecipeNames.has(item.recipeName) ||
+          (item.recipeNames && item.recipeNames.some((n) => tonightRecipeNames.has(n))))
+    );
+    const checkedCount = items.filter((i) => i.checked).length;
+    return { items, checkedCount, totalCount: items.length };
+  }, [tonightRecipeNames, groceryItems]);
 
   const recentRecipes = useMemo(() => {
     return recentCookSessions
@@ -141,8 +172,6 @@ export default function CookScreen() {
 
   const activeRecipe = activeCookSession ? getRecipeById(activeCookSession.recipeId) : null;
   const hasActiveSession = activeCookSession != null;
-  const hasTonightsRecipe = !hasActiveSession && tonightsRecipe != null;
-  const showWhatToCook = !hasActiveSession && !hasTonightsRecipe;
 
   const xpCurrent = Math.round(cookingProfile.progressToNext * 500);
   const xpTotal = 500;
@@ -228,66 +257,118 @@ export default function CookScreen() {
           </View>
         )}
 
-        {/* ── Tonight's Recipe (no active session) ───────────────── */}
-        {hasTonightsRecipe && tonightsRecipe && (
+        {/* ── TONIGHT'S MEAL HERO (no active session) ───────────── */}
+        {!hasActiveSession && tonightsRecipe != null && (
           <View style={styles.section}>
             <View style={styles.sectionLabelRow}>
               <Text style={styles.sectionLabelEditorial}>Tonight</Text>
             </View>
-            <View style={styles.activeCard}>
-              <View style={styles.activeGrid}>
-                <Pressable
-                  style={styles.activeImageWrap}
-                  onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: tonightsRecipe.id } }); }}
-                >
-                  <Image
-                    source={{ uri: tonightsRecipe.image }}
-                    style={StyleSheet.absoluteFill}
-                    contentFit="cover"
-                    transition={reducedMotion ? 0 : 400}
-                    placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
-                    onError={(e) => console.warn("[Image] Failed to load:", e.error)}
-                  />
-                  <LinearGradient colors={["transparent", "rgba(0,0,0,0.3)"]} style={StyleSheet.absoluteFill} />
-                </Pressable>
-                <View style={styles.activeDetails}>
-                  <View>
-                    <Text style={styles.activeRecipeName} numberOfLines={2} ellipsizeMode="tail">{tonightsRecipe.name}</Text>
-                    <Text style={styles.activeRecipeDesc} numberOfLines={2} ellipsizeMode="tail">
-                      {tonightsRecipe.region ?? tonightsRecipe.countryName} {"\u2022"} {tonightsRecipe.time}
-                    </Text>
+            <View style={styles.tonightHero}>
+              <Pressable
+                style={styles.tonightImageWrap}
+                onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: tonightsRecipe.id } }); }}
+              >
+                <Image
+                  source={{ uri: tonightsRecipe.image }}
+                  style={StyleSheet.absoluteFill}
+                  contentFit="cover"
+                  transition={reducedMotion ? 0 : 400}
+                  placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                  onError={(e) => console.warn("[Image] Failed to load:", e.error)}
+                />
+                <LinearGradient colors={["transparent", "rgba(0,0,0,0.45)"]} style={StyleSheet.absoluteFill} />
+                <View style={styles.tonightImageOverlay}>
+                  <Text style={styles.tonightFlag}>{tonightsRecipe.countryFlag} {tonightsRecipe.countryName}</Text>
+                </View>
+              </Pressable>
+              <View style={styles.tonightBody}>
+                <Text style={styles.tonightTitle} numberOfLines={2} ellipsizeMode="tail">{tonightsRecipe.name}</Text>
+                <View style={styles.tonightMetaRow}>
+                  <Ionicons name="time-outline" size={14} color={Colors.light.secondary} />
+                  <Text style={styles.tonightMetaText}>{tonightsRecipe.time}</Text>
+                  <Text style={styles.tonightMetaDot}>{"\u2022"}</Text>
+                  <Ionicons name="people-outline" size={14} color={Colors.light.secondary} />
+                  <Text style={styles.tonightMetaText}>{tonightsRecipe.difficulty}</Text>
+                </View>
+
+                {/* Grocery status */}
+                {tonightGrocery.totalCount === 0 ? (
+                  <View style={styles.groceryStatus}>
+                    <Ionicons name="cart-outline" size={20} color={Colors.light.secondary} />
+                    <Text style={styles.groceryStatusText}>No ingredients in your list yet</Text>
+                    <Pressable onPress={() => router.push("/(tabs)/grocery")}>
+                      <Text style={styles.groceryLink}>View grocery list →</Text>
+                    </Pressable>
                   </View>
+                ) : tonightGrocery.checkedCount < tonightGrocery.totalCount ? (
+                  <View style={styles.groceryStatus}>
+                    <Text style={styles.groceryStatusLabel}>Groceries</Text>
+                    <Text style={styles.groceryStatusCount}>{tonightGrocery.checkedCount} of {tonightGrocery.totalCount} confirmed</Text>
+                    <View style={styles.groceryProgress}>
+                      <View style={[styles.groceryProgressFill, { width: `${(tonightGrocery.checkedCount / tonightGrocery.totalCount) * 100}%` as `${number}%` }]} />
+                    </View>
+                    <Pressable onPress={() => router.push("/(tabs)/grocery")}>
+                      <Text style={styles.groceryLink}>Finish checking off →</Text>
+                    </Pressable>
+                  </View>
+                ) : (
+                  <View style={[styles.groceryStatus, styles.groceryStatusReady]}>
+                    <Ionicons name="checkmark-circle" size={20} color="#34c759" />
+                    <Text style={styles.groceryReadyText}>All ingredients confirmed</Text>
+                  </View>
+                )}
+
+                {/* CTA — grocery-gated */}
+                {tonightGrocery.totalCount > 0 && tonightGrocery.checkedCount < tonightGrocery.totalCount ? (
+                  <View style={styles.cookActions}>
+                    <Pressable
+                      onPress={() => router.push("/(tabs)/grocery")}
+                      style={({ pressed }) => [styles.orderBtn, pressed && { opacity: 0.88 }]}
+                    >
+                      <Ionicons name="cart" size={18} color={Colors.light.primary} />
+                      <Text style={styles.orderBtnText}>Order with Instacart</Text>
+                    </Pressable>
+                    <Pressable
+                      onPress={() => handleStartCooking(tonightsRecipe.id)}
+                      style={({ pressed }) => [styles.cookAnywayBtn, pressed && { opacity: 0.88 }]}
+                    >
+                      <Text style={styles.cookAnywayText}>Start Cooking Anyway →</Text>
+                    </Pressable>
+                  </View>
+                ) : (
                   <Pressable
                     onPress={() => handleStartCooking(tonightsRecipe.id)}
-                    style={({ pressed }) => [styles.continueCookBtn, pressed && { opacity: 0.88 }]}
+                    style={({ pressed }) => [styles.startCookingBtn, pressed && { opacity: 0.88 }]}
+                    accessibilityLabel="Start cooking tonight's meal"
                   >
-                    <Text style={styles.continueCookBtnText}>Start Cooking</Text>
+                    <Ionicons name="flame" size={20} color={Colors.light.onPrimary} />
+                    <Text style={styles.startCookingText}>Start Cooking →</Text>
                   </Pressable>
-                </View>
+                )}
               </View>
             </View>
           </View>
         )}
 
-        {/* ── What to Cook (empty state) ─────────────────────────── */}
-        {showWhatToCook && (
+        {/* ── No Meal Planned (empty state) ───────────────────────── */}
+        {!hasActiveSession && tonightsRecipe == null && (
           <View style={styles.section}>
             <View style={styles.whatToCookCard}>
               <Ionicons name="restaurant-outline" size={32} color={Colors.light.primary} style={{ marginBottom: 4 }} />
-              <Text style={styles.whatToCookTitle}>What should we cook?</Text>
+              <Text style={styles.whatToCookTitle}>Nothing planned for tonight</Text>
               <View style={styles.whatToCookRow}>
                 <Pressable
                   style={({ pressed }) => [styles.whatToCookBtn, pressed && { opacity: 0.88 }]}
-                  onPress={handleRandomRecipe}
+                  onPress={() => { haptic(); router.push("/(tabs)/search" as any); }}
                 >
-                  <Ionicons name="shuffle-outline" size={16} color="#FFFFFF" />
-                  <Text style={styles.whatToCookBtnText}>Surprise me</Text>
+                  <Ionicons name="search-outline" size={16} color="#FFFFFF" />
+                  <Text style={styles.whatToCookBtnText}>Browse recipes</Text>
                 </Pressable>
                 <Pressable
                   style={({ pressed }) => [styles.whatToCookBtnOutline, pressed && { opacity: 0.88 }]}
-                  onPress={() => { haptic(); router.push("/(tabs)"); }}
+                  onPress={() => { haptic(); router.push("/(tabs)/plan"); }}
                 >
-                  <Text style={styles.whatToCookBtnOutlineText}>Browse</Text>
+                  <Text style={styles.whatToCookBtnOutlineText}>Add to tonight</Text>
                 </Pressable>
               </View>
             </View>
@@ -468,13 +549,164 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
-  /* ── Tonight's Recipe ────────────────────────────────────────── */
-  tonightCard: {
+  /* ── Tonight's Meal Hero ────────────────────────────────────── */
+  tonightHero: {
+    marginHorizontal: 20,
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    ...Platform.select({
+      ios: { shadowColor: "#000", shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.1, shadowRadius: 12 },
+      android: { elevation: 6 },
+      web: { boxShadow: "0 6px 24px rgba(0,0,0,0.1)" },
+    }),
+  },
+  tonightImageWrap: {
+    height: 200,
+    overflow: "hidden",
+    backgroundColor: Colors.light.surfaceContainerHigh,
+  },
+  tonightImageOverlay: {
+    position: "absolute",
+    bottom: 12,
+    left: 12,
+  },
+  tonightFlag: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 13,
+    color: "#FFFFFF",
+    backgroundColor: "rgba(0,0,0,0.35)",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "rgba(154,65,0,0.3)",
+    overflow: "hidden",
+  },
+  tonightBody: {
     padding: 20,
-    gap: 12,
+    gap: 14,
+  },
+  tonightTitle: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 20,
+    color: Colors.light.onSurface,
+    letterSpacing: -0.3,
+    lineHeight: 28,
+  },
+  tonightMetaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  tonightMetaText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: Colors.light.secondary,
+  },
+  tonightMetaDot: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: Colors.light.outlineVariant,
+  },
+  groceryStatus: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 12,
+    padding: 14,
+    gap: 8,
+    alignItems: "center",
+  },
+  groceryStatusReady: {
+    backgroundColor: "rgba(52,199,89,0.08)",
+    flexDirection: "row",
+    gap: 8,
+    justifyContent: "center",
+  },
+  groceryStatusText: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.secondary,
+    textAlign: "center",
+  },
+  groceryStatusLabel: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    color: Colors.light.onSurface,
+  },
+  groceryStatusCount: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: Colors.light.secondary,
+  },
+  groceryProgress: {
+    width: "100%",
+    height: 4,
+    backgroundColor: "rgba(222,193,179,0.15)",
+    borderRadius: 2,
+    overflow: "hidden",
+  },
+  groceryProgressFill: {
+    height: "100%",
+    backgroundColor: Colors.light.primary,
+    borderRadius: 2,
+  },
+  groceryLink: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: Colors.light.primary,
+  },
+  groceryReadyText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: "#34c759",
+  },
+  cookActions: {
+    gap: 10,
+  },
+  orderBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    height: 48,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: Colors.light.primary,
+    backgroundColor: Colors.light.surface,
+  },
+  orderBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: Colors.light.primary,
+  },
+  cookAnywayBtn: {
+    height: 48,
+    borderRadius: 12,
+    backgroundColor: Colors.light.surfaceContainerHigh,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cookAnywayText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+  },
+  startCookingBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    height: 52,
+    borderRadius: 14,
+    backgroundColor: Colors.light.primary,
+    ...Platform.select({
+      ios: { shadowColor: Colors.light.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
+      android: { elevation: 4 },
+      web: { boxShadow: "0 4px 12px rgba(154,65,0,0.3)" },
+    }),
+  },
+  startCookingText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 16,
+    color: Colors.light.onPrimary,
   },
   sectionLabelEditorial: {
     fontFamily: "NotoSerif_600SemiBold",

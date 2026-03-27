@@ -1,0 +1,162 @@
+Read these files before starting:
+  artifacts/mobile/app/(tabs)/cook.tsx
+  artifacts/mobile/contexts/AppContext.tsx
+  artifacts/mobile/contexts/SubscriptionContext.tsx
+
+Redesign the Cook tab to be the pre-cook
+command center — showing tonight's plan,
+grocery confirmation, and the Start Cooking CTA.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART A — Tonight's meal card (hero)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When the user has a meal planned for tonight
+(todayDay from currentItinerary) show it as
+a large hero card at the top:
+
+- Full-width recipe image (200px tall)
+- Country flag + name
+- Recipe title (NotoSerif 700 20px)
+- Cook time + servings
+- "Start Cooking →" button (terracotta, full width)
+
+If no meal planned tonight show:
+- "Nothing planned for tonight"
+- "Browse recipes →" link to Search tab
+- "Add to tonight →" link to Plan tab
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART B — Grocery confirmation section
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Below the tonight card show a grocery status
+section:
+
+Get groceryItems from useApp().
+Filter to only items relevant to tonight's
+recipe (match by recipeId or recipeName).
+
+const tonightItems = groceryItems.filter(item =>
+  todayRecipeIds.includes(item.recipeId ?? "")
+);
+const checkedCount = tonightItems.filter(
+  i => i.checked
+).length;
+const totalCount = tonightItems.length;
+
+Show three states:
+
+STATE 1 — No items (grocery list empty):
+  <View style={styles.groceryStatus}>
+    <Ionicons name="cart-outline" size={20}
+      color={Colors.light.secondary} />
+    <Text style={styles.groceryStatusText}>
+      No ingredients in your list yet
+    </Text>
+    <Pressable onPress={() => 
+      router.push("/(tabs)/grocery")}>
+      <Text style={styles.groceryLink}>
+        View grocery list →
+      </Text>
+    </Pressable>
+  </View>
+
+STATE 2 — Items but not all checked:
+  <View style={styles.groceryStatus}>
+    <Text style={styles.groceryStatusLabel}>
+      Groceries
+    </Text>
+    <Text style={styles.groceryStatusCount}>
+      {checkedCount} of {totalCount} confirmed
+    </Text>
+    {/* Progress bar */}
+    <View style={styles.groceryProgress}>
+      <View style={[styles.groceryProgressFill,
+        { width: `${(checkedCount/totalCount)*100}%` 
+          as `${number}%` }]} />
+    </View>
+    <Pressable onPress={() =>
+      router.push("/(tabs)/grocery")}>
+      <Text style={styles.groceryLink}>
+        Finish checking off →
+      </Text>
+    </Pressable>
+  </View>
+
+STATE 3 — All checked (ready to cook):
+  <View style={[styles.groceryStatus,
+    styles.groceryStatusReady]}>
+    <Ionicons name="checkmark-circle"
+      size={20} color="#34c759" />
+    <Text style={styles.groceryReadyText}>
+      All ingredients confirmed
+    </Text>
+  </View>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART C — Option C grocery gate on Start Cooking
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When groceries are NOT confirmed (checkedCount
+< totalCount), show TWO equal options instead
+of one Start Cooking button:
+
+  <View style={styles.cookActions}>
+    <Pressable
+      onPress={() => router.push("/(tabs)/grocery")}
+      style={styles.orderBtn}
+    >
+      <Ionicons name="cart" size={18}
+        color={Colors.light.primary} />
+      <Text style={styles.orderBtnText}>
+        Order with Instacart
+      </Text>
+    </Pressable>
+
+    <Pressable
+      onPress={handleStartCooking}
+      style={styles.cookAnywayBtn}
+    >
+      <Text style={styles.cookAnywayText}>
+        Start Cooking Anyway →
+      </Text>
+    </Pressable>
+  </View>
+
+When ALL groceries confirmed show ONE prominent
+Start Cooking button:
+
+  <Pressable
+    onPress={handleStartCooking}
+    style={styles.startCookingBtn}
+    accessibilityLabel="Start cooking tonight's meal"
+  >
+    <Ionicons name="flame" size={20}
+      color={Colors.light.onPrimary} />
+    <Text style={styles.startCookingText}>
+      Start Cooking →
+    </Text>
+  </Pressable>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART D — Keep existing content below
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Below the tonight section keep:
+- Continue Cooking banner if active session
+- Recipe browser grouped by difficulty
+- All existing cook tab content
+
+Just move it below the new tonight hero section.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+After changes verify:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Cook tab shows tonight's meal when planned
+2. Grocery status shows correct state
+3. Two CTAs show when groceries not confirmed
+4. One CTA shows when groceries confirmed
+5. No TypeScript errors
+6. List every file and line modified
