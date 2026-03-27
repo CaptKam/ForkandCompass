@@ -17,15 +17,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
-import { getRecipeById, getAllRecipes as getAllRecipesResolved } from "@/constants/data";
-import { formatSeconds } from "@/lib/utils";
+import { getRecipeById, getCountryById, type GroceryItem } from "@/constants/data";
 import type { Recipe } from "@/constants/data";
-import { TECHNIQUE_VIDEOS } from "@/constants/techniques";
 import { useApp } from "@/contexts/AppContext";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { useThemeColors } from "@/hooks/useThemeColors";
+import { parseTimeMinutes } from "@/hooks/useItinerary";
 import ProfileSheet from "@/components/ProfileSheet";
-
 
 const haptic = (style: "light" | "medium" = "light") => {
   if (Platform.OS !== "web") {
@@ -33,129 +29,197 @@ const haptic = (style: "light" | "medium" = "light") => {
   }
 };
 
-const getAllRecipes = getAllRecipesResolved;
-
-function timeAgo(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const days = Math.floor(diff / 86400000);
-  if (days === 0) return "Today";
-  if (days === 1) return "Yesterday";
-  if (days < 7) return `${days} Days Ago`;
-  const weeks = Math.floor(days / 7);
-  if (weeks < 4) return `${weeks}w ago`;
-  return new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+function toISODate(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
-const BEGINNER_RECIPE_IDS = [
-  "pasta-aglio-olio",
-  "pad-thai",
-  "guacamole",
-  "cacio-e-pepe",
-  "miso-soup",
-  "chicken-tikka-masala",
-];
+function TimeAwarenessCard({ recipe }: { recipe: Recipe }) {
+  const now = new Date();
+  const hour = now.getHours();
+  const cookMinutes = parseTimeMinutes(recipe.time ?? "0");
+  const dinnerHour = 19;
+  const minutesUntilDinner = (dinnerHour * 60) - (hour * 60 + now.getMinutes());
+  const startBy = dinnerHour - Math.ceil(cookMinutes / 60);
+  const isLate = minutesUntilDinner < cookMinutes;
+  const isUrgent = minutesUntilDinner < cookMinutes + 30;
+
+  if (hour >= dinnerHour + 2) return null;
+
+  if (isLate) {
+    return (
+      <View style={[styles.timeCard, styles.timeCardWarning]}>
+        <Ionicons name="warning-outline" size={18} color="#FF9500" />
+        <View style={styles.timeCardBody}>
+          <Text style={styles.timeCardTitle}>Running late for tonight</Text>
+          <Text style={styles.timeCardSub}>{recipe.name} takes {recipe.time}. Consider a faster recipe.</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (isUrgent) {
+    return (
+      <View style={[styles.timeCard, styles.timeCardUrgent]}>
+        <Ionicons name="time-outline" size={18} color={Colors.light.primary} />
+        <View style={styles.timeCardBody}>
+          <Text style={styles.timeCardTitle}>Start cooking soon</Text>
+          <Text style={styles.timeCardSub}>Begin by {startBy > 12 ? startBy - 12 : startBy}:00 {startBy >= 12 ? "PM" : "AM"} for dinner at 7 PM.</Text>
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.timeCard}>
+      <Ionicons name="checkmark-circle-outline" size={18} color="#34c759" />
+      <View style={styles.timeCardBody}>
+        <Text style={styles.timeCardTitle}>Good timing</Text>
+        <Text style={styles.timeCardSub}>Start by {startBy > 12 ? startBy - 12 : startBy}:00 {startBy >= 12 ? "PM" : "AM"} for dinner at 7 PM.</Text>
+      </View>
+    </View>
+  );
+}
+
+function GroceryStatusCard({ recipeNames, groceryItems }: { recipeNames: Set<string>; groceryItems: GroceryItem[] }) {
+  const tonightItems = groceryItems.filter(
+    (item) =>
+      !item.excluded &&
+      (recipeNames.has(item.recipeName) ||
+        (item.recipeNames && item.recipeNames.some((n) => recipeNames.has(n))))
+  );
+  const checkedCount = tonightItems.filter((i) => i.checked).length;
+  const total = tonightItems.length;
+  const allConfirmed = total > 0 && checkedCount === total;
+
+  if (total === 0) return null;
+
+  return (
+    <View style={styles.groceryCard}>
+      <View style={styles.groceryCardHeader}>
+        <Text style={styles.groceryCardTitle}>Ingredients</Text>
+        <Pressable onPress={() => router.push("/(tabs)/grocery")} accessibilityLabel="View grocery list">
+          <Text style={styles.groceryCardLink}>View list →</Text>
+        </Pressable>
+      </View>
+      {allConfirmed ? (
+        <View style={styles.groceryConfirmed}>
+          <Ionicons name="checkmark-circle" size={18} color="#34c759" />
+          <Text style={styles.groceryConfirmedText}>All {total} ingredients confirmed</Text>
+        </View>
+      ) : (
+        <>
+          <View style={styles.groceryProgressTrack}>
+            <View style={[styles.groceryProgressFill, { width: `${(checkedCount / total) * 100}%` as `${number}%` }]} />
+          </View>
+          <Text style={styles.groceryProgressLabel}>{checkedCount} of {total} confirmed</Text>
+        </>
+      )}
+    </View>
+  );
+}
+
+function CookCTA({
+  allConfirmed,
+  onStartCooking,
+}: {
+  allConfirmed: boolean;
+  onStartCooking: () => void;
+}) {
+  if (allConfirmed) {
+    return (
+      <Pressable
+        onPress={onStartCooking}
+        style={({ pressed }) => [styles.startBtn, pressed && { opacity: 0.88 }]}
+        accessibilityLabel="Start cooking"
+      >
+        <Ionicons name="flame" size={22} color={Colors.light.onPrimary} />
+        <Text style={styles.startBtnText}>Start Cooking →</Text>
+      </Pressable>
+    );
+  }
+
+  return (
+    <View style={styles.ctaRow}>
+      <Pressable
+        onPress={() => router.push("/(tabs)/grocery")}
+        style={styles.instacartBtn}
+        accessibilityLabel="Order with Instacart"
+      >
+        <Ionicons name="cart-outline" size={18} color={Colors.light.primary} />
+        <Text style={styles.instacartBtnText}>Order with Instacart</Text>
+      </Pressable>
+      <Pressable
+        onPress={onStartCooking}
+        style={({ pressed }) => [styles.cookAnywayBtn, pressed && { opacity: 0.88 }]}
+        accessibilityLabel="Start cooking anyway"
+      >
+        <Text style={styles.cookAnywayText}>Start Cooking Anyway →</Text>
+      </Pressable>
+    </View>
+  );
+}
 
 export default function CookScreen() {
   const insets = useSafeAreaInsets();
-  const reducedMotion = useReducedMotion();
-  const colors = useThemeColors();
   const {
-    cookingProfile,
     currentItinerary,
-    recentCookSessions,
     activeCookSession,
     setActiveCookSession,
-    itineraryProfile,
     groceryItems,
   } = useApp();
 
-  const [techniquesExpanded, setTechniquesExpanded] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  const allRecipes = useMemo(() => getAllRecipes(), []);
+  const today = toISODate(new Date());
 
-  const tonightsRecipe = useMemo(() => {
+  const todayDay = useMemo(() => {
     if (!currentItinerary || currentItinerary.length === 0) return null;
-    const d = new Date();
-    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    const todayEntry = currentItinerary.find((d) => d.date === today && d.status === "active");
-    if (!todayEntry) return null;
-    const recipeIds = todayEntry.mode === "quick" ? todayEntry.quickRecipeIds : todayEntry.fullRecipeIds;
-    if (!recipeIds || recipeIds.length === 0) return null;
-    return getRecipeById(recipeIds[0]);
-  }, [currentItinerary]);
+    return currentItinerary.find((d) => d.date === today) ?? null;
+  }, [currentItinerary, today]);
 
-  const tonightRecipeNames = useMemo(() => {
-    if (!currentItinerary || currentItinerary.length === 0) return new Set<string>();
-    const d = new Date();
-    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    const todayEntry = currentItinerary.find((e) => e.date === today && e.status === "active");
-    if (!todayEntry) return new Set<string>();
-    const allIds = [
-      ...(todayEntry.mode === "quick" ? todayEntry.quickRecipeIds : todayEntry.fullRecipeIds),
-      ...(todayEntry.extraRecipeIds ?? []),
-    ];
+  const isCompleted = todayDay?.status === "completed";
+  const isActive = todayDay?.status === "active";
+
+  const recipeIds = useMemo(() => {
+    if (!todayDay || todayDay.status === "skipped") return [];
+    const ids = todayDay.mode === "quick" ? todayDay.quickRecipeIds : todayDay.fullRecipeIds;
+    return [...ids, ...(todayDay.extraRecipeIds ?? [])];
+  }, [todayDay]);
+
+  const recipes = useMemo(() => recipeIds.map(getRecipeById).filter((r): r is Recipe => r != null), [recipeIds]);
+
+  const heroRecipe = useMemo(() => recipes.find((r) => r.category === "Main Course") ?? recipes[0] ?? null, [recipes]);
+
+  const recipeNames = useMemo(() => {
     const names = new Set<string>();
-    for (const id of allIds) {
-      const r = getRecipeById(id);
-      if (r) names.add(r.name);
-    }
+    for (const r of recipes) names.add(r.name);
     return names;
-  }, [currentItinerary]);
+  }, [recipes]);
 
-  const tonightGrocery = useMemo(() => {
-    if (tonightRecipeNames.size === 0) return { items: [] as typeof groceryItems, checkedCount: 0, totalCount: 0 };
-    const items = groceryItems.filter(
+  const tonightGroceryStatus = useMemo(() => {
+    if (recipeNames.size === 0) return { allConfirmed: false, hasItems: false };
+    const tonightItems = groceryItems.filter(
       (item) =>
         !item.excluded &&
-        (tonightRecipeNames.has(item.recipeName) ||
-          (item.recipeNames && item.recipeNames.some((n) => tonightRecipeNames.has(n))))
+        (recipeNames.has(item.recipeName) ||
+          (item.recipeNames && item.recipeNames.some((n) => recipeNames.has(n))))
     );
-    const checkedCount = items.filter((i) => i.checked).length;
-    return { items, checkedCount, totalCount: items.length };
-  }, [tonightRecipeNames, groceryItems]);
+    const total = tonightItems.length;
+    const checkedCount = tonightItems.filter((i) => i.checked).length;
+    return { allConfirmed: total > 0 && checkedCount === total, hasItems: total > 0 };
+  }, [recipeNames, groceryItems]);
 
-  const recentRecipes = useMemo(() => {
-    return recentCookSessions
-      .filter((s) => s.completedAt)
-      .slice(0, 5)
-      .map((s) => ({ session: s, recipe: getRecipeById(s.recipeId) }))
-      .filter((r) => r.recipe != null) as { session: typeof recentCookSessions[0]; recipe: Recipe }[];
-  }, [recentCookSessions]);
+  const activeRecipe = activeCookSession ? getRecipeById(activeCookSession.recipeId) : null;
+  const hasActiveSession = activeCookSession != null && activeRecipe != null;
 
-  const beginnerRecipes = useMemo(() => {
-    if (cookingProfile.recipesCompleted.length >= 3) return [];
-    const recipes: Recipe[] = [];
-    for (const id of BEGINNER_RECIPE_IDS) {
-      const r = getRecipeById(id);
-      if (r) recipes.push(r);
-    }
-    if (recipes.length < 3) {
-      for (const recipe of allRecipes) {
-        if (recipe.difficulty === "Easy" && !recipes.find((r) => r.id === recipe.id)) {
-          recipes.push(recipe);
-          if (recipes.length >= 3) break;
-        }
-      }
-    }
-    return recipes.slice(0, 3);
-  }, [cookingProfile.recipesCompleted.length, allRecipes]);
-
-  const handleStartCooking = useCallback((recipeId: string) => {
+  const handleStartCooking = useCallback(() => {
+    if (!heroRecipe) return;
     haptic("medium");
-    router.push({ pathname: "/cook-mode", params: { recipeId } });
-  }, []);
-
-  const handleRandomRecipe = useCallback(() => {
-    haptic("medium");
-    const level = cookingProfile.currentLevel;
-    let pool = allRecipes;
-    if (level <= 2) pool = allRecipes.filter((r) => r.difficulty === "Easy");
-    else if (level <= 4) pool = allRecipes.filter((r) => r.difficulty !== "Hard");
-    if (pool.length === 0) pool = allRecipes;
-    const random = pool[Math.floor(Math.random() * pool.length)];
-    if (random) router.push({ pathname: "/cook-mode", params: { recipeId: random.id } });
-  }, [allRecipes, cookingProfile.currentLevel]);
+    router.push({ pathname: "/cook-mode", params: { recipeId: heroRecipe.id } });
+  }, [heroRecipe]);
 
   const handleAbandonSession = useCallback(() => {
     if (Platform.OS === "web") {
@@ -172,23 +236,20 @@ export default function CookScreen() {
     );
   }, [activeCookSession, setActiveCookSession]);
 
-  const activeRecipe = activeCookSession ? getRecipeById(activeCookSession.recipeId) : null;
-  const hasActiveSession = activeCookSession != null;
-
-  const xpCurrent = Math.round(cookingProfile.progressToNext * 500);
-  const xpTotal = 500;
-  const progressPct = Math.max(cookingProfile.progressToNext * 100, 4);
+  const country = todayDay ? getCountryById(todayDay.countryId) : null;
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.surface }]}>
-      <View style={[styles.cookHeader, { paddingTop: Platform.OS === "web" ? 56 : insets.top + 12 }]}>
-        <Text style={styles.cookHeaderTitle}>Cook</Text>
+    <View style={styles.container}>
+      <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 56 : insets.top + 12 }]}>
+        <Text style={styles.headerTitle}>Cook</Text>
         <Pressable
           onPress={() => { haptic(); setShowProfile(true); }}
-          style={styles.cookAvatarBtn}
-          accessibilityLabel="Profile"
+          style={styles.avatarBtn}
+          accessibilityLabel="Open profile"
         >
-          <Ionicons name="person" size={14} color={Colors.light.outline} />
+          <View style={styles.avatarCircle}>
+            <Ionicons name="person" size={18} color={Colors.light.primary} />
+          </View>
         </Pressable>
       </View>
 
@@ -197,350 +258,111 @@ export default function CookScreen() {
       <ScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: 12, paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
+        contentContainerStyle={{ paddingBottom: Platform.OS === "web" ? 120 : insets.bottom + SCROLL_BOTTOM_INSET }}
       >
-        {/* ── PRIORITY 1: Active Cook Session ──────────────────────── */}
-        {hasActiveSession && activeCookSession && (
-          <View style={styles.section}>
-            <View style={styles.sectionLabelRow}>
-              <Text style={styles.sectionLabelEditorial}>In Progress</Text>
-              <Text style={styles.sessionActiveBadge}>Session Active</Text>
+        {hasActiveSession && activeCookSession && activeRecipe ? (
+          <View style={styles.activeSession}>
+            <Text style={styles.activeLabel}>IN THE KITCHEN</Text>
+            <View style={styles.activeHeroWrap}>
+              <Image
+                source={{ uri: activeRecipe.image }}
+                style={styles.activeHeroImage}
+                contentFit="cover"
+                placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                onError={(e) => console.warn("[Image]", e.error)}
+              />
             </View>
-            <View style={styles.activeCard}>
-              <View style={styles.activeGrid}>
-                <View style={styles.activeImageWrap}>
-                  {activeRecipe?.image ? (
-                    <Image
-                      source={{ uri: activeRecipe.image }}
-                      style={StyleSheet.absoluteFill}
-                      contentFit="cover"
-                      transition={reducedMotion ? 0 : 400}
-                      placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
-                      onError={(e) => console.warn("[Image] Failed to load:", e.error)}
-                    />
-                  ) : (
-                    <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.light.surfaceContainerHigh }]} />
-                  )}
-                  <LinearGradient colors={["transparent", "rgba(0,0,0,0.5)"]} style={StyleSheet.absoluteFill} />
-                  {activeCookSession.timerRemaining != null && activeCookSession.timerRemaining > 0 && (
-                    <View style={styles.timerOverlay}>
-                      <View style={styles.timerPill}>
-                        <Ionicons name="timer-outline" size={14} color="#FFFFFF" />
-                        <Text style={styles.timerText}>{formatSeconds(activeCookSession.timerRemaining)}</Text>
-                      </View>
-                    </View>
-                  )}
-                </View>
-                <View style={styles.activeDetails}>
-                  <View>
-                    <View style={styles.stepIndicator}>
-                      <Text style={styles.stepLabel}>Step {activeCookSession.currentStep + 1} of {activeCookSession.totalSteps}</Text>
-                      <View style={styles.stepDivider} />
-                    </View>
-                    <Text style={styles.activeRecipeName} numberOfLines={2} ellipsizeMode="tail">{activeCookSession.recipeName}</Text>
-                    {activeRecipe && (
-                      <Text style={styles.activeRecipeDesc} numberOfLines={2} ellipsizeMode="tail">
-                        {activeRecipe.steps?.[activeCookSession.currentStep]?.instruction
-                          ? activeRecipe.steps[activeCookSession.currentStep].instruction.slice(0, 100)
-                          : activeRecipe.description}
-                      </Text>
-                    )}
-                  </View>
-                  <View style={styles.activeActions}>
-                    <Pressable
-                      onPress={() => {
-                        haptic("medium");
-                        router.push({
-                          pathname: "/cook-mode",
-                          params: {
-                            recipeId: activeCookSession.recipeId,
-                            resumeStep: String(activeCookSession.currentStep),
-                          },
-                        });
-                      }}
-                      style={({ pressed }) => [styles.continueCookBtn, pressed && { opacity: 0.88 }]}
-                    >
-                      <Text style={styles.continueCookBtnText}>Continue Cooking</Text>
-                    </Pressable>
-                    <Pressable onPress={handleAbandonSession} style={{ alignItems: "center", paddingVertical: 8 }}>
-                      <Text style={styles.abandonLink}>Abandon session</Text>
-                    </Pressable>
-                  </View>
-                </View>
+            <View style={styles.activeBody}>
+              <Text style={styles.activeName}>{activeRecipe.name}</Text>
+              <Text style={styles.activeStep}>
+                Step {activeCookSession.currentStep + 1} of {activeRecipe.steps?.length ?? activeCookSession.totalSteps}
+              </Text>
+              <View style={styles.progressTrack}>
+                <View style={[styles.progressFill, { width: `${((activeCookSession.currentStep + 1) / (activeRecipe.steps?.length ?? activeCookSession.totalSteps)) * 100}%` as `${number}%` }]} />
               </View>
             </View>
-          </View>
-        )}
-
-        {/* ── TONIGHT'S MEAL HERO (no active session) ───────────── */}
-        {!hasActiveSession && tonightsRecipe != null && (
-          <View style={styles.section}>
-            <View style={styles.sectionLabelRow}>
-              <Text style={styles.sectionLabelEditorial}>Tonight</Text>
-            </View>
-            <View style={styles.tonightHero}>
-              <Pressable
-                style={styles.tonightImageWrap}
-                onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: tonightsRecipe.id } }); }}
-              >
-                <Image
-                  source={{ uri: tonightsRecipe.image }}
-                  style={StyleSheet.absoluteFill}
-                  contentFit="cover"
-                  transition={reducedMotion ? 0 : 400}
-                  placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
-                  onError={(e) => console.warn("[Image] Failed to load:", e.error)}
-                />
-                <LinearGradient colors={["transparent", "rgba(0,0,0,0.45)"]} style={StyleSheet.absoluteFill} />
-                <View style={styles.tonightImageOverlay}>
-                  <Text style={styles.tonightFlag}>{tonightsRecipe.countryFlag} {tonightsRecipe.countryName}</Text>
-                </View>
-              </Pressable>
-              <View style={styles.tonightBody}>
-                <Text style={styles.tonightTitle} numberOfLines={2} ellipsizeMode="tail">{tonightsRecipe.name}</Text>
-                <View style={styles.tonightMetaRow}>
-                  <Ionicons name="time-outline" size={14} color={Colors.light.secondary} />
-                  <Text style={styles.tonightMetaText}>{tonightsRecipe.time}</Text>
-                  <Text style={styles.tonightMetaDot}>{"\u2022"}</Text>
-                  <Ionicons name="people-outline" size={14} color={Colors.light.secondary} />
-                  <Text style={styles.tonightMetaText}>{tonightsRecipe.difficulty}</Text>
-                </View>
-
-                {/* Grocery status */}
-                {tonightGrocery.totalCount === 0 ? (
-                  <View style={styles.groceryStatus}>
-                    <Ionicons name="cart-outline" size={20} color={Colors.light.secondary} />
-                    <Text style={styles.groceryStatusText}>No ingredients in your list yet</Text>
-                    <Pressable onPress={() => router.push("/(tabs)/grocery")}>
-                      <Text style={styles.groceryLink}>View grocery list →</Text>
-                    </Pressable>
-                  </View>
-                ) : tonightGrocery.checkedCount < tonightGrocery.totalCount ? (
-                  <View style={styles.groceryStatus}>
-                    <Text style={styles.groceryStatusLabel}>Groceries</Text>
-                    <Text style={styles.groceryStatusCount}>{tonightGrocery.checkedCount} of {tonightGrocery.totalCount} confirmed</Text>
-                    <View style={styles.groceryProgress}>
-                      <View style={[styles.groceryProgressFill, { width: `${(tonightGrocery.checkedCount / tonightGrocery.totalCount) * 100}%` as `${number}%` }]} />
-                    </View>
-                    <Pressable onPress={() => router.push("/(tabs)/grocery")}>
-                      <Text style={styles.groceryLink}>Finish checking off →</Text>
-                    </Pressable>
-                  </View>
-                ) : (
-                  <View style={[styles.groceryStatus, styles.groceryStatusReady]}>
-                    <Ionicons name="checkmark-circle" size={20} color="#34c759" />
-                    <Text style={styles.groceryReadyText}>All ingredients confirmed</Text>
-                  </View>
-                )}
-
-                {/* CTA — grocery-gated */}
-                {tonightGrocery.totalCount > 0 && tonightGrocery.checkedCount < tonightGrocery.totalCount ? (
-                  <View style={styles.cookActions}>
-                    <Pressable
-                      onPress={() => router.push("/(tabs)/grocery")}
-                      style={({ pressed }) => [styles.orderBtn, pressed && { opacity: 0.88 }]}
-                    >
-                      <Ionicons name="cart" size={18} color={Colors.light.primary} />
-                      <Text style={styles.orderBtnText}>Order with Instacart</Text>
-                    </Pressable>
-                    <Pressable
-                      onPress={() => handleStartCooking(tonightsRecipe.id)}
-                      style={({ pressed }) => [styles.cookAnywayBtn, pressed && { opacity: 0.88 }]}
-                    >
-                      <Text style={styles.cookAnywayText}>Start Cooking Anyway →</Text>
-                    </Pressable>
-                  </View>
-                ) : (
-                  <Pressable
-                    onPress={() => handleStartCooking(tonightsRecipe.id)}
-                    style={({ pressed }) => [styles.startCookingBtn, pressed && { opacity: 0.88 }]}
-                    accessibilityLabel="Start cooking tonight's meal"
-                  >
-                    <Ionicons name="flame" size={20} color={Colors.light.onPrimary} />
-                    <Text style={styles.startCookingText}>Start Cooking →</Text>
-                  </Pressable>
-                )}
-              </View>
-            </View>
-          </View>
-        )}
-
-        {/* ── No Meal Planned (empty state) ───────────────────────── */}
-        {!hasActiveSession && tonightsRecipe == null && (
-          <View style={styles.section}>
-            <View style={styles.whatToCookCard}>
-              <View style={styles.emptyIconWrap}>
-                <Ionicons name="flame-outline" size={48} color={Colors.light.primary} />
-              </View>
-              <Text style={styles.whatToCookTitle}>Nothing planned for tonight</Text>
-              <View style={styles.whatToCookRow}>
-                <Pressable
-                  style={({ pressed }) => [styles.whatToCookBtn, pressed && { opacity: 0.88 }]}
-                  onPress={() => { haptic(); router.push("/(tabs)/plan"); }}
-                >
-                  <Text style={styles.whatToCookBtnText}>Plan your week →</Text>
-                </Pressable>
-                <Pressable
-                  style={({ pressed }) => [styles.whatToCookBtnOutline, pressed && { opacity: 0.88 }]}
-                  onPress={() => { haptic(); router.push("/(tabs)/search" as any); }}
-                >
-                  <Ionicons name="search-outline" size={16} color={Colors.light.primary} />
-                  <Text style={styles.whatToCookBtnOutlineText}>Browse recipes →</Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-        )}
-
-        {/* ── Progress / XP Card ─────────────────────────────────── */}
-        <View style={[styles.section, { paddingHorizontal: 20 }]}>
-          <View style={styles.progressCard}>
-            <View style={styles.progressTop}>
-              <View style={styles.progressLeft}>
-                <View style={styles.progressIconCircle}>
-                  <Ionicons name="trophy-outline" size={22} color={Colors.light.onSecondaryContainer} />
-                </View>
-                <View>
-                  <Text style={styles.progressLevelName}>{cookingProfile.currentLevelName} {"\u2022"} Level {cookingProfile.currentLevel}</Text>
-                  <Text style={styles.progressXp}>{xpCurrent} / {xpTotal} XP to next level</Text>
-                </View>
-              </View>
-              <Text style={styles.progressPct}>{Math.round(progressPct)}%</Text>
-            </View>
-            <View style={styles.progressTrack}>
-              <View style={[styles.progressFill, { width: `${progressPct}%` }]} />
-            </View>
-          </View>
-        </View>
-
-        {/* ── Recently Cooked (Portrait Scroll) ──────────────────── */}
-        {recentRecipes.length > 0 && (
-          <View style={styles.sectionNoHPad}>
-            <View style={[styles.sectionLabelRow, { paddingHorizontal: 20 }]}>
-              <Text style={styles.sectionTitle}>Recently Cooked</Text>
-              <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile" as any); }}>
-                <Text style={styles.viewAllLink}>View All</Text>
-              </Pressable>
-            </View>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.recentScroll}
+            <Pressable
+              onPress={() => router.push({ pathname: "/cook-mode", params: { recipeId: activeCookSession.recipeId, resumeStep: String(activeCookSession.currentStep) } })}
+              style={({ pressed }) => [styles.resumeBtn, pressed && { opacity: 0.88 }]}
+              accessibilityLabel="Resume cooking"
             >
-              {recentRecipes.map(({ session, recipe }) => (
-                <Pressable
-                  key={session.id}
-                  style={({ pressed }) => [styles.recentCard, pressed && { opacity: 0.88 }]}
-                  onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
-                >
-                  <View style={styles.recentImageWrap}>
-                    <Image
-                      source={{ uri: recipe.image }}
-                      style={StyleSheet.absoluteFill}
-                      contentFit="cover"
-                      transition={reducedMotion ? 0 : 200}
-                      placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
-                      onError={(e) => console.warn("[Image] Failed to load:", e.error)}
-                    />
-                  </View>
-                  <View style={styles.recentMeta}>
-                    <Text style={styles.recentTime}>{timeAgo(session.completedAt!)}</Text>
-                    <Text style={styles.recentName} numberOfLines={2} ellipsizeMode="tail">{recipe.name}</Text>
-                  </View>
-                </Pressable>
-              ))}
-            </ScrollView>
+              <Ionicons name="flame" size={20} color={Colors.light.onPrimary} />
+              <Text style={styles.resumeBtnText}>Resume Cooking →</Text>
+            </Pressable>
+            <Pressable onPress={handleAbandonSession} style={{ alignItems: "center", paddingVertical: 12 }}>
+              <Text style={styles.abandonLink}>Abandon session</Text>
+            </Pressable>
           </View>
-        )}
-
-        {/* ── Start With These (beginners) ───────────────────────── */}
-        {beginnerRecipes.length > 0 && recentRecipes.length === 0 && (
-          <View style={[styles.section, { paddingHorizontal: 20 }]}>
-            <Text style={styles.sectionTitle}>Start With These</Text>
-            <View style={styles.beginnerList}>
-              {beginnerRecipes.map((recipe, idx) => (
-                <Pressable
-                  key={recipe.id}
-                  style={({ pressed }) => [
-                    styles.beginnerRow,
-                    idx < beginnerRecipes.length - 1 && styles.beginnerRowBorder,
-                    pressed && { opacity: 0.7 },
-                  ]}
-                  onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: recipe.id } }); }}
-                >
-                  <Image
-                    source={{ uri: recipe.image }}
-                    style={styles.beginnerImage}
-                    contentFit="cover"
-                    placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
-                    onError={(e) => console.warn("[Image] Failed to load:", e.error)}
-                  />
-                  <View style={styles.beginnerInfo}>
-                    <Text style={styles.beginnerName} numberOfLines={1} ellipsizeMode="tail">{recipe.name}</Text>
-                    <Text style={styles.beginnerMeta}>
-                      {recipe.countryName} {"\u2022"} {recipe.time} {"\u2022"} {recipe.difficulty}
-                    </Text>
-                  </View>
-                </Pressable>
-              ))}
-            </View>
+        ) : isCompleted && heroRecipe ? (
+          <View style={styles.completedState}>
+            <Text style={styles.completedEmoji}>🎉</Text>
+            <Text style={styles.completedTitle}>Great cook tonight!</Text>
+            <Text style={styles.completedBody}>You made {heroRecipe.name}.</Text>
+            <Pressable
+              onPress={() => { haptic(); router.push("/(tabs)/plan"); }}
+              style={styles.emptyPrimaryBtn}
+            >
+              <Text style={styles.emptyPrimaryText}>See Tomorrow's Plan →</Text>
+            </Pressable>
           </View>
-        )}
-
-        {/* ── Mastering Techniques (Accordion) ───────────────────── */}
-        <View style={[styles.section, { paddingHorizontal: 20, borderTopWidth: 1, borderTopColor: "rgba(222,193,179,0.2)", paddingTop: 32 }]}>
-          <Pressable
-            onPress={() => { haptic(); setTechniquesExpanded((v) => !v); }}
-            style={({ pressed }) => [styles.techniquesAccordion, pressed && { backgroundColor: Colors.light.surfaceContainer }]}
-          >
-            <View style={styles.techniquesLeft}>
-              <View style={styles.techniquesIconCircle}>
-                <Ionicons name="bulb-outline" size={18} color={Colors.light.onSurfaceVariant} />
-              </View>
-              <View>
-                <Text style={styles.techniquesTitle}>Mastering Techniques</Text>
-                <Text style={styles.techniquesSub}>Expand your culinary repertoire with {TECHNIQUE_VIDEOS.length} lessons</Text>
+        ) : isActive && heroRecipe ? (
+          <View style={styles.readyState}>
+            <View style={styles.heroWrap}>
+              <Image
+                source={{ uri: heroRecipe.image }}
+                style={styles.heroImage}
+                contentFit="cover"
+                placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
+                onError={(e) => console.warn("[Image]", e.error)}
+              />
+              <LinearGradient colors={["transparent", "rgba(0,0,0,0.6)"]} style={StyleSheet.absoluteFill} />
+              <View style={styles.heroOverlay}>
+                <Text style={styles.heroFlag}>{country?.flag}</Text>
+                <Text style={styles.heroCountry}>{country?.name}</Text>
               </View>
             </View>
-            <Ionicons
-              name={techniquesExpanded ? "chevron-up" : "chevron-down"}
-              size={20}
-              color={Colors.light.secondary}
-            />
-          </Pressable>
 
-          {techniquesExpanded && (
-            <View style={styles.techniqueList}>
-              {TECHNIQUE_VIDEOS.map((video) => (
-                <Pressable
-                  key={video.id}
-                  style={({ pressed }) => [styles.techniqueRow, pressed && { opacity: 0.7 }]}
-                  onPress={() => haptic()}
-                >
-                  <View style={styles.techniqueThumbnailWrap}>
-                    <Image
-                      source={{ uri: video.thumbnailUrl }}
-                      style={styles.techniqueThumbnail}
-                      contentFit="cover"
-                      transition={reducedMotion ? 0 : 200}
-                      placeholder={{ blurhash: "L6PZfSi_.AyE_3t7t7R**0o#DgR4" }}
-                      onError={(e) => console.warn("[Image] Failed to load:", e.error)}
-                    />
-                    <View style={styles.playOverlay}>
-                      <Ionicons name="play-circle" size={20} color="rgba(255,255,255,0.8)" />
-                    </View>
-                  </View>
-                  <View style={styles.techniqueInfo}>
-                    <Text style={styles.techniqueTitle} numberOfLines={1} ellipsizeMode="tail">{video.title}</Text>
-                    <Text style={styles.techniqueSubtitle} numberOfLines={1} ellipsizeMode="tail">{video.subtitle}</Text>
-                  </View>
-                  <Text style={styles.techniqueDuration}>{video.duration}</Text>
-                </Pressable>
-              ))}
+            <View style={styles.recipeInfo}>
+              <Text style={styles.recipeName}>{heroRecipe.name}</Text>
+              <Text style={styles.recipeMeta}>
+                {heroRecipe.time}{recipes.length > 1 ? ` · ${recipes.length} courses` : ""}
+              </Text>
             </View>
-          )}
-        </View>
 
+            <View style={styles.cardsSection}>
+              <TimeAwarenessCard recipe={heroRecipe} />
+              <GroceryStatusCard recipeNames={recipeNames} groceryItems={groceryItems} />
+              <CookCTA
+                allConfirmed={tonightGroceryStatus.allConfirmed || !tonightGroceryStatus.hasItems}
+                onStartCooking={handleStartCooking}
+              />
+            </View>
+          </View>
+        ) : (
+          <View style={styles.emptyState}>
+            <View style={styles.emptyIconWrap}>
+              <Ionicons name="flame-outline" size={48} color={Colors.light.primary} />
+            </View>
+            <Text style={styles.emptyTitle}>Nothing planned for tonight</Text>
+            <Text style={styles.emptyBody}>Head to Plan to set up tonight's dinner, or browse recipes for inspiration.</Text>
+            <View style={styles.emptyActions}>
+              <Pressable
+                onPress={() => { haptic(); router.push("/(tabs)/plan"); }}
+                style={styles.emptyPrimaryBtn}
+                accessibilityLabel="Go to plan"
+              >
+                <Text style={styles.emptyPrimaryText}>Plan Tonight →</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => { haptic(); router.push("/(tabs)/search"); }}
+                style={styles.emptySecondaryBtn}
+                accessibilityLabel="Browse recipes"
+              >
+                <Text style={styles.emptySecondaryText}>Browse Recipes</Text>
+              </Pressable>
+            </View>
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -551,623 +373,368 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.light.surface,
   },
-  cookHeader: {
+
+  header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingBottom: 14,
-    backgroundColor: Colors.light.surface,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "rgba(222,193,179,0.35)",
+    paddingHorizontal: 24,
+    paddingBottom: 12,
   },
-  cookHeaderTitle: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontSize: 20,
-    color: Colors.light.primary,
-    letterSpacing: -0.3,
+  headerTitle: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 28,
+    color: Colors.light.onSurface,
   },
-  cookAvatarBtn: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    borderWidth: 1,
-    borderColor: "rgba(222,193,179,0.25)",
+  avatarBtn: {
+    minWidth: 44,
+    minHeight: 44,
     alignItems: "center",
     justifyContent: "center",
   },
-
-  section: {
-    marginBottom: 24,
-  },
-  sectionNoHPad: {
-    marginBottom: 24,
-  },
-  sectionLabelRow: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    marginBottom: 12,
+  avatarCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: Colors.light.outlineVariant,
   },
 
-  /* ── Tonight's Meal Hero ────────────────────────────────────── */
-  tonightHero: {
-    marginHorizontal: 20,
-    borderRadius: 20,
-    overflow: "hidden",
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    ...Platform.select({
-      ios: { shadowColor: "#000", shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.1, shadowRadius: 12 },
-      android: { elevation: 6 },
-      web: { boxShadow: "0 6px 24px rgba(0,0,0,0.1)" },
-    }),
+  activeSession: {
+    paddingHorizontal: 24,
+    paddingTop: 8,
   },
-  tonightImageWrap: {
-    height: 200,
+  activeLabel: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 11,
+    letterSpacing: 2,
+    color: Colors.light.primary,
+    marginBottom: 16,
+  },
+  activeHeroWrap: {
+    height: 220,
+    borderRadius: 16,
     overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
   },
-  tonightImageOverlay: {
-    position: "absolute",
-    bottom: 12,
-    left: 12,
+  activeHeroImage: {
+    width: "100%",
+    height: "100%",
   },
-  tonightFlag: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 13,
-    color: "#FFFFFF",
-    backgroundColor: "rgba(0,0,0,0.35)",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
-    overflow: "hidden",
+  activeBody: {
+    paddingTop: 16,
+    gap: 6,
   },
-  tonightBody: {
-    padding: 20,
-    gap: 14,
-  },
-  tonightTitle: {
+  activeName: {
     fontFamily: "NotoSerif_700Bold",
-    fontSize: 20,
+    fontSize: 22,
     color: Colors.light.onSurface,
-    letterSpacing: -0.3,
     lineHeight: 28,
   },
-  tonightMetaRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  tonightMetaText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: Colors.light.secondary,
-  },
-  tonightMetaDot: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: Colors.light.outlineVariant,
-  },
-  groceryStatus: {
-    backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 12,
-    padding: 14,
-    gap: 8,
-    alignItems: "center",
-  },
-  groceryStatusReady: {
-    backgroundColor: "rgba(52,199,89,0.08)",
-    flexDirection: "row",
-    gap: 8,
-    justifyContent: "center",
-  },
-  groceryStatusText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    textAlign: "center",
-  },
-  groceryStatusLabel: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
-    color: Colors.light.onSurface,
-  },
-  groceryStatusCount: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: Colors.light.secondary,
-  },
-  groceryProgress: {
-    width: "100%",
-    height: 4,
-    backgroundColor: "rgba(222,193,179,0.15)",
-    borderRadius: 2,
-    overflow: "hidden",
-  },
-  groceryProgressFill: {
-    height: "100%",
-    backgroundColor: Colors.light.primary,
-    borderRadius: 2,
-  },
-  groceryLink: {
+  activeStep: {
     fontFamily: "Inter_500Medium",
     fontSize: 14,
-    color: Colors.light.primary,
-  },
-  groceryReadyText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 14,
-    color: "#34c759",
-  },
-  cookActions: {
-    gap: 10,
-  },
-  orderBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    height: 48,
-    borderRadius: 12,
-    borderWidth: 1.5,
-    borderColor: Colors.light.primary,
-    backgroundColor: Colors.light.surface,
-  },
-  orderBtnText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
-    color: Colors.light.primary,
-  },
-  cookAnywayBtn: {
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  cookAnywayText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
-    color: Colors.light.onSurface,
-  },
-  startCookingBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    height: 52,
-    borderRadius: 14,
-    backgroundColor: Colors.light.primary,
-    ...Platform.select({
-      ios: { shadowColor: Colors.light.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
-      android: { elevation: 4 },
-      web: { boxShadow: "0 4px 12px rgba(154,65,0,0.3)" },
-    }),
-  },
-  startCookingText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: Colors.light.onPrimary,
-  },
-  sectionLabelEditorial: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontStyle: "italic",
-    fontSize: 18,
-    color: Colors.light.primary,
-  },
-  sessionActiveBadge: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 10,
     color: Colors.light.secondary,
-    letterSpacing: 2,
-    textTransform: "uppercase",
-  },
-  sectionTitle: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 20,
-    color: Colors.light.onSurface,
-  },
-  viewAllLink: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
-    color: Colors.light.primary,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-  },
-
-  /* ── Active Session Hero Card ─────────────────────────────────── */
-  activeCard: {
-    marginHorizontal: 24,
-    borderRadius: 20,
-    overflow: "hidden",
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    ...Platform.select({
-      ios: { shadowColor: "#000", shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.12, shadowRadius: 16 },
-      android: { elevation: 8 },
-      web: { boxShadow: "0 8px 32px rgba(0,0,0,0.12)" },
-    }),
-  },
-  activeGrid: {
-    ...Platform.select({
-      web: { flexDirection: "row" as const },
-      default: {},
-    }),
-  },
-  activeImageWrap: {
-    height: 240,
-    ...Platform.select({
-      web: { flex: 1, height: "auto" as any, minHeight: 280 },
-      default: {},
-    }),
-    overflow: "hidden",
-    backgroundColor: Colors.light.surfaceContainerHigh,
-  },
-  timerOverlay: {
-    position: "absolute",
-    bottom: 16,
-    left: 16,
-  },
-  timerPill: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    backgroundColor: "rgba(255,255,255,0.2)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.3)",
-    borderRadius: 20,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-  },
-  timerText: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 18,
-    color: "#FFFFFF",
-    letterSpacing: -0.5,
-  },
-  activeDetails: {
-    padding: 24,
-    gap: 24,
-    justifyContent: "space-between",
-    ...Platform.select({
-      web: { flex: 1 },
-      default: {},
-    }),
-  },
-  stepIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 8,
-  },
-  stepLabel: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 11,
-    color: Colors.light.primaryContainer,
-    letterSpacing: 1,
-    textTransform: "uppercase",
-  },
-  stepDivider: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "rgba(222,193,179,0.2)",
-  },
-  activeRecipeName: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 26,
-    color: Colors.light.onSurface,
-    letterSpacing: -0.3,
-    lineHeight: 34,
-    marginBottom: 8,
-  },
-  activeRecipeDesc: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.onSurfaceVariant,
-    lineHeight: 22,
-  },
-  activeActions: {
-    gap: 4,
-  },
-  continueCookBtn: {
-    backgroundColor: Colors.light.primary,
-    height: 48,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    ...Platform.select({
-      ios: { shadowColor: Colors.light.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
-      android: { elevation: 4 },
-      web: { boxShadow: "0 4px 12px rgba(154,65,0,0.3)" },
-    }),
-  },
-  continueCookBtnText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: "#FFFFFF",
-  },
-  abandonLink: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 14,
-    color: Colors.light.secondary,
-    textDecorationLine: "underline",
-    textDecorationColor: "rgba(114,90,60,0.3)",
-  },
-
-  /* ── What to Cook (empty state) ──────────────────────────────── */
-  emptyIconWrap: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    backgroundColor: "#F0E8DE",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 4,
-  },
-  whatToCookCard: {
-    backgroundColor: Colors.light.surfaceWarmAlt,
-    borderRadius: 20,
-    padding: 28,
-    marginHorizontal: 24,
-    alignItems: "center",
-    gap: 16,
-  },
-  whatToCookTitle: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 22,
-    color: Colors.light.onSurface,
-    textAlign: "center",
-  },
-  whatToCookRow: {
-    flexDirection: "row",
-    gap: 12,
-    width: "100%",
-  },
-  whatToCookBtn: {
-    flex: 1,
-    height: 48,
-    backgroundColor: Colors.light.primary,
-    borderRadius: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 6,
-  },
-  whatToCookBtnText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: "#FFFFFF",
-  },
-  whatToCookBtnOutline: {
-    flex: 1,
-    height: 48,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: Colors.light.primary,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.light.surface,
-  },
-  whatToCookBtnOutlineText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 16,
-    color: Colors.light.primary,
-  },
-
-  /* ── Progress / XP Card ──────────────────────────────────────── */
-  progressCard: {
-    backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 12,
-    padding: 20,
-    gap: 16,
-  },
-  progressTop: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  progressLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  progressIconCircle: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: Colors.light.secondaryContainer,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  progressLevelName: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 15,
-    color: Colors.light.onSurface,
-    marginBottom: 2,
-  },
-  progressXp: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 11,
-    color: Colors.light.secondary,
-    letterSpacing: 1,
-    textTransform: "uppercase",
-  },
-  progressPct: {
-    fontFamily: "NotoSerif_600SemiBold",
-    fontStyle: "italic",
-    fontSize: 22,
-    color: Colors.light.primary,
   },
   progressTrack: {
     width: "100%",
-    height: 5,
-    backgroundColor: "rgba(222,193,179,0.15)",
+    height: 6,
+    backgroundColor: "rgba(222,193,179,0.2)",
     borderRadius: 3,
     overflow: "hidden",
+    marginTop: 8,
   },
   progressFill: {
     height: "100%",
     backgroundColor: Colors.light.primary,
     borderRadius: 3,
   },
-
-  /* ── Recently Cooked (Portrait Cards) ────────────────────────── */
-  recentScroll: {
-    paddingHorizontal: 20,
-    gap: 16,
-    paddingBottom: 8,
-  },
-  recentCard: {
-    width: 200,
-    gap: 10,
-  },
-  recentImageWrap: {
-    width: "100%",
-    aspectRatio: 4 / 5,
-    borderRadius: 12,
-    overflow: "hidden",
-    backgroundColor: Colors.light.surfaceContainerHigh,
-  },
-  recentMeta: {
-    gap: 4,
-  },
-  recentTime: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 10,
-    color: Colors.light.secondary,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-  },
-  recentName: {
-    fontFamily: "NotoSerif_700Bold",
-    fontSize: 17,
-    color: Colors.light.onSurface,
-    lineHeight: 24,
-  },
-
-  /* ── Beginner Recipes ────────────────────────────────────────── */
-  beginnerList: {
-    borderRadius: 12,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: Colors.light.outlineVariant,
-    backgroundColor: Colors.light.surface,
-    marginTop: 12,
-  },
-  beginnerRow: {
+  resumeBtn: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 12,
+    justifyContent: "center",
+    gap: 10,
+    backgroundColor: Colors.light.primary,
+    paddingVertical: 16,
+    borderRadius: 16,
+    marginTop: 20,
+  },
+  resumeBtnText: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 16,
+    color: Colors.light.onPrimary,
+  },
+  abandonLink: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.secondary,
+    textDecorationLine: "underline",
+  },
+
+  completedState: {
+    alignItems: "center",
+    paddingHorizontal: 40,
+    paddingTop: 80,
     gap: 12,
   },
-  beginnerRowBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.light.outlineVariant,
+  completedEmoji: {
+    fontSize: 56,
+    marginBottom: 8,
   },
-  beginnerImage: {
-    width: 56,
-    height: 48,
-    borderRadius: 10,
+  completedTitle: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 24,
+    color: Colors.light.onSurface,
+    textAlign: "center",
+  },
+  completedBody: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 15,
+    color: Colors.light.secondary,
+    textAlign: "center",
+    lineHeight: 22,
+    marginBottom: 12,
+  },
+
+  readyState: {
+    paddingBottom: 24,
+  },
+  heroWrap: {
+    height: 220,
+    marginHorizontal: 20,
+    borderRadius: 16,
+    overflow: "hidden",
     backgroundColor: Colors.light.surfaceContainerHigh,
+    position: "relative",
   },
-  beginnerInfo: {
+  heroImage: {
+    width: "100%",
+    height: "100%",
+  },
+  heroOverlay: {
+    position: "absolute",
+    bottom: 16,
+    left: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  heroFlag: {
+    fontSize: 20,
+  },
+  heroCountry: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    color: "#fff",
+    textShadowColor: "rgba(0,0,0,0.5)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
+  },
+
+  recipeInfo: {
+    paddingHorizontal: 24,
+    paddingTop: 20,
+    gap: 4,
+  },
+  recipeName: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 24,
+    color: Colors.light.onSurface,
+    lineHeight: 30,
+  },
+  recipeMeta: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 14,
+    color: Colors.light.secondary,
+  },
+
+  cardsSection: {
+    paddingHorizontal: 24,
+    paddingTop: 20,
+    gap: 16,
+  },
+
+  timeCard: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 12,
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 12,
+    padding: 16,
+  },
+  timeCardWarning: {
+    backgroundColor: "rgba(255,149,0,0.08)",
+  },
+  timeCardUrgent: {
+    backgroundColor: "rgba(154,65,0,0.06)",
+  },
+  timeCardBody: {
     flex: 1,
     gap: 4,
   },
-  beginnerName: {
+  timeCardTitle: {
     fontFamily: "Inter_600SemiBold",
     fontSize: 15,
     color: Colors.light.onSurface,
   },
-  beginnerMeta: {
+  timeCardSub: {
+    fontFamily: "Inter_400Regular",
+    fontSize: 13,
+    color: Colors.light.secondary,
+    lineHeight: 18,
+  },
+
+  groceryCard: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 12,
+    padding: 16,
+    gap: 12,
+  },
+  groceryCardHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  groceryCardTitle: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: Colors.light.onSurface,
+  },
+  groceryCardLink: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
+    color: Colors.light.primary,
+  },
+  groceryConfirmed: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  groceryConfirmedText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: "#34c759",
+  },
+  groceryProgressTrack: {
+    width: "100%",
+    height: 5,
+    backgroundColor: "rgba(222,193,179,0.2)",
+    borderRadius: 3,
+    overflow: "hidden",
+  },
+  groceryProgressFill: {
+    height: "100%",
+    backgroundColor: Colors.light.primary,
+    borderRadius: 3,
+  },
+  groceryProgressLabel: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
     color: Colors.light.secondary,
   },
 
-  /* ── Techniques Accordion ────────────────────────────────────── */
-  techniquesAccordion: {
-    backgroundColor: Colors.light.surfaceContainerLow,
-    borderRadius: 12,
-    padding: 16,
+  startBtn: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 12,
-  },
-  techniquesLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    flex: 1,
-  },
-  techniquesIconCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(222,193,179,0.15)",
     alignItems: "center",
     justifyContent: "center",
+    gap: 10,
+    backgroundColor: Colors.light.primary,
+    paddingVertical: 18,
+    borderRadius: 16,
   },
-  techniquesTitle: {
-    fontFamily: "NotoSerif_700Bold",
+  startBtnText: {
+    fontFamily: "Inter_700Bold",
     fontSize: 17,
-    color: Colors.light.onSurface,
-    marginBottom: 2,
+    color: Colors.light.onPrimary,
   },
-  techniquesSub: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 13,
-    color: Colors.light.onSurfaceVariant,
-    lineHeight: 18,
+  ctaRow: {
+    gap: 12,
   },
-  techniqueList: {
-    gap: 8,
-    paddingTop: 16,
-  },
-  techniqueRow: {
+  instacartBtn: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingVertical: 16,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: Colors.light.primary,
+    backgroundColor: "rgba(154,65,0,0.04)",
+  },
+  instacartBtnText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: Colors.light.primary,
+  },
+  cookAnywayBtn: {
+    alignItems: "center",
+    paddingVertical: 14,
+  },
+  cookAnywayText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: Colors.light.primary,
+  },
+
+  emptyState: {
+    alignItems: "center",
+    paddingHorizontal: 40,
+    paddingTop: 80,
     gap: 12,
-    paddingVertical: 8,
   },
-  techniqueThumbnailWrap: {
-    width: 64,
-    height: 48,
-    borderRadius: 8,
-    overflow: "hidden",
-    position: "relative",
-    backgroundColor: Colors.light.surfaceContainerHigh,
-  },
-  techniqueThumbnail: {
-    width: "100%",
-    height: "100%",
-  },
-  playOverlay: {
-    ...StyleSheet.absoluteFillObject,
+  emptyIconWrap: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "rgba(154,65,0,0.08)",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.2)",
+    marginBottom: 8,
   },
-  techniqueInfo: {
-    flex: 1,
-    gap: 2,
-  },
-  techniqueTitle: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
+  emptyTitle: {
+    fontFamily: "NotoSerif_700Bold",
+    fontSize: 22,
     color: Colors.light.onSurface,
+    textAlign: "center",
   },
-  techniqueSubtitle: {
+  emptyBody: {
     fontFamily: "Inter_400Regular",
-    fontSize: 12,
-    color: Colors.light.onSurfaceVariant,
-  },
-  techniqueDuration: {
-    fontFamily: "Inter_500Medium",
-    fontSize: 12,
+    fontSize: 15,
     color: Colors.light.secondary,
-    letterSpacing: 0.5,
+    textAlign: "center",
+    lineHeight: 22,
+    marginBottom: 8,
+  },
+  emptyActions: {
+    width: "100%",
+    gap: 12,
+    marginTop: 8,
+  },
+  emptyPrimaryBtn: {
+    backgroundColor: Colors.light.primary,
+    paddingVertical: 16,
+    borderRadius: 16,
+    alignItems: "center",
+    width: "100%",
+  },
+  emptyPrimaryText: {
+    fontFamily: "Inter_700Bold",
+    fontSize: 16,
+    color: Colors.light.onPrimary,
+  },
+  emptySecondaryBtn: {
+    paddingVertical: 14,
+    borderRadius: 16,
+    alignItems: "center",
+    borderWidth: 1.5,
+    borderColor: Colors.light.outlineVariant,
+  },
+  emptySecondaryText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 15,
+    color: Colors.light.secondary,
   },
 });
