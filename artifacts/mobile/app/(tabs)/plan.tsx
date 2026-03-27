@@ -1426,7 +1426,6 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, on
   const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
-    <View style={[styles.daySection, isPast && { opacity: 0.5 }, isActive && { opacity: 0.95 }]}>
     <View style={[styles.daySection, isPast && { opacity: 0.38 }]}>
       <View style={[styles.dayDateRow, { justifyContent: "space-between" }]}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
