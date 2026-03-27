@@ -38,6 +38,16 @@ function toISODate(d: Date): string {
   return `${y}-${m}-${day}`;
 }
 
+function getThisWeeksMonday(): Date {
+  const d = new Date();
+  const day = d.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  const monday = new Date(d);
+  monday.setDate(d.getDate() + diff);
+  monday.setHours(0, 0, 0, 0);
+  return monday;
+}
+
 function formatDayDate(isoDate: string): string {
   const d = new Date(isoDate + "T12:00:00");
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -148,13 +158,7 @@ export default function PlanScreen() {
   // Detect stale itinerary — all dates are before this week's Monday
   const isItineraryStale = useMemo(() => {
     if (currentItinerary.length === 0) return false;
-    const d = new Date();
-    const day = d.getDay();
-    const diff = day === 0 ? -6 : 1 - day;
-    const monday = new Date(d);
-    monday.setDate(d.getDate() + diff);
-    monday.setHours(0, 0, 0, 0);
-    const mondayStr = toISODate(monday);
+    const mondayStr = toISODate(getThisWeeksMonday());
     return currentItinerary.every((entry) => entry.date < mondayStr);
   }, [currentItinerary]);
 
@@ -167,12 +171,7 @@ export default function PlanScreen() {
 
   const fullWeek = useMemo(() => {
     if (currentItinerary.length === 0) return [];
-    const d = new Date();
-    const day = d.getDay();
-    const diff = day === 0 ? -6 : 1 - day;
-    const monday = new Date(d);
-    monday.setDate(d.getDate() + diff);
-    monday.setHours(0, 0, 0, 0);
+    const monday = getThisWeeksMonday();
 
     const result: (ItineraryDay | { id: string; date: string; dayLabel: string; isEmpty: true })[] = [];
     for (let i = 0; i < 7; i++) {
@@ -367,7 +366,6 @@ export default function PlanScreen() {
 
   const handleDragEnd = useCallback(
     ({ data: newOrder }: { data: typeof fullWeek }) => {
-      haptic();
       const originalIndex = draggedOriginalIndexRef.current;
       draggedOriginalIndexRef.current = null;
       if (originalIndex === null) return;
@@ -375,36 +373,45 @@ export default function PlanScreen() {
       const draggedOriginalItem = fullWeek[originalIndex];
       if (!draggedOriginalItem || "isEmpty" in draggedOriginalItem) return;
 
-      // Find where the dragged item landed in the new order
       const draggedNewIndex = newOrder.findIndex((item) => item.id === draggedOriginalItem.id);
       if (draggedNewIndex === -1 || draggedNewIndex === originalIndex) return;
 
-      // The slot it landed on — use the original date that lived at that position
-      const targetDate = fullWeek[draggedNewIndex].date;
-      const targetDay = currentItinerary.find(
-        (d) => d.date === targetDate && d.id !== draggedOriginalItem.id
-      );
+      const targetSlot = fullWeek[draggedNewIndex];
+      const targetDate = targetSlot.date;
+      const targetDayLabel = targetSlot.dayLabel;
 
-      let updated: ItineraryDay[];
-      if (targetDay) {
-        // Drop onto a filled day → merge recipes, remove the dragged day
-        const mergedQuick = [...new Set([...targetDay.quickRecipeIds, ...draggedOriginalItem.quickRecipeIds])];
-        const mergedFull  = [...new Set([...targetDay.fullRecipeIds,  ...draggedOriginalItem.fullRecipeIds])];
-        updated = currentItinerary
-          .filter((d) => d.id !== draggedOriginalItem.id)
-          .map((d) => d.id === targetDay.id ? { ...d, quickRecipeIds: mergedQuick, fullRecipeIds: mergedFull } : d)
-          .sort((a, b) => a.date.localeCompare(b.date));
-      } else {
-        // Drop onto an empty slot → move the date
-        const d = new Date(targetDate + "T12:00:00");
-        const newDayLabel = d.toLocaleDateString("en-US", { weekday: "long" });
-        updated = currentItinerary
-          .map((day) => day.id === draggedOriginalItem.id ? { ...day, date: targetDate, dayLabel: newDayLabel } : day)
-          .sort((a, b) => a.date.localeCompare(b.date));
-      }
-      setCurrentItinerary(updated);
+      setCurrentItinerary((prevItinerary: ItineraryDay[]) => {
+        const sourceDay = prevItinerary.find((d) => d.id === draggedOriginalItem.id);
+        const targetExistingDay = prevItinerary.find((d) => d.date === targetDate && d.id !== draggedOriginalItem.id);
+        if (!sourceDay) return prevItinerary;
+
+        if (targetExistingDay) {
+          // Drop on filled day — merge recipes, remove source
+          return prevItinerary
+            .map((day) => {
+              if (day.id === targetExistingDay.id) {
+                return {
+                  ...day,
+                  quickRecipeIds: [...new Set([...day.quickRecipeIds, ...sourceDay.quickRecipeIds])],
+                  fullRecipeIds: [...new Set([...day.fullRecipeIds, ...sourceDay.fullRecipeIds])],
+                  extraRecipeIds: [...new Set([...(day.extraRecipeIds ?? []), ...(sourceDay.extraRecipeIds ?? [])])],
+                };
+              }
+              return day;
+            })
+            .filter((day) => day.id !== sourceDay.id);
+        } else {
+          // Drop on empty slot — move the date
+          return prevItinerary.map((day) => {
+            if (day.id === sourceDay.id) {
+              return { ...day, date: targetDate, dayLabel: targetDayLabel };
+            }
+            return day;
+          });
+        }
+      });
     },
-    [fullWeek, currentItinerary, setCurrentItinerary]
+    [fullWeek, setCurrentItinerary]
   );
 
   // ─── Grocery actions ─────────────────────────────────────────────────────────
@@ -937,7 +944,7 @@ export default function PlanScreen() {
                 <Text style={[editMenuStyles.menuItemSub, { marginBottom: 16, color: Colors.light.secondary }]}>
                   Choose the day to move this meal to
                 </Text>
-                {fullWeek
+                {[...(todayDay && todayDay.date !== moveDay.date ? [todayDay] : []), ...fullWeek]
                   .filter((d) => !("isEmpty" in d) ? d.date !== moveDay.date : true)
                   .map((entry) => {
                     const dateObj = new Date(entry.date + "T12:00:00");
