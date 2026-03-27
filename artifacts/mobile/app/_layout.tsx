@@ -85,7 +85,7 @@ function AppProviderWithAuth() {
   return (
     <AppProvider>
       <SubscriptionProvider userId={userId}>
-        <GestureHandlerRootView>
+        <GestureHandlerRootView style={{ flex: 1 }}>
           <KeyboardProvider>
             <RootLayoutNav />
             <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
