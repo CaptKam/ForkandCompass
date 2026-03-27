@@ -166,7 +166,8 @@ export function generateItinerary(
   profile: ItineraryProfile,
   selectedCountryIds: string[],
   history?: ItineraryDay[][],
-  useSavedRecipeIds?: string[]
+  useSavedRecipeIds?: string[],
+  targetMonday?: Date
 ): ItineraryDay[] {
   // 0. If using saved recipes only, build a country pool from those recipes
   const savedRecipeCountryIds = useSavedRecipeIds?.length
@@ -232,8 +233,8 @@ export function generateItinerary(
     dayIndices = [0, 1, 2, 3, 4, 5, 6]; // Mon-Sun
   }
 
-  // 5. Calculate dates
-  const monday = getMonday(new Date());
+  // 5. Calculate dates — use targetMonday if provided, otherwise this week's Monday
+  const monday = targetMonday ?? getMonday(new Date());
 
   // 6. Build itinerary days — track used recipes to avoid repeats
   const usedRecipeIds: string[] = [];

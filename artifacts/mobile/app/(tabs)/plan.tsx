@@ -169,7 +169,19 @@ export default function PlanScreen() {
 
   const fullWeek = useMemo(() => {
     if (currentItinerary.length === 0) return [];
-    const monday = getThisWeeksMonday();
+
+    // Derive the week's Monday from the itinerary's earliest date, not from
+    // today — this lets next-week plans render correctly after "Generate new week"
+    const earliestDate = currentItinerary.reduce(
+      (min, d) => (d.date < min ? d.date : min),
+      currentItinerary[0].date
+    );
+    const earliestObj = new Date(earliestDate + "T12:00:00");
+    const dow = earliestObj.getDay();
+    const diff = dow === 0 ? -6 : 1 - dow;
+    const monday = new Date(earliestObj);
+    monday.setDate(earliestObj.getDate() + diff);
+    monday.setHours(0, 0, 0, 0);
 
     const result: (ItineraryDay | { id: string; date: string; dayLabel: string; isEmpty: true })[] = [];
     for (let i = 0; i < 7; i++) {
@@ -348,7 +360,10 @@ export default function PlanScreen() {
   const handleNewWeek = () => {
     haptic();
     if (currentItinerary.length > 0) addToItineraryHistory(currentItinerary);
-    const newItinerary = generateItinerary(itineraryProfile!, selectedCountryIds, itineraryHistory);
+    // Always schedule for next week — add 7 days to this week's Monday
+    const nextMonday = getThisWeeksMonday();
+    nextMonday.setDate(nextMonday.getDate() + 7);
+    const newItinerary = generateItinerary(itineraryProfile!, selectedCountryIds, itineraryHistory, undefined, nextMonday);
     setCurrentItinerary(newItinerary);
     // Auto-populate grocery with the new week's recipes
     clearGrocery();
