@@ -187,7 +187,6 @@ export default function PlanScreen() {
         result.push({ id: `empty-${dateStr}`, date: dateStr, dayLabel: DAY_LABELS_FULL[i], isEmpty: true });
       }
     }
-    console.log("[FULLWEEK DEBUG]", { inputLength: currentItinerary.length, resultLength: result.length, today, monday: toISODate(monday) });
     return result;
   }, [currentItinerary, today]);
 
@@ -513,7 +512,6 @@ export default function PlanScreen() {
       <View style={{ flex: 1 }}>
 
       {/* ── This Week ─────────────────────────────────────────────── */}
-      {console.log("[PLAN DEBUG]", { segment, hasProfile: !!itineraryProfile, itineraryLength: currentItinerary.length, isItineraryStale, allDone, fullWeekLength: fullWeek.length, today, firstEntryDate: currentItinerary[0]?.date ?? "none" })}
       {segment === "week" && (
         (!itineraryProfile || currentItinerary.length === 0 || isItineraryStale) ? (
           /* Empty state — no profile, no data, or itinerary is from a past week */
@@ -1534,7 +1532,7 @@ function WeekRow({ day, isLast, isToday, isPast, onReload, onSkip, onRestore, dr
   const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
-    <View style={[styles.daySection, isPast && { opacity: 0.38 }, isActive && { opacity: 0.95 }]}>
+    <View style={[styles.daySection, isPast && { opacity: 0.5 }, isActive && { opacity: 0.95 }]}>
       <View style={[styles.dayDateRow, { justifyContent: "space-between" }]}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
           <Text style={[styles.dayDateLabel, isToday && { color: Colors.light.primary }]}>
