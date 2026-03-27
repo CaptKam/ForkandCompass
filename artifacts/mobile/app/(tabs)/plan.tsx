@@ -509,6 +509,7 @@ export default function PlanScreen() {
       </View>
 
       {/* ── This Week ─────────────────────────────────────────────── */}
+      {console.log("[PLAN DEBUG]", { segment, hasProfile: !!itineraryProfile, itineraryLength: currentItinerary.length, isItineraryStale, allDone, fullWeekLength: fullWeek.length })}
       {segment === "week" && (
         (!itineraryProfile || currentItinerary.length === 0 || isItineraryStale) ? (
           /* Empty state — no profile, no data, or itinerary is from a past week */
