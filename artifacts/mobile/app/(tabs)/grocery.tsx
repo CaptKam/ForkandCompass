@@ -189,11 +189,26 @@ export default function GroceryScreen() {
   const checkedCount = activeGroceryItems.filter((i) => i.checked).length;
   const totalCount = activeGroceryItems.length;
   const readyToCook = totalCount > 0 && checkedCount / totalCount >= 0.5;
+  const allChecked = checkedCount === totalCount && totalCount > 0;
+  const progressText = totalCount > 0 ? `${checkedCount} of ${totalCount}` : null;
 
   return (
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 56 : insets.top + 12 }]}>
         <Text style={styles.headerTitle}>Groceries</Text>
+        {progressText && (
+          <View style={[
+            styles.progressPill,
+            allChecked && { backgroundColor: "rgba(52,199,89,0.12)", borderColor: "rgba(52,199,89,0.3)" },
+          ]}>
+            <Text style={[
+              styles.progressPillText,
+              allChecked && { color: "#34c759" },
+            ]}>
+              {progressText}
+            </Text>
+          </View>
+        )}
         <Pressable
           onPress={() => { haptic(); setShowProfile(true); }}
           style={styles.avatarBtn}
@@ -466,6 +481,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: Colors.light.primary,
     letterSpacing: -0.3,
+  },
+  progressPill: {
+    backgroundColor: Colors.light.surfaceContainerLow,
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderWidth: 1,
+    borderColor: Colors.light.outlineVariant,
+  },
+  progressPillText: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 13,
+    color: Colors.light.secondary,
   },
   avatarBtn: {},
   avatarCircle: {
