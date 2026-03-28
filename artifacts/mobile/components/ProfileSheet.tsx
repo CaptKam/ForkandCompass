@@ -20,9 +20,9 @@ import { useApp, type CookingLevel, type AppearanceMode } from "@/contexts/AppCo
 import { useAuth } from "@/contexts/AuthContext";
 
 const COOKING_LEVELS: { key: CookingLevel; label: string; icon: string }[] = [
-  { key: "beginner", label: "Simmer", icon: "\uD83C\uDF31" },
-  { key: "intermediate", label: "Saut\u00E9", icon: "\uD83C\uDF73" },
-  { key: "advanced", label: "Sear", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
+  { key: "beginner", label: "Simmer", icon: "🌱" },
+  { key: "intermediate", label: "Sauté", icon: "🍳" },
+  { key: "advanced", label: "Sear", icon: "👨‍🍳" },
 ];
 
 const APPEARANCE_MODES: { key: AppearanceMode; label: string }[] = [
@@ -117,25 +117,37 @@ export default function ProfileSheet({ onClose }: ProfileSheetProps) {
             contentContainerStyle={styles.scrollContent}
             bounces={false}
           >
-            <View style={styles.headerRow}>
-              <View style={styles.avatarCircle}>
-                <Ionicons name="person" size={28} color={Colors.light.primary} />
+            {isAuthenticated ? (
+              <View style={styles.headerRow}>
+                <View style={styles.avatarCircle}>
+                  <Ionicons name="person" size={28} color={Colors.light.primary} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.email} numberOfLines={1}>{user?.email ?? "Chef"}</Text>
+                  <Text style={styles.levelBadge}>
+                    {COOKING_LEVELS.find((l) => l.key === cookingLevel)?.icon}{" "}
+                    {COOKING_LEVELS.find((l) => l.key === cookingLevel)?.label}
+                  </Text>
+                </View>
+                <Pressable onPress={onClose} hitSlop={12} style={styles.closeBtn}>
+                  <Ionicons name="close" size={22} color={Colors.light.secondary} />
+                </Pressable>
               </View>
-              <View style={{ flex: 1 }}>
-                {isAuthenticated && user?.email ? (
-                  <Text style={styles.email} numberOfLines={1}>{user.email}</Text>
-                ) : (
-                  <Text style={styles.signInPrompt}>Guest Explorer</Text>
-                )}
-                <Text style={styles.levelBadge}>
-                  {COOKING_LEVELS.find((l) => l.key === cookingLevel)?.icon}{" "}
-                  {COOKING_LEVELS.find((l) => l.key === cookingLevel)?.label}
-                </Text>
-              </View>
-              <Pressable onPress={onClose} hitSlop={12} style={styles.closeBtn}>
-                <Ionicons name="close" size={22} color={Colors.light.secondary} />
+            ) : (
+              <Pressable
+                style={styles.headerRow}
+                onPress={() => { onClose(); router.push("/auth"); }}
+              >
+                <View style={styles.avatarCircle}>
+                  <Ionicons name="person-outline" size={28} color={Colors.light.secondary} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.signInPrompt}>Sign in</Text>
+                  <Text style={styles.levelBadge}>Sync your data across devices</Text>
+                </View>
+                <Ionicons name="chevron-forward" size={18} color={Colors.light.secondary} />
               </Pressable>
-            </View>
+            )}
 
             <View style={styles.divider} />
 
