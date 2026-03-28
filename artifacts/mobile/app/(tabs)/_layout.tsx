@@ -14,7 +14,8 @@ export default function TabLayout() {
   const safeAreaInsets = useSafeAreaInsets();
   const isIOS = Platform.OS === "ios";
   const isWeb = Platform.OS === "web";
-  const { activeCookSession } = useApp();
+  const { activeCookSession, groceryItems } = useApp();
+  const uncheckedGroceryCount = groceryItems ? groceryItems.filter(g => !g.checked).length : 0;
   const colors = useThemeColors();
   const isDark = colors.background === Colors.dark.background;
 
@@ -102,6 +103,17 @@ export default function TabLayout() {
         name="grocery"
         options={{
           title: "Groceries",
+          tabBarBadge: uncheckedGroceryCount > 0 ? uncheckedGroceryCount : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: Colors.light.primary,
+            color: Colors.light.onPrimary,
+            fontFamily: "Inter_600SemiBold",
+            fontSize: 10,
+            minWidth: 18,
+            height: 18,
+            lineHeight: 18,
+            borderRadius: 9,
+          },
           tabBarIcon: ({ color }) =>
             isIOS ? (
               <SymbolView name="cart" tintColor={color} size={24} />
