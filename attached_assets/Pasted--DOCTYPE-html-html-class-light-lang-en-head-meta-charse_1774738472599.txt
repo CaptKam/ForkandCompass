@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Culinary Editorial - Weekly Planner</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Noto+Serif:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-container": "#fffbff",
+                        "on-tertiary-fixed": "#001d35",
+                        "surface-dim": "#ded9d4",
+                        "on-surface": "#1d1b18",
+                        "secondary-fixed": "#feddb6",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f8f3ed",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#9ccaff",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#fef9f3",
+                        "surface-container": "#f2ede7",
+                        "on-surface-variant": "#574238",
+                        "surface-tint": "#9e4300",
+                        "outline-variant": "#dec1b3",
+                        "on-secondary-container": "#775e3f",
+                        "surface": "#fef9f3",
+                        "secondary-fixed-dim": "#e1c19c",
+                        "secondary-container": "#fbdab3",
+                        "on-background": "#1d1b18",
+                        "surface-bright": "#fef9f3",
+                        "on-primary-fixed": "#341100",
+                        "surface-container-high": "#ece7e2",
+                        "inverse-on-surface": "#f5f0ea",
+                        "primary-fixed-dim": "#ffb690",
+                        "inverse-surface": "#32302c",
+                        "on-tertiary-fixed-variant": "#00497a",
+                        "surface-container-highest": "#e6e2dc",
+                        "outline": "#8a7266",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#0079c4",
+                        "tertiary": "#005f9c",
+                        "surface-variant": "#e6e2dc",
+                        "primary": "#9a4100",
+                        "tertiary-fixed": "#d0e4ff",
+                        "primary-container": "#bf550a",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#fdfcff",
+                        "primary-fixed": "#ffdbcb",
+                        "on-primary-fixed-variant": "#783100",
+                        "secondary": "#725a3c",
+                        "inverse-primary": "#ffb690",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#291802",
+                        "on-secondary-fixed-variant": "#584326",
+                        "error": "#ba1a1a"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .serif-italic { font-family: 'Noto Serif'; font-style: italic; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#FEF9F3] dark:bg-[#0D0D0D]">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-150 text-[#9A4100] dark:text-[#FFB690]">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="text-2xl font-serif font-semibold text-[#9A4100] dark:text-[#FFB690]">The Culinary Editorial</h1>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A small artistic portrait of a food critic in a soft-lit kitchen setting, warm tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-gqB9OjvoQ_bHoSsnIS-HalmqYdY2Xds4drS7DXTlaD1g82xT5EenU3W-EAU2dbEZY4qlgM9wCikMR6k3TH0wOILJ3_NL8Jbwr1JEC_UX4_JpCNM24gW4ugGoG7yUNByAFq4zV6GnWsxz-ab7DZscnPvjEfzrbsMJHKrGus9Y7zq0-cftZLTOPW0MYHNEPbOLXSYLkMTwf28xahQf-7asAHeB8CUkSdMoVsZU5hTi3kaHhkDwzsTzs14L-CKtXQ7aP4RwLK-Le-Fm"/>
+</div>
+</header>
+<main class="pt-16 pb-32">
+<!-- Grocery Status Banner (Hero Section) -->
+<section class="bg-primary/5 dark:bg-primary/10 border-b border-primary/10 px-6 py-6">
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-[10px] font-label uppercase tracking-[0.2em] text-primary/70 mb-1 block">Grocery Status</span>
+<h2 class="text-xl font-headline text-primary leading-tight">5 hours until prep begins</h2>
+<p class="text-on-surface-variant text-sm mt-1">12 items remaining in your cart</p>
+</div>
+<div class="bg-primary/10 p-2 rounded-xl">
+<span class="material-symbols-outlined text-primary" data-icon="shopping_cart">shopping_cart</span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 bg-primary text-on-primary py-2.5 rounded-xl font-label text-sm font-semibold transition-all active:scale-[0.98]">Order Now</button>
+<button class="flex-1 bg-surface-container-highest text-on-surface py-2.5 rounded-xl font-label text-sm font-semibold border border-outline-variant/20 transition-all active:scale-[0.98]">View List</button>
+</div>
+</div>
+</section>
+<!-- Weekly Planner List -->
+<section class="px-6 py-10">
+<div class="flex items-baseline justify-between mb-8">
+<h3 class="text-3xl font-headline tracking-tight">The Weekly Plan</h3>
+<span class="text-secondary font-label text-sm">Oct 23 — Oct 29</span>
+</div>
+<div class="flex flex-col gap-10">
+<!-- Monday (Today - Featured) -->
+<div class="flex flex-col gap-4 p-5 rounded-3xl bg-primary/5 border border-primary/10 ring-4 ring-primary/[0.02]">
+<div class="flex flex-col md:flex-row gap-6 items-start group">
+<div class="w-20 pt-1 shrink-0">
+<span class="block text-primary font-headline text-2xl font-bold">Mon</span>
+<span class="block text-primary/60 font-label text-[10px] uppercase tracking-wider">Today • 23rd Oct</span>
+</div>
+<div class="flex-grow w-full">
+<div class="flex flex-col gap-4">
+<!-- Main Meal Card -->
+<div class="bg-surface-container-lowest border border-primary/10 rounded-2xl p-4 flex gap-4 transition-all hover:bg-surface shadow-sm">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+<img alt="Bowl" class="w-full h-full object-cover" data-alt="Vibrant healthy salad bowl with roasted chickpeas, kale, and tahini dressing on a light wood surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFJZYik0V5JoRedYljdBvRXN7HuFo5aVWkTat9QojoaRqezDcHYnqHLpn6tkxw_KLjk6iEdwlgOUq8H73Jb60sNa_I6YU5eF70ocV-j_VQUr8yZACQJSJCIW5W3i-cHSFPJil_5rOyHCRbh_hD4NKMXiOLWEKSdOQxSMj17_vJpMf26RXS7hF1-ykMjsq7ifHyhBBacTJWU8wW2SATaV3xHkFLGe2Qs10T1YihhzNZaUNkDC9BIpkDWdNWrKiWVvSJFhOiE-HTZMGr"/>
+</div>
+<div class="flex flex-col justify-center flex-grow">
+<h4 class="font-headline text-lg leading-snug">Harvest Grain Bowl</h4>
+<p class="text-secondary text-sm font-body mb-2">With tahini-lemon drizzle</p>
+<div class="flex gap-3 text-[10px] font-label text-on-surface-variant/70">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="person">person</span> 4</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 25m</span>
+</div>
+</div>
+</div>
+<!-- Menu Builders -->
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/30 rounded-xl text-xs font-label text-secondary bg-surface-container-lowest/50 hover:bg-primary/5 hover:text-primary transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Appetizer
+                                </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/30 rounded-xl text-xs font-label text-secondary bg-surface-container-lowest/50 hover:bg-primary/5 hover:text-primary transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Dessert
+                                </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/30 rounded-xl text-xs font-label text-secondary bg-surface-container-lowest/50 hover:bg-primary/5 hover:text-primary transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Drink
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-primary/5 flex justify-end">
+<span class="text-[11px] font-label text-primary/70 uppercase tracking-widest font-semibold">Total Time: 25m</span>
+</div>
+</div>
+<!-- Tuesday -->
+<div class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row gap-6 items-start group">
+<div class="w-20 pt-1 shrink-0">
+<span class="block text-primary font-headline text-lg">Tue</span>
+<span class="block text-secondary font-label text-xs uppercase tracking-tighter">24th Oct</span>
+</div>
+<div class="flex-grow w-full">
+<div class="flex flex-col gap-4">
+<div class="bg-surface-container-low rounded-2xl p-4 flex gap-4 transition-all hover:bg-surface-container-high cursor-pointer">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+<img alt="Pasta" class="w-full h-full object-cover" data-alt="Rustic penne pasta with sun-dried tomatoes and basil leaves in a warm earthenware bowl." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSUqePCNssHFp5_e72QYwCQRwsWZ41WlKyKss1_HaOQvdlWEAp15CzfMeLIEBupIyvnfxkb8CQRfYnuvoUu8pT5-FcKUxnjnLNSHcVqOSoXmOSrDc3ZgPZQm3lJN0U5KnJyBv6azxsrS280pmdnbIAZpqWWk6MzAqa8XYTngv8ZBz9imJb8hVmo074NQoLsI4kr7RcpimVPa4P1zYFFhWXw-tC9sPch-A6jI35jKudLSUv-66vhm9Z48lVNzdaLqrMS7Oz6WaEoQcZ"/>
+</div>
+<div class="flex flex-col justify-center flex-grow">
+<h4 class="font-headline text-lg leading-snug">Penne with Heirloom Sauce</h4>
+<p class="text-secondary text-sm font-body mb-2">Classic Italian comfort</p>
+<div class="flex gap-3 text-[10px] font-label text-on-surface-variant/70">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="person">person</span> 2</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 40m</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest rounded-xl text-xs font-label text-primary font-semibold whitespace-nowrap">
+<span class="material-symbols-outlined text-sm" data-icon="check">check</span> Bruschetta
+                                    <span class="ml-1 opacity-60 font-normal">🕐 15m</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/20 rounded-xl text-xs font-label text-secondary hover:bg-primary/5 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Dessert
+                                </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/20 rounded-xl text-xs font-label text-secondary hover:bg-primary/5 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Drink
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end">
+<span class="text-[11px] font-label text-secondary/70 uppercase tracking-widest font-semibold">Total Time: 55m</span>
+</div>
+</div>
+<!-- Wednesday -->
+<div class="flex flex-col md:flex-row gap-6 items-start group">
+<div class="w-20 pt-1 shrink-0">
+<span class="block text-primary font-headline text-lg">Wed</span>
+<span class="block text-secondary font-label text-xs uppercase tracking-tighter">25th Oct</span>
+</div>
+<div class="flex-grow w-full">
+<div class="flex flex-col sm:flex-row gap-4">
+<div class="flex-grow border-2 border-dashed border-outline-variant/30 rounded-2xl p-6 flex flex-col items-center justify-center text-secondary hover:border-primary/50 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-3xl mb-1" data-icon="add_circle">add_circle</span>
+<span class="font-label text-sm font-medium">Schedule Midweek Meal</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Thursday -->
+<div class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row gap-6 items-start group">
+<div class="w-20 pt-1 shrink-0">
+<span class="block text-primary font-headline text-lg">Thu</span>
+<span class="block text-secondary font-label text-xs uppercase tracking-tighter">26th Oct</span>
+</div>
+<div class="flex-grow w-full">
+<div class="flex flex-col gap-4">
+<div class="bg-surface-container-low rounded-2xl p-4 flex gap-4 transition-all hover:bg-surface-container-high cursor-pointer">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+<img alt="Bowl" class="w-full h-full object-cover" data-alt="Fresh mediterranean mezze platter with olives, feta, and warm pita bread on a slate board." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBojJ4dz6lgqnqJxNAh56qdINnIv1mTa-lQo_CVZFEt8lnzqls8b9rsdkb26PQJF9jESZKKIAS0EnH59vNhFby9WYGxL9VLqATVpCfqfb92QnX5ciYSVh3V3g85OMzv5WNA-ttF-iWcQzxes7nQ27P-Agi5oxN4IgmVyxNX8c_TddDDyM3JUnfqzBGaShY_1mdr1lRb_YYdmq408ty9tRJW-w2Vx2RCzPmOFPK9pYfarhwh99Q8CxFXvrvPlq1T7SdCYFUAEV-IjY1A"/>
+</div>
+<div class="flex flex-col justify-center flex-grow">
+<h4 class="font-headline text-lg leading-snug">The Greek Mezze</h4>
+<p class="text-secondary text-sm font-body mb-2">Sharing-style small plates</p>
+<div class="flex gap-3 text-[10px] font-label text-on-surface-variant/70">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="groups">groups</span> 6</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 1h 10m</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center w-full px-4 py-2 border border-outline-variant/20 rounded-xl text-xs font-label text-secondary hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-sm mr-2" data-icon="add">add</span> Menu
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end">
+<span class="text-[11px] font-label text-secondary/70 uppercase tracking-widest font-semibold">Total Time: 1h 10m</span>
+</div>
+</div>
+<!-- Friday -->
+<div class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row gap-6 items-start group">
+<div class="w-20 pt-1 shrink-0">
+<span class="block text-primary font-headline text-lg">Fri</span>
+<span class="block text-secondary font-label text-xs uppercase tracking-tighter">27th Oct</span>
+</div>
+<div class="flex-grow w-full">
+<div class="flex flex-col gap-4">
+<div class="bg-surface-container-low rounded-2xl p-4 flex gap-4 transition-all hover:bg-surface-container-high cursor-pointer">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+<img alt="Pizza" class="w-full h-full object-cover" data-alt="Neapolitan pizza with leopard-spotted crust, fresh buffalo mozzarella, and aromatic basil leaves." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8By6m4SXXfBVSN70l80RIZ0K5FSg6Gyoz3MnpxFXy1T3asHccz3G2G27d20i86bDv7I1icKRhu7qBHtigmzNtaFqMHUw_vRFXmQu05utwwJa48Oo1kzicthPPbpjxkZ13aHd7KIj_Z1zi48GLRMWLPdOrji_4MaH-UU3YUigfIXvXIJUi-wSEG85JazMQNE2WvV7ZMSlgJxMoEVwI5mHdUBsLKpH11MaVf5q1NbNA4NKJn590yZUIjRO1JtiGM_vLGuJgncUb8H3H"/>
+</div>
+<div class="flex flex-col justify-center flex-grow">
+<h4 class="font-headline text-lg leading-snug">Neapolitan Pizza Night</h4>
+<p class="text-secondary text-sm font-body mb-2">Slow-rise sourdough base</p>
+<div class="flex gap-3 text-[10px] font-label text-on-surface-variant/70">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="person">person</span> 4</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 15m</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/20 rounded-xl text-xs font-label text-secondary hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Side
+                                </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest rounded-xl text-xs font-label text-primary font-semibold">
+<span class="material-symbols-outlined text-sm" data-icon="check">check</span> Chianti
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end">
+<span class="text-[11px] font-label text-secondary/70 uppercase tracking-widest font-semibold">Total Time: 15m</span>
+</div>
+</div>
+<!-- Saturday -->
+<div class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row gap-6 items-start group">
+<div class="w-20 pt-1 shrink-0">
+<span class="block text-primary font-headline text-lg">Sat</span>
+<span class="block text-secondary font-label text-xs uppercase tracking-tighter">28th Oct</span>
+</div>
+<div class="flex-grow w-full">
+<div class="flex flex-col gap-4">
+<div class="bg-surface-container-low rounded-2xl p-4 flex gap-4 transition-all hover:bg-surface-container-high cursor-pointer">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+<img alt="Steak" class="w-full h-full object-cover" data-alt="Perfectly seared medium-rare steak with butter and rosemary in a cast iron skillet." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADEkoh_hvoZavAkoxuJLjJstxWi4AthZvkYmtgLBZGhfen0Rn4dox4gBU7GjjcIAncKCtCuPl6Fljq3OMb86YS8ZsgCbphsSIx_a_Oo7kf2OgnSCv7q1dEevyi9ikLCxZrwnEOtBCMHHwH0lctw9TQyKZXr-_bd4mKNHP1g6MoE8eIkKgzsWSca7Q7BbGINsXuwNc12lnQTeX0RjD1YlKaqmj9eQF4OMF1T5V3pSGJS4v3Z90GbHpqYTXGbjSm_InOZSb_3ZAabIQx"/>
+</div>
+<div class="flex flex-col justify-center flex-grow">
+<h4 class="font-headline text-lg leading-snug">Steak Frites de Paris</h4>
+<p class="text-secondary text-sm font-body mb-2">Café de Paris butter</p>
+<div class="flex gap-3 text-[10px] font-label text-on-surface-variant/70">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="person">person</span> 2</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 35m</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/20 rounded-xl text-xs font-label text-secondary hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Course
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end">
+<span class="text-[11px] font-label text-secondary/70 uppercase tracking-widest font-semibold">Total Time: 35m</span>
+</div>
+</div>
+<!-- Sunday -->
+<div class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row gap-6 items-start group">
+<div class="w-20 pt-1 shrink-0">
+<span class="block text-primary font-headline text-lg">Sun</span>
+<span class="block text-secondary font-label text-xs uppercase tracking-tighter">29th Oct</span>
+</div>
+<div class="flex-grow w-full">
+<div class="flex flex-col gap-4">
+<div class="bg-surface-container-low rounded-2xl p-4 flex gap-4 transition-all hover:bg-surface-container-high cursor-pointer">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+<img alt="Roast" class="w-full h-full object-cover" data-alt="Traditional sunday roast chicken with root vegetables and golden gravy, rustic setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjS8il35ndu3QyuXzR91x14_xPkIY3-A1-4WUGifhrkjq-u7qcaYnqVhlnDHDH5cNUiOIdWF5ANT3MNcAkMx6z3Q4SI41e2Lpc2Ky4P1Y0I9EjBGhgCT86ev-VmBx784fokO5IxynD0_yecThSNI5nfO7jzWKO75nPro0WN-Bd2i5jrisf5bc8Tpu9DZ9ZEqS49pmrz26n341GQmd5ARQDGUF6f2NVuOAYG3AC1gD2eorZwavrFUHLyy4FUntmFJBpV14F1kMX0Jym"/>
+</div>
+<div class="flex flex-col justify-center flex-grow">
+<h4 class="font-headline text-lg leading-snug">Heirloom Roast Chicken</h4>
+<p class="text-secondary text-sm font-body mb-2">Slow-roasted with seasonal roots</p>
+<div class="flex gap-3 text-[10px] font-label text-on-surface-variant/70">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="groups">groups</span> 4</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span> 1h 45m</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/20 rounded-xl text-xs font-label text-secondary hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Dessert
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end">
+<span class="text-[11px] font-label text-secondary/70 uppercase tracking-widest font-semibold">Total Time: 1h 45m</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#FEF9F3]/90 dark:bg-[#0D0D0D]/90 backdrop-blur-md border-t border-[#DEC1B3]/20 shadow-[0_-12px_40px_0_rgba(29,27,24,0.06)] rounded-t-3xl">
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-5 py-2 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors rounded-2xl active:scale-95 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-sans text-[10px] font-medium tracking-wide uppercase mt-1">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#ECE7E2] dark:bg-[#252A32] text-[#9A4100] dark:text-[#FFB690] rounded-2xl px-5 py-2 active:scale-95 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-sans text-[10px] font-medium tracking-wide uppercase mt-1">Planner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-5 py-2 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors rounded-2xl active:scale-95 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="import_contacts">import_contacts</span>
+<span class="font-sans text-[10px] font-medium tracking-wide uppercase mt-1">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#725A3C] dark:text-[#E1C19C] px-5 py-2 hover:bg-[#F8F3ED] dark:hover:bg-[#161B22] transition-colors rounded-2xl active:scale-95 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-sans text-[10px] font-medium tracking-wide uppercase mt-1">Journal</span>
+</a>
+</nav>
+</body></html>
