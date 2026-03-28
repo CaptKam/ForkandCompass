@@ -641,17 +641,16 @@ function DayRow({ day, isToday, isPast, onEdit, onSkip, onRestore, onAddCourse }
       isToday && styles.dayContainerToday,
       isPast && !isToday && { opacity: 0.45 },
     ]}>
-      <View style={styles.dayInner}>
-        <View style={styles.dayLeftCol}>
-          <Text style={[styles.dayName, isToday && styles.dayNameToday]}>
-            {dayShort}
-          </Text>
-          <Text style={[styles.dayDate, isToday && styles.dayDateToday]}>
-            {isToday ? `Today` : dateFormatted}
-          </Text>
-        </View>
+      <View style={styles.dayHeader}>
+        <Text style={[styles.dayName, isToday && styles.dayNameToday]}>
+          {dayShort}
+        </Text>
+        <Text style={[styles.dayDate, isToday && styles.dayDateToday]}>
+          {isToday ? `Today` : dateFormatted}
+        </Text>
+      </View>
 
-        <View style={styles.dayRightCol}>
+      <View style={styles.dayBody}>
           {isSkipped ? (
             <View style={styles.skippedCard}>
               <Text style={styles.skippedText}>Skipped</Text>
@@ -734,7 +733,6 @@ function DayRow({ day, isToday, isPast, onEdit, onSkip, onRestore, onAddCourse }
               )}
             </View>
           ) : null}
-        </View>
       </View>
 
       {!isSkipped && totalMinutes > 0 && (
@@ -768,29 +766,27 @@ function EmptyDayRow({ date, dayLabel, isPast, isToday, onAdd }: {
 
   return (
     <View style={[styles.dayContainer, isPast && { opacity: 0.45 }]}>
-      <View style={styles.dayInner}>
-        <View style={styles.dayLeftCol}>
-          <Text style={styles.dayName}>{dayShort}</Text>
-          <Text style={styles.dayDate}>{dateFormatted}</Text>
-        </View>
-        <View style={styles.dayRightCol}>
-          {isPast ? (
-            <View style={styles.emptyPastCard}>
-              <Text style={styles.emptyPastText}>No meal planned</Text>
-            </View>
-          ) : (
-            <Pressable
-              onPress={onAdd}
-              style={({ pressed }) => [
-                styles.emptyDayCard,
-                pressed && { backgroundColor: Colors.light.surfaceContainerLow, borderColor: "rgba(154,65,0,0.3)" },
-              ]}
-            >
-              <Ionicons name="add-circle" size={28} color={Colors.light.primary} />
-              <Text style={styles.emptyDayTitle}>Schedule Meal</Text>
-            </Pressable>
-          )}
-        </View>
+      <View style={styles.dayHeader}>
+        <Text style={styles.dayName}>{dayShort}</Text>
+        <Text style={styles.dayDate}>{dateFormatted}</Text>
+      </View>
+      <View style={styles.dayBody}>
+        {isPast ? (
+          <View style={styles.emptyPastCard}>
+            <Text style={styles.emptyPastText}>No meal planned</Text>
+          </View>
+        ) : (
+          <Pressable
+            onPress={onAdd}
+            style={({ pressed }) => [
+              styles.emptyDayCard,
+              pressed && { backgroundColor: Colors.light.surfaceContainerLow, borderColor: "rgba(154,65,0,0.3)" },
+            ]}
+          >
+            <Ionicons name="add-circle" size={28} color={Colors.light.primary} />
+            <Text style={styles.emptyDayTitle}>Schedule Meal</Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );
@@ -1253,7 +1249,7 @@ const styles = StyleSheet.create({
   },
 
   dayContainer: {
-    gap: 0,
+    gap: 6,
   },
   dayContainerToday: {
     backgroundColor: "rgba(154,65,0,0.04)",
@@ -1262,14 +1258,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(154,65,0,0.08)",
   },
-  dayInner: {
+  dayHeader: {
     flexDirection: "row",
-    gap: 16,
-    alignItems: "flex-start",
+    alignItems: "baseline",
+    gap: 8,
   },
-  dayLeftCol: {
-    width: 56,
-    paddingTop: 2,
+  dayBody: {
   },
   dayName: {
     fontFamily: "NotoSerif_700Bold",
@@ -1283,7 +1277,7 @@ const styles = StyleSheet.create({
   },
   dayDate: {
     fontFamily: "Inter_500Medium",
-    fontSize: 10,
+    fontSize: 11,
     color: Colors.light.secondary,
     letterSpacing: 0.5,
     textTransform: "uppercase",
@@ -1292,9 +1286,6 @@ const styles = StyleSheet.create({
   dayDateToday: {
     color: "rgba(154,65,0,0.6)",
     letterSpacing: 1,
-  },
-  dayRightCol: {
-    flex: 1,
   },
 
   recipeCardCol: {
