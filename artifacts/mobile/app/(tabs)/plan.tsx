@@ -369,13 +369,24 @@ export default function PlanScreen() {
               onPress={() => router.push("/(tabs)/cook")}
               style={styles.readyToCookBtn}
               accessibilityLabel="Ready to cook tonight"
+              accessibilityRole="button"
             >
-              <Ionicons name="flame" size={18} color={Colors.light.onPrimary} />
+              <Ionicons name="flame-outline" size={18} color={Colors.light.onPrimary} />
               <Text style={styles.readyToCookText}>
                 Ready to Cook Tonight →
               </Text>
             </Pressable>
           )}
+          <Pressable
+            onPress={() => router.push("/(tabs)/grocery")}
+            style={styles.viewGroceryLink}
+            accessibilityLabel="View grocery list"
+            accessibilityRole="button"
+          >
+            <Text style={styles.viewGroceryText}>
+              View Grocery List →
+            </Text>
+          </Pressable>
         </ScrollView>
       )}
 
@@ -1287,14 +1298,27 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.primary,
     borderRadius: 14,
     paddingVertical: 16,
-    marginHorizontal: 0,
-    marginTop: 16,
+    marginHorizontal: 4,
+    marginTop: 12,
     marginBottom: 8,
+    minHeight: 52,
   },
   readyToCookText: {
     fontFamily: "NotoSerif_700Bold",
     fontSize: 16,
-    color: Colors.light.surface,
+    color: Colors.light.onPrimary,
+  },
+  viewGroceryLink: {
+    alignItems: "center",
+    paddingVertical: 12,
+    minHeight: 44,
+    justifyContent: "center",
+  },
+  viewGroceryText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 14,
+    color: Colors.light.primary,
+    textDecorationLine: "underline",
   },
   // Shared empty state
   emptyState: {

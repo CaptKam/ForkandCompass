@@ -728,7 +728,7 @@ export default function DiscoverScreen() {
           <View style={styles.section}>
             <View style={[styles.rowBetween, { paddingHorizontal: 20 }]}>
               <Text style={styles.sectionTitle}>Recently Cooked</Text>
-              <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile"); }}>
+              <Pressable onPress={() => { haptic(); router.push("/settings"); }}>
                 <Text style={styles.viewAll}>See All</Text>
               </Pressable>
             </View>
@@ -791,7 +791,7 @@ export default function DiscoverScreen() {
           <View style={[styles.section, styles.jumpBg]}>
             <View style={[styles.rowBetween, { paddingHorizontal: 20 }]}>
               <Text style={styles.sectionTitle}>Jump Back In</Text>
-              <Pressable onPress={() => { haptic(); router.push("/(tabs)/profile"); }}>
+              <Pressable onPress={() => { haptic(); router.push("/settings"); }}>
                 <Text style={styles.viewAll}>View All</Text>
               </Pressable>
             </View>
