@@ -664,6 +664,7 @@ function DayRow({ day, isToday, isPast, onEdit, onSkip, onRestore, onAddCourse }
                 onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: mainRecipe.id } }); }}
                 style={({ pressed }) => [
                   styles.recipeCard,
+                  styles.recipeCardMain,
                   isToday && styles.recipeCardToday,
                   pressed && { opacity: 0.85 },
                 ]}
@@ -707,29 +708,49 @@ function DayRow({ day, isToday, isPast, onEdit, onSkip, onRestore, onAddCourse }
                 )}
               </Pressable>
 
-              {!isSkipped && !isPast && (
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.coursePillRow}
+              {extraRecipes.map((r) => (
+                <Pressable
+                  key={r.id}
+                  onPress={() => { haptic(); router.push({ pathname: "/recipe/[id]", params: { id: r.id } }); }}
+                  style={({ pressed }) => [
+                    styles.recipeCard,
+                    styles.recipeCardExtra,
+                    pressed && { opacity: 0.85 },
+                  ]}
                 >
-                  {extraRecipes.map((r) => (
-                    <View key={r.id} style={styles.coursePillAdded}>
-                      <Ionicons name="checkmark" size={12} color={Colors.light.primary} />
-                      <Text style={styles.coursePillAddedText} numberOfLines={1}>{r.name}</Text>
-                      {r.time ? (
-                        <Text style={styles.coursePillTime}>{r.time}</Text>
-                      ) : null}
+                  <View style={styles.recipeThumbWrapExtra}>
+                    <Image
+                      source={{ uri: r.image }}
+                      style={styles.recipeThumb}
+                      contentFit="cover"
+                      onError={(e) => console.warn("[Image] Failed to load:", e.error)}
+                    />
+                  </View>
+                  <View style={styles.recipeInfo}>
+                    <Text style={styles.recipeNameExtra} numberOfLines={1} ellipsizeMode="tail">
+                      {r.name}
+                    </Text>
+                    <Text style={styles.recipeSub} numberOfLines={1}>
+                      {r.category ?? r.countryName}
+                    </Text>
+                    <View style={styles.recipeBadges}>
+                      <View style={styles.recipeBadge}>
+                        <Ionicons name="time-outline" size={11} color="rgba(87,66,56,0.5)" />
+                        <Text style={styles.recipeBadgeText}>{r.time}</Text>
+                      </View>
                     </View>
-                  ))}
-                  <Pressable
-                    onPress={onAddCourse}
-                    style={({ pressed }) => [styles.coursePill, pressed && { opacity: 0.7 }]}
-                  >
-                    <Ionicons name="add" size={14} color={Colors.light.secondary} />
-                    <Text style={styles.coursePillText}>Course</Text>
-                  </Pressable>
-                </ScrollView>
+                  </View>
+                </Pressable>
+              ))}
+
+              {!isSkipped && !isPast && (
+                <Pressable
+                  onPress={onAddCourse}
+                  style={({ pressed }) => [styles.addCourseBtnRow, pressed && { opacity: 0.7 }]}
+                >
+                  <Ionicons name="add" size={14} color={Colors.light.secondary} />
+                  <Text style={styles.addCourseBtnText}>Add Course</Text>
+                </Pressable>
               )}
             </View>
           ) : null}
@@ -1355,46 +1376,43 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  coursePillRow: {
-    gap: 8,
-    paddingBottom: 2,
+  recipeCardMain: {
+    borderWidth: 1,
+    borderColor: "rgba(222,193,179,0.25)",
   },
-  coursePill: {
+  recipeCardExtra: {
+    backgroundColor: Colors.light.surfaceContainer,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+  recipeThumbWrapExtra: {
+    width: 56,
+    height: 56,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  recipeNameExtra: {
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    color: Colors.light.onSurface,
+    lineHeight: 20,
+  },
+
+  addCourseBtnRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+    justifyContent: "center",
+    gap: 6,
+    paddingVertical: 10,
     borderWidth: 1,
+    borderStyle: "dashed",
     borderColor: "rgba(222,193,179,0.3)",
     borderRadius: 12,
-    backgroundColor: "transparent",
   },
-  coursePillText: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 12,
+  addCourseBtnText: {
+    fontFamily: "Inter_500Medium",
+    fontSize: 13,
     color: Colors.light.secondary,
-  },
-  coursePillAdded: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: Colors.light.surfaceContainerHighest,
-    borderRadius: 12,
-  },
-  coursePillAddedText: {
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 12,
-    color: Colors.light.primary,
-    maxWidth: 100,
-  },
-  coursePillTime: {
-    fontFamily: "Inter_400Regular",
-    fontSize: 10,
-    color: "rgba(154,65,0,0.5)",
-    marginLeft: 2,
   },
 
   totalTimeRow: {
