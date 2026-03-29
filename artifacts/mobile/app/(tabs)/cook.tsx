@@ -3,7 +3,7 @@ import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   Platform,
   Pressable,
@@ -20,8 +20,6 @@ import { getRecipeById, getCountryById, type GroceryItem } from "@/constants/dat
 import type { Recipe } from "@/constants/data";
 import { useApp } from "@/contexts/AppContext";
 import { parseTimeMinutes } from "@/hooks/useItinerary";
-import ProfileSheet from "@/components/ProfileSheet";
-
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const haptic = (style: "light" | "medium" = "light") => {
@@ -46,8 +44,6 @@ export default function CookScreen() {
     activeCookSession,
     groceryItems,
   } = useApp();
-
-  const [showProfile, setShowProfile] = useState(false);
 
   const today = toISODate(new Date());
 
@@ -100,18 +96,7 @@ export default function CookScreen() {
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 56 : insets.top + 12 }]}>
         <Text style={styles.headerTitle}>Cook</Text>
-        <Pressable
-          onPress={() => { haptic(); setShowProfile(true); }}
-          style={styles.avatarBtn}
-          accessibilityLabel="Open profile"
-        >
-          <View style={styles.avatarCircle}>
-            <Ionicons name="person" size={14} color={Colors.light.outline} />
-          </View>
-        </Pressable>
       </View>
-
-      {showProfile && <ProfileSheet onClose={() => setShowProfile(false)} />}
 
       {/* STATE 1 — Active session in progress */}
       {activeCookSession != null && activeRecipe != null ? (
@@ -404,23 +389,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: Colors.light.onSurface,
   },
-  avatarBtn: {
-    minWidth: 44,
-    minHeight: 44,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarCircle: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: Colors.light.surfaceContainerLow,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: Colors.light.outlineVariant,
-  },
-
   // Hero (State 2)
   heroWrap: {
     height: 240,

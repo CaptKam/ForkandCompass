@@ -23,8 +23,6 @@ import { PARTNER_CONFIG } from "@/constants/partners";
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { convertAmount } from "@/constants/units";
 import { useApp } from "@/contexts/AppContext";
-import ProfileSheet from "@/components/ProfileSheet";
-
 const CATEGORY_RULES: { key: string; emoji: string; label: string; keywords: string[] }[] = [
   { key: "produce", emoji: "🥬", label: "Produce", keywords: ["tomato", "basil", "garlic", "onion", "pepper", "lemon", "lime", "cilantro", "chili", "ginger", "scallion", "lettuce", "avocado", "jalape", "serrano", "mint", "lemongrass", "galangal", "shallot", "kaffir", "coriander root", "bean sprout", "vegetable", "herb", "leaves"] },
   { key: "protein", emoji: "🥩", label: "Protein", keywords: ["chicken", "pork", "beef", "lamb", "fish", "shrimp", "prawn", "egg", "tofu", "meat", "rib", "thigh", "breast", "salmon", "tuna", "prosciutto"] },
@@ -69,7 +67,6 @@ export default function GroceryScreen() {
   const [kitchenExpanded, setKitchenExpanded] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [showProfile, setShowProfile] = useState(false);
 
   const haptic = useCallback(() => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -209,18 +206,7 @@ export default function GroceryScreen() {
             </Text>
           </View>
         )}
-        <Pressable
-          onPress={() => { haptic(); setShowProfile(true); }}
-          style={styles.avatarBtn}
-          accessibilityLabel="Profile"
-        >
-          <View style={styles.avatarCircle}>
-            <Ionicons name="person" size={14} color={Colors.light.outline} />
-          </View>
-        </Pressable>
       </View>
-
-      {showProfile && <ProfileSheet onClose={() => setShowProfile(false)} />}
 
       {groceryItems.length === 0 ? (
         <View style={styles.emptyState}>
@@ -495,18 +481,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.light.secondary,
   },
-  avatarBtn: {},
-  avatarCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    borderWidth: 1,
-    borderColor: "rgba(222,193,179,0.25)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
   emptyState: {
     flex: 1,
     minHeight: 300,

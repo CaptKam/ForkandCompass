@@ -21,8 +21,6 @@ import Colors from "@/constants/colors";
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useSearch } from "@/hooks/useSearch";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import ProfileSheet from "@/components/ProfileSheet";
-
 // ─── Static editorial data ────────────────────────────────────────────────────
 
 const RECENT_SEARCHES = ["Truffle Pasta", "Miso Glazed", "Tagine", "Mole Negro", "Shakshuka"];
@@ -57,8 +55,6 @@ export default function SearchScreen() {
   const inputRef = useRef<TextInput>(null);
   const [query, setQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState(RECENT_SEARCHES);
-  const [showProfile, setShowProfile] = useState(false);
-
   const { results } = useSearch(query);
 
   const haptic = () => { if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); };
@@ -107,17 +103,8 @@ export default function SearchScreen() {
               </Pressable>
             )}
           </View>
-          <Pressable
-            onPress={() => { haptic(); setShowProfile(true); }}
-            style={styles.searchAvatarBtn}
-            accessibilityLabel="Profile"
-          >
-            <Ionicons name="person" size={14} color={Colors.light.outline} />
-          </Pressable>
         </View>
       </View>
-
-      {showProfile && <ProfileSheet onClose={() => setShowProfile(false)} />}
 
       {/* ── Content ─────────────────────────────────────────────── */}
       {query.length > 0 ? (
@@ -303,16 +290,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-  },
-  searchAvatarBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    borderWidth: 1,
-    borderColor: "rgba(222,193,179,0.25)",
-    alignItems: "center",
-    justifyContent: "center",
   },
   searchBar: {
     flexDirection: "row",

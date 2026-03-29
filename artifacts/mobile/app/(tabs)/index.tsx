@@ -28,8 +28,6 @@ import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useCountries } from "@/hooks/useCountries";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Colors from "@/constants/colors";
-import ProfileSheet from "@/components/ProfileSheet";
-
 // ─── Static editorial blurbs per country ─────────────────────────────────────
 
 const EDITORIAL_BLURBS: Record<string, string> = {
@@ -426,7 +424,6 @@ export default function DiscoverScreen() {
   const destScrollRef = useRef<ScrollView>(null);
   const isProgrammaticScroll = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [showProfile, setShowProfile] = useState(false);
   const [groceryToast, setGroceryToast] = useState<string | null>(null);
   const groceryToastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { width: screenWidth } = useWindowDimensions();
@@ -520,16 +517,6 @@ export default function DiscoverScreen() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-
-      <Pressable
-        onPress={() => { haptic(); setShowProfile(true); }}
-        style={[styles.discoverAvatarBtn, { top: Platform.OS === "web" ? 56 : insets.top + 12 }]}
-        accessibilityLabel="Profile"
-      >
-        <Ionicons name="person" size={14} color="#fff" />
-      </Pressable>
-
-      {showProfile && <ProfileSheet onClose={() => setShowProfile(false)} />}
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -1141,19 +1128,6 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 3,
     backgroundColor: Colors.light.primary,
-  },
-  discoverAvatarBtn: {
-    position: "absolute",
-    right: 20,
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.18)",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 50,
   },
   heroHeader: {
     position: "absolute",

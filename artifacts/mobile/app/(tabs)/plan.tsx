@@ -20,8 +20,6 @@ import { COUNTRIES, getAllRecipes, getCountryById, getRecipeById, type Recipe } 
 import { SCROLL_BOTTOM_INSET } from "@/constants/spacing";
 import { useApp } from "@/contexts/AppContext";
 import { reloadDay, generateItinerary, parseTimeMinutes, type ItineraryDay } from "@/hooks/useItinerary";
-import ProfileSheet from "@/components/ProfileSheet";
-
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function toISODate(d: Date): string {
@@ -65,7 +63,6 @@ export default function PlanScreen() {
   } = useApp();
 
   const [toast, setToast] = useState<string | null>(null);
-  const [showProfile, setShowProfile] = useState(false);
   const [swapDay, setSwapDay] = useState<ItineraryDay | null>(null);
   const [editDay, setEditDay] = useState<ItineraryDay | null>(null);
   const [addCourseDay, setAddCourseDay] = useState<ItineraryDay | null>(null);
@@ -261,13 +258,6 @@ export default function PlanScreen() {
 
       {/* ── Header ──────────────────────────── */}
       <View style={[styles.headerSection, { paddingTop: Platform.OS === "web" ? 28 : insets.top + 16 }]}>
-        <Pressable
-          onPress={() => { haptic(); setShowProfile(true); }}
-          style={styles.planAvatarBtn}
-          accessibilityLabel="Profile"
-        >
-          <Ionicons name="person" size={14} color={Colors.light.outline} />
-        </Pressable>
         <View style={styles.headerTitleBlock}>
           <View style={styles.headerEyebrow}>
             <View style={styles.headerEyebrowLine} />
@@ -280,8 +270,6 @@ export default function PlanScreen() {
           </Text>
         </View>
       </View>
-
-      {showProfile && <ProfileSheet onClose={() => setShowProfile(false)} />}
 
       {/* Content area — must flex to fill remaining space */}
       <View style={{ flex: 1 }}>
@@ -1234,20 +1222,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 12,
     backgroundColor: Colors.light.surface,
-  },
-  planAvatarBtn: {
-    position: "absolute",
-    right: 20,
-    top: Platform.OS === "web" ? 28 : undefined,
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: Colors.light.surfaceContainerHigh,
-    borderWidth: 1,
-    borderColor: "rgba(222,193,179,0.25)",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 10,
   },
   headerTitleBlock: {
     alignItems: "center",

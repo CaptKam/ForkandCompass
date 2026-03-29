@@ -1,5 +1,5 @@
 import { BlurView } from "expo-blur";
-import { Tabs } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
 import { useApp } from "@/contexts/AppContext";
 import { useThemeColors } from "@/hooks/useThemeColors";
+import ShellHeader from "@/components/ShellHeader";
 
 export default function TabLayout() {
   const safeAreaInsets = useSafeAreaInsets();
@@ -17,9 +18,18 @@ export default function TabLayout() {
   const { activeCookSession } = useApp();
   const colors = useThemeColors();
   const isDark = colors.background === Colors.dark.background;
+  const pathname = usePathname();
+
+  const isDiscover =
+    !pathname.includes("/search") &&
+    !pathname.includes("/plan") &&
+    !pathname.includes("/grocery") &&
+    !pathname.includes("/cook");
 
   return (
-    <Tabs
+    <View style={{ flex: 1 }}>
+      <ShellHeader transparent={isDiscover} />
+      <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
@@ -145,5 +155,6 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+    </View>
   );
 }
